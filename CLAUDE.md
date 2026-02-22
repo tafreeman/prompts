@@ -4,70 +4,93 @@
 Before doing anything else, run a full environment pre-flight check: 1) Detect the current OS and shell (PowerShell vs Bash vs Zsh), 2) Check if a Python venv exists and has all requirements installed — if not, create it and install dependencies, 3) Check if node_modules exists and matches package.json — if not, run install, 4) Scan for .env files and verify required environment variables are set (flag any missing ones), 5) Check if any required ports (3000, 8000, 8080) are already in use and report conflicts, 6) Verify git status is clean and report current branch. Output a concise status dashboard, then tell me we're ready to work.
 
 ## Shell Environment
-
 - This project is developed on Windows/PowerShell. Do NOT use bash-specific syntax (e.g., `kill`, `lsof`). Use PowerShell equivalents (`Stop-Process`, `Get-NetTCPConnection`).
 
 ## Verification
 - After making fixes, always verify they work by running the relevant code or tests. Do not wait for the user to ask 'did you even check it?'
 - When user asks for a file path or simple answer, give the direct answer first before showing code.
-Add under 
 
 ## Repository Overview
+**Repo:** `tafreeman/prompts` — A monorepo containing a multi-agent workflow runtime (`agentic-workflows-v2`), an evaluation framework (`agentic-v2-eval`), and shared utilities (`tools/`). Each subdirectory is an independent Python package.
 
-A monorepo containing a multi-agent workflow runtime (`agentic-workflows-v2`), an evaluation framework (`agentic-v2-eval`), and shared utilities (`tools/`). Each subdirectory is an independent Python package.
+**Mission:** Produce production-grade code, rigorous research, and reproducible evaluation artifacts that advance the state of the art in agentic AI.
+
+## Code Quality Standards (Non-Negotiable)
+1. **Immutability First:** Always create new objects. Never mutate existing ones. Use `@dataclass(frozen=True)`, `NamedTuple`, or `tuple`.
+2. **Type Everything:** Full type annotations on all function signatures. No bare `Any` unless wrapping external untyped APIs. Use `Protocol` for duck-typed interfaces.
+3. **Small Units:** Functions < 50 lines. Files < 800 lines (target 200–400). One class/module per file. Organize by feature/domain.
+4. **Error Handling:** Never swallow exceptions. Use specific exception types with contextual messages. Validate at system boundaries. Fail fast.
+5. **Formatting:** `black` for code, `isort` for imports, `ruff` for linting.
+6. **Testing:** At least one test per public function (happy path + error path). No test interdependencies.
+
+## Architecture
+
+### Package Layout
+```
+agentic-workflows-v2/     # Main runtime (Python 3.11+, hatchling)
+  agentic_v2/
+    cli/                  # Typer CLI entry point (`agentic` command)
+    langchain/            # PRIMARY execution engine (LangChain + LangGraph)
+    engine/               # Native DAG executor (Kahn's algorithm)
+    agents/               # Built-in agents: Coder, Architect, Reviewer
+    models/               # LLM tier routing (smart_router.py)
+    server/               # FastAPI app + WebSocket + SSE streaming
+    workflows/            # YAML loader, runner, definitions/
+    contracts/            # Pydantic I/O models
+    tools/                # In-process memory tools
+    storage/              # Persistent run logs (JSON replay)
+  tests/                  # pytest-asyncio (asyncio_mode = "auto")
+  ui/                     # React 19 + Vite 6 + React Flow 12
+agentic-v2-eval/          # Evaluation framework (Python 3.10+)
+  src/agentic_v2_eval/    # Scorer, rubrics, runners, reporters
+tools/                    # Shared utilities (prompts-tools)
+  llm/                    # LLMClient abstraction (multi-backend)
+  agents/                 # Benchmark definitions
+  core/                   # Config + error handling
+```
+
+### Key Architectural Points
+- **Execution engine:** `langchain/` wraps LangGraph state machines. `engine/` is an independent native DAG executor. Both are active.
+- **LLM routing:** `models/smart_router.py` dispatches to backends based on tier and capability.
+- **Workflows:** Declarative YAML under `workflows/definitions/`. Steps reference agents by tier name.
+- **Contracts:** Pydantic models in `contracts/` define all I/O. **Additive-only changes** — never break existing schemas.
+
+## Research Standards
+- **Source Governance:** 
+  - **Tier A (Always allowed):** Official vendor docs, Peer-reviewed papers (NeurIPS, ICML, etc.), arXiv (known groups).
+  - **Tier B (Conditional):** High-quality engineering blogs, Stack Overflow (high votes).
+  - **Tier C (Blocked):** Unverified blogs, marketing materials.
+- **Citations:** Every research claim must include inline citations with valid URLs: `[Claim text] (Source: Title, Publisher, Date — URL)`.
+- **Critical-claim rule:** Architectural decisions require >= 2 independent Tier A sources.
+
+## Evaluation Framework
+- **Scorer:** YAML rubrics → weighted scores across dimensions (Completeness, Correctness, Quality, Specificity, Alignment).
+- **Runners:** BatchRunner, StreamingRunner, AsyncStreamingRunner.
+- **LLM Judge:** `tools/agents/benchmarks/llm_evaluator.py` — 0.0–10.0 rubric scoring.
+- **Confidence Interval Gating:** For research workflows, require `coverage_score >= 0.80`, `source_quality_score >= 0.80`, etc.
+
+## Workflow & Agent Authoring
+- **YAML Rules:** Every step MUST have `name`, `agent`, `description`, `depends_on`, `inputs`, `outputs`.
+- **Tools:** Allowlisted per step. Default DENY for high-risk tools (shell, git, file_delete).
+- **Personas:** Defined in `agentic_v2/prompts/*.md`. Must define Expertise, Boundaries, Critical rules, Output format.
 
 ## Commands
 
 ### Backend (agentic-workflows-v2)
-
 ```bash
-# Install (run from agentic-workflows-v2/)
+# Install
 pip install -e ".[dev,server,langchain]"
-
 # Run full test suite
-cd agentic-workflows-v2
 python -m pytest tests/ -v
-
-# Run a single test file
-python -m pytest tests/test_dag.py -v
-
-# Run specific evaluation tests
-python -m pytest tests/test_server_evaluation.py tests/test_normalization.py tests/test_scoring_profiles.py -v
-
-# Lint / format (pre-commit enforces black + isort + ruff + mypy + pydocstyle)
+# Lint / format
 pre-commit run --all-files
-```
-
-### Frontend (agentic-workflows-v2/ui)
-
-```bash
-cd agentic-workflows-v2/ui
-npm test          # Vitest unit tests
-npm run build     # Production build → ui/dist/
-```
-
-### Port Management
-
-- Before starting any server, check if the target port is already in use and handle it gracefully.
-- Use the project's standard port (check existing configs) rather than assuming defaults.
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
-### Running the App
-
-```bash
-# Full-stack dev mode (backend + frontend hot-reload) — from agentic-workflows-v2/
-bash dev.sh [backend_port] [frontend_port]   # defaults: 8010, 5173
-
-# Production mode (serves built UI from ui/dist/)
-cd agentic-workflows-v2
+# Hot-reload dev (backend + frontend)
+bash dev.sh [backend_port] [frontend_port]
+# Production serve
 python -m uvicorn agentic_v2.server.app:app --host 127.0.0.1 --port 8010 --app-dir src
 ```
 
-> **Windows note:** Port 8000 is often blocked by an elevated process. Use 8010 or higher. To kill a process by PID: `powershell -Command "Stop-Process -Id <n> -Force"`.
-
-
-### CLI (after `pip install -e .`)
-
+### CLI
 ```bash
 agentic list workflows|agents|tools
 agentic run <workflow> --input <file.json>
@@ -75,66 +98,19 @@ agentic validate <workflow>
 agentic serve
 ```
 
-### Shared Tools (root)
-
+### Evaluation
 ```bash
-pip install -e ".[dev]"   # from repo root
+cd agentic-v2-eval && pip install -e ".[dev]"
+python -m agentic_v2_eval evaluate results.json
+python -m agentic_v2_eval report results.json --format html
 ```
 
-## Architecture
-
-### Package Layout
-
-```
-agentic-workflows-v2/     # Main runtime (Python 3.11+, hatchling)
-  agentic_v2/
-    cli/                  # Typer CLI entry point (`agentic` command)
-    langchain/            # PRIMARY execution engine (LangChain + LangGraph)
-    engine/               # Native DAG executor (Kahn's algorithm, expressions)
-    agents/               # Built-in agents: Coder, Architect, Reviewer, Orchestrator
-    models/               # LLM tier routing (backends, router, smart_router)
-    server/               # FastAPI app + WebSocket + routes
-    workflows/            # YAML loader, runner, definitions/
-    integrations/         # OpenTelemetry tracing (opt-in via AGENTIC_TRACING=1)
-    contracts/            # Pydantic I/O models
-    tools/                # In-process memory tools
-    storage/              # Persistent run storage
-  tests/                  # pytest-asyncio (asyncio_mode = "auto")
-  ui/                     # React 19 + Vite 6 + React Flow 12 + TanStack Query 5
-agentic-v2-eval/          # Evaluation framework (separate package, Python 3.10+)
-  src/agentic_v2_eval/    # Datasets, scoring rubrics, runners
-tools/                    # Shared utilities (installable as `prompts-tools`)
-  llm/                    # LLMClient abstraction (multi-backend)
-  agents/                 # Benchmark definitions
-  core/                   # Config + error handling
-```
-
-### Key Architectural Points
-
-**Execution engine:** The `langchain/` module is the primary runtime (wrapping LangGraph state machines). The `engine/` module contains an independent native DAG executor that uses Kahn's topological sort algorithm. Both are active; `langchain/` is used by the CLI and server.
-
-**LLM routing:** `models/smart_router.py` dispatches to backends (GitHub Models, OpenAI, Azure OpenAI, Gemini, Anthropic, local Phi Silica) based on tier and capability. `LLMClient` in `tools/llm/llm_client.py` is a `@staticmethod`-based facade — call it as `LLMClient.generate_text(model_name, ...)`.
-
-**Workflows:** Defined as YAML files under `agentic_v2/workflows/definitions/`. Each step **must** include an `agent:` field. Loaded via `agentic_v2/langchain/config.py` + `workflows/loader.py`.
-
-**Server:** FastAPI serves `/api/*` routes and falls back to the built React SPA (`ui/dist/`) for all other routes. WebSocket endpoint handles real-time workflow events.
-
-**Test split:** `agentic-workflows-v2/tests/` uses `pyproject.toml` `asyncio_mode = "auto"`. The root `tools/tests/` (if present) uses a root `pytest.ini` with `asyncio_mode = "strict"`.
-
-### Environment Variables
-
-Copy `.env.example` to `.env`. Required keys depend on which LLM backends you use:
-
-| Variable | Provider |
-|---|---|
-| `GITHUB_TOKEN` | GitHub Models |
-| `OPENAI_API_KEY` | OpenAI |
-| `AZURE_OPENAI_API_KEY_0` + `AZURE_OPENAI_ENDPOINT_0` | Azure OpenAI |
-| `GEMINI_API_KEY` | Google Gemini |
-| `ANTHROPIC_API_KEY` | Anthropic |
-| `AGENTIC_TRACING=1` | Enable OpenTelemetry tracing |
-| `AGENTIC_MEMORY_PATH` | Path for persistent memory tools |
-
-### Code Style
-
-Enforced via pre-commit: **black** (88-char lines), **isort** (black profile), **ruff** (auto-fix), **mypy** (`--ignore-missing-imports`), **pydocstyle** (Google convention), **docformatter** (79-char wrap).
+## Anti-Patterns — Never Do These
+- **Never mutate state in place.** Always return new objects.
+- **Never use bare `except:`.** Catch specific exceptions.
+- **Never hardcode secrets.** Use `.env`.
+- **Never produce TODOs in generated code.** All files must be complete.
+- **Never add web servers or scaffolding unless explicitly requested.**
+- **Never use sys.path hacks.** Use `from tools...` imports.
+- **Never break existing contracts/schemas.** Additive-only.
+- **Never skip the eval flywheel.** Define rubrics before building, run evals after.

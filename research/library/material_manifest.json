@@ -1,0 +1,681 @@
+{
+  "summary": {
+    "generated_at": "2026-02-22T21:41:42.169042+00:00",
+    "total_materials": 74,
+    "copied_documents": 52,
+    "referenced_documents": 0,
+    "code_references": 22,
+    "total_urls": 222,
+    "approved_urls": 88,
+    "caution_urls": 18,
+    "review_urls": 116
+  },
+  "materials": [
+    {
+      "source_path": "agentic-v2-eval/src/agentic_v2_eval/reporters/__init__.py",
+      "category": "code",
+      "action": "reference",
+      "destination_path": null,
+      "size_bytes": 618,
+      "sha256": null,
+      "reason": "code artifact referenced, not duplicated"
+    },
+    {
+      "source_path": "agentic-v2-eval/src/agentic_v2_eval/reporters/_summary.py",
+      "category": "code",
+      "action": "reference",
+      "destination_path": null,
+      "size_bytes": 979,
+      "sha256": null,
+      "reason": "code artifact referenced, not duplicated"
+    },
+    {
+      "source_path": "agentic-v2-eval/src/agentic_v2_eval/reporters/html.py",
+      "category": "code",
+      "action": "reference",
+      "destination_path": null,
+      "size_bytes": 9506,
+      "sha256": null,
+      "reason": "code artifact referenced, not duplicated"
+    },
+    {
+      "source_path": "agentic-v2-eval/src/agentic_v2_eval/reporters/json.py",
+      "category": "code",
+      "action": "reference",
+      "destination_path": null,
+      "size_bytes": 4102,
+      "sha256": null,
+      "reason": "code artifact referenced, not duplicated"
+    },
+    {
+      "source_path": "agentic-v2-eval/src/agentic_v2_eval/reporters/markdown.py",
+      "category": "code",
+      "action": "reference",
+      "destination_path": null,
+      "size_bytes": 6537,
+      "sha256": null,
+      "reason": "code artifact referenced, not duplicated"
+    },
+    {
+      "source_path": "agentic-v2-eval/tests/test_benchmarks.py",
+      "category": "code",
+      "action": "reference",
+      "destination_path": null,
+      "size_bytes": 12144,
+      "sha256": null,
+      "reason": "code artifact referenced, not duplicated"
+    },
+    {
+      "source_path": "agentic-workflows-v2/agentic_v2/agents/reviewer.py",
+      "category": "code",
+      "action": "reference",
+      "destination_path": null,
+      "size_bytes": 12208,
+      "sha256": null,
+      "reason": "code artifact referenced, not duplicated"
+    },
+    {
+      "source_path": "agentic-workflows-v2/agentic_v2/tools/builtin/code_analysis.py",
+      "category": "code",
+      "action": "reference",
+      "destination_path": null,
+      "size_bytes": 7731,
+      "sha256": null,
+      "reason": "code artifact referenced, not duplicated"
+    },
+    {
+      "source_path": "agentic-workflows-v2/scripts/run-bounded-rereview.ps1",
+      "category": "code",
+      "action": "reference",
+      "destination_path": null,
+      "size_bytes": 4918,
+      "sha256": null,
+      "reason": "code artifact referenced, not duplicated"
+    },
+    {
+      "source_path": "agentic-workflows-v2/scripts/run-deep-research.ps1",
+      "category": "code",
+      "action": "reference",
+      "destination_path": null,
+      "size_bytes": 3053,
+      "sha256": null,
+      "reason": "code artifact referenced, not duplicated"
+    },
+    {
+      "source_path": "agentic-workflows-v2/scripts/run_deep_research.py",
+      "category": "code",
+      "action": "reference",
+      "destination_path": null,
+      "size_bytes": 10780,
+      "sha256": null,
+      "reason": "code artifact referenced, not duplicated"
+    },
+    {
+      "source_path": "tools/agents/benchmarks/__init__.py",
+      "category": "code",
+      "action": "reference",
+      "destination_path": null,
+      "size_bytes": 1100,
+      "sha256": null,
+      "reason": "code artifact referenced, not duplicated"
+    },
+    {
+      "source_path": "tools/agents/benchmarks/datasets.py",
+      "category": "code",
+      "action": "reference",
+      "destination_path": null,
+      "size_bytes": 11195,
+      "sha256": null,
+      "reason": "code artifact referenced, not duplicated"
+    },
+    {
+      "source_path": "tools/agents/benchmarks/evaluation_pipeline.py",
+      "category": "code",
+      "action": "reference",
+      "destination_path": null,
+      "size_bytes": 10393,
+      "sha256": null,
+      "reason": "code artifact referenced, not duplicated"
+    },
+    {
+      "source_path": "tools/agents/benchmarks/llm_evaluator.py",
+      "category": "code",
+      "action": "reference",
+      "destination_path": null,
+      "size_bytes": 22773,
+      "sha256": null,
+      "reason": "code artifact referenced, not duplicated"
+    },
+    {
+      "source_path": "tools/agents/benchmarks/loader.py",
+      "category": "code",
+      "action": "reference",
+      "destination_path": null,
+      "size_bytes": 17720,
+      "sha256": null,
+      "reason": "code artifact referenced, not duplicated"
+    },
+    {
+      "source_path": "tools/agents/benchmarks/registry.py",
+      "category": "code",
+      "action": "reference",
+      "destination_path": null,
+      "size_bytes": 7639,
+      "sha256": null,
+      "reason": "code artifact referenced, not duplicated"
+    },
+    {
+      "source_path": "tools/agents/benchmarks/runner.py",
+      "category": "code",
+      "action": "reference",
+      "destination_path": null,
+      "size_bytes": 20493,
+      "sha256": null,
+      "reason": "code artifact referenced, not duplicated"
+    },
+    {
+      "source_path": "tools/agents/benchmarks/runner_ui.py",
+      "category": "code",
+      "action": "reference",
+      "destination_path": null,
+      "size_bytes": 11428,
+      "sha256": null,
+      "reason": "code artifact referenced, not duplicated"
+    },
+    {
+      "source_path": "tools/agents/benchmarks/workflow_pipeline.py",
+      "category": "code",
+      "action": "reference",
+      "destination_path": null,
+      "size_bytes": 15258,
+      "sha256": null,
+      "reason": "code artifact referenced, not duplicated"
+    },
+    {
+      "source_path": "tools/llm/model_bakeoff.py",
+      "category": "code",
+      "action": "reference",
+      "destination_path": null,
+      "size_bytes": 21354,
+      "sha256": null,
+      "reason": "code artifact referenced, not duplicated"
+    },
+    {
+      "source_path": "tools/research/build_library.py",
+      "category": "code",
+      "action": "reference",
+      "destination_path": null,
+      "size_bytes": 20492,
+      "sha256": null,
+      "reason": "code artifact referenced, not duplicated"
+    },
+    {
+      "source_path": "REFACTORING_PLAN.md",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/REFACTORING_PLAN.md",
+      "size_bytes": 6042,
+      "sha256": "db92b37a0caea3e9697c97806a32d4232204d0c298298abfcc306b951c6fbdc1",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "REVIEW.md",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/REVIEW.md",
+      "size_bytes": 5809,
+      "sha256": "83e72b5962048ddf70ba5f7321910f481eb3ffa80ee9c1d5a6ef28aea492f02a",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "agentic-v2-eval/.gitignored/deep_research_plan_series/README.md",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/README.md",
+      "size_bytes": 2365,
+      "sha256": "587719873b666094dfbb47e47750a08c8f8988ab506cdbbe5b4f1609a11a3a89",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "agentic-v2-eval/.gitignored/deep_research_plan_series/iteration-01-foundation-architecture.md",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/iteration-01-foundation-architecture.md",
+      "size_bytes": 1863,
+      "sha256": "14727639838f06729abcbfaae71509e9df26aae566ca7634ae82f641fee53e44",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "agentic-v2-eval/.gitignored/deep_research_plan_series/iteration-02-governance-and-confidence.md",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/iteration-02-governance-and-confidence.md",
+      "size_bytes": 2177,
+      "sha256": "8962bcc6923033580937381afa52df9b038584fe8f153d1171f3cd02329305ba",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "agentic-v2-eval/.gitignored/deep_research_plan_series/iteration-03-workflow-and-pseudocode.md",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/iteration-03-workflow-and-pseudocode.md",
+      "size_bytes": 2316,
+      "sha256": "129d7999cf868a2deff761447e321ad0b7311d0c820259b37f3df390d4384d3e",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "agentic-v2-eval/.gitignored/deep_research_plan_series/iteration-04-tests-and-adr-program.md",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/iteration-04-tests-and-adr-program.md",
+      "size_bytes": 2533,
+      "sha256": "6961a5065f743e532c7c057c21eab3a36438daf9f99e6231404ecdf065bde06a",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "agentic-v2-eval/.gitignored/deep_research_plan_series/iteration-05-llm-agnostic-execution-blueprint.md",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/iteration-05-llm-agnostic-execution-blueprint.md",
+      "size_bytes": 2801,
+      "sha256": "d925299e9ef96501c1563b5ff17a66aa7295e3b9e96b26bf8fd83be9270e807c",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
+      "size_bytes": 4578,
+      "sha256": "f541d40e5ce29497ae70533facb8674430cb7a88ddc929e6cb920da7bc65a967",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "agentic-v2-eval/docs/deep_research_plan_series/README.md",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/README.md",
+      "size_bytes": 2406,
+      "sha256": "497e88a6e9bb393a7538441d5556153ead5b2dfd5c86733930dcf68120b8a1e6",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "agentic-v2-eval/docs/deep_research_plan_series/iteration-01-foundation-architecture.md",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/iteration-01-foundation-architecture.md",
+      "size_bytes": 1907,
+      "sha256": "f233ad8edb113f99993eeeca71176d2db815e425314ff9484a030d32b653cb4d",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "agentic-v2-eval/docs/deep_research_plan_series/iteration-02-governance-and-confidence.md",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/iteration-02-governance-and-confidence.md",
+      "size_bytes": 2236,
+      "sha256": "3a5e94a1aaf955d49ac2bcd9cd4697bf769b10f9bdd58e62a26970b7dda7de24",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "agentic-v2-eval/docs/deep_research_plan_series/iteration-03-workflow-and-pseudocode.md",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/iteration-03-workflow-and-pseudocode.md",
+      "size_bytes": 2387,
+      "sha256": "4cc163ab53e97d3342aaa13e729b25938e04a2759cb586c55dc62ced063c2a3d",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "agentic-v2-eval/docs/deep_research_plan_series/iteration-04-tests-and-adr-program.md",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/iteration-04-tests-and-adr-program.md",
+      "size_bytes": 2624,
+      "sha256": "7b1083384f01bca6df3acbfe50bc2fb191a79ce1baac07ca040b058fde7899ea",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "agentic-v2-eval/docs/deep_research_plan_series/iteration-05-llm-agnostic-execution-blueprint.md",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/iteration-05-llm-agnostic-execution-blueprint.md",
+      "size_bytes": 2853,
+      "sha256": "9346bd75cb6b9e666a8bafe08cb093ee526675deadd87914fa657de76a2dca5e",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "agentic-v2-eval/docs/deep_research_plan_series/reference-map.md",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md",
+      "size_bytes": 4694,
+      "sha256": "21a33b905631f989d04bb3d50c1d69962279148bd3ac9959b65935a169fffe54",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "agentic-workflows-v2/.github/ISSUE_TEMPLATE/bug_report.yml",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/agentic-workflows-v2/.github/ISSUE_TEMPLATE/bug_report.yml",
+      "size_bytes": 1098,
+      "sha256": "2e8fc04b3e7ef49e97e9ccb9f7bf213117a76b30b2eeaf61fbb68bd6005d2c7b",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "agentic-workflows-v2/agentic_v2/prompts/researcher.md",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/agentic-workflows-v2/agentic_v2/prompts/researcher.md",
+      "size_bytes": 1601,
+      "sha256": "b2aa25daed9cf13d2a99c3a9e95b27d2b1cbcb118e96cac4c541f168f8b5056b",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "agentic-workflows-v2/agentic_v2/prompts/reviewer.md",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/agentic-workflows-v2/agentic_v2/prompts/reviewer.md",
+      "size_bytes": 2773,
+      "sha256": "65975934e3e35f5de4bf7f39de5cc947a6e57e105ac3688175f74bb5288440e4",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "agentic-workflows-v2/agentic_v2/workflows/definitions/code_review.yaml",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/agentic-workflows-v2/agentic_v2/workflows/definitions/code_review.yaml",
+      "size_bytes": 3769,
+      "sha256": "d9e0258f7eb744066680a7083cdc3bead604e4fba6ce9366eb896e63fea1b106",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "agentic-workflows-v2/agentic_v2/workflows/definitions/deep_research.yaml",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/agentic-workflows-v2/agentic_v2/workflows/definitions/deep_research.yaml",
+      "size_bytes": 28092,
+      "sha256": "5473abea89fdc70e0016f98b0345bec3bcdff0df178ee280bfb98c21d165d5c3",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "agentic-workflows-v2/agentic_v2/workflows/definitions/fullstack_generation_bounded_rereview.yaml",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/agentic-workflows-v2/agentic_v2/workflows/definitions/fullstack_generation_bounded_rereview.yaml",
+      "size_bytes": 8332,
+      "sha256": "9f18982d1c4e479cb2b425f15c2a077b20590d7d63f25161dde033a0ee2e82fe",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "agentic-workflows-v2/docs/API_REFERENCE.md",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/agentic-workflows-v2/docs/API_REFERENCE.md",
+      "size_bytes": 2751,
+      "sha256": "4eab9bd2fc462fd4e0fcbb0e9a0058efb8bcad90b69db67a40e1c2fcfb9cb69d",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "agentic-workflows-v2/docs/LANGCHAIN_MIGRATION_PLAN.md",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/agentic-workflows-v2/docs/LANGCHAIN_MIGRATION_PLAN.md",
+      "size_bytes": 8936,
+      "sha256": "11cd5985ccfc11ed24d6f55cc74342eafd01e8c9ff1a4609993567068b36bd86",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "agentic-workflows-v2/docs/adr/0001-package-structure.md",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/agentic-workflows-v2/docs/adr/0001-package-structure.md",
+      "size_bytes": 508,
+      "sha256": "bacc0ff1e33bf514b6f9e0862f8a444dfbb8651964bf0d672ff859c1f4279a22",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "agentic-workflows-v2/docs/adr/0002-evaluation-package.md",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/agentic-workflows-v2/docs/adr/0002-evaluation-package.md",
+      "size_bytes": 514,
+      "sha256": "667088374232eaec221d7c6b8a747e16e5d4e05d5ad3401d047adff3c7660f52",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "agentic-workflows-v2/docs/adr/0003-server-optional.md",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/agentic-workflows-v2/docs/adr/0003-server-optional.md",
+      "size_bytes": 502,
+      "sha256": "1f86f4a7c747b6cd5a5edc13fa820a3abd082b5a192ff5033d55eb94a8e8db25",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "agentic-workflows-v2/docs/reports/ACTIVE_VS_LEGACY_TOOLING_MAP.md",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/agentic-workflows-v2/docs/reports/ACTIVE_VS_LEGACY_TOOLING_MAP.md",
+      "size_bytes": 7036,
+      "sha256": "6fc43c66c332cda2cb1ec951bfdaac01646667824538652b62b024464eea4d59",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "agentic-workflows-v2/fixtures/example_code_review_run.json",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/agentic-workflows-v2/fixtures/example_code_review_run.json",
+      "size_bytes": 4596,
+      "sha256": "a87a91a396bef212a0ac06ed086cd9435fca4c0fba3752a8bc4a694aa6c68da5",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "agentic-workflows-v2/tests/fixtures/datasets/code_review_instruct.json",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/agentic-workflows-v2/tests/fixtures/datasets/code_review_instruct.json",
+      "size_bytes": 158415,
+      "sha256": "2f206903feab65ef7cc09edb59fcd1a720d22a8a86a045a7c22d395729199632",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "artifacts/bug_resolution-a712eca5/verification_report.md",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/artifacts/bug_resolution-a712eca5/verification_report.md",
+      "size_bytes": 5138,
+      "sha256": "4aa056a099d70aa85b23d36c26c0d172843a131612d3c60c7d33b36ac61a1366",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "directory_analysis.log",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/directory_analysis.log",
+      "size_bytes": 1316,
+      "sha256": "da33e841ee7b5b26c0ac6d3bac57ab69cd42393337db8a7e324e166a9013a236",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "folder_report.txt",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/folder_report.txt",
+      "size_bytes": 9242,
+      "sha256": "588514a2606033c94973ca734abecbdde5bf83abbaee7202bc88edc07997db05",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "reports/deep-research/deep_research_20260217-153745Z.json",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json",
+      "size_bytes": 346207,
+      "sha256": "3b8a8b9113223eb7b9076f0cdc50e356e40826bca517a9b46579429fed9486d1",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "reports/deep-research/deep_research_20260217-153745Z.md",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.md",
+      "size_bytes": 27469,
+      "sha256": "36bc4e9bef4df78df9b7de8849a6c751a1f95d31a75d385865e00214595a1ec1",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "reports/deep-research/deep_research_20260217-153745Z.pdf",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.pdf",
+      "size_bytes": 102480,
+      "sha256": "8bca403a5726c83d5ce3806e0085c54941ff157de7aac04728d7d7a8c369236b",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "reports/model-bakeoff/local_concurrency_20260217-024832Z.json",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/reports/model-bakeoff/local_concurrency_20260217-024832Z.json",
+      "size_bytes": 5803,
+      "sha256": "ec8df4523b6c7418e8dd1a275658b789928ffb423c9a49fea03c1b4f936969cf",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "reports/model-bakeoff/local_concurrency_20260217-024835Z.json",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/reports/model-bakeoff/local_concurrency_20260217-024835Z.json",
+      "size_bytes": 5802,
+      "sha256": "e590a4384f828ef24f88c5c0591049c55aa0ac9cb308703baffd370e749d30dd",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "reports/model-bakeoff/local_concurrency_20260217-024839Z.json",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/reports/model-bakeoff/local_concurrency_20260217-024839Z.json",
+      "size_bytes": 5802,
+      "sha256": "9ebd9414dde25abce1dfb3b36a4f1049ff3d3967b86daa82147b46d5af014713",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "reports/model-bakeoff/local_concurrency_20260217-064228Z.json",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/reports/model-bakeoff/local_concurrency_20260217-064228Z.json",
+      "size_bytes": 6233,
+      "sha256": "03404faf2e56f321c5fcb59a308d411ef4b70cd13ccf656d42f645354837e94e",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "reports/model-bakeoff/local_concurrency_20260217-064431Z.json",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/reports/model-bakeoff/local_concurrency_20260217-064431Z.json",
+      "size_bytes": 6234,
+      "sha256": "77e300d699aa3bbe56f4077fb4cf676d39b74f4a012af4954affb9a264709f47",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "reports/model-bakeoff/local_concurrency_20260217-064636Z.json",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/reports/model-bakeoff/local_concurrency_20260217-064636Z.json",
+      "size_bytes": 6233,
+      "sha256": "c5cd8b0fc122b5694a01f5db9b399770ad45e3eca8baf8dfe8c207227ce4dd39",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "research/3.html.txt",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/research/3.html.txt",
+      "size_bytes": 1703234,
+      "sha256": "2b7d9d5d9aeb48a414d6f31f7aabb6acba4bc55fcc78d4e3e158c6f824643ab4",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf",
+      "size_bytes": 486765,
+      "sha256": "9b53a7bbe8c7c97e410b4d9e10488b9ae4d4b4deb80e9c8846dc79284a68a48d",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "research/Claude.html.txt",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/research/Claude.html.txt",
+      "size_bytes": 1703234,
+      "sha256": "54ed662fffb43b52e525d1bee69acd63032c57983f6eb8b5c4134115fdf055b7",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "research/Claude3.html.txt",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/research/Claude3.html.txt",
+      "size_bytes": 1703234,
+      "sha256": "b2bd58fe9112a565cc95ba5538274bbacf2f5db471355bb3182a1c105ea53e5b",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "research/SYSTEM_INSTRUCTIONS.md",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/research/SYSTEM_INSTRUCTIONS.md",
+      "size_bytes": 15905,
+      "sha256": "aa863203cad7afb20f0638ca9802cb16efe09fd191e59f280076ed43b48ad17d",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "research/].pdf",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/research/].pdf",
+      "size_bytes": 756720,
+      "sha256": "b0cd12ab3eebaebd566f559702933a5b5fbfc5e1bd76dc60f1b0c13910e73add",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "research/compass_artifact_wf-1f58a11b-af15-4a92-a99e-574c8b9bc28b_text_markdown.md",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/research/compass_artifact_wf-1f58a11b-af15-4a92-a99e-574c8b9bc28b_text_markdown.md",
+      "size_bytes": 34091,
+      "sha256": "b6cb4dd78b0f4b381a9d3eb423b4c638eb93652939812d8c762b9588db6cd696",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "system.md",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/system.md",
+      "size_bytes": 14965,
+      "sha256": "f624112ebafc99bf048494d1edd3b1b0636139371e4c995b8951b56c609b0d57",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "tools/agents/benchmarks/.gitignore",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/tools/agents/benchmarks/.gitignore",
+      "size_bytes": 56,
+      "sha256": "8e4b9767c14b346bbff838b5359da454fe2803cdacc68cf79353cabfa030e932",
+      "reason": "research document consolidated"
+    },
+    {
+      "source_path": "tools/agents/benchmarks/README.md",
+      "category": "document",
+      "action": "copied",
+      "destination_path": "research/library/artifacts/tools/agents/benchmarks/README.md",
+      "size_bytes": 6402,
+      "sha256": "e079487a9aab7ca41fb07d1f2630af042bec7620ebf602cec2a28c91e720885f",
+      "reason": "research document consolidated"
+    }
+  ]
+}

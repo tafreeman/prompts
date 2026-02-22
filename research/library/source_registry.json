@@ -1,0 +1,2252 @@
+{
+  "summary": {
+    "generated_at": "2026-02-22T21:41:42.169042+00:00",
+    "total_materials": 74,
+    "copied_documents": 52,
+    "referenced_documents": 0,
+    "code_references": 22,
+    "total_urls": 222,
+    "approved_urls": 88,
+    "caution_urls": 18,
+    "review_urls": 116
+  },
+  "sources": [
+    {
+      "url": "https://www.anthropic.com",
+      "domain": "anthropic.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents",
+      "domain": "anthropic.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/SYSTEM_INSTRUCTIONS.md",
+        "research/library/artifacts/system.md"
+      ]
+    },
+    {
+      "url": "https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills",
+      "domain": "anthropic.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/SYSTEM_INSTRUCTIONS.md",
+        "research/library/artifacts/system.md"
+      ]
+    },
+    {
+      "url": "https://www.anthropic.com/engineering/writing-tools-for-agents",
+      "domain": "anthropic.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/SYSTEM_INSTRUCTIONS.md",
+        "research/library/artifacts/system.md"
+      ]
+    },
+    {
+      "url": "https://www.anthropic.com/legal/consumer-terms",
+      "domain": "anthropic.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://www.anthropic.com/legal/privacy",
+      "domain": "anthropic.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://www.anthropic.com/news/claude-is-a-space-to-think",
+      "domain": "anthropic.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://www.anthropic.com/news/updates-to-our-consumer-terms",
+      "domain": "anthropic.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://arxiv.org/abs/1701.07088",
+      "domain": "arxiv.org",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://arxiv.org/abs/1703.07331",
+      "domain": "arxiv.org",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://arxiv.org/abs/2109.02933",
+      "domain": "arxiv.org",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://arxiv.org/abs/2210.03629",
+      "domain": "arxiv.org",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/research/SYSTEM_INSTRUCTIONS.md",
+        "research/library/artifacts/system.md"
+      ]
+    },
+    {
+      "url": "https://arxiv.org/abs/2304.02344",
+      "domain": "arxiv.org",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://arxiv.org/abs/2305.10601",
+      "domain": "arxiv.org",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf",
+        "research/library/artifacts/research/SYSTEM_INSTRUCTIONS.md",
+        "research/library/artifacts/system.md"
+      ]
+    },
+    {
+      "url": "https://arxiv.org/abs/2309.11495",
+      "domain": "arxiv.org",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf",
+        "research/library/artifacts/research/SYSTEM_INSTRUCTIONS.md",
+        "research/library/artifacts/system.md"
+      ]
+    },
+    {
+      "url": "https://arxiv.org/abs/2310.11511",
+      "domain": "arxiv.org",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/SYSTEM_INSTRUCTIONS.md",
+        "research/library/artifacts/system.md"
+      ]
+    },
+    {
+      "url": "https://arxiv.org/abs/2402.08397",
+      "domain": "arxiv.org",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://arxiv.org/abs/2509.18661",
+      "domain": "arxiv.org",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
+      ]
+    },
+    {
+      "url": "https://arxiv.org/abs/2601.03328",
+      "domain": "arxiv.org",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
+      ]
+    },
+    {
+      "url": "https://arxiv.org/html/2504.01931v2",
+      "domain": "arxiv.org",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf"
+      ]
+    },
+    {
+      "url": "https://arxiv.org/pdf/2210.03629",
+      "domain": "arxiv.org",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf"
+      ]
+    },
+    {
+      "url": "https://aws.amazon.com/blogs/machine-learning/amazon-bedrock-announces-general-availability-of-multi-agent-collaboration/",
+      "domain": "aws.amazon.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
+      ]
+    },
+    {
+      "url": "https://canvas.myschool.edu",
+      "domain": "canvas.myschool.edu",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://claude.ai",
+      "domain": "claude.ai",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://claude.ai/audio/voice/onboarding/",
+      "domain": "claude.ai",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://claude.ai/install.sh",
+      "domain": "claude.ai",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://claude.ai/settings/data-privacy-controls",
+      "domain": "claude.ai",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://claude.com",
+      "domain": "claude.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://claude.com/download?open_in_browser=1",
+      "domain": "claude.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://cloud.google.com/architecture/architecture-decision-records",
+      "domain": "cloud.google.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
+      ]
+    },
+    {
+      "url": "https://developers.openai.com/api/docs/guides/agent-builder-safety",
+      "domain": "developers.openai.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/research/SYSTEM_INSTRUCTIONS.md",
+        "research/library/artifacts/system.md"
+      ]
+    },
+    {
+      "url": "https://developers.openai.com/api/docs/guides/agent-evals",
+      "domain": "developers.openai.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/research/SYSTEM_INSTRUCTIONS.md",
+        "research/library/artifacts/system.md"
+      ]
+    },
+    {
+      "url": "https://developers.openai.com/api/docs/guides/tools",
+      "domain": "developers.openai.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
+      ]
+    },
+    {
+      "url": "https://developers.openai.com/api/docs/guides/tools-file-search",
+      "domain": "developers.openai.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
+      ]
+    },
+    {
+      "url": "https://developers.openai.com/api/docs/guides/tools-web-search",
+      "domain": "developers.openai.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
+      ]
+    },
+    {
+      "url": "https://dl.acm.org/doi/10.1145/3442188.3445922",
+      "domain": "dl.acm.org",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://dl.acm.org/doi/abs/10.1145/3488600.3497601",
+      "domain": "dl.acm.org",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://docs.anthropic.com/en/docs/agents/claude-code/introduction",
+      "domain": "docs.anthropic.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/claude-4-best-practices",
+      "domain": "docs.anthropic.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/SYSTEM_INSTRUCTIONS.md",
+        "research/library/artifacts/system.md"
+      ]
+    },
+    {
+      "url": "https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview",
+      "domain": "docs.anthropic.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/SYSTEM_INSTRUCTIONS.md",
+        "research/library/artifacts/system.md"
+      ]
+    },
+    {
+      "url": "https://docs.aws.amazon.com/bedrock/latest/userguide/agents-multi-agent-collaboration.html",
+      "domain": "docs.aws.amazon.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/research/SYSTEM_INSTRUCTIONS.md",
+        "research/library/artifacts/system.md"
+      ]
+    },
+    {
+      "url": "https://docs.aws.amazon.com/bedrock/latest/userguide/create-multi-agent-collaboration.html",
+      "domain": "docs.aws.amazon.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
+      ]
+    },
+    {
+      "url": "https://docs.aws.amazon.com/prescriptive-guidance/latest/agentic-ai-serverless/grounding-and-rag.html",
+      "domain": "docs.aws.amazon.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/research/SYSTEM_INSTRUCTIONS.md",
+        "research/library/artifacts/system.md"
+      ]
+    },
+    {
+      "url": "https://docs.aws.amazon.com/prescriptive-guidance/latest/architectural-decision-records/adr-process.html",
+      "domain": "docs.aws.amazon.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
+      ]
+    },
+    {
+      "url": "https://docs.aws.amazon.com/prescriptive-guidance/latest/architectural-decision-records/best-practices.html",
+      "domain": "docs.aws.amazon.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
+      ]
+    },
+    {
+      "url": "https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/rel_mitigate_interaction_failure_graceful_degradation.html",
+      "domain": "docs.aws.amazon.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf"
+      ]
+    },
+    {
+      "url": "https://docs.claude.com",
+      "domain": "docs.claude.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview",
+      "domain": "docs.claude.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://docs.cloud.google.com/architecture/multiagent-ai-system",
+      "domain": "docs.cloud.google.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/research/SYSTEM_INSTRUCTIONS.md",
+        "research/library/artifacts/system.md"
+      ]
+    },
+    {
+      "url": "https://docs.cloud.google.com/gemini/enterprise/docs/research-assistant",
+      "domain": "docs.cloud.google.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
+      ]
+    },
+    {
+      "url": "https://docs.cloud.google.com/vertex-ai/generative-ai/docs/grounding/grounding-with-google-search",
+      "domain": "docs.cloud.google.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
+      ]
+    },
+    {
+      "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+      "domain": "docs.langchain.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf"
+      ]
+    },
+    {
+      "url": "https://docs.langchain.com/oss/python/langgraph/workflows-agents",
+      "domain": "docs.langchain.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf"
+      ]
+    },
+    {
+      "url": "http://docs.python.org/library/functions.html#range",
+      "domain": "docs.python.org",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/agentic-workflows-v2/tests/fixtures/datasets/code_review_instruct.json"
+      ]
+    },
+    {
+      "url": "http://docs.python.org/tutorial/classes.html#generator-expressions",
+      "domain": "docs.python.org",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/agentic-workflows-v2/tests/fixtures/datasets/code_review_instruct.json"
+      ]
+    },
+    {
+      "url": "http://docs.python.org/tutorial/datastructures.html#list-comprehensions",
+      "domain": "docs.python.org",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/agentic-workflows-v2/tests/fixtures/datasets/code_review_instruct.json"
+      ]
+    },
+    {
+      "url": "https://github.com/adr",
+      "domain": "github.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
+      ]
+    },
+    {
+      "url": "https://github.com/langchain-ai/langchain",
+      "domain": "github.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://github.com/langchain-ai/langgraph",
+      "domain": "github.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf"
+      ]
+    },
+    {
+      "url": "https://hai.stanford.edu/news/ensuring-ai-safety-human-oversight",
+      "domain": "hai.stanford.edu",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://ieeexplore.ieee.org/document/9452356",
+      "domain": "ieeexplore.ieee.org",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://langchain-ai.github.io/langgraphjs/reference/classes/langgraph.Pregel.html",
+      "domain": "langchain-ai.github.io",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf"
+      ]
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/answers/questions/5625878/azure-openai-responses-api-x-ratelimit-headers-val",
+      "domain": "learn.microsoft.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf"
+      ]
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/ai-agent-design-patterns",
+      "domain": "learn.microsoft.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/research/SYSTEM_INSTRUCTIONS.md",
+        "research/library/artifacts/system.md"
+      ]
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/azure/architecture/patterns/bulkhead",
+      "domain": "learn.microsoft.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf"
+      ]
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai-agents/single-agent-multiple-agents",
+      "domain": "learn.microsoft.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
+      ]
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/azure/well-architected/architect-role/architecture-decision-record",
+      "domain": "learn.microsoft.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
+      ]
+    },
+    {
+      "url": "https://lineapas.assmca.pr.gov/",
+      "domain": "lineapas.assmca.pr.gov",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://www.microsoft.com/en-us/ai/responsible-ai",
+      "domain": "microsoft.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://www.microsoft.com/en-us/research/publication/code-generation-with-large-language-models/",
+      "domain": "microsoft.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://www.nist.gov/itl/ai-risk-management-framework/trustworthy-and-responsible-ai/evaluate-and-measure",
+      "domain": "nist.gov",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://openai.com/index/introducing-deep-research/",
+      "domain": "openai.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
+      ]
+    },
+    {
+      "url": "https://owasp.org/",
+      "domain": "owasp.org",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/agentic-workflows-v2/agentic_v2/prompts/reviewer.md"
+      ]
+    },
+    {
+      "url": "https://owasp.org/www-project-top-ten-ai/",
+      "domain": "owasp.org",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://platform.claude.com",
+      "domain": "platform.claude.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/build-with-claude/citations",
+      "domain": "platform.claude.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
+      ]
+    },
+    {
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7970504/",
+      "domain": "pmc.ncbi.nlm.nih.gov",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf"
+      ]
+    },
+    {
+      "url": "https://pypi.org/project/langgraph-checkpoint/",
+      "domain": "pypi.org",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf"
+      ]
+    },
+    {
+      "url": "https://support.anthropic.com",
+      "domain": "support.anthropic.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://support.anthropic.com/",
+      "domain": "support.anthropic.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://support.anthropic.com/en/articles/10574485-using-extended-thinking-on-claude-3-7-sonnet",
+      "domain": "support.anthropic.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://support.anthropic.com/en/articles/8525154-claude-is-providing-incorrect-or-misleading-responses-what-s-going-on",
+      "domain": "support.anthropic.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://support.claude.com",
+      "domain": "support.claude.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://support.claude.com/en/articles/10280258-setting-up-single-sign-on-on-the-api-console#h_f74055b90d",
+      "domain": "support.claude.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://support.claude.com/en/articles/12436559-understanding-sonnet-4-5-s-safety-filters",
+      "domain": "support.claude.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://support.claude.com/en/articles/13641943-visual-and-interactive-content",
+      "domain": "support.claude.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://support.claude.com/en/articles/13663666-visual-responses-for-team-and-enterprise-plans",
+      "domain": "support.claude.com",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "http://www.w3.org/2000/svg",
+      "domain": "w3.org",
+      "status": "approved",
+      "reason": "known reputable/official source",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "http://en.wikipedia.org/wiki/Arithmetic_series#Sum",
+      "domain": "en.wikipedia.org",
+      "status": "caution",
+      "reason": "user-generated or social platform",
+      "referenced_by": [
+        "research/library/artifacts/agentic-workflows-v2/tests/fixtures/datasets/code_review_instruct.json"
+      ]
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Topological_sorting",
+      "domain": "en.wikipedia.org",
+      "status": "caution",
+      "reason": "user-generated or social platform",
+      "referenced_by": [
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf"
+      ]
+    },
+    {
+      "url": "https://www.facebook.com/helpline1323",
+      "domain": "facebook.com",
+      "status": "caution",
+      "reason": "user-generated or social platform",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://www.facebook.com/tpocambodia",
+      "domain": "facebook.com",
+      "status": "caution",
+      "reason": "user-generated or social platform",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://www.infoq.com/articles/ai-automate-software-design/",
+      "domain": "infoq.com",
+      "status": "caution",
+      "reason": "user-generated or social platform",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://www.infoq.com/articles/ai-software-development/",
+      "domain": "infoq.com",
+      "status": "caution",
+      "reason": "user-generated or social platform",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://www.infoq.com/articles/integrating-ai-existing-systems/",
+      "domain": "infoq.com",
+      "status": "caution",
+      "reason": "user-generated or social platform",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://www.researchgate.net/publication/2267817_Communicating_Hierarchical_State_Machines",
+      "domain": "researchgate.net",
+      "status": "caution",
+      "reason": "user-generated or social platform",
+      "referenced_by": [
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf"
+      ]
+    },
+    {
+      "url": "https://www.researchgate.net/publication/228641932_Knowledge_Representation_for_AI_Agents",
+      "domain": "researchgate.net",
+      "status": "caution",
+      "reason": "user-generated or social platform",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://www.researchgate.net/publication/343897060_Metrics_for_Evaluating_AI_Performance_in_Software_Engineering",
+      "domain": "researchgate.net",
+      "status": "caution",
+      "reason": "user-generated or social platform",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://www.researchgate.net/publication/344009138_Control_Mechanisms_for_AI_Agents",
+      "domain": "researchgate.net",
+      "status": "caution",
+      "reason": "user-generated or social platform",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://www.researchgate.net/publication/353894133_Frameworks_for_Building_AI_Agents",
+      "domain": "researchgate.net",
+      "status": "caution",
+      "reason": "user-generated or social platform",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://www.researchgate.net/publication/366748201_AI-Driven_Automated_Testing_A_Survey",
+      "domain": "researchgate.net",
+      "status": "caution",
+      "reason": "user-generated or social platform",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://stackoverflow.com/q/4630723/555569",
+      "domain": "stackoverflow.com",
+      "status": "caution",
+      "reason": "user-generated or social platform",
+      "referenced_by": [
+        "research/library/artifacts/agentic-workflows-v2/tests/fixtures/datasets/code_review_instruct.json"
+      ]
+    },
+    {
+      "url": "https://stackoverflow.com/questions/4630723/using-python-for-quasi-randomization/4630784#4630784",
+      "domain": "stackoverflow.com",
+      "status": "caution",
+      "reason": "user-generated or social platform",
+      "referenced_by": [
+        "research/library/artifacts/agentic-workflows-v2/tests/fixtures/datasets/code_review_instruct.json"
+      ]
+    },
+    {
+      "url": "https://stackoverflow.com/questions/4706151/python-3-1-memory-error-during-sampling-of-a-large-list/4706317#4706317",
+      "domain": "stackoverflow.com",
+      "status": "caution",
+      "reason": "user-generated or social platform",
+      "referenced_by": [
+        "research/library/artifacts/agentic-workflows-v2/tests/fixtures/datasets/code_review_instruct.json"
+      ]
+    },
+    {
+      "url": "https://x.com/AnthropicAI",
+      "domain": "x.com",
+      "status": "caution",
+      "reason": "user-generated or social platform",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://www.youtube.com/@anthropic-ai",
+      "domain": "youtube.com",
+      "status": "caution",
+      "reason": "user-generated or social platform",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://www.113.nl/chat",
+      "domain": "113.nl",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://www.143.ch/hilfesuchende/hilfesuchende-kontakt/",
+      "domain": "143.ch",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://454545.lu/notre-offre/mail/",
+      "domain": "454545.lu",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://988lifeline.org/chat/",
+      "domain": "988lifeline.org",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://a.claude.ai/isolated-segment.html?v=809609571c",
+      "domain": "a.claude.ai",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://adr.github.io/adr-templates/",
+      "domain": "adr.github.io",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
+      ]
+    },
+    {
+      "url": "https://adr.github.io/madr/",
+      "domain": "adr.github.io",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
+      ]
+    },
+    {
+      "url": "https://algorithmwatch.org/en/ai-ethics-guidelines-global-inventory/",
+      "domain": "algorithmwatch.org",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://www.amazon.com/Designing-Agents-Complex-Environments-Artificial/dp/3642032055",
+      "domain": "amazon.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://www.analyticsinsight.net/top-10-ai-development-tools-for-software-engineers/",
+      "domain": "analyticsinsight.net",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://anthropic.qualtrics.com/jfe/form/SV_b9LbPviHkLz3B0W",
+      "domain": "anthropic.qualtrics.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://api-staging.anthropic.com/mcp/c4h/cms_coverage/v1/mcp",
+      "domain": "api-staging.anthropic.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://api.anthropic.com/v1/messages",
+      "domain": "api.anthropic.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://api.demo.healthex.dev/mcp",
+      "domain": "api.demo.healthex.dev",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://api.healthex.io/mcp",
+      "domain": "api.healthex.io",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://api.semanticscholar.org/arXiv:2309.11495",
+      "domain": "api.semanticscholar.org",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf"
+      ]
+    },
+    {
+      "url": "https://assets-proxy.anthropic.com/claude-ai/v1",
+      "domain": "assets-proxy.anthropic.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://blog.bolshakov.dev/2025/12/06/why-circuit-breaker-recovery-needs-coordination.html",
+      "domain": "blog.bolshakov.dev",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf"
+      ]
+    },
+    {
+      "url": "https://braineanear.medium.com/taming-clocks-in-distributed-systems-unraveling-the-complexity-of-time-307867b8caf9",
+      "domain": "braineanear.medium.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf"
+      ]
+    },
+    {
+      "url": "https://breathingspace.scot/how-we-can-help/need-to-talk",
+      "domain": "breathingspace.scot",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js\\n",
+      "domain": "cdnjs.cloudflare.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://chat.linja-e-jetes.org/",
+      "domain": "chat.linja-e-jetes.org",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://chat.onlineberatung-telefonseelsorge.at/hc/de",
+      "domain": "chat.onlineberatung-telefonseelsorge.at",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://www.cietusajiem.lv/",
+      "domain": "cietusajiem.lv",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://claude.site",
+      "domain": "claude.site",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://www.claudemcpclient.com",
+      "domain": "claudemcpclient.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://www.claudeusercontent.com",
+      "domain": "claudeusercontent.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://clzambia.org/",
+      "domain": "clzambia.org",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "http://code.activestate.com/recipes/",
+      "domain": "code.activestate.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/agentic-workflows-v2/tests/fixtures/datasets/code_review_instruct.json"
+      ]
+    },
+    {
+      "url": "https://code.claude.com/docs/en/overview",
+      "domain": "code.claude.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/SYSTEM_INSTRUCTIONS.md",
+        "research/library/artifacts/system.md"
+      ]
+    },
+    {
+      "url": "http://codereview.stackexchange.com/questions/2/project-euler-problem-1-in-python/280#280",
+      "domain": "codereview.stackexchange.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/agentic-workflows-v2/tests/fixtures/datasets/code_review_instruct.json"
+      ]
+    },
+    {
+      "url": "https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions",
+      "domain": "cognitect.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
+        "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
+      ]
+    },
+    {
+      "url": "https://collector.example.com",
+      "domain": "collector.example.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://community.openai.com/t/openai-response-x-ratelimit-header-values-1-and-0/1366625",
+      "domain": "community.openai.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf"
+      ]
+    },
+    {
+      "url": "https://www.computer.org/publications/tech-news/trends/ethics-of-ai-in-software-engineering",
+      "domain": "computer.org",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://www.coursera.org/specializations/ai-engineer",
+      "domain": "coursera.org",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "http://cowbelljs.blogspot.com/2011/12/projecteuler-001.html",
+      "domain": "cowbelljs.blogspot.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/agentic-workflows-v2/tests/fixtures/datasets/code_review_instruct.json"
+      ]
+    },
+    {
+      "url": "https://www.cvv.org.br/chat/",
+      "domain": "cvv.org.br",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://downloads.claude.ai/releases/win32/ClaudeSetup.exe",
+      "domain": "downloads.claude.ai",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://www.dummies.com/article/technology/artificial-intelligence/data-management-for-ai-279173/",
+      "domain": "dummies.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://www.dynatrace.com/news/blog/what-are-quality-gates-how-to-use-quality-gates-with-dynatrace/",
+      "domain": "dynatrace.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf"
+      ]
+    },
+    {
+      "url": "https://www.eff.org/ai/privacy",
+      "domain": "eff.org",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://www.eran.org.il/online-emotional-help/",
+      "domain": "eran.org.il",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://example.com/marketplace.json",
+      "domain": "example.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://findahelpline.com/",
+      "domain": "findahelpline.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://fsws.gov.mt",
+      "domain": "fsws.gov.mt",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "http://www.gibsams.gi/",
+      "domain": "gibsams.gi",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://hbr.org/2023/01/to-get-the-most-out-of-ai-build-a-human-feedback-loop",
+      "domain": "hbr.org",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://www.humanlayer.dev/blog/writing-a-good-claude-md",
+      "domain": "humanlayer.dev",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/SYSTEM_INSTRUCTIONS.md",
+        "research/library/artifacts/system.md"
+      ]
+    },
+    {
+      "url": "https://www.ibm.com/blogs/research/ai-software-development-lifecycle/",
+      "domain": "ibm.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://www.ibm.com/blogs/research/ai-software-development-productivity/",
+      "domain": "ibm.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://www.ibm.com/cloud/blog/best-practices-for-building-ai-powered-applications",
+      "domain": "ibm.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "http://indefinitestudies.org/2009/03/11/dont-use-setadd-in-python/",
+      "domain": "indefinitestudies.org",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/agentic-workflows-v2/tests/fixtures/datasets/code_review_instruct.json"
+      ]
+    },
+    {
+      "url": "https://kidshelpline.ky/chat.html",
+      "domain": "kidshelpline.ky",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://www.lifeline.org.au/crisis-chat/",
+      "domain": "lifeline.org.au",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://www.lifelink.or.jp/inochisos/",
+      "domain": "lifelink.or.jp",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://www.linkedin.com/company/anthropic",
+      "domain": "linkedin.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://www.livslinien.dk/raadgivning/chatraadgivning",
+      "domain": "livslinien.dk",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://mail.google.com/mail/u/0/#drafts",
+      "domain": "mail.google.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://martinfowler.com/bliki/StranglerFigApplication.html",
+      "domain": "martinfowler.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf"
+      ]
+    },
+    {
+      "url": "https://mcp.asana.com/sse",
+      "domain": "mcp.asana.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://mcp.atlassian.com/v1/sse",
+      "domain": "mcp.atlassian.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://mcp.box.com",
+      "domain": "mcp.box.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://mcp.canva.com/mcp",
+      "domain": "mcp.canva.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://mcp.figma.com/mcp",
+      "domain": "mcp.figma.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://mcp.hubspot.com/anthropic",
+      "domain": "mcp.hubspot.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://mcp.intercom.com/mcp",
+      "domain": "mcp.intercom.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://mcp.linear.app/sse",
+      "domain": "mcp.linear.app",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://mcp.monday.com/sse",
+      "domain": "mcp.monday.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://mcp.notion.com/mcp",
+      "domain": "mcp.notion.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://mcp.slack.com/mcp",
+      "domain": "mcp.slack.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://www.mdpi.com/2076-3417/13/15/8745",
+      "domain": "mdpi.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://meet.google.com/abc-defg-hij",
+      "domain": "meet.google.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://mentalhelse.no/",
+      "domain": "mentalhelse.no",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "http://meta.codereview.stackexchange.com/questions/429/online-contest-questions",
+      "domain": "meta.codereview.stackexchange.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/agentic-workflows-v2/tests/fixtures/datasets/code_review_instruct.json"
+      ]
+    },
+    {
+      "url": "https://microsoft365.mcp.claude.com/mcp",
+      "domain": "microsoft365.mcp.claude.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://milvus.io/ai-quick-reference/how-can-i-handle-rate-limiting-in-the-openai-api",
+      "domain": "milvus.io",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf"
+      ]
+    },
+    {
+      "url": "https://mind.se/stod-kunskap/prata-eller-chatta-med-volontar/sjalvmordslinjen/chatt/",
+      "domain": "mind.se",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://neo4j.com/developer-blog/knowledge-graph-ai-applications/",
+      "domain": "neo4j.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://nordicapis.com/api-design-for-ai-best-practices/",
+      "domain": "nordicapis.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://oercommons.org/courseware/lesson/122942/overview",
+      "domain": "oercommons.org",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf"
+      ]
+    },
+    {
+      "url": "https://openreview.net/forum?id=5Xc1ecxO1h",
+      "domain": "openreview.net",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf"
+      ]
+    },
+    {
+      "url": "https://openreview.net/forum?id=r0x-L0Q0",
+      "domain": "openreview.net",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://openreview.net/pdf?id=S37hOerQLB",
+      "domain": "openreview.net",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf"
+      ]
+    },
+    {
+      "url": "https://www.oreilly.com/library/view/architecting-ai-systems/9781492055516/",
+      "domain": "oreilly.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://www.prefect.io/blog/second-generation-workflow-engine",
+      "domain": "prefect.io",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf"
+      ]
+    },
+    {
+      "url": "https://www.programmableweb.com/news/building-ai-powered-apis-step-step-guide/how-to/2017/12/12/",
+      "domain": "programmableweb.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "http://projecteuler.net/index.php?section=problems&amp;id=1",
+      "domain": "projecteuler.net",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/agentic-workflows-v2/tests/fixtures/datasets/code_review_instruct.json"
+      ]
+    },
+    {
+      "url": "https://www.raudikrossinn.is/verkefni/innanlandsverkefni/heilbrigdi-og-velferd/hjalparsiminn-1717-og-netspjallid/",
+      "domain": "raudikrossinn.is",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://resilience4j.readme.io/docs/circuitbreaker",
+      "domain": "resilience4j.readme.io",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf"
+      ]
+    },
+    {
+      "url": "https://sandbox.claudemcpcontent.com/mcp_apps",
+      "domain": "sandbox.claudemcpcontent.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://saysomething.solutiononehk.com/SPS/",
+      "domain": "saysomething.solutiononehk.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://www.scale.com/blog/human-feedback-in-ai",
+      "domain": "scale.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://schema.org",
+      "domain": "schema.org",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://school.instructure.com",
+      "domain": "school.instructure.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://services.functionhealth.com/ai-chat/mcp",
+      "domain": "services.functionhealth.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://www.shadecoder.com/topics/the-circuit-breaker-pattern-a-comprehensive-guide-for-2025",
+      "domain": "shadecoder.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf"
+      ]
+    },
+    {
+      "url": "https://www.simplilearn.com/tutorials/artificial-intelligence-tutorial/ai-engineer",
+      "domain": "simplilearn.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "http://www.sofab.tv/wp-content/uploads/2015/07/statecharts.pdf",
+      "domain": "sofab.tv",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf"
+      ]
+    },
+    {
+      "url": "https://sre.google/sre-book/addressing-cascading-failures/",
+      "domain": "sre.google",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf"
+      ]
+    },
+    {
+      "url": "https://sre.google/sre-book/handling-overload/",
+      "domain": "sre.google",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf"
+      ]
+    },
+    {
+      "url": "https://status.anthropic.com",
+      "domain": "status.anthropic.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "http://svn.python.org/view/python/trunk/Lib/random.py?view=markup#sample",
+      "domain": "svn.python.org",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/agentic-workflows-v2/tests/fixtures/datasets/code_review_instruct.json"
+      ]
+    },
+    {
+      "url": "http://svn.python.org/view/python/trunk/Lib/random.py?view=markup#shuffle",
+      "domain": "svn.python.org",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/agentic-workflows-v2/tests/fixtures/datasets/code_review_instruct.json"
+      ]
+    },
+    {
+      "url": "https://www.swyx.io/why-temporal",
+      "domain": "swyx.io",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf"
+      ]
+    },
+    {
+      "url": "https://www.synopsys.com/blogs/software-security/robustness-testing-ai/",
+      "domain": "synopsys.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://www.techrepublic.com/article/the-rise-of-the-ai-engineer-skills-and-training/",
+      "domain": "techrepublic.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://www.techtarget.com/searchenterpriseai/definition/human-in-the-loop-HITL",
+      "domain": "techtarget.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://www.thoughtworks.com/insights/blog/ai-powered-software-development-lifecycle",
+      "domain": "thoughtworks.com",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/reports/deep-research/deep_research_20260217-153745Z.json"
+      ]
+    },
+    {
+      "url": "https://tty4.dev/development/uncertain-time/",
+      "domain": "tty4.dev",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf"
+      ]
+    },
+    {
+      "url": "https://valerio-terragni.github.io/assets/pdf/terragni-icst-2025.pdf",
+      "domain": "valerio-terragni.github.io",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf"
+      ]
+    },
+    {
+      "url": "https://www.viltieslinija.lt/",
+      "domain": "viltieslinija.lt",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://wempe.dev/blog/what-are-state-machines-and-statecharts",
+      "domain": "wempe.dev",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf"
+      ]
+    },
+    {
+      "url": "https://www2.cruzroja.es/web/cruzroja/chat-linea024",
+      "domain": "www2.cruzroja.es",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://z-lib.id",
+      "domain": "z-lib.id",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    },
+    {
+      "url": "https://www.zelfmoord1813.be/ik-heb-hulp-nodig/chat-met-de-zelfmoordlijn",
+      "domain": "zelfmoord1813.be",
+      "status": "review",
+      "reason": "domain not yet in approved/caution lists",
+      "referenced_by": [
+        "research/library/artifacts/research/3.html.txt",
+        "research/library/artifacts/research/Claude.html.txt",
+        "research/library/artifacts/research/Claude3.html.txt"
+      ]
+    }
+  ]
+}

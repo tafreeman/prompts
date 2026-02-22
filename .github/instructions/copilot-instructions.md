@@ -1,72 +1,65 @@
- 
-# GitHub Copilot instructions for the `prompts` repository
+# GitHub Copilot Instructions
 
-This file is a lightweight compatibility pointer and quick reference. The authoritative, repo-wide guidance is in:
+This monorepo contains both a **Prompt Library** and a **Multi-Agent Workflow Runtime**.
 
-- `.github/instructions/prompts-repo.instructions.md` — guardrails, checklists, and authoring conventions
-- `.github/copilot-instructions.md` — comprehensive developer guidance and workflows
+## Repository Overview
 
-Quick reminders:
+- **`prompts/`**: Main prompt library (Markdown + YAML frontmatter).
+- **`agentic-workflows-v2/`**: Multi-agent workflow runtime (Python 3.11+, LangChain + LangGraph).
+- **`agentic-v2-eval/`**: Evaluation framework (Python 3.10+, Scorer, Rubrics).
+- **`tools/`**: Shared utilities (`prompts-tools`) for LLM orchestration and evaluation.
 
-- Keep diffs small and reviewable; avoid bulk rewrites.
-- Prompt files live under `prompts/` and must follow the frontmatter schema in `docs/reference/frontmatter-schema.md`.
-- Use templates in `prompts/templates/` when creating new prompts.
-- Validate prompt edits with the repo tasks or `python -m tools.validate_prompts --all` and run tests with `python -m pytest testing/` when changing tooling.
+## Identity & Mission
+Produce production-grade code, rigorous research, and reproducible evaluation artifacts that advance the state of the art in agentic AI.
 
-Refer to `prompts-repo.instructions.md` for full rules and examples.
+## Code Quality Standards (Non-Negotiable)
 
-  # Multi-Agent Workflow Best Practices: Copilot Enforcement Checklist
+1. **Immutability First:** Always create new objects. Never mutate existing ones. Use `@dataclass(frozen=True)`, `NamedTuple`, or `tuple`.
+2. **Type Everything:** Full type annotations on all function signatures. No bare `Any` unless wrapping external untyped APIs.
+3. **Small Units:** Functions < 50 lines. Files < 800 lines. Organize by feature/domain.
+4. **Error Handling:** Never swallow exceptions. Use specific exception types. Validate at boundaries.
+5. **Formatting:** `black` for code, `isort` for imports, `ruff` for linting.
+6. **Testing:** At least one test per public function (happy path + error path).
 
-When Copilot generates, edits, or reviews code and prompts for multi-agent workflows, it MUST:
+## Architecture: Agentic Workflows
 
-1. **Enforce Schema Validation**
-	- Require all agent outputs to strictly match their defined JSON schemas.
-	- Insert runtime schema validation code or checks where missing.
-	- Flag or block changes that weaken schema guarantees.
+- **Execution Engine:** `langchain/` (primary) and `engine/` (native DAG executor).
+- **LLM Routing:** `models/smart_router.py` dispatches based on tier and capability.
+- **Workflows:** Declarative YAML under `workflows/definitions/`. Steps reference agents by tier name.
+- **Contracts:** Pydantic models in `contracts/` define I/O. **Additive-only changes**.
 
-2. **Require Robust Error Handling & Rollback**
-	- Ensure every agent step has explicit error handling and fallback logic.
-	- Add or update rollback mechanisms for partial failures or ambiguous outputs.
-	- Highlight missing or incomplete error/rollback logic in reviews.
+## Architecture: Prompt Library
 
-3. **Mandate Artifact Examples**
-	- Include or update concrete sample outputs for each artifact type (evidence table, score report, patch, validation, synthesis decision) in code, docs, or tests.
-	- Prompt for missing examples when new artifact types are introduced.
+- **Prompt Files:** Use lowercase-hyphenated filenames. Place in the correct category folder. Include YAML frontmatter.
+- **Variables:** Use `[BRACKETED_VALUES]` for placeholders; document all under a “Variables” section.
+- **Templates:** Follow `prompts/templates/prompt-template.md`.
 
-4. **Monitor Metrics & Alerts**
-	- Track and document key metrics (agent pass rate, latency, error rates, test coverage) in code and documentation.
-	- Add alerting logic for critical failures (e.g., security gate, model latency) where appropriate.
+## Developer Workflows
 
-5. **Highlight Human-in-the-Loop Review Points**
-	- Clearly annotate workflow points requiring human review or manual override in code and prompts.
-	- Suggest reviewer guidance or checklists for these points.
+### Agentic Workflows
+- **Install:** `pip install -e ".[dev,server,langchain]"` (in `agentic-workflows-v2/`)
+- **Run:** `agentic run <workflow> --input <file.json>`
+- **Test:** `python -m pytest tests/ -v`
 
-6. **Document Branch Strategy Guidance**
-	- For each branch evaluation strategy, require rationale, best use cases, and trade-offs in code comments or docs.
-	- Block merges that introduce new strategies without this documentation.
+### Prompt Library
+- **Validate:** `python tools/validate_prompts.py --all`
+- **Evaluate:** `python -m tools.prompteval prompts/<folder>/ --tier 2 --verbose --ci`
 
-7. **Promote Reproducibility**
-	- Require logging of seeds, model versions, configuration snapshots, and run metadata for every execution.
-	- Add or update reproducibility instructions in README or workflow docs.
+## Research Standards
 
-8. **Ensure Comprehensive Test Coverage**
-	- Check for and prompt the addition of test cases covering edge cases, adversarial inputs, and agent integration.
-	- Block or flag changes that reduce test coverage or omit critical tests.
+- **Source Governance:**
+  - **Tier A (Always allowed):** Official vendor docs, Peer-reviewed papers, arXiv (known groups).
+  - **Tier B (Conditional):** High-quality engineering blogs, Stack Overflow (high votes).
+  - **Tier C (Blocked):** Unverified blogs, marketing materials.
+- **Citations:** Every research claim must include inline citations with valid URLs: `[Claim text] (Source: Title, Publisher, Date — URL)`.
 
-**Copilot Enforcement Policy:**
-- These practices are mandatory for all code and prompt changes in multi-agent workflow projects.
-- Copilot must always check for these requirements and prompt the user if any are missing or incomplete.
-- When in doubt, Copilot should default to stricter enforcement and request clarification from the user.
+## Anti-Patterns — Never Do These
 
----
-# GitHub Copilot instructions (compatibility pointer)
-
-This repo now uses a standard targeted instructions file:
-
-
-And the canonical repo map + commands live in:
-
-
-If you’re seeing this file referenced by older docs/config, use the two files above.
-```instructions
-# GitHub Copilot instructions for the `prompts` repository
+- **Never mutate state in place.** Always return new objects.
+- **Never use bare `except:`.** Catch specific exceptions.
+- **Never hardcode secrets.** Use `.env`.
+- **Never produce TODOs in generated code.** All files must be complete.
+- **Never add web servers or scaffolding unless explicitly requested.**
+- **Never use sys.path hacks.** Use `from tools...` imports.
+- **Never break existing contracts/schemas.** Additive-only.
+- **Never skip the eval flywheel.** Define rubrics before building, run evals after.

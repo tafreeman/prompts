@@ -1,0 +1,130 @@
+Comprehensive Insight Report: d:\source\prompts
+======================================================================
+Total folders: 12801
+Total files: 108768
+Total size: 3347535725.00 PB
+
+--- File Size Statistics ---
+  Mean Size:   30778.54 PB
+  Median Size: 2868.00 PB
+  Std Dev:     1293250.68 PB
+  Max Size:    264942080.00 PB
+  Min Size:    0.00 PB
+
+--- Mood & Sentiment Analysis (.md, .txt, .log) ---
+  Overall Mood: Neutral (Score: 0.03)
+  Highly Positive Files:
+    [+0.63] README.md
+    [+0.60] setupcfg_examples.txt
+    [+0.60] setupcfg_examples.txt
+  Highly Negative Files (potential issues/bugs):
+    [-0.75] PatternGrammar.txt
+    [-0.75] ICON_LICENSE.md
+    [-0.60] architect.md
+    [-0.52] README.md
+    [-0.50] validator.md
+
+--- Code Metrics (Lines of Content) ---
+  .py: 14,459,672 lines across 39411 files
+  .json: 2,842,427 lines across 1227 files
+  .js: 1,759,687 lines across 6314 files
+  .h: 1,008,128 lines across 9806 files
+  .ts: 354,528 lines across 1545 files
+  .c: 137,771 lines across 81 files
+  .md: 92,969 lines across 629 files
+  .yaml: 26,530 lines across 45 files
+  .cpp: 15,141 lines across 58 files
+  .tsx: 7,512 lines across 94 files
+  .yml: 1,595 lines across 41 files
+  .jsx: 364 lines across 6 files
+
+--- Stale Files (Not modified in 6+ months) ---
+  [2024-11-10] 165968.00 PB – d:\source\prompts\tools\llm\windows_ai_bridge\bin\Release\net8.0-windows10.0.22621.0\win-x64\WebView2Loader.dll
+  [2024-11-10] 666176.00 PB – d:\source\prompts\tools\llm\windows_ai_bridge\bin\Release\net8.0-windows10.0.22621.0\win-x64\Microsoft.Web.WebView2.Core.Projection.dll
+  [2024-11-10] 773712.00 PB – d:\source\prompts\tools\llm\windows_ai_bridge\bin\Release\net8.0-windows10.0.22621.0\win-x64\Microsoft.Web.WebView2.Core.dll
+  [2024-11-11] 528944.00 PB – d:\source\prompts\tools\llm\windows_ai_bridge\bin\Debug\net8.0-windows10.0.22621.0\win-x64\WinRT.Runtime.dll
+  [2024-11-11] 528944.00 PB – d:\source\prompts\tools\llm\windows_ai_bridge\bin\Release\net8.0-windows10.0.22621.0\win-x64\WinRT.Runtime.dll
+  [2024-11-11] 528944.00 PB – d:\source\prompts\tools\llm\windows_ai_bridge\bin\x64\Debug\net8.0-windows10.0.22621.0\win-x64\WinRT.Runtime.dll
+  [2024-11-11] 528944.00 PB – d:\source\prompts\tools\llm\windows_ai_bridge\bin\x64\Release\net8.0-windows10.0.22621.0\win-x64\WinRT.Runtime.dll
+  [2024-11-11] 528944.00 PB – d:\source\prompts\tools\llm\windows_ai_bridge\bin\x64\Release\net8.0-windows10.0.22621.0\win-x64\publish\WinRT.Runtime.dll
+  [2024-11-11] 26086944.00 PB – d:\source\prompts\tools\llm\windows_ai_bridge\bin\Debug\net8.0-windows10.0.22621.0\win-x64\Microsoft.Windows.SDK.NET.dll
+  [2024-11-11] 26086944.00 PB – d:\source\prompts\tools\llm\windows_ai_bridge\bin\Release\net8.0-windows10.0.22621.0\win-x64\Microsoft.Windows.SDK.NET.dll
+  [2024-11-11] 26086944.00 PB – d:\source\prompts\tools\llm\windows_ai_bridge\bin\x64\Debug\net8.0-windows10.0.22621.0\win-x64\Microsoft.Windows.SDK.NET.dll
+  [2024-11-11] 26086944.00 PB – d:\source\prompts\tools\llm\windows_ai_bridge\bin\x64\Release\net8.0-windows10.0.22621.0\win-x64\Microsoft.Windows.SDK.NET.dll
+  [2024-11-11] 26086944.00 PB – d:\source\prompts\tools\llm\windows_ai_bridge\bin\x64\Release\net8.0-windows10.0.22621.0\win-x64\publish\Microsoft.Windows.SDK.NET.dll
+  [2025-02-24] 163912.00 PB – d:\source\prompts\tools\llm\windows_ai_bridge\bin\Release\net8.0-windows10.0.22621.0\win-x64\Microsoft.Windows.Widgets.Projection.dll
+  [2025-03-23] 1595936.00 PB – d:\source\prompts\tools\llm\windows_ai_bridge\bin\Release\net8.0-windows10.0.22621.0\win-x64\Microsoft.InteractiveExperiences.Projection.dll
+
+--- Potential Duplicates (Same Name & Size) ---
+  File: agenticv2 (41.00 PB)
+    - d:\source\prompts\.git\refs\heads\agenticv2
+    - d:\source\prompts\.git\refs\remotes\origin\agenticv2
+  File: main (41.00 PB)
+    - d:\source\prompts\.git\refs\heads\main
+    - d:\source\prompts\.git\refs\remotes\origin\main
+  File: Multi-Agent (41.00 PB)
+    - d:\source\prompts\.git\refs\heads\Multi-Agent
+    - d:\source\prompts\.git\refs\remotes\origin\Multi-Agent
+  File: Multi-Agent-before-merge (41.00 PB)
+    - d:\source\prompts\.git\refs\heads\backup\Multi-Agent-before-merge
+    - d:\source\prompts\.git\refs\remotes\origin\backup\Multi-Agent-before-merge
+  File: sub-pr-77 (41.00 PB)
+    - d:\source\prompts\.git\refs\heads\copilot\sub-pr-77
+    - d:\source\prompts\.git\refs\remotes\origin\copilot\sub-pr-77
+  File: .gitignore (39.00 PB)
+    - d:\source\prompts\.pytest_cache\.gitignore
+    - d:\source\prompts\agentic-workflows-v2\.pytest_cache\.gitignore
+  File: CACHEDIR.TAG (191.00 PB)
+    - d:\source\prompts\.pytest_cache\CACHEDIR.TAG
+    - d:\source\prompts\agentic-v2-eval\.pytest_cache\CACHEDIR.TAG
+    - d:\source\prompts\agentic-workflows-v2\.pytest_cache\CACHEDIR.TAG
+  File: README.md (310.00 PB)
+    - d:\source\prompts\.pytest_cache\README.md
+    - d:\source\prompts\agentic-workflows-v2\.pytest_cache\README.md
+  File: .gitignore (35.00 PB)
+    - d:\source\prompts\.ruff_cache\.gitignore
+    - d:\source\prompts\agentic-v2-eval\.ruff_cache\.gitignore
+    - d:\source\prompts\agentic-workflows-v2\.ruff_cache\.gitignore
+  File: CACHEDIR.TAG (43.00 PB)
+    - d:\source\prompts\.ruff_cache\CACHEDIR.TAG
+    - d:\source\prompts\agentic-v2-eval\.ruff_cache\CACHEDIR.TAG
+    - d:\source\prompts\agentic-workflows-v2\.ruff_cache\CACHEDIR.TAG
+
+--- Largest Files ---
+  264942080.00 PB – d:\source\prompts\.venv\Lib\site-packages\torch\lib\torch_cpu.dll
+  233474208.00 PB – d:\source\prompts\agentic-workflows-v2\.venv\Lib\site-packages\claude_agent_sdk\_bundled\claude.exe
+  206501486.00 PB – d:\source\prompts\.git\objects\pack\pack-5a862f0f8bbcf4373bfe7c4924346c51255e846b.pack
+  31665152.00 PB – d:\source\prompts\.venv\Scripts\ruff.exe
+  29597848.00 PB – d:\source\prompts\.venv\Lib\site-packages\torch\lib\torch_cpu.lib
+  26424397.00 PB – d:\source\prompts\.git\objects\e3\b34ff2574181d5e43af43171c259cd7e142536
+  26410655.00 PB – d:\source\prompts\.git\objects\9a\a947cc96166ca57401013bf2347105f650c264
+  26095176.00 PB – d:\source\prompts\.venv\Lib\site-packages\onnxruntime\capi\onnxruntime_pybind11_state.pyd
+  26086944.00 PB – d:\source\prompts\tools\llm\windows_ai_bridge\bin\x64\Release\net8.0-windows10.0.22621.0\win-x64\publish\Microsoft.Windows.SDK.NET.dll
+  26086944.00 PB – d:\source\prompts\tools\llm\windows_ai_bridge\bin\x64\Release\net8.0-windows10.0.22621.0\win-x64\Microsoft.Windows.SDK.NET.dll
+  26086944.00 PB – d:\source\prompts\tools\llm\windows_ai_bridge\bin\x64\Debug\net8.0-windows10.0.22621.0\win-x64\Microsoft.Windows.SDK.NET.dll
+  26086944.00 PB – d:\source\prompts\tools\llm\windows_ai_bridge\bin\Release\net8.0-windows10.0.22621.0\win-x64\Microsoft.Windows.SDK.NET.dll
+  26086944.00 PB – d:\source\prompts\tools\llm\windows_ai_bridge\bin\Debug\net8.0-windows10.0.22621.0\win-x64\Microsoft.Windows.SDK.NET.dll
+  23149568.00 PB – d:\source\prompts\.venv\Lib\site-packages\pyarrow\arrow.dll
+  21056056.00 PB – d:\source\prompts\.venv\Lib\site-packages\onnxruntime\capi\onnxruntime.dll
+  20403712.00 PB – d:\source\prompts\.venv\Lib\site-packages\numpy.libs\libscipy_openblas64_-9e3e5a4229c1ca39f10dc82bba9e2b2b.dll
+  20260864.00 PB – d:\source\prompts\.venv\Lib\site-packages\scipy.libs\libscipy_openblas-64eda39e79589aedb16f58e5547eb599.dll
+  18714624.00 PB – d:\source\prompts\.venv\Lib\site-packages\torch\lib\torch_python.dll
+  18527800.00 PB – d:\source\prompts\.venv\Lib\site-packages\onnxruntime\capi\DirectML.dll
+  18096640.00 PB – d:\source\prompts\.venv\Lib\site-packages\4c842c94c09923bae9e4__mypyc.cp313-win_amd64.pyd
+
+--- Subfolders by Total Size ---
+  333647166.00 PB – d:\source\prompts\.venv\Lib\site-packages\torch\lib
+  233474285.00 PB – d:\source\prompts\agentic-workflows-v2\.venv\Lib\site-packages\claude_agent_sdk\_bundled
+  214908697.00 PB – d:\source\prompts\.git\objects\pack
+  94375819.00 PB – d:\source\prompts\.venv\Lib\site-packages\googleapiclient\discovery_cache\documents
+  77273446.00 PB – d:\source\prompts\.venv\Lib\site-packages\pyarrow
+  65773434.00 PB – d:\source\prompts\.venv\Lib\site-packages\onnxruntime\capi
+  54889097.00 PB – d:\source\prompts\tools\llm\windows_ai_bridge\obj\Debug\net8.0-windows10.0.22621.0\win-x64\MsixContent
+  54889097.00 PB – d:\source\prompts\tools\llm\windows_ai_bridge\obj\Release\net8.0-windows10.0.22621.0\win-x64\MsixContent
+  51772728.00 PB – d:\source\prompts\tools\llm\windows_ai_bridge\bin\x64\Debug\net8.0-windows10.0.22621.0\win-x64
+  51038098.00 PB – d:\source\prompts\tools\llm\windows_ai_bridge\bin\x64\Release\net8.0-windows10.0.22621.0\win-x64
+  51036418.00 PB – d:\source\prompts\tools\llm\windows_ai_bridge\bin\Debug\net8.0-windows10.0.22621.0\win-x64
+  50925934.00 PB – d:\source\prompts\tools\llm\windows_ai_bridge\bin\x64\Release\net8.0-windows10.0.22621.0\win-x64\publish
+  41551200.00 PB – d:\source\prompts\.venv\Scripts
+  39935696.00 PB – d:\source\prompts\tools\llm\windows_ai_bridge\bin\Release\net8.0-windows10.0.22621.0\win-x64
+  26430076.00 PB – d:\source\prompts\.git\objects\9a
