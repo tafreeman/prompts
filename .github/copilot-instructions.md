@@ -1,9 +1,9 @@
-# GitHub Copilot Instructions
+# GitHub Copilot instructions for `prompts`
 
-This monorepo contains both a **Prompt Library** and a **Multi-Agent Workflow Runtime**.
+This repo is a **prompt library + agentic workflow toolkit + Python tooling** project. Treat it as a docs/content repo with workflow configs and evaluation tooling.
 
-## Repository Overview
-
+- Do **not** add app/service scaffolding unless explicitly requested.
+- For change checklists and guardrails, follow: `.github/instructions/prompts-repo.instructions.md`.
 - **`prompts/`**: Main prompt library (Markdown + YAML frontmatter).
 - **`agentic-workflows-v2/`**: Multi-agent workflow runtime (Python 3.11+, LangChain + LangGraph).
 - **`agentic-v2-eval/`**: Evaluation framework (Python 3.10+, Scorer, Rubrics).

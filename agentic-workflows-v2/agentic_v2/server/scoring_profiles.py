@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from types import MappingProxyType
+from typing import Mapping
 
 
 @dataclass(frozen=True)
@@ -11,8 +13,12 @@ class ScoringProfile:
 
     profile_id: str
     description: str
-    weights: dict[str, float]
-    extra_gates: list[str] = field(default_factory=list)
+    weights: Mapping[str, float]
+    extra_gates: tuple[str, ...] = ()
+
+    def __post_init__(self) -> None:
+        object.__setattr__(self, "weights", MappingProxyType(dict(self.weights)))
+        object.__setattr__(self, "extra_gates", tuple(self.extra_gates))
 
 
 SCORING_PROFILES: dict[str, ScoringProfile] = {
@@ -25,7 +31,7 @@ SCORING_PROFILES: dict[str, ScoringProfile] = {
             "efficiency": 0.10,
             "documentation": 0.10,
         },
-        extra_gates=["fail_to_pass"],
+        extra_gates=("fail_to_pass",),
     ),
     "B": ScoringProfile(
         profile_id="B",
@@ -36,7 +42,7 @@ SCORING_PROFILES: dict[str, ScoringProfile] = {
             "efficiency": 0.20,
             "documentation": 0.15,
         },
-        extra_gates=["required_outputs_parseable"],
+        extra_gates=("required_outputs_parseable",),
     ),
     "C": ScoringProfile(
         profile_id="C",
@@ -47,7 +53,7 @@ SCORING_PROFILES: dict[str, ScoringProfile] = {
             "citation_quality": 0.20,
             "coherence": 0.15,
         },
-        extra_gates=["answer_grounded"],
+        extra_gates=("answer_grounded",),
     ),
     "D": ScoringProfile(
         profile_id="D",
@@ -58,7 +64,26 @@ SCORING_PROFILES: dict[str, ScoringProfile] = {
             "efficiency": 0.25,
             "coherence": 0.20,
         },
-        extra_gates=["tool_call_schema_valid"],
+        extra_gates=("tool_call_schema_valid",),
+    ),
+    "E": ScoringProfile(
+        profile_id="E",
+        description=(
+            "Deep research iterative pipeline"
+            " (ADR-007 multidimensional tiebreaker weights)"
+        ),
+        weights={
+            "coverage": 0.25,
+            "source_quality": 0.20,
+            "agreement": 0.20,
+            "verification": 0.20,
+            "recency": 0.15,
+        },
+        extra_gates=(
+            "all_dimensions_high",
+            "no_critical_contradictions",
+            "sources_floor",
+        ),
     ),
 }
 

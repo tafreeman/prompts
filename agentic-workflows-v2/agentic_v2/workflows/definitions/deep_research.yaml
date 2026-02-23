@@ -3,8 +3,30 @@ description: Iterative deep research workflow with ToT planning, ReAct retrieval
 version: "1.0"
 
 capabilities:
-  inputs: [topic, goal, domain, min_ci, max_rounds, min_recent_sources, recency_window_days, seed_urls]
-  outputs: [executive_summary, detailed_analysis, best_practices, references, confidence_report, limitations, next_search_actions, rag_manifest, rag_chunks, claim_graph]
+  inputs:
+    [
+      topic,
+      goal,
+      domain,
+      min_ci,
+      max_rounds,
+      min_recent_sources,
+      recency_window_days,
+      seed_urls,
+    ]
+  outputs:
+    [
+      executive_summary,
+      detailed_analysis,
+      best_practices,
+      references,
+      confidence_report,
+      limitations,
+      next_search_actions,
+      rag_manifest,
+      rag_chunks,
+      claim_graph,
+    ]
 
 inputs:
   topic:
@@ -170,12 +192,15 @@ steps:
       ci_score: ci_score_round1
       recent_source_count: recent_source_count_round1
       critical_contradictions: critical_contradictions_round1
+      # ADR-007 multidimensional outputs (populated when scoring_engine=multidimensional)
+      dimension_tier: dimension_tier_round1
+      gate_passed: gate_passed_round1
 
   - name: hypothesis_tree_tot_round2
     agent: tier3_reasoner
     description: Refine thought tree and close evidence gaps (round 2)
     depends_on: [coverage_confidence_audit_round1]
-    when: ${inputs.max_rounds} >= 2 and (${steps.coverage_confidence_audit_round1.outputs.ci_score} < ${inputs.min_ci} or ${steps.coverage_confidence_audit_round1.outputs.recent_source_count} < ${inputs.min_recent_sources} or ${steps.coverage_confidence_audit_round1.outputs.critical_contradictions} > 0)
+    when: ${inputs.max_rounds} >= 2 and not ${steps.coverage_confidence_audit_round1.outputs.gate_passed}
     tools: [context_store]
     inputs:
       scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
@@ -269,12 +294,15 @@ steps:
       ci_score: ci_score_round2
       recent_source_count: recent_source_count_round2
       critical_contradictions: critical_contradictions_round2
+      # ADR-007 multidimensional outputs (populated when scoring_engine=multidimensional)
+      dimension_tier: dimension_tier_round2
+      gate_passed: gate_passed_round2
 
   - name: hypothesis_tree_tot_round3
     agent: tier3_reasoner
     description: Refine thought tree and close evidence gaps (round 3)
     depends_on: [coverage_confidence_audit_round2]
-    when: ${inputs.max_rounds} >= 3 and (${steps.coverage_confidence_audit_round2.outputs.ci_score} < ${inputs.min_ci} or ${steps.coverage_confidence_audit_round2.outputs.recent_source_count} < ${inputs.min_recent_sources} or ${steps.coverage_confidence_audit_round2.outputs.critical_contradictions} > 0)
+    when: ${inputs.max_rounds} >= 3 and not ${steps.coverage_confidence_audit_round2.outputs.gate_passed}
     tools: [context_store]
     inputs:
       scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
@@ -368,12 +396,15 @@ steps:
       ci_score: ci_score_round3
       recent_source_count: recent_source_count_round3
       critical_contradictions: critical_contradictions_round3
+      # ADR-007 multidimensional outputs (populated when scoring_engine=multidimensional)
+      dimension_tier: dimension_tier_round3
+      gate_passed: gate_passed_round3
 
   - name: hypothesis_tree_tot_round4
     agent: tier3_reasoner
     description: Refine thought tree and close evidence gaps (round 4)
     depends_on: [coverage_confidence_audit_round3]
-    when: ${inputs.max_rounds} >= 4 and (${steps.coverage_confidence_audit_round3.outputs.ci_score} < ${inputs.min_ci} or ${steps.coverage_confidence_audit_round3.outputs.recent_source_count} < ${inputs.min_recent_sources} or ${steps.coverage_confidence_audit_round3.outputs.critical_contradictions} > 0)
+    when: ${inputs.max_rounds} >= 4 and not ${steps.coverage_confidence_audit_round3.outputs.gate_passed}
     tools: [context_store]
     inputs:
       scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
@@ -467,12 +498,21 @@ steps:
       ci_score: ci_score_round4
       recent_source_count: recent_source_count_round4
       critical_contradictions: critical_contradictions_round4
+      # ADR-007 multidimensional outputs (populated when scoring_engine=multidimensional)
+      dimension_tier: dimension_tier_round4
+      gate_passed: gate_passed_round4
 
   - name: final_synthesis
     agent: tier4_writer
     description: Produce final report with citations, executive summary, and implementation guidance
     model_override: env:DEEP_RESEARCH_HEAVY_MODEL|gemini:gemini-2.5-flash
-    depends_on: [coverage_confidence_audit_round1, coverage_confidence_audit_round2, coverage_confidence_audit_round3, coverage_confidence_audit_round4]
+    depends_on:
+      [
+        coverage_confidence_audit_round1,
+        coverage_confidence_audit_round2,
+        coverage_confidence_audit_round3,
+        coverage_confidence_audit_round4,
+      ]
     tools: [context_store]
     inputs:
       scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
@@ -483,6 +523,8 @@ steps:
       contradictions: ${coalesce(steps.cove_verify_round4.outputs.contradictions, steps.cove_verify_round3.outputs.contradictions, steps.cove_verify_round2.outputs.contradictions, steps.cove_verify_round1.outputs.contradictions)}
       ci_score: ${coalesce(steps.coverage_confidence_audit_round4.outputs.ci_score, steps.coverage_confidence_audit_round3.outputs.ci_score, steps.coverage_confidence_audit_round2.outputs.ci_score, steps.coverage_confidence_audit_round1.outputs.ci_score)}
       recent_source_count: ${coalesce(steps.coverage_confidence_audit_round4.outputs.recent_source_count, steps.coverage_confidence_audit_round3.outputs.recent_source_count, steps.coverage_confidence_audit_round2.outputs.recent_source_count, steps.coverage_confidence_audit_round1.outputs.recent_source_count)}
+      gate_passed: ${coalesce(steps.coverage_confidence_audit_round4.outputs.gate_passed, steps.coverage_confidence_audit_round3.outputs.gate_passed, steps.coverage_confidence_audit_round2.outputs.gate_passed, steps.coverage_confidence_audit_round1.outputs.gate_passed)}
+      dimension_tier: ${coalesce(steps.coverage_confidence_audit_round4.outputs.dimension_tier, steps.coverage_confidence_audit_round3.outputs.dimension_tier, steps.coverage_confidence_audit_round2.outputs.dimension_tier, steps.coverage_confidence_audit_round1.outputs.dimension_tier)}
     outputs:
       executive_summary: executive_summary
       detailed_analysis: detailed_analysis
