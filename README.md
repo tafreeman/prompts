@@ -30,51 +30,60 @@ The system solves three core problems in production AI orchestration:
 
 ## Architecture
 
-```
-                    ┌──────────────────────────────────────────────┐
-                    │              YAML Workflow DSL               │
-                    │  (deep_research, code_review, tdd_codegen)   │
-                    └─────────────────────┬────────────────────────┘
-                                          │ parse
-                    ┌─────────────────────▼────────────────────────┐
-                    │           Workflow Loader & Validator         │
-                    │     expression resolution, input typing       │
-                    └─────────────────────┬────────────────────────┘
-                                          │ compile
-                         ┌────────────────┴────────────────┐
-                         ▼                                 ▼
-              ┌─────────────────────┐          ┌────────────────────┐
-              │    DAG Executor     │          │  LangGraph Compiler │
-              │  (Native Runtime)   │          │  (LangChain Engine) │
-              │                     │          │                     │
-              │  Kahn's algorithm   │          │  StateGraph nodes   │
-              │  asyncio.wait()     │          │  conditional edges  │
-              │  cascade skip       │          │  loop edges         │
-              │  max concurrency    │          │  checkpointing      │
-              └────────┬────────────┘          └─────────┬──────────┘
-                       │                                 │
-                       └────────────┬────────────────────┘
-                                    ▼
-              ┌──────────────────────────────────────────────────┐
-              │              Tiered Model Router                  │
-              │                                                   │
-              │  Tier 0 ─ Deterministic (no LLM, pure logic)      │
-              │  Tier 1 ─ Small models (flash-lite, 4o-mini)      │
-              │  Tier 2 ─ Medium models (flash, haiku)             │
-              │  Tier 3 ─ Large models (2.5-flash, gpt-4o)        │
-              │  Tier 4 ─ Cloud premium (2.5-pro, claude-sonnet)   │
-              │  Tier 5 ─ Frontier (claude-opus, gpt-4o)           │
-              │                                                   │
-              │  Health-weighted selection │ Adaptive cooldowns     │
-              │  Circuit breakers │ Cost-aware routing              │
-              │  Fallback chains with DSL builder                  │
-              └──────────────────────┬───────────────────────────┘
-                                     │
-              ┌──────────────────────▼───────────────────────────┐
-              │              Provider Backends                    │
-              │  OpenAI │ Anthropic │ Google Gemini │ Ollama      │
-              │  Azure OpenAI │ GitHub Models │ LM Studio         │
-              └──────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    A["📄 YAML Workflow DSL<br/><i>deep_research · code_review · tdd_codegen</i>"] --> B["🔍 Workflow Loader & Validator<br/><i>Expression resolution · Input typing</i>"]
+
+    B --> C["⚡ DAG Executor<br/><i>Native Runtime</i>"]
+    B --> D["🔗 LangGraph Compiler<br/><i>LangChain Engine</i>"]
+
+    C --> E["🔀 Tiered Model Router"]
+    D --> E
+
+    E --> F["☁️ Provider Backends"]
+
+    subgraph DAG ["DAG Executor"]
+        C
+        C1["Kahn's algorithm scheduling"]
+        C2["asyncio.wait FIRST_COMPLETED"]
+        C3["Cascade failure propagation"]
+        C4["Max concurrency control"]
+    end
+
+    subgraph LG ["LangGraph Compiler"]
+        D
+        D1["StateGraph node generation"]
+        D2["Conditional + loop edges"]
+        D3["Checkpointing support"]
+    end
+
+    subgraph Router ["Model Router"]
+        E
+        E1["Tier 0 → Deterministic · no LLM"]
+        E2["Tier 1 → Small · flash-lite, 4o-mini"]
+        E3["Tier 2 → Medium · flash, haiku"]
+        E4["Tier 3 → Large · 2.5-flash, gpt-4o"]
+        E5["Tier 4 → Premium · 2.5-pro, claude-sonnet"]
+        E6["Tier 5 → Frontier · claude-opus"]
+        E7["Health-weighted selection · Adaptive cooldowns<br/>Circuit breakers · Cost-aware routing"]
+    end
+
+    subgraph Providers ["Providers"]
+        F
+        F1["OpenAI"]
+        F2["Anthropic"]
+        F3["Google Gemini"]
+        F4["Ollama / LM Studio"]
+        F5["Azure OpenAI"]
+        F6["GitHub Models"]
+    end
+
+    style A fill:#4a90d9,stroke:#2c5f8a,color:#fff
+    style B fill:#6c5ce7,stroke:#4834a8,color:#fff
+    style E fill:#e17055,stroke:#b34530,color:#fff
+    style F fill:#00b894,stroke:#008060,color:#fff
+    style C fill:#fdcb6e,stroke:#c8a034,color:#333
+    style D fill:#fdcb6e,stroke:#c8a034,color:#333
 ```
 
 ---
@@ -151,6 +160,35 @@ steps:
     depends_on: [coverage_confidence_audit_round1]
     when: ${inputs.max_rounds} >= 2 and not ${steps...gate_passed}
     # ↑ Conditional: only runs if confidence gate hasn't passed
+```
+
+#### Execution Flow (Single Research Round)
+
+```mermaid
+graph LR
+    A["🎯 intake_scope<br/><i>tier3_planner</i>"] --> B["📋 source_policy<br/><i>tier2_researcher</i>"]
+    B --> C["🌳 hypothesis_tree<br/><i>tier3_reasoner</i>"]
+    C --> D["🔎 retrieval_react<br/><i>tier2_researcher</i>"]
+
+    D --> E["🤖 analyst_ai<br/><i>tier3_analyst</i>"]
+    D --> F["💻 analyst_swe<br/><i>tier3_analyst</i>"]
+
+    E --> G["✅ cove_verify<br/><i>tier3_reviewer</i>"]
+    F --> G
+
+    G --> H{"📊 confidence<br/>gate passed?"}
+
+    H -- "No" --> C2["🌳 next round<br/><i>refine hypotheses</i>"]
+    H -- "Yes" --> I["📝 final_synthesis<br/><i>tier4_writer</i>"]
+    I --> J["📦 rag_package<br/><i>tier2_assembler</i>"]
+
+    style A fill:#4a90d9,stroke:#2c5f8a,color:#fff
+    style E fill:#e17055,stroke:#b34530,color:#fff
+    style F fill:#e17055,stroke:#b34530,color:#fff
+    style G fill:#6c5ce7,stroke:#4834a8,color:#fff
+    style H fill:#fdcb6e,stroke:#c8a034,color:#333
+    style I fill:#00b894,stroke:#008060,color:#fff
+    style C2 fill:#fd79a8,stroke:#c0392b,color:#fff
 ```
 
 ---
