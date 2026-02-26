@@ -395,3 +395,15 @@ research/Claude3.html.txt
 research/compass_artifact_wf-15fc724e-d68d-41fb-9e94-4f708509ba64_text_markdown.md
 research/compass_artifact_wf-1f58a11b-af15-4a92-a99e-574c8b9bc28b_text_markdown.md
 research/ADR_COMPILED_agentic-workflows-v2.md
+
+# Scratch/debug artifacts
+output*.txt
+output*.json
+follow.txt
+folder_report.txt
+directory_analysis.log
+*.sln
+ANALYSIS.md
+REVIEW.md
+REFACTORING_PLAN.md
+system.md
