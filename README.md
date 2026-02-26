@@ -1,4 +1,4 @@
-<![CDATA[<div align="center">
+<div align="center">
 
 # Agentic Workflows
 
@@ -412,4 +412,3 @@ See [SECURITY.md](agentic-workflows-v2/SECURITY.md) for vulnerability reporting 
 ## License
 
 This project is licensed under the MIT License — see [LICENSE](agentic-workflows-v2/LICENSE) for details.
-]]>
