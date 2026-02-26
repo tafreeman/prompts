@@ -407,3 +407,7 @@ ANALYSIS.md
 REVIEW.md
 REFACTORING_PLAN.md
 system.md
+
+# Aider AI assistant config
+.aider.conf.yml
+.aider*
