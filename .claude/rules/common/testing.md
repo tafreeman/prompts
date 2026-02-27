@@ -4,8 +4,8 @@
 
 Test Types (ALL required):
 1. **Unit Tests** - Individual functions, utilities, components
-2. **Integration Tests** - API endpoints, database operations
-3. **E2E Tests** - Critical user flows (framework chosen per language)
+2. **Integration Tests** - API endpoints, database operations, pipeline stages
+3. **E2E Tests** - Critical user flows (full train-to-inference for ML)
 
 ## Test-Driven Development
 
@@ -16,6 +16,33 @@ MANDATORY workflow:
 4. Run test - it should PASS
 5. Refactor (IMPROVE)
 6. Verify coverage (80%+)
+
+## Testing Best Practices
+
+- **Test behavior, not implementation** — assert output correct for input, Arrange-Act-Assert pattern
+- Use `@pytest.mark.slow` for heavy tests — keep unit tests <5 min
+- Flaky tests are bugs — fix or remove them
+- Target 70-80% coverage on business logic
+
+## ML-Specific Testing
+
+- Test data loading schema and column types
+- Test deterministic preprocessing (set seeds)
+- Test model input/output shapes and valid prediction ranges
+- Test saved model reload produces same output
+- Use pytest fixtures for synthetic data
+
+## CI Integration
+
+- Every PR triggers: Ruff lint, mypy check, pytest
+- Single failure blocks merge — no exceptions
+- Keep unit tests <5 min total
+
+## Code Review
+
+- Style enforced by Black + Ruff — humans review for logic
+- Review for: correctness, edge cases, error handling, security, performance
+- 1 approval required. PRs <400 lines. Use PR templates.
 
 ## Troubleshooting Test Failures
 
