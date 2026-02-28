@@ -7,14 +7,16 @@ Before doing anything else, run a full environment pre-flight check:
 2. Check if a Python venv exists and has all requirements installed — if not, create it and install dependencies
 3. Check if `node_modules` exists under `agentic-workflows-v2/ui/` and matches `package.json` — if not, run install
 4. Scan for `.env` files and verify required environment variables are set (flag any missing ones; see `.env.example`)
-5. Check if any required ports (3000, 8000, 8010) are already in use and report conflicts
+5. Check if any required ports (3000, 5173, 8010) are already in use and report conflicts
 6. Verify git status is clean and report current branch
 
 Output a concise status dashboard, then confirm readiness.
 
 ## Shell Environment
 
-- This project is developed on Windows/PowerShell. Do NOT use bash-specific syntax (e.g., `kill`, `lsof`). Use PowerShell equivalents (`Stop-Process`, `Get-NetTCPConnection`).
+- Primary development is on Windows using PowerShell.
+- The repo also includes Bash helpers (for example, `agentic-workflows-v2/dev.sh`) that use tools like `kill`/`lsof` and are intended to be run in a Unix-like shell (Git Bash, WSL, or macOS).
+- When adding or updating automation intended for Windows, do not assume Bash is available; prefer PowerShell and use native equivalents (for example, `Stop-Process`, `Get-NetTCPConnection`) instead of Bash-specific commands.
 
 ## Verification
 
@@ -48,7 +50,7 @@ A monorepo containing three independent Python packages plus a React frontend:
 ### Full Repository Layout
 
 ```
-prompts/                          # Monorepo root
+./                               # Monorepo root
 ├── CLAUDE.md                     # This file
 ├── README.md                     # Project overview
 ├── pyproject.toml                # Root package (prompts-tools)
@@ -65,7 +67,7 @@ prompts/                          # Monorepo root
 │   └── skills/                   # 8 specialized skills
 │
 ├── .github/
-│   ├── agents/                   # 19 GitHub Copilot agent definitions
+│   ├── agents/                   # GitHub Copilot agent definitions
 │   ├── instructions/             # copilot-instructions.md
 │   └── workflows/                # 11 CI/CD workflows
 │
@@ -115,7 +117,7 @@ prompts/                          # Monorepo root
 │   │   │   ├── backends.py       # Backend configurations
 │   │   │   ├── llm.py            # LLM abstraction
 │   │   │   └── model_stats.py    # Usage statistics
-│   │   ├── prompts/              # 23 agent persona definitions (.md)
+│   │   ├── prompts/              # Agent persona definitions (.md)
 │   │   ├── server/               # FastAPI app
 │   │   │   ├── app.py            # Main FastAPI application
 │   │   │   ├── websocket.py      # WebSocket streaming
@@ -145,7 +147,7 @@ prompts/                          # Monorepo root
 │   │       ├── run_logger.py     # JSON replay logs
 │   │       ├── artifact_extractor.py
 │   │       └── definitions/      # 10 YAML workflow definitions
-│   ├── tests/                    # 37 test files (pytest-asyncio)
+│   ├── tests/                    # 36 files (pytest-asyncio)
 │   ├── ui/                       # React 19 dashboard
 │   │   ├── package.json          # React 19, Vite 6, React Flow 12
 │   │   └── src/
@@ -243,7 +245,7 @@ prompts/                          # Monorepo root
 - **LLM routing:** `models/smart_router.py` dispatches to backends based on tier and capability. Supports 8+ providers (OpenAI, Anthropic, Google Gemini, Azure OpenAI, Azure Foundry, GitHub Models, Ollama, local ONNX).
 - **Workflows:** Declarative YAML under `workflows/definitions/` (10 workflows). Steps reference agents by tier name.
 - **Contracts:** Pydantic models in `contracts/` define all I/O. **Additive-only changes** — never break existing schemas.
-- **Agent personas:** 23 markdown persona definitions in `prompts/` (coder, architect, reviewer, researcher, planner, etc.).
+- **Agent personas:** 22 markdown persona definitions in `agentic-workflows-v2/agentic_v2/prompts/` (coder, architect, reviewer, researcher, planner, etc.).
 - **Built-in tools:** 12 tool modules in `tools/builtin/` (file ops, git, shell, code analysis, memory, HTTP, etc.). Default DENY for high-risk tools.
 - **Server:** FastAPI with WebSocket/SSE streaming, evaluation endpoints, and LLM judge.
 - **UI:** React 19 + Vite 6 + React Flow 12 + TanStack Query + Tailwind CSS. 7 pages (Dashboard, Workflows, Runs, Live, Datasets, Evaluations, Workflow Detail).
@@ -270,8 +272,8 @@ Located in `agentic-workflows-v2/agentic_v2/workflows/definitions/`:
 2. **Type Everything:** Full type annotations on all function signatures. No bare `Any` unless wrapping external untyped APIs. Use `Protocol` for duck-typed interfaces.
 3. **Small Units:** Functions < 50 lines. Files < 800 lines (target 200–400). One class/module per file. Organize by feature/domain.
 4. **Error Handling:** Never swallow exceptions. Use specific exception types with contextual messages. Validate at system boundaries. Fail fast.
-5. **Formatting:** `black` (line-length 88) for code, `isort` (profile=black) for imports, `ruff` for linting, `mypy --strict` for types, `pydocstyle` (google convention) for docstrings.
-6. **Testing:** At least one test per public function (happy path + error path). No test interdependencies. Minimum 80% coverage.
+5. **Formatting:** `black` (line-length 88) for code, `isort` (profile=black) for imports, `ruff` for linting, `mypy` (configured with `--ignore-missing-imports` in pre-commit) for types, `pydocstyle` (google convention) for docstrings.
+6. **Testing:** At least one test per public function (happy path + error path). No test interdependencies. CI currently does not enforce a coverage minimum (`--cov-fail-under=0`), but the team target is ≥80% coverage.
 
 ---
 
@@ -292,8 +294,14 @@ python -m pytest tests/ -q --cov=agentic_v2 --cov-report=term-missing
 # Lint / format (from repo root)
 pre-commit run --all-files
 
-# Hot-reload dev (backend + frontend)
-bash dev.sh [backend_port] [frontend_port]
+# Hot-reload dev:
+# PowerShell (run in two terminals):
+#   Backend (from agentic-workflows-v2/):
+#     python -m uvicorn agentic_v2.server.app:app --host 127.0.0.1 --port 8010 --app-dir src
+#   Frontend (from agentic-workflows-v2/ui/):
+#     npm run dev
+# Git Bash / WSL / macOS helper script (optional):
+#   bash dev.sh [backend_port] [frontend_port]
 
 # Production serve
 python -m uvicorn agentic_v2.server.app:app --host 127.0.0.1 --port 8010 --app-dir src
@@ -340,19 +348,19 @@ pip install -e ".[dev]"
 
 Located in `.github/workflows/`:
 
-| Workflow | Trigger | Purpose |
-|----------|---------|---------|
-| `ci.yml` | push/PR to main, agenticv2 | Lint (pre-commit) + test (pytest + coverage) + docs check |
-| `eval-package-ci.yml` | — | Eval package CI |
-| `deploy.yml` | — | Deployment |
-| `docs-verify.yml` | — | Documentation verification |
-| `prompt-validation.yml` | — | Prompt YAML validation |
-| `prompt-quality-gate.yml` | — | Prompt quality checks |
-| `validate-prompts.yml` | — | Prompt schema validation |
-| `manifest-temperature-check.yml` | — | Manifest validation |
-| `performance-benchmark.yml` | — | Performance benchmarks |
-| `dependency-review.yml` | — | Dependency security review |
-| `eval-poc.yml` | — | Eval proof-of-concept |
+| Workflow | Purpose |
+|----------|---------|
+| `ci.yml` | Lint (pre-commit) + test (pytest + coverage) + docs check |
+| `eval-package-ci.yml` | Eval package CI |
+| `deploy.yml` | Deployment |
+| `docs-verify.yml` | Documentation verification |
+| `prompt-validation.yml` | Prompt YAML validation |
+| `prompt-quality-gate.yml` | Prompt quality checks |
+| `validate-prompts.yml` | Prompt schema validation |
+| `manifest-temperature-check.yml` | Manifest validation |
+| `performance-benchmark.yml` | Performance benchmarks |
+| `dependency-review.yml` | Dependency security review |
+| `eval-poc.yml` | Eval proof-of-concept |
 
 ---
 
@@ -383,7 +391,7 @@ At least one LLM provider key is needed for runtime operation.
 
 | Location | Count | Framework | Scope |
 |----------|-------|-----------|-------|
-| `agentic-workflows-v2/tests/` | 37 files | pytest-asyncio (auto mode) | Unit + integration |
+| `agentic-workflows-v2/tests/` | 36 files | pytest-asyncio (auto mode) | Unit + integration |
 | `agentic-v2-eval/tests/` | 10 files | pytest + pytest-asyncio | Evaluator tests |
 | `tests/e2e/` | 1 file | pytest | E2E smoke tests |
 | `agentic-workflows-v2/ui/src/__tests__/` | — | Vitest + React Testing Library | Frontend |
@@ -428,7 +436,7 @@ Run manually: `pre-commit run --all-files`
 - **Scorer:** YAML rubrics with weighted scores across dimensions: Completeness, Correctness, Quality, Specificity, Alignment.
 - **Evaluators:** 5 types — base, LLM, pattern, quality, standard.
 - **Rubrics:** 8 YAML definitions — `default.yaml`, `agent.yaml`, `code.yaml`, `coding_standards.yaml`, `pattern.yaml`, `prompt_pattern.yaml`, `prompt_standard.yaml`, `quality.yaml`.
-- **Runners:** BatchRunner, StreamingRunner.
+- **Runners:** BatchRunner, StreamingRunner, AsyncStreamingRunner.
 - **Reporters:** HTML, JSON, Markdown output formats.
 - **Sandbox:** Local execution sandboxing for safe evaluation.
 - **LLM Judge:** `tools/agents/benchmarks/llm_evaluator.py` — 0.0–10.0 rubric scoring.
@@ -451,7 +459,7 @@ Run manually: `pre-commit run --all-files`
 
 - **YAML Rules:** Every step MUST have `name`, `agent`, `description`, `depends_on`, `inputs`, `outputs`.
 - **Tools:** Allowlisted per step. Default DENY for high-risk tools (shell, git, file_delete).
-- **Personas:** Defined in `agentic_v2/prompts/*.md` (23 personas). Must define Expertise, Boundaries, Critical rules, Output format.
+- **Personas:** Defined in `agentic_v2/prompts/*.md`. Must define Expertise, Boundaries, Critical rules, Output format.
 - **Agent implementations:** `agents/implementations/` contains Claude SDK agent and dynamic agent loader.
 
 ---
@@ -500,6 +508,6 @@ Run manually: `pre-commit run --all-files`
 - **Never use `sys.path` hacks.** Use `from tools...` imports.
 - **Never break existing contracts/schemas.** Additive-only.
 - **Never skip the eval flywheel.** Define rubrics before building, run evals after.
-- **Never use `print()` for logging.** Use `structlog` or `loguru`.
+- **Never use `print()` for logging.** Use the standard library `logging` module (for example, `logging.getLogger(__name__)`).
 - **Never log secrets, PII, or raw model weights.**
 - **Never commit `.env` files or API keys.**
