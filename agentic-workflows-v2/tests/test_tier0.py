@@ -6,6 +6,8 @@ import pytest
 from agentic_v2.tools.builtin.file_ops import (
     DirectoryCreateTool,
     FileCopyTool,
+    FileDeleteTool,
+    FileMoveTool,
     FileReadTool,
     FileWriteTool,
 )
@@ -290,3 +292,117 @@ class TestJsonTools:
 
         assert not result.success
         assert "JSON parsing failed" in result.error
+
+
+class TestFileMoveTool:
+    """Tests for FileMoveTool."""
+
+    @pytest.mark.asyncio
+    async def test_move_file_success(self, tmp_path):
+        """Move a file from source to destination."""
+        source = tmp_path / "source.txt"
+        dest = tmp_path / "dest.txt"
+        source.write_text("move me")
+
+        tool = FileMoveTool()
+        result = await tool(source=str(source), destination=str(dest))
+
+        assert result.success
+        assert not source.exists()
+        assert dest.exists()
+        assert dest.read_text() == "move me"
+
+    @pytest.mark.asyncio
+    async def test_move_nonexistent_source(self, tmp_path):
+        """Source doesn't exist returns error."""
+        source = tmp_path / "nonexistent.txt"
+        dest = tmp_path / "dest.txt"
+
+        tool = FileMoveTool()
+        result = await tool(source=str(source), destination=str(dest))
+
+        assert not result.success
+        assert "does not exist" in result.error
+
+    @pytest.mark.asyncio
+    async def test_move_existing_dest_no_overwrite(self, tmp_path):
+        """Destination exists, overwrite=False returns error."""
+        source = tmp_path / "source.txt"
+        dest = tmp_path / "dest.txt"
+        source.write_text("source content")
+        dest.write_text("dest content")
+
+        tool = FileMoveTool()
+        result = await tool(source=str(source), destination=str(dest), overwrite=False)
+
+        assert not result.success
+        assert "already exists" in result.error
+        assert dest.read_text() == "dest content"  # Unchanged
+
+    @pytest.mark.asyncio
+    async def test_move_with_overwrite(self, tmp_path):
+        """overwrite=True replaces destination."""
+        source = tmp_path / "source.txt"
+        dest = tmp_path / "dest.txt"
+        source.write_text("new content")
+        dest.write_text("old content")
+
+        tool = FileMoveTool()
+        result = await tool(source=str(source), destination=str(dest), overwrite=True)
+
+        assert result.success
+        assert not source.exists()
+        assert dest.read_text() == "new content"
+
+    @pytest.mark.asyncio
+    async def test_move_creates_parent_dirs(self, tmp_path):
+        """Parent directories are created if needed."""
+        source = tmp_path / "source.txt"
+        dest = tmp_path / "sub" / "dir" / "dest.txt"
+        source.write_text("nested")
+
+        tool = FileMoveTool()
+        result = await tool(source=str(source), destination=str(dest))
+
+        assert result.success
+        assert dest.exists()
+        assert dest.read_text() == "nested"
+
+
+class TestFileDeleteTool:
+    """Tests for FileDeleteTool."""
+
+    @pytest.mark.asyncio
+    async def test_delete_existing_file(self, tmp_path):
+        """Delete an existing file."""
+        target = tmp_path / "to_delete.txt"
+        target.write_text("delete me")
+
+        tool = FileDeleteTool()
+        result = await tool(path=str(target))
+
+        assert result.success
+        assert result.data["deleted"] is True
+        assert not target.exists()
+
+    @pytest.mark.asyncio
+    async def test_delete_nonexistent_file(self, tmp_path):
+        """missing_ok=False returns error for missing file."""
+        target = tmp_path / "nonexistent.txt"
+
+        tool = FileDeleteTool()
+        result = await tool(path=str(target), missing_ok=False)
+
+        assert not result.success
+        assert "does not exist" in result.error
+
+    @pytest.mark.asyncio
+    async def test_delete_nonexistent_file_missing_ok(self, tmp_path):
+        """missing_ok=True returns success for missing file."""
+        target = tmp_path / "nonexistent.txt"
+
+        tool = FileDeleteTool()
+        result = await tool(path=str(target), missing_ok=True)
+
+        assert result.success
+        assert result.data["deleted"] is False
