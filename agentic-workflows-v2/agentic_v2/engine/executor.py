@@ -1,12 +1,20 @@
-"""Main workflow executor with full orchestration.
+"""Top-level workflow executor with unified orchestration.
 
-Aggressive design improvements:
-- Unified execution interface
-- Async-native with cancellation tokens
-- Memory tracking for context growth
-- Execution history/audit trail
-- Sub-workflow composition
-- Resource cleanup guarantees
+:class:`WorkflowExecutor` is the single entry point for running any
+workflow structure — a single :class:`StepDefinition`, a :class:`Pipeline`,
+a :class:`DAG`, or a plain list of steps.  It wraps the lower-level
+:class:`DAGExecutor` and :class:`PipelineExecutor` with:
+
+- **Global timeout** with graceful cancellation.
+- **Execution history** — timestamped audit trail of every lifecycle event.
+- **Event listeners** — pluggable callbacks for observability.
+- **Service injection** — registers :class:`SmartModelRouter` and
+  :class:`ToolRegistry` into the execution context's DI container.
+- **Context growth monitoring** — warns when variable count exceeds limits.
+- **Cleanup guarantees** — context reference is cleared on completion.
+
+Module-level convenience functions :func:`execute` and :func:`run` provide
+a global-singleton shortcut for simple scripts and tests.
 """
 
 from __future__ import annotations
@@ -48,7 +56,22 @@ EventListener = Callable[[ExecutorEvent, dict[str, Any]], None]
 
 @dataclass
 class ExecutionConfig:
-    """Configuration for workflow execution."""
+    """Configuration knobs for :class:`WorkflowExecutor`.
+
+    Attributes:
+        global_timeout_seconds: Wall-clock cap for the entire workflow
+            (``None`` = unlimited).
+        step_default_timeout_seconds: Default per-step timeout applied when
+            a step definition has no explicit timeout.
+        max_global_retries: Number of full-workflow retries on failure.
+        enable_checkpoints: Whether to save checkpoints during execution.
+        checkpoint_interval: Save a checkpoint every *N* completed steps.
+        max_memory_mb: Reserved — memory limit for the executor process.
+        max_context_variables: Soft cap; a warning is emitted when exceeded.
+        cleanup_on_complete: Clear the context reference after execution.
+        debug_mode: Enable verbose diagnostic output.
+        trace_steps: Log every step start/end at DEBUG level.
+    """
 
     # Timeouts
     global_timeout_seconds: Optional[float] = None
@@ -105,15 +128,18 @@ class ExecutionHistory:
 
 
 class WorkflowExecutor:
-    """Main executor for workflows and pipelines.
+    """Unified executor for all workflow types.
 
-    Aggressive improvements:
-    - Unified interface for steps, pipelines, and sub-workflows
-    - Global timeout with graceful cancellation
-    - Memory/resource monitoring
-    - Full execution history
-    - Event listeners for observability
-    - Automatic service injection
+    Dispatches to :class:`DAGExecutor` (for :class:`DAG`),
+    :class:`PipelineExecutor` (for :class:`Pipeline`), or runs steps
+    directly (single step / list).  Wraps execution with global timeout,
+    event emission, history recording, and service injection.
+
+    Attributes:
+        config: Execution configuration (timeouts, checkpoints, limits).
+        router: :class:`SmartModelRouter` injected into the context's
+            DI container for LLM model selection.
+        tools: :class:`ToolRegistry` injected into the context.
     """
 
     def __init__(
@@ -270,7 +296,13 @@ class WorkflowExecutor:
         ctx: ExecutionContext,
         result: WorkflowResult,
     ) -> WorkflowResult:
-        """Internal workflow execution."""
+        """Dispatch to the appropriate sub-executor based on workflow type.
+
+        - :class:`DAG` → :class:`DAGExecutor` (parallel, dependency-driven).
+        - :class:`Pipeline` → :class:`PipelineExecutor` (sequential + parallel groups).
+        - :class:`StepDefinition` → single step execution.
+        - ``list[StepDefinition]`` → sequential execution with fail-fast.
+        """
 
         if isinstance(workflow, DAG):
             # DAG execution via DAGExecutor
@@ -320,7 +352,12 @@ class WorkflowExecutor:
     async def _execute_step(
         self, step_def: StepDefinition, ctx: ExecutionContext
     ) -> StepResult:
-        """Execute a single step with monitoring."""
+        """Execute a single step with history recording and monitoring.
+
+        Applies the default timeout from :attr:`config` if the step
+        definition does not specify one, and checks context variable
+        count against the configured limit afterward.
+        """
 
         self._history.record("step_start", step_def.name)
         await self._emit(ExecutorEvent.STEP_START, {"step": step_def.name})

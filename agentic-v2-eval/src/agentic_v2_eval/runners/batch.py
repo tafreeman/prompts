@@ -1,7 +1,8 @@
-"""Batch evaluation runner.
+"""Synchronous batch evaluation runner with progress tracking.
 
-Provides synchronous batch evaluation of test cases with progress
-tracking and error handling.
+Iterates over a list of test cases, applies a user-supplied evaluator
+function to each, collects results and errors, and reports progress
+via optional callbacks.  Supports fail-fast or continue-on-error modes.
 """
 
 from __future__ import annotations
@@ -19,7 +20,15 @@ R = TypeVar("R")  # Result type
 
 @dataclass
 class BatchResult(Generic[R]):
-    """Result of a batch evaluation run."""
+    """Aggregate result of a batch evaluation run.
+
+    Attributes:
+        results: Successfully computed evaluation results.
+        errors: List of ``(index, exception)`` tuples for failed cases.
+        total: Total number of test cases submitted.
+        successful: Count of successfully evaluated cases.
+        failed: Count of cases that raised an exception.
+    """
 
     results: list[R] = field(default_factory=list)
     errors: list[tuple[int, Exception]] = field(default_factory=list)

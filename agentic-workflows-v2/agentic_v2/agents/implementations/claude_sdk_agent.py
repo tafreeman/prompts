@@ -1,13 +1,22 @@
-"""Claude Agent SDK wrapper — built-in file/web/terminal tools.
+"""Standalone agent wrapper around the ``claude-agent-sdk`` package.
 
-Uses the claude-agent-sdk which gives the agent Read, Write, Edit, Bash,
-Glob, Grep, WebSearch, and WebFetch out of the box without any plumbing.
+Provides :class:`ClaudeSDKAgent`, a lightweight async wrapper that delegates
+to the SDK's own agentic loop with built-in file, web, and terminal tools
+(Read, Write, Edit, Bash, Glob, Grep, WebSearch, WebFetch).
 
-This is *not* a BaseAgent subclass — it wraps the SDK's own agentic loop
-and exposes a simple async interface that fits naturally into the rest of the
-project.
+Unlike :class:`~agentic_v2.agents.implementations.claude_agent.ClaudeAgent`,
+this class is **not** a :class:`~agentic_v2.agents.base.BaseAgent` subclass.
+It bypasses the project's tool registry and conversation memory in favor of
+the SDK's native capabilities, making it suitable for self-contained tasks
+that benefit from direct filesystem and shell access.
 
-Usage::
+Named sub-agents can be registered via the ``subagents`` parameter, enabling
+the orchestrator to delegate subtasks through the SDK's ``Task`` tool.
+
+Requires the ``claude-agent-sdk`` package (install via
+``pip install 'agentic-workflows-v2[claude]'``).
+
+Example::
 
     from agentic_v2.agents.implementations import ClaudeSDKAgent
 
@@ -37,11 +46,18 @@ BUILTIN_TOOLS = ["Read", "Write", "Edit", "Bash", "Glob", "Grep", "WebSearch", "
 
 
 class ClaudeSDKAgent:
-    """Thin async wrapper around claude-agent-sdk.
+    """Async wrapper around the ``claude-agent-sdk`` agentic loop.
 
-    Provides access to Claude's built-in file/web/terminal tools without any
-    additional configuration.  Pass ``subagents`` to register named specialist
-    agents that the orchestrator can delegate to via the ``Task`` tool.
+    Provides access to Claude's built-in file, web, and terminal tools
+    without requiring :class:`~agentic_v2.agents.base.BaseAgent`
+    infrastructure or a :class:`~agentic_v2.tools.ToolRegistry`.
+
+    Pass ``subagents`` to register named specialist agents that the
+    orchestrator can delegate to via the SDK's ``Task`` tool.
+
+    Attributes:
+        BUILTIN_TOOLS: Module-level list of all tool names available in
+            the ``claude-agent-sdk``.
     """
 
     def __init__(

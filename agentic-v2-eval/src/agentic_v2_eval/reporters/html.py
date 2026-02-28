@@ -1,6 +1,8 @@
 """HTML reporter for evaluation results.
 
-Generates styled HTML reports with interactive features.
+Generates self-contained HTML files with embedded CSS, summary cards,
+color-coded score cells, and a responsive results table.  Configurable
+via :class:`HtmlReportConfig`.
 """
 
 from __future__ import annotations
@@ -99,7 +101,16 @@ DEFAULT_STYLES = """
 
 @dataclass
 class HtmlReportConfig:
-    """Configuration for HTML reports."""
+    """Configuration options for HTML report generation.
+
+    Attributes:
+        title: Report heading text.
+        include_styles: Whether to embed the default CSS stylesheet.
+        include_timestamp: Whether to include the generation timestamp.
+        include_summary: Whether to render summary statistic cards.
+        score_thresholds: ``(low, high)`` boundaries for CSS color classes
+            (``score-low``, ``score-medium``, ``score-high``).
+    """
 
     title: str = "Evaluation Results"
     include_styles: bool = True

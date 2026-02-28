@@ -1,12 +1,22 @@
 """LLM client wrapper with smart routing integration.
 
-Aggressive design improvements:
-- Dependency injection for testability
-- Retry decorator with jitter
-- Structured logging
-- Response deduplication cache
-- Token counting and budget tracking
-- Streaming support with buffering
+:class:`LLMClientWrapper` is the primary interface for making LLM calls
+within the native engine.  It combines:
+
+- **Smart routing** — delegates model selection to :class:`SmartModelRouter`,
+  which provides health-weighted fallback, circuit-breaking, and adaptive
+  cooldowns.
+- **Response caching** — SHA-256 keyed, TTL-based deduplication with LRU
+  pruning at 1 000 entries.
+- **Token budget tracking** — :class:`TokenBudget` enforces a per-run cap
+  on total token consumption.
+- **Streaming support** — :meth:`complete_stream` yields response chunks
+  while still recording router metrics on completion.
+- **Retry with jitter** — :func:`retry_with_jitter` decorator provides
+  exponential backoff with configurable jitter factor.
+
+The :class:`LLMBackend` :class:`Protocol` defines the minimal interface
+that concrete backends (OpenAI, Anthropic, Gemini, etc.) must implement.
 """
 
 import asyncio
@@ -133,14 +143,23 @@ class CachedResponse:
 
 @dataclass
 class LLMClientWrapper:
-    """Wrapper around LLM backends with smart routing.
+    """High-level LLM client with smart routing, caching, and budgeting.
 
-    Aggressive improvements:
-    - Integrates with SmartModelRouter for intelligent failover
-    - Response caching with TTL
-    - Token budget tracking
-    - Structured logging for debugging
-    - Streaming support
+    Wraps a pluggable :class:`LLMBackend` with :class:`SmartModelRouter`
+    integration.  On each call, the router selects the best model for the
+    requested tier, the client executes the call, and the router records
+    the outcome (success + latency, or failure type) to improve future
+    selections.
+
+    Attributes:
+        backend: Injected LLM backend (``None`` = placeholder mode).
+        router: Smart model router for selection and health tracking.
+        cache: In-memory response cache keyed by prompt + tier hash.
+        cache_ttl_seconds: Time-to-live for cached responses (default 300 s).
+        enable_cache: Master switch for response caching.
+        budget: Optional token budget enforcing a per-run cap.
+        log_prompts: Log truncated prompts at INFO level.
+        log_responses: Log truncated responses at INFO level.
     """
 
     # Backend (injected)

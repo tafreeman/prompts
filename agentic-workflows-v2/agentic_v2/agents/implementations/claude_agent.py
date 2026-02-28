@@ -1,11 +1,16 @@
-"""Claude API agent — BaseAgent subclass backed by Anthropic SDK.
+"""Anthropic Messages API agent backed by the ``anthropic`` SDK.
 
-Bridges the project's existing BaseAgent/BaseTool infrastructure to the
-Anthropic messages API.  All your registered BaseTool instances are
-automatically converted to Anthropic tool schemas and the responses are
-translated back into the OpenAI-style format that BaseAgent expects.
+Provides :class:`ClaudeAgent`, a :class:`~agentic_v2.agents.base.BaseAgent`
+subclass that bridges the project's internal OpenAI-style message format
+and :class:`~agentic_v2.tools.BaseTool` registry to the Anthropic Messages
+API.  Registered tools are automatically converted to Anthropic tool
+schemas, and responses are translated back into the ``{"content", "tool_calls"}``
+dict format that :class:`~agentic_v2.agents.base.BaseAgent` expects.
 
-Usage::
+Requires the ``anthropic`` package (install via
+``pip install 'agentic-workflows-v2[claude]'``).
+
+Example::
 
     from agentic_v2.agents.implementations import ClaudeAgent
 
@@ -34,10 +39,22 @@ from ...contracts import TaskInput, TaskOutput
 # ---------------------------------------------------------------------------
 
 class SimpleTask(TaskInput):
+    """Minimal task input containing a single prompt string.
+
+    Attributes:
+        prompt: The user prompt to send to the agent.
+    """
+
     prompt: str
 
 
 class SimpleOutput(TaskOutput):
+    """Minimal task output containing the agent's response text.
+
+    Attributes:
+        response: The full text response from the agent.
+    """
+
     response: str
 
 
@@ -46,11 +63,30 @@ class SimpleOutput(TaskOutput):
 # ---------------------------------------------------------------------------
 
 class ClaudeAgent(BaseAgent[SimpleTask, SimpleOutput]):
-    """Concrete agent that calls Claude via the Anthropic SDK.
+    """Concrete agent that calls Claude via the Anthropic Messages API.
 
-    Translates between the project's internal OpenAI-style message format and
-    the Anthropic messages API, so all BaseAgent lifecycle / tool / memory
-    features work unchanged.
+    Inherits the full :class:`~agentic_v2.agents.base.BaseAgent` lifecycle
+    (initialization, tool binding, conversation memory, event system) while
+    routing LLM calls through the ``anthropic`` async client.
+
+    Format translation is handled by three static methods:
+
+    - :meth:`_convert_messages` -- splits the system prompt out of the
+      message list (Anthropic requires it as a top-level parameter) and
+      converts ``"tool"`` role messages to ``tool_result`` content blocks.
+    - :meth:`_convert_tools` -- maps OpenAI function-tool schemas to
+      Anthropic tool schemas.
+    - :meth:`_convert_response` -- maps Anthropic response content blocks
+      back to the internal ``{"content", "tool_calls"}`` dict format.
+
+    Args:
+        model: Claude model identifier (default ``"claude-opus-4-6"``).
+        system_prompt: System-level instruction for the agent.
+        config: Optional :class:`~agentic_v2.agents.base.AgentConfig`
+            override.
+        api_key: Anthropic API key. Falls back to the ``ANTHROPIC_API_KEY``
+            environment variable when ``None``.
+        **kwargs: Passed through to :class:`BaseAgent.__init__`.
     """
 
     def __init__(

@@ -1,10 +1,40 @@
-"""Agents module - Specialized AI agents for different tasks.
+"""Specialized AI agents for task execution within agentic workflows.
+
+This package provides a hierarchy of agents built on :class:`BaseAgent`, each
+specialized for a different software-engineering concern (code generation,
+review, testing, architecture design, orchestration).  Agents are composed
+with capability mixins from :mod:`.capabilities` and integrate with the DAG
+execution engine via :func:`agent_to_step`.
 
 Exports:
-- Base: BaseAgent, AgentConfig, AgentState, AgentEvent
-- Capabilities: Capability, CapabilitySet, CapabilityType
-- Agents: CoderAgent, ReviewerAgent, OrchestratorAgent, ArchitectAgent, TestAgent
-- Utilities: agent_to_step, get_agent_capabilities
+    Base classes and lifecycle primitives:
+        :class:`BaseAgent`, :class:`AgentConfig`, :class:`AgentState`,
+        :class:`AgentEvent`, :class:`ConversationMemory`,
+        :class:`ConversationMessage`, :func:`agent_to_step`
+
+    Capability system:
+        :class:`Capability`, :class:`CapabilitySet`, :class:`CapabilityType`,
+        :class:`CapabilityMixin`, :class:`CodeGenerationMixin`,
+        :class:`CodeReviewMixin`, :class:`OrchestrationMixin`,
+        :class:`TestGenerationMixin`, :func:`get_agent_capabilities`,
+        :func:`requires_capabilities`
+
+    Concrete agents:
+        :class:`CoderAgent`, :class:`ReviewerAgent`,
+        :class:`OrchestratorAgent`, :class:`ArchitectAgent`,
+        :class:`TestAgent`
+
+    Orchestrator I/O:
+        :class:`OrchestratorInput`, :class:`OrchestratorOutput`,
+        :class:`SubTask`
+
+    Architect I/O:
+        :class:`ArchitectureInput`, :class:`ArchitectureOutput`,
+        :class:`TechStackChoice`
+
+    Test agent I/O:
+        :class:`TestGenerationInput`, :class:`TestGenerationOutput`,
+        :class:`TestFile`, :class:`TestType`
 """
 
 from .architect import (

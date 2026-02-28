@@ -10,6 +10,8 @@ Tests the orchestrator's ability to:
 import asyncio
 
 import pytest
+
+pytestmark = pytest.mark.integration
 from agentic_v2.agents.base import AgentConfig, agent_to_step
 from agentic_v2.agents.coder import (CoderAgent)
 from agentic_v2.agents.orchestrator import (OrchestratorAgent)

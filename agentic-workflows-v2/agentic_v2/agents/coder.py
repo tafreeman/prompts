@@ -1,10 +1,10 @@
-"""Coder agent for code generation tasks.
+"""Agent specialized for LLM-driven code generation.
 
-Aggressive design improvements:
-- Language-aware prompting
-- Multi-file generation support
-- Incremental refinement
-- Style consistency enforcement
+Provides :class:`CoderAgent`, a :class:`~agentic_v2.agents.base.BaseAgent`
+subclass that generates code from natural-language descriptions.  Features
+include language-specific system prompts (Python, TypeScript, JavaScript,
+Rust, Go), markdown code-block extraction, multi-file generation, and
+iterative refinement via conversational context.
 """
 
 from __future__ import annotations
@@ -50,14 +50,25 @@ Include appropriate error handling."""
 class CoderAgent(
     BaseAgent[CodeGenerationInput, CodeGenerationOutput], CodeGenerationMixin
 ):
-    """Agent specialized for code generation.
+    """Agent that generates source code from natural-language descriptions.
 
-    Aggressive improvements:
-    - Language-specific prompting
-    - Code block extraction
-    - Multi-file output support
-    - Style enforcement
-    - Incremental refinement
+    Extends :class:`~agentic_v2.agents.base.BaseAgent` with
+    :class:`~agentic_v2.agents.capabilities.CodeGenerationMixin` and
+    implements:
+
+    - **Language-specific prompting**: Selects a system prompt tailored to
+      the target language from ``LANGUAGE_PROMPTS``.
+    - **Code-block extraction**: Parses markdown fenced code blocks from
+      model responses, with an indentation-based fallback.
+    - **Multi-file generation**: :meth:`generate_multiple_files` produces
+      code for a structured file tree in a single session.
+    - **Iterative refinement**: :meth:`refine` continues the conversation
+      with feedback to improve previously generated code.
+
+    Args:
+        config: Agent configuration. Defaults to a Tier-2 coder config
+            with 5 max iterations.
+        **kwargs: Passed through to :class:`BaseAgent.__init__`.
     """
 
     def __init__(self, config: Optional[AgentConfig] = None, **kwargs):

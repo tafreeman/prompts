@@ -8,6 +8,8 @@ from __future__ import annotations
 
 import pytest
 
+pytestmark = pytest.mark.integration
+
 from tests.fixtures.datasets import (
     code_review_inputs,
     dataset_summary,

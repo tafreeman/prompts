@@ -1,7 +1,12 @@
 """Local subprocess sandbox for code execution.
 
-Provides a simple, no-Docker sandbox that runs commands in a subprocess.
-Suitable for development and testing; use DockerSandbox for production isolation.
+Provides a lightweight, no-Docker sandbox that runs commands via
+``subprocess.run`` inside a temporary (or user-specified) directory.
+Includes a configurable command blocklist for safe mode, path-escape
+prevention, and automatic cleanup.
+
+Suitable for development and testing; use a container-based sandbox
+for production isolation.
 """
 
 from __future__ import annotations

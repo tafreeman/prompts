@@ -1,8 +1,28 @@
-"""Dataset loading, listing, and matching utilities.
+"""Dataset loading, listing, matching, and sample adaptation utilities.
 
-Extracted from evaluation.py to reduce file size and improve
-single-responsibility adherence.  All public names are re-exported
-by ``evaluation.py`` for backward compatibility.
+Handles three dataset sources:
+
+* **Repository datasets** -- loaded via ``tools.agents.benchmarks`` from
+  HuggingFace or GitHub, with fallback to ``evaluation.yaml`` config.
+* **Local datasets** -- JSON files discovered under ``tests/fixtures/datasets/``,
+  ``evaluation/datasets/``, or ``tools/agents/benchmarks/gold_standards/``.
+* **Eval sets** -- predefined groupings of datasets from ``evaluation.yaml``.
+
+Key responsibilities:
+
+* **Discovery** (:func:`list_repository_datasets`, :func:`list_local_datasets`,
+  :func:`list_eval_sets`) -- enumerate available datasets for UI selection.
+* **Loading** (:func:`load_repository_dataset_sample`,
+  :func:`load_local_dataset_sample`) -- fetch a single indexed sample and
+  return ``(sample_dict, metadata_dict)``.
+* **Matching** (:func:`match_workflow_dataset`) -- verify that a dataset
+  sample can satisfy a workflow's required inputs.
+* **Adaptation** (:func:`adapt_sample_to_workflow_inputs`) -- map dataset
+  sample fields onto the workflow's input schema using heuristic field-name
+  matching, with file materialization for code/file inputs.
+
+All public names are re-exported by :mod:`~agentic_v2.server.evaluation`
+for backward compatibility.
 """
 
 from __future__ import annotations
@@ -28,6 +48,11 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 
 def _resolve_project_root() -> Path:
+    """Locate the project root by searching parent directories for ``pyproject.toml``.
+
+    Returns:
+        Path to the project root directory.
+    """
     this_file = Path(__file__).resolve()
     candidates = [this_file.parents[2], this_file.parents[3]]
     for root in candidates:
@@ -39,6 +64,14 @@ def _resolve_project_root() -> Path:
 
 
 def _resolve_eval_config_path(project_root: Path) -> Path:
+    """Resolve the path to ``evaluation.yaml`` under the project root.
+
+    Args:
+        project_root: Resolved project root directory.
+
+    Returns:
+        Path to the evaluation config file (may not exist on disk).
+    """
     candidates = [
         project_root / "agentic_v2" / "config" / "defaults" / "evaluation.yaml",
         project_root / "src" / "agentic_v2" / "config" / "defaults" / "evaluation.yaml",
@@ -55,6 +88,11 @@ _EVAL_CONFIG_PATH = _resolve_eval_config_path(_PROJECT_ROOT)
 
 
 def _load_eval_config() -> dict[str, Any]:
+    """Load and parse the evaluation YAML configuration file.
+
+    Returns:
+        Parsed config dict, or empty dict if the file is missing or invalid.
+    """
     if not _EVAL_CONFIG_PATH.exists():
         return {}
     try:
@@ -71,7 +109,15 @@ def _load_eval_config() -> dict[str, Any]:
 # ---------------------------------------------------------------------------
 
 def list_repository_datasets() -> list[dict[str, Any]]:
-    """Return repository-backed dataset options."""
+    """Return repository-backed dataset options from benchmark registries.
+
+    Attempts to load from ``tools.agents.benchmarks.datasets.BENCHMARK_DEFINITIONS``.
+    Falls back to the ``evaluation.datasets`` section of the eval config.
+
+    Returns:
+        Sorted list of dataset option dicts with ``id``, ``name``,
+        ``source``, ``description``, and ``sample_count`` keys.
+    """
     options: list[dict[str, Any]] = []
     try:
         from tools.agents.benchmarks.datasets import BENCHMARK_DEFINITIONS
@@ -115,6 +161,11 @@ def list_repository_datasets() -> list[dict[str, Any]]:
 
 
 def _local_dataset_roots() -> list[Path]:
+    """Return existing directories that may contain local JSON datasets.
+
+    Returns:
+        List of existing directory paths under fixtures, evaluation, and tools.
+    """
     candidates = [
         _PROJECT_ROOT / "tests" / "fixtures" / "datasets",
         _PROJECT_ROOT / "evaluation" / "datasets",
@@ -124,6 +175,14 @@ def _local_dataset_roots() -> list[Path]:
 
 
 def _safe_relative_id(path: Path) -> str:
+    """Convert an absolute path to a workspace-relative POSIX identifier.
+
+    Args:
+        path: Absolute file path.
+
+    Returns:
+        POSIX-style relative path string, or absolute fallback.
+    """
     try:
         return path.relative_to(_WORKSPACE_ROOT).as_posix()
     except ValueError:
@@ -131,6 +190,14 @@ def _safe_relative_id(path: Path) -> str:
 
 
 def _estimate_sample_count(path: Path) -> int | None:
+    """Estimate the number of samples in a local JSON dataset file.
+
+    Args:
+        path: Path to the JSON file.
+
+    Returns:
+        Sample count, or None if the file cannot be parsed.
+    """
     try:
         data = json.loads(path.read_text(encoding="utf-8"))
         if isinstance(data, list):
@@ -147,7 +214,14 @@ def _estimate_sample_count(path: Path) -> int | None:
 
 
 def list_local_datasets() -> list[dict[str, Any]]:
-    """Return local JSON dataset options."""
+    """Discover and return local JSON dataset files from known directories.
+
+    Scans ``_local_dataset_roots()`` recursively for ``*.json`` files,
+    deduplicates by workspace-relative ID, and estimates sample counts.
+
+    Returns:
+        Sorted list of dataset option dicts.
+    """
     options: list[dict[str, Any]] = []
     for root in _local_dataset_roots():
         for json_path in sorted(root.rglob("*.json")):
@@ -167,7 +241,12 @@ def list_local_datasets() -> list[dict[str, Any]]:
 
 
 def list_eval_sets() -> list[dict[str, Any]]:
-    """Return predefined evaluation sets from config."""
+    """Return predefined evaluation sets from the ``evaluation.eval_sets`` config section.
+
+    Returns:
+        Sorted list of eval set dicts with ``id``, ``name``,
+        ``description``, and ``datasets`` keys.
+    """
     config = _load_eval_config()
     eval_sets_config = (
         config.get("evaluation", {})
@@ -197,6 +276,14 @@ def list_eval_sets() -> list[dict[str, Any]]:
 # ---------------------------------------------------------------------------
 
 def _is_under_allowed_root(path: Path) -> bool:
+    """Check whether a resolved path falls under an allowed dataset root.
+
+    Args:
+        path: File path to check.
+
+    Returns:
+        True if the path is within a known dataset directory.
+    """
     resolved = path.resolve()
     for root in _local_dataset_roots():
         try:
@@ -208,7 +295,17 @@ def _is_under_allowed_root(path: Path) -> bool:
 
 
 def _resolve_local_dataset(dataset_ref: str) -> Path:
-    """Resolve a local dataset reference to a JSON file path under an allowed root."""
+    """Resolve a local dataset reference to a JSON file path under an allowed root.
+
+    Args:
+        dataset_ref: Dataset ID string matching a known local dataset.
+
+    Returns:
+        Resolved filesystem path to the JSON file.
+
+    Raises:
+        ValueError: If the dataset is not found or is outside allowed roots.
+    """
     for option in list_local_datasets():
         if option["id"] == dataset_ref:
             option_path = (_WORKSPACE_ROOT / option["id"]).resolve()
@@ -223,6 +320,21 @@ def _resolve_local_dataset(dataset_ref: str) -> Path:
 
 
 def _extract_sample(data: Any, sample_index: int) -> tuple[dict[str, Any], str | None]:
+    """Extract a single sample from parsed JSON dataset data.
+
+    Supports top-level lists, or dicts with ``tasks``/``samples``/``items``
+    keys containing lists.
+
+    Args:
+        data: Parsed JSON data (list or dict).
+        sample_index: Zero-based index of the desired sample.
+
+    Returns:
+        A 2-tuple of ``(sample_dict, task_id_string)``.
+
+    Raises:
+        ValueError: If the data format is unsupported or empty.
+    """
     if isinstance(data, list):
         if not data:
             raise ValueError("Dataset has no samples")
@@ -249,6 +361,18 @@ def _extract_sample(data: Any, sample_index: int) -> tuple[dict[str, Any], str |
 def load_local_dataset_sample(
     dataset_ref: str, sample_index: int = 0
 ) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Load a single sample from a local JSON dataset file.
+
+    Args:
+        dataset_ref: Dataset ID matching a known local dataset.
+        sample_index: Zero-based sample index within the dataset.
+
+    Returns:
+        A 2-tuple of ``(sample_dict, metadata_dict)``.
+
+    Raises:
+        ValueError: If the dataset is not found or the format is unsupported.
+    """
     path = _resolve_local_dataset(dataset_ref)
     payload = json.loads(path.read_text(encoding="utf-8"))
     sample, task_id = _extract_sample(payload, sample_index)
@@ -265,6 +389,21 @@ def load_local_dataset_sample(
 def load_repository_dataset_sample(
     dataset_id: str, sample_index: int = 0
 ) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Load a single sample from a repository-backed benchmark dataset.
+
+    Uses ``tools.agents.benchmarks.loader.load_benchmark`` to fetch data
+    from HuggingFace or GitHub.
+
+    Args:
+        dataset_id: Benchmark registry dataset identifier.
+        sample_index: Zero-based sample index.
+
+    Returns:
+        A 2-tuple of ``(sample_dict, metadata_dict)``.
+
+    Raises:
+        ValueError: If the dataset cannot be loaded or has no samples.
+    """
     try:
         from tools.agents.benchmarks.loader import load_benchmark
 
@@ -294,6 +433,14 @@ def load_repository_dataset_sample(
 # ---------------------------------------------------------------------------
 
 def _is_empty_value(value: Any) -> bool:
+    """Check whether a value is effectively empty (None, blank string, or empty collection).
+
+    Args:
+        value: The value to test.
+
+    Returns:
+        True if the value is considered empty.
+    """
     if value is None:
         return True
     if isinstance(value, str):
@@ -307,7 +454,19 @@ def _extract_message_text(
     sample: dict[str, Any],
     preferred_roles: tuple[str, ...] = ("user", "system", "assistant"),
 ) -> str | None:
-    """Extract the best available text snippet from chat-style dataset samples."""
+    """Extract the best text snippet from chat-style ``messages`` in a dataset sample.
+
+    Iterates through the ``messages`` list and returns the content of the
+    first message matching a preferred role.  Falls back to the first
+    message with non-empty content.
+
+    Args:
+        sample: A single dataset sample dict.
+        preferred_roles: Role priority order for message selection.
+
+    Returns:
+        The extracted text string, or None if no messages are found.
+    """
     messages = sample.get("messages")
     if not isinstance(messages, list):
         return None
@@ -336,6 +495,18 @@ def _extract_message_text(
 
 
 def _pick_first(sample: dict[str, Any], keys: list[str]) -> Any:
+    """Return the first non-empty value found in the sample for any of the given keys.
+
+    Searches the top-level sample dict, then ``sample["inputs"]``, then
+    ``sample["input"]`` (if they are dicts).
+
+    Args:
+        sample: Dataset sample dict.
+        keys: Ordered list of field names to try.
+
+    Returns:
+        The first non-empty value found, or None.
+    """
     nested_inputs = sample.get("inputs")
     nested_input = sample.get("input")
     for key in keys:
@@ -355,6 +526,20 @@ def _dataset_value_for_input(
     input_def: WorkflowInput,
     dataset_sample: dict[str, Any],
 ) -> Any:
+    """Resolve a single workflow input value from a dataset sample using heuristic field matching.
+
+    Tries exact name match first, then semantic matching based on the
+    input name (e.g., ``file`` inputs look for ``code_file``, ``patch``;
+    ``spec`` inputs look for ``feature_spec``, ``task_description``).
+
+    Args:
+        input_name: Workflow input name.
+        input_def: Workflow input definition (for type and default info).
+        dataset_sample: The dataset sample dict to search.
+
+    Returns:
+        The resolved value, or None if no suitable match is found.
+    """
     lowered = input_name.lower()
     explicit = dataset_sample.get(input_name)
     if explicit not in (None, ""):
@@ -427,7 +612,19 @@ def match_workflow_dataset(
     workflow_def: WorkflowDefinition,
     dataset_sample: dict[str, Any],
 ) -> tuple[bool, list[str]]:
-    """Check whether dataset sample can satisfy required workflow inputs."""
+    """Check whether a dataset sample can satisfy a workflow's required inputs.
+
+    Verifies that every required input (without a default) and every
+    capability-declared input can be resolved from the dataset sample
+    via :func:`_dataset_value_for_input`.
+
+    Args:
+        workflow_def: Loaded workflow definition.
+        dataset_sample: A single dataset sample dict.
+
+    Returns:
+        A 2-tuple of ``(is_compatible, sorted_list_of_missing_reason_strings)``.
+    """
     if not isinstance(dataset_sample, dict):
         return False, ["invalid_dataset_sample"]
 
@@ -473,7 +670,15 @@ def validate_required_inputs_present(
     workflow_inputs: dict[str, WorkflowInput],
     provided_inputs: dict[str, Any],
 ) -> list[str]:
-    """Return required workflow input names that are missing/empty."""
+    """Return names of required workflow inputs that are missing or empty.
+
+    Args:
+        workflow_inputs: Full workflow input schema.
+        provided_inputs: Actual input values provided for the run.
+
+    Returns:
+        List of missing required input names (empty if all present).
+    """
     missing: list[str] = []
     for input_name, input_def in workflow_inputs.items():
         if not input_def.required:
@@ -491,6 +696,22 @@ def _materialize_file_input(
     run_id: str,
     artifacts_dir: Path,
 ) -> Any:
+    """Materialize a string value to a file on disk for file-type workflow inputs.
+
+    If the value contains Python code markers (``def``, ``class``, ``import``),
+    writes it as a ``.py`` file.  If it looks like a path, resolves it
+    relative to ``artifacts_dir`` (with traversal prevention).  Otherwise,
+    writes as a ``.txt`` file.
+
+    Args:
+        value: The string value to materialize.
+        input_name: Workflow input name (used in the generated filename).
+        run_id: Current run identifier (used in the generated filename).
+        artifacts_dir: Directory where materialized files are written.
+
+    Returns:
+        The original value if not a string, or the path to the written file.
+    """
     if not isinstance(value, str):
         return value
 
@@ -531,7 +752,22 @@ def adapt_sample_to_workflow_inputs(
     run_id: str,
     artifacts_dir: Path,
 ) -> dict[str, Any]:
-    """Map dataset sample fields onto workflow input schema."""
+    """Map dataset sample fields onto workflow input schema.
+
+    For each workflow input, attempts heuristic field matching against the
+    sample, applies type coercion (JSON parse for objects/arrays, stringify
+    for dicts/lists into strings), and materializes file-type inputs to disk.
+
+    Args:
+        workflow_inputs: Workflow input definitions keyed by name.
+        sample: Dataset sample dict to adapt.
+        run_id: Current run identifier (for file materialization).
+        artifacts_dir: Directory for materialized file artifacts.
+
+    Returns:
+        Dict of adapted input values keyed by workflow input name.
+        Inputs that could not be resolved are omitted.
+    """
     if not isinstance(sample, dict):
         return {}
 

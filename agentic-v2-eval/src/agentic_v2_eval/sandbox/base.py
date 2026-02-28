@@ -1,4 +1,11 @@
-"""Sandbox environment interface."""
+"""Abstract sandbox interface for isolated code execution.
+
+Defines :class:`Sandbox` (the abstract base) and :class:`ExecutionResult`
+(a structured return type capturing exit code, output streams, timing,
+and error information).  Concrete implementations (e.g.
+:class:`~agentic_v2_eval.sandbox.local.LocalSubprocessSandbox`) provide
+the actual execution backend.
+"""
 
 from __future__ import annotations
 
@@ -10,7 +17,16 @@ from typing import List, Optional
 
 @dataclass
 class ExecutionResult:
-    """Result of searching/executing code in sandbox."""
+    """Structured result of a sandboxed command execution.
+
+    Attributes:
+        exit_code: Process exit code (0 = success, -1 = sandbox error).
+        stdout: Captured standard output.
+        stderr: Captured standard error.
+        duration_ms: Wall-clock execution time in milliseconds.
+        error: Human-readable error message if the sandbox itself failed
+            (timeout, blocked command, path escape, etc.).
+    """
 
     exit_code: int
     stdout: str
@@ -24,7 +40,11 @@ class ExecutionResult:
 
 
 class Sandbox(abc.ABC):
-    """Abstract base class for code execution sandboxes."""
+    """Abstract base class for code execution sandboxes.
+
+    Concrete implementations must provide command execution, file
+    writing, and file reading within an isolated filesystem root.
+    """
 
     @abc.abstractmethod
     def run_command(

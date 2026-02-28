@@ -1,4 +1,26 @@
-"""Workflow routes."""
+"""Workflow execution, DAG visualization, run history, and evaluation routes.
+
+This is the largest route module, providing:
+
+* ``GET /api/workflows`` -- list available workflow definitions.
+* ``GET /api/workflows/{name}/dag`` -- return DAG nodes, edges, and input
+  schema for React Flow visualization.
+* ``GET /api/workflows/{name}/capabilities`` -- return workflow I/O declarations.
+* ``POST /api/run`` -- execute a workflow asynchronously with optional
+  dataset-backed evaluation scoring.
+* ``GET /api/runs`` -- list past runs with summary metadata.
+* ``GET /api/runs/summary`` -- aggregate statistics across runs.
+* ``GET /api/runs/{filename}`` -- full run detail with step data.
+* ``GET /api/runs/{run_id}/stream`` -- SSE event stream for a running workflow.
+* ``GET /api/eval/datasets`` -- list repository and local datasets for the
+  evaluation picker UI.
+* ``GET /api/workflows/{name}/preview-dataset-inputs`` -- preview dataset-to-input
+  field mapping before execution.
+
+Workflow execution uses :class:`~agentic_v2.langchain.WorkflowRunner` as the
+primary LangGraph-based engine.  Execution runs in a FastAPI background task;
+real-time step events are broadcast via :mod:`~agentic_v2.server.websocket`.
+"""
 
 from __future__ import annotations
 
@@ -49,7 +71,14 @@ run_logger = RunLogger()
 
 
 def _resolve_judge_model() -> str | None:
-    """Resolve evaluation judge model from environment, if configured."""
+    """Resolve the LLM model identifier for the evaluation judge.
+
+    Checks environment variables in priority order:
+    ``AGENTIC_JUDGE_MODEL``, ``AGENTIC_MODEL_TIER_2``, ``AGENTIC_MODEL_TIER_1``.
+
+    Returns:
+        Model identifier string, or None if no judge model is configured.
+    """
     for key in ("AGENTIC_JUDGE_MODEL", "AGENTIC_MODEL_TIER_2", "AGENTIC_MODEL_TIER_1"):
         value = os.getenv(key)
         if value and value.strip():
@@ -63,6 +92,14 @@ def _is_within_base(path, base_dir) -> bool:
 
 
 def _is_effectively_empty(value: Any) -> bool:
+    """Check whether a value is effectively empty (None, blank, or empty collection).
+
+    Args:
+        value: The value to test.
+
+    Returns:
+        True if the value is considered empty.
+    """
     if value is None:
         return True
     if isinstance(value, str):
@@ -76,12 +113,18 @@ def _merge_dataset_and_request_inputs(
     adapted_inputs: dict[str, Any],
     request_inputs: dict[str, Any],
 ) -> dict[str, Any]:
-    """
-    Merge adapted dataset inputs with request inputs.
+    """Merge adapted dataset inputs with explicit request inputs.
 
-    Request inputs normally take precedence, except when a request value is
+    Request inputs take precedence, except when a request value is
     effectively empty and an adapted value already exists for that key.
     This prevents blank form fields from overriding dataset-derived values.
+
+    Args:
+        adapted_inputs: Inputs derived from the dataset sample.
+        request_inputs: Inputs explicitly provided in the API request.
+
+    Returns:
+        Merged input dict.
     """
     merged = dict(adapted_inputs)
     for key, value in request_inputs.items():
@@ -92,7 +135,15 @@ def _merge_dataset_and_request_inputs(
 
 
 def _as_dict(value: Any) -> dict[str, Any]:
-    """Normalize an arbitrary value into a JSON-object payload."""
+    """Normalize an arbitrary value into a JSON-serializable dict.
+
+    Args:
+        value: Input value (dict passed through, None becomes ``{}``,
+            anything else wrapped as ``{"value": value}``).
+
+    Returns:
+        Dict representation of the value.
+    """
     if isinstance(value, dict):
         return value
     if value is None:
@@ -101,7 +152,17 @@ def _as_dict(value: Any) -> dict[str, Any]:
 
 
 def _coerce_step_status(value: Any) -> StepStatus:
-    """Map status-like values into StepStatus."""
+    """Coerce a status-like value into a :class:`StepStatus` enum member.
+
+    Handles string variants (e.g., ``"succeeded"``, ``"completed"``,
+    ``"in_progress"``) and passes through existing ``StepStatus`` instances.
+
+    Args:
+        value: Raw status value from a runner or step dict.
+
+    Returns:
+        Corresponding ``StepStatus`` member (defaults to ``FAILED``).
+    """
     if isinstance(value, StepStatus):
         return value
     normalized = str(value or "").strip().lower()
@@ -117,7 +178,17 @@ def _coerce_step_status(value: Any) -> StepStatus:
 
 
 def _extract_tokens(metadata: Mapping[str, Any]) -> int | None:
-    """Return total tokens from step metadata when available."""
+    """Extract total token count from step metadata.
+
+    Checks for ``tokens_used`` directly, then sums ``input_tokens`` and
+    ``output_tokens`` if available.
+
+    Args:
+        metadata: Step metadata mapping.
+
+    Returns:
+        Total token count, or None if not available.
+    """
     direct = metadata.get("tokens_used")
     if isinstance(direct, int):
         return direct
@@ -134,7 +205,19 @@ def _build_step_results(
     token_counts: Mapping[str, Any] | None = None,
     models_used: Mapping[str, Any] | None = None,
 ) -> list[StepResult]:
-    """Convert LangGraph step mappings to contract StepResult objects."""
+    """Convert LangGraph step state mappings into contract :class:`StepResult` objects.
+
+    Merges token counts and model identifiers from separate metadata
+    dictionaries into each step result.
+
+    Args:
+        steps_map: Mapping of step name to step state dict.
+        token_counts: Optional per-step token usage mapping.
+        models_used: Optional per-step model identifier mapping.
+
+    Returns:
+        List of :class:`StepResult` instances.
+    """
     results: list[StepResult] = []
     token_counts = token_counts or {}
     models_used = models_used or {}
@@ -210,7 +293,19 @@ def _normalize_workflow_result(
     workflow_name: str,
     run_id: str,
 ) -> WorkflowResult:
-    """Normalize either runner result shape into contracts.WorkflowResult."""
+    """Normalize a runner result (LangGraph or native) into a contract :class:`WorkflowResult`.
+
+    Handles both :class:`WorkflowResult` pass-through and duck-typed runner
+    result objects with ``steps``, ``errors``, ``overall_status``, etc.
+
+    Args:
+        result: Raw runner result object.
+        workflow_name: Name of the executed workflow.
+        run_id: Unique run identifier.
+
+    Returns:
+        A fully populated :class:`WorkflowResult`.
+    """
     if isinstance(result, WorkflowResult):
         return result
 
@@ -285,7 +380,16 @@ def _normalize_workflow_result(
 def _merge_stream_state(
     aggregated: dict[str, Any], node_update: Mapping[str, Any]
 ) -> None:
-    """Merge a streamed LangGraph update payload into an aggregate state."""
+    """Merge a streamed LangGraph node update into the aggregate run state.
+
+    Incrementally updates ``context``, ``outputs``, ``steps``, and
+    ``errors`` in the ``aggregated`` dict.  Step data is merged
+    key-by-key so partial updates do not overwrite earlier fields.
+
+    Args:
+        aggregated: Mutable aggregate state dict (modified in place).
+        node_update: Single LangGraph stream update mapping.
+    """
     for payload in node_update.values():
         if not isinstance(payload, Mapping):
             continue
@@ -648,7 +752,21 @@ async def preview_dataset_inputs(
 def _load_dataset_sample(
     evaluation: Any,
 ) -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
-    """Load a dataset sample based on evaluation config. Returns (sample, meta)."""
+    """Load a dataset sample based on evaluation configuration.
+
+    Dispatches to :func:`load_repository_dataset_sample` or
+    :func:`load_local_dataset_sample` based on ``evaluation.dataset_source``.
+
+    Args:
+        evaluation: :class:`WorkflowEvaluationRequest` with dataset settings.
+
+    Returns:
+        A 2-tuple of ``(sample_dict, metadata_dict)``, or ``(None, None)``
+        if ``dataset_source`` is ``"none"``.
+
+    Raises:
+        HTTPException: If required dataset fields are missing.
+    """
     if evaluation.dataset_source == "repository":
         if not evaluation.dataset_id:
             raise HTTPException(
@@ -681,7 +799,21 @@ def _resolve_evaluation_inputs(
     run_id: str,
     workflow_inputs: dict[str, Any],
 ) -> tuple[dict[str, Any], dict[str, Any] | None, dict[str, Any] | None]:
-    """Load + adapt dataset sample; return (merged_inputs, dataset_sample, dataset_meta)."""
+    """Load a dataset sample, adapt it to workflow inputs, and merge with request inputs.
+
+    Args:
+        workflow_def: Loaded workflow definition.
+        evaluation: :class:`WorkflowEvaluationRequest` with dataset settings.
+        run_id: Current run identifier (for file materialization).
+        workflow_inputs: Explicit inputs from the API request.
+
+    Returns:
+        A 3-tuple of ``(merged_inputs, dataset_sample, dataset_meta)``.
+
+    Raises:
+        HTTPException: If the dataset is incompatible or required inputs
+            are still missing after adaptation.
+    """
     try:
         dataset_sample, dataset_meta = _load_dataset_sample(evaluation)
     except ValueError as exc:
@@ -730,7 +862,22 @@ async def _stream_and_run(
     run_id: str,
     workflow_inputs: dict[str, Any],
 ) -> WorkflowResult:
-    """Stream LangGraph node events to WebSocket, then return final WorkflowResult."""
+    """Stream LangGraph node events to WebSocket clients, then build a final WorkflowResult.
+
+    Iterates over the LangGraph async stream, broadcasting ``step_start``
+    and ``step_end`` events via :mod:`~agentic_v2.server.websocket`.  On
+    stream completion, resolves workflow outputs and assembles a contract
+    :class:`WorkflowResult`.  Falls back to a non-streaming ``invoke``
+    if the stream raises an exception.
+
+    Args:
+        workflow_name: Name of the workflow to execute.
+        run_id: Unique run identifier.
+        workflow_inputs: Input variables for the workflow.
+
+    Returns:
+        The completed :class:`WorkflowResult`.
+    """
     import time
 
     started_at = datetime.now(timezone.utc)
@@ -929,7 +1076,25 @@ async def _run_and_evaluate(
     dataset_sample: dict[str, Any] | None,
     dataset_meta: dict[str, Any] | None,
 ) -> None:
-    """Execute workflow, broadcast events, optionally evaluate, and log the run."""
+    """Background task: execute workflow, optionally evaluate, broadcast events, and log.
+
+    Orchestrates the full run lifecycle:
+    1. Broadcast ``workflow_start`` event.
+    2. Execute via :func:`_stream_and_run` (with WebSocket step events).
+    3. Broadcast ``workflow_end`` event.
+    4. If evaluation is enabled, score the result via :func:`score_workflow_result`
+       using an LLM Judge and broadcast ``evaluation_complete``.
+    5. Persist the run log via :class:`~agentic_v2.workflows.run_logger.RunLogger`.
+
+    Args:
+        workflow_name: Name of the workflow to execute.
+        run_id: Unique run identifier.
+        workflow_inputs: Input variables for the workflow.
+        workflow_def: Loaded workflow definition.
+        evaluation: Evaluation settings from the request (or None).
+        dataset_sample: Dataset sample dict for scoring (or None).
+        dataset_meta: Dataset metadata dict for scoring (or None).
+    """
     try:
         logger.info("Starting background execution for run_id=%s", run_id)
         await websocket.manager.broadcast(

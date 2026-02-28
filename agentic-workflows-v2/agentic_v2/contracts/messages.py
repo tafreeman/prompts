@@ -1,11 +1,21 @@
-"""Message contracts for agent communication.
+"""Message contracts for agent communication and step/workflow results.
 
-Enhanced with Pydantic v2 features:
-- Computed properties for common checks
-- Field validators for data quality
-- Discriminated unions for polymorphic types
-- Rich __repr__ for debugging
-- Efficient serialization (exclude_none)
+Defines the core data structures that flow through every layer of the
+system — from the engine, through the server, to the UI:
+
+- :class:`StepResult` — outcome of a single workflow step (status,
+  outputs, model used, duration, retry count, error details).
+- :class:`WorkflowResult` — aggregate outcome with per-step results,
+  overall status, and computed properties (``success_rate``,
+  ``failed_steps``, ``total_duration_ms``).
+- :class:`AgentMessage` — inter-agent communication envelope.
+- :class:`ReviewStatus` — canonical review outcomes with
+  ``normalize()`` for coercing freeform LLM output strings.
+- :class:`ReviewReport` / :class:`Finding` — structured code review
+  output with severity classification.
+
+All models use Pydantic v2 with computed fields, field validators,
+and ``exclude_none`` serialization.
 """
 
 from datetime import datetime, timezone

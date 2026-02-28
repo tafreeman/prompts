@@ -1,12 +1,24 @@
 """Execution context for workflow state management.
 
-Aggressive design improvements:
-- Hierarchical scoped contexts (parent-child inheritance)
-- Event hooks for observability
-- Dependency injection container
-- Variable interpolation with JMESPath
-- Checkpoint/restore for fault tolerance
-- Async-safe with locks
+Provides :class:`ExecutionContext`, the shared mutable state carrier for
+a single workflow run.  Every step receives a reference to this context
+(or a child scope) and uses it to read inputs, write outputs, and track
+lifecycle events.
+
+Key capabilities:
+- **Hierarchical scoping** — ``child()`` creates an isolated scope that
+  inherits parent variables but writes locally, preventing unintended
+  cross-step pollution.
+- **JMESPath queries** — ``get("results.items[0].name")`` supports
+  deep nested lookups via `jmespath <https://jmespath.org>`_.
+- **Event hooks** — register handlers for ``STEP_START``, ``STEP_END``,
+  ``VARIABLE_SET``, ``CHECKPOINT_SAVE``, etc.  Events propagate upward
+  through parent contexts.
+- **Checkpoint / restore** — serialize context state to JSON for fault
+  tolerance and replay.
+- **Dependency injection** — :class:`ServiceContainer` provides singleton
+  and factory patterns, shared across parent/child contexts.
+- **Async-safe** — all variable mutations are guarded by ``asyncio.Lock``.
 """
 
 from __future__ import annotations
@@ -83,14 +95,23 @@ class ServiceContainer:
 
 @dataclass
 class ExecutionContext:
-    """Shared execution context for workflow runs.
+    """Shared mutable state for a single workflow run.
 
-    Aggressive improvements:
-    - Hierarchical scoping (child contexts inherit from parent)
-    - Event hooks for step/variable changes
-    - JMESPath variable interpolation
-    - Checkpoint/restore for recovery
-    - Thread-safe variable access
+    Carries variables, step tracking, event hooks, and a DI container
+    through the entire execution lifecycle.  Child contexts (created via
+    :meth:`child`) inherit the parent's variables on read but write
+    locally, enabling step-level isolation.
+
+    Attributes:
+        workflow_id: UUID identifying the workflow definition.
+        run_id: UUID identifying this particular execution run.
+        services: Shared :class:`ServiceContainer` for dependency injection.
+        start_time: UTC timestamp when the context was created.
+        metadata: Arbitrary key-value pairs for run-level annotations.
+        current_step: Name of the step currently executing (or ``None``).
+        completed_steps: Ordered list of successfully completed step names.
+        failed_steps: Ordered list of failed step names.
+        checkpoint_dir: Directory for checkpoint JSON files (``None`` = disabled).
     """
 
     # Identity

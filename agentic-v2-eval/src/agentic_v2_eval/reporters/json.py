@@ -1,6 +1,8 @@
 """JSON reporter for evaluation results.
 
-Generates JSON format reports with configurable formatting.
+Generates JSON files containing results, optional metadata, and
+aggregate summary statistics (mean, min, max for numeric fields).
+Formatting is controlled via :class:`JsonReportConfig`.
 """
 
 from __future__ import annotations
@@ -15,7 +17,14 @@ from ._summary import calculate_summary
 
 @dataclass
 class JsonReportConfig:
-    """Configuration for JSON reports."""
+    """Configuration options for JSON report generation.
+
+    Attributes:
+        indent: Number of spaces for JSON indentation.
+        include_metadata: Whether to include a metadata section.
+        include_timestamp: Whether to stamp the report with generation time.
+        sort_keys: Whether to sort JSON keys alphabetically.
+    """
 
     indent: int = 2
     include_metadata: bool = True

@@ -1,6 +1,16 @@
 """DAG executor with dynamic parallel scheduling.
 
-Executes steps as soon as their dependencies are satisfied.
+Executes workflow steps as soon as their upstream dependencies are satisfied,
+achieving maximum parallelism without artificial layer barriers.
+
+Key design decisions:
+- **Kahn's algorithm** for in-degree tracking at runtime (not just ordering).
+- **asyncio.wait(FIRST_COMPLETED)** to unblock downstream steps the instant
+  an upstream finishes, rather than waiting for an entire "wave" to complete.
+- **Cascade skip** via BFS: when a step fails, all transitive dependents are
+  marked SKIPPED so the executor can still finish cleanly.
+- **Deadlock detection**: if no tasks are running and steps remain, unmet
+  dependencies are flagged and the remaining steps are skipped.
 """
 
 from __future__ import annotations
@@ -18,7 +28,19 @@ from .step_state import StepState, StepStateManager
 
 
 class DAGExecutor:
-    """Execute a DAG with maximum parallelism."""
+    """Execute a DAG with maximum parallelism.
+
+    Orchestrates the full lifecycle of a workflow run: validation,
+    scheduling, parallel execution, failure propagation, and result
+    assembly.  Uses :class:`StepExecutor` for individual step runs and
+    :class:`StepStateManager` for lifecycle state tracking.
+
+    Attributes:
+        _step_executor: Delegate that handles single-step execution
+            (input mapping, retry, timeout, hooks).
+        _state_manager: Tracks ``PENDING → READY → RUNNING → SUCCESS``
+            (or FAILED/SKIPPED) transitions per step.
+    """
 
     def __init__(self, step_executor: Optional[StepExecutor] = None):
         self._step_executor = step_executor or StepExecutor()
@@ -31,7 +53,30 @@ class DAGExecutor:
         max_concurrency: int = 10,
         on_update: Optional[Callable[[dict[str, Any]], Awaitable[None]]] = None,
     ) -> WorkflowResult:
-        """Execute DAG with dynamic scheduling and concurrency limits."""
+        """Execute a validated DAG with dynamic scheduling and concurrency limits.
+
+        Execution proceeds in a tight loop:
+
+        1. **Schedule** — pop ready steps (in-degree 0) up to *max_concurrency*.
+        2. **Deadlock check** — if no tasks running and steps remain, skip them.
+        3. **Await** — ``asyncio.wait(FIRST_COMPLETED)`` for the next result.
+        4. **Handle outcome** — on success, decrement downstream in-degrees;
+           on failure, cascade-skip all transitive dependents.
+        5. **Repeat** until every step is completed or skipped.
+
+        Args:
+            dag: Validated DAG definition to execute.
+            ctx: Shared execution context.  A new one is created if *None*.
+            max_concurrency: Upper bound on simultaneously running steps.
+            on_update: Optional async callback invoked on every lifecycle
+                event (``workflow_start``, ``step_start``, ``step_end``,
+                ``workflow_end``).  Used by the server layer to broadcast
+                real-time updates via WebSocket/SSE.
+
+        Returns:
+            :class:`WorkflowResult` with per-step results, overall status,
+            and the final merged context as ``final_output``.
+        """
         if ctx is None:
             ctx = get_context()
 
@@ -64,6 +109,7 @@ class DAGExecutor:
         results: dict[str, StepResult] = {}
 
         async def run_step(step_name: str) -> tuple[str, StepResult]:
+            """Execute a single step and return its name + result tuple."""
             self._state_manager.transition(step_name, StepState.RUNNING)
             if on_update:
                 await on_update({
@@ -77,6 +123,7 @@ class DAGExecutor:
             return step_name, step_result
 
         def mark_skipped(step_name: str, reason: str) -> None:
+            """Record a step as SKIPPED with a human-readable reason."""
             if step_name in completed or step_name in skipped:
                 return
             step_result = StepResult(step_name=step_name, status=StepStatus.SKIPPED)
@@ -94,6 +141,7 @@ class DAGExecutor:
                 ctx.completed_steps.append(step_name)
 
         def cascade_skip(start_step: str, reason: str) -> None:
+            """BFS from *start_step* to skip all transitive dependents."""
             queue = deque([start_step])
             while queue:
                 current = queue.popleft()

@@ -1,15 +1,25 @@
 """Runtime abstractions for isolated task execution.
 
-Wave 1 runtime policy:
-- Subprocess runtime is the default.
-- Docker runtime is opt-in through execution_profile.runtime="docker".
+Provides a pluggable :class:`IsolatedTaskRuntime` interface with two
+concrete implementations:
 
-Docker hardening:
-- Execution timeout (default 300s)
-- Memory limit (default 512m)
-- CPU limit (default 1.0 core)
-- Network isolation (default disabled)
-- Named containers for reliable cleanup
+- :class:`SubprocessRuntime` (default) — runs commands in host
+  subprocesses with managed temporary working directories.
+- :class:`DockerRuntime` (opt-in via ``execution_profile.runtime="docker"``)
+  — runs commands inside Docker containers with resource limits,
+  execution timeouts, network isolation, and reliable cleanup via
+  named containers.
+
+The factory function :func:`create_runtime` selects the runtime from
+an ``execution_profile`` mapping (typically sourced from YAML workflow
+configuration or API request parameters).
+
+Docker hardening defaults:
+- Execution timeout: 300 s
+- Memory limit: 512 MB
+- CPU limit: 1.0 core
+- Network isolation: enabled (``--network=none``)
+- Named containers (``agentic-<uuid>``) for reliable force-kill cleanup
 """
 
 from __future__ import annotations

@@ -1,10 +1,14 @@
-"""Test agent for comprehensive test generation.
+"""Agent specialized for automated test suite generation.
 
-Generates test suites including:
-- Unit tests with high coverage
-- Integration tests
-- End-to-end tests
-- Edge cases and error scenarios
+Provides :class:`TestAgent`, a :class:`~agentic_v2.agents.base.BaseAgent`
+subclass that generates runnable test files from source code.  Supports
+multiple languages (Python/pytest, TypeScript/Jest, JavaScript/Jest,
+Go/testing, Rust/cargo test) and test types (unit, integration, E2E,
+performance, security).
+
+The agent produces :class:`TestGenerationOutput` containing parsed
+:class:`TestFile` instances, test counts, and a heuristic coverage
+estimate.
 """
 
 from __future__ import annotations
@@ -21,7 +25,7 @@ from .base import AgentConfig, BaseAgent
 
 
 class TestType(str, Enum):
-    """Types of tests to generate."""
+    """Enumeration of test categories that :class:`TestAgent` can generate."""
 
     __test__ = False  # Not a pytest test class
 
@@ -33,7 +37,21 @@ class TestType(str, Enum):
 
 
 class TestGenerationInput(TaskInput):
-    """Input for test generation tasks."""
+    """Input schema for the :class:`TestAgent`.
+
+    Attributes:
+        code: Source code to generate tests for (single file).
+        files: Multiple source files as ``{filename: content}`` pairs.
+            When provided and ``code`` is empty, files are concatenated.
+        language: Target programming language (default ``"python"``).
+        test_types: Categories of tests to generate (default: unit only).
+        coverage_target: Desired code coverage percentage (default 80).
+        framework: Explicit test framework override (e.g., ``"pytest"``,
+            ``"jest"``).  Defaults to the language's standard framework
+            from ``LANGUAGE_CONFIG``.
+        mocking_strategy: Optional natural-language description of the
+            desired mocking approach.
+    """
 
     __test__ = False  # Not a pytest test class
 
@@ -70,7 +88,16 @@ class TestGenerationInput(TaskInput):
 
 
 class TestFile(BaseModel):
-    """A generated test file."""
+    """A single test file parsed from the LLM's response.
+
+    Attributes:
+        filename: Name of the test file (e.g., ``test_utils.py``).
+        content: Full source code of the test file.
+        test_type: Inferred :class:`TestType` based on filename and content
+            heuristics.
+        test_count: Number of individual test functions detected in the
+            content via language-specific regex patterns.
+    """
 
     __test__ = False  # Not a pytest test class
 
@@ -83,7 +110,17 @@ class TestFile(BaseModel):
 
 
 class TestGenerationOutput(TaskOutput):
-    """Output from test generation."""
+    """Output schema produced by the :class:`TestAgent`.
+
+    Attributes:
+        test_files: Parsed :class:`TestFile` instances extracted from
+            the model response.
+        total_tests: Sum of ``test_count`` across all files.
+        coverage_estimate: Heuristic coverage estimate (0--95) based on
+            the number of generated tests.
+        test_summary: Human-readable summary of what was generated.
+        raw_response: Unprocessed model response for debugging.
+    """
 
     test_files: list[TestFile] = Field(default_factory=list)
     total_tests: int = Field(default=0)
@@ -177,13 +214,25 @@ Each test file should be in a markdown code block with the filename.
 
 
 class TestAgent(BaseAgent[TestGenerationInput, TestGenerationOutput]):
-    """Agent specialized for test generation.
+    """Agent that generates comprehensive test suites from source code.
 
-    Takes code and produces:
-    - Unit tests with high coverage
-    - Integration tests
-    - E2E tests
-    - Test fixtures and mocks
+    Extends :class:`~agentic_v2.agents.base.BaseAgent` parameterized with
+    :class:`TestGenerationInput` / :class:`TestGenerationOutput`.
+
+    The agent:
+
+    1. Selects language-specific test patterns and framework from
+       ``LANGUAGE_CONFIG``.
+    2. Formats a detailed prompt including coverage targets, test types,
+       and mocking strategy.
+    3. Parses the model response into :class:`TestFile` instances by
+       extracting fenced code blocks, counting test functions, and
+       inferring :class:`TestType` from filenames and content.
+
+    Args:
+        config: Agent configuration. Defaults to a Tier-2 config named
+            ``"test_agent"`` with 5 max iterations.
+        **kwargs: Passed through to :class:`BaseAgent.__init__`.
     """
 
     __test__ = False  # Not a pytest test class

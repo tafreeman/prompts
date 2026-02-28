@@ -1,11 +1,25 @@
-"""
-Contracts module - Message and schema definitions.
+"""Contracts module — Pydantic v2 message and schema definitions.
 
-Exports:
-- Message types: AgentMessage, StepResult, WorkflowResult
-- Enums: MessageType, StepStatus, ReviewStatus, TestGateStatus
-- Task schemas: TaskInput, TaskOutput, CodeGeneration*, CodeReview*, TestGeneration*
-- Issue types: CodeIssue, Severity, IssueCategory, TestType, TestCase
+This is the single source of truth for all typed data structures flowing
+through the workflow engine, evaluation framework, and server API.
+
+**Rule: Additive-only changes** — never remove or rename existing fields.
+Add new optional fields with defaults to maintain backward compatibility.
+
+Exports by category:
+
+- **Lifecycle enums**: :class:`MessageType`, :class:`StepStatus`,
+  :class:`ReviewStatus`, :class:`TestGateStatus`.
+- **Message contracts**: :class:`AgentMessage` (inter-agent),
+  :class:`StepResult` (per-step outcome), :class:`WorkflowResult`
+  (aggregate run outcome).
+- **Review contracts**: :class:`FindingSeverity`, :class:`Finding`,
+  :class:`ReviewReport` — structured code review output with
+  ``ReviewStatus.normalize()`` for LLM output coercion.
+- **Task schemas**: :class:`TaskInput` / :class:`TaskOutput` (base),
+  code generation, code review, and test generation I/O shapes.
+- **Issue types**: :class:`CodeIssue`, :class:`Severity`,
+  :class:`IssueCategory`, :class:`TestType`, :class:`TestCase`.
 """
 
 from .messages import (

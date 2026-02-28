@@ -1,4 +1,10 @@
-"""Quality evaluators for model outputs (Coherence, Fluency, etc.)."""
+"""Quality evaluators for model outputs using LLM judges.
+
+Provides five built-in quality dimensions -- Coherence, Fluency,
+Relevance, Groundedness, and Similarity -- each defined in
+``rubrics/quality.yaml`` and scored on a 5-point scale via an LLM
+judge.  Registered as ``"quality"`` in the :class:`EvaluatorRegistry`.
+"""
 
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional
@@ -10,7 +16,19 @@ from .llm import Choice, STANDARD_CHOICES
 
 @dataclass
 class LLMEvaluatorDefinition:
-    """Definition of an LLM-based evaluator."""
+    """Declarative definition of an LLM-based quality evaluator.
+
+    Loaded from ``rubrics/quality.yaml`` at module import time.
+    Each definition specifies the system prompt, user prompt template,
+    scoring choices, and the default judge model.
+
+    Attributes:
+        name: Short identifier (e.g. ``"coherence"``).
+        system_prompt: System-level instruction for the judge.
+        prompt_template: User prompt with ``{{variable}}`` placeholders.
+        choices: Ordered list of :class:`Choice` labels and scores.
+        model_id: Default LLM model for judging.
+    """
     name: str
     system_prompt: str
     prompt_template: str
@@ -19,7 +37,15 @@ class LLMEvaluatorDefinition:
 
 @EvaluatorRegistry.register("quality")
 class QualityEvaluator:
-    """Evaluator for output quality using LLM judges."""
+    """Evaluator that scores output quality via LLM judges.
+
+    Accepts an :class:`LLMEvaluatorDefinition` per call, templates the
+    prompt with input variables, sends it to the judge LLM, and extracts
+    a ``[0.0, 1.0]`` score from the response using choice matching.
+
+    Attributes:
+        llm_client: Client satisfying :class:`LLMClientProtocol`.
+    """
 
     def __init__(self, llm_client: LLMClientProtocol):
         self.llm_client = llm_client

@@ -1,8 +1,19 @@
-"""Dataset selection and scoring helpers for workflow evaluation runs.
+"""Backward-compatible facade for the workflow evaluation subsystem.
 
-This module is the backward-compatible orchestration surface. Heavy scoring
-logic lives in ``evaluation_scoring.py`` and dataset loading/matching helpers
-live in ``datasets.py``.
+This module re-exports names from two dedicated submodules so that existing
+callers (routes, tests) can continue to ``from .evaluation import ...``
+without knowing the internal split:
+
+* :mod:`~agentic_v2.server.datasets` -- dataset discovery, loading,
+  sample-to-input adaptation, and workflow/dataset compatibility matching.
+* :mod:`~agentic_v2.server.evaluation_scoring` -- hard-gate checks,
+  per-criterion scoring, rubric resolution, hybrid score composition,
+  and letter-grade assignment.
+
+The only logic retained here is :func:`score_workflow_result`, a thin
+delegation wrapper around :func:`evaluation_scoring.score_workflow_result_impl`
+that injects the module-level ``_compute_criterion_score`` shim for
+backward compatibility with monkeypatch-based tests.
 """
 
 from __future__ import annotations
