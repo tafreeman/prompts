@@ -1,6 +1,16 @@
-# Documentation for Subagent Toolkit
+# Project Documentation
 
-A concise guide for contributors and maintainers on adding, updating, and reviewing documentation and subagent definitions.
+This directory contains architecture documentation, coding standards, decision records, and the subagent registry for the `prompts` monorepo.
+
+## Contents
+
+| Path | Description |
+| --- | --- |
+| `ARCHITECTURE.md` | System architecture overview and component diagrams |
+| `CODING_STANDARDS.md` | Coding standards and style guidelines |
+| `subagents.yml` | Canonical registry of subagent definitions |
+| `adr/` | Architecture Decision Records (ADRs) |
+| `pr-checklists/` | PR review checklists for documentation and code changes |
 
 ## Table of Contents
 - [Purpose](#purpose)
@@ -12,7 +22,7 @@ A concise guide for contributors and maintainers on adding, updating, and review
 - [Contacts & references](#contacts--references)
 
 ## Purpose
-This directory holds the canonical registry of subagents and the contributor-facing guidance for documentation PRs. Aim for clarity, reproducibility, and reviewer-friendly diffs.
+This directory holds architecture documentation, decision records, the canonical registry of subagents, and contributor-facing guidance for documentation PRs. Aim for clarity, reproducibility, and reviewer-friendly diffs.
 
 ## Quick start
 - Edit `docs/subagents.yml` to add or update an agent definition.

@@ -1,4 +1,23 @@
-"""FastAPI application for agentic workflows v2."""
+"""FastAPI application factory for the Agentic Workflows V2 server.
+
+Provides :func:`create_app`, which assembles the FastAPI instance with:
+
+* **CORS middleware** -- origins configurable via ``AGENTIC_CORS_ORIGINS`` env var
+  (comma-separated), defaulting to common localhost development ports.
+* **API key authentication** -- opt-in via ``AGENTIC_API_KEY`` env var
+  (see :mod:`~agentic_v2.server.auth`).
+* **Route registration** -- health, agents, workflows (under ``/api/``), plus
+  the WebSocket streaming endpoint at ``/ws/execution/{run_id}``.
+* **SPA static serving** -- when the built React frontend exists under
+  ``ui/dist/``, static assets are served at ``/assets/`` and all remaining
+  paths fall through to ``index.html`` (client-side routing).
+* **Lifespan handler** -- on startup, probes available LLM providers and
+  updates tier defaults for both the LangGraph and native DAG engines;
+  on shutdown, flushes OpenTelemetry spans.
+
+A module-level ``app`` instance is created for use by ``uvicorn`` or the
+``agentic serve`` CLI command.
+"""
 
 from __future__ import annotations
 
@@ -39,7 +58,20 @@ CORS_ORIGINS: list[str] = (
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Startup and shutdown lifecycle."""
+    """Manage server startup and shutdown lifecycle.
+
+    Startup:
+        Probes all configured LLM providers (GitHub Models, OpenAI,
+        Anthropic, Gemini, Ollama) and updates the tier-to-model
+        default mappings for both the LangGraph and native engines.
+
+    Shutdown:
+        Flushes and shuts down OpenTelemetry tracing if enabled.
+
+    Yields:
+        Control to the FastAPI event loop for the duration of the
+        server's lifetime.
+    """
     logger.info("Starting Agentic Workflows V2 Server")
 
     # Probe available LLM providers and update tier defaults for both engines
@@ -59,7 +91,15 @@ async def lifespan(app: FastAPI):
 
 
 def create_app() -> FastAPI:
-    """Create and configure the FastAPI application."""
+    """Create and configure the FastAPI application.
+
+    Assembles middleware (CORS, API key auth), registers API route groups
+    under ``/api/``, mounts the WebSocket endpoint, and optionally serves
+    the built React SPA from ``ui/dist/``.
+
+    Returns:
+        A fully configured ``FastAPI`` instance ready for ``uvicorn``.
+    """
     app = FastAPI(
         title="Agentic Workflows V2 API",
         description="REST API for multi-model AI workflow orchestration",

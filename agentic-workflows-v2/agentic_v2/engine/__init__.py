@@ -30,6 +30,7 @@ from .executor import (
     run,
 )
 from .expressions import ExpressionEvaluator
+from .protocol import ExecutionEngine, SupportsCheckpointing, SupportsStreaming
 from .pipeline import (
     ConditionalBranch,
     ParallelGroup,
@@ -80,6 +81,10 @@ __all__ = [
     "PipelineBuilder",
     "PipelineExecutor",
     "run_pipeline",
+    # Protocol (ADR-001)
+    "ExecutionEngine",
+    "SupportsStreaming",
+    "SupportsCheckpointing",
     # DAG
     "DAG",
     "MissingDependencyError",

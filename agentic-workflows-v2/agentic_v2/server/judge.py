@@ -1,4 +1,24 @@
-"""LLM-as-judge helpers for hybrid workflow scoring."""
+"""LLM-as-Judge evaluation engine for hybrid workflow scoring.
+
+Provides :class:`LLMJudge`, which scores candidate outputs against
+anchored 1--5 rubric criteria using an LLM backend.  Key design features:
+
+* **Anchored rubric prompts** -- each criterion includes a definition and
+  scale anchors (1=worst, 5=best) so the judge produces calibrated scores.
+* **Positional bias mitigation** -- criteria are shuffled using a
+  deterministic seed derived from the candidate and expected outputs.
+* **Pairwise consistency check** -- optionally scores a reference output
+  with swapped presentation order and flags criteria whose scores diverge
+  by more than ``max_delta`` (default 1.0).
+* **Strict output validation** -- the judge must return valid JSON matching
+  ``{\"criteria\": [{\"name\", \"score\", \"evidence\"}]}``.  Schema
+  violations raise ``ValueError``.
+* **Calibration drift detection** -- :func:`evaluate_calibration_set` runs
+  the judge against human-labeled fixtures and reports mean absolute error.
+
+The judge is invoked synchronously via :func:`_run_coro_sync`, which
+handles both active-event-loop and bare contexts.
+"""
 
 from __future__ import annotations
 
@@ -20,7 +40,14 @@ logger = logging.getLogger(__name__)
 
 @dataclass(frozen=True)
 class JudgeCriterionDefinition:
-    """Anchored rubric criterion definition for judge prompts."""
+    """Immutable definition of a single rubric criterion for judge prompts.
+
+    Attributes:
+        name: Criterion identifier (e.g., ``"correctness"``).
+        definition: Human-readable description of what this criterion measures.
+        scale: Mapping of score values (as strings) to anchor descriptions
+            (e.g., ``{"1": "Major failures", "5": "Excellent"}``).
+    """
 
     name: str
     definition: str = ""
@@ -29,7 +56,15 @@ class JudgeCriterionDefinition:
 
 @dataclass(frozen=True)
 class JudgeCriterionScore:
-    """Single criterion score emitted by judge."""
+    """Immutable score for a single criterion as returned by the judge.
+
+    Attributes:
+        name: Criterion name matching :attr:`JudgeCriterionDefinition.name`.
+        raw_score: Judge-assigned score on the 1--5 Likert scale.
+        normalized_score: Score mapped to the [0, 1] range via
+            ``normalize_score(raw, "likert_1_5")``.
+        evidence: Free-text justification provided by the judge.
+    """
 
     name: str
     raw_score: float
@@ -39,7 +74,20 @@ class JudgeCriterionScore:
 
 @dataclass(frozen=True)
 class JudgeEvaluationResult:
-    """Judge evaluation bundle used by the hybrid scorer."""
+    """Immutable bundle of all judge outputs for one evaluation invocation.
+
+    Attributes:
+        criteria: Per-criterion scores and evidence.
+        normalized_score: Average of all criterion normalized scores (0--1).
+        model: LLM model identifier used for judging.
+        model_version: Specific model version or revision string.
+        prompt_version: Version tag of the judge prompt template.
+        temperature: Sampling temperature used (clamped to [0.0, 0.1]).
+        pairwise_consistent: True if the swapped-order consistency check
+            passed, False if it failed, or None if not performed.
+        inconsistency_reasons: List of criterion names that showed
+            positional bias in the pairwise check.
+    """
 
     criteria: list[JudgeCriterionScore]
     normalized_score: float
@@ -73,19 +121,45 @@ class JudgeEvaluationResult:
 
 
 class JudgeResponseProvider(Protocol):
-    """Protocol for pluggable judge backends in tests and production."""
+    """Protocol for pluggable judge backends, enabling test mocking.
+
+    Implementations must accept ``prompt``, ``model``, and ``temperature``
+    keyword arguments and return either a parsed dict or a raw JSON string.
+    """
 
     def __call__(self, *, prompt: str, model: str, temperature: float) -> dict[str, Any] | str:
         ...
 
 
 def _stable_seed(*parts: str) -> int:
+    """Derive a deterministic integer seed from string parts via SHA-256.
+
+    Args:
+        *parts: Strings concatenated with ``||`` before hashing.
+
+    Returns:
+        32-bit unsigned integer derived from the first 8 hex digits.
+    """
     value = "||".join(parts)
     digest = sha256(value.encode("utf-8")).hexdigest()
     return int(digest[:8], 16)
 
 
 def _extract_first_json_object(raw: str) -> dict[str, Any]:
+    """Extract and parse the first JSON object from a raw LLM response string.
+
+    Handles responses that may include markdown fences or preamble text
+    before the JSON payload.
+
+    Args:
+        raw: Raw string output from the LLM.
+
+    Returns:
+        Parsed JSON dict.
+
+    Raises:
+        ValueError: If the string is empty or contains no JSON object.
+    """
     raw = raw.strip()
     if not raw:
         raise ValueError("Judge returned empty output")
@@ -104,7 +178,21 @@ def validate_judge_structured_output(
     *,
     expected_criteria: set[str] | None = None,
 ) -> tuple[bool, list[str]]:
-    """Validate constrained judge output schema."""
+    """Validate that a judge response conforms to the expected schema.
+
+    Checks that ``criteria`` is a non-empty list of dicts, each containing
+    ``name`` (non-empty string), ``score`` (numeric, 1--5), and ``evidence``
+    (string).  Optionally verifies that all ``expected_criteria`` names
+    are present.
+
+    Args:
+        payload: Parsed JSON dict from the judge.
+        expected_criteria: If provided, the set of criterion names that
+            must appear in the response.
+
+    Returns:
+        A 2-tuple of ``(is_valid, error_messages)``.
+    """
     errors: list[str] = []
     if not isinstance(payload, dict):
         return False, ["payload must be a mapping"]
@@ -149,7 +237,19 @@ def check_swapped_order_consistency(
     *,
     max_delta: float = 1.0,
 ) -> tuple[bool, list[str]]:
-    """Check criterion deltas between forward and swapped-order judge calls."""
+    """Detect positional bias by comparing forward and swapped-order judge scores.
+
+    For each criterion present in both payloads, checks whether the
+    absolute score difference exceeds ``max_delta``.
+
+    Args:
+        forward_payload: Judge output from the original presentation order.
+        swapped_payload: Judge output with candidate and reference swapped.
+        max_delta: Maximum tolerated score difference per criterion.
+
+    Returns:
+        A 2-tuple of ``(is_consistent, list_of_inconsistent_criterion_names)``.
+    """
     forward = {
         str(item.get("name")): float(item.get("score"))
         for item in forward_payload.get("criteria", [])
@@ -174,7 +274,23 @@ def evaluate_calibration_set(
     fixtures: list[dict[str, Any]],
     tolerance: float = 0.5,
 ) -> dict[str, Any]:
-    """Evaluate judge drift against human-labeled fixtures."""
+    """Evaluate judge calibration drift against human-labeled fixtures.
+
+    Runs the judge on each fixture and computes the mean absolute error
+    (MAE) between judge-assigned and human-assigned raw scores across
+    all criteria.
+
+    Args:
+        judge: The :class:`LLMJudge` instance to evaluate.
+        fixtures: List of calibration fixture dicts, each containing
+            ``candidate_output``, ``expected_output``, ``criteria``,
+            and ``human_scores`` (mapping criterion name to float).
+        tolerance: Maximum acceptable MAE.
+
+    Returns:
+        Dict with ``samples``, ``mae``, ``within_tolerance``, and
+        ``tolerance`` keys.
+    """
     deltas: list[float] = []
 
     for fixture in fixtures:
@@ -199,7 +315,22 @@ def evaluate_calibration_set(
 
 
 def _run_coro_sync(coro: Any) -> Any:
-    """Run coroutine from sync context (supports active event loops)."""
+    """Run an async coroutine from a synchronous context.
+
+    If no event loop is running, uses ``asyncio.run()``.  If an event
+    loop is already active (e.g., inside a FastAPI request handler),
+    spawns a daemon thread with its own ``asyncio.run()`` to avoid
+    nested-loop errors.
+
+    Args:
+        coro: The awaitable coroutine to execute.
+
+    Returns:
+        The coroutine's return value.
+
+    Raises:
+        Exception: Re-raises any exception from the coroutine.
+    """
     try:
         asyncio.get_running_loop()
     except RuntimeError:
@@ -222,7 +353,20 @@ def _run_coro_sync(coro: Any) -> Any:
 
 
 class LLMJudge:
-    """Bias-aware LLM judge wrapper with strict output validation."""
+    """Bias-aware LLM-as-Judge evaluator with strict output validation.
+
+    Wraps an LLM backend to score candidate outputs against anchored
+    rubric criteria on a 1--5 Likert scale.  Includes positional-bias
+    mitigation via deterministic criterion shuffling and optional
+    pairwise consistency checking.
+
+    Attributes:
+        model: LLM model identifier (e.g., ``"gh:openai/gpt-4o"``).
+        model_version: Specific model version string.
+        prompt_version: Version tag of the judge prompt template.
+        temperature: Sampling temperature, clamped to [0.0, 0.1].
+        max_tokens: Maximum tokens for the judge response.
+    """
 
     def __init__(
         self,

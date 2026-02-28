@@ -1,6 +1,17 @@
-"""Workflow loader for YAML workflow definitions.
+"""Workflow loader — YAML definitions to executable DAG objects.
 
-Loads YAML workflow files and converts them to executable DAG objects.
+Reads YAML files from ``workflows/definitions/`` and produces
+:class:`WorkflowDefinition` objects containing a validated :class:`DAG`,
+typed input/output declarations, capability metadata, and optional
+evaluation configuration.
+
+The loader also resolves each step's ``agent`` field into an executable
+function via :func:`resolve_agent`, which maps ``tier{N}_{role}`` names
+to either deterministic Tier-0 implementations or LLM-backed step
+functions.
+
+Supports caching, ``experimental`` flag for draft workflows, and
+``capabilities`` metadata for dataset-workflow compatibility matching.
 """
 
 from __future__ import annotations

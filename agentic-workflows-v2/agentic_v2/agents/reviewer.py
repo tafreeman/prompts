@@ -1,10 +1,14 @@
-"""Reviewer agent for code review tasks.
+"""Agent specialized for structured, severity-ranked code review.
 
-Aggressive design improvements:
-- Multi-pass review (style, bugs, security)
-- Severity-based issue categorization
-- Actionable suggestions with diffs
-- Review checklist customization
+Provides :class:`ReviewerAgent`, a :class:`~agentic_v2.agents.base.BaseAgent`
+subclass that analyzes source code across multiple dimensions (correctness,
+security, performance, style, maintainability) and returns structured
+:class:`~agentic_v2.contracts.CodeIssue` results with severity levels,
+categories, and actionable fix suggestions.
+
+Supports single-pass review, configurable focus-area review, multi-pass
+review (each pass targeting a different dimension with deduplication), and
+diff-based review comparing original versus modified code.
 """
 
 from __future__ import annotations
@@ -54,14 +58,32 @@ Format your response as JSON with this structure:
 
 
 class ReviewerAgent(BaseAgent[CodeReviewInput, CodeReviewOutput], CodeReviewMixin):
-    """Agent specialized for code review.
+    """Agent that performs structured code review with severity-ranked issues.
 
-    Aggressive improvements:
-    - Multi-pass review (configurable focus areas)
-    - Structured JSON output
-    - Severity scoring
-    - Positive feedback inclusion
-    - Review customization
+    Extends :class:`~agentic_v2.agents.base.BaseAgent` with
+    :class:`~agentic_v2.agents.capabilities.CodeReviewMixin` and produces
+    :class:`~agentic_v2.contracts.CodeReviewOutput` containing:
+
+    - A textual summary of the review.
+    - A list of :class:`~agentic_v2.contracts.CodeIssue` instances, each
+      with :class:`~agentic_v2.contracts.Severity` and
+      :class:`~agentic_v2.contracts.IssueCategory`.
+    - An ``approved`` boolean (auto-rejected when critical issues exist or
+      more than two high-severity issues are found).
+
+    Advanced modes:
+        :meth:`multi_pass_review`: Runs multiple focused review passes
+        (e.g., correctness, security, style) and merges deduplicated issues.
+
+        :meth:`review_diff`: Reviews only the changed lines between an
+        original and modified version of the code.
+
+    Args:
+        config: Agent configuration. Defaults to a Tier-2 reviewer config.
+        focus_areas: Default review dimensions when the task does not
+            specify its own.  Defaults to ``["correctness", "security",
+            "performance", "style", "maintainability"]``.
+        **kwargs: Passed through to :class:`BaseAgent.__init__`.
     """
 
     def __init__(

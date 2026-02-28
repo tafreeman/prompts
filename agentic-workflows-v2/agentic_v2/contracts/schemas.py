@@ -1,11 +1,20 @@
 """Task schemas for structured agent inputs/outputs.
 
-Aggressive design improvements:
-- Generic TaskIO base with validation factories
-- Builder pattern for complex task construction
-- Automatic diff generation for code changes
-- Severity levels and categorization for reviews
-- Test coverage analysis integration
+Provides Pydantic v2 models for the three primary task domains:
+
+1. **Code Generation** — :class:`CodeGenerationInput` /
+   :class:`CodeGenerationOutput` with automatic diff generation and
+   file-level output tracking.
+2. **Code Review** — :class:`CodeReviewInput` / :class:`CodeReviewOutput`
+   with :class:`CodeIssue` findings categorized by :class:`Severity` and
+   :class:`IssueCategory`.
+3. **Test Generation** — :class:`TestGenerationInput` /
+   :class:`TestGenerationOutput` with :class:`TestCase` items and
+   framework inference.
+
+Base classes :class:`TaskInput` / :class:`TaskOutput` provide a fluent
+builder pattern (``with_context()``, ``with_constraint()``) for
+programmatic task construction.
 """
 
 from enum import Enum

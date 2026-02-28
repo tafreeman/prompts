@@ -1,6 +1,20 @@
-"""Scoring framework for Agentic V2 Evaluation.
+"""YAML-rubric-driven weighted scoring engine.
 
-Provides rubric-based scoring with validation and error handling.
+Loads a rubric (from a YAML file or an in-memory dict), extracts named
+criteria with weights and value ranges, then computes a normalized
+weighted score for a given set of metric results.
+
+The rubric YAML schema is::
+
+    name: My Rubric
+    version: "1.0"
+    criteria:
+      - name: Accuracy
+        weight: 2.0
+        min_value: 0.0
+        max_value: 1.0
+      - name: Completeness
+        weight: 1.0
 """
 
 from __future__ import annotations
@@ -14,7 +28,15 @@ import yaml
 
 @dataclass
 class Criterion:
-    """A single scoring criterion."""
+    """A single scoring criterion parsed from a rubric.
+
+    Attributes:
+        name: Display name used as the key in result dicts.
+        weight: Relative importance multiplier (default 1.0).
+        description: Human-readable explanation of the criterion.
+        min_value: Lower bound of the valid score range.
+        max_value: Upper bound of the valid score range.
+    """
 
     name: str
     weight: float = 1.0
@@ -25,7 +47,14 @@ class Criterion:
 
 @dataclass
 class ScoringResult:
-    """Result of scoring operation."""
+    """Result of a rubric-based scoring operation.
+
+    Attributes:
+        total_score: Unweighted mean of normalized criterion scores.
+        weighted_score: Weight-adjusted aggregate score in ``[0.0, 1.0]``.
+        criterion_scores: Mapping of criterion name to its clamped raw value.
+        missing_criteria: Names of criteria absent from the input results.
+    """
 
     total_score: float
     weighted_score: float

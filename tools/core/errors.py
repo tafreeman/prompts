@@ -1,17 +1,18 @@
-"""
-Error Classification Module
-============================
+"""Standardized error codes and heuristic classification for the tools ecosystem.
 
-Standardized error codes and classification for the tools ecosystem.
-This is the canonical source of truth for error handling.
+Provides a canonical ``ErrorCode`` enum, two membership sets
+(``TRANSIENT_ERRORS`` and ``PERMANENT_ERRORS``), and a
+``classify_error`` function that maps free-text error messages to
+structured codes with a retry recommendation.
 
-Usage:
-    from tools.core.errors import ErrorCode, classify_error, TRANSIENT_ERRORS, PERMANENT_ERRORS
+Usage::
+
+    from tools.core.errors import ErrorCode, classify_error
 
     code, should_retry = classify_error("Rate limit exceeded")
-    if code in TRANSIENT_ERRORS:
-        # Implement retry logic
-        pass
+    if should_retry:
+        # Implement back-off / retry logic
+        ...
 """
 
 from enum import Enum
@@ -19,7 +20,11 @@ from typing import Optional, Set, Tuple
 
 
 class ErrorCode(str, Enum):
-    """Standardized error codes (matches EVALUATION_SCHEMA.md)."""
+    """Standardized error codes aligned with EVALUATION_SCHEMA.md.
+
+    Each member doubles as a plain ``str`` so it can be serialized
+    directly into JSON evaluation reports.
+    """
 
     SUCCESS = "success"
     UNAVAILABLE_MODEL = "unavailable_model"

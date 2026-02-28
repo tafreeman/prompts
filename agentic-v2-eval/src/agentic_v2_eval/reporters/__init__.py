@@ -1,9 +1,12 @@
-"""Report generators for evaluation results.
+"""Multi-format report generators for evaluation results.
 
-This module provides reporters for outputting evaluation results:
-- json: JSON format reports
-- markdown: Markdown format reports
-- html: HTML format reports with styling
+Each reporter accepts a list of result dicts and writes a formatted
+report to disk or returns it as a string.
+
+Reporters:
+    JsonReporter: Machine-readable JSON with summary statistics.
+    MarkdownReporter: Human-readable Markdown with tables and ToC.
+    HtmlReporter: Styled HTML with summary cards and sortable tables.
 """
 
 from __future__ import annotations

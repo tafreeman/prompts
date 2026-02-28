@@ -1,12 +1,19 @@
 """Pipeline orchestration for multi-step workflows.
 
-Aggressive design improvements:
-- DAG-based execution with automatic parallelization
-- Conditional branching (if/else flows)
-- Parallel step groups
-- Checkpointing at configurable intervals
-- Progress tracking with callbacks
-- Pipeline composition (sub-pipelines)
+Complements the DAG executor with a **linear-first** execution model
+that optionally supports parallel groups and conditional branches:
+
+- :class:`Pipeline` — an ordered sequence of :class:`PipelineElement`
+  items (steps, parallel groups, conditional branches).
+- :class:`PipelineExecutor` — walks elements sequentially, expanding
+  parallel groups with ``asyncio.gather`` and conditional branches
+  via predicate functions.
+- :class:`PipelineBuilder` — fluent API for constructing pipelines.
+
+Key differences from DAG execution:
+- Pipelines enforce *element order*; DAGs derive order from dependencies.
+- Pipelines support *conditional branches*; DAGs only have ``when`` guards.
+- Pipelines support *checkpointing at intervals*; DAGs do not (yet).
 """
 
 from __future__ import annotations
@@ -74,14 +81,22 @@ PipelineElement = Union[StepDefinition, ParallelGroup, ConditionalBranch]
 
 @dataclass
 class Pipeline:
-    """Pipeline definition with ordered steps.
+    """Ordered sequence of pipeline elements (steps, groups, branches).
 
-    Aggressive improvements:
-    - Mixed sequential/parallel execution
-    - Conditional branching
-    - Checkpointing
-    - Sub-pipeline composition
-    - Progress tracking
+    Elements execute in declaration order.  Parallel groups expand
+    concurrently within their position; conditional branches pick a
+    path at runtime.  Supports fluent construction via ``add()``,
+    ``add_step()``, ``add_parallel()``, and ``add_branch()``.
+
+    Attributes:
+        name: Human-readable pipeline identifier.
+        description: Optional prose description.
+        elements: Ordered list of steps, parallel groups, and branches.
+        checkpoint_interval: Save a checkpoint every *N* completed steps
+            (0 = disabled).
+        fail_fast: Stop execution on the first step failure.
+        tags: Freeform labels for filtering/grouping.
+        metadata: Arbitrary key-value annotations.
     """
 
     name: str
@@ -154,14 +169,15 @@ class Pipeline:
 
 
 class PipelineExecutor:
-    """Executes pipelines with full orchestration.
+    """Executes :class:`Pipeline` definitions with full orchestration.
 
-    Aggressive improvements:
-    - Parallel execution within groups
-    - Conditional branching
-    - Checkpoint/resume
-    - Progress callbacks
-    - Cancellation support
+    Walks pipeline elements sequentially, delegating to:
+    - :class:`StepExecutor` for individual steps.
+    - ``asyncio.gather`` (or semaphore-bounded tasks) for parallel groups.
+    - Predicate evaluation for conditional branches.
+
+    Supports progress callbacks, periodic checkpointing, fail-fast
+    cancellation, and external cancellation via :meth:`cancel`.
     """
 
     def __init__(self):

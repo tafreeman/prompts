@@ -31,6 +31,26 @@ where = ["src"]
 [tool.setuptools.package-data]
 agentic_v2_eval = ["rubrics/*.yaml"]
 
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+markers = [
+    "integration: end-to-end tests (deselect with -m 'not integration')",
+    "slow: tests taking more than 5 seconds",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["src/agentic_v2_eval"]
+
+[tool.coverage.report]
+fail_under = 80
+skip_empty = true
+exclude_lines = [
+    "pragma: no cover",
+    "if TYPE_CHECKING:",
+    "if __name__",
+]
+
 [tool.mypy]
 python_version = "3.10"
 warn_return_any = true
