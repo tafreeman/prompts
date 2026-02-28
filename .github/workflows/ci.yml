@@ -26,7 +26,7 @@ jobs:
           pre-commit run --all-files
       - name: Run tests with coverage
         run: |
-          python -m pytest -q --cov=agentic_v2 --cov-report=term-missing --cov-report=xml --cov-fail-under=0
+          python -m pytest -q --cov=agentic_v2 --cov-report=term-missing --cov-report=xml --cov-fail-under=60
       - name: Check docs references
         run: |
           python agentic-workflows-v2/scripts/check_docs_refs.py
