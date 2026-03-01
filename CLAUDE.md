@@ -304,7 +304,7 @@ pre-commit run --all-files
 #   bash dev.sh [backend_port] [frontend_port]
 
 # Production serve
-python -m uvicorn agentic_v2.server.app:app --host 127.0.0.1 --port 8010 --app-dir src
+python -m uvicorn agentic_v2.server.app:app --host 127.0.0.1 --port 8010
 ```
 
 ### CLI

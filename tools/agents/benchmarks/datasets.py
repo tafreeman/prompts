@@ -1,8 +1,11 @@
-"""
-Benchmark Dataset Definitions
-=============================
+"""Static metadata definitions for supported coding benchmarks.
 
-Stores metadata about available benchmarks. Actual data is fetched on demand.
+Each ``BenchmarkDefinition`` describes a benchmark's source, size, metrics,
+and evaluation method without fetching any data.  Actual task data is loaded
+on demand by :mod:`tools.agents.benchmarks.loader`.
+
+The ``BENCHMARK_DEFINITIONS`` dict is the single source of truth for
+benchmark discovery across the repository.
 """
 
 from dataclasses import dataclass, field
@@ -11,7 +14,7 @@ from typing import Any, Dict, List, Optional
 
 
 class BenchmarkType(Enum):
-    """Types of coding benchmarks."""
+    """Category of coding benchmark by task granularity."""
 
     SOFTWARE_ENGINEERING = "software_engineering"  # End-to-end issue resolution
     FUNCTION_LEVEL = "function_level"  # Single function completion
@@ -21,7 +24,7 @@ class BenchmarkType(Enum):
 
 
 class DataSource(Enum):
-    """Where benchmark data comes from."""
+    """Transport / origin type for benchmark task data."""
 
     HUGGINGFACE = "huggingface"  # HuggingFace datasets
     GITHUB = "github"  # GitHub repositories
@@ -31,9 +34,29 @@ class DataSource(Enum):
 
 @dataclass
 class BenchmarkDefinition:
-    """Definition of a benchmark dataset.
+    """Immutable metadata describing a single benchmark dataset.
 
-    Only stores metadata - actual tasks are fetched on demand.
+    Contains no task data; actual tasks are fetched on demand via
+    :func:`tools.agents.benchmarks.loader.load_benchmark`.
+
+    Attributes:
+        id: Unique identifier (e.g. ``"humaneval"``).
+        name: Human-readable display name.
+        description: One-sentence summary of what the benchmark tests.
+        benchmark_type: Category (software engineering, function-level, etc.).
+        size: Approximate number of tasks.
+        source: Where task data is fetched from (HuggingFace, GitHub, local).
+        source_url: URL or path passed to the loader.
+        source_config: Loader-specific options (split, branch, etc.).
+        metrics: Names of metrics produced (e.g. ``["pass@1"]``).
+        evaluation_method: How results are judged (``"unit_tests"``, ``"execution"``).
+        paper_url: URL of the benchmark's research paper.
+        leaderboard_url: URL of the public leaderboard.
+        license: Data license identifier.
+        citation: BibTeX or inline citation string.
+        languages: Programming languages covered.
+        difficulty_range: Optional ``(min, max)`` difficulty tuple.
+        tags: Free-form tags for filtering.
     """
 
     id: str  # Unique identifier

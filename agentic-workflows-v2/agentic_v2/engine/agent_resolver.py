@@ -1,11 +1,25 @@
-"""Agent resolver for YAML-defined workflow steps.
+"""Agent resolver — maps YAML agent names to executable step functions.
 
-Maps agent names from workflow YAML definitions to executable step functions.
-Agent names follow a convention: tier{N}_{role}, e.g., tier0_parser, tier2_reviewer.
+This is the bridge between the declarative YAML workflow definitions and
+the executable runtime.  Each step in a YAML workflow declares an ``agent``
+field (e.g. ``tier2_coder``).  The resolver:
 
-For Tier 0 (deterministic), steps use Python-only logic (no LLM).
-For Tier 1+, steps generate an LLM prompt from the step's description and inputs,
-then call the model router to get a response.
+1. **Infers the model tier** from the agent name prefix (``tier{N}_``).
+2. **Selects an implementation**:
+   - Tier 0 agents → deterministic Python function from ``TIER0_REGISTRY``.
+   - Tier 1+ agents → auto-generated LLM-backed step via :func:`_make_llm_step`.
+3. **Assembles the prompt** from persona Markdown files (``prompts/<role>.md``),
+   task description, available context, tool contracts, and the universal
+   sentinel output format instructions.
+4. **Executes multi-turn tool loops** — LLM steps can call registered tools
+   (up to 8 rounds, 12 calls/round) with truncated results.
+5. **Parses LLM output** via sentinel artifacts (``<<<ARTIFACT>>>``), JSON
+   extraction, and robust review-report normalization for gating conditions.
+
+Key constants:
+- ``_TIER_MAX_TOKENS``: Conservative per-tier output token limits.
+- ``_MAX_TOOL_ROUNDS`` / ``_MAX_TOOL_CALLS_PER_ROUND``: Tool loop bounds.
+- ``_MAX_TOOL_RESULT_CHARS``: Truncation limit for tool results.
 """
 
 from __future__ import annotations
@@ -38,7 +52,12 @@ _TIER_MAX_TOKENS: dict[ModelTier, int] = {
 
 
 def _extract_json_candidates(text: str) -> list[str]:
-    """Return increasingly permissive JSON candidates from model output."""
+    """Return increasingly permissive JSON candidates from model output.
+
+    Tries, in order: raw text, markdown-fence-stripped text, bracket-span
+    extraction for objects (``{…}``), and bracket-span for arrays (``[…]``).
+    Duplicates are removed while preserving priority order.
+    """
     candidates: list[str] = []
     raw = text.strip()
     if raw:
@@ -80,7 +99,15 @@ def _normalize_expected_structure(
     parsed: dict[str, Any],
     expected_output_keys: list[str] | None,
 ) -> dict[str, Any]:
-    """Best-effort normalization for common workflow outputs."""
+    """Normalize parsed LLM output to match expected workflow output keys.
+
+    Primary focus is ``review_report`` normalization: LLM reviewer outputs
+    arrive in many variant shapes (``review``, ``raw_response``, nested
+    JSON, ``approved`` boolean, etc.).  This function coerces all variants
+    into a canonical ``{"review_report": {"overall_status": "<STATUS>"}}``
+    structure using :meth:`ReviewStatus.normalize` so that downstream
+    ``when``-conditions can reliably gate on approval status.
+    """
     from ..contracts import ReviewStatus
 
     if not expected_output_keys:
@@ -172,7 +199,12 @@ def _parse_llm_json_output(
     response: str,
     expected_output_keys: list[str] | None,
 ) -> dict[str, Any]:
-    """Parse model output into JSON with robust fallbacks."""
+    """Parse model text output into a JSON dict with robust fallbacks.
+
+    Attempts each candidate from :func:`_extract_json_candidates`.  If all
+    fail, returns ``{"raw_response": response}`` with a best-effort
+    ``review_report`` salvaged from raw text (if expected).
+    """
     for candidate in _extract_json_candidates(response):
         try:
             parsed = json.loads(candidate)

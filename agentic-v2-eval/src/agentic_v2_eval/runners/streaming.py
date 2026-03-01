@@ -1,7 +1,11 @@
-"""Streaming evaluation runner.
+"""Streaming and async-streaming evaluation runners.
 
-Provides streaming evaluation with real-time callbacks for processing
-results as they arrive.
+Provides two runners for incremental result delivery:
+
+    StreamingRunner: Synchronous iterator-based runner with per-result
+        callbacks and error hooks.
+    AsyncStreamingRunner: ``asyncio``-based concurrent runner with
+        configurable parallelism via a semaphore.
 """
 
 from __future__ import annotations
@@ -21,7 +25,13 @@ R = TypeVar("R")  # Result type
 
 @dataclass
 class StreamingStats:
-    """Statistics for streaming evaluation."""
+    """Running statistics collected during a streaming evaluation.
+
+    Attributes:
+        processed: Total test cases seen so far.
+        successful: Count of successfully evaluated cases.
+        failed: Count of cases that raised an exception.
+    """
 
     processed: int = 0
     successful: int = 0
@@ -117,12 +127,17 @@ class StreamingRunner(Generic[T, R]):
 
 
 class AsyncStreamingRunner(Generic[T, R]):
-    """Async streaming evaluation runner.
+    """Async streaming evaluation runner with bounded concurrency.
 
-    Example:
-        >>> runner = AsyncStreamingRunner(evaluator=async_eval_func)
-        >>> async for result in runner.iter_results(test_cases):
-        ...     print(result)
+    Evaluates test cases concurrently (up to ``max_concurrency``)
+    using ``asyncio`` tasks, yielding results as they complete.
+    Accepts both sync and async evaluator functions.
+
+    Example::
+
+        runner = AsyncStreamingRunner(evaluator=async_eval_func)
+        async for result in runner.iter_results(test_cases):
+            print(result)
     """
 
     def __init__(

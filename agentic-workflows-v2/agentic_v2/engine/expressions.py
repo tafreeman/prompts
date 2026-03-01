@@ -109,7 +109,29 @@ class StepResultView:
 
 
 class ExpressionEvaluator:
-    """Safely evaluate simple boolean expressions against context."""
+    """Safely evaluate ``${...}`` expressions against workflow context.
+
+    Supports three expression forms:
+
+    1. **Pure variable reference** — ``${steps.parse.outputs.ast}``
+       resolves the path and returns the raw value.
+    2. **Wrapped expression** — ``${ctx.count > 5}`` extracts the inner
+       string and evaluates it as restricted Python.
+    3. **Hybrid template** — ``${inputs.depth} != 'quick'`` substitutes
+       each ``${...}`` token with ``repr(resolved)`` and evaluates the
+       resulting Python expression.
+
+    Safety is enforced by an AST whitelist (:meth:`_validate_ast`) that
+    permits only comparisons, boolean operators, arithmetic, and
+    literals — no function calls except ``coalesce()``, no imports,
+    no attribute assignment.
+
+    Attributes:
+        ctx: The execution context providing variable storage.
+        step_results: Completed step results keyed by step name,
+            used to build the ``steps`` namespace for expressions.
+        VARIABLE_PATTERN: Compiled regex matching ``${...}`` tokens.
+    """
 
     VARIABLE_PATTERN = re.compile(r"\$\{([^}]+)\}")
 
@@ -122,7 +144,21 @@ class ExpressionEvaluator:
         self.step_results = step_results or {}
 
     def evaluate(self, expr: Any) -> bool:
-        """Evaluate expression to boolean."""
+        """Evaluate an expression to a boolean result.
+
+        Handles literal bools, ``None``, raw strings, and ``${...}``
+        template strings.  On ``AttributeError`` or ``SyntaxError``
+        (e.g. missing step output), falls back to heuristic:
+        expressions containing ``not in`` or ``!=`` default to ``True``
+        so that bounded re-review gating triggers correctly.
+
+        Args:
+            expr: The expression — may be a ``bool``, ``None``, or a
+                ``str`` containing ``${...}`` references.
+
+        Returns:
+            Boolean evaluation result.
+        """
         if isinstance(expr, bool):
             return expr
         if expr is None:
@@ -169,7 +205,20 @@ class ExpressionEvaluator:
             return False
 
     def resolve_variable(self, path: str) -> Any:
-        """Resolve a single ${...} variable reference."""
+        """Resolve a single ``${...}`` variable path to its concrete value.
+
+        If *path* contains parentheses (function call syntax), delegates
+        to :meth:`_safe_eval`.  Otherwise uses :meth:`_resolve_path` for
+        dotted-path navigation.  The result is sanitized through
+        :func:`_from_namespace` so callers never see ``_NullSafe`` or
+        ``_SafeNamespace`` wrapper types.
+
+        Args:
+            path: Dotted path string, e.g. ``"steps.parse.outputs.ast"``.
+
+        Returns:
+            The resolved value, or ``None`` if the path is unresolvable.
+        """
         # If the expression contains function calls, use full eval
         if "(" in path:
             result = self._safe_eval(path)
@@ -211,6 +260,7 @@ class ExpressionEvaluator:
         return eval(compile(tree, "<expr>", "eval"), {"__builtins__": {}}, env)
 
     def _build_step_views(self) -> dict[str, StepResultView]:
+        """Convert :class:`StepResult` objects into lightweight :class:`StepResultView` dicts."""
         views: dict[str, StepResultView] = {}
         for name, result in self.step_results.items():
             completed_at = None
@@ -227,6 +277,20 @@ class ExpressionEvaluator:
         return views
 
     def _resolve_path(self, path: str) -> Any:
+        """Navigate a dotted/bracketed path against context and step views.
+
+        Routing logic:
+        - Paths starting with ``steps.`` resolve against step result views.
+        - Paths starting with ``ctx.`` resolve against all context variables.
+        - All other paths resolve against context variables directly.
+
+        Args:
+            path: Dotted path, e.g. ``"steps.review.outputs.approved"``
+                  or ``"inputs.code_file"``.
+
+        Returns:
+            Resolved value, or ``None`` if any segment is missing.
+        """
         tokens = self._parse_path(path)
         if not tokens:
             return None
@@ -245,6 +309,11 @@ class ExpressionEvaluator:
         return self._navigate(self.ctx.all_variables(), tokens)
 
     def _navigate(self, obj: Any, path: list[Any]) -> Any:
+        """Walk a parsed token list against a nested dict/object tree.
+
+        Handles dict keys (str), list indexes (int), and object attributes.
+        Returns ``None`` at the first unresolvable segment.
+        """
         for key in path:
             if obj is None:
                 return None
@@ -337,6 +406,15 @@ class ExpressionEvaluator:
         return tokens
 
     def _validate_ast(self, node: ast.AST) -> None:
+        """Reject any AST node not in the safety whitelist.
+
+        Permits: comparisons, boolean/arithmetic ops, constants, names,
+        attribute access, subscripts, containers (list/tuple/dict), and
+        function calls (restricted to ``coalesce`` at eval time).
+
+        Raises:
+            ValueError: If any node type is outside the whitelist.
+        """
         allowed_nodes = (
             ast.Expression,
             ast.BoolOp,
@@ -380,6 +458,12 @@ class ExpressionEvaluator:
                 )
 
     def _to_namespace(self, obj: Any) -> Any:
+        """Recursively wrap dicts/lists/StepResultViews as ``_SafeNamespace``.
+
+        This enables dot-access in evaluated expressions (e.g.
+        ``steps.review.outputs.approved``) and ensures missing attributes
+        return ``_NullSafe()`` instead of raising ``AttributeError``.
+        """
         if isinstance(obj, StepResultView):
             return _SafeNamespace(
                 status=obj.status,

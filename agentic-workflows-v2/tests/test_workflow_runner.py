@@ -12,6 +12,9 @@ Covers:
 from __future__ import annotations
 
 import asyncio
+import pytest
+
+pytestmark = pytest.mark.integration
 from pathlib import Path
 from tempfile import TemporaryDirectory
 

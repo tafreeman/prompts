@@ -1,4 +1,30 @@
-"""Scoring engine internals for workflow evaluation."""
+"""Scoring engine for workflow evaluation results.
+
+Implements a three-stage scoring pipeline:
+
+1. **Hard gates** (:func:`compute_hard_gates`) -- binary pass/fail checks
+   that must all succeed before a run can receive a passing grade:
+   required outputs present, overall status ``SUCCESS``, no critical step
+   failures, release-build verification, schema contract validity, and
+   dataset/workflow compatibility.
+
+2. **Criterion evaluation** (:func:`_compute_criterion_score`) -- per-criterion
+   raw scores (0--100) computed from workflow execution signals (success rate,
+   text overlap, step failures, duration, output richness).  Each criterion
+   is then normalized via :mod:`~agentic_v2.server.normalization` and
+   optionally adjusted for sample size.
+
+3. **Aggregation and grading** (:func:`score_workflow_result_impl`) --
+   weighted combination of objective criterion scores, advisory heuristic
+   scores (similarity + efficiency), and optional LLM-as-Judge scores
+   into a hybrid 0--100 composite.  The composite is mapped to a letter
+   grade (A/B/C/D/F) subject to criterion floor violations and hard-gate
+   enforcement.
+
+Rubric resolution (:func:`_resolve_rubric`) merges defaults from the
+evaluation YAML config, workflow-level scoring profiles (A--E), per-criterion
+weight overrides, and an optional rubric ID override.
+"""
 
 from __future__ import annotations
 
@@ -35,7 +61,26 @@ _DEFAULT_RUBRIC_VERSION = "1.0"
 
 @dataclass
 class HardGateResult:
-    """Hard-gate checks required before a run can pass scoring."""
+    """Result of hard-gate (binary pass/fail) checks for a workflow run.
+
+    All gates must pass for the run to be eligible for a passing grade.
+    When any gate fails, :func:`score_workflow_result_impl` forces grade ``F``.
+
+    Attributes:
+        required_outputs_present: True if every non-optional workflow output
+            was produced and is non-None.
+        overall_status_success: True if ``WorkflowResult.overall_status``
+            is ``StepStatus.SUCCESS``.
+        no_critical_step_failures: True if no individual step has status
+            ``StepStatus.FAILED``.
+        schema_contract_valid: True if the evaluation payload conforms to
+            the expected JSON schema (see :func:`validate_evaluation_payload_schema`).
+        dataset_workflow_compatible: True if the dataset sample satisfies
+            the workflow's required inputs.
+        release_build_verified: True if any ``build_verify_release*`` steps
+            succeeded and report ``ready_for_release``.  Defaults to True
+            when no such step exists.
+    """
 
     required_outputs_present: bool
     overall_status_success: bool
@@ -75,7 +120,13 @@ class HardGateResult:
 
 @dataclass
 class CriterionFloorResult:
-    """Represents a failed criterion floor requirement."""
+    """Record of a single criterion whose normalized score fell below its floor.
+
+    Attributes:
+        criterion: Name of the criterion that violated the floor.
+        floor: Minimum normalized score (0--1) required.
+        normalized_score: Actual normalized score achieved.
+    """
 
     criterion: str
     floor: float
@@ -83,10 +134,28 @@ class CriterionFloorResult:
 
 
 def _clamp(value: float, lo: float = 0.0, hi: float = 100.0) -> float:
+    """Clamp *value* to the closed interval ``[lo, hi]``.
+
+    Args:
+        value: The number to clamp.
+        lo: Lower bound (default 0.0).
+        hi: Upper bound (default 100.0).
+
+    Returns:
+        The clamped value.
+    """
     return max(lo, min(hi, value))
 
 
 def _scoring_weights() -> dict[str, float]:
+    """Load criterion weights from the evaluation YAML config.
+
+    Falls back to ``_DEFAULT_WEIGHTS`` when the config file is missing
+    or the ``evaluation.scoring.weights`` section is absent/invalid.
+
+    Returns:
+        Mapping of criterion name to weight (should sum to ~1.0).
+    """
     config = _load_eval_config()
     raw = config.get("evaluation", {}).get("scoring", {}).get("weights", {})
     if not isinstance(raw, dict):
@@ -104,6 +173,14 @@ def _scoring_weights() -> dict[str, float]:
 
 
 def pass_threshold() -> float:
+    """Return the minimum weighted score required to pass evaluation.
+
+    Reads ``evaluation.scoring.pass_threshold`` from the evaluation YAML
+    config.  Defaults to 70.0 if unconfigured or unparseable.
+
+    Returns:
+        Pass threshold as a float in the 0--100 scale.
+    """
     config = _load_eval_config()
     raw = (
         config.get("evaluation", {})
@@ -120,7 +197,26 @@ def _resolve_rubric(
     workflow_definition: WorkflowDefinition | None,
     rubric_override: str | None,
 ) -> tuple[str, str, dict[str, float], dict[str, WorkflowCriterion]]:
-    """Resolve rubric identity and scoring weights with workflow defaults."""
+    """Resolve rubric identity and scoring weights from all sources.
+
+    Merges weights in priority order (lowest to highest):
+    1. Global defaults from ``evaluation.yaml`` (or ``_DEFAULT_WEIGHTS``).
+    2. Scoring profile weights (``A``--``E``) if the workflow declares one.
+    3. Per-criterion ``weight`` fields from the workflow's evaluation criteria.
+    4. Explicit ``weights`` dict from the workflow evaluation section.
+
+    Args:
+        workflow_definition: The loaded workflow definition, or None.
+        rubric_override: Optional rubric ID that takes precedence over the
+            workflow's ``evaluation.rubric_id``.
+
+    Returns:
+        A 4-tuple of ``(rubric_id, rubric_version, weights, criteria_by_name)``.
+
+    Raises:
+        ValueError: If the resolved weights are empty, contain unknown
+            criteria, include non-positive values, or do not sum to ~1.0.
+    """
     base_weights = _scoring_weights()
     weights = dict(base_weights)
     criteria_by_name: dict[str, WorkflowCriterion] = {}
@@ -170,7 +266,17 @@ def _validate_rubric_weights(
     *,
     known_criteria: set[str] | None = None,
 ) -> None:
-    """Validate rubric weights are usable and aligned to known criteria."""
+    """Validate that rubric weights are non-empty, positive, sum to ~1.0, and reference only known criteria.
+
+    Args:
+        weights: Mapping of criterion name to weight.
+        known_criteria: If provided, the set of valid criterion names.
+            Any weight key not in this set raises ``ValueError``.
+
+    Raises:
+        ValueError: On empty weights, unknown criteria, non-positive
+            values, or sum deviating from 1.0 by more than 0.01.
+    """
     if not weights:
         raise ValueError("Rubric weights cannot be empty.")
 
@@ -194,7 +300,15 @@ def _validate_rubric_weights(
 
 
 def _step_scores(result: WorkflowResult) -> list[dict[str, Any]]:
-    """Produce lightweight per-step scores for event/log payloads."""
+    """Produce lightweight per-step score summaries for event and log payloads.
+
+    Args:
+        result: The completed workflow result.
+
+    Returns:
+        List of dicts, each with ``step_name``, ``status``, and ``score``
+        (100.0 for success, 0.0 otherwise).
+    """
     scores: list[dict[str, Any]] = []
     for step in result.steps:
         if step.status == StepStatus.SUCCESS:
@@ -214,7 +328,19 @@ def _step_scores(result: WorkflowResult) -> list[dict[str, Any]]:
 
 
 def validate_evaluation_payload_schema(payload: dict[str, Any]) -> tuple[bool, list[str]]:
-    """Validate evaluation payload shape for schema hard-gate checks."""
+    """Validate that an evaluation payload conforms to the expected schema.
+
+    Checks for required top-level fields (``rubric_id``, ``criteria``,
+    ``overall_score``, ``weighted_score``, ``grade``, ``passed``,
+    ``pass_threshold``, ``step_scores``) and validates the structure of
+    each criterion entry.
+
+    Args:
+        payload: The evaluation result dict to validate.
+
+    Returns:
+        A 2-tuple of ``(is_valid, error_messages)``.
+    """
     errors: list[str] = []
     if not isinstance(payload, dict):
         return False, ["payload must be a mapping"]
@@ -265,7 +391,20 @@ def compute_hard_gates(
     eval_payload: dict[str, Any] | None = None,
     dataset_workflow_compatible: bool = True,
 ) -> HardGateResult:
-    """Compute hard-gate pass/fail flags for a workflow run."""
+    """Compute hard-gate pass/fail flags for a workflow run.
+
+    Args:
+        result: The completed workflow result to evaluate.
+        workflow_outputs: Output definitions from the workflow YAML, used
+            to identify which outputs are required (non-optional).
+        eval_payload: If provided, validated against the evaluation schema
+            to set the ``schema_contract_valid`` gate.
+        dataset_workflow_compatible: Pre-computed flag indicating whether
+            the dataset sample satisfied the workflow's required inputs.
+
+    Returns:
+        A :class:`HardGateResult` with all gate flags populated.
+    """
     required_outputs = [
         output_name
         for output_name, output_def in (workflow_outputs or {}).items()
@@ -339,6 +478,14 @@ def compute_hard_gates(
 
 
 def _tokenize(text: str) -> set[str]:
+    """Split text into a set of lowercase alphanumeric tokens (length > 2).
+
+    Args:
+        text: Input text to tokenize.
+
+    Returns:
+        Set of unique lowercase token strings.
+    """
     return {
         token
         for token in re.findall(r"[A-Za-z0-9_]+", text.lower())
@@ -347,6 +494,17 @@ def _tokenize(text: str) -> set[str]:
 
 
 def _extract_expected_text(sample: dict[str, Any]) -> str:
+    """Extract the expected/golden output text from a dataset sample.
+
+    Searches the sample dict for keys ``expected_output``, ``golden_patch``,
+    ``answer.body``, and ``solution`` in priority order.
+
+    Args:
+        sample: A single dataset sample dict.
+
+    Returns:
+        The expected text string, or ``""`` if none found.
+    """
     if not isinstance(sample, dict):
         return ""
     if isinstance(sample.get("expected_output"), str):
@@ -362,6 +520,14 @@ def _extract_expected_text(sample: dict[str, Any]) -> str:
 
 
 def _output_text(result: WorkflowResult) -> str:
+    """Serialize the workflow's final output to a JSON string for scoring.
+
+    Args:
+        result: The completed workflow result.
+
+    Returns:
+        JSON-serialized output string, or ``str()`` fallback on error.
+    """
     final = getattr(result, "final_output", None) or getattr(result, "outputs", {})
     try:
         return json.dumps(final, default=str)
@@ -370,6 +536,19 @@ def _output_text(result: WorkflowResult) -> str:
 
 
 def _text_overlap_score(expected: str, generated: str) -> float:
+    """Compute token-level recall of expected text in generated text.
+
+    Tokenizes both strings into sets of alphanumeric tokens and returns
+    the fraction of expected tokens present in the generated output,
+    scaled to 0--100.
+
+    Args:
+        expected: The reference/golden text.
+        generated: The model-produced text.
+
+    Returns:
+        Overlap score in the 0.0--100.0 range.
+    """
     expected_tokens = _tokenize(expected)
     generated_tokens = _tokenize(generated)
     if not expected_tokens:
@@ -383,6 +562,33 @@ def _compute_criterion_score(
     result: WorkflowResult,
     expected_text: str,
 ) -> float:
+    """Compute a raw 0--100 score for a single evaluation criterion.
+
+    Dispatches on ``criterion`` name to one of four scoring formulas:
+
+    * **correctness-family** (``correctness``, ``objective_tests``,
+      ``task_completion``, ``faithfulness``, ``relevance``):
+      Blends success rate (70%) with text overlap recall (30%).
+    * **quality-family** (``code_quality``, ``safety_validation``,
+      ``tool_selection_accuracy``):
+      Penalizes for step failures and retries, with a status bonus.
+    * **efficiency-family** (``efficiency``, ``performance``):
+      Penalizes for execution duration and retries.
+    * **documentation-family** (``documentation``, ``citation_quality``,
+      ``coherence``):
+      Rewards output richness (character count and dict key count).
+
+    Unknown criteria receive a neutral baseline of 50.0 so the LLM
+    Judge can fully determine the final score.
+
+    Args:
+        criterion: Evaluation criterion name.
+        result: The completed workflow result.
+        expected_text: Golden/expected output text for overlap scoring.
+
+    Returns:
+        Raw score clamped to the 0.0--100.0 range.
+    """
     # Support both contract WorkflowResult and langchain runner WorkflowResult
     if hasattr(result, "success_rate"):
         success_rate = float(result.success_rate)
@@ -468,6 +674,15 @@ def _compute_criterion_score(
 
 
 def _grade(score: float) -> str:
+    """Map a 0--100 weighted score to a letter grade.
+
+    Args:
+        score: Weighted composite score.
+
+    Returns:
+        One of ``"A"`` (>=90), ``"B"`` (>=80), ``"C"`` (>=70),
+        ``"D"`` (>=60), or ``"F"`` (<60).
+    """
     if score >= 90:
         return "A"
     if score >= 80:
@@ -480,6 +695,11 @@ def _grade(score: float) -> str:
 
 
 def _default_judge_scale() -> dict[str, str]:
+    """Return the default 1--5 anchored scale labels for LLM Judge criteria.
+
+    Returns:
+        Mapping of score (as string) to human-readable anchor description.
+    """
     return {
         "1": "Major requirement failures",
         "2": "Multiple significant errors",
@@ -494,6 +714,19 @@ def _build_judge_criteria(
     weights: dict[str, float],
     criteria_by_name: dict[str, WorkflowCriterion],
 ) -> list[JudgeCriterionDefinition]:
+    """Build LLM Judge criterion definitions from workflow criteria and weights.
+
+    If the workflow defines criteria with definitions and scale anchors,
+    those are used.  Otherwise, generic definitions are generated from
+    the weight keys.
+
+    Args:
+        weights: Active criterion-to-weight mapping.
+        criteria_by_name: Workflow-defined criteria keyed by name.
+
+    Returns:
+        List of :class:`JudgeCriterionDefinition` instances for the judge prompt.
+    """
     criteria: list[JudgeCriterionDefinition] = []
     if criteria_by_name:
         for criterion_name in weights:
@@ -527,6 +760,19 @@ def _advisory_similarity_score(
     generated_text: str,
     objective_score_0_1: float,
 ) -> float:
+    """Compute the advisory similarity component (0--1) for hybrid scoring.
+
+    When expected text is available, uses token-overlap recall normalized
+    to [0, 1].  Otherwise, falls back to the objective criterion score.
+
+    Args:
+        expected_text: Golden/reference output text.
+        generated_text: Model-produced output text.
+        objective_score_0_1: Pre-computed objective score as fallback.
+
+    Returns:
+        Normalized similarity score in [0, 1].
+    """
     if expected_text:
         overlap = _text_overlap_score(expected_text, generated_text)
         return normalize_score(overlap / 100.0, "zero_one")
@@ -538,6 +784,19 @@ def _advisory_efficiency_score(
     result: WorkflowResult,
     normalized_scores: dict[str, float],
 ) -> float:
+    """Compute the advisory efficiency component (0--1) for hybrid scoring.
+
+    If an ``efficiency`` criterion was already scored, reuses it.
+    Otherwise, derives efficiency from execution duration (SLO: 2s good,
+    60s bad) and retry count (SLO: 0 good, 8 bad), blended 70/30.
+
+    Args:
+        result: The completed workflow result (for duration and retries).
+        normalized_scores: Already-computed normalized criterion scores.
+
+    Returns:
+        Normalized efficiency score in [0, 1].
+    """
     if "efficiency" in normalized_scores:
         return normalize_score(normalized_scores["efficiency"], "zero_one")
 
@@ -564,6 +823,21 @@ def _compose_hybrid_score(
     judge_score_0_1: float | None,
     component_weights: dict[str, float] | None = None,
 ) -> tuple[float, dict[str, float]]:
+    """Compose a hybrid score from objective, advisory, and judge components.
+
+    Default component weights are ``objective=0.35``, ``judge=0.50``,
+    ``advisory=0.15``.  If the judge score is ``None`` (judge unavailable),
+    only objective and advisory are used with re-normalized weights.
+
+    Args:
+        objective_score_0_1: Weighted criterion score in [0, 1].
+        advisory_score_0_1: Heuristic advisory score in [0, 1].
+        judge_score_0_1: LLM Judge normalized score in [0, 1], or None.
+        component_weights: Optional override for component weight map.
+
+    Returns:
+        A 2-tuple of ``(hybrid_score_0_1, active_weights_used)``.
+    """
     default_weights = {
         "objective": 0.35,
         "judge": 0.50,
@@ -611,7 +885,34 @@ def score_workflow_result_impl(
         [WorkflowDefinition, dict[str, Any]], tuple[bool, list[str]]
     ] = match_workflow_dataset,
 ) -> dict[str, Any]:
-    """Produce criterion-level and aggregate scores for a workflow result."""
+    """Produce criterion-level and aggregate scores for a workflow result.
+
+    Orchestrates the full three-stage scoring pipeline:
+
+    1. Resolve rubric weights and compute per-criterion raw and normalized
+       scores using ``compute_criterion_score_fn``.
+    2. Compute advisory heuristic scores (similarity + efficiency) and
+       optionally invoke the LLM Judge for each criterion.
+    3. Compose a hybrid weighted score, map to a letter grade, enforce
+       criterion floor violations and hard gates, and assemble the final
+       evaluation payload dict.
+
+    Args:
+        result: Completed workflow execution result.
+        dataset_meta: Metadata about the dataset source and sample index.
+        dataset_sample: Raw dataset sample dict (for expected-text extraction).
+        rubric: Optional rubric ID override.
+        workflow_definition: Loaded workflow definition for rubric and output info.
+        enforce_hard_gates: If True, hard-gate failures force grade ``F``.
+        judge: Optional :class:`LLMJudge` instance for hybrid scoring.
+        hybrid_component_weights: Optional override for hybrid component weights.
+        compute_criterion_score_fn: Criterion scoring function (injectable for tests).
+        match_workflow_dataset_fn: Dataset compatibility checker (injectable for tests).
+
+    Returns:
+        Evaluation payload dict containing criteria scores, grades, hard gates,
+        floor violations, score layers, judge results, and pass/fail status.
+    """
     rubric_id, rubric_version, weights, criteria_by_name = _resolve_rubric(
         workflow_definition,
         rubric,

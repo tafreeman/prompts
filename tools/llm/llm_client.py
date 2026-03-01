@@ -1,3 +1,20 @@
+"""Multi-provider LLM client with automatic provider dispatch.
+
+This module provides ``LLMClient``, a static-method-based facade that routes
+text-generation requests to the correct backend based on a model name prefix
+(e.g. ``local:``, ``gh:``, ``ollama:``, ``gemini:``).  Response caching and
+a remote-provider gate (``PROMPTEVAL_ALLOW_REMOTE``) are applied transparently.
+
+Typical usage::
+
+    from tools.llm.llm_client import LLMClient
+
+    text = LLMClient.generate_text("gh:gpt-4o-mini", "Explain quicksort.")
+
+Raises:
+    LLMClientError: On any provider failure (wraps the original exception).
+"""
+
 import os
 import sys
 from pathlib import Path
@@ -31,7 +48,15 @@ except ImportError:
 
 
 class LLMClientError(RuntimeError):
-    """Raised when an LLM call fails."""
+    """Raised when an LLM provider call fails.
+
+    Wraps the underlying exception so callers can inspect both the
+    high-level context and the original cause.
+
+    Attributes:
+        model: The model identifier that was requested (e.g. ``"gh:gpt-4o"``).
+        original_error: The upstream exception, if any.
+    """
 
     def __init__(
         self, model: str, message: str, original_error: Exception | None = None
@@ -42,20 +67,38 @@ class LLMClientError(RuntimeError):
 
 
 class LLMClient:
-    """Unified client for interacting with different LLM providers.
+    """Unified, stateless facade for multi-provider LLM text generation.
 
-    Supported providers:
-      - local:* -> Local ONNX models (phi4mini, phi3, phi3.5, mistral-7b, etc.)
-            - ollama:* -> Local Ollama server (OpenAI-unrelated HTTP API)
-      - azure-foundry:* -> Azure Foundry API
-            - azure-openai:* -> Azure OpenAI Service (deployment-based)
-      - gh:* -> GitHub Models API
-            - openai:* -> OpenAI hosted API (explicit prefix)
-            - gemini:* -> Google Gemini API (explicit prefix)
-            - claude:* -> Anthropic Claude API (explicit prefix)
-      - gemini* -> Google Gemini API
-      - claude* -> Anthropic Claude API
-      - gpt* -> OpenAI API
+    All public methods are ``@staticmethod``; no instance state is required.
+    The ``generate_text`` method inspects the ``model_name`` prefix to select
+    the correct provider adapter, applies optional response caching, and
+    enforces a remote-provider gate controlled by the
+    ``PROMPTEVAL_ALLOW_REMOTE`` environment variable.
+
+    Supported provider prefixes:
+        local:*
+            Local ONNX models (phi4mini, phi3, mistral-7b, etc.).
+        ollama:*
+            Local Ollama server via its REST API.
+        windows-ai:*
+            Windows Copilot Runtime / Phi Silica (NPU-accelerated).
+        azure-foundry:*
+            Azure AI Foundry endpoint.
+        azure-openai:*
+            Azure OpenAI Service (deployment-based).
+        gh:*
+            GitHub Models API.
+        openai:*
+            OpenAI hosted API (explicit prefix).
+        gemini:*
+            Google Gemini API (explicit prefix).
+        claude:*
+            Anthropic Claude API (explicit prefix).
+        gemini / claude / gpt (bare substring)
+            Inferred provider from model name substring.
+
+    Attributes:
+        LOCAL_MODELS: Mapping of local model keys to their ONNX paths.
     """
 
     LOCAL_MODELS = dict(LOCAL_MODELS)

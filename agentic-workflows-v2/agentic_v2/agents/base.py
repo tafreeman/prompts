@@ -1,13 +1,29 @@
-"""Base agent implementation.
+"""Base agent implementation with full lifecycle management.
 
-Aggressive design improvements:
-- Full lifecycle management (init, run, cleanup)
-- Typed message passing with validation
-- Dynamic tool binding at runtime
-- Model tier selection with fallback
-- Conversation memory with summarization
-- Streaming support
-- Hooks for observability
+Defines the abstract :class:`BaseAgent` class that all concrete agents must
+subclass, along with supporting infrastructure for agent state tracking,
+conversation memory, configuration, and pipeline integration.
+
+Key abstractions:
+    BaseAgent:
+        Generic, lifecycle-managed agent with typed I/O
+        (``TInput`` / ``TOutput``), an iterative execution loop, dynamic tool
+        binding filtered by :class:`~agentic_v2.models.ModelTier`, conversation
+        memory with automatic summarization, and an event system for
+        observability hooks.
+
+    ConversationMemory:
+        Sliding-window message buffer with configurable token budget and
+        automatic summarization of evicted messages.
+
+    AgentConfig:
+        Frozen configuration controlling identity, model tier selection,
+        iteration limits, memory sizing, and streaming behavior.
+
+    agent_to_step:
+        Adapter that wraps any :class:`BaseAgent` instance into a
+        :class:`~agentic_v2.engine.StepDefinition` for use in DAG or
+        pipeline execution.
 """
 
 from __future__ import annotations
@@ -31,7 +47,15 @@ TOutput = TypeVar("TOutput", bound=TaskOutput)
 
 
 class AgentState(str, Enum):
-    """Agent lifecycle states."""
+    """Finite-state enum representing the lifecycle of a :class:`BaseAgent`.
+
+    The valid state transitions are::
+
+        CREATED -> INITIALIZING -> READY -> RUNNING -> COMPLETED
+                                                    -> FAILED
+                                                    -> CANCELLED
+                                         -> PAUSED  -> RUNNING (resumed)
+    """
 
     CREATED = "created"
     INITIALIZING = "initializing"
@@ -44,7 +68,11 @@ class AgentState(str, Enum):
 
 
 class AgentEvent(str, Enum):
-    """Events emitted by agents."""
+    """Observable events emitted by :class:`BaseAgent` during execution.
+
+    Register handlers via :meth:`BaseAgent.on_event` to receive these events
+    for logging, metrics, or UI updates.
+    """
 
     STATE_CHANGE = "state_change"
     MESSAGE_RECEIVED = "message_received"
@@ -61,7 +89,19 @@ AgentEventHandler = Callable[["BaseAgent", AgentEvent, dict[str, Any]], None]
 
 @dataclass
 class ConversationMessage:
-    """A message in the agent's conversation history."""
+    """A single message in the agent's conversation history.
+
+    Attributes:
+        role: The message role (``"user"``, ``"assistant"``, ``"system"``,
+            or ``"tool"``).
+        content: The textual content of the message.
+        timestamp: UTC timestamp of when the message was created.
+        tool_call_id: Optional identifier linking a tool result to its
+            originating tool call.
+        tool_name: Name of the tool that produced this message (only set
+            when ``role`` is ``"tool"``).
+        metadata: Arbitrary key-value pairs for extensibility.
+    """
 
     role: str  # "user", "assistant", "system", "tool"
     content: str
@@ -82,13 +122,21 @@ class ConversationMessage:
 
 @dataclass
 class ConversationMemory:
-    """Manages conversation history with automatic summarization.
+    """Sliding-window conversation buffer with automatic summarization.
 
-    Aggressive improvements:
-    - Sliding window with configurable size
-    - Automatic summarization when window exceeded
-    - Token counting for context management
-    - Message importance scoring
+    Maintains a bounded list of :class:`ConversationMessage` instances.  When
+    the window exceeds ``max_messages`` or ``max_tokens``, older messages are
+    compressed into textual summaries and evicted.  System messages and recent
+    context are preserved during compaction.
+
+    Attributes:
+        messages: The current message window.
+        max_messages: Maximum number of messages before summarization triggers.
+        max_tokens: Approximate token budget for messages plus summaries.
+        summaries: Accumulated textual summaries of evicted messages.
+        max_summaries: Maximum number of summary blocks to retain.
+        token_counter: Optional callable for precise token counting.  Falls
+            back to a ``len(text) // 4`` heuristic when ``None``.
     """
 
     messages: list[ConversationMessage] = field(default_factory=list)
@@ -285,7 +333,31 @@ class ConversationMemory:
 
 @dataclass
 class AgentConfig:
-    """Configuration for an agent."""
+    """Configuration parameters for a :class:`BaseAgent` instance.
+
+    Attributes:
+        name: Human-readable agent identifier used in logging and
+            :func:`agent_to_step` conversion.
+        description: Brief description of the agent's purpose.
+        system_prompt: System-level instruction prepended to conversation
+            memory on initialization.
+        default_tier: Default :class:`~agentic_v2.models.ModelTier` used
+            for LLM routing and tool binding.
+        max_tier: Maximum model tier the agent is allowed to escalate to.
+        max_iterations: Upper bound on the execution loop iterations before
+            the agent raises ``RuntimeError``.
+        max_tool_calls_per_turn: Maximum number of tool calls processed
+            per single model response.
+        timeout_seconds: Per-run wall-clock timeout.
+        max_memory_messages: Passed to :class:`ConversationMemory` as
+            ``max_messages``.
+        max_memory_tokens: Passed to :class:`ConversationMemory` as
+            ``max_tokens``.
+        enable_streaming: When ``True``, the :meth:`BaseAgent.stream` method
+            uses the model's streaming endpoint instead of falling back to
+            a single ``run()`` call.
+        verbose: Enable debug-level logging output.
+    """
 
     # Identity
     name: str = "agent"
@@ -313,15 +385,50 @@ class AgentConfig:
 
 
 class BaseAgent(ABC, Generic[TInput, TOutput]):
-    """Abstract base agent with full lifecycle management.
+    """Abstract base class for all agents in the workflow engine.
 
-    Aggressive improvements:
-    - Generic input/output types for type safety
-    - Full lifecycle (init → ready → running → completed)
-    - Dynamic tool binding
-    - Event system for observability
-    - Conversation memory
-    - Streaming support
+    ``BaseAgent`` is generic over ``TInput`` (a :class:`~agentic_v2.contracts.TaskInput`
+    subclass) and ``TOutput`` (a :class:`~agentic_v2.contracts.TaskOutput` subclass),
+    providing compile-time type safety for agent I/O.
+
+    Lifecycle:
+        Every agent transitions through :class:`AgentState` values:
+        ``CREATED -> INITIALIZING -> READY -> RUNNING -> COMPLETED | FAILED | CANCELLED``.
+        The :meth:`run` method auto-initializes on first call.
+
+    Subclass contract:
+        Concrete agents **must** implement:
+
+        - :meth:`_call_model` -- invoke the LLM and return a dict with
+          ``"content"`` and optionally ``"tool_calls"``.
+        - :meth:`_format_task_message` -- serialize ``TInput`` to a user
+          message string.
+        - :meth:`_is_task_complete` -- decide whether the model response
+          constitutes a final answer.
+        - :meth:`_parse_output` -- deserialize the model response string
+          into ``TOutput``.
+
+    Integration with the workflow engine:
+        Use :func:`agent_to_step` to wrap any ``BaseAgent`` into a
+        :class:`~agentic_v2.engine.StepDefinition` for DAG or pipeline
+        execution.
+
+    Capability composition:
+        Agents gain declared capabilities by mixing in subclasses of
+        :class:`~agentic_v2.agents.capabilities.CapabilityMixin` (e.g.,
+        :class:`CodeGenerationMixin`, :class:`CodeReviewMixin`).  The
+        :class:`OrchestratorAgent` uses these capabilities for automatic
+        agent-to-task matching.
+
+    Args:
+        config: Agent configuration. Defaults to a generic
+            :class:`AgentConfig` if ``None``.
+        router: Model router for tier-based LLM selection. Defaults to
+            the global :func:`~agentic_v2.models.get_smart_router`.
+        tools: Tool registry for dynamic tool binding. Defaults to the
+            global :func:`~agentic_v2.tools.get_registry`.
+        llm_client: LLM client wrapper. Defaults to the global
+            :func:`~agentic_v2.models.get_client`.
     """
 
     def __init__(
@@ -705,9 +812,27 @@ class BaseAgent(ABC, Generic[TInput, TOutput]):
 def agent_to_step(
     agent: BaseAgent[TInput, TOutput], name: Optional[str] = None
 ) -> StepDefinition:
-    """Convert an agent to a step definition for pipeline integration.
+    """Wrap a :class:`BaseAgent` as a :class:`~agentic_v2.engine.StepDefinition`.
 
-    Usage:
+    Creates a step function that extracts a ``"task"`` key from the
+    :class:`~agentic_v2.engine.ExecutionContext`, passes it to
+    :meth:`BaseAgent.run`, and returns the result under a ``"result"`` key.
+
+    Args:
+        agent: The agent instance to wrap.
+        name: Optional step name override.  Defaults to
+            ``agent.config.name``.
+
+    Returns:
+        A :class:`~agentic_v2.engine.StepDefinition` ready for insertion
+        into a DAG or pipeline.
+
+    Raises:
+        ValueError: If the execution context does not contain a ``"task"``
+            key at runtime.
+
+    Example::
+
         coder = CoderAgent()
         pipeline.add_step(agent_to_step(coder, "generate_code"))
     """

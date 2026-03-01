@@ -1,11 +1,15 @@
-"""Orchestrator agent for coordinating multi-agent workflows.
+"""Meta-agent that decomposes tasks and delegates to specialized agents.
 
-Aggressive design improvements:
-- Dynamic agent selection based on capabilities
-- Task decomposition and delegation
-- Result aggregation and validation
-- Parallel execution where possible
-- Adaptive replanning on failures
+The :class:`OrchestratorAgent` uses an LLM to break a high-level task
+description into subtasks, matches each subtask to the best available
+agent via :class:`~agentic_v2.agents.capabilities.CapabilitySet` scoring,
+and executes the resulting plan.  Two execution strategies are supported:
+
+- :meth:`OrchestratorAgent.execute_as_dag` (preferred) -- builds a
+  :class:`~agentic_v2.engine.DAG` from the dependency graph and uses
+  Kahn's algorithm for maximum parallelism.
+- :meth:`OrchestratorAgent.execute_as_pipeline` (legacy) -- sequential
+  pipeline execution, kept for backward compatibility.
 """
 
 from __future__ import annotations
@@ -27,7 +31,19 @@ from .capabilities import (Capability, CapabilitySet, CapabilityType,
 
 @dataclass
 class SubTask:
-    """A decomposed subtask."""
+    """A single subtask produced by the orchestrator's task decomposition.
+
+    Attributes:
+        id: Unique subtask identifier within the orchestration plan.
+        description: Human-readable description of the work to be done.
+        required_capabilities: List of :class:`CapabilityType` values
+            needed to execute this subtask.
+        dependencies: IDs of subtasks that must complete before this one.
+        assigned_agent: Name of the agent selected to execute this subtask,
+            populated by :meth:`OrchestratorAgent._assign_agents`.
+        result: Execution result, populated after the subtask completes.
+        status: Current execution status.
+    """
 
     id: str
     description: str
@@ -39,7 +55,14 @@ class SubTask:
 
 
 class OrchestratorInput(TaskInput):
-    """Input for orchestrator."""
+    """Input schema for the :class:`OrchestratorAgent`.
+
+    Attributes:
+        task: Natural-language description of the task to orchestrate.
+        available_agents: Optional list of agent names to restrict selection.
+        max_parallel: Maximum number of subtasks to execute concurrently.
+        require_review: Whether a review step is appended to the plan.
+    """
 
     task: str = Field(default="", description="Task description to orchestrate")
     available_agents: list[str] = Field(
@@ -50,7 +73,16 @@ class OrchestratorInput(TaskInput):
 
 
 class OrchestratorOutput(TaskOutput):
-    """Output from orchestrator."""
+    """Output schema produced by the :class:`OrchestratorAgent`.
+
+    Attributes:
+        subtasks: Serialized list of decomposed subtask dicts.
+        agent_assignments: Mapping of subtask ID to assigned agent name.
+        final_result: Aggregated result after plan execution, or ``None``
+            if no agents were registered.
+        execution_trace: Chronological log entries recording each subtask
+            execution.
+    """
 
     subtasks: list[dict[str, Any]] = Field(default_factory=list)
     agent_assignments: dict[str, str] = Field(default_factory=dict)
@@ -85,14 +117,26 @@ When decomposing tasks, provide JSON with this structure:
 class OrchestratorAgent(
     BaseAgent[OrchestratorInput, OrchestratorOutput], OrchestrationMixin
 ):
-    """Meta-agent that coordinates other agents.
+    """Meta-agent that coordinates a pool of registered agents.
 
-    Aggressive improvements:
-    - Capability-based agent matching
-    - Dependency-aware scheduling
-    - Parallel execution where possible
-    - Adaptive replanning on failures
-    - Result validation and aggregation
+    The orchestrator follows a three-phase workflow:
+
+    1. **Decomposition** -- The LLM breaks the input task into subtasks
+       with declared capability requirements and dependency edges.
+    2. **Assignment** -- Each subtask is matched to the registered agent
+       whose :class:`~agentic_v2.agents.capabilities.CapabilitySet`
+       best satisfies the requirements (via :meth:`CapabilitySet.score_match`).
+    3. **Execution** -- Subtasks are executed respecting dependency order.
+       Independent subtasks run concurrently up to ``max_parallel``.
+
+    Agents are registered via :meth:`register_agent` and can be removed
+    with :meth:`unregister_agent`.
+
+    Args:
+        config: Agent configuration. Defaults to a Tier-3 orchestrator
+            config with a task-decomposition system prompt.
+        agents: Optional pre-populated dict of ``name -> BaseAgent``.
+        **kwargs: Passed through to :class:`BaseAgent.__init__`.
     """
 
     def __init__(

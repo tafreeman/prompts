@@ -68,3 +68,22 @@ packages = ["agentic_v2"]
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
+markers = [
+    "integration: end-to-end tests that call real agents/LLMs (deselect with -m 'not integration')",
+    "slow: tests taking more than 5 seconds",
+    "security: security-related tests",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["agentic_v2"]
+
+[tool.coverage.report]
+fail_under = 80
+skip_empty = true
+exclude_lines = [
+    "pragma: no cover",
+    "if TYPE_CHECKING:",
+    "if __name__",
+    "raise NotImplementedError",
+]

@@ -1,11 +1,13 @@
-"""Architect agent for system design and architecture tasks.
+"""Agent specialized for system architecture design.
 
-Designs system architecture based on requirements including:
-- Tech stack recommendations with justifications
-- Component diagrams (Mermaid)
-- API strategy
-- Database design
-- Deployment architecture
+Provides :class:`ArchitectAgent`, a :class:`~agentic_v2.agents.base.BaseAgent`
+subclass that takes system requirements and produces structured architecture
+recommendations including tech stack choices with justifications, Mermaid
+component diagrams, API strategy, data flow descriptions, deployment
+architecture, scalability analysis, and security considerations.
+
+Output is returned as :class:`ArchitectureOutput` with parsed
+:class:`TechStackChoice` entries extracted from the LLM's JSON response.
 """
 
 from __future__ import annotations
@@ -22,7 +24,20 @@ from .base import AgentConfig, BaseAgent
 
 
 class ArchitectureInput(TaskInput):
-    """Input for architecture design tasks."""
+    """Input schema for the :class:`ArchitectAgent`.
+
+    Attributes:
+        requirements: System requirements to design for (required,
+            non-empty).
+        arch_constraints: Architecture-level constraints (e.g., cloud
+            provider restrictions, latency budgets).  Distinct from the
+            inherited ``TaskInput.constraints`` field.
+        user_stories: Optional user stories to inform the design.
+        existing_architecture: Description of an existing system to
+            extend or integrate with.
+        preferences: Technology preference hints (e.g.,
+            ``{"database": "PostgreSQL"}``).
+    """
 
     requirements: str = Field(
         description="System requirements to design for", min_length=1
@@ -43,7 +58,14 @@ class ArchitectureInput(TaskInput):
 
 
 class TechStackChoice(BaseModel):
-    """A technology choice with justification."""
+    """A single technology choice in the architecture's tech stack.
+
+    Attributes:
+        name: Name of the chosen technology (e.g., ``"React"``,
+            ``"PostgreSQL"``).
+        justification: Rationale for selecting this technology.
+        alternatives: Other technologies considered but not selected.
+    """
 
     name: str = Field(default="", description="Technology name")
     justification: str = Field(default="", description="Why this choice")
@@ -53,7 +75,21 @@ class TechStackChoice(BaseModel):
 
 
 class ArchitectureOutput(TaskOutput):
-    """Output from architecture design."""
+    """Structured output from the :class:`ArchitectAgent`.
+
+    Attributes:
+        tech_stack: Mapping of stack layer (e.g., ``"frontend"``,
+            ``"backend"``, ``"database"``) to :class:`TechStackChoice`.
+        component_diagram: Mermaid-syntax diagram of system components.
+        api_strategy: API design decisions (type, versioning,
+            authentication, rate limiting).
+        data_flow: Textual description of data flow through the system.
+        deployment: Deployment strategy details (environments, CI/CD).
+        scalability: Scalability analysis (bottlenecks, recommendations).
+        security: Security considerations (auth, authorization, data
+            protection, compliance).
+        raw_response: Unprocessed model response for debugging.
+    """
 
     tech_stack: dict[str, TechStackChoice] = Field(default_factory=dict)
     component_diagram: str = Field(default="", description="Mermaid diagram")
@@ -122,14 +158,23 @@ Output your response as valid JSON with this structure:
 
 
 class ArchitectAgent(BaseAgent[ArchitectureInput, ArchitectureOutput]):
-    """Agent specialized for system architecture design.
+    """Agent that designs system architecture from requirements.
 
-    Takes requirements and produces:
-    - Tech stack recommendations with justifications
-    - Component diagrams (Mermaid)
-    - API strategy
-    - Deployment architecture
-    - Scalability analysis
+    Extends :class:`~agentic_v2.agents.base.BaseAgent` parameterized with
+    :class:`ArchitectureInput` / :class:`ArchitectureOutput`.
+
+    The agent prompts the LLM with a detailed system-design persona and
+    parses the JSON response into structured output.  When no LLM backend
+    is configured, a mock response is returned for testing.
+
+    JSON extraction is resilient: the parser tries fenced ``json`` blocks,
+    generic fenced blocks, and raw ``{...}`` extraction in sequence.
+    Mermaid diagrams are extracted separately as a fallback.
+
+    Args:
+        config: Agent configuration. Defaults to a Tier-3 config (higher
+            tier for complex architectural reasoning) with 3 max iterations.
+        **kwargs: Passed through to :class:`BaseAgent.__init__`.
     """
 
     def __init__(self, config: Optional[AgentConfig] = None, **kwargs):

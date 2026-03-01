@@ -9,6 +9,7 @@ Aggressive design improvements:
 """
 
 import bisect
+import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
@@ -81,17 +82,19 @@ class ModelStats:
     _failure_threshold: int = 5
     _recovery_timeout_seconds: int = 60
     _last_failure_time: Optional[datetime] = None
+    _last_failure_mono: Optional[float] = None  # ADR-002C: monotonic clock
     _consecutive_failures: int = 0
     _half_open_success_required: int = 2
     _half_open_successes: int = 0
 
-    # Timestamps
+    # Timestamps (wall clock — for logging/serialization only)
     last_success: Optional[datetime] = None
     last_failure: Optional[datetime] = None
     first_seen: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
-    # Cooldown tracking
-    cooldown_until: Optional[datetime] = None
+    # Cooldown tracking — monotonic clock for runtime, wall clock for persistence
+    cooldown_until: Optional[datetime] = None  # Wall clock (serialization only)
+    _cooldown_until_mono: Optional[float] = None  # ADR-002C: monotonic clock
 
     @property
     def total_calls(self) -> int:
@@ -153,18 +156,21 @@ class ModelStats:
 
     @property
     def is_in_cooldown(self) -> bool:
-        """Check if model is in cooldown period."""
-        if self.cooldown_until is None:
+        """Check if model is in cooldown period.
+
+        Uses monotonic clock (ADR-002C) to avoid NTP clock-jump corruption.
+        """
+        if self._cooldown_until_mono is None:
             return False
-        return datetime.now(timezone.utc) < self.cooldown_until
+        return time.monotonic() < self._cooldown_until_mono
 
     @property
     def cooldown_remaining_seconds(self) -> float:
         """Seconds remaining in cooldown, or 0 if not in cooldown."""
-        if not self.is_in_cooldown:
+        if self._cooldown_until_mono is None:
             return 0.0
-        delta = self.cooldown_until - datetime.now(timezone.utc)
-        return max(0.0, delta.total_seconds())
+        remaining = self._cooldown_until_mono - time.monotonic()
+        return max(0.0, remaining)
 
     def record_success(self, latency_ms: float) -> None:
         """Record a successful call.
@@ -172,8 +178,9 @@ class ModelStats:
         Args:
             latency_ms: Call latency in milliseconds
         """
+        now_utc = datetime.now(timezone.utc)
         self.success_count += 1
-        self.last_success = datetime.now(timezone.utc)
+        self.last_success = now_utc
 
         # Update EMA latency
         if self._ema_latency_ms == 0:
@@ -196,7 +203,7 @@ class ModelStats:
             self._latency_samples.sort()
 
         # Update recent window
-        self._recent_results.append((datetime.now(timezone.utc), True))
+        self._recent_results.append((now_utc, True))
         if len(self._recent_results) > self._window_size:
             self._recent_results.pop(0)
 
@@ -214,12 +221,14 @@ class ModelStats:
         Args:
             error_type: Type of error encountered
         """
+        now_utc = datetime.now(timezone.utc)
         self.failure_count += 1
-        self.last_failure = datetime.now(timezone.utc)
-        self._last_failure_time = self.last_failure
+        self.last_failure = now_utc
+        self._last_failure_time = now_utc
+        self._last_failure_mono = time.monotonic()  # ADR-002C
 
         # Update recent window
-        self._recent_results.append((datetime.now(timezone.utc), False))
+        self._recent_results.append((now_utc, False))
         if len(self._recent_results) > self._window_size:
             self._recent_results.pop(0)
 
@@ -232,12 +241,18 @@ class ModelStats:
         elif self._consecutive_failures >= self._failure_threshold:
             self.circuit_state = CircuitState.OPEN
 
-    def record_rate_limit(self) -> None:
-        """Record a rate limit hit."""
+    def record_rate_limit(self, retry_after_seconds: Optional[int] = None) -> None:
+        """Record a rate limit hit.
+
+        Args:
+            retry_after_seconds: Provider-specified retry delay from Retry-After
+                header. If None, falls back to default 120s cooldown.
+        """
         self.rate_limit_count += 1
         self.record_failure("rate_limit")
-        # Apply longer cooldown for rate limits
-        self.cooldown_until = datetime.now(timezone.utc) + timedelta(minutes=2)
+        # ADR-002C/E: Use provider Retry-After when available, monotonic clock
+        cooldown_secs = retry_after_seconds if retry_after_seconds is not None else 120
+        self.set_cooldown(cooldown_secs)
 
     def record_timeout(self) -> None:
         """Record a timeout."""
@@ -247,17 +262,24 @@ class ModelStats:
     def set_cooldown(self, seconds: int) -> None:
         """Set cooldown period.
 
+        Uses monotonic clock for runtime tracking (ADR-002C) and wall clock
+        for serialization/logging only.
+
         Args:
             seconds: Duration of cooldown in seconds
         """
+        self._cooldown_until_mono = time.monotonic() + seconds
         self.cooldown_until = datetime.now(timezone.utc) + timedelta(seconds=seconds)
 
     def clear_cooldown(self) -> None:
         """Clear any active cooldown."""
+        self._cooldown_until_mono = None
         self.cooldown_until = None
 
     def check_circuit(self) -> bool:
         """Check if circuit allows requests.
+
+        Uses monotonic clock for recovery timeout (ADR-002C).
 
         Returns:
             True if requests should be allowed
@@ -266,10 +288,18 @@ class ModelStats:
             return True
 
         if self.circuit_state == CircuitState.OPEN:
-            # Check if recovery timeout has passed
-            if self._last_failure_time is not None:
-                elapsed = datetime.now(timezone.utc) - self._last_failure_time
-                if elapsed.total_seconds() >= self._recovery_timeout_seconds:
+            # Check if recovery timeout has passed using monotonic clock
+            if self._last_failure_mono is not None:
+                elapsed = time.monotonic() - self._last_failure_mono
+                if elapsed >= self._recovery_timeout_seconds:
+                    self.circuit_state = CircuitState.HALF_OPEN
+                    return True
+            elif self._last_failure_time is not None:
+                # Fallback for stats loaded from persistence (no mono reference)
+                elapsed = (
+                    datetime.now(timezone.utc) - self._last_failure_time
+                ).total_seconds()
+                if elapsed >= self._recovery_timeout_seconds:
                     self.circuit_state = CircuitState.HALF_OPEN
                     return True
             return False
@@ -304,7 +334,12 @@ class ModelStats:
 
     @classmethod
     def from_dict(cls, data: dict) -> "ModelStats":
-        """Deserialize from dictionary."""
+        """Deserialize from dictionary.
+
+        Recomputes monotonic clock deadlines from persisted wall-clock
+        timestamps (ADR-002C). Monotonic values are process-local and
+        cannot be persisted directly.
+        """
         stats = cls(model_id=data["model_id"])
         stats.success_count = data.get("success_count", 0)
         stats.failure_count = data.get("failure_count", 0)
@@ -317,10 +352,20 @@ class ModelStats:
             stats.last_success = datetime.fromisoformat(data["last_success"])
         if data.get("last_failure"):
             stats.last_failure = datetime.fromisoformat(data["last_failure"])
+            stats._last_failure_time = stats.last_failure
+            # _last_failure_mono left as None — check_circuit falls back to
+            # wall clock for stats loaded from persistence
         if data.get("first_seen"):
             stats.first_seen = datetime.fromisoformat(data["first_seen"])
         if data.get("cooldown_until"):
             stats.cooldown_until = datetime.fromisoformat(data["cooldown_until"])
+            # Recompute monotonic deadline from remaining wall-clock seconds
+            remaining = (
+                stats.cooldown_until - datetime.now(timezone.utc)
+            ).total_seconds()
+            if remaining > 0:
+                stats._cooldown_until_mono = time.monotonic() + remaining
+            # else: cooldown already expired, leave mono as None
 
         return stats
 
