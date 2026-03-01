@@ -273,7 +273,7 @@ Located in `agentic-workflows-v2/agentic_v2/workflows/definitions/`:
 3. **Small Units:** Functions < 50 lines. Files < 800 lines (target 200–400). One class/module per file. Organize by feature/domain.
 4. **Error Handling:** Never swallow exceptions. Use specific exception types with contextual messages. Validate at system boundaries. Fail fast.
 5. **Formatting:** `black` (line-length 88) for code, `isort` (profile=black) for imports, `ruff` for linting, `mypy` (configured with `--ignore-missing-imports` in pre-commit) for types, `pydocstyle` (google convention) for docstrings.
-6. **Testing:** At least one test per public function (happy path + error path). No test interdependencies. CI enforces a coverage minimum of 60% (`--cov-fail-under=60`), but the team target is ≥80% coverage.
+6. **Testing:** At least one test per public function (happy path + error path). No test interdependencies. CI currently does not enforce a coverage minimum (`--cov-fail-under=0`), but the team target is ≥80% coverage.
 
 ---
 
@@ -284,9 +284,6 @@ Located in `agentic-workflows-v2/agentic_v2/workflows/definitions/`:
 ```bash
 # Install (from agentic-workflows-v2/)
 pip install -e ".[dev,server,langchain]"
-
-# To include optional features like tracing and the Claude SDK, add them to your install:
-# pip install -e ".[dev,server,langchain,tracing,claude]"
 
 # Run full test suite
 python -m pytest tests/ -v
@@ -300,7 +297,7 @@ pre-commit run --all-files
 # Hot-reload dev:
 # PowerShell (run in two terminals):
 #   Backend (from agentic-workflows-v2/):
-#     python -m uvicorn agentic_v2.server.app:app --host 127.0.0.1 --port 8010
+#     python -m uvicorn agentic_v2.server.app:app --host 127.0.0.1 --port 8010 --app-dir src
 #   Frontend (from agentic-workflows-v2/ui/):
 #     npm run dev
 # Git Bash / WSL / macOS helper script (optional):
