@@ -1,4 +1,10 @@
-"""Agent routes — dynamic discovery from config."""
+"""Agent discovery endpoint for the Agentic server.
+
+Provides ``GET /api/agents`` which reads agent definitions from
+``config/defaults/agents.yaml`` and returns them as a typed list.
+Agent configuration is loaded on every request (no caching) to
+support live config edits during development.
+"""
 
 from __future__ import annotations
 
@@ -23,7 +29,15 @@ _AGENTS_CONFIG_PATH = (
 
 
 def _discover_agents() -> list[AgentInfo]:
-    """Load agents from the YAML config file."""
+    """Load agent definitions from the YAML config file.
+
+    Reads ``config/defaults/agents.yaml`` and constructs an
+    :class:`AgentInfo` for each entry in the ``agents`` section.
+
+    Returns:
+        List of :class:`AgentInfo` instances, or empty list if the
+        config file is missing or malformed.
+    """
     if not _AGENTS_CONFIG_PATH.exists():
         logger.warning("agents.yaml not found at %s", _AGENTS_CONFIG_PATH)
         return []

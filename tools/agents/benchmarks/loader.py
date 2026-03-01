@@ -1,9 +1,13 @@
-"""
-Benchmark Data Loader
-=====================
+"""On-demand benchmark data loader with disk caching.
 
-Fetches benchmark data on demand from various sources.
-Handles caching and data transformation.
+Fetches task data from HuggingFace, GitHub, or local JSON files,
+normalizes every item into a :class:`BenchmarkTask` dataclass, and
+maintains a SHA-256-keyed JSON cache with configurable TTL.
+
+Public API:
+    load_benchmark: Load (and cache) a list of tasks.
+    fetch_task: Retrieve a single task by ID.
+    clear_cache: Remove cached benchmark data.
 """
 
 import hashlib
@@ -24,9 +28,29 @@ from .registry import BenchmarkConfig
 
 @dataclass
 class BenchmarkTask:
-    """A single task from a benchmark.
+    """A single benchmark task in a provider-agnostic normalized form.
 
-    Normalized structure regardless of source benchmark.
+    Regardless of the upstream source (HuggingFace, GitHub, local JSON),
+    every task is projected into this common schema so that runners and
+    evaluators can operate uniformly.
+
+    Attributes:
+        task_id: Unique identifier within the benchmark.
+        benchmark_id: Parent benchmark (e.g. ``"humaneval"``).
+        prompt: Primary task description / problem statement.
+        instruction: Supplementary instructions for the solver.
+        repo: Repository name (SWE-bench tasks).
+        base_commit: Starting commit hash (SWE-bench tasks).
+        issue_text: Full GitHub issue body (SWE-bench tasks).
+        hints: Optional hints provided with the task.
+        expected_output: Reference solution, if available.
+        test_cases: List of test-case dicts (format varies by benchmark).
+        golden_patch: Gold-standard patch (SWE-bench tasks).
+        difficulty: Difficulty label (e.g. ``"easy"``, ``"hard"``).
+        tags: Free-form tags for filtering.
+        language: Primary programming language.
+        evaluation_script: Script path for automated evaluation.
+        pass_criteria: Structured pass/fail criteria dict.
     """
 
     # Identification

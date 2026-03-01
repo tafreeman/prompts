@@ -1,6 +1,6 @@
-"""Load agent definitions from .md files with YAML frontmatter.
+"""Loader for ``.md`` agent definition files with YAML frontmatter.
 
-Reads files like::
+Scans a directory for ``.md`` files in the format::
 
     ---
     name: code-reviewer
@@ -11,8 +11,18 @@ Reads files like::
 
     You are a senior code reviewer...
 
-Returns a dict mapping agent name → AgentDefinition ready for use in
-ClaudeSDKAgent(subagents=...) or any other consumer.
+and returns a dict mapping agent ``name`` to
+:class:`~claude_agent_sdk.AgentDefinition` instances, ready for use as
+``subagents`` in :class:`~agentic_v2.agents.implementations.claude_sdk_agent.ClaudeSDKAgent`
+or any other consumer.
+
+Agent definitions are loaded from:
+    1. The bundled ``definitions/`` directory shipped with this package.
+    2. An optional external directory specified by the
+       ``AGENTIC_EXTERNAL_AGENTS_DIR`` environment variable.
+
+Short model names in frontmatter (``opus``, ``sonnet``, ``haiku``) are
+mapped to full Claude model identifiers via ``_MODEL_MAP``.
 """
 
 from __future__ import annotations

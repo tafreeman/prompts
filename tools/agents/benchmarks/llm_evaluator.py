@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
-"""
-LLM-Based Benchmark Evaluator
-==============================
+"""LLM-as-judge evaluator for benchmark outputs.
 
-Uses an LLM judge to evaluate generated outputs against gold standards
-with structured scoring rubrics (0.0-10.0 scale).
+Scores generated text against a gold standard using a five-dimension
+rubric (Completeness, Correctness, Quality, Specificity, Alignment)
+on a 0.0--10.0 scale.  The LLM judge prompt is constructed by
+:func:`build_evaluation_prompt`, and the structured JSON response is
+parsed by :func:`parse_evaluation_response`.
 
-This is a generic evaluator that works for any benchmark type,
-not just API design tasks.
+This evaluator is benchmark-agnostic: it works for SWE-bench patches,
+HumanEval functions, or any task with a gold-standard dictionary.
 """
 
 import json
@@ -67,7 +68,15 @@ EVALUATION_DIMENSIONS = {
 
 @dataclass
 class DimensionScore:
-    """Score for a single evaluation dimension."""
+    """Score for a single evaluation dimension on a 0.0--10.0 scale.
+
+    Attributes:
+        dimension: Dimension name (e.g. ``"completeness"``).
+        score: Raw score in ``[0.0, 10.0]``.
+        reasoning: Free-text explanation from the LLM judge.
+        evidence: Specific quotes or examples supporting the score.
+        weight: Relative weight used when computing the overall score.
+    """
 
     dimension: str
     score: float  # 0.0 - 10.0
@@ -82,7 +91,30 @@ class DimensionScore:
 
 @dataclass
 class EvaluationResult:
-    """Complete evaluation result for a single task."""
+    """Complete evaluation result for a single benchmark task.
+
+    Aggregates per-dimension scores, overall weighted score, letter grade,
+    qualitative analysis (strengths / weaknesses / suggestions), and
+    timing metadata.
+
+    Attributes:
+        task_id: Unique task identifier within the benchmark.
+        model: Model that produced the generated output.
+        benchmark_id: Benchmark the task belongs to.
+        timestamp: ISO-8601 timestamp of the evaluation.
+        dimension_scores: Per-dimension :class:`DimensionScore` mapping.
+        overall_score: Weighted aggregate score (0.0--10.0).
+        grade: Letter grade derived from ``overall_score``.
+        task_prompt: The original task prompt text.
+        generated_output: The model-generated output that was evaluated.
+        gold_standard_summary: Truncated JSON representation of the gold standard.
+        duration_seconds: Wall-clock seconds the evaluation took.
+        evaluator_model: Model used as the LLM judge.
+        strengths: Judge-identified strengths.
+        weaknesses: Judge-identified weaknesses.
+        improvement_suggestions: Actionable improvement suggestions.
+        key_findings: High-level findings from the evaluation.
+    """
 
     task_id: str
     model: str
@@ -649,7 +681,22 @@ def save_evaluation_report(result: EvaluationResult, output_dir: Path) -> Path:
 
 @dataclass
 class BatchEvaluationSummary:
-    """Summary of batch evaluation results."""
+    """Aggregate statistics across a batch of :class:`EvaluationResult` objects.
+
+    Attributes:
+        benchmark_id: Benchmark that was evaluated.
+        model: Model that generated the outputs.
+        evaluator_model: Model used as LLM judge.
+        timestamp: ISO-8601 timestamp of the summary.
+        output_directory: Directory where per-task reports were saved.
+        total_tasks: Total number of tasks in the batch.
+        evaluated_tasks: Number successfully evaluated.
+        average_score: Mean overall score across tasks.
+        grade_distribution: Mapping of letter grade to count.
+        dimension_averages: Mean score per evaluation dimension.
+        top_strengths: Most frequently cited strengths.
+        common_weaknesses: Most frequently cited weaknesses.
+    """
 
     benchmark_id: str
     model: str

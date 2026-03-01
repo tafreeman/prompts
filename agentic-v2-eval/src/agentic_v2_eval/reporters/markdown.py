@@ -1,6 +1,8 @@
 """Markdown reporter for evaluation results.
 
-Generates formatted Markdown reports with tables and sections.
+Generates Markdown files with a title, optional table of contents,
+summary statistics section, and a results table.  Configurable via
+:class:`MarkdownReportConfig`.
 """
 
 from __future__ import annotations
@@ -15,7 +17,15 @@ from ._summary import calculate_summary
 
 @dataclass
 class MarkdownReportConfig:
-    """Configuration for Markdown reports."""
+    """Configuration options for Markdown report generation.
+
+    Attributes:
+        title: Report heading text.
+        include_toc: Whether to generate a table of contents.
+        include_timestamp: Whether to include the generation timestamp.
+        include_summary: Whether to include aggregate summary statistics.
+        max_results_in_table: Maximum rows shown in the results table.
+    """
 
     title: str = "Evaluation Results"
     include_toc: bool = True

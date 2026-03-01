@@ -71,22 +71,51 @@ python -m agentic_v2_eval report results.json --format html --output report.html
 
 ## Modules
 
+### scorer
+
+- `scorer.py`: YAML rubric loader and weighted-score calculator
+
+### interfaces
+
+- `interfaces.py`: `LLMClientProtocol` and `Evaluator` structural typing contracts for dependency injection
+
+### datasets
+
+- `datasets.py`: Dataset discovery, loading, and adaptation for HuggingFace/local sources
+
+### evaluators
+
+- `evaluators/base.py`: Abstract evaluator base class and evaluator registry
+- `evaluators/llm.py`: LLM-as-Judge evaluator with choice-anchored prompts
+- `evaluators/pattern.py`: Universal + pattern-specific scoring with hard-gate thresholds
+- `evaluators/quality.py`: Five-dimension quality evaluator
+- `evaluators/standard.py`: Five-dimension standard scoring with median aggregation
+
 ### metrics
 
-- `accuracy.py`: Accuracy, F1, precision, recall calculations
-- `quality.py`: Code quality, lint, and complexity scores
-- `performance.py`: Execution time, latency, and benchmarking
+- `metrics/accuracy.py`: Accuracy, F1, precision, recall calculations
+- `metrics/quality.py`: Code quality, lint, and complexity scores
+- `metrics/performance.py`: Execution time, latency, and benchmarking
 
 ### runners
 
-- `batch.py`: Synchronous batch evaluation with progress tracking
-- `streaming.py`: Streaming evaluation with real-time callbacks
+- `runners/batch.py`: Synchronous batch evaluation with progress tracking
+- `runners/streaming.py`: Streaming evaluation with real-time callbacks
 
 ### reporters
 
-- `json.py`: JSON format reports with summary statistics
-- `markdown.py`: Markdown reports with tables
-- `html.py`: Styled HTML reports with color-coded scores
+- `reporters/json.py`: JSON format reports with summary statistics
+- `reporters/markdown.py`: Markdown reports with tables
+- `reporters/html.py`: Styled HTML reports with color-coded scores
+
+### sandbox
+
+- `sandbox/base.py`: Abstract sandbox interface and execution result model
+- `sandbox/local.py`: Subprocess-based sandbox with import blocklist and path-escape prevention
+
+### adapters
+
+- `adapters/`: Dataset format adapters for specific benchmark formats
 
 ### rubrics
 

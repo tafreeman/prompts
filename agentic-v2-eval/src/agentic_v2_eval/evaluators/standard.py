@@ -1,4 +1,11 @@
-"""Standard prompt scoring (5 dimensions)."""
+"""Standard five-dimension prompt quality scoring.
+
+Evaluates prompts on Clarity, Effectiveness, Structure, Specificity,
+and Completeness using an LLM judge whose rubric is loaded from
+``rubrics/prompt_standard.yaml``.  Multiple runs are aggregated via
+median to reduce variance.  Registered as ``"standard"`` in the
+:class:`EvaluatorRegistry`.
+"""
 
 import json
 import re
@@ -12,7 +19,23 @@ from .base import EvaluatorRegistry
 
 @dataclass
 class StandardScore:
-    """Result from standard (simple) prompt scoring."""
+    """Aggregate result from standard five-dimension prompt scoring.
+
+    Attributes:
+        prompt_file: Name or path of the evaluated prompt.
+        scores: Per-dimension scores (clarity, effectiveness, structure,
+            specificity, completeness), each 0--10.
+        overall_score: Simple mean of the five dimension scores (0--10).
+        grade: Letter grade (A/B/C/D/F) derived from ``overall_score``.
+        passed: ``True`` if ``overall_score >= 7.0``.
+        improvements: Deduplicated improvement suggestions from the judge.
+        confidence: Median confidence value across runs.
+        model: LLM model used as judge.
+        eval_type: Always ``"standard"``.
+        runs: Total number of judge invocations attempted.
+        temperature: Sampling temperature for the judge.
+        successful_runs: Number of runs that returned parseable JSON.
+    """
 
     prompt_file: str
     scores: Dict[str, float]  # clarity, effectiveness, structure, specificity, completeness
@@ -57,7 +80,15 @@ STANDARD_JUDGE_PROMPT = _load_standard_prompt()
 
 @EvaluatorRegistry.register("standard")
 class StandardEvaluator:
-    """Evaluator for Standard Prompt Quality."""
+    """LLM-judge evaluator for standard prompt quality.
+
+    Sends the prompt content to a judge LLM using a rubric loaded from
+    ``rubrics/prompt_standard.yaml``, parses the JSON response, and
+    aggregates scores across multiple runs using median.
+
+    Attributes:
+        llm_client: Client satisfying :class:`LLMClientProtocol`.
+    """
 
     def __init__(self, llm_client: LLMClientProtocol):
         self.llm_client = llm_client

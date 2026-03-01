@@ -1,4 +1,13 @@
-"""Pattern-based scoring for complex prompts (ReAct, CoVe, etc.)."""
+"""Pattern-based scoring for agentic prompt patterns (ReAct, CoVe, etc.).
+
+Evaluates whether a model output correctly follows the phase structure,
+state transitions, and constraint rules defined by a named agentic
+pattern.  Scoring is split into universal dimensions (Phase Ordering
+Integrity, Phase Completeness, Constraint Adherence, etc.) and
+pattern-specific dimensions loaded from ``rubrics/prompt_pattern.yaml``.
+
+Registered as ``"pattern"`` in the :class:`EvaluatorRegistry`.
+"""
 
 import json
 import re
@@ -12,7 +21,32 @@ from .base import EvaluatorRegistry
 
 @dataclass
 class PatternScore:
-    """Result from pattern (complex) prompt scoring."""
+    """Aggregate result from pattern-based prompt evaluation.
+
+    Contains both universal dimension scores (applicable to all patterns)
+    and pattern-specific dimension scores, plus hard-gate pass/fail
+    status, confidence, and run statistics.
+
+    Attributes:
+        prompt_file: Name or path of the evaluated prompt.
+        pattern: Lowercase pattern name (e.g. ``"react"``, ``"cove"``).
+        universal_scores: Per-dimension scores for universal criteria
+            (PIF, POI, PC, CA, SRC, PR, IR), each 0--5.
+        pattern_scores: Per-dimension scores specific to the pattern.
+        overall_universal: Sum of universal dimension scores.
+        overall_pattern: Sum of pattern-specific dimension scores.
+        combined_score: ``overall_universal + overall_pattern``.
+        hard_gates_passed: Whether all hard-gate thresholds were met.
+        hard_gate_failures: Descriptions of failed hard gates.
+        failures: Deduplicated failure descriptions across all runs.
+        pass_rate: Fraction of judge runs that returned valid JSON.
+        confidence: Median confidence across successful runs.
+        model: LLM model used as judge.
+        eval_type: Always ``"pattern"``.
+        runs: Total number of judge invocations attempted.
+        temperature: Sampling temperature for the judge.
+        successful_runs: Number of runs that produced parseable results.
+    """
 
     prompt_file: str
     pattern: str
@@ -106,7 +140,16 @@ def _load_pattern_data():
 
 @EvaluatorRegistry.register("pattern")
 class PatternEvaluator:
-    """Evaluator for Agentic Patterns."""
+    """LLM-judge evaluator for agentic prompt patterns.
+
+    Sends a structured judge prompt (loaded from
+    ``rubrics/prompt_pattern.yaml``) to the LLM, aggregates scores
+    across multiple runs using median, and applies hard-gate
+    thresholds (POI >= 4, PC >= 4, CA >= 4, PR >= 0.75).
+
+    Attributes:
+        llm_client: Client satisfying :class:`LLMClientProtocol`.
+    """
     
     def __init__(self, llm_client: LLMClientProtocol):
         self.llm_client = llm_client

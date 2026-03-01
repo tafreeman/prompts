@@ -1,4 +1,13 @@
-"""Evaluators module - LLM, pattern, and quality evaluators."""
+"""Pluggable evaluator implementations and central registry.
+
+Exposes four evaluator strategies:
+    LLMEvaluator: Choice-anchored LLM-as-judge scoring.
+    PatternEvaluator: Agentic-pattern phase/constraint scoring.
+    QualityEvaluator: Coherence / Fluency / Relevance / Groundedness / Similarity.
+    StandardEvaluator: Five-dimension prompt quality scoring.
+
+All evaluators self-register in :class:`EvaluatorRegistry` at import time.
+"""
 
 from .base import Evaluator, EvaluatorRegistry
 from .llm import LLMClientProtocol, LLMEvaluator, Choice, STANDARD_CHOICES

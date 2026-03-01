@@ -1,4 +1,9 @@
-"""Shared summary statistic helpers for evaluation reporters."""
+"""Shared summary statistic computation for evaluation reporters.
+
+Provides :func:`calculate_summary`, which extracts all numeric fields
+from a list of result dicts and computes count, mean, and optionally
+min/max aggregates.  Used by JSON, Markdown, and HTML reporters.
+"""
 
 from __future__ import annotations
 

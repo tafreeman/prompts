@@ -1,6 +1,7 @@
 """Tests for model routing and smart routing."""
 
 import tempfile
+import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -117,8 +118,9 @@ class TestModelStats:
         stats.record_failure("error")
         assert stats.circuit_state == CircuitState.OPEN
 
-        # Simulate time passing
+        # Simulate time passing (both wall clock and monotonic)
         stats._last_failure_time = datetime.now(timezone.utc) - timedelta(seconds=2)
+        stats._last_failure_mono = time.monotonic() - 2.0
 
         # Should allow test request
         assert stats.check_circuit()

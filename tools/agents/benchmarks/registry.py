@@ -1,8 +1,12 @@
-"""
-Benchmark Registry and Configuration
-=====================================
+"""Benchmark registry, user configuration, and preset profiles.
 
-Manages benchmark configurations and user preferences.
+Provides :class:`BenchmarkConfig` (a serializable dataclass capturing
+all knobs for a benchmark run) and :class:`BenchmarkRegistry` (a
+class-method-based facade for discovering benchmarks, loading / saving
+configs, and validating settings).
+
+Preset configurations (``quick-test``, ``swe-bench-eval``, etc.) are
+available via :func:`get_preset`.
 """
 
 import json
@@ -15,9 +19,32 @@ from .datasets import BENCHMARK_DEFINITIONS, BenchmarkDefinition, BenchmarkType
 
 @dataclass
 class BenchmarkConfig:
-    """User configuration for running benchmarks.
+    """User configuration for a benchmark evaluation run.
 
-    Can be saved/loaded from JSON for persistence.
+    Serializable to / from JSON for persistence.  Controls benchmark
+    selection, task filtering, model routing, agent workflow, execution
+    parallelism, output paths, and caching behaviour.
+
+    Attributes:
+        benchmark_id: Which benchmark to run (e.g. ``"humaneval"``).
+        limit: Maximum number of tasks to load (``None`` = all).
+        offset: Starting offset into the task list.
+        task_ids: Explicit list of task IDs to evaluate.
+        difficulty: Filter tasks by difficulty label.
+        tags: Filter tasks by tag membership.
+        model: Primary LLM model identifier.
+        fallback_models: Ordered fallback chain if primary fails.
+        workflow: Orchestration strategy name.
+        agents: Agent roles to participate in the workflow.
+        parallel: Whether to evaluate tasks concurrently.
+        max_workers: Maximum concurrent evaluation workers.
+        timeout_seconds: Per-task wall-clock timeout.
+        retry_count: Number of retries on transient failure.
+        output_dir: Directory for result artifacts.
+        verbose: Enable verbose console logging.
+        save_intermediate: Persist per-agent intermediate outputs.
+        use_cache: Use disk-cached benchmark data.
+        cache_ttl_hours: Cache time-to-live in hours.
     """
 
     # Selected benchmark
@@ -77,9 +104,11 @@ class BenchmarkConfig:
 
 
 class BenchmarkRegistry:
-    """Central registry for benchmark management.
+    """Central registry for benchmark discovery and configuration management.
 
-    Provides methods to discover, configure, and load benchmarks.
+    All methods are ``@classmethod``; no instance state is required.
+    Wraps :mod:`tools.agents.benchmarks.datasets` for discovery and
+    manages JSON-backed default configuration persistence.
     """
 
     _config_dir = Path(__file__).parent / ".config"

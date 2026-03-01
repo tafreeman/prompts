@@ -1,11 +1,20 @@
 """Model router with configurable fallback chains.
 
-Aggressive design improvements:
-- DSL for defining fallback chains
-- Parallel health checks
-- Context manager for scoped routing
-- Tier-based defaults with overrides
-- Lazy model discovery
+Provides the foundational routing layer for LLM model selection:
+
+- :class:`ModelTier` — 6-level capability tier (0=deterministic through
+  5=premium cloud).
+- :class:`FallbackChain` — immutable ordered sequence of model identifiers
+  to try in priority order, built via :class:`ChainBuilder` fluent DSL.
+- :class:`ModelRouter` — routes requests to the first available model in
+  a tier's fallback chain.  Supports lazy model discovery, parallel health
+  checks, and :class:`ScopedRouter` context-manager overrides.
+- ``DEFAULT_CHAINS`` — pre-configured fallback chains for each tier,
+  ordered free-tier-first (Gemini, GitHub Models) then paid (OpenAI,
+  Anthropic).
+
+Model identifiers use a ``provider:model_name`` format, e.g.
+``"gemini:gemini-2.0-flash"`` or ``"gh:openai/gpt-4o-mini"``.
 """
 
 import asyncio
@@ -141,13 +150,22 @@ DEFAULT_CHAINS: dict[ModelTier, FallbackChain] = {
 
 @dataclass
 class ModelRouter:
-    """Routes requests to appropriate models based on tier and availability.
+    """Routes requests to models based on tier and runtime availability.
 
-    Aggressive design improvements:
-    - Parallel health checks for faster startup
-    - Chain DSL for readable configuration
-    - Lazy discovery (probe only when needed)
-    - Scoped routing context manager
+    For each request, walks the tier's :class:`FallbackChain` and returns
+    the first model that passes the health check.  Models that fail are
+    cached as unavailable until explicitly re-probed.
+
+    Supports:
+    - **Custom chains** — per-tier overrides via :meth:`register_chain`.
+    - **Lazy discovery** — models are probed only when first accessed.
+    - **Parallel probing** — :meth:`discover_models_async` checks multiple
+      models concurrently via a thread pool.
+    - **Scoped routing** — :meth:`scoped` returns a context manager that
+      temporarily overrides a tier's chain.
+
+    Attributes:
+        custom_chains: Per-tier chain overrides (take precedence over defaults).
     """
 
     # Custom chains override defaults

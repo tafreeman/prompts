@@ -4,6 +4,7 @@ Models module - Model routing and statistics.
 Exports:
 - Routing: ModelRouter, SmartModelRouter, ModelTier, FallbackChain
 - Stats: ModelStats, CircuitState, LatencyPercentiles, CooldownConfig
+- Rate Limits: RateLimitTracker, TokenBucket (ADR-002E)
 - Client: LLMClientWrapper, LLMBackend, TokenBudget
 - Globals: get_router, get_smart_router, get_client
 """
@@ -29,6 +30,7 @@ from .client import (
     retry_with_jitter,
 )
 from .model_stats import CircuitState, LatencyPercentiles, ModelStats
+from .rate_limit_tracker import RateLimitTracker, TokenBucket
 from .router import (
     DEFAULT_CHAINS,
     ChainBuilder,
@@ -60,6 +62,9 @@ __all__ = [
     "DEFAULT_CHAINS",
     "get_router",
     "reset_router",
+    # Rate-limit tracker (ADR-002E)
+    "RateLimitTracker",
+    "TokenBucket",
     # Smart router
     "CooldownConfig",
     "SmartModelRouter",

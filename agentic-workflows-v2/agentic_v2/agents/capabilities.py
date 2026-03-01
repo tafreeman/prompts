@@ -1,10 +1,27 @@
-"""Agent capability system for dynamic composition.
+"""Composable capability system for dynamic agent-to-task matching.
 
-Aggressive design improvements:
-- Composable capabilities via mixins
-- Runtime capability discovery
-- Capability requirements for tasks
-- Capability negotiation between agents
+Provides a mixin-based capability model that allows agents to declare what
+they can do (code generation, review, testing, orchestration, etc.) and
+enables the :class:`~agentic_v2.agents.orchestrator.OrchestratorAgent` to
+select the best agent for each subtask at runtime.
+
+Core abstractions:
+    :class:`CapabilityType`:
+        Enum of standardized capability identifiers.
+    :class:`Capability`:
+        A single capability with a proficiency level (0.0--1.0).
+    :class:`CapabilitySet`:
+        Collection of capabilities supporting requirement matching and
+        scoring via :meth:`CapabilitySet.score_match`.
+    :class:`CapabilityMixin`:
+        Abstract mixin that concrete mixins (e.g., :class:`CodeGenerationMixin`,
+        :class:`CodeReviewMixin`) extend to inject capabilities into an agent.
+    :func:`get_agent_capabilities`:
+        MRO-aware introspection that aggregates capabilities from all
+        :class:`CapabilityMixin` bases of a :class:`~agentic_v2.agents.base.BaseAgent`.
+    :func:`requires_capabilities`:
+        Decorator that annotates a method with required capability types for
+        runtime validation.
 """
 
 from __future__ import annotations
@@ -19,7 +36,11 @@ if TYPE_CHECKING:
 
 
 class CapabilityType(str, Enum):
-    """Standard capability types."""
+    """Enumeration of standardized agent capability identifiers.
+
+    Organized into logical groups: code operations, testing, documentation,
+    analysis, planning, tool use, and meta-capabilities.
+    """
 
     # Code capabilities
     CODE_GENERATION = "code_generation"
@@ -56,13 +77,16 @@ class CapabilityType(str, Enum):
 
 @dataclass
 class Capability:
-    """A capability that an agent possesses.
+    """A single declared capability with a proficiency level.
 
-    Capabilities can have:
-    - Type classification
-    - Proficiency level (0-1)
-    - Requirements (other capabilities needed)
-    - Metadata
+    Attributes:
+        type: The :class:`CapabilityType` this capability represents.
+        proficiency: Proficiency score in the range ``[0.0, 1.0]``.
+            Clamped on construction via ``__post_init__``.
+        requirements: Other capability types that must also be present
+            for this capability to be exercised.
+        metadata: Arbitrary extension data (e.g., supported languages,
+            framework preferences).
     """
 
     type: CapabilityType
@@ -82,7 +106,16 @@ class Capability:
 
 @dataclass
 class CapabilitySet:
-    """A set of capabilities with matching and negotiation."""
+    """Collection of :class:`Capability` instances with matching and scoring.
+
+    Used by the :class:`~agentic_v2.agents.orchestrator.OrchestratorAgent`
+    to evaluate how well an agent's capabilities align with a subtask's
+    requirements.
+
+    Attributes:
+        capabilities: Mapping from :class:`CapabilityType` to
+            :class:`Capability`.  At most one capability per type.
+    """
 
     capabilities: dict[CapabilityType, Capability] = field(default_factory=dict)
 
@@ -156,11 +189,17 @@ class CapabilitySet:
 
 
 class CapabilityMixin(ABC):
-    """Mixin for adding capabilities to agents.
+    """Abstract mixin base for injecting capabilities into agents.
 
-    Usage:
+    Concrete mixins (e.g., :class:`CodeGenerationMixin`) extend this class
+    and implement :meth:`get_capabilities` to declare the capabilities they
+    provide.  Agents compose capabilities via multiple inheritance::
+
         class MyAgent(BaseAgent, CodeGenerationMixin, TestGenerationMixin):
             pass
+
+    The :func:`get_agent_capabilities` function walks the MRO to collect
+    all declared capabilities from an agent instance.
     """
 
     @abstractmethod
@@ -170,7 +209,12 @@ class CapabilityMixin(ABC):
 
 
 class CodeGenerationMixin(CapabilityMixin):
-    """Mixin for code generation capability."""
+    """Mixin declaring :attr:`CapabilityType.CODE_GENERATION` and
+    :attr:`CapabilityType.CODE_EXPLANATION` capabilities.
+
+    Subclasses should override :meth:`generate_code` with a concrete
+    implementation.
+    """
 
     def get_capabilities(self) -> CapabilitySet:
         return CapabilitySet.from_types(
@@ -186,7 +230,12 @@ class CodeGenerationMixin(CapabilityMixin):
 
 
 class CodeReviewMixin(CapabilityMixin):
-    """Mixin for code review capability."""
+    """Mixin declaring :attr:`CapabilityType.CODE_REVIEW` and
+    :attr:`CapabilityType.STATIC_ANALYSIS` capabilities.
+
+    Subclasses should override :meth:`review_code` with a concrete
+    implementation.
+    """
 
     def get_capabilities(self) -> CapabilitySet:
         return CapabilitySet.from_types(
@@ -204,7 +253,11 @@ class CodeReviewMixin(CapabilityMixin):
 
 
 class TestGenerationMixin(CapabilityMixin):
-    """Mixin for test generation capability."""
+    """Mixin declaring :attr:`CapabilityType.TEST_GENERATION` capability.
+
+    Subclasses should override :meth:`generate_tests` with a concrete
+    implementation.
+    """
 
     def get_capabilities(self) -> CapabilitySet:
         return CapabilitySet.from_types(CapabilityType.TEST_GENERATION)
@@ -217,7 +270,12 @@ class TestGenerationMixin(CapabilityMixin):
 
 
 class OrchestrationMixin(CapabilityMixin):
-    """Mixin for orchestration capability."""
+    """Mixin declaring :attr:`CapabilityType.ORCHESTRATION` and
+    :attr:`CapabilityType.TASK_DECOMPOSITION` capabilities.
+
+    Subclasses should override :meth:`decompose_task` and
+    :meth:`select_agent` with concrete implementations.
+    """
 
     def get_capabilities(self) -> CapabilitySet:
         return CapabilitySet.from_types(
@@ -236,9 +294,21 @@ class OrchestrationMixin(CapabilityMixin):
 
 
 def requires_capabilities(*cap_types: CapabilityType):
-    """Decorator to mark a method as requiring certain capabilities.
+    """Decorator that annotates a method with required capability types.
 
-    Usage:
+    The annotated capability types are stored on the function object as
+    ``_required_capabilities`` for runtime introspection.
+
+    Args:
+        *cap_types: One or more :class:`CapabilityType` values that the
+            calling agent must possess.
+
+    Returns:
+        A decorator that tags the wrapped function with the required
+        capabilities.
+
+    Example::
+
         @requires_capabilities(CapabilityType.CODE_GENERATION)
         async def generate(self, ...):
             ...
@@ -252,7 +322,19 @@ def requires_capabilities(*cap_types: CapabilityType):
 
 
 def get_agent_capabilities(agent: "BaseAgent") -> CapabilitySet:
-    """Get all capabilities from an agent (including mixins)."""
+    """Aggregate capabilities from all :class:`CapabilityMixin` bases of an agent.
+
+    Walks the agent's MRO and calls :meth:`CapabilityMixin.get_capabilities`
+    on each mixin class, merging the results into a single
+    :class:`CapabilitySet`.
+
+    Args:
+        agent: The agent instance to introspect.
+
+    Returns:
+        A :class:`CapabilitySet` containing all capabilities declared by
+        the agent's mixin hierarchy.
+    """
     cap_set = CapabilitySet()
 
     # Check for capability mixins

@@ -1,11 +1,20 @@
-"""API key authentication middleware.
+"""API key authentication middleware for the Agentic server.
 
-When ``AGENTIC_API_KEY`` is set, every request to ``/api/`` (except
-``/api/health``) must include a matching ``Authorization: Bearer <key>``
-or ``X-API-Key: <key>`` header.
+Implements a single-key bearer-token gate using Starlette's
+``BaseHTTPMiddleware``.
 
-When the env var is *not* set, authentication is disabled and all
-requests are allowed (local development mode).
+Authentication behavior:
+    * When ``AGENTIC_API_KEY`` is set in the environment, every HTTP
+      request whose path starts with ``/api/`` (except public prefixes
+      like ``/api/health``, ``/docs``, ``/openapi.json``, ``/redoc``)
+      must supply the key via ``Authorization: Bearer <key>`` or the
+      ``X-API-Key: <key>`` header.  Token comparison uses
+      :func:`secrets.compare_digest` to prevent timing side-channels.
+    * When the env var is **not** set, the middleware is a no-op and all
+      requests are allowed (local development mode).
+    * Non-API routes (UI static files, WebSocket upgrade) bypass
+      authentication entirely so the React frontend can load without
+      credentials.
 """
 
 from __future__ import annotations
@@ -27,7 +36,16 @@ _PUBLIC_PREFIXES = ("/api/health", "/docs", "/openapi.json", "/redoc")
 
 
 class APIKeyMiddleware(BaseHTTPMiddleware):
-    """Reject unauthenticated API requests when an API key is configured."""
+    """Starlette middleware that enforces bearer-token authentication on ``/api/`` routes.
+
+    When ``AGENTIC_API_KEY`` is not set, all requests pass through unchanged.
+    Otherwise, requests to protected paths must include a valid token via
+    ``Authorization: Bearer <key>`` or ``X-API-Key: <key>``.  Invalid or
+    missing tokens receive a ``401`` JSON response.
+
+    Attributes:
+        Inherits from ``BaseHTTPMiddleware``; no additional instance state.
+    """
 
     async def dispatch(
         self, request: Request, call_next: RequestResponseEndpoint
