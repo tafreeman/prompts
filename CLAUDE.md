@@ -64,7 +64,7 @@ A monorepo containing three independent Python packages plus a React frontend:
 │   ├── rules/                    # Coding style, git, security, testing, ML
 │   │   ├── common/              # Language-agnostic rules (7 files)
 │   │   └── python/              # Python-specific rules (5 files)
-│   └── skills/                   # 8 specialized skills
+│   └── skills/                   # 9 specialized skills
 │
 ├── .github/
 │   ├── agents/                   # GitHub Copilot agent definitions
@@ -147,7 +147,7 @@ A monorepo containing three independent Python packages plus a React frontend:
 │   │       ├── run_logger.py     # JSON replay logs
 │   │       ├── artifact_extractor.py
 │   │       └── definitions/      # 10 YAML workflow definitions
-│   ├── tests/                    # 36 files (pytest-asyncio)
+│   ├── tests/                    # 49 files (pytest-asyncio)
 │   ├── ui/                       # React 19 dashboard
 │   │   ├── package.json          # React 19, Vite 6, React Flow 12
 │   │   └── src/
@@ -273,7 +273,7 @@ Located in `agentic-workflows-v2/agentic_v2/workflows/definitions/`:
 3. **Small Units:** Functions < 50 lines. Files < 800 lines (target 200–400). One class/module per file. Organize by feature/domain.
 4. **Error Handling:** Never swallow exceptions. Use specific exception types with contextual messages. Validate at system boundaries. Fail fast.
 5. **Formatting:** `black` (line-length 88) for code, `isort` (profile=black) for imports, `ruff` for linting, `mypy` (configured with `--ignore-missing-imports` in pre-commit) for types, `pydocstyle` (google convention) for docstrings.
-6. **Testing:** At least one test per public function (happy path + error path). No test interdependencies. CI currently does not enforce a coverage minimum (`--cov-fail-under=0`), but the team target is ≥80% coverage.
+6. **Testing:** At least one test per public function (happy path + error path). No test interdependencies. CI enforces a coverage minimum of 60% (`--cov-fail-under=60`), with a team target of ≥80% coverage.
 
 ---
 
@@ -391,8 +391,8 @@ At least one LLM provider key is needed for runtime operation.
 
 | Location | Count | Framework | Scope |
 |----------|-------|-----------|-------|
-| `agentic-workflows-v2/tests/` | 36 files | pytest-asyncio (auto mode) | Unit + integration |
-| `agentic-v2-eval/tests/` | 10 files | pytest + pytest-asyncio | Evaluator tests |
+| `agentic-workflows-v2/tests/` | 49 files | pytest-asyncio (auto mode) | Unit + integration |
+| `agentic-v2-eval/tests/` | 12 files | pytest + pytest-asyncio | Evaluator tests |
 | `tests/e2e/` | 1 file | pytest | E2E smoke tests |
 | `agentic-workflows-v2/ui/src/__tests__/` | — | Vitest + React Testing Library | Frontend |
 
@@ -494,7 +494,7 @@ Run manually: `pre-commit run --all-files`
 
 ### Skills (`.claude/skills/`)
 
-8 specialized skills: code-review, debugging, context-engineering, problem-solving, sequential-thinking, langsmith-fetch, mcp-builder, webapp-testing.
+9 specialized skills: changelog-generator, code-review, context-engineering, debugging, langsmith-fetch, mcp-builder, problem-solving, sequential-thinking, webapp-testing.
 
 ---
 
