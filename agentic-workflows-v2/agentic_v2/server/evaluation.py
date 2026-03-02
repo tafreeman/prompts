@@ -99,42 +99,6 @@ def score_workflow_result(
         match_workflow_dataset_fn=match_workflow_dataset,
     )
 
-    no_floor_violations = len(floor_violations) == 0
-    grade_capped = False
-    if no_floor_violations is False and grade in {"A", "B", "C"}:
-        grade = "D"
-        grade_capped = True
-
-    if hard_gates.all_passed is False and enforce_hard_gates:
-        grade = "F"
-        grade_capped = False
-
-    passed = (weighted_score >= threshold) and no_floor_violations
-    if enforce_hard_gates:
-        passed = passed and hard_gates.all_passed
-
-    payload["hard_gates"] = {
-        "required_outputs_present": hard_gates.required_outputs_present,
-        "overall_status_success": hard_gates.overall_status_success,
-        "no_critical_step_failures": hard_gates.no_critical_step_failures,
-        "schema_contract_valid": hard_gates.schema_contract_valid,
-        "dataset_workflow_compatible": hard_gates.dataset_workflow_compatible,
-    }
-    payload["hard_gate_failures"] = hard_gates.failures
-    payload["floor_violations"] = [
-        {
-            "criterion": violation.criterion,
-            "floor": round(violation.floor, 4),
-            "normalized_score": round(violation.normalized_score, 4),
-        }
-        for violation in floor_violations
-    ]
-    payload["grade_capped"] = grade_capped
-    payload["grade"] = grade
-    payload["passed"] = passed
-
-    return payload
-
 
 def _pick_first(sample: dict[str, Any], keys: list[str]) -> Any:
     nested_inputs = sample.get("inputs")

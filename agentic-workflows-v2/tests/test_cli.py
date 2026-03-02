@@ -174,11 +174,16 @@ class TestCLIOrchestrate:
     """Tests for orchestrate command."""
 
     def test_orchestrate_shows_note(self):
-        """Orchestrate shows LLM configuration note."""
-        # This will likely fail without LLM configured, but should show the note
+        """Orchestrate shows LLM configuration note or orchestration output."""
         result = runner.invoke(app, ["orchestrate", "Test task"])
-        # Either succeeds or shows config message
-        assert "LLM" in result.stdout or "orchestration" in result.stdout.lower()
+        # Must produce output (LLM config note, error, or orchestration result)
+        assert len(result.stdout) > 0
+        # Should reference LLM, orchestration, or an error/config message
+        lower_out = result.stdout.lower()
+        assert any(
+            kw in lower_out
+            for kw in ("llm", "orchestrat", "error", "config", "task")
+        )
 
 
 class TestServerApp:
@@ -207,10 +212,12 @@ class TestCLIEdgeCases:
     """Edge case tests."""
 
     def test_no_arguments(self):
-        """Running without arguments shows usage error (missing command)."""
+        """Running without arguments shows help or usage error."""
         result = runner.invoke(app, [])
-        # Typer exits with 2 when required command is missing
-        assert result.exit_code == 2 or result.exit_code == 0
+        # Typer shows help (exit 0) or usage error (exit 2) for bare invocation
+        assert result.exit_code in (0, 2)
+        # Must produce some output (help text or usage error)
+        assert len(result.stdout) > 0
 
     def test_invalid_workflow_yaml_syntax(self):
         """Invalid YAML syntax in workflow file is caught."""

@@ -16,10 +16,6 @@ from agentic_v2.langchain.config import (
     load_workflow_config,
     list_workflows,
 )
-from agentic_v2.langchain.expressions import (
-    evaluate_condition,
-    resolve_expression,
-)
 from agentic_v2.langchain.state import WorkflowState, initial_state
 from agentic_v2.langchain.graph import compile_workflow
 from agentic_v2.langchain.runner import WorkflowRunner
@@ -34,13 +30,11 @@ from agentic_v2.integrations.tracing import LangSmithTraceAdapter
 
 
 class TestConfigLoader:
-    """Test YAML config loading."""
+    """Test YAML config loading.
 
-    def test_list_workflows(self):
-        names = list_workflows()
-        assert isinstance(names, list)
-        assert len(names) > 0
-        assert "code_review" in names
+    Note: test_list_workflows and test_load_nonexistent_raises have been moved
+    to tests/test_langchain_config.py during ADR-008 cleanup.
+    """
 
     def test_load_code_review(self):
         config = load_workflow_config("code_review")
@@ -50,10 +44,6 @@ class TestConfigLoader:
         assert "code_file" in config.inputs
         assert config.evaluation is not None
         assert len(config.evaluation.criteria) > 0
-
-    def test_load_nonexistent_raises(self):
-        with pytest.raises(FileNotFoundError):
-            load_workflow_config("nonexistent_workflow_xyz")
 
     def test_step_config_fields(self):
         config = load_workflow_config("code_review")
@@ -276,57 +266,8 @@ class TestPerStepModelOverride:
 # ---------------------------------------------------------------------------
 
 
-class TestExpressions:
-    """Test expression evaluation."""
-
-    def test_simple_variable(self):
-        state = {"inputs": {"code_file": "main.py"}}
-        result = resolve_expression("${inputs.code_file}", state)
-        assert result == "main.py"
-
-    def test_nested_path(self):
-        state = {
-            "steps": {
-                "parse_code": {
-                    "outputs": {"ast": {"functions": ["foo", "bar"]}}
-                }
-            }
-        }
-        result = resolve_expression(
-            "${steps.parse_code.outputs.ast}", state
-        )
-        assert result == {"functions": ["foo", "bar"]}
-
-    def test_condition_true(self):
-        state = {"inputs": {"review_depth": "standard"}}
-        assert evaluate_condition(
-            "${inputs.review_depth} != 'quick'", state
-        )
-
-    def test_condition_false(self):
-        state = {"inputs": {"review_depth": "quick"}}
-        assert not evaluate_condition(
-            "${inputs.review_depth} != 'quick'", state
-        )
-
-    def test_in_operator(self):
-        state = {
-            "steps": {
-                "review": {"outputs": {"status": "APPROVED"}}
-            }
-        }
-        assert evaluate_condition(
-            "${steps.review.outputs.status} in ['APPROVED', 'PASSED']",
-            state,
-        )
-
-    def test_missing_path_returns_none(self):
-        state = {"inputs": {}}
-        result = resolve_expression("${inputs.nonexistent}", state)
-        assert result is None
-
-    def test_empty_expression_is_true(self):
-        assert evaluate_condition("", {})
+# TestExpressions, TestCoalesceExpression, and TestCompositeExpressions
+# have been moved to tests/test_langchain_expressions.py during ADR-008 cleanup.
 
 
 # ---------------------------------------------------------------------------
@@ -722,52 +663,6 @@ class TestLangSmithTracing:
 # ---------------------------------------------------------------------------
 # Phase 1 fix tests
 # ---------------------------------------------------------------------------
-
-
-class TestCoalesceExpression:
-    """Tests for coalesce() expression support."""
-
-    def test_coalesce_returns_first_non_none(self):
-        state = {"steps": {"a": {"outputs": {"x": None}}, "b": {"outputs": {"y": "found"}}}}
-        result = resolve_expression("${coalesce(steps.a.outputs.x, steps.b.outputs.y)}", state)
-        assert result == "found"
-
-    def test_coalesce_three_args_first_wins(self):
-        state = {"steps": {"a": {"outputs": {"x": "first"}}}}
-        result = resolve_expression("${coalesce(steps.a.outputs.x, steps.a.outputs.missing, steps.a.outputs.x)}", state)
-        assert result == "first"
-
-    def test_coalesce_all_none_returns_none(self):
-        state = {}
-        result = resolve_expression("${coalesce(steps.a.outputs.x, steps.b.outputs.y)}", state)
-        assert result is None
-
-    def test_coalesce_in_condition(self):
-        state = {"steps": {"a": {"outputs": {"val": None}}, "b": {"outputs": {"val": "ok"}}}}
-        # coalesce in condition context: should be truthy
-        result = resolve_expression("${coalesce(steps.a.outputs.val, steps.b.outputs.val)}", state)
-        assert result == "ok"
-
-
-class TestCompositeExpressions:
-    """Tests for dict/list expression resolution."""
-
-    def test_resolve_dict_of_expressions(self):
-        state = {"steps": {"x": {"outputs": {"code": "print(1)"}}, "y": {"outputs": {"html": "<p>hi</p>"}}}}
-        expr = {"backend": "${steps.x.outputs.code}", "frontend": "${steps.y.outputs.html}"}
-        result = resolve_expression(expr, state)
-        assert result == {"backend": "print(1)", "frontend": "<p>hi</p>"}
-
-    def test_resolve_list_of_expressions(self):
-        state = {"inputs": {"a": "hello", "b": "world"}}
-        expr = ["${inputs.a}", "${inputs.b}", "literal"]
-        result = resolve_expression(expr, state)
-        assert result == ["hello", "world", "literal"]
-
-    def test_non_string_passthrough(self):
-        assert resolve_expression(42, {}) == 42
-        assert resolve_expression(True, {}) is True
-        assert resolve_expression(None, {}) is None
 
 
 class TestConfigParserNonStringInputs:

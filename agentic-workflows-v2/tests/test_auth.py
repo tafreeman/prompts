@@ -181,3 +181,14 @@ class TestAPIKeyMiddlewareWithKey:
 
         response = client.get("/static/app.js")
         assert response.status_code == 200
+
+    def test_whitespace_stripped_from_x_api_key(self) -> None:
+        """X-API-Key header with surrounding whitespace is stripped."""
+        scope = {
+            "type": "http",
+            "method": "GET",
+            "path": "/api/run",
+            "headers": [(b"x-api-key", b"  spaced  ")],
+        }
+        request = Request(scope)
+        assert _extract_token(request) == "spaced"

@@ -4,8 +4,8 @@
 > **Repo:** `tafreeman/prompts → agentic-workflows-v2`  
 > **Last validated:** 2026-02-22  
 > **ADR authors:** Opus (Claude) — ADR-001 through ADR-003  
-> **Planned ADR program:** ADR-0004 through ADR-0023 (iteration-04 governance spec)  
-> **Status:** ADR-001, ADR-002, ADR-003 — Accepted · ADR-0004 through ADR-0023 — Proposed (awaiting authoring)
+> **Planned ADR program:** ADR-0004 through ADR-0023 (iteration-04 governance spec)
+> **Status:** ADR-001, ADR-002, ADR-003 — Accepted · ADR-007 — Proposed · ADR-008 — Proposed · ADR-0004 through ADR-0023 — Proposed (awaiting authoring)
 
 ---
 
@@ -14,8 +14,9 @@
 1. [ADR-001 — Dual Execution Engine: LangGraph Pregel vs. Native Kahn's DAG](#adr-001)
 2. [ADR-002 — SmartModelRouter Circuit-Breaker Hardening](#adr-002)
 3. [ADR-003 — Deep Research Supervisor State Machine with Composite CI Gating](#adr-003)
-4. [ADR-0004 through ADR-0023 — Planned ADR Program Registry](#planned-adr-registry)
-5. [References](#references)
+4. [ADR-008 — Testing Approach Overhaul: Value-Driven Test Quality and Coverage Strategy](#adr-008)
+5. [ADR-0004 through ADR-0023 — Planned ADR Program Registry](#planned-adr-registry)
+6. [References](#references)
 
 ---
 
@@ -417,7 +418,7 @@ Adopt the **two-tier gating system** (per-metric floors + composite CI), impleme
 | ADR-0020 | RAG artifact contract | Output | R3, R10, R11 | Proposed |
 | ADR-0021 | Tool allowlists and safety defaults | Safety | R2, R5, R10 | Proposed |
 | ADR-0022 | Bounded iteration + partial-output fallback | Resilience | R10, R11 | Proposed |
-| ADR-0023 | Unit-test strategy and deterministic fixtures | Testing | R10, R18, R22 | Proposed |
+| ADR-0023 | Unit-test strategy and deterministic fixtures | Testing | R10, R18, R22 | Superseded-By: ADR-008 |
 
 ### ADR Template (Enforced by Tests from ADR-0023)
 

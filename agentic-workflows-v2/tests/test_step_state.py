@@ -13,21 +13,25 @@ from agentic_v2.engine.step_state import StepState, StepStateManager
 class TestStepState:
     """Tests for the StepState enum."""
 
-    def test_state_values(self):
-        """All expected states exist with correct values."""
-        assert StepState.PENDING.value == "pending"
-        assert StepState.READY.value == "ready"
-        assert StepState.RUNNING.value == "running"
-        assert StepState.RETRYING.value == "retrying"
-        assert StepState.SUCCESS.value == "success"
-        assert StepState.FAILED.value == "failed"
-        assert StepState.SKIPPED.value == "skipped"
-        assert StepState.CANCELLED.value == "cancelled"
-
-    def test_state_is_string_enum(self):
-        """StepState inherits from str for JSON serialization."""
-        assert isinstance(StepState.PENDING, str)
-        assert StepState.PENDING == "pending"
+    @pytest.mark.parametrize(
+        "member,value",
+        [
+            (StepState.PENDING, "pending"),
+            (StepState.READY, "ready"),
+            (StepState.RUNNING, "running"),
+            (StepState.RETRYING, "retrying"),
+            (StepState.SUCCESS, "success"),
+            (StepState.FAILED, "failed"),
+            (StepState.SKIPPED, "skipped"),
+            (StepState.CANCELLED, "cancelled"),
+        ],
+    )
+    def test_state_values(self, member, value):
+        """All expected states exist with correct string values (str enum)."""
+        assert member.value == value
+        # StepState inherits from str for JSON serialization
+        assert isinstance(member, str)
+        assert member == value
 
 
 class TestStepStateManager:
@@ -45,58 +49,34 @@ class TestStepStateManager:
         manager.set_state("step1", StepState.SUCCESS)
         assert manager.get_state("step1") == StepState.SUCCESS
 
-    def test_valid_transition_pending_to_ready(self):
-        """PENDING → READY is a valid transition."""
+    @pytest.mark.parametrize(
+        "transitions,expected_final",
+        [
+            ([StepState.READY], StepState.READY),
+            ([StepState.READY, StepState.RUNNING], StepState.RUNNING),
+            ([StepState.READY, StepState.RUNNING, StepState.SUCCESS], StepState.SUCCESS),
+            ([StepState.READY, StepState.RUNNING, StepState.FAILED], StepState.FAILED),
+            ([StepState.READY, StepState.RUNNING, StepState.RETRYING], StepState.RETRYING),
+            ([StepState.READY, StepState.RUNNING, StepState.RETRYING, StepState.RUNNING], StepState.RUNNING),
+            ([StepState.SKIPPED], StepState.SKIPPED),
+        ],
+        ids=[
+            "pending_to_ready",
+            "ready_to_running",
+            "running_to_success",
+            "running_to_failed",
+            "running_to_retrying",
+            "retrying_to_running",
+            "pending_to_skipped",
+        ],
+    )
+    def test_valid_transitions(self, transitions, expected_final):
+        """Valid state transitions reach the expected final state."""
         manager = StepStateManager()
-        result = manager.transition("step1", StepState.READY)
-        assert result == StepState.READY
-        assert manager.get_state("step1") == StepState.READY
-
-    def test_valid_transition_ready_to_running(self):
-        """READY → RUNNING is a valid transition."""
-        manager = StepStateManager()
-        manager.transition("step1", StepState.READY)
-        result = manager.transition("step1", StepState.RUNNING)
-        assert result == StepState.RUNNING
-
-    def test_valid_transition_running_to_success(self):
-        """RUNNING → SUCCESS is a valid transition."""
-        manager = StepStateManager()
-        manager.transition("step1", StepState.READY)
-        manager.transition("step1", StepState.RUNNING)
-        result = manager.transition("step1", StepState.SUCCESS)
-        assert result == StepState.SUCCESS
-
-    def test_valid_transition_running_to_failed(self):
-        """RUNNING → FAILED is a valid transition."""
-        manager = StepStateManager()
-        manager.transition("step1", StepState.READY)
-        manager.transition("step1", StepState.RUNNING)
-        result = manager.transition("step1", StepState.FAILED)
-        assert result == StepState.FAILED
-
-    def test_valid_transition_running_to_retrying(self):
-        """RUNNING → RETRYING is a valid transition."""
-        manager = StepStateManager()
-        manager.transition("step1", StepState.READY)
-        manager.transition("step1", StepState.RUNNING)
-        result = manager.transition("step1", StepState.RETRYING)
-        assert result == StepState.RETRYING
-
-    def test_valid_transition_retrying_to_running(self):
-        """RETRYING → RUNNING is a valid transition (retry attempt)."""
-        manager = StepStateManager()
-        manager.transition("step1", StepState.READY)
-        manager.transition("step1", StepState.RUNNING)
-        manager.transition("step1", StepState.RETRYING)
-        result = manager.transition("step1", StepState.RUNNING)
-        assert result == StepState.RUNNING
-
-    def test_valid_transition_pending_to_skipped(self):
-        """PENDING → SKIPPED is valid (condition not met)."""
-        manager = StepStateManager()
-        result = manager.transition("step1", StepState.SKIPPED)
-        assert result == StepState.SKIPPED
+        for target in transitions:
+            result = manager.transition("step1", target)
+        assert result == expected_final
+        assert manager.get_state("step1") == expected_final
 
     def test_invalid_transition_pending_to_success(self):
         """PENDING → SUCCESS is invalid (must go through RUNNING)."""
