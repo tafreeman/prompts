@@ -164,6 +164,16 @@ class TestConnectionManagerBroadcast:
         assert queue.qsize() == 1
 
     @pytest.mark.asyncio
+    async def test_broadcast_tolerates_failed_ws(self) -> None:
+        """broadcast() tolerates a websocket that raises on send."""
+        mgr = ConnectionManager()
+        ws = _mock_websocket()
+        ws.send_json = AsyncMock(side_effect=Exception("disconnected"))
+        await mgr.connect(ws, "run-1")
+        # Must not raise
+        await mgr.broadcast("run-1", {"type": "event"})
+
+    @pytest.mark.asyncio
     async def test_broadcast_no_connections_no_error(self) -> None:
         """broadcast() with no connected clients doesn't error."""
         mgr = ConnectionManager()

@@ -178,17 +178,13 @@ class TestLoadDiscoveredModels:
     ) -> None:
         from tools.agents.benchmarks import runner_ui
 
-        # Point the discovery file search at a non-existent location
-        missing = tmp_path / "nope" / "discovery_results.json"
+        # Patch load_discovered_models to simulate missing discovery file
         with patch.object(
-            runner_ui, "Path", wraps=Path
+            runner_ui, "load_discovered_models", return_value={}
         ):
-            # Simulate failure of both file and probe import
-            with patch(
-                "tools.agents.benchmarks.runner_ui.Path",
-                side_effect=lambda *a, **k: missing.parent,
-            ):
-                pass  # just verify import doesn't throw; tested via get_available_models
+            result = runner_ui.get_available_models_by_provider()
+
+        assert result == {}
 
     def test_handles_corrupted_json_gracefully(self) -> None:
         """load_discovered_models must silently swallow JSON decode errors."""

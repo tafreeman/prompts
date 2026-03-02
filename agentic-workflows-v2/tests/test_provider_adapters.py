@@ -176,26 +176,12 @@ class TestResolveLocalModelPath:
         result = resolve_local_model_path("phi4", local_models={})
         assert result is None
 
-    def test_resolves_to_onnx_directory(self, tmp_path: Path) -> None:
+    def test_resolves_known_key_to_path_or_none(self, tmp_path: Path) -> None:
         from tools.llm.provider_adapters import resolve_local_model_path
 
-        # Create fake ONNX directory structure under aigallery cache
-        onnx_dir = tmp_path / "phi4" / "cpu"
-        onnx_dir.mkdir(parents=True)
-        (onnx_dir / "model.onnx").touch()
-
-        # Patch the aigallery root to point at tmp_path
-        with patch(
-            "tools.llm.provider_adapters.Path.home", return_value=tmp_path.parent
-        ):
-            with patch(
-                "pathlib.Path.home", return_value=tmp_path.parent
-            ):
-                # Manually test the structure recognition - since the real path
-                # relies on ~/.cache/aigallery, we test the spec lookup guard only.
-                result = resolve_local_model_path(
-                    "phi4", local_models={"phi4": "phi4/cpu"}
-                )
-                # Without patching Path.home properly the result is None or a path;
-                # either way no exception should be raised.
-                assert result is None or isinstance(result, Path)
+        # When the key is in local_models but the path doesn't exist on disk,
+        # resolve_local_model_path should return None (not raise).
+        result = resolve_local_model_path(
+            "phi4", local_models={"phi4": str(tmp_path / "nonexistent" / "cpu")}
+        )
+        assert result is None

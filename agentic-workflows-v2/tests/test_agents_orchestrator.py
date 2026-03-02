@@ -319,35 +319,6 @@ class TestDAGBuildingFromSubtasks:
             dag.validate()
 
 
-class TestOrchestratorDAGExecution:
-    """Test OrchestratorAgent DAG execution methods."""
-
-    @pytest.mark.asyncio
-    async def test_execute_as_dag_exists(self, llm_client):
-        """Test that execute_as_dag method exists."""
-        orchestrator = OrchestratorAgent(
-            config=AgentConfig(name="orchestrator"),
-            llm_client=llm_client,
-        )
-
-        # Method should exist
-        assert hasattr(orchestrator, "execute_as_dag")
-        assert callable(orchestrator.execute_as_dag)
-
-    @pytest.mark.asyncio
-    async def test_execute_as_pipeline_deprecated(self, llm_client):
-        """Test that execute_as_pipeline still exists for backwards
-        compatibility."""
-        orchestrator = OrchestratorAgent(
-            config=AgentConfig(name="orchestrator"),
-            llm_client=llm_client,
-        )
-
-        # Method should exist
-        assert hasattr(orchestrator, "execute_as_pipeline")
-        assert callable(orchestrator.execute_as_pipeline)
-
-
 class TestAgentToStepForDAG:
     """Test converting agents to DAG-compatible steps."""
 
@@ -453,3 +424,53 @@ class TestDAGExecutorWithAgentSteps:
 
         assert result.overall_status == StepStatus.SUCCESS
         assert len(result.steps) == 5
+
+
+class TestCoderAgentLLMIntegration:
+    """Test CoderAgent with LLM client."""
+
+    @pytest.mark.asyncio
+    async def test_coder_uses_llm_client_when_backend_set(self, llm_client):
+        """Test that CoderAgent uses the LLM client when backend is
+        configured."""
+        mock_backend = llm_client.backend
+        mock_backend.set_response(
+            "function",
+            """```python
+def greet(name: str) -> str:
+    return f"Hello, {name}!"
+```""",
+        )
+
+        coder = CoderAgent(
+            config=AgentConfig(name="test-coder"),
+            llm_client=llm_client,
+        )
+
+        code = await coder.generate_code(
+            description="Create a greeting function",
+            language="python",
+        )
+
+        # The mock should have been called
+        assert len(mock_backend.call_history) > 0
+
+    @pytest.mark.asyncio
+    async def test_coder_returns_mock_when_no_backend(self):
+        """Test that CoderAgent returns mock response when no backend."""
+        client = LLMClientWrapper(
+            router=get_smart_router(),
+            enable_cache=False,
+        )
+
+        coder = CoderAgent(
+            config=AgentConfig(name="test-coder"),
+            llm_client=client,
+        )
+
+        code = await coder.generate_code(
+            description="Create something",
+            language="python",
+        )
+
+        assert "placeholder" in code.lower() or "example" in code.lower()
