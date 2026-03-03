@@ -47,6 +47,7 @@ from typing import Any, Dict, List, Optional
 if __name__ == "__main__":
     sys.path.insert(0, str(Path(__file__).parents[2]))
 
+
 # ---------------------------------------------------------------------------
 # Load .env so provider API keys are available via os.getenv().
 # We search upward from this file to find the nearest .env, which covers both
@@ -79,7 +80,9 @@ def _load_dotenv_manual() -> None:
     for _ in range(10):
         candidate = search / ".env"
         if candidate.is_file():
-            for line in candidate.read_text(encoding="utf-8", errors="replace").splitlines():
+            for line in candidate.read_text(
+                encoding="utf-8", errors="replace"
+            ).splitlines():
                 line = line.strip()
                 if not line or line.startswith("#"):
                     continue
@@ -93,7 +96,11 @@ def _load_dotenv_manual() -> None:
                 # Only set if not already present (don't override real env)
                 if key not in os.environ:
                     # Strip surrounding quotes (python-dotenv does this automatically)
-                    if len(value) >= 2 and value[0] == value[-1] and value[0] in ('"', "'"):
+                    if (
+                        len(value) >= 2
+                        and value[0] == value[-1]
+                        and value[0] in ('"', "'")
+                    ):
                         value = value[1:-1]
                     os.environ[key] = value
             return
@@ -261,9 +268,7 @@ class ProbeResult:
 
 def get_cache_dir() -> Path:
     """Get the directory for probe cache files."""
-    cache_dir = (
-        Path.home() / _CACHE_BASE_DIR / _CACHE_APP_DIR / _CACHE_PROBES_DIR
-    )
+    cache_dir = Path.home() / _CACHE_BASE_DIR / _CACHE_APP_DIR / _CACHE_PROBES_DIR
     cache_dir.mkdir(parents=True, exist_ok=True)
     return cache_dir
 
@@ -313,7 +318,9 @@ class ModelProbe:
     def __init__(self, use_cache: bool = True, verbose: bool = False):
         self.use_cache = use_cache
         self.verbose = verbose
-        self._cache = load_cache() if use_cache else {"version": _CACHE_VERSION, "probes": {}}
+        self._cache = (
+            load_cache() if use_cache else {"version": _CACHE_VERSION, "probes": {}}
+        )
         self._session_probes: Dict[str, ProbeResult] = {}
 
     def _log(self, msg: str) -> None:
@@ -438,9 +445,7 @@ class ModelProbe:
     def _probe_github(self, model: str) -> ProbeResult:
         """Probe a GitHub Models model with a lightweight test."""
         start = time.time()
-        model_id = (
-            model.replace(_PREFIX_GITHUB, "").replace(_PREFIX_GITHUB_ALT, "")
-        )
+        model_id = model.replace(_PREFIX_GITHUB, "").replace(_PREFIX_GITHUB_ALT, "")
 
         # Check if gh CLI is available
         import shutil
@@ -644,9 +649,7 @@ class ModelProbe:
             )
 
         bridge_proj = (
-            Path(__file__).parent
-            / _WINDOWS_AI_BRIDGE_DIR
-            / _WINDOWS_AI_BRIDGE_PROJECT
+            Path(__file__).parent / _WINDOWS_AI_BRIDGE_DIR / _WINDOWS_AI_BRIDGE_PROJECT
         )
         if not bridge_proj.exists():
             return ProbeResult(
@@ -807,9 +810,8 @@ class ModelProbe:
 
         if not configured:
             # Also check default (non-numbered) env vars
-            if (
-                os.getenv(_ENV_AZURE_OPENAI_ENDPOINT)
-                and os.getenv(_ENV_AZURE_OPENAI_API_KEY)
+            if os.getenv(_ENV_AZURE_OPENAI_ENDPOINT) and os.getenv(
+                _ENV_AZURE_OPENAI_API_KEY
             ):
                 configured = True
 
@@ -951,7 +953,9 @@ class ModelProbe:
 
         try:
             url = "https://generativelanguage.googleapis.com/v1beta/models?pageSize=1"
-            req = urllib.request.Request(url, headers={"Accept": "application/json", "x-goog-api-key": api_key})
+            req = urllib.request.Request(
+                url, headers={"Accept": "application/json", "x-goog-api-key": api_key}
+            )
             with urllib.request.urlopen(req, timeout=_TIMEOUT_CLOUD_HTTP) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
                 if data.get("models"):
@@ -972,7 +976,11 @@ class ModelProbe:
                     duration_ms=int((time.time() - start) * 1000),
                 )
         except urllib.error.HTTPError as e:
-            code_val = ErrorCode.PERMISSION_DENIED.value if e.code in (401, 403) else ErrorCode.NETWORK_ERROR.value
+            code_val = (
+                ErrorCode.PERMISSION_DENIED.value
+                if e.code in (401, 403)
+                else ErrorCode.NETWORK_ERROR.value
+            )
             return ProbeResult(
                 model=model,
                 provider="gemini",
@@ -1022,11 +1030,14 @@ class ModelProbe:
 
         try:
             url = "https://api.anthropic.com/v1/models?limit=1"
-            req = urllib.request.Request(url, headers={
-                "x-api-key": api_key,
-                "anthropic-version": "2023-06-01",
-                "Accept": "application/json",
-            })
+            req = urllib.request.Request(
+                url,
+                headers={
+                    "x-api-key": api_key,
+                    "anthropic-version": "2023-06-01",
+                    "Accept": "application/json",
+                },
+            )
             with urllib.request.urlopen(req, timeout=_TIMEOUT_CLOUD_HTTP) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
                 if data.get("data"):
@@ -1046,7 +1057,11 @@ class ModelProbe:
                     duration_ms=int((time.time() - start) * 1000),
                 )
         except urllib.error.HTTPError as e:
-            code_val = ErrorCode.PERMISSION_DENIED.value if e.code in (401, 403) else ErrorCode.NETWORK_ERROR.value
+            code_val = (
+                ErrorCode.PERMISSION_DENIED.value
+                if e.code in (401, 403)
+                else ErrorCode.NETWORK_ERROR.value
+            )
             return ProbeResult(
                 model=model,
                 provider="claude",
@@ -1073,7 +1088,8 @@ class ModelProbe:
     def _probe_openai_compatible_endpoint(
         self, base_url: str, model: str, provider: str
     ) -> ProbeResult:
-        """Shared probe for any OpenAI-compatible server (LM Studio, LocalAI, etc.).
+        """Shared probe for any OpenAI-compatible server (LM Studio, LocalAI,
+        etc.).
 
         Hits GET /v1/models to list available models.
         """
@@ -1145,8 +1161,8 @@ class ModelProbe:
         """Probe a generic OpenAI-compatible local server.
 
         Checks OPENAI_BASE_URL, OPENAI_API_BASE, LOCAL_AI_API_BASE_URL,
-        LOCAL_OPENAI_BASE_URL env vars for the endpoint.
-        If none set, scans common local ports (1234, 5000, 5001, 8080, 8081).
+        LOCAL_OPENAI_BASE_URL env vars for the endpoint. If none set,
+        scans common local ports (1234, 5000, 5001, 8080, 8081).
         """
         import urllib.request
 
@@ -1165,7 +1181,9 @@ class ModelProbe:
         for port in _LOCAL_SERVER_COMMON_PORTS:
             try:
                 url = f"http://localhost:{port}/v1/models"
-                req = urllib.request.Request(url, headers={"Accept": "application/json"})
+                req = urllib.request.Request(
+                    url, headers={"Accept": "application/json"}
+                )
                 with urllib.request.urlopen(req, timeout=1) as resp:
                     data = json.loads(resp.read().decode("utf-8"))
                     if data.get("data"):
@@ -1581,7 +1599,9 @@ def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
 
         # Also accept env var token
         if not gh_authenticated:
-            gh_authenticated = bool(os.getenv(_ENV_GITHUB_TOKEN) or os.getenv(_ENV_GH_TOKEN))
+            gh_authenticated = bool(
+                os.getenv(_ENV_GITHUB_TOKEN) or os.getenv(_ENV_GH_TOKEN)
+            )
 
     if gh_authenticated:
         try:
@@ -1603,7 +1623,11 @@ def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
                             if model_id:
                                 gh_models.append(f"{_PREFIX_GITHUB}{model_id}")
             else:
-                gh_error = result.stderr[:_ERROR_BRIEF_LENGTH] if result.stderr else "Unknown error"
+                gh_error = (
+                    result.stderr[:_ERROR_BRIEF_LENGTH]
+                    if result.stderr
+                    else "Unknown error"
+                )
         except Exception as e:
             gh_error = str(e)
     else:
@@ -1672,7 +1696,11 @@ def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
             azure_slots.append(
                 {
                     "slot": i,
-                    "endpoint": ep[:_ENDPOINT_TRUNCATION_LENGTH] + "..." if len(ep) > _ENDPOINT_TRUNCATION_LENGTH else ep,
+                    "endpoint": (
+                        ep[:_ENDPOINT_TRUNCATION_LENGTH] + "..."
+                        if len(ep) > _ENDPOINT_TRUNCATION_LENGTH
+                        else ep
+                    ),
                     "deployment": deployment,
                 }
             )
@@ -1682,7 +1710,9 @@ def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
         azure_slots.append(
             {
                 "slot": "default",
-                "endpoint": os.getenv(_ENV_AZURE_OPENAI_ENDPOINT, "")[:_ENDPOINT_TRUNCATION_LENGTH],
+                "endpoint": os.getenv(_ENV_AZURE_OPENAI_ENDPOINT, "")[
+                    :_ENDPOINT_TRUNCATION_LENGTH
+                ],
                 "deployment": os.getenv(_ENV_AZURE_OPENAI_DEPLOYMENT),
             }
         )
@@ -1704,7 +1734,9 @@ def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
         try:
             from llm_client import LLMClient
 
-            openai_models = [f"{_PREFIX_OPENAI}{m}" for m in LLMClient.list_openai_models()[:20]]
+            openai_models = [
+                f"{_PREFIX_OPENAI}{m}" for m in LLMClient.list_openai_models()[:20]
+            ]
         except Exception:
             openai_models = [
                 f"{_PREFIX_OPENAI}gpt-4o",
@@ -1730,7 +1762,10 @@ def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
     if gemini_configured:
         try:
             url = "https://generativelanguage.googleapis.com/v1beta/models?pageSize=50"
-            req = urllib.request.Request(url, headers={"Accept": "application/json", "x-goog-api-key": gemini_key})
+            req = urllib.request.Request(
+                url,
+                headers={"Accept": "application/json", "x-goog-api-key": gemini_key},
+            )
             with urllib.request.urlopen(req, timeout=_TIMEOUT_CLOUD_HTTP) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
                 for m in data.get("models", []):
@@ -1776,11 +1811,14 @@ def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
     if anthropic_configured:
         try:
             url = "https://api.anthropic.com/v1/models?limit=50"
-            req = urllib.request.Request(url, headers={
-                "x-api-key": anthropic_key,
-                "anthropic-version": "2023-06-01",
-                "Accept": "application/json",
-            })
+            req = urllib.request.Request(
+                url,
+                headers={
+                    "x-api-key": anthropic_key,
+                    "anthropic-version": "2023-06-01",
+                    "Accept": "application/json",
+                },
+            )
             with urllib.request.urlopen(req, timeout=_TIMEOUT_CLOUD_HTTP) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
                 for m in data.get("data", []):
@@ -1822,9 +1860,7 @@ def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
 
     if sys.platform == _PLATFORM_WINDOWS and shutil.which("dotnet"):
         bridge_proj = (
-            Path(__file__).parent
-            / _WINDOWS_AI_BRIDGE_DIR
-            / _WINDOWS_AI_BRIDGE_PROJECT
+            Path(__file__).parent / _WINDOWS_AI_BRIDGE_DIR / _WINDOWS_AI_BRIDGE_PROJECT
         )
         if bridge_proj.exists():
             try:
@@ -1907,7 +1943,12 @@ def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
             # Simplify name for model ID
             simple_name = d.lower()
             # Remove version suffixes like "-generic-cpu-5"
-            for suffix in [_AITK_SUFFIX_GENERIC_CPU, _AITK_SUFFIX_GENERIC_GPU, _AITK_SUFFIX_CPU, _AITK_SUFFIX_GPU]:
+            for suffix in [
+                _AITK_SUFFIX_GENERIC_CPU,
+                _AITK_SUFFIX_GENERIC_GPU,
+                _AITK_SUFFIX_CPU,
+                _AITK_SUFFIX_GPU,
+            ]:
                 if suffix in simple_name:
                     simple_name = simple_name.split(suffix)[0]
             # Remove trailing version numbers like -1, -2, -3
@@ -1935,7 +1976,9 @@ def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
     discovered["providers"]["ai_toolkit"] = {
         "available": aitk_models,
         "count": len(aitk_models),
-        "catalog": aitk_catalog[:_GH_CLI_OUTPUT_MODELS_LIMIT],  # First N not-downloaded models
+        "catalog": aitk_catalog[
+            :_GH_CLI_OUTPUT_MODELS_LIMIT
+        ],  # First N not-downloaded models
         "path": str(aitk_models_dir) if aitk_models_dir.exists() else None,
         "error": aitk_error,
         "notes": "FREE local ONNX models via VS Code AI Toolkit (NOT cloud/paid)",
@@ -2005,7 +2048,9 @@ def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
                         local_api_models.append(f"{_PREFIX_LOCAL_API}{mid}")
                 local_api_reachable = True
         except Exception as e:
-            local_api_error = f"Local API not reachable at {local_api_base}: {str(e)[:100]}"
+            local_api_error = (
+                f"Local API not reachable at {local_api_base}: {str(e)[:100]}"
+            )
     else:
         # Scan common ports for any OpenAI-compatible server
         for port in _LOCAL_SERVER_COMMON_PORTS:
@@ -2014,7 +2059,9 @@ def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
                 continue
             try:
                 scan_url = f"http://localhost:{port}/v1/models"
-                req = urllib.request.Request(scan_url, headers={"Accept": "application/json"})
+                req = urllib.request.Request(
+                    scan_url, headers={"Accept": "application/json"}
+                )
                 with urllib.request.urlopen(req, timeout=1) as resp:
                     data = json.loads(resp.read().decode("utf-8"))
                     for m in data.get("data", []):

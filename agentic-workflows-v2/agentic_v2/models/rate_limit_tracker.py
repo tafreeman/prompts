@@ -22,8 +22,8 @@ class TokenBucket:
     """Token bucket for rate limiting.
 
     Tracks available capacity using the token bucket algorithm. Tokens
-    are consumed on each request and refilled at a steady rate.
-    Uses monotonic clock for timing (ADR-002C).
+    are consumed on each request and refilled at a steady rate. Uses
+    monotonic clock for timing (ADR-002C).
     """
 
     capacity: int
@@ -36,7 +36,10 @@ class TokenBucket:
         self._last_refill = time.monotonic()
 
     def consume(self, tokens: int = 1) -> bool:
-        """Try to consume tokens. Returns True if successful."""
+        """Try to consume tokens.
+
+        Returns True if successful.
+        """
         self._refill()
         if self._tokens >= tokens:
             self._tokens -= tokens
@@ -49,7 +52,10 @@ class TokenBucket:
         return self._tokens
 
     def time_until_available(self, tokens: int = 1) -> float:
-        """Seconds until `tokens` become available. 0 if already available."""
+        """Seconds until `tokens` become available.
+
+        0 if already available.
+        """
         self._refill()
         if self._tokens >= tokens:
             return 0.0
@@ -163,9 +169,7 @@ class RateLimitTracker:
         # Could be HTTP-date format — for simplicity, fall back to None
         return None
 
-    def update_from_headers(
-        self, model: str, headers: dict[str, str]
-    ) -> Optional[int]:
+    def update_from_headers(self, model: str, headers: dict[str, str]) -> Optional[int]:
         """Parse provider-specific rate-limit headers and update buckets.
 
         Returns the recommended cooldown seconds if rate-limited, else None.
@@ -234,18 +238,10 @@ class RateLimitTracker:
         self, state: ProviderRateLimits, headers: dict[str, str]
     ) -> Optional[int]:
         """Parse OpenAI-style rate-limit headers."""
-        remaining_requests = _safe_int(
-            headers.get("x-ratelimit-remaining-requests")
-        )
-        reset_requests = _parse_duration(
-            headers.get("x-ratelimit-reset-requests")
-        )
-        remaining_tokens = _safe_int(
-            headers.get("x-ratelimit-remaining-tokens")
-        )
-        reset_tokens = _parse_duration(
-            headers.get("x-ratelimit-reset-tokens")
-        )
+        remaining_requests = _safe_int(headers.get("x-ratelimit-remaining-requests"))
+        reset_requests = _parse_duration(headers.get("x-ratelimit-reset-requests"))
+        remaining_tokens = _safe_int(headers.get("x-ratelimit-remaining-tokens"))
+        reset_tokens = _parse_duration(headers.get("x-ratelimit-reset-tokens"))
 
         # Update RPM bucket
         if remaining_requests is not None and reset_requests is not None:
@@ -269,14 +265,10 @@ class RateLimitTracker:
         self, state: ProviderRateLimits, headers: dict[str, str]
     ) -> Optional[int]:
         """Parse Anthropic-style rate-limit headers."""
-        remaining = _safe_int(
-            headers.get("x-ratelimit-remaining-requests")
-        )
+        remaining = _safe_int(headers.get("x-ratelimit-remaining-requests"))
 
         if remaining is not None:
-            state.rpm_bucket.reset(
-                remaining, 60.0  # Anthropic resets per minute
-            )
+            state.rpm_bucket.reset(remaining, 60.0)  # Anthropic resets per minute
 
         if remaining is not None and remaining <= 0:
             # Anthropic doesn't always give a precise reset time

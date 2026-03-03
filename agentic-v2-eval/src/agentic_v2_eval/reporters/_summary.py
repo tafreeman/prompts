@@ -36,4 +36,3 @@ def calculate_summary(
             summary[f"{key}_max"] = max(values)
 
     return summary
-

@@ -2,16 +2,17 @@
 
 from __future__ import annotations
 
-import pytest
 from unittest.mock import MagicMock
 
+import pytest
+
 from agentic_v2_eval.evaluators.pattern import (
+    PATTERN_PHASES,
+    PATTERN_SCORE_FIELDS,
+    PATTERN_SPECIFIC_INSTRUCTIONS,
+    PATTERN_STATE_MACHINES,
     PatternEvaluator,
     PatternScore,
-    PATTERN_PHASES,
-    PATTERN_STATE_MACHINES,
-    PATTERN_SPECIFIC_INSTRUCTIONS,
-    PATTERN_SCORE_FIELDS,
 )
 
 
@@ -202,8 +203,10 @@ class TestPatternEvaluator:
         assert result.hard_gates_passed is False
         assert len(result.hard_gate_failures) > 0
         # POI < 4, PC < 4, CA < 4, PR < 0.75 - all should fail
-        assert "Phase Ordering Integrity" in result.hard_gate_failures[0] or \
-               "Phase Completeness" in result.hard_gate_failures[0]
+        assert (
+            "Phase Ordering Integrity" in result.hard_gate_failures[0]
+            or "Phase Completeness" in result.hard_gate_failures[0]
+        )
 
     def test_score_pattern_handles_llm_error(self):
         """Test that LLM errors result in empty score."""
@@ -245,13 +248,13 @@ class TestPatternEvaluator:
         mock_client = MagicMock()
         evaluator = PatternEvaluator(llm_client=mock_client)
 
-        text_with_markdown = '''
+        text_with_markdown = """
 Here is my evaluation:
 
 ```json
 {"universal_scores": {"PIF": 4}, "pattern_scores": {}, "failures": [], "confidence": 0.9}
 ```
-'''
+"""
         result = evaluator._parse_json_response(text_with_markdown)
         assert result is not None
         assert result["universal_scores"]["PIF"] == 4

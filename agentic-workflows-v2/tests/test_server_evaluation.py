@@ -6,9 +6,9 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import pytest
-from fastapi import BackgroundTasks, HTTPException
-
 from agentic_v2.contracts import StepResult, StepStatus, WorkflowResult
+from agentic_v2.langchain import load_workflow_config
+from agentic_v2.langchain.config import InputConfig, OutputConfig, WorkflowConfig
 from agentic_v2.server.evaluation import (
     adapt_sample_to_workflow_inputs,
     compute_hard_gates,
@@ -21,8 +21,6 @@ from agentic_v2.server.evaluation import (
 from agentic_v2.server.judge import LLMJudge
 from agentic_v2.server.models import WorkflowEvaluationRequest, WorkflowRunRequest
 from agentic_v2.server.routes import workflows as workflow_routes
-from agentic_v2.langchain import load_workflow_config
-from agentic_v2.langchain.config import InputConfig, OutputConfig, WorkflowConfig
 from agentic_v2.workflows.loader import (
     WorkflowCriterion,
     WorkflowDefinition,
@@ -30,6 +28,7 @@ from agentic_v2.workflows.loader import (
     WorkflowInput,
     WorkflowLoader,
 )
+from fastapi import BackgroundTasks, HTTPException
 
 
 def _build_result(status: StepStatus = StepStatus.SUCCESS) -> WorkflowResult:
@@ -59,7 +58,9 @@ def _build_workflow_definition() -> WorkflowConfig:
         name="code_review",
         inputs={
             "code_file": InputConfig(name="code_file", type="string", required=True),
-            "review_depth": InputConfig(name="review_depth", type="string", required=False),
+            "review_depth": InputConfig(
+                name="review_depth", type="string", required=False
+            ),
         },
         outputs={
             "review": OutputConfig(
@@ -75,7 +76,9 @@ def test_list_local_datasets_includes_fixture_files():
     datasets = list_local_datasets()
     ids = {d["id"] for d in datasets}
     assert any(
-        dataset_id.endswith("agentic-workflows-v2/tests/fixtures/datasets/code_review_instruct.json")
+        dataset_id.endswith(
+            "agentic-workflows-v2/tests/fixtures/datasets/code_review_instruct.json"
+        )
         for dataset_id in ids
     )
 
@@ -93,7 +96,9 @@ def test_load_local_dataset_sample_reads_fixture():
 def test_adapt_sample_to_workflow_inputs_materializes_file(tmp_path: Path):
     schema = {
         "code_file": WorkflowInput(name="code_file", type="string", required=True),
-        "review_depth": WorkflowInput(name="review_depth", type="string", required=False),
+        "review_depth": WorkflowInput(
+            name="review_depth", type="string", required=False
+        ),
     }
     sample = {
         "prompt": "Review this code",
@@ -262,7 +267,8 @@ def test_hard_gate_all_pass_with_score():
 
 
 def test_score_result_contains_gate_fields():
-    """Verify the evaluation dict contains all required gate and floor fields."""
+    """Verify the evaluation dict contains all required gate and floor
+    fields."""
     result = _build_result(StepStatus.SUCCESS)
     evaluation = score_workflow_result(
         result,
@@ -286,7 +292,9 @@ def test_hard_gate_all_pass_low_score(monkeypatch):
     def _low_score(*_args, **_kwargs):
         return 20.0
 
-    monkeypatch.setattr("agentic_v2.server.evaluation._compute_criterion_score", _low_score)
+    monkeypatch.setattr(
+        "agentic_v2.server.evaluation._compute_criterion_score", _low_score
+    )
     evaluation = score_workflow_result(
         result,
         dataset_meta={"source": "local"},
@@ -308,7 +316,9 @@ def test_criterion_floor_correctness_caps_grade(monkeypatch):
             return 69.0
         return 95.0
 
-    monkeypatch.setattr("agentic_v2.server.evaluation._compute_criterion_score", _scores)
+    monkeypatch.setattr(
+        "agentic_v2.server.evaluation._compute_criterion_score", _scores
+    )
     evaluation = score_workflow_result(
         result,
         dataset_meta={"source": "local"},
@@ -383,14 +393,22 @@ def test_match_workflow_dataset_chat_messages_uses_defaults_for_fullstack():
     assert reasons == []
 
 
-def test_adapt_sample_to_workflow_inputs_extracts_feature_spec_from_messages(tmp_path: Path):
+def test_adapt_sample_to_workflow_inputs_extracts_feature_spec_from_messages(
+    tmp_path: Path,
+):
     schema = {
-        "feature_spec": WorkflowInput(name="feature_spec", type="string", required=True),
+        "feature_spec": WorkflowInput(
+            name="feature_spec", type="string", required=True
+        ),
         "tech_stack": WorkflowInput(
             name="tech_stack",
             type="object",
             required=True,
-            default={"frontend": "react", "backend": "fastapi", "database": "postgresql"},
+            default={
+                "frontend": "react",
+                "backend": "fastapi",
+                "database": "postgresql",
+            },
         ),
     }
     sample = {
@@ -529,7 +547,11 @@ def test_hybrid_score_with_mock_judge():
         return {
             "criteria": [
                 {"name": "correctness", "score": 2, "evidence": "missed edge cases"},
-                {"name": "code_quality", "score": 2, "evidence": "style and structure issues"},
+                {
+                    "name": "code_quality",
+                    "score": 2,
+                    "evidence": "style and structure issues",
+                },
                 {"name": "efficiency", "score": 2, "evidence": "slow with retries"},
                 {"name": "documentation", "score": 2, "evidence": "thin summary"},
             ]
@@ -616,7 +638,9 @@ def test_hybrid_score_determinism():
             ]
         }
 
-    judge = LLMJudge(response_provider=_provider, model_version="mock-judge-deterministic")
+    judge = LLMJudge(
+        response_provider=_provider, model_version="mock-judge-deterministic"
+    )
     result = _build_result(StepStatus.SUCCESS)
     first = score_workflow_result(
         result,
@@ -632,7 +656,9 @@ def test_hybrid_score_determinism():
         workflow_definition=_build_workflow_definition(),
         judge=judge,
     )
-    assert first["weighted_score"] == pytest.approx(second["weighted_score"], abs=0.0001)
+    assert first["weighted_score"] == pytest.approx(
+        second["weighted_score"], abs=0.0001
+    )
 
 
 @pytest.mark.asyncio
@@ -641,6 +667,7 @@ async def test_sse_payload_includes_hard_gates(monkeypatch):
 
     def _mock_load_config(name, definitions_dir=None):
         from agentic_v2.langchain.config import WorkflowConfig
+
         return WorkflowConfig(name=name, inputs={}, outputs={}, steps=[])
 
     async def _fake_run(*_args, **_kwargs):
@@ -650,11 +677,21 @@ async def test_sse_payload_includes_hard_gates(monkeypatch):
         events.append(event)
 
     monkeypatch.setattr(workflow_routes, "load_workflow_config", _mock_load_config)
-    monkeypatch.setattr(workflow_routes, "load_local_dataset_sample", lambda *_a, **_k: ({}, {"source": "local"}))
-    monkeypatch.setattr(workflow_routes, "adapt_sample_to_workflow_inputs", lambda *_a, **_k: {})
-    monkeypatch.setattr(workflow_routes.lc_runner, "run", _fake_run)
+    monkeypatch.setattr(
+        workflow_routes,
+        "load_local_dataset_sample",
+        lambda *_a, **_k: ({}, {"source": "local"}),
+    )
+    monkeypatch.setattr(
+        workflow_routes, "adapt_sample_to_workflow_inputs", lambda *_a, **_k: {}
+    )
+    monkeypatch.setattr(
+        workflow_routes, "_get_lc_runner", lambda: type("R", (), {"run": _fake_run})()
+    )
     monkeypatch.setattr(workflow_routes.websocket.manager, "broadcast", _fake_broadcast)
-    monkeypatch.setattr(workflow_routes.run_logger, "log", lambda *_a, **_k: Path("dummy.json"))
+    monkeypatch.setattr(
+        workflow_routes.run_logger, "log", lambda *_a, **_k: Path("dummy.json")
+    )
 
     request = WorkflowRunRequest(
         workflow="dummy_workflow",
@@ -669,7 +706,9 @@ async def test_sse_payload_includes_hard_gates(monkeypatch):
     for task in background.tasks:
         await task()
 
-    evaluation_events = [event for event in events if event.get("type") == "evaluation_complete"]
+    evaluation_events = [
+        event for event in events if event.get("type") == "evaluation_complete"
+    ]
     assert evaluation_events
     event = evaluation_events[-1]
     assert "hard_gates" in event
@@ -692,11 +731,21 @@ async def test_run_log_evaluation_has_gate_fields(monkeypatch):
 
     def _mock_load_config(name, definitions_dir=None):
         from agentic_v2.langchain.config import WorkflowConfig
+
         return WorkflowConfig(name=name, inputs={}, outputs={}, steps=[])
+
     monkeypatch.setattr(workflow_routes, "load_workflow_config", _mock_load_config)
-    monkeypatch.setattr(workflow_routes, "load_local_dataset_sample", lambda *_a, **_k: ({}, {"source": "local"}))
-    monkeypatch.setattr(workflow_routes, "adapt_sample_to_workflow_inputs", lambda *_a, **_k: {})
-    monkeypatch.setattr(workflow_routes.lc_runner, "run", _fake_run)
+    monkeypatch.setattr(
+        workflow_routes,
+        "load_local_dataset_sample",
+        lambda *_a, **_k: ({}, {"source": "local"}),
+    )
+    monkeypatch.setattr(
+        workflow_routes, "adapt_sample_to_workflow_inputs", lambda *_a, **_k: {}
+    )
+    monkeypatch.setattr(
+        workflow_routes, "_get_lc_runner", lambda: type("R", (), {"run": _fake_run})()
+    )
     monkeypatch.setattr(workflow_routes.websocket.manager, "broadcast", _fake_broadcast)
     monkeypatch.setattr(workflow_routes.run_logger, "log", _fake_log)
 
@@ -731,13 +780,25 @@ async def test_sse_payload_schema_validation(monkeypatch):
 
     def _mock_load_config(name, definitions_dir=None):
         from agentic_v2.langchain.config import WorkflowConfig
+
         return WorkflowConfig(name=name, inputs={}, outputs={}, steps=[])
+
     monkeypatch.setattr(workflow_routes, "load_workflow_config", _mock_load_config)
-    monkeypatch.setattr(workflow_routes, "load_local_dataset_sample", lambda *_a, **_k: ({}, {"source": "local"}))
-    monkeypatch.setattr(workflow_routes, "adapt_sample_to_workflow_inputs", lambda *_a, **_k: {})
-    monkeypatch.setattr(workflow_routes.lc_runner, "run", _fake_run)
+    monkeypatch.setattr(
+        workflow_routes,
+        "load_local_dataset_sample",
+        lambda *_a, **_k: ({}, {"source": "local"}),
+    )
+    monkeypatch.setattr(
+        workflow_routes, "adapt_sample_to_workflow_inputs", lambda *_a, **_k: {}
+    )
+    monkeypatch.setattr(
+        workflow_routes, "_get_lc_runner", lambda: type("R", (), {"run": _fake_run})()
+    )
     monkeypatch.setattr(workflow_routes.websocket.manager, "broadcast", _fake_broadcast)
-    monkeypatch.setattr(workflow_routes.run_logger, "log", lambda *_a, **_k: Path("dummy.json"))
+    monkeypatch.setattr(
+        workflow_routes.run_logger, "log", lambda *_a, **_k: Path("dummy.json")
+    )
 
     request = WorkflowRunRequest(
         workflow="dummy_workflow",
@@ -752,7 +813,9 @@ async def test_sse_payload_schema_validation(monkeypatch):
     for task in background.tasks:
         await task()
 
-    evaluation_events = [event for event in events if event.get("type") == "evaluation_complete"]
+    evaluation_events = [
+        event for event in events if event.get("type") == "evaluation_complete"
+    ]
     assert evaluation_events
     payload = evaluation_events[-1]
     assert isinstance(payload["hard_gates"], dict)
@@ -766,7 +829,9 @@ async def test_sse_payload_schema_validation(monkeypatch):
 async def test_run_workflow_preserves_422_for_invalid_repository_dataset(monkeypatch):
     def _mock_load_config(name, definitions_dir=None):
         from agentic_v2.langchain.config import WorkflowConfig
+
         return WorkflowConfig(name=name, inputs={}, outputs={}, steps=[])
+
     monkeypatch.setattr(workflow_routes, "load_workflow_config", _mock_load_config)
     request = WorkflowRunRequest(
         workflow="dummy_workflow",

@@ -681,7 +681,8 @@ def save_evaluation_report(result: EvaluationResult, output_dir: Path) -> Path:
 
 @dataclass
 class BatchEvaluationSummary:
-    """Aggregate statistics across a batch of :class:`EvaluationResult` objects.
+    """Aggregate statistics across a batch of :class:`EvaluationResult`
+    objects.
 
     Attributes:
         benchmark_id: Benchmark that was evaluated.

@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from agentic_v2.langchain.models import (
     _dedupe_keep_order,
     _is_provider_available,
@@ -46,23 +45,27 @@ class TestIsProviderAvailable:
         assert _is_provider_available("local") is True
 
     def test_gemini_requires_api_key(self, monkeypatch: pytest.MonkeyPatch) -> None:
-        """gemini needs GOOGLE_API_KEY or GEMINI_API_KEY."""
+        """Gemini needs GOOGLE_API_KEY or GEMINI_API_KEY."""
         monkeypatch.delenv("GOOGLE_API_KEY", raising=False)
         monkeypatch.delenv("GEMINI_API_KEY", raising=False)
         assert _is_provider_available("gemini") is False
 
-    def test_gemini_available_with_google_key(self, monkeypatch: pytest.MonkeyPatch) -> None:
-        """gemini available when GOOGLE_API_KEY is set."""
+    def test_gemini_available_with_google_key(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """Gemini available when GOOGLE_API_KEY is set."""
         monkeypatch.setenv("GOOGLE_API_KEY", "test-key")
         assert _is_provider_available("gemini") is True
 
     def test_anthropic_requires_api_key(self, monkeypatch: pytest.MonkeyPatch) -> None:
-        """anthropic needs ANTHROPIC_API_KEY."""
+        """Anthropic needs ANTHROPIC_API_KEY."""
         monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
         assert _is_provider_available("anthropic") is False
 
-    def test_anthropic_available_with_key(self, monkeypatch: pytest.MonkeyPatch) -> None:
-        """anthropic available when ANTHROPIC_API_KEY is set."""
+    def test_anthropic_available_with_key(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """Anthropic available when ANTHROPIC_API_KEY is set."""
         monkeypatch.setenv("ANTHROPIC_API_KEY", "test-key")
         assert _is_provider_available("anthropic") is True
 
@@ -99,8 +102,10 @@ class TestResolveModelOverride:
         with pytest.raises(ValueError, match="missing variable name"):
             _resolve_model_override("env:")
 
-    def test_env_missing_var_no_fallback_raises(self, monkeypatch: pytest.MonkeyPatch) -> None:
-        """env:NONEXISTENT raises ValueError."""
+    def test_env_missing_var_no_fallback_raises(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """Env:NONEXISTENT raises ValueError."""
         monkeypatch.delenv("NONEXISTENT_MODEL_VAR", raising=False)
         with pytest.raises(ValueError, match="not set"):
             _resolve_model_override("env:NONEXISTENT_MODEL_VAR")

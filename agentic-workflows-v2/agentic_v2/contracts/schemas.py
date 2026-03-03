@@ -20,8 +20,7 @@ programmatic task construction.
 from enum import Enum
 from typing import Any, Optional, TypeVar
 
-from pydantic import (BaseModel, ConfigDict, Field, field_validator,
-                      model_validator)
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 T = TypeVar("T")
 

@@ -19,10 +19,10 @@ from typing import Any, Optional
 from ..contracts import StepResult
 from .context import ExecutionContext
 
-
 # ---------------------------------------------------------------------------
 # Null-safe helpers for expression evaluation
 # ---------------------------------------------------------------------------
+
 
 class _NullSafe:
     """Sentinel for missing values that allows continued attribute chaining.
@@ -72,7 +72,8 @@ class _SafeNamespace(SimpleNamespace):
 
 
 def _coalesce(*args: Any) -> Any:
-    """Return the first non-None / non-NullSafe argument (SQL-style COALESCE)."""
+    """Return the first non-None / non-NullSafe argument (SQL-style
+    COALESCE)."""
     for arg in args:
         if arg is not None and not isinstance(arg, _NullSafe):
             return arg
@@ -80,10 +81,11 @@ def _coalesce(*args: Any) -> Any:
 
 
 def _from_namespace(obj: Any) -> Any:
-    """Convert ``_SafeNamespace`` / ``SimpleNamespace`` trees back to plain dicts.
+    """Convert ``_SafeNamespace`` / ``SimpleNamespace`` trees back to plain
+    dicts.
 
-    Called at the expression-evaluation boundary so that callers never see
-    namespace wrapper objects in their results.
+    Called at the expression-evaluation boundary so that callers never
+    see namespace wrapper objects in their results.
     """
     if isinstance(obj, _NullSafe):
         return None
@@ -255,12 +257,17 @@ class ExpressionEvaluator:
         # so that ${inputs.foo} resolves without a "ctx." prefix.
         for key, value in all_vars.items():
             if key not in env:
-                env[key] = self._to_namespace(value) if isinstance(value, (dict, list)) else value
+                env[key] = (
+                    self._to_namespace(value)
+                    if isinstance(value, (dict, list))
+                    else value
+                )
 
         return eval(compile(tree, "<expr>", "eval"), {"__builtins__": {}}, env)
 
     def _build_step_views(self) -> dict[str, StepResultView]:
-        """Convert :class:`StepResult` objects into lightweight :class:`StepResultView` dicts."""
+        """Convert :class:`StepResult` objects into lightweight
+        :class:`StepResultView` dicts."""
         views: dict[str, StepResultView] = {}
         for name, result in self.step_results.items():
             completed_at = None
@@ -387,8 +394,10 @@ class ExpressionEvaluator:
                 end = path.find("]", i + 1)
                 if end == -1:
                     return []
-                index_text = path[i + 1:end].strip()
-                if index_text.startswith(("'", '"')) and index_text.endswith(("'", '"')):
+                index_text = path[i + 1 : end].strip()
+                if index_text.startswith(("'", '"')) and index_text.endswith(
+                    ("'", '"')
+                ):
                     tokens.append(index_text[1:-1])
                 else:
                     try:

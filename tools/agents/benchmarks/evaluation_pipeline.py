@@ -1,12 +1,12 @@
 """Task evaluation pipeline for the benchmark runner.
 
-Provides LLM-based and legacy pattern-matching evaluation of benchmark task
-outputs. This module contains the evaluation logic extracted from runner.py.
+Provides LLM-based and legacy pattern-matching evaluation of benchmark
+task outputs. This module contains the evaluation logic extracted from
+runner.py.
 """
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
 from typing import Any, Dict, Optional
 
@@ -61,7 +61,8 @@ def evaluate_task_output_llm(
     """Evaluate task output using LLM-based evaluation.
 
     Uses structured rubric scoring (0.0-10.0) with detailed reasoning.
-    Falls back to legacy pattern-matching when the LLM evaluator is unavailable.
+    Falls back to legacy pattern-matching when the LLM evaluator is
+    unavailable.
     """
     if not HAS_LLM_EVALUATOR:
         if verbose:
@@ -111,7 +112,8 @@ def evaluate_task_output_llm(
 
 
 def get_gold_standard_for_task(task: BenchmarkTask) -> Optional[Dict[str, Any]]:
-    """Return the gold-standard data dict for *task*, or ``None`` if unavailable."""
+    """Return the gold-standard data dict for *task*, or ``None`` if
+    unavailable."""
     if not HAS_GOLD_STANDARD:
         return None
 
@@ -136,7 +138,8 @@ def evaluate_task_output_legacy(
     verbose: bool = False,
     output_dir: Optional[Path] = None,
 ) -> Optional[Dict[str, Any]]:
-    """Legacy pattern-matching evaluation (fallback when LLM evaluator is absent)."""
+    """Legacy pattern-matching evaluation (fallback when LLM evaluator is
+    absent)."""
     if not HAS_GOLD_STANDARD:
         return None
 
@@ -178,7 +181,9 @@ def evaluate_task_output_legacy(
         print(f"  Score: {score:.1f}/100 (Grade: {grade})")
 
     if output_dir:
-        save_evaluation_report_legacy(task_id, eval_result, gold_data, output, output_dir)
+        save_evaluation_report_legacy(
+            task_id, eval_result, gold_data, output, output_dir
+        )
 
     return eval_result
 
@@ -188,7 +193,8 @@ def print_mismatch_analysis(
     gold_data: Dict[str, Any],
     output: str,
 ) -> None:
-    """Print a detailed analysis of why items did not match the gold standard."""
+    """Print a detailed analysis of why items did not match the gold
+    standard."""
     print("\n" + "-" * 60)
     print("DETAILED MISMATCH ANALYSIS")
     print("-" * 60)

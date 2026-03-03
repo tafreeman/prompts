@@ -11,8 +11,6 @@ from __future__ import annotations
 
 import abc
 from dataclasses import dataclass
-from pathlib import Path
-from typing import List, Optional
 
 
 @dataclass
@@ -32,7 +30,7 @@ class ExecutionResult:
     stdout: str
     stderr: str
     duration_ms: float
-    error: Optional[str] = None
+    error: str | None = None
 
     @property
     def is_success(self) -> bool:
@@ -49,10 +47,10 @@ class Sandbox(abc.ABC):
     @abc.abstractmethod
     def run_command(
         self,
-        command: List[str],
-        cwd: Optional[str] = None,
-        timeout: Optional[int] = None,
-        env: Optional[dict] = None,
+        command: list[str],
+        cwd: str | None = None,
+        timeout: int | None = None,
+        env: dict | None = None,
     ) -> ExecutionResult:
         """Run a command in the sandbox.
 

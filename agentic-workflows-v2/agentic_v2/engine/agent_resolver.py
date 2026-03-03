@@ -42,7 +42,7 @@ logger = logging.getLogger(__name__)
 # work across all providers at each tier.  Tier 2+ use capable models that
 # support at least 8 192 output tokens; tier 3+ supports 16 384.
 _TIER_MAX_TOKENS: dict[ModelTier, int] = {
-    ModelTier.TIER_0: 0,       # deterministic, no LLM
+    ModelTier.TIER_0: 0,  # deterministic, no LLM
     ModelTier.TIER_1: 4096,
     ModelTier.TIER_2: 8192,
     ModelTier.TIER_3: 16384,
@@ -54,9 +54,9 @@ _TIER_MAX_TOKENS: dict[ModelTier, int] = {
 def _extract_json_candidates(text: str) -> list[str]:
     """Return increasingly permissive JSON candidates from model output.
 
-    Tries, in order: raw text, markdown-fence-stripped text, bracket-span
-    extraction for objects (``{…}``), and bracket-span for arrays (``[…]``).
-    Duplicates are removed while preserving priority order.
+    Tries, in order: raw text, markdown-fence-stripped text, bracket-
+    span extraction for objects (``{…}``), and bracket-span for arrays
+    (``[…]``). Duplicates are removed while preserving priority order.
     """
     candidates: list[str] = []
     raw = text.strip()
@@ -74,14 +74,14 @@ def _extract_json_candidates(text: str) -> list[str]:
     first_obj = raw.find("{")
     last_obj = raw.rfind("}")
     if first_obj != -1 and last_obj > first_obj:
-        snippet = raw[first_obj:last_obj + 1].strip()
+        snippet = raw[first_obj : last_obj + 1].strip()
         if snippet:
             candidates.append(snippet)
 
     first_arr = raw.find("[")
     last_arr = raw.rfind("]")
     if first_arr != -1 and last_arr > first_arr:
-        snippet = raw[first_arr:last_arr + 1].strip()
+        snippet = raw[first_arr : last_arr + 1].strip()
         if snippet:
             candidates.append(snippet)
 
@@ -327,6 +327,7 @@ def _parse_sentinel_output(
 # Tier-0 deterministic step implementations
 # ---------------------------------------------------------------------------
 
+
 async def _parse_code_step(ctx: ExecutionContext) -> dict[str, Any]:
     """Tier-0: Parse a code file and return basic structure info."""
     file_path = None
@@ -354,31 +355,42 @@ async def _parse_code_step(ctx: ExecutionContext) -> dict[str, Any]:
             source = p.read_text(encoding="utf-8", errors="replace")
         else:
             source = str(file_path)  # Might be inline code
-    
+
     # Basic AST analysis for Python files
     parsed_ast: dict[str, Any] = {"raw_source": source[:500]}
     metrics: dict[str, Any] = {"lines": len(source.splitlines()), "chars": len(source)}
 
     try:
         tree = ast.parse(source)
-        functions = [n.name for n in ast.walk(tree) if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))]
+        functions = [
+            n.name
+            for n in ast.walk(tree)
+            if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))
+        ]
         classes = [n.name for n in ast.walk(tree) if isinstance(n, ast.ClassDef)]
         imports = [
             n.module or "" for n in ast.walk(tree) if isinstance(n, ast.ImportFrom)
         ] + [
-            alias.name for n in ast.walk(tree) if isinstance(n, ast.Import) for alias in n.names
+            alias.name
+            for n in ast.walk(tree)
+            if isinstance(n, ast.Import)
+            for alias in n.names
         ]
-        parsed_ast.update({
-            "language": "python",
-            "functions": functions,
-            "classes": classes,
-            "imports": imports,
-        })
-        metrics.update({
-            "function_count": len(functions),
-            "class_count": len(classes),
-            "import_count": len(imports),
-        })
+        parsed_ast.update(
+            {
+                "language": "python",
+                "functions": functions,
+                "classes": classes,
+                "imports": imports,
+            }
+        )
+        metrics.update(
+            {
+                "function_count": len(functions),
+                "class_count": len(classes),
+                "import_count": len(imports),
+            }
+        )
     except SyntaxError:
         parsed_ast["language"] = "unknown"
         parsed_ast["parse_error"] = "Could not parse as Python"
@@ -479,6 +491,7 @@ def _load_agent_system_prompt(
 # ---------------------------------------------------------------------------
 # LLM-backed step factory
 # ---------------------------------------------------------------------------
+
 
 def _parameter_spec_to_json_schema(spec: Any) -> dict[str, Any]:
     """Convert internal tool parameter spec to JSON schema object."""
@@ -634,10 +647,7 @@ def _truncate_tool_result(text: str) -> str:
     """Bound tool payload size to avoid runaway context growth."""
     if len(text) <= _MAX_TOOL_RESULT_CHARS:
         return text
-    return (
-        text[:_MAX_TOOL_RESULT_CHARS]
-        + "\n[truncated]"
-    )
+    return text[:_MAX_TOOL_RESULT_CHARS] + "\n[truncated]"
 
 
 def _serialize_tool_result(tool_result: Any) -> str:
@@ -840,6 +850,7 @@ def _make_llm_step(
         # Try to get a model client from the service container
         try:
             from ..models.client import get_client
+
             client = get_client(auto_configure=True)
             max_tokens = _TIER_MAX_TOKENS.get(tier, 8192)
             messages: list[dict[str, Any]] = [{"role": "user", "content": prompt}]
@@ -849,12 +860,14 @@ def _make_llm_step(
             tool_call_count = 0
 
             for iteration in range(_MAX_TOOL_ROUNDS + 1):
-                chat_response, model_used, turn_tokens = await _complete_chat_with_fallback(
-                    client=client,
-                    tier=tier,
-                    messages=messages,
-                    max_tokens=max_tokens,
-                    tools=tool_schemas if bound_tools else None,
+                chat_response, model_used, turn_tokens = (
+                    await _complete_chat_with_fallback(
+                        client=client,
+                        tier=tier,
+                        messages=messages,
+                        max_tokens=max_tokens,
+                        tools=tool_schemas if bound_tools else None,
+                    )
                 )
                 tokens_used += turn_tokens
 
@@ -896,10 +909,9 @@ def _make_llm_step(
                 "note": str(e),
             }
 
-        parsed = (
-            _parse_sentinel_output(response, expected_output_keys)
-            or _parse_llm_json_output(response, expected_output_keys)
-        )
+        parsed = _parse_sentinel_output(
+            response, expected_output_keys
+        ) or _parse_llm_json_output(response, expected_output_keys)
 
         # Attach metadata so StepExecutor can populate StepResult.model_used
         parsed["_meta"] = {
@@ -916,6 +928,7 @@ def _make_llm_step(
 # ---------------------------------------------------------------------------
 # Resolver
 # ---------------------------------------------------------------------------
+
 
 def _infer_tier(agent_name: str) -> ModelTier:
     """Infer model tier from agent name convention: tier{N}_{role}."""
@@ -974,6 +987,8 @@ def resolve_agent(step_def: StepDefinition) -> StepDefinition:
             prompt_file_override=step_def.metadata.get("prompt_file"),
             enabled_tools=step_def.metadata.get("tools"),
         )
-        logger.debug(f"Resolved step '{step_def.name}' -> LLM agent {agent_name} (tier {tier.name})")
+        logger.debug(
+            f"Resolved step '{step_def.name}' -> LLM agent {agent_name} (tier {tier.name})"
+        )
 
     return step_def

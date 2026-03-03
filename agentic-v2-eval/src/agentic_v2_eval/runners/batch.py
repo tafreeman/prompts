@@ -1,8 +1,8 @@
 """Synchronous batch evaluation runner with progress tracking.
 
 Iterates over a list of test cases, applies a user-supplied evaluator
-function to each, collects results and errors, and reports progress
-via optional callbacks.  Supports fail-fast or continue-on-error modes.
+function to each, collects results and errors, and reports progress via
+optional callbacks.  Supports fail-fast or continue-on-error modes.
 """
 
 from __future__ import annotations

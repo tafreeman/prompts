@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-from unittest.mock import MagicMock, patch
 
 
 class TestDatasetsModule:
@@ -104,7 +103,7 @@ class TestDatasetsModule:
 
     def test_get_registry(self):
         """Test get_registry returns BenchmarkRegistry."""
-        from agentic_v2_eval.datasets import get_registry, BenchmarkRegistry
+        from agentic_v2_eval.datasets import BenchmarkRegistry, get_registry
 
         registry = get_registry()
         assert isinstance(registry, BenchmarkRegistry)
@@ -128,7 +127,7 @@ class TestDatasetsModule:
 
     def test_swe_bench_variants_available(self):
         """Test SWE-bench variants are available."""
-        from agentic_v2_eval.datasets import list_benchmarks, get_benchmark_definition
+        from agentic_v2_eval.datasets import get_benchmark_definition, list_benchmarks
 
         benchmarks = list_benchmarks()
 

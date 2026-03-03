@@ -30,7 +30,6 @@ from .executor import (
     run,
 )
 from .expressions import ExpressionEvaluator
-from .protocol import ExecutionEngine, SupportsCheckpointing, SupportsStreaming
 from .pipeline import (
     ConditionalBranch,
     ParallelGroup,
@@ -40,6 +39,7 @@ from .pipeline import (
     PipelineStatus,
     run_pipeline,
 )
+from .protocol import ExecutionEngine, SupportsCheckpointing, SupportsStreaming
 from .runtime import (
     DockerRuntime,
     IsolatedTaskRuntime,

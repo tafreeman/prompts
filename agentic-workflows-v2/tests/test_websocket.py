@@ -7,7 +7,6 @@ from typing import Any
 from unittest.mock import AsyncMock
 
 import pytest
-
 from agentic_v2.server.websocket import ConnectionManager
 
 
@@ -24,7 +23,7 @@ class TestConnectionManagerConnect:
 
     @pytest.mark.asyncio
     async def test_connect_adds_to_connections(self) -> None:
-        """connect() adds the websocket to the run_id's connection list."""
+        """Connect() adds the websocket to the run_id's connection list."""
         mgr = ConnectionManager()
         ws = _mock_websocket()
 
@@ -35,7 +34,7 @@ class TestConnectionManagerConnect:
 
     @pytest.mark.asyncio
     async def test_connect_accepts_websocket(self) -> None:
-        """connect() calls websocket.accept()."""
+        """Connect() calls websocket.accept()."""
         mgr = ConnectionManager()
         ws = _mock_websocket()
 
@@ -61,7 +60,7 @@ class TestConnectionManagerDisconnect:
 
     @pytest.mark.asyncio
     async def test_disconnect_removes_connection(self) -> None:
-        """disconnect() removes the websocket from the run's list."""
+        """Disconnect() removes the websocket from the run's list."""
         mgr = ConnectionManager()
         ws1 = _mock_websocket()
         ws2 = _mock_websocket()
@@ -75,7 +74,7 @@ class TestConnectionManagerDisconnect:
 
     @pytest.mark.asyncio
     async def test_disconnect_cleans_up_empty_run(self) -> None:
-        """disconnect() removes the run_id key when list is empty."""
+        """Disconnect() removes the run_id key when list is empty."""
         mgr = ConnectionManager()
         ws = _mock_websocket()
         await mgr.connect(ws, "run-1")
@@ -85,7 +84,7 @@ class TestConnectionManagerDisconnect:
         assert "run-1" not in mgr.connections
 
     def test_disconnect_nonexistent_run_no_error(self) -> None:
-        """disconnect() is safe when run_id doesn't exist."""
+        """Disconnect() is safe when run_id doesn't exist."""
         mgr = ConnectionManager()
         ws = _mock_websocket()
         # Should not raise
@@ -97,7 +96,7 @@ class TestConnectionManagerBroadcast:
 
     @pytest.mark.asyncio
     async def test_broadcast_sends_to_all_connections(self) -> None:
-        """broadcast() sends the message to all connected websockets."""
+        """Broadcast() sends the message to all connected websockets."""
         mgr = ConnectionManager()
         ws1 = _mock_websocket()
         ws2 = _mock_websocket()
@@ -112,7 +111,7 @@ class TestConnectionManagerBroadcast:
 
     @pytest.mark.asyncio
     async def test_broadcast_buffers_events(self) -> None:
-        """broadcast() adds events to the replay buffer."""
+        """Broadcast() adds events to the replay buffer."""
         mgr = ConnectionManager()
         msg = {"type": "event", "seq": 1}
 
@@ -137,7 +136,7 @@ class TestConnectionManagerBroadcast:
 
     @pytest.mark.asyncio
     async def test_broadcast_pushes_to_sse_listeners(self) -> None:
-        """broadcast() puts messages into registered SSE listener queues."""
+        """Broadcast() puts messages into registered SSE listener queues."""
         mgr = ConnectionManager()
         queue: asyncio.Queue[dict[str, Any]] = asyncio.Queue(maxsize=10)
         mgr.register_sse_listener("run-1", queue)
@@ -165,7 +164,7 @@ class TestConnectionManagerBroadcast:
 
     @pytest.mark.asyncio
     async def test_broadcast_tolerates_failed_ws(self) -> None:
-        """broadcast() tolerates a websocket that raises on send."""
+        """Broadcast() tolerates a websocket that raises on send."""
         mgr = ConnectionManager()
         ws = _mock_websocket()
         ws.send_json = AsyncMock(side_effect=Exception("disconnected"))
@@ -175,7 +174,7 @@ class TestConnectionManagerBroadcast:
 
     @pytest.mark.asyncio
     async def test_broadcast_no_connections_no_error(self) -> None:
-        """broadcast() with no connected clients doesn't error."""
+        """Broadcast() with no connected clients doesn't error."""
         mgr = ConnectionManager()
         await mgr.broadcast("run-1", {"data": "test"})
         assert len(mgr.event_buffers["run-1"]) == 1
@@ -186,7 +185,7 @@ class TestConnectionManagerReplay:
 
     @pytest.mark.asyncio
     async def test_replay_sends_buffered_events(self) -> None:
-        """replay() sends all buffered events to a new websocket."""
+        """Replay() sends all buffered events to a new websocket."""
         mgr = ConnectionManager()
         # Pre-buffer some events
         for i in range(3):
@@ -199,7 +198,7 @@ class TestConnectionManagerReplay:
 
     @pytest.mark.asyncio
     async def test_replay_stops_on_send_error(self) -> None:
-        """replay() breaks cleanly if send_json raises."""
+        """Replay() breaks cleanly if send_json raises."""
         mgr = ConnectionManager()
         for i in range(3):
             await mgr.broadcast("run-1", {"seq": i})
@@ -213,7 +212,7 @@ class TestConnectionManagerReplay:
 
     @pytest.mark.asyncio
     async def test_replay_no_buffer_no_error(self) -> None:
-        """replay() with no buffered events sends nothing."""
+        """Replay() with no buffered events sends nothing."""
         mgr = ConnectionManager()
         ws = _mock_websocket()
 

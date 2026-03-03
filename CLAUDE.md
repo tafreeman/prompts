@@ -99,6 +99,19 @@ A monorepo containing three independent Python packages plus a React frontend:
 │   │   │   ├── context.py        # Execution context
 │   │   │   ├── step.py / step_state.py
 │   │   │   └── patterns/         # Execution patterns
+│   │   ├── adapters/             # Pluggable execution engine backends
+│   │   │   ├── registry.py       # AdapterRegistry singleton (thread-safe)
+│   │   │   ├── native/           # Native DAG/Pipeline adapter
+│   │   │   │   └── engine.py     # NativeEngine (wraps DAGExecutor)
+│   │   │   └── langchain/        # LangChain adapter (optional dep)
+│   │   │       └── engine.py     # LangChainEngine (wraps WorkflowRunner)
+│   │   ├── core/                 # Core protocols + shared abstractions
+│   │   │   ├── protocols.py      # ExecutionEngine, AgentProtocol, ToolProtocol, MemoryStore
+│   │   │   ├── memory.py         # MemoryStoreProtocol, InMemoryStore
+│   │   │   ├── context.py        # ExecutionContext, ServiceContainer
+│   │   │   ├── contracts.py      # StepResult, StepStatus, WorkflowResult
+│   │   │   ├── dag.py            # DAG data structure
+│   │   │   └── errors.py         # AgenticError hierarchy
 │   │   ├── evaluation/           # Normalization utilities
 │   │   ├── integrations/         # LangChain, OTEL, tracing adapters
 │   │   ├── langchain/            # LangGraph execution engine
@@ -118,6 +131,21 @@ A monorepo containing three independent Python packages plus a React frontend:
 │   │   │   ├── llm.py            # LLM abstraction
 │   │   │   └── model_stats.py    # Usage statistics
 │   │   ├── prompts/              # Agent persona definitions (.md)
+│   │   ├── rag/                  # Retrieval-Augmented Generation pipeline
+│   │   │   ├── contracts.py      # Document, Chunk, RetrievalResult, RAGResponse
+│   │   │   ├── config.py         # RAGConfig, ChunkingConfig, EmbeddingConfig
+│   │   │   ├── protocols.py      # LoaderProtocol, ChunkerProtocol, EmbeddingProtocol, VectorStoreProtocol
+│   │   │   ├── loaders.py        # TextLoader, MarkdownLoader
+│   │   │   ├── chunking.py       # RecursiveChunker
+│   │   │   ├── ingestion.py      # IngestionPipeline
+│   │   │   ├── embeddings.py     # InMemoryEmbedder, FallbackEmbedder
+│   │   │   ├── vectorstore.py    # InMemoryVectorStore (cosine similarity)
+│   │   │   ├── retrieval.py      # BM25Index, HybridRetriever (RRF fusion)
+│   │   │   ├── context_assembly.py # TokenBudgetAssembler
+│   │   │   ├── memory.py         # RAGMemoryStore (bridges RAG ↔ MemoryStoreProtocol)
+│   │   │   ├── tools.py          # RAGSearchTool, RAGIngestTool
+│   │   │   ├── tracing.py        # RAGTracer (OpenTelemetry-style spans)
+│   │   │   └── errors.py         # RAGError hierarchy
 │   │   ├── server/               # FastAPI app
 │   │   │   ├── app.py            # Main FastAPI application
 │   │   │   ├── websocket.py      # WebSocket streaming
@@ -147,7 +175,7 @@ A monorepo containing three independent Python packages plus a React frontend:
 │   │       ├── run_logger.py     # JSON replay logs
 │   │       ├── artifact_extractor.py
 │   │       └── definitions/      # 10 YAML workflow definitions
-│   ├── tests/                    # 36 files (pytest-asyncio)
+│   ├── tests/                    # 50+ files, 1305 tests (pytest-asyncio)
 │   ├── ui/                       # React 19 dashboard
 │   │   ├── package.json          # React 19, Vite 6, React Flow 12
 │   │   └── src/
@@ -242,12 +270,16 @@ A monorepo containing three independent Python packages plus a React frontend:
 ### Key Architectural Points
 
 - **Dual execution engine:** `langchain/` wraps LangGraph state machines; `engine/` is an independent native DAG executor (Kahn's algorithm). Both are active and maintained.
+- **Adapter layer:** `adapters/` provides a pluggable registry (`AdapterRegistry` singleton) that maps string names to execution engine backends. Built-in adapters: `native` (DAG/Pipeline) and `langchain` (optional). Adapters satisfy the `ExecutionEngine` protocol from `core/protocols.py`.
+- **Core protocols:** `core/protocols.py` defines structural subtyping interfaces: `ExecutionEngine`, `AgentProtocol`, `ToolProtocol`, `MemoryStore`, `SupportsStreaming`, `SupportsCheckpointing`. All are `@runtime_checkable`.
+- **RAG pipeline:** `rag/` provides full retrieval-augmented generation: document loading, recursive chunking, embedding (content-hash dedup), vector storage (cosine similarity), BM25 keyword indexing, hybrid retrieval (Reciprocal Rank Fusion), token-budget context assembly, and OpenTelemetry-style tracing. Tool bridges (`RAGSearchTool`, `RAGIngestTool`) integrate with the agent tool system.
+- **Memory abstraction:** `core/memory.py` defines `MemoryStoreProtocol` (async key-value + search). Implementations: `InMemoryStore` (testing), `RAGMemoryStore` (bridges RAG vectorstore to memory protocol).
 - **LLM routing:** `models/smart_router.py` dispatches to backends based on tier and capability. Supports 8+ providers (OpenAI, Anthropic, Google Gemini, Azure OpenAI, Azure Foundry, GitHub Models, Ollama, local ONNX).
 - **Workflows:** Declarative YAML under `workflows/definitions/` (10 workflows). Steps reference agents by tier name.
 - **Contracts:** Pydantic models in `contracts/` define all I/O. **Additive-only changes** — never break existing schemas.
-- **Agent personas:** 22 markdown persona definitions in `agentic-workflows-v2/agentic_v2/prompts/` (coder, architect, reviewer, researcher, planner, etc.).
+- **Agent personas:** 22+ markdown persona definitions in `agentic-workflows-v2/agentic_v2/prompts/` (coder, architect, reviewer, researcher, planner, antagonists, etc.).
 - **Built-in tools:** 12 tool modules in `tools/builtin/` (file ops, git, shell, code analysis, memory, HTTP, etc.). Default DENY for high-risk tools.
-- **Server:** FastAPI with WebSocket/SSE streaming, evaluation endpoints, and LLM judge.
+- **Server:** FastAPI with WebSocket/SSE streaming, evaluation endpoints, LLM judge, and adapter routing.
 - **UI:** React 19 + Vite 6 + React Flow 12 + TanStack Query + Tailwind CSS. 7 pages (Dashboard, Workflows, Runs, Live, Datasets, Evaluations, Workflow Detail).
 
 ### Workflow Definitions
@@ -391,7 +423,7 @@ At least one LLM provider key is needed for runtime operation.
 
 | Location | Count | Framework | Scope |
 |----------|-------|-----------|-------|
-| `agentic-workflows-v2/tests/` | 36 files | pytest-asyncio (auto mode) | Unit + integration |
+| `agentic-workflows-v2/tests/` | 50+ files, 1305 tests | pytest-asyncio (auto mode) | Unit + integration |
 | `agentic-v2-eval/tests/` | 10 files | pytest + pytest-asyncio | Evaluator tests |
 | `tests/e2e/` | 1 file | pytest | E2E smoke tests |
 | `agentic-workflows-v2/ui/src/__tests__/` | — | Vitest + React Testing Library | Frontend |

@@ -89,7 +89,9 @@ class WorkflowRunner:
         else:
             self._run_logger = None
         # trace_adapter=None → use NullTraceAdapter (no-op)
-        self._trace_adapter = trace_adapter if trace_adapter is not None else NullTraceAdapter()
+        self._trace_adapter = (
+            trace_adapter if trace_adapter is not None else NullTraceAdapter()
+        )
         self._extract_artifacts = extract_artifacts
         self._artifacts_dir = artifacts_dir
 
@@ -227,7 +229,9 @@ class WorkflowRunner:
             if out_dir:
                 result.metadata["artifacts_dir"] = str(out_dir)
         except Exception:
-            logger.exception("Artifact extraction failed for run %s", result.workflow_id)
+            logger.exception(
+                "Artifact extraction failed for run %s", result.workflow_id
+            )
 
     def _log_run(
         self,
@@ -403,7 +407,8 @@ class WorkflowRunner:
         evaluator: ExpressionEvaluator,
         from_expr: Any,
     ) -> Any:
-        """Resolve workflow output expressions from string/dict/list mappings."""
+        """Resolve workflow output expressions from string/dict/list
+        mappings."""
         if isinstance(from_expr, str):
             expr = from_expr.strip()
             if expr.startswith("${") and expr.endswith("}"):
@@ -417,7 +422,10 @@ class WorkflowRunner:
             return resolved
 
         if isinstance(from_expr, list):
-            return [WorkflowRunner._resolve_output_expr(evaluator, item) for item in from_expr]
+            return [
+                WorkflowRunner._resolve_output_expr(evaluator, item)
+                for item in from_expr
+            ]
 
         return from_expr
 
@@ -425,6 +433,7 @@ class WorkflowRunner:
 # -------------------------------------------------------------------------
 # Convenience function
 # -------------------------------------------------------------------------
+
 
 async def run_workflow(
     name: str,

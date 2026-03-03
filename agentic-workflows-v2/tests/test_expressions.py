@@ -294,7 +294,9 @@ class TestExpressionEvaluatorPhase0:
             },
         )
         evaluator = ExpressionEvaluator(ctx)
-        result = evaluator.resolve_variable("steps.parse_code.outputs.ast.functions[0].name")
+        result = evaluator.resolve_variable(
+            "steps.parse_code.outputs.ast.functions[0].name"
+        )
         assert result == "a"
 
     def test_resolve_missing_intermediate_returns_none(self):
@@ -306,15 +308,7 @@ class TestExpressionEvaluatorPhase0:
         ctx = ExecutionContext()
         ctx.set_sync(
             "steps",
-            {
-                "parse_code": {
-                    "outputs": {
-                        "ast": {
-                            "functions": ["from_ctx"]
-                        }
-                    }
-                }
-            },
+            {"parse_code": {"outputs": {"ast": {"functions": ["from_ctx"]}}}},
         )
         step_result = StepResult(
             step_name="parse_code",
@@ -428,15 +422,17 @@ class TestNullSafeAndCoalesce:
     """Tests for NullSafe sentinel, SafeNamespace, and coalesce()."""
 
     def test_coalesce_returns_first_non_none(self):
-        """coalesce(None, None, 'x') should return 'x'."""
+        """Coalesce(None, None, 'x') should return 'x'."""
         from agentic_v2.engine.expressions import _coalesce
+
         assert _coalesce(None, None, "x") == "x"
         assert _coalesce("a", "b") == "a"
         assert _coalesce(None) is None
 
     def test_coalesce_skips_nullsafe(self):
-        """coalesce(NullSafe, 'real') should return 'real'."""
+        """Coalesce(NullSafe, 'real') should return 'real'."""
         from agentic_v2.engine.expressions import _coalesce, _NullSafe
+
         ns = _NullSafe()
         assert _coalesce(ns, "real_value") == "real_value"
         assert _coalesce(ns, ns, None) is None
@@ -444,6 +440,7 @@ class TestNullSafeAndCoalesce:
     def test_nullsafe_attribute_chaining(self):
         """Attribute access on NullSafe always returns another NullSafe."""
         from agentic_v2.engine.expressions import _NullSafe
+
         ns = _NullSafe()
         assert isinstance(ns.foo, _NullSafe)
         assert isinstance(ns.foo.bar.baz, _NullSafe)
@@ -451,6 +448,7 @@ class TestNullSafeAndCoalesce:
     def test_nullsafe_equality(self):
         """NullSafe == None and NullSafe == NullSafe."""
         from agentic_v2.engine.expressions import _NullSafe
+
         ns = _NullSafe()
         assert ns == None  # noqa: E711
         assert ns != "APPROVED"
@@ -459,31 +457,44 @@ class TestNullSafeAndCoalesce:
     def test_nullsafe_not_in_list(self):
         """NullSafe not in ['APPROVED'] should be True."""
         from agentic_v2.engine.expressions import _NullSafe
+
         ns = _NullSafe()
         assert ns not in ["APPROVED"]
         assert ns not in ["APPROVED", "NEEDS_FIXES"]
 
     def test_coalesce_on_skipped_step_outputs(self):
-        """coalesce resolves through skipped step (empty outputs) to original."""
+        """Coalesce resolves through skipped step (empty outputs) to
+        original."""
         ctx = ExecutionContext()
 
         # Simulate: generate_api succeeded with real code
         original_code = "def api(): pass"
         # Simulate: rework was skipped (empty outputs)
-        skipped_result = StepResult(step_name="rework_round1", status=StepStatus.SKIPPED)
+        skipped_result = StepResult(
+            step_name="rework_round1", status=StepStatus.SKIPPED
+        )
         success_result = StepResult(step_name="generate_api", status=StepStatus.SUCCESS)
         success_result.output_data = {"api_code": original_code}
 
         # Store in ctx
-        ctx.set_sync("steps", {
-            "rework_round1": {"status": "skipped", "outputs": {}},
-            "generate_api": {"status": "success", "outputs": {"api_code": original_code}},
-        })
+        ctx.set_sync(
+            "steps",
+            {
+                "rework_round1": {"status": "skipped", "outputs": {}},
+                "generate_api": {
+                    "status": "success",
+                    "outputs": {"api_code": original_code},
+                },
+            },
+        )
 
-        evaluator = ExpressionEvaluator(ctx, {
-            "rework_round1": skipped_result,
-            "generate_api": success_result,
-        })
+        evaluator = ExpressionEvaluator(
+            ctx,
+            {
+                "rework_round1": skipped_result,
+                "generate_api": success_result,
+            },
+        )
 
         result = evaluator.resolve_variable(
             "coalesce(steps.rework_round1.outputs.backend_code, steps.generate_api.outputs.api_code)"
@@ -502,15 +513,27 @@ class TestNullSafeAndCoalesce:
         gen_result = StepResult(step_name="generate_api", status=StepStatus.SUCCESS)
         gen_result.output_data = {"api_code": original_code}
 
-        ctx.set_sync("steps", {
-            "rework_round1": {"status": "success", "outputs": rework_result.output_data},
-            "generate_api": {"status": "success", "outputs": gen_result.output_data},
-        })
+        ctx.set_sync(
+            "steps",
+            {
+                "rework_round1": {
+                    "status": "success",
+                    "outputs": rework_result.output_data,
+                },
+                "generate_api": {
+                    "status": "success",
+                    "outputs": gen_result.output_data,
+                },
+            },
+        )
 
-        evaluator = ExpressionEvaluator(ctx, {
-            "rework_round1": rework_result,
-            "generate_api": gen_result,
-        })
+        evaluator = ExpressionEvaluator(
+            ctx,
+            {
+                "rework_round1": rework_result,
+                "generate_api": gen_result,
+            },
+        )
 
         result = evaluator.resolve_variable(
             "coalesce(steps.rework_round1.outputs.backend_code, steps.generate_api.outputs.api_code)"
@@ -531,15 +554,23 @@ class TestNullSafeAndCoalesce:
         gen = StepResult(step_name="gen", status=StepStatus.SUCCESS)
         gen.output_data = {"api_code": original_code}
 
-        ctx.set_sync("steps", {
-            "rework2": {"status": "success", "outputs": r2.output_data},
-            "rework1": {"status": "skipped", "outputs": {}},
-            "gen": {"status": "success", "outputs": gen.output_data},
-        })
+        ctx.set_sync(
+            "steps",
+            {
+                "rework2": {"status": "success", "outputs": r2.output_data},
+                "rework1": {"status": "skipped", "outputs": {}},
+                "gen": {"status": "success", "outputs": gen.output_data},
+            },
+        )
 
-        evaluator = ExpressionEvaluator(ctx, {
-            "rework2": r2, "rework1": r1, "gen": gen,
-        })
+        evaluator = ExpressionEvaluator(
+            ctx,
+            {
+                "rework2": r2,
+                "rework1": r1,
+                "gen": gen,
+            },
+        )
 
         result = evaluator.resolve_variable(
             "coalesce(steps.rework2.outputs.backend_code, steps.rework1.outputs.backend_code, steps.gen.outputs.api_code)"
@@ -547,15 +578,19 @@ class TestNullSafeAndCoalesce:
         assert result == r2_code
 
     def test_safe_namespace_missing_step(self):
-        """Accessing a step that never ran returns NullSafe → coalesce skips it."""
-        from agentic_v2.engine.expressions import _NullSafe
+        """Accessing a step that never ran returns NullSafe → coalesce skips
+        it."""
+
         ctx = ExecutionContext()
 
         gen = StepResult(step_name="generate_api", status=StepStatus.SUCCESS)
         gen.output_data = {"api_code": "real code"}
-        ctx.set_sync("steps", {
-            "generate_api": {"status": "success", "outputs": gen.output_data},
-        })
+        ctx.set_sync(
+            "steps",
+            {
+                "generate_api": {"status": "success", "outputs": gen.output_data},
+            },
+        )
 
         evaluator = ExpressionEvaluator(ctx, {"generate_api": gen})
 
@@ -574,9 +609,12 @@ class TestNullSafeAndCoalesce:
             "backend_code": {"main.py": "print('hi')", "utils.py": "pass"},
             "config": {"db_url": "sqlite:///test.db"},
         }
-        ctx.set_sync("steps", {
-            "gen": {"status": "success", "outputs": gen.output_data},
-        })
+        ctx.set_sync(
+            "steps",
+            {
+                "gen": {"status": "success", "outputs": gen.output_data},
+            },
+        )
         evaluator = ExpressionEvaluator(ctx, {"gen": gen})
 
         result = evaluator.resolve_variable("steps.gen.outputs.backend_code")

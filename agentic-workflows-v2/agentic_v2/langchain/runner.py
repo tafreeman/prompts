@@ -13,13 +13,14 @@ from __future__ import annotations
 import logging
 import time
 import uuid
-from dataclasses import dataclass, field
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, AsyncIterator, Iterator
 
+from ..contracts import StepResult, StepStatus, WorkflowResult
 from ..integrations.base import TraceAdapter
 from ..integrations.tracing import NullTraceAdapter
-from .config import WorkflowConfig, load_workflow_config, list_workflows
+from .config import WorkflowConfig, list_workflows, load_workflow_config
 from .expressions import resolve_expression
 from .graph import compile_workflow
 from .state import initial_state
@@ -27,20 +28,115 @@ from .state import initial_state
 logger = logging.getLogger(__name__)
 
 
-@dataclass
-class WorkflowResult:
-    """Result of a workflow execution."""
+def _steps_dict_to_list(
+    steps_dict: dict[str, dict],
+    token_counts: dict[str, dict] | None = None,
+    models_used: dict[str, str] | None = None,
+) -> list[StepResult]:
+    """Convert LangGraph step dict to a list of contract StepResult objects.
 
-    workflow_name: str
-    status: str = "success"
-    outputs: dict[str, Any] = field(default_factory=dict)
-    steps: dict[str, dict] = field(default_factory=dict)
-    errors: list[str] = field(default_factory=list)
-    elapsed_seconds: float = 0.0
-    final_state: dict[str, Any] = field(default_factory=dict)
-    run_id: str = ""
-    token_counts: dict[str, dict] = field(default_factory=dict)  # {step_name: {"input": N, "output": N}}
-    models_used: dict[str, str] = field(default_factory=dict)  # {step_name: model_id}
+    Args:
+        steps_dict: Mapping of step name → step data from LangGraph state.
+        token_counts: Per-step token counts extracted from metadata.
+        models_used: Per-step model identifiers.
+
+    Returns:
+        Ordered list of ``StepResult`` Pydantic models.
+    """
+    token_counts = token_counts or {}
+    models_used = models_used or {}
+    results: list[StepResult] = []
+
+    for step_name, step_data in steps_dict.items():
+        if not isinstance(step_data, dict):
+            continue
+
+        raw_status = step_data.get("status", "success")
+        if raw_status == "success":
+            status = StepStatus.SUCCESS
+        elif raw_status in ("failed", "error"):
+            status = StepStatus.FAILED
+        elif raw_status == "skipped":
+            status = StepStatus.SKIPPED
+        else:
+            logger.warning(
+                "Unknown step status %r for step %r, defaulting to FAILED",
+                raw_status,
+                step_name,
+            )
+            status = StepStatus.FAILED
+
+        step_tokens = token_counts.get(step_name, {})
+        meta: dict[str, Any] = {}
+        if step_tokens:
+            meta["input_tokens"] = step_tokens.get("input", 0)
+            meta["output_tokens"] = step_tokens.get("output", 0)
+
+        results.append(
+            StepResult(
+                step_name=step_name,
+                status=status,
+                agent_role=step_data.get("agent"),
+                model_used=models_used.get(step_name),
+                input_data=step_data.get("inputs", {}),
+                output_data=step_data.get("outputs", {}),
+                error=step_data.get("error"),
+                metadata=meta,
+            )
+        )
+
+    return results
+
+
+def _build_workflow_result(
+    *,
+    workflow_name: str,
+    run_id: str,
+    started_at: datetime,
+    elapsed_seconds: float,
+    final_state: dict[str, Any] | None = None,
+    outputs: dict[str, Any] | None = None,
+    steps: list[StepResult] | None = None,
+    errors: list[str] | None = None,
+    token_counts: dict[str, dict] | None = None,
+    models_used: dict[str, str] | None = None,
+    failed: bool = False,
+) -> WorkflowResult:
+    """Construct a canonical WorkflowResult from LangGraph execution state.
+
+    Bridges between the LangGraph runner's internal data and the
+    contract type used throughout the rest of the system.
+    """
+    errors = errors or []
+    if failed or errors:
+        overall_status = StepStatus.FAILED
+    else:
+        overall_status = StepStatus.SUCCESS
+
+    ended_at = started_at + timedelta(seconds=elapsed_seconds)
+
+    metadata: dict[str, Any] = {
+        "elapsed_seconds": elapsed_seconds,
+    }
+    if token_counts:
+        metadata["token_counts"] = token_counts
+    if models_used:
+        metadata["models_used"] = models_used
+    if final_state is not None:
+        metadata["final_state"] = final_state
+    if errors:
+        metadata["errors"] = errors
+
+    return WorkflowResult(
+        workflow_id=run_id,
+        workflow_name=workflow_name,
+        steps=steps or [],
+        overall_status=overall_status,
+        start_time=started_at,
+        end_time=ended_at,
+        final_output=outputs or {},
+        metadata=metadata,
+    )
 
 
 class WorkflowRunner:
@@ -115,6 +211,7 @@ class WorkflowRunner:
         # Seed workflow_run_id for step tracing
         state["context"]["workflow_run_id"] = run_id
 
+        started_at = datetime.now(timezone.utc)
         start = time.perf_counter()
         try:
             if langgraph_config:
@@ -136,37 +233,42 @@ class WorkflowRunner:
                 "failed",
                 {"errors": [str(e)]},
             )
-            return WorkflowResult(
+            return _build_workflow_result(
                 workflow_name=workflow_name,
                 run_id=run_id,
-                status="failed",
-                errors=[str(e)],
+                started_at=started_at,
                 elapsed_seconds=elapsed,
+                errors=[str(e)],
+                failed=True,
             )
 
         elapsed = time.perf_counter() - start
 
         # Resolve declared outputs
-        outputs = self._resolve_outputs(config, final)
+        outputs = self.resolve_outputs(config, final)
 
-        token_counts, models_used = self._extract_metadata(final)
-        result = WorkflowResult(
+        token_counts, models_used = self.extract_metadata(final)
+        errors = [str(e) for e in final.get("errors", []) if e]
+        step_results = _steps_dict_to_list(
+            final.get("steps", {}), token_counts, models_used
+        )
+        result = _build_workflow_result(
             workflow_name=workflow_name,
             run_id=run_id,
-            status="success" if not final.get("errors") else "partial",
-            outputs=outputs,
-            steps=final.get("steps", {}),
-            errors=final.get("errors", []),
+            started_at=started_at,
             elapsed_seconds=elapsed,
             final_state=dict(final),
+            outputs=outputs,
+            steps=step_results,
+            errors=errors,
             token_counts=token_counts,
             models_used=models_used,
         )
         self._trace_adapter.emit_workflow_end(
             workflow_name,
             run_id,
-            result.status,
-            result.outputs,
+            result.overall_status.value,
+            result.final_output,
         )
         return result
 
@@ -201,6 +303,7 @@ class WorkflowRunner:
         # Ensure step-level trace events can be correlated to this run.
         state["context"]["workflow_run_id"] = run_id
 
+        started_at = datetime.now(timezone.utc)
         start = time.perf_counter()
         try:
             if langgraph_config:
@@ -222,35 +325,40 @@ class WorkflowRunner:
                 "failed",
                 {"errors": [str(e)]},
             )
-            return WorkflowResult(
+            return _build_workflow_result(
                 workflow_name=workflow_name,
                 run_id=run_id,
-                status="failed",
-                errors=[str(e)],
+                started_at=started_at,
                 elapsed_seconds=elapsed,
+                errors=[str(e)],
+                failed=True,
             )
 
         elapsed = time.perf_counter() - start
-        outputs = self._resolve_outputs(config, final)
+        outputs = self.resolve_outputs(config, final)
 
-        token_counts, models_used = self._extract_metadata(final)
-        result = WorkflowResult(
+        token_counts, models_used = self.extract_metadata(final)
+        errors = [str(e) for e in final.get("errors", []) if e]
+        step_results = _steps_dict_to_list(
+            final.get("steps", {}), token_counts, models_used
+        )
+        result = _build_workflow_result(
             workflow_name=workflow_name,
             run_id=run_id,
-            status="success" if not final.get("errors") else "partial",
-            outputs=outputs,
-            steps=final.get("steps", {}),
-            errors=final.get("errors", []),
+            started_at=started_at,
             elapsed_seconds=elapsed,
             final_state=dict(final),
+            outputs=outputs,
+            steps=step_results,
+            errors=errors,
             token_counts=token_counts,
             models_used=models_used,
         )
         self._trace_adapter.emit_workflow_end(
             workflow_name,
             run_id,
-            result.status,
-            result.outputs,
+            result.overall_status.value,
+            result.final_output,
         )
         return result
 
@@ -367,7 +475,8 @@ class WorkflowRunner:
         use_cache: bool = True,
         run_config: dict[str, Any] | None = None,
     ) -> dict[str, Any] | None:
-        """Return latest checkpoint state snapshot for a thread, if available."""
+        """Return latest checkpoint state snapshot for a thread, if
+        available."""
         config = load_workflow_config(workflow_name, self._definitions_dir)
         graph = self._get_or_compile(config, use_cache)
         langgraph_config = self._build_langgraph_config(thread_id, run_config)
@@ -428,11 +537,13 @@ class WorkflowRunner:
         use_cache: bool = True,
         run_config: dict[str, Any] | None = None,
     ) -> WorkflowResult:
-        """Resume an interrupted workflow from the latest checkpoint thread state."""
+        """Resume an interrupted workflow from the latest checkpoint thread
+        state."""
         config = load_workflow_config(workflow_name, self._definitions_dir)
         graph = self._get_or_compile(config, use_cache)
         langgraph_config = self._build_langgraph_config(thread_id, run_config)
 
+        started_at = datetime.now(timezone.utc)
         start = time.perf_counter()
         self._trace_adapter.emit_workflow_start(
             workflow_name,
@@ -454,30 +565,39 @@ class WorkflowRunner:
                 "failed",
                 {"errors": [str(e)]},
             )
-            return WorkflowResult(
+            return _build_workflow_result(
                 workflow_name=workflow_name,
                 run_id=thread_id,
-                status="failed",
-                errors=[str(e)],
+                started_at=started_at,
                 elapsed_seconds=elapsed,
+                errors=[str(e)],
+                failed=True,
             )
 
         elapsed = time.perf_counter() - start
-        outputs = self._resolve_outputs(config, final)
-        result = WorkflowResult(
+        outputs = self.resolve_outputs(config, final)
+        token_counts, models_used = self.extract_metadata(final)
+        errors = [str(e) for e in final.get("errors", []) if e]
+        step_results = _steps_dict_to_list(
+            final.get("steps", {}), token_counts, models_used
+        )
+        result = _build_workflow_result(
             workflow_name=workflow_name,
-            status="success" if not final.get("errors") else "partial",
-            outputs=outputs,
-            steps=final.get("steps", {}),
-            errors=final.get("errors", []),
+            run_id=thread_id,
+            started_at=started_at,
             elapsed_seconds=elapsed,
             final_state=dict(final),
+            outputs=outputs,
+            steps=step_results,
+            errors=errors,
+            token_counts=token_counts,
+            models_used=models_used,
         )
         self._trace_adapter.emit_workflow_end(
             workflow_name,
             thread_id,
-            result.status,
-            result.outputs,
+            result.overall_status.value,
+            result.final_output,
         )
         return result
 
@@ -486,7 +606,9 @@ class WorkflowRunner:
         return list_workflows(self._definitions_dir)
 
     @staticmethod
-    def _extract_metadata(final_state: dict[str, Any]) -> tuple[dict[str, dict], dict[str, str]]:
+    def extract_metadata(
+        final_state: dict[str, Any],
+    ) -> tuple[dict[str, dict], dict[str, str]]:
         """Extract token counts and models used from final workflow state."""
         token_counts: dict[str, dict] = {}
         models_used: dict[str, str] = {}
@@ -509,9 +631,7 @@ class WorkflowRunner:
     # Internal
     # -----------------------------------------------------------------
 
-    def _get_or_compile(
-        self, config: WorkflowConfig, use_cache: bool
-    ) -> Any:
+    def _get_or_compile(self, config: WorkflowConfig, use_cache: bool) -> Any:
         """Compile a WorkflowConfig to a graph, with optional caching."""
         cache_key = (
             config.name,
@@ -536,7 +656,8 @@ class WorkflowRunner:
         thread_id: str | None,
         run_config: dict[str, Any] | None,
     ) -> dict[str, Any]:
-        """Build LangGraph runtime config with optional thread checkpoint key."""
+        """Build LangGraph runtime config with optional thread checkpoint
+        key."""
         config: dict[str, Any] = dict(run_config or {})
 
         if thread_id:
@@ -572,14 +693,13 @@ class WorkflowRunner:
 
         if errors:
             raise ValueError(
-                f"Input validation failed for '{config.name}': "
-                + "; ".join(errors)
+                f"Input validation failed for '{config.name}': " + "; ".join(errors)
             )
 
         return result
 
     @staticmethod
-    def _resolve_outputs(
+    def resolve_outputs(
         config: WorkflowConfig,
         final_state: dict[str, Any],
     ) -> dict[str, Any]:

@@ -9,10 +9,10 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
-from .base import Evaluator, EvaluatorRegistry
 from ..interfaces import LLMClientProtocol
+from .base import Evaluator, EvaluatorRegistry
 
 logger = logging.getLogger(__name__)
 
@@ -60,10 +60,10 @@ class LLMEvaluator(Evaluator):
     model_id: str
     system_prompt: str
     prompt_template: str
-    choices: List[Choice]
+    choices: list[Choice]
     llm_client: LLMClientProtocol
 
-    def get_score_from_response(self, response: str) -> Optional[Tuple[str, float]]:
+    def get_score_from_response(self, response: str) -> tuple[str, float] | None:
         """Extract score from LLM response using choice matching."""
         response_lower = response.strip().lower()
 
@@ -84,7 +84,7 @@ class LLMEvaluator(Evaluator):
 
         return None
 
-    def evaluate(self, output: str, **kwargs) -> Dict[str, Any]:
+    def evaluate(self, output: str, **kwargs) -> dict[str, Any]:
         """Evaluate output using the LLM judge.
 
         Args:

@@ -79,8 +79,7 @@ class GitHubModelsBackend(LLMBackend):
 
     token: str = field(
         default_factory=lambda: (
-            os.environ.get("GITHUB_TOKEN", "")
-            or os.environ.get("GH_TOKEN", "")
+            os.environ.get("GITHUB_TOKEN", "") or os.environ.get("GH_TOKEN", "")
         ),
         repr=False,
     )
@@ -325,11 +324,13 @@ class AnthropicBackend(LLMBackend):
             anthropic_tools = []
             for tool in tools:
                 func = tool.get("function", tool)
-                anthropic_tools.append({
-                    "name": func.get("name", ""),
-                    "description": func.get("description", ""),
-                    "input_schema": func.get("parameters", {}),
-                })
+                anthropic_tools.append(
+                    {
+                        "name": func.get("name", ""),
+                        "description": func.get("description", ""),
+                        "input_schema": func.get("parameters", {}),
+                    }
+                )
             payload["tools"] = anthropic_tools
 
         response = await client.post("/v1/messages", json=payload)
@@ -417,10 +418,12 @@ class GeminiBackend(LLMBackend):
             role = msg.get("role", "user")
             # Gemini uses "user" and "model" roles
             gemini_role = "model" if role == "assistant" else "user"
-            contents.append({
-                "role": gemini_role,
-                "parts": [{"text": msg.get("content", "")}],
-            })
+            contents.append(
+                {
+                    "role": gemini_role,
+                    "parts": [{"text": msg.get("content", "")}],
+                }
+            )
 
         payload: dict[str, Any] = {
             "contents": contents,
@@ -762,8 +765,9 @@ def auto_configure_backend() -> LLMBackend:
     # Load .env files (project root → parent) without overwriting
     # already-set env vars.
     try:
-        from dotenv import load_dotenv
         from pathlib import Path
+
+        from dotenv import load_dotenv
 
         # Walk upwards from this file looking for .env
         for parent in Path(__file__).resolve().parents:
@@ -818,7 +822,5 @@ def auto_configure_backend() -> LLMBackend:
             "OPENAI_API_KEY, ANTHROPIC_API_KEY, GITHUB_TOKEN, GEMINI_API_KEY"
         )
 
-    logger.info(
-        "Auto-configured backends: %s", ", ".join(sorted(backends.keys()))
-    )
+    logger.info("Auto-configured backends: %s", ", ".join(sorted(backends.keys())))
     return MultiBackend(backends=backends)

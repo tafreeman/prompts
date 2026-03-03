@@ -78,7 +78,10 @@ def main() -> int:
                 continue
             if token in KNOWN_FUTURE_PATHS:
                 continue
-            if not any(candidate.exists() for candidate in candidate_paths(root, md_file, token)):
+            if not any(
+                candidate.exists()
+                for candidate in candidate_paths(root, md_file, token)
+            ):
                 missing.append((md_file.relative_to(root), token))
 
     if not missing:

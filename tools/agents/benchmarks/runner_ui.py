@@ -259,7 +259,9 @@ def browse_all_models(providers: Dict[str, List[str]]) -> Optional[str]:
         selected_provider = provider_options[provider_idx]
         models = sorted(providers[selected_provider])
 
-        print(f"\n{provider_display_names.get(selected_provider, selected_provider)} models:")
+        print(
+            f"\n{provider_display_names.get(selected_provider, selected_provider)} models:"
+        )
         for i, model in enumerate(models, 1):
             print(f"  [{i}] {model}")
         print("  [q] Back")
@@ -292,7 +294,9 @@ def select_workflow() -> Optional[str]:
         print(f"  [{i}] {workflow_id:15} - {description}")
     print("  [q] Quit")
 
-    choice = prompt_choice([workflow_id for workflow_id, _ in workflows], "Select workflow")
+    choice = prompt_choice(
+        [workflow_id for workflow_id, _ in workflows], "Select workflow"
+    )
     if choice < 0:
         return None
     return workflows[choice][0]
@@ -302,7 +306,9 @@ def configure_options(config: BenchmarkConfig) -> BenchmarkConfig:
     """Configure optional settings interactively."""
     print_header("CONFIGURE OPTIONS")
 
-    config.limit = int(prompt_input("Task limit (0=all)", str(config.limit or 0))) or None
+    config.limit = (
+        int(prompt_input("Task limit (0=all)", str(config.limit or 0))) or None
+    )
     config.verbose = prompt_yes_no("Verbose output?", config.verbose)
     config.save_intermediate = prompt_yes_no(
         "Save intermediate outputs?",
@@ -349,4 +355,3 @@ def interactive_mode() -> Optional[BenchmarkConfig]:
         return None
 
     return config
-

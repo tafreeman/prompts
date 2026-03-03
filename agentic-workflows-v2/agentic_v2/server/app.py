@@ -31,10 +31,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
+from ..integrations.otel import is_tracing_enabled, shutdown_tracing
 from . import websocket
 from .auth import APIKeyMiddleware
 from .routes import agents, health, workflows
-from ..integrations.otel import is_tracing_enabled, shutdown_tracing
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -50,9 +50,14 @@ _CORS_ORIGINS_ENV = os.environ.get("AGENTIC_CORS_ORIGINS", "")
 CORS_ORIGINS: list[str] = (
     [o.strip() for o in _CORS_ORIGINS_ENV.split(",") if o.strip()]
     if _CORS_ORIGINS_ENV
-    else ["http://localhost:5173", "http://127.0.0.1:5173",
-          "http://localhost:8000", "http://127.0.0.1:8000",
-          "http://localhost:8010", "http://127.0.0.1:8010"]
+    else [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://localhost:8000",
+        "http://127.0.0.1:8000",
+        "http://localhost:8010",
+        "http://127.0.0.1:8010",
+    ]
 )
 
 
@@ -75,13 +80,17 @@ async def lifespan(app: FastAPI):
     logger.info("Starting Agentic Workflows V2 Server")
 
     # Probe available LLM providers and update tier defaults for both engines
-    from ..langchain.models import probe_and_update_tier_defaults
-    summary = probe_and_update_tier_defaults()
-    logger.info(
-        "LLM providers: available=%s, unavailable=%s",
-        summary["available_providers"],
-        summary["unavailable_providers"],
-    )
+    try:
+        from ..langchain.models import probe_and_update_tier_defaults
+
+        summary = probe_and_update_tier_defaults()
+        logger.info(
+            "LLM providers: available=%s, unavailable=%s",
+            summary["available_providers"],
+            summary["unavailable_providers"],
+        )
+    except ImportError:
+        logger.warning("LangChain extras not installed — skipping LLM provider probe")
 
     if is_tracing_enabled():
         logger.info("OpenTelemetry tracing is enabled")
@@ -128,7 +137,9 @@ def create_app() -> FastAPI:
     # Serve built frontend in production (after API routes so they take priority)
     if UI_DIST_DIR.exists():
         # Serve static assets (JS, CSS, etc.)
-        app.mount("/assets", StaticFiles(directory=str(UI_DIST_DIR / "assets")), name="assets")
+        app.mount(
+            "/assets", StaticFiles(directory=str(UI_DIST_DIR / "assets")), name="assets"
+        )
 
         # SPA fallback: serve index.html for all non-API, non-asset routes
         index_html = UI_DIST_DIR / "index.html"
@@ -139,7 +150,10 @@ def create_app() -> FastAPI:
             if path:
                 candidate_path = (UI_DIST_DIR_RESOLVED / path).resolve()
                 # Ensure the resolved candidate path is within the UI_DIST_DIR_RESOLVED tree
-                if (candidate_path == UI_DIST_DIR_RESOLVED or UI_DIST_DIR_RESOLVED in candidate_path.parents) and candidate_path.is_file():
+                if (
+                    candidate_path == UI_DIST_DIR_RESOLVED
+                    or UI_DIST_DIR_RESOLVED in candidate_path.parents
+                ) and candidate_path.is_file():
                     return FileResponse(candidate_path)
             return FileResponse(index_html)
 

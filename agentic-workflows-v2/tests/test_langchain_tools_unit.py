@@ -4,8 +4,6 @@ from __future__ import annotations
 
 import json
 
-import pytest
-
 from agentic_v2.langchain.tools import (
     ALL_TOOLS,
     TIER_TOOLS,

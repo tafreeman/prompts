@@ -1,4 +1,5 @@
-"""Standardized error codes and heuristic classification for the tools ecosystem.
+"""Standardized error codes and heuristic classification for the tools
+ecosystem.
 
 Provides a canonical ``ErrorCode`` enum, two membership sets
 (``TRANSIENT_ERRORS`` and ``PERMANENT_ERRORS``), and a

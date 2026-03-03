@@ -13,7 +13,6 @@ import ast
 import re
 from typing import Any
 
-
 # ${...} extraction pattern
 _VAR_PATTERN = re.compile(r"\$\{([^}]+)\}")
 
@@ -126,7 +125,7 @@ _ALLOWED_AST_NODES = (
     ast.Tuple,
     ast.Set,
     ast.Name,
-    ast.Load,       # context node for List/Tuple/Set/Name
+    ast.Load,  # context node for List/Tuple/Set/Name
     ast.And,
     ast.Or,
     ast.Not,

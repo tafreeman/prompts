@@ -341,7 +341,7 @@ class TestFileMoveTool:
 
     @pytest.mark.asyncio
     async def test_move_with_overwrite(self, tmp_path):
-        """overwrite=True replaces destination."""
+        """Overwrite=True replaces destination."""
         source = tmp_path / "source.txt"
         dest = tmp_path / "dest.txt"
         source.write_text("new content")

@@ -21,7 +21,7 @@ from __future__ import annotations
 import asyncio
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable, Optional, Union
+from typing import Any, Awaitable, Callable, Optional, Union
 
 from ..contracts import StepResult, StepStatus, WorkflowResult
 from .context import ExecutionContext
@@ -191,13 +191,28 @@ class PipelineExecutor:
         self._progress_callback = callback
 
     async def execute(
-        self, pipeline: Pipeline, ctx: Optional[ExecutionContext] = None
+        self,
+        workflow: Any,
+        ctx: Optional[ExecutionContext] = None,
+        on_update: Optional[Callable[[dict[str, Any]], Awaitable[None]]] = None,
+        **kwargs: Any,
     ) -> WorkflowResult:
         """Execute a pipeline.
 
+        Args:
+            workflow: Pipeline to execute.
+            ctx: Optional execution context.
+            on_update: Optional async callback for progress events.
+            **kwargs: Reserved for future use.
+
         Returns:
-            WorkflowResult with all step results
+            WorkflowResult with all step results.
         """
+        if not isinstance(workflow, Pipeline):
+            raise ValueError(
+                f"PipelineExecutor expects a Pipeline, got {type(workflow).__name__}"
+            )
+        pipeline: Pipeline = workflow
         from .context import get_context
 
         if ctx is None:

@@ -36,7 +36,8 @@ _PUBLIC_PREFIXES = ("/api/health", "/docs", "/openapi.json", "/redoc")
 
 
 class APIKeyMiddleware(BaseHTTPMiddleware):
-    """Starlette middleware that enforces bearer-token authentication on ``/api/`` routes.
+    """Starlette middleware that enforces bearer-token authentication on
+    ``/api/`` routes.
 
     When ``AGENTIC_API_KEY`` is not set, all requests pass through unchanged.
     Otherwise, requests to protected paths must include a valid token via
@@ -47,9 +48,7 @@ class APIKeyMiddleware(BaseHTTPMiddleware):
         Inherits from ``BaseHTTPMiddleware``; no additional instance state.
     """
 
-    async def dispatch(
-        self, request: Request, call_next: RequestResponseEndpoint
-    ):
+    async def dispatch(self, request: Request, call_next: RequestResponseEndpoint):
         if _API_KEY is None:
             return await call_next(request)
 

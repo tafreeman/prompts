@@ -2,6 +2,36 @@ name: deep_research
 description: Iterative deep research workflow with ToT planning, ReAct retrieval, CoVe verification, and RAG packaging
 version: "1.0"
 
+# -----------------------------------------------------------------------
+# YAML anchor templates — reusable step bases for each agent role.
+# The loader ignores this top-level key; PyYAML resolves <<: *anchor
+# merges before the dict reaches Python code.
+# -----------------------------------------------------------------------
+_templates:
+  hypothesis_step: &hypothesis_step
+    agent: tier3_reasoner
+    tools: [context_store]
+
+  retrieval_step: &retrieval_step
+    agent: tier2_researcher
+    tools: [web_search, http_get, context_store]
+
+  analyst_ai_step: &analyst_ai_step
+    agent: tier3_analyst
+    tools: [context_store]
+
+  analyst_swe_step: &analyst_swe_step
+    agent: tier3_analyst
+    tools: [context_store]
+
+  cove_verify_step: &cove_verify_step
+    agent: tier3_reviewer
+    tools: [web_search, http_get, context_store]
+
+  coverage_audit_step: &coverage_audit_step
+    agent: tier2_reviewer
+    tools: [context_store]
+
 capabilities:
   inputs:
     [
@@ -40,8 +70,9 @@ inputs:
     required: false
   domain:
     type: string
-    enum: [ai_software]
-    default: ai_software
+    description: Research domain for adaptive recency window (ai_ml, cloud_infrastructure, programming_languages, academic_research, default)
+    enum: [ai_ml, cloud_infrastructure, programming_languages, academic_research, default, ai_software]
+    default: default
   min_ci:
     type: number
     description: Minimum confidence index to stop iterative research
@@ -56,7 +87,7 @@ inputs:
     default: 10
   recency_window_days:
     type: number
-    description: Number of days considered recent
+    description: Number of days considered recent (overrides domain-based default when set)
     default: 183
   seed_urls:
     type: array
@@ -65,6 +96,10 @@ inputs:
     default: []
 
 steps:
+  # =====================================================================
+  # Setup steps (run once)
+  # =====================================================================
+
   - name: intake_scope
     agent: tier3_planner
     description: Clarify user objective, constraints, and success criteria for the research run
@@ -96,11 +131,14 @@ steps:
       allowed_sources: allowed_sources
       blocked_sources: blocked_sources
 
-  - name: hypothesis_tree_tot_round1
-    agent: tier3_reasoner
+  # =====================================================================
+  # Round 1 — initial research pass
+  # =====================================================================
+
+  - <<: *hypothesis_step
+    name: hypothesis_tree_tot_round1
     description: Build a Tree-of-Thought search plan with hypotheses and disconfirming paths (round 1)
     depends_on: [source_policy]
-    tools: [context_store]
     inputs:
       scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
       source_policy: ${steps.source_policy.outputs.source_policy}
@@ -110,11 +148,10 @@ steps:
       hypotheses: hypotheses_round1
       open_questions: open_questions_round1
 
-  - name: retrieval_react_round1
-    agent: tier2_researcher
+  - <<: *retrieval_step
+    name: retrieval_react_round1
     description: Run ReAct retrieval loop to gather evidence and source metadata (round 1)
     depends_on: [hypothesis_tree_tot_round1]
-    tools: [web_search, http_get, context_store]
     inputs:
       search_plan: ${steps.hypothesis_tree_tot_round1.outputs.search_plan}
       seed_urls: ${inputs.seed_urls}
@@ -128,11 +165,10 @@ steps:
       source_count: source_count_round1
       recent_source_count: recent_source_count_round1
 
-  - name: analyst_ai_round1
-    agent: tier3_analyst
+  - <<: *analyst_ai_step
+    name: analyst_ai_round1
     description: AI-focused specialist analysis over collected evidence (round 1)
     depends_on: [retrieval_react_round1]
-    tools: [context_store]
     inputs:
       scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
       evidence_bundle: ${steps.retrieval_react_round1.outputs.evidence_bundle}
@@ -140,11 +176,10 @@ steps:
       ai_analysis: ai_analysis_round1
       key_findings_ai: key_findings_ai_round1
 
-  - name: analyst_swe_round1
-    agent: tier3_analyst
+  - <<: *analyst_swe_step
+    name: analyst_swe_round1
     description: Software-engineering specialist analysis over collected evidence (round 1)
     depends_on: [retrieval_react_round1]
-    tools: [context_store]
     inputs:
       scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
       evidence_bundle: ${steps.retrieval_react_round1.outputs.evidence_bundle}
@@ -152,11 +187,10 @@ steps:
       swe_analysis: swe_analysis_round1
       key_findings_swe: key_findings_swe_round1
 
-  - name: cove_verify_round1
-    agent: tier3_reviewer
+  - <<: *cove_verify_step
+    name: cove_verify_round1
     description: Perform Chain-of-Verification checks against independent evidence (round 1)
     depends_on: [analyst_ai_round1, analyst_swe_round1]
-    tools: [web_search, http_get, context_store]
     inputs:
       ai_analysis: ${steps.analyst_ai_round1.outputs.ai_analysis}
       swe_analysis: ${steps.analyst_swe_round1.outputs.swe_analysis}
@@ -169,11 +203,10 @@ steps:
       verification_score: verification_score_round1
       unresolved_questions: unresolved_questions_round1
 
-  - name: coverage_confidence_audit_round1
-    agent: tier2_reviewer
+  - <<: *coverage_audit_step
+    name: coverage_confidence_audit_round1
     description: Compute confidence dimensions and pass/fail gates (round 1)
     depends_on: [cove_verify_round1]
-    tools: [context_store]
     inputs:
       scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
       source_count: ${steps.retrieval_react_round1.outputs.source_count}
@@ -196,12 +229,15 @@ steps:
       dimension_tier: dimension_tier_round1
       gate_passed: gate_passed_round1
 
-  - name: hypothesis_tree_tot_round2
-    agent: tier3_reasoner
+  # =====================================================================
+  # Round 2 — refine and fill gaps (conditional on round 1 not passing)
+  # =====================================================================
+
+  - <<: *hypothesis_step
+    name: hypothesis_tree_tot_round2
     description: Refine thought tree and close evidence gaps (round 2)
     depends_on: [coverage_confidence_audit_round1]
     when: ${inputs.max_rounds} >= 2 and not ${steps.coverage_confidence_audit_round1.outputs.gate_passed}
-    tools: [context_store]
     inputs:
       scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
       previous_plan: ${steps.hypothesis_tree_tot_round1.outputs.search_plan}
@@ -212,11 +248,10 @@ steps:
       hypotheses: hypotheses_round2
       open_questions: open_questions_round2
 
-  - name: retrieval_react_round2
-    agent: tier2_researcher
+  - <<: *retrieval_step
+    name: retrieval_react_round2
     description: Run ReAct retrieval loop to gather additional evidence (round 2)
     depends_on: [hypothesis_tree_tot_round2]
-    tools: [web_search, http_get, context_store]
     inputs:
       search_plan: ${steps.hypothesis_tree_tot_round2.outputs.search_plan}
       prior_sources: ${steps.retrieval_react_round1.outputs.sources}
@@ -230,11 +265,10 @@ steps:
       source_count: source_count_round2
       recent_source_count: recent_source_count_round2
 
-  - name: analyst_ai_round2
-    agent: tier3_analyst
+  - <<: *analyst_ai_step
+    name: analyst_ai_round2
     description: AI-focused specialist analysis over collected evidence (round 2)
     depends_on: [retrieval_react_round2]
-    tools: [context_store]
     inputs:
       scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
       evidence_bundle: ${steps.retrieval_react_round2.outputs.evidence_bundle}
@@ -242,11 +276,10 @@ steps:
       ai_analysis: ai_analysis_round2
       key_findings_ai: key_findings_ai_round2
 
-  - name: analyst_swe_round2
-    agent: tier3_analyst
+  - <<: *analyst_swe_step
+    name: analyst_swe_round2
     description: Software-engineering specialist analysis over collected evidence (round 2)
     depends_on: [retrieval_react_round2]
-    tools: [context_store]
     inputs:
       scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
       evidence_bundle: ${steps.retrieval_react_round2.outputs.evidence_bundle}
@@ -254,11 +287,10 @@ steps:
       swe_analysis: swe_analysis_round2
       key_findings_swe: key_findings_swe_round2
 
-  - name: cove_verify_round2
-    agent: tier3_reviewer
+  - <<: *cove_verify_step
+    name: cove_verify_round2
     description: Perform Chain-of-Verification checks against independent evidence (round 2)
     depends_on: [analyst_ai_round2, analyst_swe_round2]
-    tools: [web_search, http_get, context_store]
     inputs:
       ai_analysis: ${steps.analyst_ai_round2.outputs.ai_analysis}
       swe_analysis: ${steps.analyst_swe_round2.outputs.swe_analysis}
@@ -271,11 +303,10 @@ steps:
       verification_score: verification_score_round2
       unresolved_questions: unresolved_questions_round2
 
-  - name: coverage_confidence_audit_round2
-    agent: tier2_reviewer
+  - <<: *coverage_audit_step
+    name: coverage_confidence_audit_round2
     description: Compute confidence dimensions and pass/fail gates (round 2)
     depends_on: [cove_verify_round2]
-    tools: [context_store]
     inputs:
       scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
       source_count: ${steps.retrieval_react_round2.outputs.source_count}
@@ -298,12 +329,15 @@ steps:
       dimension_tier: dimension_tier_round2
       gate_passed: gate_passed_round2
 
-  - name: hypothesis_tree_tot_round3
-    agent: tier3_reasoner
+  # =====================================================================
+  # Round 3 — deeper refinement (conditional on round 2 not passing)
+  # =====================================================================
+
+  - <<: *hypothesis_step
+    name: hypothesis_tree_tot_round3
     description: Refine thought tree and close evidence gaps (round 3)
     depends_on: [coverage_confidence_audit_round2]
     when: ${inputs.max_rounds} >= 3 and not ${steps.coverage_confidence_audit_round2.outputs.gate_passed}
-    tools: [context_store]
     inputs:
       scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
       previous_plan: ${steps.hypothesis_tree_tot_round2.outputs.search_plan}
@@ -314,11 +348,10 @@ steps:
       hypotheses: hypotheses_round3
       open_questions: open_questions_round3
 
-  - name: retrieval_react_round3
-    agent: tier2_researcher
+  - <<: *retrieval_step
+    name: retrieval_react_round3
     description: Run ReAct retrieval loop to gather additional evidence (round 3)
     depends_on: [hypothesis_tree_tot_round3]
-    tools: [web_search, http_get, context_store]
     inputs:
       search_plan: ${steps.hypothesis_tree_tot_round3.outputs.search_plan}
       prior_sources: ${coalesce(steps.retrieval_react_round2.outputs.sources, steps.retrieval_react_round1.outputs.sources)}
@@ -332,11 +365,10 @@ steps:
       source_count: source_count_round3
       recent_source_count: recent_source_count_round3
 
-  - name: analyst_ai_round3
-    agent: tier3_analyst
+  - <<: *analyst_ai_step
+    name: analyst_ai_round3
     description: AI-focused specialist analysis over collected evidence (round 3)
     depends_on: [retrieval_react_round3]
-    tools: [context_store]
     inputs:
       scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
       evidence_bundle: ${steps.retrieval_react_round3.outputs.evidence_bundle}
@@ -344,11 +376,10 @@ steps:
       ai_analysis: ai_analysis_round3
       key_findings_ai: key_findings_ai_round3
 
-  - name: analyst_swe_round3
-    agent: tier3_analyst
+  - <<: *analyst_swe_step
+    name: analyst_swe_round3
     description: Software-engineering specialist analysis over collected evidence (round 3)
     depends_on: [retrieval_react_round3]
-    tools: [context_store]
     inputs:
       scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
       evidence_bundle: ${steps.retrieval_react_round3.outputs.evidence_bundle}
@@ -356,11 +387,10 @@ steps:
       swe_analysis: swe_analysis_round3
       key_findings_swe: key_findings_swe_round3
 
-  - name: cove_verify_round3
-    agent: tier3_reviewer
+  - <<: *cove_verify_step
+    name: cove_verify_round3
     description: Perform Chain-of-Verification checks against independent evidence (round 3)
     depends_on: [analyst_ai_round3, analyst_swe_round3]
-    tools: [web_search, http_get, context_store]
     inputs:
       ai_analysis: ${steps.analyst_ai_round3.outputs.ai_analysis}
       swe_analysis: ${steps.analyst_swe_round3.outputs.swe_analysis}
@@ -373,11 +403,10 @@ steps:
       verification_score: verification_score_round3
       unresolved_questions: unresolved_questions_round3
 
-  - name: coverage_confidence_audit_round3
-    agent: tier2_reviewer
+  - <<: *coverage_audit_step
+    name: coverage_confidence_audit_round3
     description: Compute confidence dimensions and pass/fail gates (round 3)
     depends_on: [cove_verify_round3]
-    tools: [context_store]
     inputs:
       scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
       source_count: ${steps.retrieval_react_round3.outputs.source_count}
@@ -400,12 +429,15 @@ steps:
       dimension_tier: dimension_tier_round3
       gate_passed: gate_passed_round3
 
-  - name: hypothesis_tree_tot_round4
-    agent: tier3_reasoner
+  # =====================================================================
+  # Round 4 — final refinement (conditional on round 3 not passing)
+  # =====================================================================
+
+  - <<: *hypothesis_step
+    name: hypothesis_tree_tot_round4
     description: Refine thought tree and close evidence gaps (round 4)
     depends_on: [coverage_confidence_audit_round3]
     when: ${inputs.max_rounds} >= 4 and not ${steps.coverage_confidence_audit_round3.outputs.gate_passed}
-    tools: [context_store]
     inputs:
       scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
       previous_plan: ${steps.hypothesis_tree_tot_round3.outputs.search_plan}
@@ -416,11 +448,10 @@ steps:
       hypotheses: hypotheses_round4
       open_questions: open_questions_round4
 
-  - name: retrieval_react_round4
-    agent: tier2_researcher
+  - <<: *retrieval_step
+    name: retrieval_react_round4
     description: Run ReAct retrieval loop to gather additional evidence (round 4)
     depends_on: [hypothesis_tree_tot_round4]
-    tools: [web_search, http_get, context_store]
     inputs:
       search_plan: ${steps.hypothesis_tree_tot_round4.outputs.search_plan}
       prior_sources: ${coalesce(steps.retrieval_react_round3.outputs.sources, steps.retrieval_react_round2.outputs.sources, steps.retrieval_react_round1.outputs.sources)}
@@ -434,11 +465,10 @@ steps:
       source_count: source_count_round4
       recent_source_count: recent_source_count_round4
 
-  - name: analyst_ai_round4
-    agent: tier3_analyst
+  - <<: *analyst_ai_step
+    name: analyst_ai_round4
     description: AI-focused specialist analysis over collected evidence (round 4)
     depends_on: [retrieval_react_round4]
-    tools: [context_store]
     inputs:
       scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
       evidence_bundle: ${steps.retrieval_react_round4.outputs.evidence_bundle}
@@ -446,11 +476,10 @@ steps:
       ai_analysis: ai_analysis_round4
       key_findings_ai: key_findings_ai_round4
 
-  - name: analyst_swe_round4
-    agent: tier3_analyst
+  - <<: *analyst_swe_step
+    name: analyst_swe_round4
     description: Software-engineering specialist analysis over collected evidence (round 4)
     depends_on: [retrieval_react_round4]
-    tools: [context_store]
     inputs:
       scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
       evidence_bundle: ${steps.retrieval_react_round4.outputs.evidence_bundle}
@@ -458,11 +487,10 @@ steps:
       swe_analysis: swe_analysis_round4
       key_findings_swe: key_findings_swe_round4
 
-  - name: cove_verify_round4
-    agent: tier3_reviewer
+  - <<: *cove_verify_step
+    name: cove_verify_round4
     description: Perform Chain-of-Verification checks against independent evidence (round 4)
     depends_on: [analyst_ai_round4, analyst_swe_round4]
-    tools: [web_search, http_get, context_store]
     inputs:
       ai_analysis: ${steps.analyst_ai_round4.outputs.ai_analysis}
       swe_analysis: ${steps.analyst_swe_round4.outputs.swe_analysis}
@@ -475,11 +503,10 @@ steps:
       verification_score: verification_score_round4
       unresolved_questions: unresolved_questions_round4
 
-  - name: coverage_confidence_audit_round4
-    agent: tier2_reviewer
+  - <<: *coverage_audit_step
+    name: coverage_confidence_audit_round4
     description: Compute confidence dimensions and pass/fail gates (round 4)
     depends_on: [cove_verify_round4]
-    tools: [context_store]
     inputs:
       scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
       source_count: ${steps.retrieval_react_round4.outputs.source_count}
@@ -501,6 +528,10 @@ steps:
       # ADR-007 multidimensional outputs (populated when scoring_engine=multidimensional)
       dimension_tier: dimension_tier_round4
       gate_passed: gate_passed_round4
+
+  # =====================================================================
+  # Final synthesis + RAG packaging
+  # =====================================================================
 
   - name: final_synthesis
     agent: tier4_writer

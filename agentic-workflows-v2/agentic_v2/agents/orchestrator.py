@@ -22,11 +22,17 @@ from typing import Any, Optional
 from pydantic import Field
 
 from ..contracts import StepStatus, TaskInput, TaskOutput, WorkflowResult
-from ..engine import (DAG, DAGExecutor, ExecutionContext, PipelineBuilder, run_pipeline)
+from ..engine import DAG, ExecutionContext, PipelineBuilder, run_pipeline
+from ..engine.protocol import ExecutionEngine
 from ..models import ModelTier
 from .base import AgentConfig, BaseAgent, agent_to_step
-from .capabilities import (Capability, CapabilitySet, CapabilityType,
-                           OrchestrationMixin, get_agent_capabilities)
+from .capabilities import (
+    Capability,
+    CapabilitySet,
+    CapabilityType,
+    OrchestrationMixin,
+    get_agent_capabilities,
+)
 
 
 @dataclass
@@ -143,6 +149,7 @@ class OrchestratorAgent(
         self,
         config: Optional[AgentConfig] = None,
         agents: Optional[dict[str, BaseAgent]] = None,
+        execution_engine: Optional[ExecutionEngine] = None,
         **kwargs,
     ):
         if config is None:
@@ -155,6 +162,9 @@ class OrchestratorAgent(
             )
 
         super().__init__(config=config, **kwargs)
+
+        # Execution engine (defaults to DAGExecutor for backward compat)
+        self._execution_engine = execution_engine
 
         # Managed agents
         self._agents: dict[str, BaseAgent] = agents or {}
@@ -491,9 +501,11 @@ class OrchestratorAgent(
 
         def _make_step_func(bound_agent, bound_input):
             """Create a step function with bound agent and task input."""
+
             async def run_subtask(step_ctx: ExecutionContext) -> dict[str, Any]:
                 r = await bound_agent.run(bound_input, step_ctx)
                 return {"result": r}
+
             return run_subtask
 
         for subtask_data in result.subtasks:
@@ -501,9 +513,7 @@ class OrchestratorAgent(
             agent = self._agents.get(agent_name or "")
 
             if agent:
-                subtask_input = _make_task_input(
-                    subtask_data["description"], agent
-                )
+                subtask_input = _make_task_input(subtask_data["description"], agent)
 
                 step = StepDefinition(
                     name=subtask_data["id"],
@@ -515,9 +525,13 @@ class OrchestratorAgent(
                 step.depends_on = subtask_data.get("dependencies", [])
                 dag.add(step)
 
-        # Execute DAG with max parallelism
-        executor = DAGExecutor()
-        return await executor.execute(dag, ctx, max_concurrency=task.max_parallel)
+        # Execute DAG with max parallelism via injected engine (or default DAGExecutor)
+        engine = self._execution_engine
+        if engine is None:
+            from ..engine.dag_executor import DAGExecutor
+
+            engine = DAGExecutor()
+        return await engine.execute(dag, ctx, max_concurrency=task.max_parallel)
 
     # -------------------------------------------------------------------------
     # Pipeline integration (legacy, for backwards compatibility)

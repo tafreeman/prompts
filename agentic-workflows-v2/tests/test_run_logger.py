@@ -1,8 +1,8 @@
 """Tests for workflow run logger record shaping."""
 
 import json
-import pytest
 
+import pytest
 from agentic_v2.contracts import StepStatus, WorkflowResult
 from agentic_v2.workflows.run_logger import RunLogger, build_run_record
 

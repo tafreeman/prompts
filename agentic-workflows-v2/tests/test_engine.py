@@ -6,13 +6,26 @@ from pathlib import Path
 
 import pytest
 from agentic_v2.contracts import StepStatus
-from agentic_v2.engine.agent_resolver import _parse_llm_json_output, resolve_agent
 from agentic_v2.engine import (  # Context; Steps; Pipeline; Executor
-    EventType, ExecutionConfig, ExecutionContext,
-    Pipeline, PipelineBuilder, RetryConfig,
-    RetryStrategy, ServiceContainer, StepDefinition, StepExecutor,
-    WorkflowExecutor, execute, reset_context, reset_executor, run,
-    run_pipeline, step)
+    EventType,
+    ExecutionConfig,
+    ExecutionContext,
+    Pipeline,
+    PipelineBuilder,
+    RetryConfig,
+    RetryStrategy,
+    ServiceContainer,
+    StepDefinition,
+    StepExecutor,
+    WorkflowExecutor,
+    execute,
+    reset_context,
+    reset_executor,
+    run,
+    run_pipeline,
+    step,
+)
+from agentic_v2.engine.agent_resolver import _parse_llm_json_output, resolve_agent
 from agentic_v2.models import ModelTier
 
 # ============================================================================
@@ -289,18 +302,17 @@ class TestStepExecutor:
 
     @pytest.mark.asyncio
     async def test_synthesizes_review_status_from_raw_response(self):
-        """Review steps with raw_response-only output still expose review_report for gates."""
+        """Review steps with raw_response-only output still expose
+        review_report for gates."""
 
         async def reviewer_like_step(ctx):
-            return {
-                "raw_response": """```json
+            return {"raw_response": """```json
 {
     \"review_report\": {
         \"overall_assessment\": \"Needs significant changes\"
     }
 }
-```"""
-            }
+```"""}
 
         step_def = StepDefinition(
             name="review_code",
@@ -384,15 +396,16 @@ class TestAgentResolverParsing:
     """Regression tests for resilient reviewer-output parsing."""
 
     def test_parse_malformed_review_response_extracts_status(self):
-        """When JSON is malformed, fallback still provides review_report status."""
+        """When JSON is malformed, fallback still provides review_report
+        status."""
         response = (
-            '```json\n{\n'
+            "```json\n{\n"
             '  "review_report": {\n'
             '    "overall_status": "needs_major_rework",\n'
             '    "summary": "Missing pieces"\n'
-            '  }\n'
+            "  }\n"
             # Intentionally malformed/truncated JSON (missing closing brace)
-            '```'
+            "```"
         )
 
         parsed = _parse_llm_json_output(response, ["review_report"])
@@ -402,7 +415,8 @@ class TestAgentResolverParsing:
         assert "raw_response" in parsed
 
     def test_parse_unstructured_review_defaults_to_needs_fixes(self):
-        """When no status can be extracted, fallback should force rework path."""
+        """When no status can be extracted, fallback should force rework
+        path."""
         response = "Model returned narrative text, not JSON."
 
         parsed = _parse_llm_json_output(response, ["review_report"])
@@ -410,10 +424,11 @@ class TestAgentResolverParsing:
         assert parsed["review_report"]["overall_status"] == "NEEDS_FIXES"
 
     def test_parse_nested_raw_response_review_report(self):
-        """Recover review_report when model wraps it under raw_response JSON field."""
+        """Recover review_report when model wraps it under raw_response JSON
+        field."""
         response = (
-            '{"raw_response":"```json\\n{\\n  \\\"review_report\\\": {\\n'
-            '    \\\"overall_assessment\\\": \\\"Looks decent but incomplete.\\\"\\n'
+            '{"raw_response":"```json\\n{\\n  \\"review_report\\": {\\n'
+            '    \\"overall_assessment\\": \\"Looks decent but incomplete.\\"\\n'
             '  }\\n}\\n```"}'
         )
 
@@ -423,10 +438,11 @@ class TestAgentResolverParsing:
         assert parsed["review_report"]["overall_status"] == "NEEDS_FIXES"
 
     def test_parse_malformed_nested_raw_response_defaults_to_needs_fixes(self):
-        """When nested raw_response JSON is truncated, still force non-approved status."""
+        """When nested raw_response JSON is truncated, still force non-approved
+        status."""
         response = (
-            '{"raw_response":"```json\\n{\\n  \\\"review_report\\\": {\\n'
-            '    \\\"overall_assessment\\\": \\\"Good start\\\"\\n'
+            '{"raw_response":"```json\\n{\\n  \\"review_report\\": {\\n'
+            '    \\"overall_assessment\\": \\"Good start\\"\\n'
             # Intentionally malformed nested JSON (missing closing braces)
             '```"}'
         )

@@ -220,7 +220,9 @@ def _parse_json_from_text(text: str) -> dict[str, Any] | None:
     return None
 
 
-def _score_task(task: TaskSpec, response_text: str, elapsed_s: float, error: str | None) -> dict[str, Any]:
+def _score_task(
+    task: TaskSpec, response_text: str, elapsed_s: float, error: str | None
+) -> dict[str, Any]:
     checks: dict[str, Any] = {
         "has_content": bool(response_text.strip()),
         "json_ok": False,
@@ -245,13 +247,19 @@ def _score_task(task: TaskSpec, response_text: str, elapsed_s: float, error: str
         if checks["json_ok"]:
             score += 30.0
         if task.required_keys:
-            present = sum(1 for key in task.required_keys if isinstance(parsed_json, dict) and key in parsed_json)
+            present = sum(
+                1
+                for key in task.required_keys
+                if isinstance(parsed_json, dict) and key in parsed_json
+            )
             ratio = present / len(task.required_keys)
             checks["required_key_ratio"] = ratio
             score += ratio * 30.0
 
     if task.required_terms:
-        present_terms = sum(1 for term in task.required_terms if term.lower() in text_lower)
+        present_terms = sum(
+            1 for term in task.required_terms if term.lower() in text_lower
+        )
         term_ratio = present_terms / len(task.required_terms)
         checks["required_term_ratio"] = term_ratio
         score += term_ratio * 20.0
@@ -280,7 +288,9 @@ def _discover_candidates(
         candidates.extend(explicit_models)
     else:
         for provider in providers:
-            available = discovered.get("providers", {}).get(provider, {}).get("available", [])
+            available = (
+                discovered.get("providers", {}).get(provider, {}).get("available", [])
+            )
             if isinstance(available, list):
                 candidates.extend([str(m) for m in available[:max_per_provider]])
 
@@ -342,7 +352,11 @@ def _run_bakeoff(
             )
 
         successful = [t for t in task_results if not t["error"]]
-        avg_latency = statistics.mean(t["elapsed_s"] for t in task_results) if task_results else 0.0
+        avg_latency = (
+            statistics.mean(t["elapsed_s"] for t in task_results)
+            if task_results
+            else 0.0
+        )
         weighted_score = 0.0
         total_weight = 0.0
         for task, result in zip(tasks, task_results, strict=False):
@@ -350,7 +364,9 @@ def _run_bakeoff(
             total_weight += task.weight
         task_score = (weighted_score / total_weight) if total_weight else 0.0
         success_rate = (len(successful) / len(task_results)) if task_results else 0.0
-        overall_score = max(0.0, min(task_score + (success_rate * 10.0) - (avg_latency * 0.2), 100.0))
+        overall_score = max(
+            0.0, min(task_score + (success_rate * 10.0) - (avg_latency * 0.2), 100.0)
+        )
 
         model_results.append(
             {
@@ -430,7 +446,9 @@ def _write_reports(
     lines.append("")
     lines.append("## Ranking")
     lines.append("")
-    lines.append("| Rank | Model | Provider | Overall | Task Score | Success | Avg Latency (s) |")
+    lines.append(
+        "| Rank | Model | Provider | Overall | Task Score | Success | Avg Latency (s) |"
+    )
     lines.append("| --- | --- | --- | ---: | ---: | ---: | ---: |")
     for idx, row in enumerate(payload["results"], start=1):
         lines.append(

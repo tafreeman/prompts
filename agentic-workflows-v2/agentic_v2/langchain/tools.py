@@ -9,14 +9,10 @@ from __future__ import annotations
 
 import ast
 import json
-import os
 import subprocess
-import textwrap
 from pathlib import Path
-from typing import Any
 
 from langchain_core.tools import tool
-
 
 # ---------------------------------------------------------------------------
 # File operations
@@ -285,8 +281,9 @@ def web_search(
 
     try:
         import html
-        import httpx
         import re
+
+        import httpx
 
         # DuckDuckGo HTML endpoint avoids API-key dependencies.
         response = httpx.get(
@@ -353,9 +350,7 @@ def web_search(
             title = html.unescape(re.sub(r"<[^>]+>", "", raw_title)).strip()
             snippet = ""
             if idx < len(snippets):
-                snippet = html.unescape(
-                    re.sub(r"<[^>]+>", "", snippets[idx])
-                ).strip()
+                snippet = html.unescape(re.sub(r"<[^>]+>", "", snippets[idx])).strip()
 
             results.append(
                 {

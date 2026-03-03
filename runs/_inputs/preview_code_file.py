@@ -10,10 +10,7 @@ Find the sum of all the multiples of 3 or 5 below 1000.
 end = 1000
 
 def Solution01():
-    '''
-        Solved by brute force
-        #OPTIMIZE
-    '''
+    """Solved by brute force #OPTIMIZE."""
     sum = 0
     for i in range(3, end):
         if isMultiple(i):

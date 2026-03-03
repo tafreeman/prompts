@@ -10,9 +10,12 @@ Tests the orchestrator's ability to:
 import pytest
 from agentic_v2.agents.base import AgentConfig, agent_to_step
 from agentic_v2.agents.coder import CoderAgent
-from agentic_v2.agents.orchestrator import (OrchestratorAgent,
-                                            OrchestratorInput,
-                                            OrchestratorOutput, SubTask)
+from agentic_v2.agents.orchestrator import (
+    OrchestratorAgent,
+    OrchestratorInput,
+    OrchestratorOutput,
+    SubTask,
+)
 from agentic_v2.contracts import StepStatus
 from agentic_v2.engine import DAG, DAGExecutor, ExecutionContext
 from agentic_v2.engine.step import StepDefinition

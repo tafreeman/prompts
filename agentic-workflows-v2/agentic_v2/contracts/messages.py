@@ -22,8 +22,7 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
-from pydantic import (BaseModel, ConfigDict, Field, computed_field,
-                      field_validator)
+from pydantic import BaseModel, ConfigDict, Field, computed_field, field_validator
 
 
 class MessageType(str, Enum):
@@ -59,10 +58,12 @@ class ReviewStatus(str, Enum):
         when: ${steps.review_code.outputs.overall_status} not in ['APPROVED', 'APPROVED_WITH_NOTES']
     """
 
-    APPROVED = "APPROVED"                     # Code is acceptable, no changes needed
-    APPROVED_WITH_NOTES = "APPROVED_WITH_NOTES"  # Acceptable with minor non-blocking notes
-    NEEDS_FIXES = "NEEDS_FIXES"               # Issues found, rework required
-    REJECTED = "REJECTED"                     # Fundamental problems, major rework required
+    APPROVED = "APPROVED"  # Code is acceptable, no changes needed
+    APPROVED_WITH_NOTES = (
+        "APPROVED_WITH_NOTES"  # Acceptable with minor non-blocking notes
+    )
+    NEEDS_FIXES = "NEEDS_FIXES"  # Issues found, rework required
+    REJECTED = "REJECTED"  # Fundamental problems, major rework required
 
     @classmethod
     def normalize(cls, raw: str | None) -> "ReviewStatus":
@@ -80,22 +81,35 @@ class ReviewStatus(str, Enum):
 
         # Approved-with-notes variants (check before plain APPROVED)
         if cleaned in {
-            "APPROVED_WITH_NOTES", "APPROVED_WITH_COMMENTS",
-            "CONDITIONAL_APPROVAL", "APPROVED_CONDITIONALLY",
+            "APPROVED_WITH_NOTES",
+            "APPROVED_WITH_COMMENTS",
+            "CONDITIONAL_APPROVAL",
+            "APPROVED_CONDITIONALLY",
         }:
             return cls.APPROVED_WITH_NOTES
 
         # Approved variants
         if cleaned in {
-            "APPROVED", "PASS", "PASSED", "ACCEPT", "ACCEPTED",
-            "OK", "LGTM", "NO_ISSUES", "NO_CHANGES_NEEDED",
+            "APPROVED",
+            "PASS",
+            "PASSED",
+            "ACCEPT",
+            "ACCEPTED",
+            "OK",
+            "LGTM",
+            "NO_ISSUES",
+            "NO_CHANGES_NEEDED",
         }:
             return cls.APPROVED
 
         # Rejected variants
         if cleaned in {
-            "REJECTED", "REJECT", "FAIL", "FAILED",
-            "CRITICAL", "BLOCKED",
+            "REJECTED",
+            "REJECT",
+            "FAIL",
+            "FAILED",
+            "CRITICAL",
+            "BLOCKED",
         }:
             return cls.REJECTED
 
@@ -110,14 +124,15 @@ class TestGateStatus(str, Enum):
         when: ${steps.execute_tests.outputs.overall_status} not in ['PASS']
     """
 
-    PASS = "PASS"      # All tests passed
-    FAIL = "FAIL"      # One or more tests failed
-    ERROR = "ERROR"    # Execution error, tests could not run
+    PASS = "PASS"  # All tests passed
+    FAIL = "FAIL"  # One or more tests failed
+    ERROR = "ERROR"  # Execution error, tests could not run
     SKIPPED = "SKIPPED"  # Tests were skipped
 
     @classmethod
     def normalize(cls, raw: str | None) -> "TestGateStatus":
-        """Map any LLM-returned test status string to a canonical TestGateStatus."""
+        """Map any LLM-returned test status string to a canonical
+        TestGateStatus."""
         if raw is None:
             return cls.FAIL
         cleaned = raw.strip().upper()
@@ -140,7 +155,8 @@ class FindingSeverity(str, Enum):
 
     @classmethod
     def normalize(cls, raw: str | None) -> "FindingSeverity":
-        """Map any LLM-returned severity string to a canonical FindingSeverity."""
+        """Map any LLM-returned severity string to a canonical
+        FindingSeverity."""
         if raw is None:
             return cls.MEDIUM
         cleaned = raw.strip().upper()

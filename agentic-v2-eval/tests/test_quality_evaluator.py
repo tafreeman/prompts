@@ -2,15 +2,14 @@
 
 from __future__ import annotations
 
-import pytest
 from unittest.mock import MagicMock
 
 from agentic_v2_eval.evaluators.quality import (
-    QualityEvaluator,
-    LLMEvaluatorDefinition,
-    Choice,
-    STANDARD_CHOICES,
     COHERENCE,
+    STANDARD_CHOICES,
+    Choice,
+    LLMEvaluatorDefinition,
+    QualityEvaluator,
 )
 
 

@@ -48,12 +48,13 @@ class DAGExecutor:
 
     async def execute(
         self,
-        dag: DAG,
+        workflow: Any,
         ctx: Optional[ExecutionContext] = None,
-        max_concurrency: int = 10,
         on_update: Optional[Callable[[dict[str, Any]], Awaitable[None]]] = None,
+        **kwargs: Any,
     ) -> WorkflowResult:
-        """Execute a validated DAG with dynamic scheduling and concurrency limits.
+        """Execute a validated DAG with dynamic scheduling and concurrency
+        limits.
 
         Execution proceeds in a tight loop:
 
@@ -65,18 +66,26 @@ class DAGExecutor:
         5. **Repeat** until every step is completed or skipped.
 
         Args:
-            dag: Validated DAG definition to execute.
+            workflow: Validated DAG definition to execute.
             ctx: Shared execution context.  A new one is created if *None*.
-            max_concurrency: Upper bound on simultaneously running steps.
             on_update: Optional async callback invoked on every lifecycle
                 event (``workflow_start``, ``step_start``, ``step_end``,
                 ``workflow_end``).  Used by the server layer to broadcast
                 real-time updates via WebSocket/SSE.
+            **kwargs: Engine-specific options.  Supported:
+                - ``max_concurrency`` (int, default 10): Upper bound on
+                  simultaneously running steps.
 
         Returns:
             :class:`WorkflowResult` with per-step results, overall status,
             and the final merged context as ``final_output``.
         """
+        if not isinstance(workflow, DAG):
+            raise ValueError(
+                f"DAGExecutor expects a DAG, got {type(workflow).__name__}"
+            )
+        dag: DAG = workflow
+        max_concurrency: int = kwargs.get("max_concurrency", 10)
         if ctx is None:
             ctx = get_context()
 
@@ -90,14 +99,16 @@ class DAGExecutor:
             workflow_name=dag.name,
             overall_status=StepStatus.RUNNING,
         )
-        
+
         if on_update:
-            await on_update({
-                "type": "workflow_start",
-                "run_id": result.workflow_id,
-                "workflow_name": result.workflow_name,
-                "timestamp": datetime.now(timezone.utc).isoformat()
-            })
+            await on_update(
+                {
+                    "type": "workflow_start",
+                    "run_id": result.workflow_id,
+                    "workflow_name": result.workflow_name,
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                }
+            )
 
         adjacency = dag.build_adjacency_list()
         in_degree = {name: len(step.depends_on) for name, step in dag.steps.items()}
@@ -112,12 +123,14 @@ class DAGExecutor:
             """Execute a single step and return its name + result tuple."""
             self._state_manager.transition(step_name, StepState.RUNNING)
             if on_update:
-                await on_update({
-                    "type": "step_start",
-                    "run_id": result.workflow_id,
-                    "step": step_name,
-                    "timestamp": datetime.now(timezone.utc).isoformat()
-                })
+                await on_update(
+                    {
+                        "type": "step_start",
+                        "run_id": result.workflow_id,
+                        "step": step_name,
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
+                    }
+                )
             step_def = dag.steps[step_name]
             step_result = await self._step_executor.execute(step_def, ctx)
             return step_name, step_result
@@ -156,14 +169,14 @@ class DAGExecutor:
         # Phase 2: Execution Loop
         # We continue until every step in the DAG is either completed or skipped.
         while len(completed) < len(dag.steps):
-            
+
             # 1. Schedule all currently 'ready' steps (those with in-degree 0)
             # obeying the max_concurrency limit.
             while ready and len(running) < max_concurrency:
                 step_name = ready.popleft()
                 if step_name in completed or step_name in skipped:
                     continue
-                    
+
                 running.add(step_name)
                 # Move state to READY before spawning task
                 self._state_manager.transition(step_name, StepState.READY)
@@ -186,23 +199,25 @@ class DAGExecutor:
                 results[step_name] = step_result
                 result.add_step(step_result)
                 completed.add(step_name)
-                
+
                 # Signal step completion to external observers (e.g., UI/WebSockets)
                 if on_update:
-                    await on_update({
-                        "type": "step_end",
-                        "run_id": result.workflow_id,
-                        "step": step_name,
-                        "status": step_result.status.value,
-                        "duration_ms": step_result.duration_ms,
-                        "model_used": step_result.model_used,
-                        "tokens_used": step_result.metadata.get("tokens_used"),
-                        "tier": step_result.tier,
-                        "input": step_result.input_data,
-                        "output": step_result.output_data,
-                        "error": step_result.error,
-                        "timestamp": datetime.now(timezone.utc).isoformat()
-                    })
+                    await on_update(
+                        {
+                            "type": "step_end",
+                            "run_id": result.workflow_id,
+                            "step": step_name,
+                            "status": step_result.status.value,
+                            "duration_ms": step_result.duration_ms,
+                            "model_used": step_result.model_used,
+                            "tokens_used": step_result.metadata.get("tokens_used"),
+                            "tier": step_result.tier,
+                            "input": step_result.input_data,
+                            "output": step_result.output_data,
+                            "error": step_result.error,
+                            "timestamp": datetime.now(timezone.utc).isoformat(),
+                        }
+                    )
 
                 # 4. Handle step outcome
                 if step_result.status == StepStatus.SUCCESS:
@@ -241,11 +256,13 @@ class DAGExecutor:
         result.mark_complete(result.overall_status == StepStatus.SUCCESS)
 
         if on_update:
-            await on_update({
-                "type": "workflow_end",
-                "run_id": result.workflow_id,
-                "status": result.overall_status.value,
-                "timestamp": datetime.now(timezone.utc).isoformat()
-            })
+            await on_update(
+                {
+                    "type": "workflow_end",
+                    "run_id": result.workflow_id,
+                    "status": result.overall_status.value,
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                }
+            )
 
         return result

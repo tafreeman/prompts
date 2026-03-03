@@ -1,11 +1,10 @@
-"""Tests for ADR-002B (cross-tier degradation) and ADR-001 (ExecutionEngine Protocol)."""
+"""Tests for ADR-002B (cross-tier degradation) and ADR-001 (ExecutionEngine
+Protocol)."""
 
-import asyncio
 from typing import Any, Optional
 from unittest.mock import AsyncMock
 
 import pytest
-
 from agentic_v2.contracts.messages import StepStatus, WorkflowResult
 from agentic_v2.engine.context import ExecutionContext
 from agentic_v2.engine.dag import DAG
@@ -19,7 +18,6 @@ from agentic_v2.engine.protocol import (
 from agentic_v2.models.model_stats import CircuitState
 from agentic_v2.models.router import FallbackChain, ModelTier
 from agentic_v2.models.smart_router import SmartModelRouter
-
 
 # ── ADR-002B: Cross-tier degradation tests ───────────────────────────────────
 
@@ -63,13 +61,12 @@ class TestCrossTierDegradation:
             stats.record_failure("test")
         assert stats.circuit_state == CircuitState.OPEN
 
-        model = router.get_model_for_tier(
-            ModelTier.TIER_3, allow_cross_tier=False
-        )
+        model = router.get_model_for_tier(ModelTier.TIER_3, allow_cross_tier=False)
         assert model is None
 
     def test_degrades_downward_first(self) -> None:
-        """When TIER_3 is exhausted, degrade to TIER_2 (lower) before TIER_4."""
+        """When TIER_3 is exhausted, degrade to TIER_2 (lower) before
+        TIER_4."""
         router = self._make_router()
         # Exhaust TIER_3
         stats = router._get_stats("anthropic:claude-3-sonnet")
@@ -97,21 +94,11 @@ class TestCrossTierDegradation:
         """When ALL registered tiers are exhausted, return None."""
         router = SmartModelRouter()
         # Register ALL tiers with single models we control
-        router.register_chain(
-            ModelTier.TIER_1, FallbackChain(("m1:a",), "t1")
-        )
-        router.register_chain(
-            ModelTier.TIER_2, FallbackChain(("m2:a",), "t2")
-        )
-        router.register_chain(
-            ModelTier.TIER_3, FallbackChain(("m3:a",), "t3")
-        )
-        router.register_chain(
-            ModelTier.TIER_4, FallbackChain(("m4:a",), "t4")
-        )
-        router.register_chain(
-            ModelTier.TIER_5, FallbackChain(("m5:a",), "t5")
-        )
+        router.register_chain(ModelTier.TIER_1, FallbackChain(("m1:a",), "t1"))
+        router.register_chain(ModelTier.TIER_2, FallbackChain(("m2:a",), "t2"))
+        router.register_chain(ModelTier.TIER_3, FallbackChain(("m3:a",), "t3"))
+        router.register_chain(ModelTier.TIER_4, FallbackChain(("m4:a",), "t4"))
+        router.register_chain(ModelTier.TIER_5, FallbackChain(("m5:a",), "t5"))
         for m in ("m1:a", "m2:a", "m3:a", "m4:a", "m5:a"):
             stats = router._get_stats(m)
             for _ in range(5):
@@ -140,15 +127,9 @@ class TestCrossTierDegradation:
     def test_cross_tier_respects_cost_limit(self) -> None:
         """Cross-tier degradation still respects max_cost."""
         router = SmartModelRouter()
-        router.register_chain(
-            ModelTier.TIER_1, FallbackChain(("cheap:a",), "t1")
-        )
-        router.register_chain(
-            ModelTier.TIER_2, FallbackChain(("mid:a",), "t2")
-        )
-        router.register_chain(
-            ModelTier.TIER_3, FallbackChain(("pricey:a",), "t3")
-        )
+        router.register_chain(ModelTier.TIER_1, FallbackChain(("cheap:a",), "t1"))
+        router.register_chain(ModelTier.TIER_2, FallbackChain(("mid:a",), "t2"))
+        router.register_chain(ModelTier.TIER_3, FallbackChain(("pricey:a",), "t3"))
         router.model_costs["cheap:a"] = 0.1
         router.model_costs["pricey:a"] = 15.0
 
@@ -245,11 +226,9 @@ class TestExecutionEngineProtocol:
         """SupportsStreaming is a separate capability check."""
 
         class StreamingEngine:
-            async def execute(self, workflow: Any, **kwargs: Any) -> WorkflowResult:
-                ...
+            async def execute(self, workflow: Any, **kwargs: Any) -> WorkflowResult: ...
 
-            async def stream(self, workflow: Any, **kwargs: Any) -> Any:
-                ...
+            async def stream(self, workflow: Any, **kwargs: Any) -> Any: ...
 
         engine = StreamingEngine()
         assert isinstance(engine, SupportsStreaming)
@@ -260,8 +239,7 @@ class TestExecutionEngineProtocol:
         """SupportsCheckpointing is a separate capability check."""
 
         class CheckpointEngine:
-            async def execute(self, workflow: Any, **kwargs: Any) -> WorkflowResult:
-                ...
+            async def execute(self, workflow: Any, **kwargs: Any) -> WorkflowResult: ...
 
             def get_checkpoint_state(
                 self, workflow: Any, *, thread_id: str, **kwargs: Any
@@ -270,8 +248,7 @@ class TestExecutionEngineProtocol:
 
             async def resume(
                 self, workflow: Any, *, thread_id: str, **kwargs: Any
-            ) -> WorkflowResult:
-                ...
+            ) -> WorkflowResult: ...
 
         engine = CheckpointEngine()
         assert isinstance(engine, SupportsCheckpointing)

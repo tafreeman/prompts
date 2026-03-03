@@ -11,7 +11,7 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
-from typing import Any, AsyncIterator, Iterator, List, Optional, Sequence
+from typing import Any, List, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +33,8 @@ except ImportError:
 
 from ..models.client import LLMClientWrapper, get_client
 from ..models.router import ModelTier
-from ..tools.base import BaseTool as V2BaseTool, ToolResult
+from ..tools.base import BaseTool as V2BaseTool
+from ..tools.base import ToolResult
 
 
 def _require_langchain():
@@ -51,7 +52,8 @@ def _require_langchain():
 if LANGCHAIN_AVAILABLE:
 
     class AgenticChatModel(BaseChatModel):
-        """LangChain ChatModel backed by V2's LLMClientWrapper + SmartModelRouter.
+        """LangChain ChatModel backed by V2's LLMClientWrapper +
+        SmartModelRouter.
 
         Usage:
             from agentic_v2.integrations.langchain import AgenticChatModel

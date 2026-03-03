@@ -38,8 +38,13 @@ from typing import Any, AsyncIterator, Callable, Generic, Optional, TypeVar
 
 from ..contracts import TaskInput, TaskOutput
 from ..engine import ExecutionContext, StepDefinition
-from ..models import (LLMClientWrapper, ModelTier, SmartModelRouter,
-                      get_client, get_smart_router)
+from ..models import (
+    LLMClientWrapper,
+    ModelTier,
+    SmartModelRouter,
+    get_client,
+    get_smart_router,
+)
 from ..tools import BaseTool, ToolRegistry, get_registry
 
 TInput = TypeVar("TInput", bound=TaskInput)
@@ -812,7 +817,8 @@ class BaseAgent(ABC, Generic[TInput, TOutput]):
 def agent_to_step(
     agent: BaseAgent[TInput, TOutput], name: Optional[str] = None
 ) -> StepDefinition:
-    """Wrap a :class:`BaseAgent` as a :class:`~agentic_v2.engine.StepDefinition`.
+    """Wrap a :class:`BaseAgent` as a
+    :class:`~agentic_v2.engine.StepDefinition`.
 
     Creates a step function that extracts a ``"task"`` key from the
     :class:`~agentic_v2.engine.ExecutionContext`, passes it to

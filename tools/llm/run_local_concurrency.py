@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Run local CPU+GPU inference concurrently and compare vs sequential execution."""
+"""Run local CPU+GPU inference concurrently and compare vs sequential
+execution."""
 
 from __future__ import annotations
 
@@ -66,13 +67,17 @@ def _get_local_runner(model: str) -> Any:
         model_path = str(model_path_obj) if model_path_obj else None
         runner = {
             "lock": Lock(),
-            "model": LocalModel(model_path=model_path, model_key=model_key, verbose=False),
+            "model": LocalModel(
+                model_path=model_path, model_key=model_key, verbose=False
+            ),
         }
         _LOCAL_RUNNERS[model] = runner
         return runner
 
 
-def _run_one(model: str, prompt: str, temperature: float, max_tokens: int) -> dict[str, Any]:
+def _run_one(
+    model: str, prompt: str, temperature: float, max_tokens: int
+) -> dict[str, Any]:
     from tools.llm.llm_client import LLMClient
 
     started = time.perf_counter()
@@ -247,7 +252,9 @@ def main(argv: list[str]) -> int:
         for r in records
         if isinstance(r.get("sequential"), dict)
     ]
-    par_times = [r["parallel"]["wall_s"] for r in records if isinstance(r.get("parallel"), dict)]
+    par_times = [
+        r["parallel"]["wall_s"] for r in records if isinstance(r.get("parallel"), dict)
+    ]
     call_records: list[dict[str, Any]] = []
     for rec in records:
         for mode in ("sequential", "parallel"):
@@ -267,18 +274,24 @@ def main(argv: list[str]) -> int:
         "cpu_model": args.cpu_model,
         "gpu_model": args.gpu_model,
         "rounds": rounds,
-        "avg_parallel_wall_s": round(sum(par_times) / len(par_times), 3) if par_times else None,
+        "avg_parallel_wall_s": (
+            round(sum(par_times) / len(par_times), 3) if par_times else None
+        ),
         "total_calls": len(call_records),
         "successful_calls": success_count,
         "failed_calls": failed_count,
-        "success_rate": round(success_count / len(call_records), 3) if call_records else None,
+        "success_rate": (
+            round(success_count / len(call_records), 3) if call_records else None
+        ),
     }
     if seq_times:
         avg_seq = sum(seq_times) / len(seq_times)
         avg_par = sum(par_times) / len(par_times)
         speedup = (avg_seq / avg_par) if avg_par > 0 else None
         summary["avg_sequential_wall_s"] = round(avg_seq, 3)
-        summary["parallel_speedup_vs_sequential"] = round(speedup, 3) if speedup else None
+        summary["parallel_speedup_vs_sequential"] = (
+            round(speedup, 3) if speedup else None
+        )
 
     payload = {
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
@@ -304,7 +317,9 @@ def main(argv: list[str]) -> int:
         f"(failed={summary['failed_calls']})"
     )
     if summary["failed_calls"] > 0:
-        print("Warning: one or more model calls failed; latency comparison may be invalid.")
+        print(
+            "Warning: one or more model calls failed; latency comparison may be invalid."
+        )
     print(f"Report: {out_path}")
 
     return 0

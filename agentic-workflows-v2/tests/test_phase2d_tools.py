@@ -9,13 +9,10 @@ from pathlib import Path
 
 import pytest
 import pytest_asyncio
-from agentic_v2.tools.builtin.code_analysis import (AstDumpTool,
-                                                    CodeAnalysisTool)
 from agentic_v2.tools.builtin.build_ops import BuildAppTool
-from agentic_v2.tools.builtin.git_ops import (GitDiffTool, GitStatusTool,
-                                              GitTool)
-from agentic_v2.tools.builtin.http_ops import (HttpGetTool, HttpPostTool,
-                                               HttpTool)
+from agentic_v2.tools.builtin.code_analysis import AstDumpTool, CodeAnalysisTool
+from agentic_v2.tools.builtin.git_ops import GitDiffTool, GitStatusTool, GitTool
+from agentic_v2.tools.builtin.http_ops import HttpGetTool, HttpPostTool, HttpTool
 from agentic_v2.tools.builtin.search_ops import GrepTool, SearchTool
 from agentic_v2.tools.builtin.shell_ops import ShellExecTool, ShellTool
 from aiohttp import web
@@ -53,17 +50,18 @@ async def test_build_app_tool_dry_run_python_detection(tmp_path: Path):
 
 @pytest.mark.asyncio
 async def test_build_app_tool_exec_with_explicit_commands(tmp_path: Path):
-    """BuildAppTool should execute explicit commands and report phase results."""
+    """BuildAppTool should execute explicit commands and report phase
+    results."""
     tool = BuildAppTool()
 
     result = await tool.execute(
         project_root=str(tmp_path),
         stack_hint="unknown",
-        install_command='python -c "print(\'install-ok\')"',
-        build_command='python -c "print(\'build-ok\')"',
-        test_command='python -c "print(\'test-ok\')"',
+        install_command="python -c \"print('install-ok')\"",
+        build_command="python -c \"print('build-ok')\"",
+        test_command="python -c \"print('test-ok')\"",
         run_smoke=True,
-        smoke_command='python -c "print(\'smoke-ok\')"',
+        smoke_command="python -c \"print('smoke-ok')\"",
     )
 
     assert result.success

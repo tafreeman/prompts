@@ -1,27 +1,21 @@
 """Tests for benchmark datasets, loader, and registry.
 
-These tests cover the benchmark infrastructure in tools/agents/benchmarks/
-to ensure reliable dataset loading for workflow evaluations.
+These tests cover the benchmark infrastructure in
+tools/agents/benchmarks/ to ensure reliable dataset loading for workflow
+evaluations.
 """
 
 from __future__ import annotations
 
-import json
 import sys
-import tempfile
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict
-from unittest import mock
-
-import pytest
 
 # Add tools to path for imports
 sys.path.insert(0, str(Path(__file__).parents[2]))
 
 from tools.agents.benchmarks.datasets import (
     BENCHMARK_DEFINITIONS,
-    BenchmarkDefinition,
     BenchmarkType,
     DataSource,
     get_benchmark,
@@ -30,7 +24,6 @@ from tools.agents.benchmarks.datasets import (
 from tools.agents.benchmarks.loader import (
     BenchmarkTask,
     get_cache_key,
-    get_cache_path,
     is_cache_valid,
     load_from_cache,
     save_to_cache,
@@ -40,7 +33,6 @@ from tools.agents.benchmarks.registry import (
     BenchmarkConfig,
     BenchmarkRegistry,
 )
-
 
 # =============================================================================
 # DATASET DEFINITION TESTS
@@ -98,7 +90,9 @@ class TestBenchmarkDefinitions:
 
     def test_list_benchmarks_by_type(self):
         """list_benchmarks filters by type."""
-        swe_benchmarks = list_benchmarks(benchmark_type=BenchmarkType.SOFTWARE_ENGINEERING)
+        swe_benchmarks = list_benchmarks(
+            benchmark_type=BenchmarkType.SOFTWARE_ENGINEERING
+        )
         assert all(
             b.benchmark_type == BenchmarkType.SOFTWARE_ENGINEERING
             for b in swe_benchmarks.values()
@@ -190,6 +184,7 @@ class TestCacheManagement:
         """Save and load roundtrip."""
         # Monkeypatch CACHE_DIR
         import tools.agents.benchmarks.loader as loader_module
+
         monkeypatch.setattr(loader_module, "CACHE_DIR", tmp_path)
 
         data = [{"task_id": "t1", "prompt": "test"}]
@@ -201,6 +196,7 @@ class TestCacheManagement:
     def test_load_cache_missing(self, tmp_path: Path, monkeypatch):
         """load_from_cache returns None if missing."""
         import tools.agents.benchmarks.loader as loader_module
+
         monkeypatch.setattr(loader_module, "CACHE_DIR", tmp_path)
 
         result = load_from_cache("nonexistent")
@@ -219,6 +215,7 @@ class TestCacheManagement:
 
         # Set mtime to 2 hours ago
         import os
+
         old_time = datetime.now() - timedelta(hours=2)
         os.utime(cache_file, (old_time.timestamp(), old_time.timestamp()))
 
@@ -320,7 +317,7 @@ class TestPresetConfigs:
     """Tests for preset configurations."""
 
     def test_quick_test_preset(self):
-        """quick-test preset exists and is valid."""
+        """Quick-test preset exists and is valid."""
         assert "quick-test" in PRESET_CONFIGS
         config = PRESET_CONFIGS["quick-test"]
         assert config.limit is not None

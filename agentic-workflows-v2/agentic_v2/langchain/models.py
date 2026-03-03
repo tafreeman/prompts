@@ -68,9 +68,9 @@ _PROVIDER_ENV_KEYS: dict[str, list[str]] = {
     "openai": ["OPENAI_API_KEY"],
     "gh": ["GITHUB_TOKEN"],
     "ollama": [],  # always available (local)
-    "local": [],   # always available (ONNX)
-    "lmstudio": [], # always available (local server)
-    "local_api": [], # always available (local server)
+    "local": [],  # always available (ONNX)
+    "lmstudio": [],  # always available (local server)
+    "local_api": [],  # always available (local server)
 }
 
 # ---------------------------------------------------------------------------
@@ -158,7 +158,8 @@ def probe_available_providers() -> dict[str, bool]:
 
 
 def probe_and_update_tier_defaults() -> dict[str, Any]:
-    """Probe providers and update ``_TIER_DEFAULTS`` to the best available model per tier.
+    """Probe providers and update ``_TIER_DEFAULTS`` to the best available
+    model per tier.
 
     Called on module import and can be re-called at server startup to pick up
     env changes.  Also installs a health-checker on the native ``ModelRouter``
@@ -204,7 +205,8 @@ def probe_and_update_tier_defaults() -> dict[str, Any]:
 
 
 def _configure_native_router(availability: dict[str, bool]) -> None:
-    """Set a health-checker on the native ModelRouter so it skips unavailable providers."""
+    """Set a health-checker on the native ModelRouter so it skips unavailable
+    providers."""
     try:
         from ..models.router import get_router
     except ImportError:
@@ -720,7 +722,12 @@ def _build_local_onnx_model(model_name: str, temperature: float) -> Any:
     """Build a minimal chat wrapper over repo-local ONNX via ``LLMClient``."""
     try:
         from langchain_core.language_models.chat_models import BaseChatModel
-        from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, SystemMessage
+        from langchain_core.messages import (
+            AIMessage,
+            BaseMessage,
+            HumanMessage,
+            SystemMessage,
+        )
         from langchain_core.outputs import ChatGeneration, ChatResult
     except ImportError as exc:
         raise ImportError(

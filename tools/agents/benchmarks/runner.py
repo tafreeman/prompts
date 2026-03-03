@@ -22,14 +22,19 @@ import json
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict
 
 # Add parent directory to path for imports
 if __name__ == "__main__":
     sys.path.insert(0, str(Path(__file__).parents[3]))
 
 from tools.agents.benchmarks.datasets import BENCHMARK_DEFINITIONS
-from tools.agents.benchmarks.loader import BenchmarkTask, clear_cache, load_benchmark
+
+# Evaluation pipeline: LLM-based and legacy task evaluation
+from tools.agents.benchmarks.evaluation_pipeline import (
+    evaluate_task_output_llm,
+)
+from tools.agents.benchmarks.loader import clear_cache, load_benchmark
 from tools.agents.benchmarks.registry import (
     PRESET_CONFIGS,
     BenchmarkConfig,
@@ -45,20 +50,9 @@ from tools.agents.benchmarks.runner_ui import (
     prompt_yes_no,
 )
 
-# Evaluation pipeline: LLM-based and legacy task evaluation
-from tools.agents.benchmarks.evaluation_pipeline import (
-    evaluate_task_output_legacy,
-    evaluate_task_output_llm,
-    get_gold_standard_for_task,
-    print_mismatch_analysis,
-    save_evaluation_report_legacy,
-)
-
 # Workflow pipeline: agent-output extraction and phase reporting
 from tools.agents.benchmarks.workflow_pipeline import (
-    evaluate_agent_output,
     extract_workflow_data,
-    get_agent_expectations,
     save_workflow_phases_md,
 )
 

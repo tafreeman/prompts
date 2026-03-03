@@ -30,6 +30,7 @@ except Exception:
 
 try:
     from dotenv import load_dotenv
+
     load_dotenv()
 except Exception:
     # dotenv is optional; env may already be set by the shell
@@ -38,7 +39,12 @@ except Exception:
 
 COMMON_ENV_KEYS = {
     "github": ["GITHUB_TOKEN", "GH_TOKEN"],
-    "openai": ["OPENAI_API_KEY", "OPENAI_API_BASE", "OPENAI_BASE_URL", "OPENAI_API_BASE_URL"],
+    "openai": [
+        "OPENAI_API_KEY",
+        "OPENAI_API_BASE",
+        "OPENAI_BASE_URL",
+        "OPENAI_API_BASE_URL",
+    ],
     "anthropic": ["ANTHROPIC_API_KEY", "ANTHROPIC_API_KEY_0"],
     "gemini": ["GEMINI_API_KEY", "GOOGLE_API_KEY"],
     "lmstudio": ["LMSTUDIO_HOST", "LMSTUDIO_URL"],
@@ -49,7 +55,8 @@ COMMON_ENV_KEYS = {
 
 
 def detect_env_keys() -> Dict[str, Dict[str, bool]]:
-    """Return a mapping of provider -> {env_var: is_set} for common keys (never exposes values)."""
+    """Return a mapping of provider -> {env_var: is_set} for common keys (never
+    exposes values)."""
     found: Dict[str, Dict[str, bool]] = {}
     for provider, keys in COMMON_ENV_KEYS.items():
         provider_map: Dict[str, bool] = {}
@@ -68,10 +75,17 @@ def mask(val: str | None) -> str | None:
 
 
 def check_github(token: str) -> Dict[str, Any]:
-    headers = {"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json"}
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/vnd.github+json",
+    }
     url = "https://api.github.com/rate_limit"
     r = requests.get(url, headers=headers, timeout=10)
-    return {"status_code": r.status_code, "ok": r.ok, "json": r.json() if r.ok else r.text}
+    return {
+        "status_code": r.status_code,
+        "ok": r.ok,
+        "json": r.json() if r.ok else r.text,
+    }
 
 
 def check_openai(key: str, base: str | None = None) -> Dict[str, Any]:
@@ -82,39 +96,69 @@ def check_openai(key: str, base: str | None = None) -> Dict[str, Any]:
     return {
         "status_code": r.status_code,
         "ok": r.ok,
-        "headers": {k: v for k, v in r.headers.items() if 'rate' in k.lower() or 'limit' in k.lower()},
-        "short": (r.json() if r.ok and r.headers.get('content-type','').startswith('application/json') else r.text),
+        "headers": {
+            k: v
+            for k, v in r.headers.items()
+            if "rate" in k.lower() or "limit" in k.lower()
+        },
+        "short": (
+            r.json()
+            if r.ok and r.headers.get("content-type", "").startswith("application/json")
+            else r.text
+        ),
     }
 
 
 def check_anthropic(key: str) -> Dict[str, Any]:
     url = "https://api.anthropic.com/v1/models"
-    headers = {"x-api-key": key, "anthropic-version": "2023-06-01", "Accept": "application/json"}
+    headers = {
+        "x-api-key": key,
+        "anthropic-version": "2023-06-01",
+        "Accept": "application/json",
+    }
     r = requests.get(url, headers=headers, timeout=10)
-    return {"status_code": r.status_code, "ok": r.ok, "count": len((r.json() if r.ok else {}).get("data", []))}
+    return {
+        "status_code": r.status_code,
+        "ok": r.ok,
+        "count": len((r.json() if r.ok else {}).get("data", [])),
+    }
 
 
 def check_lmstudio(host: str) -> Dict[str, Any]:
     url = f"{host.rstrip('/')}/v1/models"
     r = requests.get(url, timeout=6)
-    return {"status_code": r.status_code, "ok": r.ok, "json": (r.json() if r.ok else r.text)}
+    return {
+        "status_code": r.status_code,
+        "ok": r.ok,
+        "json": (r.json() if r.ok else r.text),
+    }
 
 
 def check_ollama(host: str) -> Dict[str, Any]:
     url = f"{host.rstrip('/')}/api/models"
     r = requests.get(url, timeout=6)
-    return {"status_code": r.status_code, "ok": r.ok, "json": (r.json() if r.ok else r.text)}
+    return {
+        "status_code": r.status_code,
+        "ok": r.ok,
+        "json": (r.json() if r.ok else r.text),
+    }
 
 
 def check_local_openai(host: str) -> Dict[str, Any]:
     url = f"{host.rstrip('/')}/v1/models"
     r = requests.get(url, timeout=6)
-    return {"status_code": r.status_code, "ok": r.ok, "json": (r.json() if r.ok else r.text)}
+    return {
+        "status_code": r.status_code,
+        "ok": r.ok,
+        "json": (r.json() if r.ok else r.text),
+    }
 
 
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser()
-    p.add_argument("--probe-file", default="filename.json", help="Model probe JSON file")
+    p.add_argument(
+        "--probe-file", default="filename.json", help="Model probe JSON file"
+    )
     p.add_argument("--out", default=None, help="Optional output JSON file for results")
     args = p.parse_args(argv)
 
@@ -155,7 +199,9 @@ def main(argv: list[str] | None = None) -> int:
     # Gemini - best effort (Google API variations exist)
     gem = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
     if gem:
-        out["checked"]["gemini"] = {"note": "API key present; please verify quotas in Google Cloud Console or run provider-specific checks"}
+        out["checked"]["gemini"] = {
+            "note": "API key present; please verify quotas in Google Cloud Console or run provider-specific checks"
+        }
 
     # LM Studio
     lm = os.getenv("LMSTUDIO_HOST")

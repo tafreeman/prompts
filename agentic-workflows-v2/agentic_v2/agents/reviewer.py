@@ -17,8 +17,13 @@ import json
 import re
 from typing import Any, Optional
 
-from ..contracts import (CodeIssue, CodeReviewInput, CodeReviewOutput,
-                         IssueCategory, Severity)
+from ..contracts import (
+    CodeIssue,
+    CodeReviewInput,
+    CodeReviewOutput,
+    IssueCategory,
+    Severity,
+)
 from ..models import ModelTier
 from .base import AgentConfig, BaseAgent
 from .capabilities import CodeReviewMixin
@@ -92,7 +97,8 @@ class ReviewerAgent(BaseAgent[CodeReviewInput, CodeReviewOutput], CodeReviewMixi
         focus_areas: Optional[list[str]] = None,
         **kwargs,
     ):
-        """Initialize the reviewer agent with optional config and focus areas."""
+        """Initialize the reviewer agent with optional config and focus
+        areas."""
         if config is None:
             config = AgentConfig(
                 name="reviewer",

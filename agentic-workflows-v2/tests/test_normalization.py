@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from agentic_v2.server.normalization import adjust_for_sample_size, normalize_score
 
 
@@ -25,8 +24,12 @@ def test_likert_neg2_2_normalization():
 
 
 def test_lower_is_better_normalization():
-    assert normalize_score(8, "lower_is_better", slo_good=8, slo_bad=30) == pytest.approx(1.0)
-    assert normalize_score(30, "lower_is_better", slo_good=8, slo_bad=30) == pytest.approx(0.0)
+    assert normalize_score(
+        8, "lower_is_better", slo_good=8, slo_bad=30
+    ) == pytest.approx(1.0)
+    assert normalize_score(
+        30, "lower_is_better", slo_good=8, slo_bad=30
+    ) == pytest.approx(0.0)
 
 
 def test_zero_one_passthrough_clamps():
@@ -36,7 +39,9 @@ def test_zero_one_passthrough_clamps():
 
 
 def test_pairwise_normalization():
-    assert normalize_score(None, "pairwise", wins=3, ties=1, losses=1) == pytest.approx(0.7)
+    assert normalize_score(None, "pairwise", wins=3, ties=1, losses=1) == pytest.approx(
+        0.7
+    )
 
 
 def test_unknown_formula_id_raises():
@@ -53,4 +58,3 @@ def test_reliability_adjustment_pulls_toward_prior():
 def test_reliability_adjustment_large_n_negligible():
     adjusted = adjust_for_sample_size(0.9, n=1000)
     assert adjusted == pytest.approx(0.9, abs=0.01)
-

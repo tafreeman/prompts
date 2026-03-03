@@ -21,7 +21,7 @@ from .base import TraceAdapter
 from .tracing import NullTraceAdapter
 
 if TYPE_CHECKING:
-    from opentelemetry.trace import Tracer
+    pass
 
 logger = logging.getLogger(__name__)
 
@@ -165,7 +165,9 @@ def create_trace_adapter() -> TraceAdapter:
 
     tracer = get_tracer()
     if tracer is None:
-        logger.warning("Tracing enabled but OTEL setup failed; falling back to NullTraceAdapter")
+        logger.warning(
+            "Tracing enabled but OTEL setup failed; falling back to NullTraceAdapter"
+        )
         return NullTraceAdapter()
 
     # Import here to avoid circular dependency

@@ -17,7 +17,6 @@ from unittest.mock import MagicMock
 
 import pytest
 import yaml
-
 from agentic_v2.models.client import get_client, reset_client
 
 

@@ -27,10 +27,10 @@ mapped to full Claude model identifiers via ``_MODEL_MAP``.
 
 from __future__ import annotations
 
+import os
 import re
 from pathlib import Path
 from typing import Any
-import os
 
 import yaml
 
@@ -69,7 +69,7 @@ def _parse_agent_file(path: Path) -> tuple[dict[str, Any], str]:
     if not m:
         raise ValueError(f"No YAML frontmatter found in {path}")
     meta = yaml.safe_load(m.group(1)) or {}
-    body = text[m.end():].strip()
+    body = text[m.end() :].strip()
     return meta, body
 
 
@@ -112,6 +112,7 @@ def load_agents(directory: Path | str | None = None) -> dict[str, AgentDefinitio
             # tools may be stored as a JSON-like list string or a real list
             if isinstance(tools_raw, str):
                 import json
+
                 tools_raw = json.loads(tools_raw)
             model_short = meta.get("model", "sonnet")
             model_id = _MODEL_MAP.get(str(model_short).lower(), "claude-sonnet-4-6")

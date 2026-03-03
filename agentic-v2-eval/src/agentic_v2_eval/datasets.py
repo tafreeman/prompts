@@ -32,7 +32,7 @@ Example:
 from __future__ import annotations
 
 import logging
-from typing import TYPE_CHECKING, Any, Dict, List, Optional
+from typing import TYPE_CHECKING, Any
 
 logger = logging.getLogger(__name__)
 
@@ -78,7 +78,7 @@ if TYPE_CHECKING:
     from tools.agents.benchmarks.registry import BenchmarkConfig, BenchmarkRegistry
 
 
-def get_benchmark_definitions() -> Dict[str, "BenchmarkDefinition"]:
+def get_benchmark_definitions() -> dict[str, BenchmarkDefinition]:
     """Get all available benchmark definitions.
 
     Returns:
@@ -88,7 +88,7 @@ def get_benchmark_definitions() -> Dict[str, "BenchmarkDefinition"]:
     return _datasets_module.BENCHMARK_DEFINITIONS
 
 
-def get_benchmark_definition(benchmark_id: str) -> Optional["BenchmarkDefinition"]:
+def get_benchmark_definition(benchmark_id: str) -> BenchmarkDefinition | None:
     """Get a specific benchmark definition.
 
     Args:
@@ -101,7 +101,7 @@ def get_benchmark_definition(benchmark_id: str) -> Optional["BenchmarkDefinition
     return _datasets_module.BENCHMARK_DEFINITIONS.get(benchmark_id)
 
 
-def list_benchmarks() -> List[str]:
+def list_benchmarks() -> list[str]:
     """List all available benchmark IDs.
 
     Returns:
@@ -113,12 +113,12 @@ def list_benchmarks() -> List[str]:
 
 def load_benchmark(
     benchmark_id: str,
-    limit: Optional[int] = None,
-    language: Optional[str] = None,
-    difficulty: Optional[str] = None,
-    cache_dir: Optional[str] = None,
+    limit: int | None = None,
+    language: str | None = None,
+    difficulty: str | None = None,
+    cache_dir: str | None = None,
     force_refresh: bool = False,
-) -> List["BenchmarkTask"]:
+) -> list[BenchmarkTask]:
     """Load tasks from a benchmark.
 
     Args:
@@ -145,9 +145,7 @@ def load_benchmark(
 
     if benchmark_id not in _datasets_module.BENCHMARK_DEFINITIONS:
         available = ", ".join(list_benchmarks())
-        raise ValueError(
-            f"Unknown benchmark: {benchmark_id}. Available: {available}"
-        )
+        raise ValueError(f"Unknown benchmark: {benchmark_id}. Available: {available}")
 
     # Load via loader (native API)
     tasks = _loader_module.load_benchmark(
@@ -165,7 +163,7 @@ def load_benchmark(
     return tasks
 
 
-def get_registry() -> "BenchmarkRegistry":
+def get_registry() -> BenchmarkRegistry:
     """Get the benchmark registry for advanced configuration.
 
     Returns:

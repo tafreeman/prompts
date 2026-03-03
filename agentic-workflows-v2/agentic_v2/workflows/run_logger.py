@@ -57,7 +57,9 @@ def build_step_record(step: Any) -> dict[str, Any]:
     """Build a structured record for a single step."""
     return {
         "step_name": step.step_name,
-        "status": step.status.value if hasattr(step.status, "value") else str(step.status),
+        "status": (
+            step.status.value if hasattr(step.status, "value") else str(step.status)
+        ),
         "agent_role": step.agent_role,
         "tier": step.tier,
         "model_used": step.model_used,
@@ -70,10 +72,8 @@ def build_step_record(step: Any) -> dict[str, Any]:
         "error_type": step.error_type,
         "start_time": step.start_time.isoformat() if step.start_time else None,
         "end_time": step.end_time.isoformat() if step.end_time else None,
-        "metadata": {
-            k: v for k, v in step.metadata.items()
-            if k != "tokens_used"
-        } or None,
+        "metadata": {k: v for k, v in step.metadata.items() if k != "tokens_used"}
+        or None,
     }
 
 
@@ -107,7 +107,9 @@ def build_run_record(
         "run_id": result.workflow_id,
         "workflow_name": result.workflow_name,
         "status": result.overall_status.value,
-        "score": evaluation_score if evaluation_score is not None else result.success_rate,
+        "score": (
+            evaluation_score if evaluation_score is not None else result.success_rate
+        ),
         "success_rate": result.success_rate,
         "total_duration_ms": result.total_duration_ms,
         "total_retries": result.total_retries,

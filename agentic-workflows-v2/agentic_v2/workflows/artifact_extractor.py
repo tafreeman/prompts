@@ -128,7 +128,9 @@ def extract_artifacts(
         "run_id": result.workflow_id,
         "steps": [
             {
-                "status": s.status.value if hasattr(s.status, "value") else str(s.status),
+                "status": (
+                    s.status.value if hasattr(s.status, "value") else str(s.status)
+                ),
                 "output": s.output_data or {},
             }
             for s in result.steps

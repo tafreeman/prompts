@@ -1,7 +1,7 @@
 """Tier 0 build verification tools.
 
-Provides a deterministic build/test/smoke contract that agents can use to
-verify runnable package integrity before release.
+Provides a deterministic build/test/smoke contract that agents can use
+to verify runnable package integrity before release.
 """
 
 from __future__ import annotations
@@ -111,7 +111,9 @@ class BuildAppTool(BaseTool):
     # Shell metacharacters that require shell=True to work correctly
     _SHELL_METACHARS = re.compile(r"[&|;<>(){}\$`]")
 
-    async def _run_shell(self, command: str, cwd: Path, timeout: float) -> dict[str, Any]:
+    async def _run_shell(
+        self, command: str, cwd: Path, timeout: float
+    ) -> dict[str, Any]:
         started = time.perf_counter()
         needs_shell = bool(self._SHELL_METACHARS.search(command))
         if needs_shell:
@@ -160,7 +162,10 @@ class BuildAppTool(BaseTool):
 
     def _detect_stack(self, root: Path, stack_hint: str) -> dict[str, Any]:
         hint = (stack_hint or "auto").lower()
-        has_py = any((root / name).exists() for name in ["pyproject.toml", "requirements.txt", "setup.py"])
+        has_py = any(
+            (root / name).exists()
+            for name in ["pyproject.toml", "requirements.txt", "setup.py"]
+        )
         has_node = (root / "package.json").exists()
 
         if hint in {"python", "node", "fullstack"}:
@@ -180,7 +185,9 @@ class BuildAppTool(BaseTool):
             "has_node_manifest": has_node,
         }
 
-    def _default_commands(self, root: Path, detected_stack: str) -> dict[str, str | None]:
+    def _default_commands(
+        self, root: Path, detected_stack: str
+    ) -> dict[str, str | None]:
         commands: dict[str, str | None] = {
             "install": None,
             "build": None,
@@ -202,11 +209,15 @@ class BuildAppTool(BaseTool):
             scripts: dict[str, Any] = {}
             if pkg_path.exists():
                 try:
-                    scripts = json.loads(pkg_path.read_text(encoding="utf-8")).get("scripts", {})
+                    scripts = json.loads(pkg_path.read_text(encoding="utf-8")).get(
+                        "scripts", {}
+                    )
                 except Exception:
                     scripts = {}
 
-            npm_install = "npm ci" if (root / "package-lock.json").exists() else "npm install"
+            npm_install = (
+                "npm ci" if (root / "package-lock.json").exists() else "npm install"
+            )
 
             if detected_stack == "node":
                 commands["install"] = npm_install
@@ -217,7 +228,9 @@ class BuildAppTool(BaseTool):
             else:
                 # fullstack fallback command chain if both ecosystems are present
                 py_install = commands["install"]
-                commands["install"] = f"{py_install} && {npm_install}" if py_install else npm_install
+                commands["install"] = (
+                    f"{py_install} && {npm_install}" if py_install else npm_install
+                )
                 if "build" in scripts:
                     commands["build"] = "npm run build"
                 if commands["test"] and "test" in scripts:
@@ -251,10 +264,18 @@ class BuildAppTool(BaseTool):
         defaults = self._default_commands(root, detection["detected_stack"])
 
         planned = {
-            "install": install_command if install_command is not None else defaults.get("install"),
-            "build": build_command if build_command is not None else defaults.get("build"),
+            "install": (
+                install_command
+                if install_command is not None
+                else defaults.get("install")
+            ),
+            "build": (
+                build_command if build_command is not None else defaults.get("build")
+            ),
             "test": test_command if test_command is not None else defaults.get("test"),
-            "smoke": smoke_command if smoke_command is not None else defaults.get("smoke"),
+            "smoke": (
+                smoke_command if smoke_command is not None else defaults.get("smoke")
+            ),
         }
 
         required_files: list[str] = []
@@ -319,7 +340,11 @@ class BuildAppTool(BaseTool):
             if fail_fast and not result["success"]:
                 break
 
-        failed_phases = [name for name, info in phase_results.items() if not info.get("success", False)]
+        failed_phases = [
+            name
+            for name, info in phase_results.items()
+            if not info.get("success", False)
+        ]
         ready = not missing_files and not failed_phases
 
         return ToolResult(

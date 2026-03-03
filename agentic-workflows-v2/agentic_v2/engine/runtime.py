@@ -83,7 +83,9 @@ class IsolatedTaskRuntime(ABC):
         """Initialize runtime dependencies/resources."""
 
     @abstractmethod
-    async def execute(self, cmd: str, workdir: Path | str | None = None) -> RuntimeExecutionResult:
+    async def execute(
+        self, cmd: str, workdir: Path | str | None = None
+    ) -> RuntimeExecutionResult:
         """Execute a command in an isolated environment."""
 
     @abstractmethod
@@ -114,7 +116,9 @@ class SubprocessRuntime(IsolatedTaskRuntime):
     async def setup(self) -> None:
         self._is_setup = True
 
-    async def execute(self, cmd: str, workdir: Path | str | None = None) -> RuntimeExecutionResult:
+    async def execute(
+        self, cmd: str, workdir: Path | str | None = None
+    ) -> RuntimeExecutionResult:
         if not self._is_setup:
             await self.setup()
 
@@ -203,7 +207,9 @@ class DockerRuntime(IsolatedTaskRuntime):
             )
         self._is_setup = True
 
-    async def execute(self, cmd: str, workdir: Path | str | None = None) -> RuntimeExecutionResult:
+    async def execute(
+        self, cmd: str, workdir: Path | str | None = None
+    ) -> RuntimeExecutionResult:
         if not self._is_setup:
             await self.setup()
 
@@ -235,7 +241,8 @@ class DockerRuntime(IsolatedTaskRuntime):
             # Collect any partial output after kill
             try:
                 stdout_bytes, stderr_bytes = await asyncio.wait_for(
-                    proc.communicate(), timeout=10,
+                    proc.communicate(),
+                    timeout=10,
                 )
             except asyncio.TimeoutError:
                 stdout_bytes = b""
@@ -253,7 +260,11 @@ class DockerRuntime(IsolatedTaskRuntime):
             command=cmd,
             exit_code=exit_code,
             stdout=stdout,
-            stderr=stderr if not timed_out else f"[TIMEOUT after {self._timeout_seconds}s] {stderr}",
+            stderr=(
+                stderr
+                if not timed_out
+                else f"[TIMEOUT after {self._timeout_seconds}s] {stderr}"
+            ),
             workdir=str(cwd),
         )
         self._executions.append(result)
@@ -289,7 +300,10 @@ class DockerRuntime(IsolatedTaskRuntime):
         return tmp
 
     def _docker_command(
-        self, cmd: str, workdir: Path, container_name: str,
+        self,
+        cmd: str,
+        workdir: Path,
+        container_name: str,
     ) -> Sequence[str]:
         args: list[str] = [
             "docker",
@@ -319,7 +333,9 @@ class DockerRuntime(IsolatedTaskRuntime):
         """Force-kill a running container by name, ignoring errors."""
         try:
             proc = await asyncio.create_subprocess_exec(
-                "docker", "kill", name,
+                "docker",
+                "kill",
+                name,
                 stdout=asyncio.subprocess.DEVNULL,
                 stderr=asyncio.subprocess.DEVNULL,
             )

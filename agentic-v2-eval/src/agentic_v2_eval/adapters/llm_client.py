@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass, field
-from typing import Any, Optional
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -41,10 +41,10 @@ class LLMClientAdapter:
         ... )
     """
 
-    default_model: Optional[str] = None
+    default_model: str | None = None
     default_temperature: float = 0.0
     default_max_tokens: int = 4096
-    system_instruction: Optional[str] = None
+    system_instruction: str | None = None
     _llm_client_class: Any = field(default=None, repr=False)
 
     def __post_init__(self):
@@ -97,9 +97,7 @@ class LLMClientAdapter:
             raise ValueError("No model_name provided and no default_model configured.")
 
         # Extract kwargs that LLMClient.generate_text accepts
-        system_instruction = kwargs.pop(
-            "system_instruction", self.system_instruction
-        )
+        system_instruction = kwargs.pop("system_instruction", self.system_instruction)
         max_tokens = kwargs.pop("max_tokens", self.default_max_tokens)
 
         # Log any unused kwargs
@@ -116,10 +114,10 @@ class LLMClientAdapter:
 
 
 def create_llm_client(
-    model: Optional[str] = None,
+    model: str | None = None,
     temperature: float = 0.0,
     max_tokens: int = 4096,
-    system_instruction: Optional[str] = None,
+    system_instruction: str | None = None,
 ) -> LLMClientAdapter:
     """Factory function to create an LLMClientAdapter.
 

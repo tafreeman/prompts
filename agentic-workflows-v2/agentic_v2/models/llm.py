@@ -1,9 +1,11 @@
 """LLM Client Adapter for Agentic V2."""
 
-from typing import Any, Optional
+from typing import Any
 
 from agentic_v2_eval.interfaces import LLMClientProtocol
+
 from tools.llm.llm_client import LLMClient as LegacyClient
+
 
 class LLMClient(LLMClientProtocol):
     """Adapter for the legacy LLMClient to match the new Protocol."""
@@ -17,7 +19,7 @@ class LLMClient(LLMClientProtocol):
         **kwargs: Any,
     ) -> str:
         """Generate text using the unified client.
-        
+
         Args:
             model_name: Model identifier
             prompt: User prompt
@@ -26,12 +28,12 @@ class LLMClient(LLMClientProtocol):
             **kwargs: Additional args (e.g. system_instruction)
         """
         system_instruction = kwargs.get("system_instruction")
-        
+
         # Delegate to legacy static method
         return LegacyClient.generate_text(
             model_name=model_name,
             prompt=prompt,
             system_instruction=system_instruction,
             temperature=temperature,
-            max_tokens=max_tokens
+            max_tokens=max_tokens,
         )
