@@ -93,6 +93,7 @@ class VectorStoreProtocol(Protocol):
         self,
         query_embedding: list[float],
         top_k: int = 5,
+        metadata_filter: dict[str, Any] | None = None,
         **kwargs: Any,
     ) -> list[RetrievalResult]:
         """Search for similar chunks.
@@ -100,6 +101,9 @@ class VectorStoreProtocol(Protocol):
         Args:
             query_embedding: The query vector.
             top_k: Maximum results to return.
+            metadata_filter: Optional key-value filter applied to chunk
+                metadata.  Only chunks whose metadata contains all
+                specified key-value pairs are returned.
 
         Returns:
             Ranked list of retrieval results.

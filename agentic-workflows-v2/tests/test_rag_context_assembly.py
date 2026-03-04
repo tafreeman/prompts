@@ -93,9 +93,11 @@ class TestTokenBudgetAssembler:
     def test_custom_token_estimator(self) -> None:
         """A custom token estimator is used for budget calculation."""
         # Custom estimator: 1 token per character
+        # frame_results=False to isolate estimator testing from framing overhead
         assembler = TokenBudgetAssembler(
             max_tokens=15,
             token_estimator=lambda text: len(text),
+            frame_results=False,
         )
         results = [
             _make_result("12345678901234", score=0.9, chunk_id="c1"),  # 14 chars

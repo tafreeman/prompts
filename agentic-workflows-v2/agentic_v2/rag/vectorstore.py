@@ -14,7 +14,7 @@ from __future__ import annotations
 import logging
 import math
 from dataclasses import dataclass
-from typing import Sequence
+from typing import Any, Sequence
 
 from .contracts import Chunk, RetrievalResult
 
@@ -81,6 +81,7 @@ class InMemoryVectorStore:
         self,
         query_embedding: list[float],
         top_k: int = 5,
+        metadata_filter: dict[str, Any] | None = None,
         **kwargs: object,
     ) -> list[RetrievalResult]:
         """Search for similar chunks using cosine similarity.
@@ -88,6 +89,9 @@ class InMemoryVectorStore:
         Args:
             query_embedding: The query vector.
             top_k: Maximum number of results to return.
+            metadata_filter: Optional key-value filter.  Only chunks
+                whose metadata contains all specified key-value pairs
+                are included in results.
 
         Returns:
             Ranked list of :class:`RetrievalResult`, highest score first.
@@ -100,6 +104,12 @@ class InMemoryVectorStore:
 
         scored: list[tuple[float, _StoredEntry]] = []
         for entry in entries_snapshot:
+            # Apply metadata filter if provided
+            if metadata_filter and not _matches_filter(
+                entry.chunk.metadata, metadata_filter
+            ):
+                continue
+
             similarity = _cosine_similarity(query_embedding, entry.embedding)
             # Clamp to [0.0, 1.0] — negative cosine means opposing vectors
             score = max(0.0, similarity)
@@ -164,3 +174,17 @@ def _cosine_similarity(vec_a: Sequence[float], vec_b: Sequence[float]) -> float:
     if norm_a == 0.0 or norm_b == 0.0:
         return 0.0
     return dot / (norm_a * norm_b)
+
+
+def _matches_filter(
+    metadata: dict[str, Any], filter_dict: dict[str, Any]
+) -> bool:
+    """Check if metadata contains all key-value pairs from filter_dict.
+
+    Supports exact value matching.  A missing key in metadata means
+    the filter is not satisfied.
+    """
+    for key, value in filter_dict.items():
+        if key not in metadata or metadata[key] != value:
+            return False
+    return True

@@ -24,6 +24,84 @@ Output a concise status dashboard, then confirm readiness.
 - When user asks for a file path or simple answer, give the direct answer first before showing code.
 
 ---
+## Project Overview
+
+This repository serves a **dual purpose**: (1) a working collection of ML/AI prompt templates, agent definitions, and framework abstractions, and (2) an **educational portfolio** for team onboarding and agentic AI concepts at Deloitte.
+
+The maintainer is a Solution Architect with 14+ years of experience managing 15-20 engineers across Defense, Federal, and Telecom sectors. The repo should reflect enterprise-grade practices suitable for cleared federal environments.
+
+## Architecture Principles
+
+- **Modular abstraction layers**: Design should support swapping between AI frameworks (LangChain, Microsoft Agents, native implementations) without rewriting business logic
+- **Config-driven over code-driven**: Prompt templates and agent definitions should be declarative where possible
+- **Separation of concerns**: Clear boundaries between prompt engineering, orchestration, tool definitions, and evaluation
+- **Educational clarity**: Code and structure should be self-documenting enough to serve as training material for engineers new to agentic AI
+
+## Analysis Focus Areas
+
+When analyzing this repo, prioritize these dimensions:
+
+### 1. Architecture & Structure
+- Dependency graph and modularity assessment
+- Framework abstraction layer design (can frameworks be swapped cleanly?)
+- Config vs. code ratio for prompt/agent definitions
+- Extensibility for new use cases (Defense, Federal, Telecom verticals)
+
+### 2. ML/AI Patterns
+- Prompt engineering patterns: system prompts, few-shot, chain-of-thought, tool use
+- Agent architecture: autonomous agents vs. structured workflows spectrum
+- Evaluation and testing strategy for prompts and agent outputs
+- Retrieval patterns (RAG, context management, memory)
+
+### 3. Code Quality
+- Linting: use `ruff` (preferred) or `pylint`
+- Type checking: `mypy` or `pyright`
+- Dependency health: outdated packages, CVEs, pinning strategy
+- Error handling, logging, and observability
+- Test coverage and testing patterns (unit, integration, eval)
+
+### 4. Documentation & Developer Experience
+- README completeness and onboarding path
+- Inline documentation and docstring coverage
+- Runnable examples and quickstart guides
+- Contribution guidelines and PR templates
+
+## Agent Team Coordination Rules
+
+When running multi-agent analysis:
+
+1. **Architecture Analyst** runs first and shares structural findings with all teammates before deep-dives begin
+2. **ML/AI Patterns Reviewer** flags abstraction concerns back to Architecture Analyst
+3. **Code Quality Auditor** shares dependency issues with ML/AI Patterns Reviewer for framework-specific context
+4. **Documentation Reviewer** cross-references findings from all teammates to assess whether docs accurately reflect the codebase
+
+## Deliverables
+
+All analysis outputs go to `/analysis/` in the repo root:
+
+| File | Owner | Description |
+|------|-------|-------------|
+| `architecture-review.md` | Architecture Analyst | Structure, modularity, dependency graph |
+| `ml-ai-patterns-review.md` | ML/AI Patterns Reviewer | Prompt patterns, agent design, framework usage |
+| `code-quality-report.md` | Code Quality Auditor | Linting, testing, dependency health |
+| `documentation-review.md` | Documentation Reviewer | README, docs, DX, educational value |
+| `ANALYSIS-SUMMARY.md` | All (synthesized by lead) | Prioritized recommendations ranked by impact |
+
+## Standards
+
+- Python 3.11+
+- Use `uv` or `pip` for dependency management
+- Prefer `pyproject.toml` over `setup.py`/`requirements.txt`
+- Follow Google Python Style Guide for docstrings
+- All recommendations should include effort estimate (S/M/L) and impact rating (1-5)
+
+## Context for AI Tools
+
+This repo is maintained by an architect who values:
+- Concise, reference-backed recommendations over verbose explanations
+- Visual and interactive deliverables when possible
+- Collaborative problem-solving with detailed questions upfront rather than assumptions
+- Practical applicability to enterprise federal delivery environments
 
 ## Repository Overview
 
@@ -277,7 +355,7 @@ A monorepo containing three independent Python packages plus a React frontend:
 - **LLM routing:** `models/smart_router.py` dispatches to backends based on tier and capability. Supports 8+ providers (OpenAI, Anthropic, Google Gemini, Azure OpenAI, Azure Foundry, GitHub Models, Ollama, local ONNX).
 - **Workflows:** Declarative YAML under `workflows/definitions/` (10 workflows). Steps reference agents by tier name.
 - **Contracts:** Pydantic models in `contracts/` define all I/O. **Additive-only changes** — never break existing schemas.
-- **Agent personas:** 22+ markdown persona definitions in `agentic-workflows-v2/agentic_v2/prompts/` (coder, architect, reviewer, researcher, planner, antagonists, etc.).
+- **Agent personas:** 24 markdown persona definitions in `agentic-workflows-v2/agentic_v2/prompts/` (coder, architect, reviewer, researcher, planner, antagonists, etc.). Each persona includes Expertise, Reasoning Protocol, Output Format, Boundaries, and Critical Rules sections.
 - **Built-in tools:** 12 tool modules in `tools/builtin/` (file ops, git, shell, code analysis, memory, HTTP, etc.). Default DENY for high-risk tools.
 - **Server:** FastAPI with WebSocket/SSE streaming, evaluation endpoints, LLM judge, and adapter routing.
 - **UI:** React 19 + Vite 6 + React Flow 12 + TanStack Query + Tailwind CSS. 7 pages (Dashboard, Workflows, Runs, Live, Datasets, Evaluations, Workflow Detail).

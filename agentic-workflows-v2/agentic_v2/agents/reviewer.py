@@ -14,7 +14,6 @@ diff-based review comparing original versus modified code.
 from __future__ import annotations
 
 import json
-import re
 from typing import Any, Optional
 
 from ..contracts import (
@@ -27,6 +26,7 @@ from ..contracts import (
 from ..models import ModelTier
 from .base import AgentConfig, BaseAgent
 from .capabilities import CodeReviewMixin
+from .json_extraction import extract_json
 
 REVIEW_SYSTEM_PROMPT = """You are an expert code reviewer with deep knowledge of software engineering best practices.
 
@@ -224,18 +224,12 @@ class ReviewerAgent(BaseAgent[CodeReviewInput, CodeReviewOutput], CodeReviewMixi
         }
 
     def _extract_json(self, text: str) -> dict[str, Any]:
-        """Extract JSON from response."""
-        # Try to find JSON block
-        json_match = re.search(r"```json\s*(.*?)```", text, re.DOTALL)
-        if json_match:
-            return json.loads(json_match.group(1))
+        """Extract JSON from response using balanced-brace extraction.
 
-        # Try to find raw JSON
-        json_match = re.search(r"\{.*\}", text, re.DOTALL)
-        if json_match:
-            return json.loads(json_match.group(0))
-
-        raise ValueError("No JSON found in response")
+        Delegates to :func:`extract_json` which replaces the previous
+        greedy regex (``\\{.*\\}``) with proper brace balancing.
+        """
+        return extract_json(text)
 
     def _parse_severity(self, value: str) -> Severity:
         """Parse severity string to enum."""
