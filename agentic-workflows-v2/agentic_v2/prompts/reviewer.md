@@ -100,41 +100,118 @@ Use a sentinel block for the review report so the outer format matches the coder
 
 ## Few-Shot Examples
 
-### Example 1: Security finding
+### Example 1: Function with multiple quality issues
 
-**INPUT:** Code with `query = f"SELECT * FROM users WHERE id = {user_id}"`
-
-**OUTPUT (finding):**
-```json
-{
-  "finding_id": "F-001",
-  "severity": "critical",
-  "category": "security",
-  "title": "SQL injection via string interpolation",
-  "file": "src/api/routes/users.py",
-  "line_range": [42, 42],
-  "description": "User-supplied user_id is interpolated directly into SQL string, allowing arbitrary SQL execution.",
-  "impact": "Full database compromise — attacker can read, modify, or delete all data.",
-  "suggested_fix": "Use parameterized query: cursor.execute('SELECT * FROM users WHERE id = %s', (user_id,))",
-  "code_before": "query = f\"SELECT * FROM users WHERE id = {user_id}\"",
-  "code_after": "cursor.execute(\"SELECT * FROM users WHERE id = %s\", (user_id,))",
-  "references": ["CWE-89"]
-}
+**Input:**
+```python
+def get_data(url):
+    try:
+        resp = requests.get(url)
+        data = resp.json()
+        return data
+    except:
+        return None
 ```
 
-### Example 2: Clean code with no issues
+**Output:**
+```
+<<<ARTIFACT review_report>>>
+{
+  "overall_status": "NEEDS_FIXES",
+  "quality_score": 3.5,
+  "summary": {
+    "critical": 1,
+    "high": 1,
+    "medium": 1,
+    "low": 0,
+    "passed_checks": ["No hardcoded secrets"]
+  },
+  "findings": [
+    {
+      "finding_id": "F-001",
+      "severity": "critical",
+      "category": "quality",
+      "title": "Bare except clause swallows all exceptions",
+      "file": "src/client.py",
+      "line_range": [6, 7],
+      "description": "Bare 'except:' catches everything including KeyboardInterrupt and SystemExit, masking real errors.",
+      "impact": "Silent failures make debugging impossible; callers receive None with no error context.",
+      "suggested_fix": "Catch specific exceptions and log the error.",
+      "code_before": "    except:\n        return None",
+      "code_after": "    except requests.RequestException as exc:\n        logger.error(\"Request to %s failed: %s\", url, exc)\n        raise",
+      "references": ["PEP-8 E722"]
+    },
+    {
+      "finding_id": "F-002",
+      "severity": "high",
+      "category": "quality",
+      "title": "Missing type annotations on function signature",
+      "file": "src/client.py",
+      "line_range": [1, 1],
+      "description": "Function 'get_data' has no parameter or return type annotations.",
+      "impact": "No static analysis support; callers cannot verify correct usage.",
+      "suggested_fix": "Add type hints: def get_data(url: str) -> dict[str, Any]:",
+      "code_before": "def get_data(url):",
+      "code_after": "def get_data(url: str) -> dict[str, Any]:",
+      "references": ["PEP-484"]
+    },
+    {
+      "finding_id": "F-003",
+      "severity": "medium",
+      "category": "quality",
+      "title": "No HTTP status code validation",
+      "file": "src/client.py",
+      "line_range": [3, 4],
+      "description": "Response status is not checked before parsing JSON. A 4xx/5xx response will produce unexpected data.",
+      "impact": "Downstream code receives error payloads silently treated as valid data.",
+      "suggested_fix": "Call resp.raise_for_status() before parsing.",
+      "code_before": "    resp = requests.get(url)\n    data = resp.json()",
+      "code_after": "    resp = requests.get(url, timeout=30)\n    resp.raise_for_status()\n    data = resp.json()",
+      "references": []
+    }
+  ],
+  "positive_observations": [
+    "Uses requests library correctly for HTTP GET"
+  ]
+}
+<<<ENDARTIFACT>>>
+```
 
-**INPUT:** Well-structured code with proper error handling, input validation, and parameterized queries.
+---
 
-**OUTPUT:**
-```json
+### Example 2: Clean, well-written function
+
+**Input:**
+```python
+async def get_user_by_id(session: AsyncSession, user_id: int) -> User | None:
+    """Fetch a user by primary key."""
+    stmt = select(User).where(User.id == user_id)
+    result = await session.execute(stmt)
+    return result.scalar_one_or_none()
+```
+
+**Output:**
+```
+<<<ARTIFACT review_report>>>
 {
   "overall_status": "APPROVED",
-  "quality_score": 9.0,
-  "summary": {"critical": 0, "high": 0, "medium": 0, "low": 0, "passed_checks": ["Input validation", "Parameterized queries", "Error handling", "No hardcoded secrets"]},
+  "quality_score": 9.5,
+  "summary": {
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0,
+    "passed_checks": ["Type annotations", "Parameterized queries", "Error handling", "No hardcoded secrets", "Docstring coverage"]
+  },
   "findings": [],
-  "positive_observations": ["Consistent use of type hints", "Thorough input validation at API boundary"]
+  "positive_observations": [
+    "Full type annotations including union return type",
+    "Google-style docstring with Args and Returns sections",
+    "Uses SQLAlchemy select() with parameterized where clause — no injection risk",
+    "Appropriate use of scalar_one_or_none for optional lookups"
+  ]
 }
+<<<ENDARTIFACT>>>
 ```
 
 ## Boundaries

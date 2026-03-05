@@ -222,54 +222,120 @@ Only call tools when they add clear value. Prefer generating complete, correct c
 
 ## Few-Shot Examples
 
-### Example 1: FastAPI endpoint generation
+### Example 1: Retry decorator with exponential backoff
 
-**INPUT:** `{task: "Create a user registration endpoint", stack: {backend: "fastapi", database: "postgresql"}}`
+**Input:**
+Implement a retry decorator with exponential backoff.
 
-**OUTPUT:**
+**Output:**
 ```
 <<<ARTIFACT backend_code>>>
-FILE: src/api/routes/users.py
-from fastapi import APIRouter, HTTPException, status
-from pydantic import BaseModel, EmailStr
-from ..services.user_service import UserService
+FILE: src/utils/retry.py
+"""Retry decorator with configurable exponential backoff."""
 
-router = APIRouter(prefix="/users", tags=["users"])
+from __future__ import annotations
 
-class CreateUserRequest(BaseModel):
-    email: EmailStr
-    password: str
-    display_name: str
+import asyncio
+import logging
+from collections.abc import Callable
+from functools import wraps
+from typing import Any, TypeVar
 
-class UserResponse(BaseModel):
-    id: int
-    email: str
-    display_name: str
+logger = logging.getLogger(__name__)
+F = TypeVar("F", bound=Callable[..., Any])
 
-@router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
-async def register_user(request: CreateUserRequest, service: UserService) -> UserResponse:
-    existing = await service.get_by_email(request.email)
-    if existing:
-        raise HTTPException(status_code=409, detail="Email already registered")
-    user = await service.create_user(email=request.email, password=request.password, display_name=request.display_name)
-    return UserResponse(id=user.id, email=user.email, display_name=user.display_name)
+def retry(
+    max_attempts: int = 3,
+    base_delay: float = 1.0,
+    backoff_factor: float = 2.0,
+    retryable_exceptions: tuple[type[Exception], ...] = (Exception,),
+) -> Callable[[F], F]:
+    """Retry an async function with exponential backoff."""
+    if max_attempts < 1:
+        raise ValueError(f"max_attempts must be >= 1, got {max_attempts}")
+
+    def decorator(func: F) -> F:
+        @wraps(func)
+        async def wrapper(*args: Any, **kwargs: Any) -> Any:
+            delay = base_delay
+            for attempt in range(1, max_attempts + 1):
+                try:
+                    return await func(*args, **kwargs)
+                except retryable_exceptions as exc:
+                    if attempt == max_attempts:
+                        logger.error("All %d attempts failed for %s: %s", max_attempts, func.__name__, exc)
+                        raise
+                    logger.warning("Attempt %d/%d for %s failed, retrying in %.1fs", attempt, max_attempts, func.__name__, delay)
+                    await asyncio.sleep(delay)
+                    delay *= backoff_factor
+        return wrapper  # type: ignore[return-value]
+    return decorator
 ENDFILE
 <<<ENDARTIFACT>>>
 ```
 
-### Example 2: Rework mode (fixing a review finding)
+---
 
-**INPUT:** `{review_report: {findings: [{finding_id: "F-001", severity: "high", title: "SQL injection in search", file: "src/api/routes/search.py", line_range: [15, 20]}]}, suggested_fixes: ["Use parameterized query instead of f-string"]}`
+### Example 2: Fix off-by-one error in pagination logic
 
-**OUTPUT:**
+**Input:**
+Fix the off-by-one error in the pagination logic in `src/api/routes/items.py`.
+
+**Output:**
+
+**Root cause:** `page * page_size` skips the first page. Fix: `(page - 1) * page_size`.
+
 ```
 <<<ARTIFACT rework_report>>>
-{"changes_made": ["Replaced f-string SQL with parameterized query in search endpoint"], "files_modified": ["src/api/routes/search.py"]}
+{"changes_made": ["Fixed off-by-one in pagination offset: (page - 1) * page_size"], "files_modified": ["src/api/routes/items.py"]}
+<<<ENDARTIFACT>>>
+<<<ARTIFACT backend_code>>>
+FILE: src/api/routes/items.py
+"""Paginated item listing endpoint."""
+
+from __future__ import annotations
+import logging
+from fastapi import APIRouter, Depends, Query
+from sqlalchemy.ext.asyncio import AsyncSession
+from ..db import get_session
+from ..models.item import Item
+from ..schemas.item import ItemPage
+
+logger = logging.getLogger(__name__)
+router = APIRouter(prefix="/items", tags=["items"])
+
+@router.get("/", response_model=ItemPage)
+async def list_items(
+    page: int = Query(1, ge=1),
+    page_size: int = Query(20, ge=1, le=100),
+    session: AsyncSession = Depends(get_session),
+) -> ItemPage:
+    """Return a paginated list of items."""
+    offset = (page - 1) * page_size  # FIX: was `page * page_size`
+    items = await Item.get_page(session, offset=offset, limit=page_size)
+    total = await Item.count(session)
+    return ItemPage(items=items, page=page, page_size=page_size, total=total)
+ENDFILE
 <<<ENDARTIFACT>>>
 
-<<<ARTIFACT backend_code>>>
-FILE: src/api/routes/search.py
-# complete revised file with parameterized query
+<<<ARTIFACT integration_tests>>>
+FILE: tests/test_pagination.py
+import pytest
+from httpx import AsyncClient
+
+@pytest.mark.asyncio
+async def test_page_one_returns_first_items(client: AsyncClient) -> None:
+    resp = await client.get("/items/", params={"page": 1, "page_size": 5})
+    assert resp.status_code == 200
+    assert resp.json()["page"] == 1
+
+@pytest.mark.asyncio
+async def test_page_two_does_not_repeat_page_one(client: AsyncClient) -> None:
+    p1 = await client.get("/items/", params={"page": 1, "page_size": 2})
+    p2 = await client.get("/items/", params={"page": 2, "page_size": 2})
+    ids_1 = {i["id"] for i in p1.json()["items"]}
+    ids_2 = {i["id"] for i in p2.json()["items"]}
+    assert ids_1.isdisjoint(ids_2), "Page 2 must not repeat page 1 items"
 ENDFILE
 <<<ENDARTIFACT>>>
 ```

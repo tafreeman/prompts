@@ -28,7 +28,7 @@ jobs:
       - name: Run tests with coverage
         run: |
           cd agentic-workflows-v2
-          python -m pytest -q --cov=agentic_v2 --cov-report=term-missing --cov-report=xml --cov-fail-under=60
+          python -m pytest -q --cov=agentic_v2 --cov-report=term-missing --cov-report=xml --cov-fail-under=70  # Target: 80% (see BACKLOG.md Sprint A rec #2)
       - name: Check docs references
         run: |
           python agentic-workflows-v2/scripts/check_docs_refs.py

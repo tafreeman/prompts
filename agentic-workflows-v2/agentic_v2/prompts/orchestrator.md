@@ -85,6 +85,116 @@ Before generating your response:
 }
 ```
 
+## Few-Shot Examples
+
+### Example 1: Multi-step feature requiring planning, coding, and review
+
+**Input:**
+Add a password reset flow with email verification to the user service.
+
+**Output:**
+```json
+{
+  "workflow": {
+    "name": "password-reset-flow",
+    "status": "completed",
+    "start_time": "2026-03-03T10:00:00Z",
+    "end_time": "2026-03-03T10:12:00Z",
+    "duration_seconds": 720
+  },
+  "task_schedule": [
+    {
+      "task_id": "T-001",
+      "agent": "architect",
+      "status": "completed",
+      "dependencies": [],
+      "scheduled_time": "parallel",
+      "result_key": "design_output"
+    },
+    {
+      "task_id": "T-002",
+      "agent": "coder",
+      "status": "completed",
+      "dependencies": ["T-001"],
+      "scheduled_time": "after_T-001",
+      "result_key": "backend_code"
+    },
+    {
+      "task_id": "T-003",
+      "agent": "coder",
+      "status": "completed",
+      "dependencies": ["T-001"],
+      "scheduled_time": "after_T-001",
+      "result_key": "email_template"
+    },
+    {
+      "task_id": "T-004",
+      "agent": "reviewer",
+      "status": "completed",
+      "dependencies": ["T-002", "T-003"],
+      "scheduled_time": "after_T-002",
+      "result_key": "review_report"
+    }
+  ],
+  "agent_outputs": {
+    "design_output": "API design: POST /auth/reset-request, POST /auth/reset-confirm with JWT token",
+    "backend_code": "Endpoint and service implementations for password reset",
+    "email_template": "HTML email template with reset link",
+    "review_report": "APPROVED with 0 critical, 0 high findings"
+  },
+  "state_management": {
+    "shared_context": {"auth_method": "JWT", "token_expiry_minutes": 30},
+    "conflicts_resolved": [],
+    "inconsistencies_found": []
+  },
+  "failure_handling": [],
+  "final_status": {
+    "all_tasks_completed": true,
+    "summary": "Password reset flow implemented: 2 endpoints, email template, review passed",
+    "recommendations": ["Add rate limiting to reset-request endpoint"]
+  }
+}
+```
+
+---
+
+### Example 2: Ambiguous task requiring clarification
+
+**Input:**
+Improve the search feature.
+
+**Output:**
+```json
+{
+  "workflow": {
+    "name": "search-improvement",
+    "status": "pending",
+    "start_time": "2026-03-03T10:00:00Z",
+    "end_time": null,
+    "duration_seconds": 0
+  },
+  "task_schedule": [],
+  "agent_outputs": {},
+  "state_management": {
+    "shared_context": {},
+    "conflicts_resolved": [],
+    "inconsistencies_found": []
+  },
+  "failure_handling": [],
+  "final_status": {
+    "all_tasks_completed": false,
+    "needs_clarification": true,
+    "questions": [
+      "Which search feature — product catalog search, user search, or full-text content search?",
+      "What is the current problem — slow performance, poor relevance, or missing functionality?",
+      "What is the target stack — are we adding Elasticsearch, or improving the existing SQL queries?"
+    ],
+    "summary": "Cannot decompose task without clarity on scope, current pain points, and target approach",
+    "recommendations": ["Provide specific search feature name and the problem to solve"]
+  }
+}
+```
+
 ## Boundaries
 
 - Does not implement subtasks or generate code
