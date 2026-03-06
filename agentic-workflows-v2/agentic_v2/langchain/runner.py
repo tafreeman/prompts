@@ -276,6 +276,7 @@ class WorkflowRunner:
         self,
         workflow_name: str,
         *,
+        ctx: Any = None,
         use_cache: bool = True,
         thread_id: str | None = None,
         run_config: dict[str, Any] | None = None,
@@ -287,6 +288,11 @@ class WorkflowRunner:
         ----------
         workflow_name:
             Name of the YAML workflow.
+        ctx:
+            Optional execution context.  When supplied, its variables are
+            merged into the LangGraph ``state["context"]`` so that workflow
+            steps can access caller-supplied state (e.g. ``workflow_id``,
+            ``run_id``, and any variables set on the context before the run).
         inputs:
             Keyword arguments matching the workflow's declared inputs.
         """
@@ -302,6 +308,21 @@ class WorkflowRunner:
         state["context"]["inputs"] = validated
         # Ensure step-level trace events can be correlated to this run.
         state["context"]["workflow_run_id"] = run_id
+
+        # Merge caller-supplied execution context variables into LangGraph state
+        # so that downstream step nodes can access them via state["context"].
+        if ctx is not None:
+            ctx_vars = ctx.all_variables() if hasattr(ctx, "all_variables") else {}
+            if ctx_vars:
+                logger.debug(
+                    "Merging %d ExecutionContext variable(s) into LangGraph state "
+                    "for workflow %r",
+                    len(ctx_vars),
+                    workflow_name,
+                )
+                # Workflow-level keys (inputs, workflow_run_id) take precedence.
+                merged = {**ctx_vars, **state["context"]}
+                state["context"] = merged
 
         started_at = datetime.now(timezone.utc)
         start = time.perf_counter()
@@ -416,12 +437,25 @@ class WorkflowRunner:
         self,
         workflow_name: str,
         *,
+        ctx: Any = None,
         use_cache: bool = True,
         thread_id: str | None = None,
         run_config: dict[str, Any] | None = None,
         **inputs: Any,
     ) -> AsyncIterator[dict[str, Any]]:
-        """Stream workflow execution events asynchronously."""
+        """Stream workflow execution events asynchronously.
+
+        Parameters
+        ----------
+        workflow_name:
+            Name of the YAML workflow.
+        ctx:
+            Optional execution context.  When supplied, its variables are
+            merged into the LangGraph ``state["context"]`` before streaming
+            begins.
+        inputs:
+            Keyword arguments matching the workflow's declared inputs.
+        """
         config = load_workflow_config(workflow_name, self._definitions_dir)
         validated = self._validate_inputs(config, inputs)
         graph = self._get_or_compile(config, use_cache)
@@ -432,6 +466,19 @@ class WorkflowRunner:
         state["context"]["inputs"] = validated
         # Ensure step-level trace events can be correlated to this run.
         state["context"]["workflow_run_id"] = run_id
+
+        # Merge caller-supplied execution context variables into LangGraph state.
+        if ctx is not None:
+            ctx_vars = ctx.all_variables() if hasattr(ctx, "all_variables") else {}
+            if ctx_vars:
+                logger.debug(
+                    "Merging %d ExecutionContext variable(s) into LangGraph state "
+                    "for workflow %r (astream)",
+                    len(ctx_vars),
+                    workflow_name,
+                )
+                merged = {**ctx_vars, **state["context"]}
+                state["context"] = merged
 
         self._trace_adapter.emit_workflow_start(workflow_name, run_id, validated)
 

@@ -68,6 +68,9 @@ class RAGConfig(BaseModel):
     Attributes:
         chunking: Document chunking settings.
         embedding: Embedding generation settings.
+        vectorstore_type: Vector store backend (``"memory"`` or ``"lancedb"``).
+        db_path: Filesystem path for persistent stores (required when
+            ``vectorstore_type`` is ``"lancedb"``).
         top_k: Default number of results to return.
         score_threshold: Minimum relevance score filter.
         collection_name: Default vector store collection name.
@@ -77,6 +80,16 @@ class RAGConfig(BaseModel):
 
     chunking: ChunkingConfig = Field(default_factory=ChunkingConfig)
     embedding: EmbeddingConfig = Field(default_factory=EmbeddingConfig)
+    vectorstore_type: Literal["memory", "lancedb"] = "memory"
+    db_path: str | None = None
     top_k: int = Field(default=5, gt=0)
     score_threshold: float = Field(default=0.0, ge=0.0)
     collection_name: str = "default"
+
+    @model_validator(mode="after")
+    def _validate_db_path(self) -> RAGConfig:
+        if self.vectorstore_type == "lancedb" and self.db_path is None:
+            raise ValueError(
+                "db_path is required when vectorstore_type is 'lancedb'"
+            )
+        return self

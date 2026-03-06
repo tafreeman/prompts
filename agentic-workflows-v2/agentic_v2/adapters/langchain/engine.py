@@ -71,8 +71,12 @@ class LangChainEngine:
 
         Args:
             workflow: Workflow name string (e.g. ``"code_review"``).
-            ctx: Execution context (reserved for future use; not
-                forwarded to the LangChain runner at this time).
+            ctx: Execution context forwarded to
+                :meth:`WorkflowRunner.run`.  When the context has an
+                ``all_variables()`` method (i.e. is an
+                :class:`~agentic_v2.engine.context.ExecutionContext`),
+                its variables are merged into the LangGraph state before
+                execution begins.
             on_update: Async progress callback (reserved for future use).
             **kwargs: Forwarded as keyword inputs to
                 :meth:`WorkflowRunner.run`.
@@ -90,7 +94,12 @@ class LangChainEngine:
                 f"got {type(workflow).__name__}"
             )
 
-        return await self.runner.run(workflow, **kwargs)
+        logger.debug(
+            "LangChainEngine.execute: forwarding ctx=%r to runner.run for workflow %r",
+            ctx,
+            workflow,
+        )
+        return await self.runner.run(workflow, ctx=ctx, **kwargs)
 
     async def stream(
         self,
@@ -102,7 +111,9 @@ class LangChainEngine:
 
         Args:
             workflow: Workflow name string.
-            ctx: Execution context (reserved for future use).
+            ctx: Execution context forwarded to
+                :meth:`WorkflowRunner.astream` so that caller-supplied
+                variables are merged into LangGraph state before streaming.
             **kwargs: Forwarded as keyword inputs to
                 :meth:`WorkflowRunner.astream`.
 
@@ -118,5 +129,10 @@ class LangChainEngine:
                 f"got {type(workflow).__name__}"
             )
 
-        async for event in self.runner.astream(workflow, **kwargs):
+        logger.debug(
+            "LangChainEngine.stream: forwarding ctx=%r to runner.astream for workflow %r",
+            ctx,
+            workflow,
+        )
+        async for event in self.runner.astream(workflow, ctx=ctx, **kwargs):
             yield event

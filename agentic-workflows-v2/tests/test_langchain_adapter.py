@@ -116,7 +116,7 @@ class TestLangChainEngineExecute:
         engine = LangChainEngine(runner=mock_runner)
         result = await engine.execute("code_review", ctx=None)
 
-        mock_runner.run.assert_awaited_once_with("code_review")
+        mock_runner.run.assert_awaited_once_with("code_review", ctx=None)
         assert result is expected
         assert result.workflow_name == "code_review"
 
@@ -136,7 +136,7 @@ class TestLangChainEngineExecute:
             topic="LLM routing",
         )
 
-        mock_runner.run.assert_awaited_once_with("deep_research", topic="LLM routing")
+        mock_runner.run.assert_awaited_once_with("deep_research", ctx=None, topic="LLM routing")
         assert result is expected
 
     @pytest.mark.asyncio
@@ -210,8 +210,12 @@ class TestLangChainEngineStream:
 
         captured_kwargs: dict[str, Any] = {}
 
-        async def _fake_astream(workflow_name: str, **kwargs: Any) -> AsyncIterator[dict[str, Any]]:
+        async def _fake_astream(
+            workflow_name: str, *, ctx: Any = None, **kwargs: Any
+        ) -> AsyncIterator[dict[str, Any]]:
+            # ctx is now always forwarded by the engine; capture the rest
             captured_kwargs.update(kwargs)
+            captured_kwargs["ctx"] = ctx
             yield {"done": True}
 
         mock_runner = MagicMock()
@@ -221,4 +225,6 @@ class TestLangChainEngineStream:
         async for _ in engine.stream("wf", topic="testing"):
             pass
 
-        assert captured_kwargs == {"topic": "testing"}
+        # ctx=None is forwarded alongside the extra kwargs
+        assert captured_kwargs.get("topic") == "testing"
+        assert captured_kwargs.get("ctx") is None
