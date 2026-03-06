@@ -181,7 +181,8 @@ class TestCLIOrchestrate:
         # Should reference LLM, orchestration, or an error/config message
         lower_out = result.stdout.lower()
         assert any(
-            kw in lower_out for kw in ("llm", "orchestrat", "error", "config", "task")
+            kw in lower_out
+            for kw in ("llm", "orchestrat", "error", "config", "task")
         )
 
 
