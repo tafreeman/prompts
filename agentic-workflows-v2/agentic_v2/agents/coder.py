@@ -15,7 +15,7 @@ from typing import Any, Optional
 from ..contracts import CodeGenerationInput, CodeGenerationOutput
 from ..models import ModelTier
 from .base import AgentConfig, BaseAgent
-from .capabilities import CodeGenerationMixin
+from .capabilities import CodeGenerationMixin, SelfReflectionMixin
 
 # Language-specific system prompts
 LANGUAGE_PROMPTS = {
@@ -48,7 +48,9 @@ Include appropriate error handling."""
 
 
 class CoderAgent(
-    BaseAgent[CodeGenerationInput, CodeGenerationOutput], CodeGenerationMixin
+    BaseAgent[CodeGenerationInput, CodeGenerationOutput],
+    CodeGenerationMixin,
+    SelfReflectionMixin,
 ):
     """Agent that generates source code from natural-language descriptions.
 
@@ -263,6 +265,41 @@ This is a placeholder implementation."""}
 
         result = await self.run(task)
         return result.code
+
+    # -------------------------------------------------------------------------
+    # SelfReflectionMixin implementation
+    # -------------------------------------------------------------------------
+
+    async def reflect(
+        self, output: str, criteria: str = "correctness"
+    ) -> dict[str, Any]:
+        """Critique generated code and suggest revisions.
+
+        Uses the LLM to review the agent's own output against the
+        specified criteria dimension.
+        """
+        reflection_prompt = (
+            f"Review the following code for {criteria} issues. "
+            f"Return a JSON object with 'needs_revision' (bool), "
+            f"'issues' (list of strings), and optionally "
+            f"'revised_output' (str).\n\n"
+            f"```\n{output}\n```"
+        )
+        self._memory.add_user(reflection_prompt)
+        response = await self._get_model_response()
+        content = response.get("content", "")
+        self._memory.add_assistant(content)
+
+        try:
+            from .json_extraction import extract_json
+
+            return extract_json(content)
+        except Exception:
+            return {
+                "needs_revision": False,
+                "issues": [],
+                "revised_output": output,
+            }
 
     # -------------------------------------------------------------------------
     # Advanced features

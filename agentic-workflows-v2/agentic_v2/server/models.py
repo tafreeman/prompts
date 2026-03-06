@@ -36,7 +36,8 @@ class HealthResponse(BaseModel):
 
 
 class WorkflowExecutionProfileRequest(BaseModel):
-    """Optional execution profile controlling runtime behavior for workflow runs.
+    """Optional execution profile controlling runtime behavior for workflow
+    runs.
 
     Attributes:
         runtime: Execution runtime (``"subprocess"`` or ``"docker"``).
@@ -58,6 +59,7 @@ class WorkflowRunRequest(BaseModel):
         workflow: Workflow name or YAML path to execute.
         input_data: Key-value input variables for the workflow.
         run_id: Optional user-supplied run identifier (auto-generated if None).
+        adapter: Execution adapter name (default ``"langchain"``).
         evaluation: Optional evaluation settings for scored runs.
         execution_profile: Optional runtime execution controls.
     """
@@ -67,6 +69,10 @@ class WorkflowRunRequest(BaseModel):
         default_factory=dict, description="Input variables"
     )
     run_id: Optional[str] = Field(None, description="Unique run identifier")
+    adapter: str = Field(
+        "langchain",
+        description="Execution adapter: 'langchain' (default) or 'native'",
+    )
     evaluation: Optional["WorkflowEvaluationRequest"] = Field(
         None, description="Optional evaluation settings for scored runs"
     )

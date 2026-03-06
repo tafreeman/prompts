@@ -55,4 +55,3 @@ def is_model_available(model_id: str) -> bool:
     if not discovered:
         return True
     return model_id in discovered
-

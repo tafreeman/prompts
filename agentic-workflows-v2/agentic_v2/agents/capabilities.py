@@ -293,6 +293,34 @@ class OrchestrationMixin(CapabilityMixin):
         raise NotImplementedError("Subclass must implement select_agent")
 
 
+class SelfReflectionMixin(CapabilityMixin):
+    """Mixin declaring :attr:`CapabilityType.SELF_REFLECTION` capability.
+
+    Enables agents to critique and revise their own output before
+    returning it.  Subclasses should override :meth:`reflect` with
+    a concrete implementation.
+    """
+
+    def get_capabilities(self) -> CapabilitySet:
+        """Return self-reflection capability."""
+        return CapabilitySet.from_types(CapabilityType.SELF_REFLECTION)
+
+    async def reflect(
+        self, output: str, criteria: str = "correctness"
+    ) -> dict[str, Any]:
+        """Critique own output and return revision suggestions.
+
+        Args:
+            output: The agent's generated output to reflect on.
+            criteria: The quality dimension to evaluate.
+
+        Returns:
+            Dict with ``needs_revision`` (bool), ``issues`` (list),
+            and ``revised_output`` (str, optional).
+        """
+        raise NotImplementedError("Subclass must implement reflect")
+
+
 def requires_capabilities(*cap_types: CapabilityType):
     """Decorator that annotates a method with required capability types.
 
@@ -322,7 +350,8 @@ def requires_capabilities(*cap_types: CapabilityType):
 
 
 def get_agent_capabilities(agent: "BaseAgent") -> CapabilitySet:
-    """Aggregate capabilities from all :class:`CapabilityMixin` bases of an agent.
+    """Aggregate capabilities from all :class:`CapabilityMixin` bases of an
+    agent.
 
     Walks the agent's MRO and calls :meth:`CapabilityMixin.get_capabilities`
     on each mixin class, merging the results into a single

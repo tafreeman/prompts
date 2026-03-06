@@ -3,22 +3,19 @@
 from __future__ import annotations
 
 import pytest
-from pydantic import ValidationError
-
 from agentic_v2.server.models import (
     AgentInfo,
     DAGEdgeModel,
     DAGNodeModel,
     DAGResponse,
-    HealthResponse,
     ListAgentsResponse,
-    ListWorkflowsResponse,
-    RunSummaryModel,
     RunsSummaryResponse,
+    RunSummaryModel,
     WorkflowEvaluationRequest,
     WorkflowExecutionProfileRequest,
     WorkflowRunRequest,
 )
+from pydantic import ValidationError
 
 
 class TestWorkflowRunRequest:
@@ -101,7 +98,7 @@ class TestWorkflowExecutionProfileRequest:
     """Tests for WorkflowExecutionProfileRequest model."""
 
     def test_runtime_literal_validation(self) -> None:
-        """runtime must be 'subprocess' or 'docker'."""
+        """Runtime must be 'subprocess' or 'docker'."""
         for rt in ("subprocess", "docker"):
             req = WorkflowExecutionProfileRequest(runtime=rt)
             assert req.runtime == rt

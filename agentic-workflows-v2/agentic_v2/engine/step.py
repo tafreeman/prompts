@@ -295,7 +295,8 @@ def step(
 
 
 class StepExecutor:
-    """Executes :class:`StepDefinition` instances with full lifecycle management.
+    """Executes :class:`StepDefinition` instances with full lifecycle
+    management.
 
     Handles the complete step execution pipeline in order:
 
@@ -406,12 +407,9 @@ class StepExecutor:
                 # (e.g. fenced/truncated JSON). Ensure gating conditions can still
                 # evaluate ${steps.<review>.outputs.review_report.overall_status}.
                 if (
-                    (
-                        "review_report" in step_def.output_mapping
-                        or step_def.name.startswith("review")
-                    )
-                    and "review_report" not in result.output_data
-                ):
+                    "review_report" in step_def.output_mapping
+                    or step_def.name.startswith("review")
+                ) and "review_report" not in result.output_data:
                     raw_text = str(result.output_data.get("raw_response", ""))
                     status_match = re.search(
                         r'"?overall_status"?\s*[:=]\s*"?([A-Za-z_ -]+)"?',
@@ -474,6 +472,7 @@ class StepExecutor:
                     loop_iteration = result.metadata.get("loop_iteration", 1)
                     if loop_iteration < step_def.loop_max:
                         from .expressions import ExpressionEvaluator
+
                         satisfied = ExpressionEvaluator(ctx, {}).evaluate(
                             step_def.loop_until
                         )

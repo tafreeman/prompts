@@ -1,11 +1,11 @@
-"""Tests for rate_limit_tracker.py (ADR-002E) and hardening features in smart_router.py."""
+"""Tests for rate_limit_tracker.py (ADR-002E) and hardening features in
+smart_router.py."""
 
 import asyncio
 import time
-from unittest.mock import AsyncMock, patch
+from unittest.mock import AsyncMock
 
 import pytest
-
 from agentic_v2.models.model_stats import CircuitState, ModelStats
 from agentic_v2.models.rate_limit_tracker import (
     RateLimitTracker,
@@ -16,7 +16,6 @@ from agentic_v2.models.rate_limit_tracker import (
 )
 from agentic_v2.models.router import FallbackChain, ModelTier
 from agentic_v2.models.smart_router import SmartModelRouter
-
 
 # ── TokenBucket tests ────────────────────────────────────────────────────────
 
@@ -203,9 +202,7 @@ class TestRateLimitTracker:
 
     def test_update_from_headers_retry_after(self) -> None:
         tracker = RateLimitTracker()
-        cooldown = tracker.update_from_headers(
-            "openai:gpt-4o", {"Retry-After": "8"}
-        )
+        cooldown = tracker.update_from_headers("openai:gpt-4o", {"Retry-After": "8"})
         assert cooldown == 8
 
     def test_update_from_headers_openai_rate_limit(self) -> None:
@@ -417,9 +414,7 @@ class TestSmartModelRouterHardening:
             return "done"
 
         # Start the call but don't complete it
-        task = asyncio.create_task(
-            router._execute_call(slow_caller, model, "test")
-        )
+        task = asyncio.create_task(router._execute_call(slow_caller, model, "test"))
         await call_started.wait()
 
         # Semaphore should be decremented while call is in progress
@@ -452,7 +447,8 @@ class TestSmartModelRouterHardening:
 
 
 class TestMonotonicClockIntegration:
-    """Verify monotonic clock usage across model_stats and smart_router (ADR-002C)."""
+    """Verify monotonic clock usage across model_stats and smart_router
+    (ADR-002C)."""
 
     def test_cooldown_uses_monotonic(self) -> None:
         stats = ModelStats(model_id="test:model")
@@ -509,6 +505,7 @@ class TestMonotonicClockIntegration:
         data = stats.to_dict()
         # Hack: Make the wall-clock time be in the past
         from datetime import datetime, timezone
+
         past = datetime(2020, 1, 1, tzinfo=timezone.utc)
         data["cooldown_until"] = past.isoformat()
 

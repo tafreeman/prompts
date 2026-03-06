@@ -40,4 +40,3 @@ LOCAL_MODELS: dict[str, str] = {
     "stable-diffusion": "CompVis--stable-diffusion-v1-4",
     "esrgan": "microsoft--dml-ai-hub-models",
 }
-

@@ -45,24 +45,21 @@ logger = logging.getLogger(__name__)
 # Public constants
 # ---------------------------------------------------------------------------
 
-#: Dimension names that the matrix evaluates — order is canonical.
-RESEARCH_DIMENSIONS: tuple[str, ...] = (
-    "coverage",
-    "source_quality",
-    "agreement",
-    "verification",
-    "recency",
-)
+#: Dimension names — single source of truth in ci_calculator; re-exported here
+#: for backward compatibility with existing imports from this module.
+from ..workflows.lib.ci_calculator import RESEARCH_DIMENSIONS  # noqa: E402
 
 #: CI tiebreaker weights — used ONLY inside ``coalesce()`` best-of-N ranking.
 #: Per ADR-007 §4.3 these are provisional; equal weights may be substituted.
-_TIEBREAKER_WEIGHTS: Mapping[str, float] = MappingProxyType({
-    "coverage": 0.25,
-    "source_quality": 0.20,
-    "agreement": 0.20,
-    "verification": 0.20,
-    "recency": 0.15,
-})
+_TIEBREAKER_WEIGHTS: Mapping[str, float] = MappingProxyType(
+    {
+        "coverage": 0.25,
+        "source_quality": 0.20,
+        "agreement": 0.20,
+        "verification": 0.20,
+        "recency": 0.15,
+    }
+)
 
 #: Minimum ``recent_sources_count`` required by the hard floor gate.
 _DEFAULT_MIN_RECENT_SOURCES: int = 10
@@ -94,15 +91,19 @@ class ResearchTier(str, Enum):
 #: Recency uses a separate date-based classifier (``_classify_recency``).
 _SCORE_THRESHOLDS: dict[str, tuple[float, float, float]] = {
     # dimension: (elite_floor, high_floor, medium_floor)
-    "coverage":      (0.90, 0.75, 0.50),
+    "coverage": (0.90, 0.75, 0.50),
     "source_quality": (0.90, 0.75, 0.50),
-    "agreement":     (0.90, 0.75, 0.50),
-    "verification":  (0.90, 0.75, 0.50),
-    "recency":       (0.90, 0.75, 0.50),  # overridden by recency_score 0-1
+    "agreement": (0.90, 0.75, 0.50),
+    "verification": (0.90, 0.75, 0.50),
+    "recency": (0.90, 0.75, 0.50),  # overridden by recency_score 0-1
 }
 
 
-def classify_dimension(dimension: str, score_0_1: float) -> ResearchTier:
+def classify_dimension(
+    dimension: str,
+    score_0_1: float,
+    thresholds: dict[str, tuple[float, float, float]] | None = None,
+) -> ResearchTier:
     """Classify a single normalised dimension score (0–1) into a tier.
 
     Parameters
@@ -111,14 +112,16 @@ def classify_dimension(dimension: str, score_0_1: float) -> ResearchTier:
         One of ``RESEARCH_DIMENSIONS``.
     score_0_1:
         Normalised dimension score in ``[0, 1]``.
+    thresholds:
+        Optional override threshold map.  If omitted the module-level
+        ``_SCORE_THRESHOLDS`` is used.
 
     Returns
     -------
     ResearchTier
     """
-    elite_f, high_f, medium_f = _SCORE_THRESHOLDS.get(
-        dimension, (0.90, 0.75, 0.50)
-    )
+    effective = thresholds if thresholds is not None else _SCORE_THRESHOLDS
+    elite_f, high_f, medium_f = effective.get(dimension, (0.90, 0.75, 0.50))
     if score_0_1 >= elite_f:
         return ResearchTier.ELITE
     if score_0_1 >= high_f:
@@ -236,6 +239,10 @@ def compute_ci_tiebreaker(
     rank multiple passing rounds or select the "least bad" round when all
     rounds fail.
 
+    Delegates to :func:`agentic_v2.workflows.lib.ci_calculator.compute_ci`
+    for the actual computation, keeping this function as a backward-compatible
+    entry point.
+
     Parameters
     ----------
     scores:
@@ -249,10 +256,12 @@ def compute_ci_tiebreaker(
     float
         Weighted CI score in ``[0, 1]``.
     """
-    w = weights or _TIEBREAKER_WEIGHTS
-    total_w = sum(w.values()) or 1.0
-    weighted = sum(scores.get(dim, 0.0) * w.get(dim, 0.0) for dim in RESEARCH_DIMENSIONS)
-    return max(0.0, min(1.0, weighted / total_w))
+    from ..workflows.lib.ci_calculator import compute_ci
+
+    effective_weights = (
+        dict(weights) if weights is not None else dict(_TIEBREAKER_WEIGHTS)
+    )
+    return compute_ci(scores, weights=effective_weights, method="arithmetic")
 
 
 # ---------------------------------------------------------------------------
@@ -301,17 +310,7 @@ def evaluate_research_round(
     dimensions: list[DimensionResult] = []
     for dim in RESEARCH_DIMENSIONS:
         score = max(0.0, min(1.0, raw_scores.get(dim, 0.0)))
-        elite_f, high_f, medium_f = thresholds.get(
-            dim, (0.90, 0.75, 0.50)
-        )
-        if score >= elite_f:
-            tier = ResearchTier.ELITE
-        elif score >= high_f:
-            tier = ResearchTier.HIGH
-        elif score >= medium_f:
-            tier = ResearchTier.MEDIUM
-        else:
-            tier = ResearchTier.LOW
+        tier = classify_dimension(dim, score, thresholds)
         dimensions.append(
             DimensionResult(
                 dimension=dim,
@@ -340,7 +339,8 @@ def evaluate_research_round_from_step_outputs(
     consecutive_regression: bool = False,
     tiebreaker_weights: Mapping[str, float] | None = None,
 ) -> MultidimensionalGateResult:
-    """Convenience wrapper that reads directly from a ``coverage_confidence_audit`` step output dict.
+    """Convenience wrapper that reads directly from a
+    ``coverage_confidence_audit`` step output dict.
 
     The step output keys produced by ``deep_research.yaml`` are::
 
@@ -353,6 +353,7 @@ def evaluate_research_round_from_step_outputs(
     step_outputs:
         The ``outputs`` dict from a ``coverage_confidence_audit_roundN`` step.
     """
+
     def _float(key: str, default: float = 0.0) -> float:
         try:
             return float(step_outputs.get(key, default))
@@ -456,7 +457,9 @@ def research_stop_gate(
     except (TypeError, ValueError):
         contradictions = 0
 
-    min_ci = float(eval_config.get("evaluation", {}).get("deep_research", {}).get("min_ci", 0.80))
+    min_ci = float(
+        eval_config.get("evaluation", {}).get("deep_research", {}).get("min_ci", 0.80)
+    )
     gate_passed = (
         ci >= min_ci
         and recent >= min_recent_sources
@@ -477,14 +480,30 @@ def research_stop_gate(
 # ---------------------------------------------------------------------------
 
 
+def _round_sort_key(result: dict[str, Any], index: int) -> tuple[int, float, int]:
+    """Build a lexicographic sort key for round selection.
+
+    Order (descending priority):
+    1. ``gate_passed`` — passing rounds always beat failing ones.
+    2. ``ci_score`` — higher CI tiebreaker wins among same gate status.
+    3. ``-index`` — earlier rounds win when gate and CI are identical
+       (prefer the first converging round to minimise compute).
+    """
+    gate = 1 if result.get("gate_passed", False) else 0
+    ci = float(result.get("ci_score", 0.0))
+    return (gate, ci, -index)
+
+
 def coalesce_best_round(
     round_results: list[dict[str, Any]],
 ) -> dict[str, Any] | None:
-    """Select the best research round from a list of gate result dicts.
+    """Select the best research round using lexicographic ranking.
 
-    Selection order:
-    1. Prefer rounds where ``gate_passed == True``; among those pick highest ``ci_score``.
-    2. If no round passed, pick the round with the highest ``ci_score`` as fallback.
+    Selection order (highest priority first):
+    1. ``gate_passed`` — passing rounds always beat failing rounds.
+    2. ``ci_score`` — among rounds with the same gate status, higher CI wins.
+    3. Round index — earlier rounds win ties (prefer the first converging
+       round to minimize unnecessary compute).
 
     Parameters
     ----------
@@ -498,14 +517,17 @@ def coalesce_best_round(
     dict or None
         The selected round result, or ``None`` if the list is empty.
     """
-    valid = [r for r in round_results if isinstance(r, dict)]
-    if not valid:
+    indexed: list[tuple[dict[str, Any], int]] = [
+        (r, i) for i, r in enumerate(round_results) if isinstance(r, dict)
+    ]
+    if not indexed:
         return None
 
-    passing = [r for r in valid if r.get("gate_passed", False)]
-    candidates = passing if passing else valid
-
-    return max(candidates, key=lambda r: float(r.get("ci_score", 0.0)))
+    best_result, _best_idx = max(
+        indexed,
+        key=lambda pair: _round_sort_key(pair[0], pair[1]),
+    )
+    return best_result
 
 
 # ---------------------------------------------------------------------------

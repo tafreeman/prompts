@@ -186,7 +186,8 @@ class DAG:
                 visit(node)
 
     def get_execution_order(self) -> list[str]:
-        """Return a topologically sorted list of step names via Kahn's algorithm.
+        """Return a topologically sorted list of step names via Kahn's
+        algorithm.
 
         Steps with no dependencies appear first.  Among steps at the same
         topological depth, ordering is insertion-order (FIFO from the ready

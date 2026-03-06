@@ -21,6 +21,7 @@ from pydantic import BaseModel, Field
 from ..contracts import TaskInput, TaskOutput
 from ..models import ModelTier
 from .base import AgentConfig, BaseAgent
+from .json_extraction import extract_json
 
 
 class ArchitectureInput(TaskInput):
@@ -328,32 +329,14 @@ class ArchitectAgent(BaseAgent[ArchitectureInput, ArchitectureOutput]):
         )
 
     def _parse_architecture_json(self, response: str) -> dict[str, Any]:
-        """Extract JSON architecture from model response."""
+        """Extract JSON architecture from model response.
+
+        Delegates to :func:`extract_json` which uses balanced-brace
+        extraction instead of the previous fragile ``index()``/``rindex()``
+        approach.
+        """
         try:
-            # Try to extract JSON block
-            if "```json" in response:
-                start = response.index("```json") + 7
-                end = response.index("```", start)
-                json_str = response[start:end].strip()
-            elif "```" in response and "{" in response:
-                # Find JSON within code blocks
-                match = re.search(r"```\s*\n?(\{.*?\})\s*\n?```", response, re.DOTALL)
-                if match:
-                    json_str = match.group(1)
-                else:
-                    # Fall back to finding raw JSON
-                    start = response.index("{")
-                    end = response.rindex("}") + 1
-                    json_str = response[start:end]
-            elif "{" in response:
-                start = response.index("{")
-                end = response.rindex("}") + 1
-                json_str = response[start:end]
-            else:
-                return {"raw_response": response}
-
-            return json.loads(json_str)
-
+            return extract_json(response)
         except (json.JSONDecodeError, ValueError) as e:
             # Return structured fallback
             return {

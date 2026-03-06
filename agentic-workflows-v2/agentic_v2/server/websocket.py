@@ -35,7 +35,8 @@ router = APIRouter(tags=["streaming"])
 
 
 class ConnectionManager:
-    """Pub/sub hub for WebSocket connections and SSE listeners, keyed by run ID.
+    """Pub/sub hub for WebSocket connections and SSE listeners, keyed by run
+    ID.
 
     Maintains three per-run data structures:
 
@@ -108,7 +109,8 @@ class ConnectionManager:
                 break
 
     async def broadcast(self, run_id: str, message: dict[str, Any]):
-        """Broadcast an event to all WebSocket clients and SSE listeners for a run.
+        """Broadcast an event to all WebSocket clients and SSE listeners for a
+        run.
 
         The event is first appended to the run's replay buffer (evicting
         the oldest entry if the buffer exceeds ``_max_buffer_size``), then
@@ -140,7 +142,9 @@ class ConnectionManager:
             try:
                 queue.put_nowait(message)
             except asyncio.QueueFull:
-                logger.warning("SSE listener queue full for run %s, dropping event", run_id)
+                logger.warning(
+                    "SSE listener queue full for run %s, dropping event", run_id
+                )
 
     def register_sse_listener(
         self, run_id: str, queue: asyncio.Queue[dict[str, Any]]

@@ -3,14 +3,25 @@
 from datetime import timedelta
 
 import pytest
-from agentic_v2.contracts import (AgentMessage,  # Messages; Schemas
-                                  CodeGenerationInput, CodeGenerationOutput,
-                                  CodeIssue, CodeReviewOutput,
-                                  IssueCategory, MessageType, Severity,
-                                  StepResult, StepStatus, TaskInput,
-                                  TaskOutput, TestCase, TestGenerationInput,
-                                  TestGenerationOutput, TestType,
-                                  WorkflowResult)
+from agentic_v2.contracts import AgentMessage  # Messages; Schemas
+from agentic_v2.contracts import (
+    CodeGenerationInput,
+    CodeGenerationOutput,
+    CodeIssue,
+    CodeReviewOutput,
+    IssueCategory,
+    MessageType,
+    Severity,
+    StepResult,
+    StepStatus,
+    TaskInput,
+    TaskOutput,
+    TestCase,
+    TestGenerationInput,
+    TestGenerationOutput,
+    TestType,
+    WorkflowResult,
+)
 
 # ============================================================================
 # AgentMessage Tests

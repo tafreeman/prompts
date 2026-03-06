@@ -14,7 +14,7 @@ import json
 import os
 import re
 import shutil
-from collections import Counter, defaultdict
+from collections import Counter
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -319,7 +319,9 @@ def _classify_domain(domain: str) -> tuple[str, str]:
         return "review", "missing domain"
     if domain in {"localhost", "127.0.0.1"}:
         return "caution", "local/non-public host"
-    if domain in APPROVED_DOMAINS or any(domain.endswith(sfx) for sfx in APPROVED_SUFFIXES):
+    if domain in APPROVED_DOMAINS or any(
+        domain.endswith(sfx) for sfx in APPROVED_SUFFIXES
+    ):
         return "approved", "known reputable/official source"
     if domain in CAUTION_DOMAINS:
         return "caution", "user-generated or social platform"
@@ -505,25 +507,13 @@ def build_library(root: Path, max_copy_mb: int = 20) -> dict:
     )
 
     approved_domains = sorted(
-        {
-            u.domain
-            for u in url_records
-            if u.status == "approved" and u.domain
-        }
+        {u.domain for u in url_records if u.status == "approved" and u.domain}
     )
     caution_domains = sorted(
-        {
-            u.domain
-            for u in url_records
-            if u.status == "caution" and u.domain
-        }
+        {u.domain for u in url_records if u.status == "caution" and u.domain}
     )
     review_domains = sorted(
-        {
-            u.domain
-            for u in url_records
-            if u.status == "review" and u.domain
-        }
+        {u.domain for u in url_records if u.status == "review" and u.domain}
     )
 
     approved_domains_path.write_text(
@@ -581,7 +571,9 @@ def build_library(root: Path, max_copy_mb: int = 20) -> dict:
     code_refs_path.write_text("\n".join(code_lines), encoding="utf-8")
 
     top_domains = domain_counter.most_common(20)
-    top_domain_lines = [f"- `{domain}`: {count}" for domain, count in top_domains if domain]
+    top_domain_lines = [
+        f"- `{domain}`: {count}" for domain, count in top_domains if domain
+    ]
 
     readme_lines = [
         "# Research Library",

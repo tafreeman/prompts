@@ -8,7 +8,6 @@ or pytest fixtures so no live endpoints are required.
 from __future__ import annotations
 
 import json
-import os
 import urllib.error
 import urllib.request
 from pathlib import Path
@@ -16,7 +15,6 @@ from typing import Any
 from unittest.mock import MagicMock, patch
 
 import pytest
-
 
 # ---------------------------------------------------------------------------
 # call_ollama
@@ -40,7 +38,9 @@ class TestCallOllama:
         mock_resp = self._make_successful_response("Paris")
 
         with patch("urllib.request.urlopen", return_value=mock_resp):
-            result = call_ollama("ollama:llama3", "What is the capital of France?", None)
+            result = call_ollama(
+                "ollama:llama3", "What is the capital of France?", None
+            )
 
         assert result == "Paris"
 

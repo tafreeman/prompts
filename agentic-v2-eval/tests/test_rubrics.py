@@ -2,18 +2,19 @@
 
 from __future__ import annotations
 
-import pytest
 from pathlib import Path
 
+import pytest
+
 from agentic_v2_eval.rubrics import (
-    load_rubric,
-    list_rubrics,
-    get_rubric_path,
-    RUBRICS_DIR,
-    DEFAULT,
     AGENT,
     CODE,
+    DEFAULT,
     PATTERN,
+    RUBRICS_DIR,
+    get_rubric_path,
+    list_rubrics,
+    load_rubric,
 )
 
 
@@ -159,7 +160,9 @@ class TestRubricStructure:
         rubric = load_rubric(rubric_name)
 
         total_weight = sum(c["weight"] for c in rubric["criteria"])
-        assert 0.99 <= total_weight <= 1.01, f"Weights sum to {total_weight} in {rubric_name}"
+        assert (
+            0.99 <= total_weight <= 1.01
+        ), f"Weights sum to {total_weight} in {rubric_name}"
 
     @pytest.mark.parametrize("rubric_name", ["agent", "code", "pattern"])
     def test_thresholds_defined(self, rubric_name):

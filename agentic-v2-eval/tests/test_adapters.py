@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 
+from unittest.mock import MagicMock
+
 import pytest
-from unittest.mock import MagicMock, patch
 
 from agentic_v2_eval.adapters.llm_client import LLMClientAdapter, create_llm_client
 
@@ -94,7 +95,8 @@ class TestLLMClientAdapter:
         )
 
     def test_generate_text_uses_default_system_instruction(self):
-        """Test that adapter uses default system instruction when not provided."""
+        """Test that adapter uses default system instruction when not
+        provided."""
         mock_llm_class = MagicMock()
         mock_llm_class.generate_text = MagicMock(return_value="Response")
 
@@ -171,7 +173,8 @@ class TestLLMClientAdapter:
             )
 
     def test_generate_text_raises_when_llm_not_available(self):
-        """Test that generate_text raises RuntimeError when LLMClient unavailable."""
+        """Test that generate_text raises RuntimeError when LLMClient
+        unavailable."""
         adapter = LLMClientAdapter()
         adapter._llm_client_class = None
 
@@ -196,8 +199,9 @@ class TestLLMClientProtocolCompliance:
 
     def test_protocol_signature_compatibility(self):
         """Test that adapter matches LLMClientProtocol signature."""
-        from agentic_v2_eval.evaluators.llm import LLMClientProtocol
         import inspect
+
+        from agentic_v2_eval.evaluators.llm import LLMClientProtocol
 
         # Get protocol signature
         protocol_sig = inspect.signature(LLMClientProtocol.generate_text)
@@ -215,7 +219,7 @@ class TestLLMClientProtocolCompliance:
 
     def test_can_be_used_as_llm_client(self):
         """Test that adapter can be passed to LLMEvaluator."""
-        from agentic_v2_eval.evaluators.llm import LLMEvaluator, Choice
+        from agentic_v2_eval.evaluators.llm import Choice, LLMEvaluator
 
         mock_llm_class = MagicMock()
         mock_llm_class.generate_text = MagicMock(return_value="5")

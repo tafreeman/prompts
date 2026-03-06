@@ -25,7 +25,7 @@ import traceback
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Optional, Union
+from typing import Any, Awaitable, Callable, Optional, Union
 
 logger = logging.getLogger(__name__)
 
@@ -187,25 +187,32 @@ class WorkflowExecutor:
 
     async def execute(
         self,
-        workflow: Union[StepDefinition, Pipeline, DAG, list[StepDefinition]],
+        workflow: Any,
         ctx: Optional[ExecutionContext] = None,
-        **initial_vars: Any,
+        on_update: Optional[Callable[[dict[str, Any]], Awaitable[None]]] = None,
+        **kwargs: Any,
     ) -> WorkflowResult:
         """Execute a workflow.
 
         Accepts:
         - Single StepDefinition
         - Pipeline
+        - DAG
         - List of StepDefinitions (sequential execution)
 
         Args:
-            workflow: What to execute
-            ctx: Optional execution context
-            **initial_vars: Initial context variables
+            workflow: What to execute (StepDefinition, Pipeline, DAG, or list).
+            ctx: Optional execution context.
+            on_update: Optional async callback for progress events.
+            **kwargs: Engine-specific options.  Use ``initial_vars`` (dict)
+                to seed context variables.  ``max_concurrency`` is forwarded
+                to :class:`DAGExecutor` when the workflow is a DAG.
 
         Returns:
-            WorkflowResult with execution details
+            WorkflowResult with execution details.
         """
+        initial_vars: dict[str, Any] = kwargs.pop("initial_vars", {})
+        self._engine_kwargs = kwargs
         # 1. Setup Execution Context
         # Every workflow run requires a context for variable storage and service registry.
         if ctx is None:
@@ -220,7 +227,7 @@ class WorkflowExecutor:
             ctx.set_sync(key, value)
 
         # 3. Dynamic Service Injection
-        # We register the router and tool registry into the context so that 
+        # We register the router and tool registry into the context so that
         # individual steps/agents can access them without global lookups.
         ctx.services.register_singleton(SmartModelRouter, self.router)
         ctx.services.register_singleton(ToolRegistry, self.tools)
@@ -307,9 +314,8 @@ class WorkflowExecutor:
         if isinstance(workflow, DAG):
             # DAG execution via DAGExecutor
             dag_executor = DAGExecutor(step_executor=self._step_executor)
-            dag_result = await dag_executor.execute(
-                workflow, ctx, max_concurrency=10
-            )
+            mc = self._engine_kwargs.get("max_concurrency", 10)
+            dag_result = await dag_executor.execute(workflow, ctx, max_concurrency=mc)
             result.steps = dag_result.steps
             result.overall_status = dag_result.overall_status
             result.final_output = dag_result.final_output
@@ -439,10 +445,11 @@ def reset_executor() -> None:
 
 # Convenience functions
 async def execute(
-    workflow: Union[StepDefinition, Pipeline, DAG, list[StepDefinition]], **initial_vars: Any
+    workflow: Union[StepDefinition, Pipeline, DAG, list[StepDefinition]],
+    **initial_vars: Any,
 ) -> WorkflowResult:
     """Execute a workflow with the global executor."""
-    return await get_executor().execute(workflow, **initial_vars)
+    return await get_executor().execute(workflow, initial_vars=initial_vars)
 
 
 async def run(step_def: StepDefinition, **initial_vars: Any) -> StepResult:

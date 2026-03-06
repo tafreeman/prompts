@@ -173,6 +173,7 @@ class AsyncStreamingRunner(Generic[T, R]):
         Yields:
             Results for successful evaluations.
         """
+
         async def _aiter_cases() -> AsyncIterator[T]:
             if hasattr(test_cases, "__aiter__"):
                 async for tc in test_cases:  # type: ignore[operator]

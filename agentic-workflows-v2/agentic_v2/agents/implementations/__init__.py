@@ -20,9 +20,10 @@ This subpackage provides two production-ready agent implementations:
 
 from __future__ import annotations
 
-from .claude_agent import ClaudeAgent, SimpleTask, SimpleOutput
-from .claude_sdk_agent import ClaudeSDKAgent, BUILTIN_TOOLS
-from .agent_loader import load_agents, agents as AGENTS
+from .agent_loader import agents as AGENTS
+from .agent_loader import load_agents
+from .claude_agent import ClaudeAgent, SimpleOutput, SimpleTask
+from .claude_sdk_agent import BUILTIN_TOOLS, ClaudeSDKAgent
 
 __all__ = [
     "ClaudeAgent",

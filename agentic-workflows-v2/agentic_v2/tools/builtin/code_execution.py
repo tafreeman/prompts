@@ -71,24 +71,49 @@ class CodeExecutionTool(BaseTool):
     # Blocklists
     # ------------------------------------------------------------------
 
-    _DANGEROUS_IMPORTS = frozenset({
-        "subprocess", "shutil", "ctypes", "multiprocessing",
-        "signal", "socket", "http", "urllib", "requests",
-        "ftplib", "smtplib", "telnetlib", "xmlrpc",
-        "webbrowser", "antigravity",
-    })
+    _DANGEROUS_IMPORTS = frozenset(
+        {
+            "subprocess",
+            "shutil",
+            "ctypes",
+            "multiprocessing",
+            "signal",
+            "socket",
+            "http",
+            "urllib",
+            "requests",
+            "ftplib",
+            "smtplib",
+            "telnetlib",
+            "xmlrpc",
+            "webbrowser",
+            "antigravity",
+        }
+    )
 
-    _DANGEROUS_BUILTINS = frozenset({
-        "exec", "eval", "compile", "__import__",
-        "breakpoint", "exit", "quit",
-    })
+    _DANGEROUS_BUILTINS = frozenset(
+        {
+            "exec",
+            "eval",
+            "compile",
+            "__import__",
+            "breakpoint",
+            "exit",
+            "quit",
+        }
+    )
 
     _DANGEROUS_PATTERNS = [
-        "os.system", "os.popen", "os.exec",
-        "os.remove", "os.unlink", "os.rmdir",
-        "os.rename", "os.makedirs",
-        "open(",           # file I/O
-        "pathlib.Path(",   # file I/O via pathlib
+        "os.system",
+        "os.popen",
+        "os.exec",
+        "os.remove",
+        "os.unlink",
+        "os.rmdir",
+        "os.rename",
+        "os.makedirs",
+        "open(",  # file I/O
+        "pathlib.Path(",  # file I/O via pathlib
         "__import__",
         "importlib",
     ]
@@ -107,6 +132,7 @@ class CodeExecutionTool(BaseTool):
 
         # Check imports
         import ast
+
         try:
             tree = ast.parse(code)
         except SyntaxError:
@@ -177,7 +203,8 @@ class CodeExecutionTool(BaseTool):
 
             try:
                 proc = await asyncio.create_subprocess_exec(
-                    sys.executable, tmp_path,
+                    sys.executable,
+                    tmp_path,
                     stdout=asyncio.subprocess.PIPE,
                     stderr=asyncio.subprocess.PIPE,
                     env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"},
@@ -192,6 +219,7 @@ class CodeExecutionTool(BaseTool):
 
             # Parse the JSON output
             import json
+
             try:
                 output = json.loads(stdout_str)
             except (json.JSONDecodeError, ValueError):

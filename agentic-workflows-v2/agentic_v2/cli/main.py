@@ -2,8 +2,11 @@
 
 Commands:
 - agentic run <workflow> --input <file.json>  - Run a workflow via LangChain engine
+- agentic compare <workflow> --input <file>   - Compare adapters side by side
 - agentic list workflows|agents|tools         - List available components
 - agentic validate <workflow>                 - Validate a workflow definition
+- agentic rag ingest --source <path>          - Ingest documents into RAG
+- agentic rag search <query>                  - Search the RAG index
 - agentic serve                               - Start the dashboard server
 """
 
@@ -12,6 +15,7 @@ from __future__ import annotations
 import asyncio
 import atexit
 import json
+import logging
 from pathlib import Path
 from typing import Optional
 
@@ -35,9 +39,21 @@ from rich.table import Table
 from rich.tree import Tree
 
 from ..integrations.otel import create_trace_adapter, shutdown_tracing
-from ..langchain import WorkflowRunner, list_workflows as lc_list_workflows
-from ..langchain import load_workflow_config
-from ..langchain.graph import compile_workflow
+
+logger = logging.getLogger(__name__)
+
+# LangChain imports — deferred so the CLI module loads even when
+# langchain extras are not installed.  Commands that need LangChain
+# call _get_runner() and catch the error at that point.
+try:
+    from ..langchain import WorkflowRunner
+    from ..langchain import list_workflows as lc_list_workflows
+    from ..langchain import load_workflow_config
+    from ..langchain.graph import compile_workflow
+
+    _LANGCHAIN_AVAILABLE = True
+except ImportError:
+    _LANGCHAIN_AVAILABLE = False
 
 # Create CLI app
 app = typer.Typer(
@@ -50,10 +66,29 @@ console = Console()
 
 # Initialize tracing adapter (respects AGENTIC_TRACING env var)
 _trace_adapter = create_trace_adapter()
-_runner = WorkflowRunner(trace_adapter=_trace_adapter)
+_runner = None  # lazily initialized by _get_runner()
 
 # Register shutdown hook for tracing cleanup
 atexit.register(shutdown_tracing)
+
+
+def _require_langchain() -> None:
+    """Raise a clear error if langchain extras are not installed."""
+    if not _LANGCHAIN_AVAILABLE:
+        console.print(
+            "[red]LangChain extras not installed.[/red]\n"
+            "Install with: pip install -e '.[langchain]'"
+        )
+        raise typer.Exit(code=1)
+
+
+def _get_runner():
+    """Lazily initialize the WorkflowRunner."""
+    global _runner
+    _require_langchain()
+    if _runner is None:
+        _runner = WorkflowRunner(trace_adapter=_trace_adapter)
+    return _runner
 
 
 @app.command()
@@ -85,13 +120,22 @@ def run(
         "-v",
         help="Show detailed execution info",
     ),
+    adapter: str = typer.Option(
+        "langchain",
+        "--adapter",
+        "-a",
+        help="Execution adapter: 'langchain' (default) or 'native'",
+    ),
 ):
     """Execute a workflow from a YAML definition.
 
     Examples:
         agentic run code_review --input review_input.json
         agentic run ./my_workflow.yaml --dry-run
+        agentic run code_review --adapter native --input review_input.json
     """
+    if adapter == "langchain":
+        _require_langchain()
     try:
         # Resolve name from file path
         workflow_name = workflow
@@ -135,16 +179,19 @@ def run(
             console.print("\n[yellow]Dry run - skipping execution[/yellow]")
             return
 
-        # Execute the workflow via LangChain runner
-        runner = WorkflowRunner(definitions_dir=definitions_dir)
-
         with Progress(
             SpinnerColumn(),
             TextColumn("[progress.description]{task.description}"),
             console=console,
         ) as progress:
             task = progress.add_task(f"Executing {workflow_def.name}...", total=None)
-            result = asyncio.run(runner.run(workflow_name, **input_data))
+            if adapter == "langchain":
+                # LangChain path: use the existing WorkflowRunner
+                runner = WorkflowRunner(definitions_dir=definitions_dir)
+                result = asyncio.run(runner.run(workflow_name, **input_data))
+            else:
+                # Non-langchain path: dispatch through the adapter registry
+                result = _run_via_adapter(adapter, workflow_name, input_data)
             progress.update(task, completed=True)
 
         # Display results
@@ -165,6 +212,94 @@ def run(
 
         if result.status == "failed":
             raise typer.Exit(1)
+
+    except typer.Exit:
+        raise
+    except Exception as e:
+        console.print(f"[red]Error:[/red] {e}")
+        raise typer.Exit(1)
+
+
+# Import helper functions from cli/helpers.py to keep this module focused
+# on Typer command definitions and under 800 lines.
+from .helpers import _rag_ingest_impl, _rag_search_impl, _run_adapter, _run_via_adapter
+
+
+@app.command()
+def compare(
+    workflow: str = typer.Argument(
+        ...,
+        help="Workflow name (e.g., 'code_review')",
+    ),
+    input_file: Path = typer.Option(
+        ...,
+        "--input",
+        "-i",
+        help="JSON file with input variables",
+    ),
+    adapters: str = typer.Option(
+        "native,langchain",
+        "--adapters",
+        help="Comma-separated adapter names to compare",
+    ),
+):
+    """Run a workflow through multiple adapters and compare results.
+
+    Executes the same workflow with the same inputs through each specified
+    adapter, then prints a comparison table showing status, step count,
+    and elapsed time.
+
+    Examples:
+        agentic compare code_review --input review_input.json
+        agentic compare code_review -i input.json --adapters native,langchain
+    """
+    try:
+        if not input_file.exists():
+            console.print(f"[red]Error:[/red] Input file not found: {input_file}")
+            raise typer.Exit(1)
+
+        input_data = json.loads(input_file.read_text())
+        workflow_def = load_workflow_config(workflow)
+
+        adapter_names = [a.strip() for a in adapters.split(",") if a.strip()]
+
+        console.print(
+            Panel(
+                f"[bold]{workflow_def.name}[/bold] - Adapter Comparison",
+                title="Compare",
+                border_style="blue",
+            )
+        )
+
+        table = Table(title="Adapter Comparison Results")
+        table.add_column("Adapter", style="cyan")
+        table.add_column("Status")
+        table.add_column("Steps", justify="right")
+        table.add_column("Elapsed (s)", justify="right")
+
+        for adapter_name in adapter_names:
+            with Progress(
+                SpinnerColumn(),
+                TextColumn("[progress.description]{task.description}"),
+                console=console,
+                transient=True,
+            ) as progress:
+                progress.add_task(f"Running {adapter_name}...", total=None)
+                summary = _run_adapter(adapter_name, workflow, input_data)
+
+            status_display = (
+                f"[green]{summary['status']}[/green]"
+                if "success" in summary["status"].lower()
+                else f"[red]{summary['status']}[/red]"
+            )
+            table.add_row(
+                adapter_name,
+                status_display,
+                str(summary["step_count"]),
+                str(summary["elapsed"]),
+            )
+
+        console.print(table)
 
     except typer.Exit:
         raise
@@ -211,15 +346,16 @@ def orchestrate(
 def list_components(
     component_type: str = typer.Argument(
         "workflows",
-        help="Type of component to list: workflows, agents, or tools",
+        help="Type of component to list: workflows, agents, tools, or adapters",
     ),
 ):
-    """List available workflows, agents, or tools.
+    """List available workflows, agents, tools, or adapters.
 
     Examples:
         agentic list workflows
         agentic list agents
         agentic list tools
+        agentic list adapters
     """
     component_type = component_type.lower()
 
@@ -229,9 +365,11 @@ def list_components(
         _list_agents()
     elif component_type == "tools":
         _list_tools()
+    elif component_type == "adapters":
+        _list_adapters()
     else:
         console.print(f"[red]Unknown component type:[/red] {component_type}")
-        console.print("Available types: workflows, agents, tools")
+        console.print("Available types: workflows, agents, tools, adapters")
         raise typer.Exit(1)
 
 
@@ -259,6 +397,7 @@ def validate(
         agentic validate code_review
         agentic validate ./custom_workflow.yaml --verbose
     """
+    _require_langchain()
     try:
         definitions_dir: Optional[Path] = None
         workflow_name = workflow
@@ -316,7 +455,11 @@ def _compute_step_levels(workflow_def) -> dict[int, list]:
             return 0
         visited.add(name)
         step = step_index.get(name)
-        d = 0 if (not step or not step.depends_on) else max(_depth(d, visited) for d in step.depends_on) + 1
+        d = (
+            0
+            if (not step or not step.depends_on)
+            else max(_depth(d, visited) for d in step.depends_on) + 1
+        )
         step_levels[name] = d
         return d
 
@@ -361,7 +504,9 @@ def _step_info(step_data: dict) -> str:
 def _show_results(result, verbose: bool) -> None:
     """Display WorkflowResult."""
     status_color = "green" if result.status == "success" else "red"
-    console.print(f"\n[bold {status_color}]Status: {result.status.upper()}[/bold {status_color}]")
+    console.print(
+        f"\n[bold {status_color}]Status: {result.status.upper()}[/bold {status_color}]"
+    )
     console.print(f"[dim]Elapsed: {result.elapsed_seconds:.1f}s[/dim]")
 
     for err in result.errors:
@@ -374,7 +519,9 @@ def _show_results(result, verbose: bool) -> None:
         table.add_column("Info")
         for step_name, step_data in result.steps.items():
             status = step_data.get("status", "unknown")
-            table.add_row(step_name, _STATUS_STYLE.get(status, status), _step_info(step_data))
+            table.add_row(
+                step_name, _STATUS_STYLE.get(status, status), _step_info(step_data)
+            )
         console.print(table)
 
     if result.outputs:
@@ -388,6 +535,7 @@ def _show_results(result, verbose: bool) -> None:
 
 def _list_workflows() -> None:
     """List available workflows using LangChain config loader."""
+    _require_langchain()
     workflows = lc_list_workflows()
 
     if not workflows:
@@ -437,6 +585,7 @@ def _list_tools() -> None:
     """List LangChain tools registered in the engine."""
     try:
         from ..langchain.tools import get_tools_for_tier
+
         tools = get_tools_for_tier(tier=2)  # tier 2 has the broadest set
     except Exception:
         tools = []
@@ -451,6 +600,125 @@ def _list_tools() -> None:
 
     for tool in tools:
         table.add_row(tool.name, getattr(tool, "description", "-") or "-")
+
+    console.print(table)
+
+
+def _list_adapters() -> None:
+    """List registered execution engine adapters."""
+    from ..adapters import get_registry
+
+    reg = get_registry()
+    names = reg.list_adapters()
+
+    if not names:
+        console.print("[yellow]No adapters registered.[/yellow]")
+        return
+
+    table = Table(title="Available Execution Adapters")
+    table.add_column("Name", style="cyan")
+    table.add_column("Description")
+
+    descriptions = {
+        "native": "Built-in DAG/Pipeline executor (no external dependencies)",
+        "langchain": "LangGraph state-machine executor",
+    }
+    for name in names:
+        table.add_row(name, descriptions.get(name, "-"))
+
+    console.print(table)
+    console.print(
+        "\n[dim]Use --adapter <name> with 'agentic run' to select an adapter[/dim]"
+    )
+
+
+# ---------------------------------------------------------------------------
+# RAG subcommands
+# ---------------------------------------------------------------------------
+
+rag_group = typer.Typer(
+    name="rag",
+    help="RAG (Retrieval-Augmented Generation) pipeline commands.",
+    add_completion=False,
+)
+app.add_typer(rag_group, name="rag")
+
+
+@rag_group.command("ingest")
+def rag_ingest(
+    source: Path = typer.Option(
+        ...,
+        "--source",
+        "-s",
+        help="Path to file or directory to ingest",
+    ),
+    collection: str = typer.Option(
+        "default",
+        "--collection",
+        "-c",
+        help="Collection name for organizing ingested documents",
+    ),
+):
+    """Ingest documents into the RAG pipeline.
+
+    Loads, chunks, embeds, and indexes the source file for later retrieval.
+
+    Examples:
+        agentic rag ingest --source ./docs/README.md
+        agentic rag ingest --source ./docs --collection my_project
+    """
+    try:
+        chunk_count = _rag_ingest_impl(str(source))
+        console.print(f"[green]Ingested {chunk_count} chunks[/green] from {source}")
+    except FileNotFoundError as e:
+        console.print(f"[red]Error:[/red] {e}")
+        raise typer.Exit(1)
+    except Exception as e:
+        console.print(f"[red]Error:[/red] {e}")
+        raise typer.Exit(1)
+
+
+@rag_group.command("search")
+def rag_search(
+    query: str = typer.Argument(
+        ...,
+        help="Search query string",
+    ),
+    top_k: int = typer.Option(
+        5,
+        "--top-k",
+        "-k",
+        help="Maximum number of results to return",
+    ),
+):
+    """Search the RAG index for relevant content.
+
+    Returns ranked results from the hybrid retriever (dense + BM25).
+
+    Examples:
+        agentic rag search "how does the DAG executor work?"
+        agentic rag search "pipeline patterns" --top-k 3
+    """
+    results = _rag_search_impl(query, top_k)
+
+    if not results:
+        console.print("[yellow]No results found.[/yellow]")
+        return
+
+    table = Table(title=f"Search Results (top {top_k})")
+    table.add_column("#", justify="right", style="dim")
+    table.add_column("Score", justify="right")
+    table.add_column("Content")
+
+    for idx, result in enumerate(results, 1):
+        content_preview = result["content"]
+        if len(content_preview) > 120:
+            content_preview = content_preview[:117] + "..."
+        table.add_row(
+            str(idx),
+            f"{result['score']:.3f}",
+            content_preview,
+        )
 
     console.print(table)
 
@@ -472,11 +740,14 @@ def serve(
     try:
         import uvicorn
     except ImportError:
-        console.print("[red]Error:[/red] uvicorn not installed. Run: pip install uvicorn")
+        console.print(
+            "[red]Error:[/red] uvicorn not installed. Run: pip install uvicorn"
+        )
         raise typer.Exit(1)
 
     if not no_open:
         import webbrowser
+
         webbrowser.open(f"http://localhost:{port}")
 
     console.print(f"[bold blue]Starting dashboard server on port {port}[/bold blue]")
@@ -497,6 +768,7 @@ def version():
     """Show version information."""
     try:
         from .. import __version__
+
         ver = __version__
     except ImportError:
         ver = "0.1.0"

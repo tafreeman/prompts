@@ -7,8 +7,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
-from .base import TraceAdapter, CanonicalEvent
-
+from .base import CanonicalEvent, TraceAdapter
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +15,8 @@ logger = logging.getLogger(__name__)
 class ConsoleTraceAdapter(TraceAdapter):
     """Trace adapter that emits events to console/logging.
 
-    Useful for development and debugging. Events are logged at INFO level.
+    Useful for development and debugging. Events are logged at INFO
+    level.
     """
 
     def __init__(self, pretty_print: bool = True):
@@ -40,8 +40,8 @@ class ConsoleTraceAdapter(TraceAdapter):
 class FileTraceAdapter(TraceAdapter):
     """Trace adapter that appends events to a JSON lines file.
 
-    Each event is written as a single-line JSON object, making it easy to
-    process with tools like jq or stream into analysis pipelines.
+    Each event is written as a single-line JSON object, making it easy
+    to process with tools like jq or stream into analysis pipelines.
     """
 
     def __init__(self, file_path: Path, buffer_size: int = 1):
@@ -70,9 +70,9 @@ class FileTraceAdapter(TraceAdapter):
         if not self._buffer:
             return
 
-        with open(self.file_path, 'a', encoding='utf-8') as f:
+        with open(self.file_path, "a", encoding="utf-8") as f:
             for line in self._buffer:
-                f.write(line + '\n')
+                f.write(line + "\n")
 
         self._buffer.clear()
 
@@ -87,7 +87,8 @@ class FileTraceAdapter(TraceAdapter):
 class CompositeTraceAdapter(TraceAdapter):
     """Trace adapter that forwards events to multiple adapters.
 
-    Useful for emitting to console and file simultaneously, or to multiple backends.
+    Useful for emitting to console and file simultaneously, or to
+    multiple backends.
     """
 
     def __init__(self, *adapters: TraceAdapter):
@@ -264,7 +265,10 @@ class LangSmithTraceAdapter(TraceAdapter):
                     root_id,
                     outputs=event.data.get("outputs", {}),
                     end_time=self._utc_now(),
-                    extra={"canonical_event": event.to_dict(), "status": event.data.get("status")},
+                    extra={
+                        "canonical_event": event.to_dict(),
+                        "status": event.data.get("status"),
+                    },
                 )
             else:
                 self._create_run(

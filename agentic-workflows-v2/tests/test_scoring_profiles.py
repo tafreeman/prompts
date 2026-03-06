@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from agentic_v2.server.scoring_profiles import (
     DEFAULT_PROFILE_ID,
     SCORING_PROFILES,
@@ -36,9 +35,9 @@ class TestAllProfilesValid:
     @pytest.mark.parametrize("pid", list(SCORING_PROFILES))
     def test_weight_sum_is_one(self, pid: str) -> None:
         profile = SCORING_PROFILES[pid]
-        assert sum(profile.weights.values()) == pytest.approx(1.0, abs=1e-9), (
-            f"Profile {pid!r} weights do not sum to 1.0"
-        )
+        assert sum(profile.weights.values()) == pytest.approx(
+            1.0, abs=1e-9
+        ), f"Profile {pid!r} weights do not sum to 1.0"
 
     @pytest.mark.parametrize("pid", list(SCORING_PROFILES))
     def test_profile_id_matches_key(self, pid: str) -> None:

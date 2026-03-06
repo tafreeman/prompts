@@ -12,12 +12,10 @@ for production isolation.
 from __future__ import annotations
 
 import os
-import shutil
 import subprocess
 import tempfile
 import time
 from pathlib import Path
-from typing import List, Optional
 
 from .base import ExecutionResult, Sandbox
 
@@ -67,10 +65,10 @@ class LocalSubprocessSandbox(Sandbox):
 
     def __init__(
         self,
-        root_dir: Optional[str | Path] = None,
+        root_dir: str | Path | None = None,
         timeout: int = 30,
         safe_mode: bool = True,
-        env: Optional[dict] = None,
+        env: dict | None = None,
     ):
         """Initialize sandbox.
 
@@ -80,7 +78,7 @@ class LocalSubprocessSandbox(Sandbox):
             safe_mode: If True, blocks dangerous commands.
             env: Base environment variables (merged with system env).
         """
-        self._temp_dir: Optional[tempfile.TemporaryDirectory] = None
+        self._temp_dir: tempfile.TemporaryDirectory | None = None
 
         if root_dir is None:
             self._temp_dir = tempfile.TemporaryDirectory(prefix="agentic_sandbox_")
@@ -98,7 +96,7 @@ class LocalSubprocessSandbox(Sandbox):
         """Get the sandbox root directory."""
         return self._root
 
-    def _get_env(self, extra_env: Optional[dict] = None) -> dict:
+    def _get_env(self, extra_env: dict | None = None) -> dict:
         """Build environment dict for subprocess."""
         env = os.environ.copy()
         env.update(self._base_env)
@@ -106,7 +104,7 @@ class LocalSubprocessSandbox(Sandbox):
             env.update(extra_env)
         return env
 
-    def _check_command_safety(self, command: List[str]) -> Optional[str]:
+    def _check_command_safety(self, command: list[str]) -> str | None:
         """Check if command is allowed in safe mode.
 
         Returns error message if blocked, None if allowed.
@@ -133,10 +131,10 @@ class LocalSubprocessSandbox(Sandbox):
 
     def run_command(
         self,
-        command: List[str],
-        cwd: Optional[str] = None,
-        timeout: Optional[int] = None,
-        env: Optional[dict] = None,
+        command: list[str],
+        cwd: str | None = None,
+        timeout: int | None = None,
+        env: dict | None = None,
     ) -> ExecutionResult:
         """Run a command in the sandbox.
 
@@ -288,7 +286,7 @@ class LocalSubprocessSandbox(Sandbox):
             self._temp_dir.cleanup()
             self._temp_dir = None
 
-    def __enter__(self) -> "LocalSubprocessSandbox":
+    def __enter__(self) -> LocalSubprocessSandbox:
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb) -> None:

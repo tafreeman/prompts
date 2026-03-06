@@ -11,8 +11,12 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 
 import pytest
-from agentic_v2.workflows.loader import (WorkflowLoader, WorkflowLoadError,
-                                         get_dag, load_workflow)
+from agentic_v2.workflows.loader import (
+    WorkflowLoader,
+    WorkflowLoadError,
+    get_dag,
+    load_workflow,
+)
 
 
 class TestWorkflowLoaderBasic:
@@ -45,7 +49,8 @@ class TestWorkflowLoaderBasic:
         assert len(workflow.dag.steps) > 0
 
     def test_load_fullstack_generation_bounded_rereview_workflow(self):
-        """Load bounded re-review fullstack workflow with second review path."""
+        """Load bounded re-review fullstack workflow with second review
+        path."""
         loader = WorkflowLoader()
         workflow = loader.load("fullstack_generation_bounded_rereview")
 
@@ -169,7 +174,8 @@ steps:
             assert step.metadata["tools"] == ["file_read", "search"]
 
     def test_single_loop_workflow_has_bounded_loop_contract(self):
-        """Single-loop workflow keeps one bounded QA loop with explicit condition."""
+        """Single-loop workflow keeps one bounded QA loop with explicit
+        condition."""
         loader = WorkflowLoader()
         workflow = loader.load("multi_agent_codegen_e2e_single_loop")
 
@@ -180,13 +186,23 @@ steps:
         assert "overall_test_status" in qa_loop.loop_until
 
     def test_single_loop_workflow_prompt_overrides_present(self):
-        """Step-level prompt_file overrides are retained for agent specialization."""
+        """Step-level prompt_file overrides are retained for agent
+        specialization."""
         loader = WorkflowLoader()
         workflow = loader.load("multi_agent_codegen_e2e_single_loop")
 
-        assert workflow.dag.steps["decompose_problem"].metadata["prompt_file"] == "planner.md"
-        assert workflow.dag.steps["integration_rework_pretest"].metadata["prompt_file"] == "developer.md"
-        assert workflow.dag.steps["final_quality_gate"].metadata["prompt_file"] == "validator.md"
+        assert (
+            workflow.dag.steps["decompose_problem"].metadata["prompt_file"]
+            == "planner.md"
+        )
+        assert (
+            workflow.dag.steps["integration_rework_pretest"].metadata["prompt_file"]
+            == "developer.md"
+        )
+        assert (
+            workflow.dag.steps["final_quality_gate"].metadata["prompt_file"]
+            == "validator.md"
+        )
 
 
 class TestWorkflowLoaderInputs:

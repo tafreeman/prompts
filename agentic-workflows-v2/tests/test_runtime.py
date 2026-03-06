@@ -5,7 +5,6 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-
 from agentic_v2.engine.runtime import (
     DockerRuntime,
     RuntimeExecutionError,
@@ -28,10 +27,9 @@ async def test_subprocess_runtime_echo():
 @pytest.mark.asyncio
 async def test_subprocess_runtime_failure():
     import tempfile
+
     # Write a failing script to avoid shell quoting issues
-    script = tempfile.NamedTemporaryFile(
-        suffix=".py", delete=False, mode="w"
-    )
+    script = tempfile.NamedTemporaryFile(suffix=".py", delete=False, mode="w")
     script.write("import sys\nsys.stderr.write('boom\\n')\nsys.exit(7)\n")
     script.close()
     # Use forward slashes for Windows cmd.exe compatibility

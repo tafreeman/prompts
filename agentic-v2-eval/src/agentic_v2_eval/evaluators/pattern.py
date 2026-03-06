@@ -13,11 +13,12 @@ import json
 import re
 import statistics
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
 
 from agentic_v2_eval.interfaces import LLMClientProtocol
 from agentic_v2_eval.rubrics import load_rubric
+
 from .base import EvaluatorRegistry
+
 
 @dataclass
 class PatternScore:
@@ -52,10 +53,10 @@ class PatternScore:
     pattern: str
 
     # Universal dimension scores (7 dimensions)
-    universal_scores: Dict[str, float]  # PIF, POI, PC, CA, SRC, PR, IR
+    universal_scores: dict[str, float]  # PIF, POI, PC, CA, SRC, PR, IR
 
     # Pattern-specific scores
-    pattern_scores: Dict[str, float]  # R1-R3, C1-C3, F1-F3, G1-G3
+    pattern_scores: dict[str, float]  # R1-R3, C1-C3, F1-F3, G1-G3
 
     # Aggregated
     overall_universal: float  # 0-35
@@ -64,8 +65,8 @@ class PatternScore:
 
     # Pass/fail
     hard_gates_passed: bool
-    hard_gate_failures: List[str] = field(default_factory=list)
-    failures: List[str] = field(default_factory=list)
+    hard_gate_failures: list[str] = field(default_factory=list)
+    failures: list[str] = field(default_factory=list)
 
     # Stats
     pass_rate: float = 1.0
@@ -98,9 +99,11 @@ class PatternScore:
             "confidence": self.confidence,
         }
 
+
 # =============================================================================
 # CONSTANTS & PROMPTS (Loaded from YAML)
 # =============================================================================
+
 
 def _load_pattern_data():
     """Load pattern data from rubrics/prompt_pattern.yaml."""
@@ -109,34 +112,36 @@ def _load_pattern_data():
     phases = {}
     state_machines = {}
     judge_prompt = ""
-    
+
     try:
         data = load_rubric("prompt_pattern")
         judge_prompt = data.get("judge_prompt", "")
-        
+
         patterns = data.get("patterns", {})
         for name, pdata in patterns.items():
             instructions[name] = pdata.get("instructions", "")
             fields[name] = pdata.get("score_fields", "")
             phases[name] = pdata.get("phases", [])
             state_machines[name] = pdata.get("state_machine", "")
-            
+
     except Exception as e:
         print(f"Warning: Failed to load prompt_pattern.yaml: {e}")
-        
+
     return judge_prompt, instructions, fields, phases, state_machines
+
 
 (
     PATTERN_JUDGE_PROMPT,
     PATTERN_SPECIFIC_INSTRUCTIONS,
     PATTERN_SCORE_FIELDS,
     PATTERN_PHASES,
-    PATTERN_STATE_MACHINES
+    PATTERN_STATE_MACHINES,
 ) = _load_pattern_data()
 
 # =============================================================================
 # SCORING LOGIC
 # =============================================================================
+
 
 @EvaluatorRegistry.register("pattern")
 class PatternEvaluator:
@@ -150,7 +155,7 @@ class PatternEvaluator:
     Attributes:
         llm_client: Client satisfying :class:`LLMClientProtocol`.
     """
-    
+
     def __init__(self, llm_client: LLMClientProtocol):
         self.llm_client = llm_client
 
@@ -161,26 +166,30 @@ class PatternEvaluator:
         model_output: str,
         pattern: str,
         model: str = "gh:gpt-4o",
-        runs: int = 1, # Default reduced for speed, usually 20
+        runs: int = 1,  # Default reduced for speed, usually 20
         temperature: float = 0.1,
     ) -> PatternScore:
         """Score a prompt using pattern (complex) evaluation."""
-        
+
         pattern = pattern.lower()
         if pattern not in PATTERN_PHASES:
-             # Just a basic validation, could be extended
-             valid_patterns = list(PATTERN_PHASES.keys())
-             raise ValueError(f"Unknown pattern: {pattern}. Must be one of: {valid_patterns}")
+            # Just a basic validation, could be extended
+            valid_patterns = list(PATTERN_PHASES.keys())
+            raise ValueError(
+                f"Unknown pattern: {pattern}. Must be one of: {valid_patterns}"
+            )
 
         # Safe formatting
         safe_prompt_content = prompt_content.replace("{", "{{").replace("}", "}}")
         safe_model_output = model_output.replace("{", "{{").replace("}", "}}")
-        
+
         judge_prompt = PATTERN_JUDGE_PROMPT.format(
             pattern_name=pattern.upper(),
             phases=", ".join(PATTERN_PHASES[pattern]),
             state_machine=PATTERN_STATE_MACHINES[pattern],
-            pattern_specific_instructions=PATTERN_SPECIFIC_INSTRUCTIONS.get(pattern, ""),
+            pattern_specific_instructions=PATTERN_SPECIFIC_INSTRUCTIONS.get(
+                pattern, ""
+            ),
             pattern_score_fields=PATTERN_SCORE_FIELDS.get(pattern, ""),
             prompt_content=safe_prompt_content,
             model_output=safe_model_output,
@@ -194,7 +203,7 @@ class PatternEvaluator:
                     prompt=judge_prompt,
                     temperature=temperature,
                 )
-                
+
                 result = self._parse_json_response(response)
                 if result:
                     all_results.append(result)
@@ -202,7 +211,7 @@ class PatternEvaluator:
                 print(f"Pattern eval run {i+1} failed: {e}")
 
         if not all_results:
-             return self._create_empty_score(prompt_name, pattern, model, runs)
+            return self._create_empty_score(prompt_name, pattern, model, runs)
 
         # Robust aggregation: median across all successful runs
         universal = self._aggregate_scores(
@@ -221,7 +230,7 @@ class PatternEvaluator:
 
         # Hard gates check (using aggregated medians)
         hard_gates_passed = True
-        hard_failures: List[str] = []
+        hard_failures: list[str] = []
 
         if universal.get("POI", 0) < 4:
             hard_gates_passed = False
@@ -237,7 +246,7 @@ class PatternEvaluator:
             hard_failures.append("Pattern Robustness < 0.75")
 
         # Aggregate failures and confidence across runs
-        all_failures: List[str] = []
+        all_failures: list[str] = []
         for r in all_results:
             all_failures.extend(r.get("failures", []))
         unique_failures = list(dict.fromkeys(all_failures))  # dedupe, preserve order
@@ -264,20 +273,22 @@ class PatternEvaluator:
         )
 
     @staticmethod
-    def _aggregate_scores(score_dicts: List[Dict[str, float]]) -> Dict[str, float]:
+    def _aggregate_scores(score_dicts: list[dict[str, float]]) -> dict[str, float]:
         """Aggregate multiple score dicts using median per key."""
         if not score_dicts:
             return {}
         all_keys: set[str] = set()
         for d in score_dicts:
             all_keys.update(d.keys())
-        aggregated: Dict[str, float] = {}
+        aggregated: dict[str, float] = {}
         for key in sorted(all_keys):
             values = [d[key] for d in score_dicts if key in d]
             aggregated[key] = statistics.median(values) if values else 0
         return aggregated
 
-    def _create_empty_score(self, prompt_file: str, pattern: str, model: str, runs: int) -> PatternScore:
+    def _create_empty_score(
+        self, prompt_file: str, pattern: str, model: str, runs: int
+    ) -> PatternScore:
         return PatternScore(
             prompt_file=prompt_file,
             pattern=pattern,
@@ -290,16 +301,16 @@ class PatternEvaluator:
             hard_gate_failures=["Execution failed"],
             failures=["No valid JSON response from judge"],
             model=model,
-            runs=runs
+            runs=runs,
         )
 
-    def _parse_json_response(self, text: str) -> Optional[dict]:
+    def _parse_json_response(self, text: str) -> dict | None:
         """Extract and parse JSON from text (handles markdown blocks)."""
         # remove markdown code blocks
         match = re.search(r"```(?:json)?\s*(.*?)\s*```", text, re.DOTALL)
         if match:
             text = match.group(1)
-        
+
         try:
             return json.loads(text)
         except json.JSONDecodeError:
@@ -308,7 +319,7 @@ class PatternEvaluator:
             end = text.rfind("}")
             if start != -1 and end != -1:
                 try:
-                    return json.loads(text[start:end+1])
+                    return json.loads(text[start : end + 1])
                 except:
                     pass
             return None

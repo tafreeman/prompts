@@ -4,9 +4,15 @@ import asyncio
 
 import pytest
 from agentic_v2.contracts import StepStatus
-from agentic_v2.engine import (DAG, CycleDetectedError, DAGExecutor,
-                               ExecutionContext, ExpressionEvaluator,
-                               MissingDependencyError, StepDefinition)
+from agentic_v2.engine import (
+    DAG,
+    CycleDetectedError,
+    DAGExecutor,
+    ExecutionContext,
+    ExpressionEvaluator,
+    MissingDependencyError,
+    StepDefinition,
+)
 
 
 @pytest.mark.asyncio

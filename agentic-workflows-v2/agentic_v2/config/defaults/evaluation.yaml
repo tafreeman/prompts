@@ -213,6 +213,18 @@ evaluation:
       verification: [0.90, 0.75, 0.50]
       recency: [0.90, 0.75, 0.50]
 
+    # Domain-adaptive recency windows (days).
+    # Defines the half-life for exponential recency decay per research domain.
+    # Sources at exactly this age receive a 0.5 recency score.
+    # Overrides the module-level DOMAIN_RECENCY_DAYS defaults in ci_calculator.
+    recency_windows:
+      ai_ml: 90
+      cloud_infrastructure: 180
+      programming_languages: 365
+      academic_research: 730
+      ai_software: 120
+      default: 183
+
     # CI tiebreaker weights (used ONLY inside coalesce() best-of-N ranking).
     # These are NOT used as the stop-gate criterion.
     tiebreaker_weights:

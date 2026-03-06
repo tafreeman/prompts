@@ -1,13 +1,14 @@
-"""E2E smoke test template that demonstrates running a single "subagent"
-in a mocked environment. This test starts a tiny HTTP server to act as the
-external API, writes a small ad-hoc subagent runner script that POSTS to the
-server, runs it as a subprocess and asserts the output.
+"""E2E smoke test template that demonstrates running a single "subagent" in a
+mocked environment. This test starts a tiny HTTP server to act as the external
+API, writes a small ad-hoc subagent runner script that POSTS to the server,
+runs it as a subprocess and asserts the output.
 
 How to run locally:
   pytest tests/e2e/test_subagent_smoke.py -q
 
 This keeps the test self-contained (no external network calls).
 """
+
 import json
 import os
 import socket
@@ -16,9 +17,7 @@ import sys
 import threading
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
-from tempfile import TemporaryDirectory
 
-import pytest
 
 
 class EchoHandler(BaseHTTPRequestHandler):
@@ -58,9 +57,10 @@ def find_free_port():
 
 
 def make_subagent_script(path: Path):
-    """Create a tiny subagent runner script that POSTs JSON to TARGET_URL env var
-    and prints the JSON response. Uses only standard library so it's runnable
-    in minimal CI images.
+    """Create a tiny subagent runner script that POSTs JSON to TARGET_URL env
+    var and prints the JSON response.
+
+    Uses only standard library so it's runnable in minimal CI images.
     """
     content = r"""
 import os, sys, json, urllib.request
@@ -92,13 +92,17 @@ def test_subagent_runner_against_mock_api(tmp_path):
     script_path = tmp_path / "subagent_runner.py"
     make_subagent_script(script_path)
 
-    env = dict(**{
-        **os.environ.copy(),
-        "TARGET_URL": f"http://127.0.0.1:{port}/invoke",
-    })
+    env = dict(
+        **{
+            **os.environ.copy(),
+            "TARGET_URL": f"http://127.0.0.1:{port}/invoke",
+        }
+    )
 
     # run the subagent as a separate process to emulate real e2e execution
-    proc = subprocess.run([sys.executable, str(script_path)], capture_output=True, text=True, env=env)
+    proc = subprocess.run(
+        [sys.executable, str(script_path)], capture_output=True, text=True, env=env
+    )
 
     server.shutdown()
     t.join(timeout=1)

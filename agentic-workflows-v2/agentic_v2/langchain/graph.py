@@ -23,13 +23,13 @@ from typing import Any, Optional
 from langchain_core.messages import AIMessage, HumanMessage
 from langgraph.graph import END, START, StateGraph
 
+from ..integrations.base import TraceAdapter
+from ..integrations.tracing import NullTraceAdapter
 from .agents import create_agent, parse_agent_tier
 from .config import StepConfig, WorkflowConfig
 from .expressions import evaluate_condition, resolve_expression
 from .models import get_model_candidates_for_tier, is_retryable_model_error
 from .state import WorkflowState
-from ..integrations.base import TraceAdapter
-from ..integrations.tracing import NullTraceAdapter
 
 logger = logging.getLogger(__name__)
 
@@ -180,8 +180,7 @@ def _build_task_description(step: StepConfig, resolved_inputs: dict[str, Any]) -
 def _extract_agent_response_text(agent_result: dict[str, Any]) -> str:
     """Extract the final AIMessage text from an agent response payload."""
     ai_messages = [
-        m for m in agent_result.get("messages", [])
-        if isinstance(m, AIMessage)
+        m for m in agent_result.get("messages", []) if isinstance(m, AIMessage)
     ]
     if not ai_messages:
         return ""
@@ -226,7 +225,9 @@ def _parse_json_dict_from_text(text: str) -> dict[str, Any] | None:
     except Exception:
         pass
 
-    fenced = re.findall(r"```(?:json)?\s*(\{.*?\})\s*```", raw, flags=re.DOTALL | re.IGNORECASE)
+    fenced = re.findall(
+        r"```(?:json)?\s*(\{.*?\})\s*```", raw, flags=re.DOTALL | re.IGNORECASE
+    )
     for candidate in fenced:
         try:
             parsed = json.loads(candidate)
@@ -379,6 +380,7 @@ def _make_step_node(
 
     # Validation mode: compile graph shape without requiring provider/model setup.
     if validate_only:
+
         def _validation_noop(state: WorkflowState) -> dict[str, Any]:
             return {
                 "context": dict(state.get("context", {})),
@@ -544,9 +546,7 @@ def _wrap_with_skip_check(step: StepConfig, node_fn: Any) -> Any:
 
     def _self_skip_node(state: WorkflowState) -> dict[str, Any]:
         if not evaluate_condition(when_expr, dict(state)):
-            logger.info(
-                "Step '%s' self-skipped (when condition not met)", step.name
-            )
+            logger.info("Step '%s' self-skipped (when condition not met)", step.name)
             return {
                 "context": dict(state.get("context", {})),
                 "steps": {
@@ -598,9 +598,7 @@ def _validate_dependencies(config: WorkflowConfig, step_names: set[str]) -> None
     for step in config.steps:
         for dep in step.depends_on:
             if dep not in step_names:
-                raise ValueError(
-                    f"Step '{step.name}' depends on unknown step '{dep}'"
-                )
+                raise ValueError(f"Step '{step.name}' depends on unknown step '{dep}'")
 
 
 def _build_outgoing_map(config: WorkflowConfig) -> dict[str, list[StepConfig]]:
@@ -651,7 +649,8 @@ def _add_loop_edges(graph: StateGraph, config: WorkflowConfig) -> None:
 
 
 def _compile_graph(graph: StateGraph, checkpointer: Any = None) -> Any:
-    """Compile graph with optional checkpointer, with compatibility fallback."""
+    """Compile graph with optional checkpointer, with compatibility
+    fallback."""
     if checkpointer is None:
         return graph.compile()
     try:

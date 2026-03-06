@@ -20,8 +20,8 @@ import sys
 from pathlib import Path
 from typing import Optional
 
-from tools.llm.local_models import LOCAL_MODELS
 from tools.llm import provider_adapters
+from tools.llm.local_models import LOCAL_MODELS
 
 # =============================================================================
 # WINDOWS CONSOLE ENCODING FIX - Use shared module

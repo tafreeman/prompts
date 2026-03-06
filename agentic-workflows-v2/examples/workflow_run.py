@@ -29,7 +29,7 @@ async def main():
         # Pick the first one, e.g., "code_review"
         wf_name = "code_review" if "code_review" in available else available[0]
         logger.info(f"Loading workflow: {wf_name}")
-        
+
         workflow_def = loader.load(wf_name)
         dag = workflow_def.dag
 
@@ -51,11 +51,11 @@ async def main():
         if wf_name == "code_review" and Path("dummy_code.py").exists():
             Path("dummy_code.py").unlink()
             logger.info("Cleaned up dummy file")
-        
+
         print("\nWorkflow Execution Result:")
         print(f"Status: {res.overall_status}")
         print(f"Result: {res}")
-        
+
     except Exception as e:
         logger.error(f"Error running workflow: {e}", exc_info=True)
 

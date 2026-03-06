@@ -204,9 +204,9 @@ class LLMClientWrapper:
     def _cache_key(self, prompt: str, tier: ModelTier, **kwargs: Any) -> str:
         """Generate cache key for request.
 
-        The key is a stable hash of the prompt, model tier, and sorted kwargs. 
-        This ensures that identical requests produce the same key regardless 
-        of dictionary ordering.
+        The key is a stable hash of the prompt, model tier, and sorted
+        kwargs. This ensures that identical requests produce the same
+        key regardless of dictionary ordering.
         """
         key_data = f"{prompt}:{tier.value}:{sorted(kwargs.items())}"
         return hashlib.sha256(key_data.encode()).hexdigest()[:16]
@@ -214,7 +214,8 @@ class LLMClientWrapper:
     def _get_cached(self, key: str) -> Optional[CachedResponse]:
         """Get cached response if valid.
 
-        Checks for presence and ensures the entry has not exceeded the TTL.
+        Checks for presence and ensures the entry has not exceeded the
+        TTL.
         """
         if not self.enable_cache:
             return None
@@ -233,8 +234,8 @@ class LLMClientWrapper:
     def _set_cached(self, key: str, response: str, model: str, tokens: int) -> None:
         """Cache a response.
 
-        Stores the model used and token count alongside the content to 
-        preserve metadata on cache hit. Includes LRU-style pruning if 
+        Stores the model used and token count alongside the content to
+        preserve metadata on cache hit. Includes LRU-style pruning if
         cache size exceeds 1000 entries.
         """
         if not self.enable_cache:

@@ -2,13 +2,11 @@
 
 from __future__ import annotations
 
-import pytest
-from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse
-from starlette.testclient import TestClient
-
 import agentic_v2.server.auth as auth_module
+import pytest
 from agentic_v2.server.auth import APIKeyMiddleware, _extract_token
+from fastapi import FastAPI, Request
+from starlette.testclient import TestClient
 
 
 def _make_app(api_key: str | None) -> FastAPI:
@@ -48,9 +46,7 @@ class TestExtractToken:
             "type": "http",
             "method": "GET",
             "path": "/api/run",
-            "headers": [
-                (k.lower().encode(), v.encode()) for k, v in headers.items()
-            ],
+            "headers": [(k.lower().encode(), v.encode()) for k, v in headers.items()],
         }
         return Request(scope)
 
@@ -71,10 +67,12 @@ class TestExtractToken:
 
     def test_bearer_takes_precedence_over_x_api_key(self) -> None:
         """Bearer token is checked before X-API-Key."""
-        request = self._make_request({
-            "authorization": "Bearer bearer-key",
-            "x-api-key": "x-key",
-        })
+        request = self._make_request(
+            {
+                "authorization": "Bearer bearer-key",
+                "x-api-key": "x-key",
+            }
+        )
         assert _extract_token(request) == "bearer-key"
 
     def test_no_token_returns_none(self) -> None:
@@ -96,7 +94,9 @@ class TestExtractToken:
 class TestAPIKeyMiddlewareNoKey:
     """Tests when AGENTIC_API_KEY is not set (auth disabled)."""
 
-    def test_no_api_key_env_allows_all_requests(self, monkeypatch: pytest.MonkeyPatch) -> None:
+    def test_no_api_key_env_allows_all_requests(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
         """When AGENTIC_API_KEY is unset, all requests pass through."""
         monkeypatch.setattr(auth_module, "_API_KEY", None)
         app = _make_app(api_key=None)

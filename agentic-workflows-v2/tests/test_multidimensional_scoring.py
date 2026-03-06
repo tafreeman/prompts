@@ -13,7 +13,6 @@ They verify:
 from __future__ import annotations
 
 import pytest
-
 from agentic_v2.server.multidimensional_scoring import (
     RESEARCH_DIMENSIONS,
     MultidimensionalGateResult,
@@ -26,7 +25,6 @@ from agentic_v2.server.multidimensional_scoring import (
     is_multidimensional_engine_active,
     research_stop_gate,
 )
-
 
 # ---------------------------------------------------------------------------
 # Tier classification
@@ -152,11 +150,11 @@ class TestEvaluateResearchRound:
     def test_high_scores_cannot_compensate_low_verification(self) -> None:
         """The key ADR-007 property: no compensability."""
         result = evaluate_research_round(
-            coverage_score=0.95,       # Elite
+            coverage_score=0.95,  # Elite
             source_quality_score=0.95,  # Elite
-            agreement_score=0.90,       # Elite
-            verification_score=0.20,    # LOW ← failure
-            recency_score=0.95,         # Elite
+            agreement_score=0.90,  # Elite
+            verification_score=0.20,  # LOW ← failure
+            recency_score=0.95,  # Elite
             recent_sources_count=20,
             critical_contradictions=0,
         )
@@ -166,7 +164,7 @@ class TestEvaluateResearchRound:
     def test_insufficient_recent_sources_fails(self) -> None:
         result = evaluate_research_round(
             **_all_high(),
-            recent_sources_count=5,    # < 10
+            recent_sources_count=5,  # < 10
             critical_contradictions=0,
         )
         assert result.gate_passed is False
@@ -233,9 +231,9 @@ class TestEvaluateResearchRound:
             recent_sources_count=12,
             critical_contradictions=0,
         )
-        assert result_default.gate_passed is True, (
-            "Module-level _SCORE_THRESHOLDS was mutated by the previous call!"
-        )
+        assert (
+            result_default.gate_passed is True
+        ), "Module-level _SCORE_THRESHOLDS was mutated by the previous call!"
 
 
 # ---------------------------------------------------------------------------
@@ -288,8 +286,8 @@ class TestCoalesceBestRound:
 
     def test_prefers_passing_round(self) -> None:
         rounds = [
-            self._make(False, 0.90),   # higher CI but failed
-            self._make(True, 0.78),    # lower CI but passed
+            self._make(False, 0.90),  # higher CI but failed
+            self._make(True, 0.78),  # lower CI but passed
         ]
         best = coalesce_best_round(rounds)
         assert best is not None
@@ -323,6 +321,56 @@ class TestCoalesceBestRound:
         best = coalesce_best_round(rounds)  # type: ignore[arg-type]
         assert best is not None
         assert best["ci_score"] == pytest.approx(0.80)
+
+    def test_same_ci_prefers_earlier_round(self) -> None:
+        """Lexicographic tiebreak: earlier round wins when CI is identical."""
+        r1 = self._make(True, 0.85)
+        r1["round"] = "R1"
+        r2 = self._make(True, 0.85)
+        r2["round"] = "R2"
+        best = coalesce_best_round([r1, r2])
+        assert best is not None
+        assert best["round"] == "R1"
+
+    def test_failing_same_ci_prefers_earlier(self) -> None:
+        """Among failing rounds with equal CI, earlier round wins."""
+        r1 = self._make(False, 0.60)
+        r1["round"] = "R1"
+        r2 = self._make(False, 0.60)
+        r2["round"] = "R2"
+        best = coalesce_best_round([r1, r2])
+        assert best is not None
+        assert best["round"] == "R1"
+
+    def test_passing_always_beats_failing_regardless_of_ci(self) -> None:
+        """A passing round with low CI still beats a failing round with high
+        CI."""
+        rounds = [
+            self._make(False, 0.99),
+            self._make(True, 0.01),
+        ]
+        best = coalesce_best_round(rounds)
+        assert best is not None
+        assert best["gate_passed"] is True
+        assert best["ci_score"] == pytest.approx(0.01)
+
+    def test_single_round(self) -> None:
+        """Single round should be returned regardless of gate status."""
+        rounds = [self._make(False, 0.50)]
+        best = coalesce_best_round(rounds)
+        assert best is not None
+        assert best["ci_score"] == pytest.approx(0.50)
+
+    def test_lexicographic_four_rounds(self) -> None:
+        """Full R1-R4 scenario: R2 passes first, R4 also passes with same CI."""
+        r1 = {**self._make(False, 0.60), "round": "R1"}
+        r2 = {**self._make(True, 0.80), "round": "R2"}
+        r3 = {**self._make(False, 0.70), "round": "R3"}
+        r4 = {**self._make(True, 0.80), "round": "R4"}
+        best = coalesce_best_round([r1, r2, r3, r4])
+        assert best is not None
+        # R2 and R4 both pass with 0.80 CI — R2 wins (earlier index)
+        assert best["round"] == "R2"
 
 
 # ---------------------------------------------------------------------------
@@ -361,9 +409,7 @@ class TestResearchStopGate:
         "ci_score": 0.80,
     }
 
-    _cfg_new = {
-        "evaluation": {"deep_research": {"scoring_engine": "multidimensional"}}
-    }
+    _cfg_new = {"evaluation": {"deep_research": {"scoring_engine": "multidimensional"}}}
     _cfg_legacy = {
         "evaluation": {"deep_research": {"scoring_engine": "legacy", "min_ci": 0.80}}
     }

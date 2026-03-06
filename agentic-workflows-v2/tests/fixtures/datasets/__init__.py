@@ -1,8 +1,8 @@
 """Dataset fixtures for workflow testing.
 
-Provides adapters that map Hugging Face dataset samples to the input schemas
-expected by each built-in workflow (code_review, fullstack_generation,
-plan_implementation).
+Provides adapters that map Hugging Face dataset samples to the input
+schemas expected by each built-in workflow (code_review,
+fullstack_generation, plan_implementation).
 """
 
 from __future__ import annotations
@@ -25,54 +25,56 @@ def _load(name: str) -> list[dict[str, Any]]:
 # Raw loaders
 # ---------------------------------------------------------------------------
 
+
 def load_code_review_instruct() -> list[dict[str, Any]]:
-    """Dahoas/code-review-instruct-critique-revision-python"""
+    """Dahoas/code-review-instruct-critique-revision-python."""
     return _load("code_review_instruct")
 
 
 def load_python_code_instructions() -> list[dict[str, Any]]:
-    """iamtarun/python_code_instructions_18k_alpaca"""
+    """iamtarun/python_code_instructions_18k_alpaca."""
     return _load("python_code_instructions_18k")
 
 
 def load_react_code_instructions() -> list[dict[str, Any]]:
-    """cfahlgren1/react-code-instructions"""
+    """cfahlgren1/react-code-instructions."""
     return _load("react_code_instructions")
 
 
 def load_code_instructions_120k() -> list[dict[str, Any]]:
-    """iamtarun/code_instructions_120k_alpaca"""
+    """iamtarun/code_instructions_120k_alpaca."""
     return _load("code_instructions_120k")
 
 
 def load_swe_bench_lite() -> list[dict[str, Any]]:
-    """princeton-nlp/SWE-bench_Lite"""
+    """princeton-nlp/SWE-bench_Lite."""
     return _load("swe_bench_lite")
 
 
 def load_swe_bench_verified() -> list[dict[str, Any]]:
-    """princeton-nlp/SWE-bench_Verified"""
+    """princeton-nlp/SWE-bench_Verified."""
     return _load("swe_bench_verified")
 
 
 def load_mbpp() -> list[dict[str, Any]]:
-    """google-research-datasets/mbpp"""
+    """google-research-datasets/mbpp."""
     return _load("mbpp")
 
 
 def load_humaneval() -> list[dict[str, Any]]:
-    """openai/openai_humaneval"""
+    """openai/openai_humaneval."""
     return _load("humaneval")
 
 
 def load_codeparrot_apps() -> list[dict[str, Any]]:
-    """codeparrot/apps"""
+    """codeparrot/apps."""
     return _load("codeparrot_apps")
 
 
 # ---------------------------------------------------------------------------
 # Workflow-specific adapters
 # ---------------------------------------------------------------------------
+
 
 def code_review_inputs(limit: int = 5) -> list[dict[str, Any]]:
     """Adapt code review dataset → code_review.yaml inputs.
@@ -85,28 +87,32 @@ def code_review_inputs(limit: int = 5) -> list[dict[str, Any]]:
     # From code review instruct (has real code + critique)
     for rec in load_code_review_instruct()[:limit]:
         code = rec.get("response") or rec.get("body", "")
-        results.append({
-            "code_file": "__inline__",
-            "code_content": code[:2000],
-            "review_depth": "standard",
-            "_meta": {
-                "source": "Dahoas/code-review-instruct-critique-revision-python",
-                "question_id": rec.get("question_id"),
-                "has_answer": bool(rec.get("answer")),
-            },
-        })
+        results.append(
+            {
+                "code_file": "__inline__",
+                "code_content": code[:2000],
+                "review_depth": "standard",
+                "_meta": {
+                    "source": "Dahoas/code-review-instruct-critique-revision-python",
+                    "question_id": rec.get("question_id"),
+                    "has_answer": bool(rec.get("answer")),
+                },
+            }
+        )
 
     # From python code instructions (has instruction + output code)
     for rec in load_python_code_instructions()[:limit]:
-        results.append({
-            "code_file": "__inline__",
-            "code_content": rec.get("output", "")[:2000],
-            "review_depth": "quick",
-            "_meta": {
-                "source": "iamtarun/python_code_instructions_18k_alpaca",
-                "instruction": rec.get("instruction", ""),
-            },
-        })
+        results.append(
+            {
+                "code_file": "__inline__",
+                "code_content": rec.get("output", "")[:2000],
+                "review_depth": "quick",
+                "_meta": {
+                    "source": "iamtarun/python_code_instructions_18k_alpaca",
+                    "instruction": rec.get("instruction", ""),
+                },
+            }
+        )
 
     return results
 
@@ -121,38 +127,40 @@ def fullstack_generation_inputs(limit: int = 5) -> list[dict[str, Any]]:
     # From react code instructions (real React app specs)
     for rec in load_react_code_instructions()[:limit]:
         messages = rec.get("messages", [])
-        user_msg = next(
-            (m["content"] for m in messages if m.get("role") == "user"), ""
+        user_msg = next((m["content"] for m in messages if m.get("role") == "user"), "")
+        results.append(
+            {
+                "feature_spec": user_msg[:3000],
+                "tech_stack": {
+                    "frontend": "react",
+                    "backend": "fastapi",
+                    "database": "postgresql",
+                },
+                "_meta": {
+                    "source": "cfahlgren1/react-code-instructions",
+                    "model": rec.get("model"),
+                    "has_response": len(messages) > 1,
+                },
+            }
         )
-        results.append({
-            "feature_spec": user_msg[:3000],
-            "tech_stack": {
-                "frontend": "react",
-                "backend": "fastapi",
-                "database": "postgresql",
-            },
-            "_meta": {
-                "source": "cfahlgren1/react-code-instructions",
-                "model": rec.get("model"),
-                "has_response": len(messages) > 1,
-            },
-        })
 
     # From code instructions 120k (multi-language)
     for rec in load_code_instructions_120k()[:limit]:
-        results.append({
-            "feature_spec": rec.get("instruction", ""),
-            "tech_stack": {
-                "frontend": "react",
-                "backend": "fastapi",
-                "database": "postgresql",
-            },
-            "_meta": {
-                "source": "iamtarun/code_instructions_120k_alpaca",
-                "has_input": bool(rec.get("input")),
-                "has_output": bool(rec.get("output")),
-            },
-        })
+        results.append(
+            {
+                "feature_spec": rec.get("instruction", ""),
+                "tech_stack": {
+                    "frontend": "react",
+                    "backend": "fastapi",
+                    "database": "postgresql",
+                },
+                "_meta": {
+                    "source": "iamtarun/code_instructions_120k_alpaca",
+                    "has_input": bool(rec.get("input")),
+                    "has_output": bool(rec.get("output")),
+                },
+            }
+        )
 
     return results
 
@@ -166,32 +174,36 @@ def python_code_review_inputs(limit: int = 5) -> list[dict[str, Any]]:
 
     # MBPP — real Python solutions with test assertions
     for rec in load_mbpp()[:limit]:
-        results.append({
-            "code_file": "__inline__",
-            "code_content": rec.get("code", "")[:2000],
-            "review_depth": "standard",
-            "_meta": {
-                "source": "google-research-datasets/mbpp",
-                "task_id": rec.get("task_id"),
-                "description": rec.get("text", ""),
-                "test_list": rec.get("test_list", []),
-            },
-        })
+        results.append(
+            {
+                "code_file": "__inline__",
+                "code_content": rec.get("code", "")[:2000],
+                "review_depth": "standard",
+                "_meta": {
+                    "source": "google-research-datasets/mbpp",
+                    "task_id": rec.get("task_id"),
+                    "description": rec.get("text", ""),
+                    "test_list": rec.get("test_list", []),
+                },
+            }
+        )
 
     # HumanEval — function prompts + canonical solutions
     for rec in load_humaneval()[:limit]:
         code = rec.get("prompt", "") + rec.get("canonical_solution", "")
-        results.append({
-            "code_file": "__inline__",
-            "code_content": code[:2000],
-            "review_depth": "deep",
-            "_meta": {
-                "source": "openai/openai_humaneval",
-                "task_id": rec.get("task_id"),
-                "entry_point": rec.get("entry_point"),
-                "has_test": bool(rec.get("test")),
-            },
-        })
+        results.append(
+            {
+                "code_file": "__inline__",
+                "code_content": code[:2000],
+                "review_depth": "deep",
+                "_meta": {
+                    "source": "openai/openai_humaneval",
+                    "task_id": rec.get("task_id"),
+                    "entry_point": rec.get("entry_point"),
+                    "has_test": bool(rec.get("test")),
+                },
+            }
+        )
 
     return results
 
@@ -210,37 +222,41 @@ def python_fullstack_inputs(limit: int = 5) -> list[dict[str, Any]]:
         if starter:
             spec += f"\n\nStarter code:\n{starter}"
 
-        results.append({
-            "feature_spec": spec[:3000],
-            "tech_stack": {
-                "frontend": "none",
-                "backend": "python",
-                "database": "none",
-            },
-            "_meta": {
-                "source": "codeparrot/apps",
-                "problem_id": rec.get("problem_id"),
-                "difficulty": rec.get("difficulty"),
-                "has_solutions": bool(rec.get("solutions")),
-                "has_io": bool(rec.get("input_output")),
-            },
-        })
+        results.append(
+            {
+                "feature_spec": spec[:3000],
+                "tech_stack": {
+                    "frontend": "none",
+                    "backend": "python",
+                    "database": "none",
+                },
+                "_meta": {
+                    "source": "codeparrot/apps",
+                    "problem_id": rec.get("problem_id"),
+                    "difficulty": rec.get("difficulty"),
+                    "has_solutions": bool(rec.get("solutions")),
+                    "has_io": bool(rec.get("input_output")),
+                },
+            }
+        )
 
     # Also use MBPP problems as generation specs
     for rec in load_mbpp()[:limit]:
-        results.append({
-            "feature_spec": rec.get("text", ""),
-            "tech_stack": {
-                "frontend": "none",
-                "backend": "python",
-                "database": "none",
-            },
-            "_meta": {
-                "source": "google-research-datasets/mbpp",
-                "task_id": rec.get("task_id"),
-                "has_tests": bool(rec.get("test_list")),
-            },
-        })
+        results.append(
+            {
+                "feature_spec": rec.get("text", ""),
+                "tech_stack": {
+                    "frontend": "none",
+                    "backend": "python",
+                    "database": "none",
+                },
+                "_meta": {
+                    "source": "google-research-datasets/mbpp",
+                    "task_id": rec.get("task_id"),
+                    "has_tests": bool(rec.get("test_list")),
+                },
+            }
+        )
 
     return results
 
@@ -255,39 +271,43 @@ def plan_implementation_inputs(limit: int = 5) -> list[dict[str, Any]]:
 
     # SWE-bench Lite
     for rec in load_swe_bench_lite()[:limit]:
-        results.append({
-            "plan_document": rec.get("problem_statement", ""),
-            "target_directory": "agentic-workflows-v2",
-            "acceptance_criteria": (
-                f"Fix issue in {rec.get('repo', 'unknown')}. "
-                f"Tests that must pass: {rec.get('FAIL_TO_PASS', '[]')}"
-            ),
-            "_meta": {
-                "source": "princeton-nlp/SWE-bench_Lite",
-                "instance_id": rec.get("instance_id"),
-                "repo": rec.get("repo"),
-                "has_patch": bool(rec.get("patch")),
-                "has_test_patch": bool(rec.get("test_patch")),
-            },
-        })
+        results.append(
+            {
+                "plan_document": rec.get("problem_statement", ""),
+                "target_directory": "agentic-workflows-v2",
+                "acceptance_criteria": (
+                    f"Fix issue in {rec.get('repo', 'unknown')}. "
+                    f"Tests that must pass: {rec.get('FAIL_TO_PASS', '[]')}"
+                ),
+                "_meta": {
+                    "source": "princeton-nlp/SWE-bench_Lite",
+                    "instance_id": rec.get("instance_id"),
+                    "repo": rec.get("repo"),
+                    "has_patch": bool(rec.get("patch")),
+                    "has_test_patch": bool(rec.get("test_patch")),
+                },
+            }
+        )
 
     # SWE-bench Verified
     for rec in load_swe_bench_verified()[:limit]:
-        results.append({
-            "plan_document": rec.get("problem_statement", ""),
-            "target_directory": "agentic-workflows-v2",
-            "acceptance_criteria": (
-                f"Fix issue in {rec.get('repo', 'unknown')}. "
-                f"Difficulty: {rec.get('difficulty', 'unknown')}. "
-                f"Tests: {rec.get('FAIL_TO_PASS', '[]')}"
-            ),
-            "_meta": {
-                "source": "princeton-nlp/SWE-bench_Verified",
-                "instance_id": rec.get("instance_id"),
-                "repo": rec.get("repo"),
-                "difficulty": rec.get("difficulty"),
-            },
-        })
+        results.append(
+            {
+                "plan_document": rec.get("problem_statement", ""),
+                "target_directory": "agentic-workflows-v2",
+                "acceptance_criteria": (
+                    f"Fix issue in {rec.get('repo', 'unknown')}. "
+                    f"Difficulty: {rec.get('difficulty', 'unknown')}. "
+                    f"Tests: {rec.get('FAIL_TO_PASS', '[]')}"
+                ),
+                "_meta": {
+                    "source": "princeton-nlp/SWE-bench_Verified",
+                    "instance_id": rec.get("instance_id"),
+                    "repo": rec.get("repo"),
+                    "difficulty": rec.get("difficulty"),
+                },
+            }
+        )
 
     return results
 
@@ -295,6 +315,7 @@ def plan_implementation_inputs(limit: int = 5) -> list[dict[str, Any]]:
 # ---------------------------------------------------------------------------
 # Summary / inventory
 # ---------------------------------------------------------------------------
+
 
 def dataset_summary() -> dict[str, dict[str, Any]]:
     """Return a summary of all available dataset fixtures."""

@@ -74,7 +74,9 @@ class NormalizationFormula:
 
 FORMULA_REGISTRY: dict[str, NormalizationFormula] = {
     "binary": NormalizationFormula("binary", "Binary 0/1 passthrough", _binary),
-    "likert_1_5": NormalizationFormula("likert_1_5", "Likert 1..5 to 0..1", _likert_1_5),
+    "likert_1_5": NormalizationFormula(
+        "likert_1_5", "Likert 1..5 to 0..1", _likert_1_5
+    ),
     "likert_neg2_2": NormalizationFormula(
         "likert_neg2_2",
         "Likert -2..2 to 0..1",
@@ -105,7 +107,9 @@ def normalize_score(raw_score: Any, formula_id: str, **kwargs: Any) -> float:
     formula = FORMULA_REGISTRY.get(formula_id)
     if formula is None:
         available = ", ".join(list_formula_ids())
-        raise KeyError(f"Unknown normalization formula '{formula_id}'. Available: {available}")
+        raise KeyError(
+            f"Unknown normalization formula '{formula_id}'. Available: {available}"
+        )
     return float(formula.transform(raw_score, **kwargs))
 
 
@@ -124,4 +128,3 @@ def adjust_for_sample_size(
     if denominator <= 0:
         return clamp01(norm)
     return clamp01(numerator / denominator)
-

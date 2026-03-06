@@ -16,17 +16,27 @@ from __future__ import annotations
 
 import asyncio
 import json
+import logging
 from dataclasses import dataclass, field
-from typing import Any, Optional
+from typing import Any, Callable, Optional
 
 from pydantic import Field
 
 from ..contracts import StepStatus, TaskInput, TaskOutput, WorkflowResult
-from ..engine import (DAG, DAGExecutor, ExecutionContext, PipelineBuilder, run_pipeline)
+from ..engine import DAG, ExecutionContext, PipelineBuilder, run_pipeline
+from ..engine.protocol import ExecutionEngine
 from ..models import ModelTier
 from .base import AgentConfig, BaseAgent, agent_to_step
-from .capabilities import (Capability, CapabilitySet, CapabilityType,
-                           OrchestrationMixin, get_agent_capabilities)
+from .json_extraction import extract_json
+from .capabilities import (
+    Capability,
+    CapabilitySet,
+    CapabilityType,
+    OrchestrationMixin,
+    get_agent_capabilities,
+)
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -128,6 +138,8 @@ class OrchestratorAgent(
        best satisfies the requirements (via :meth:`CapabilitySet.score_match`).
     3. **Execution** -- Subtasks are executed respecting dependency order.
        Independent subtasks run concurrently up to ``max_parallel``.
+       If the primary agent fails, fallback candidates are tried in
+       descending capability-score order.
 
     Agents are registered via :meth:`register_agent` and can be removed
     with :meth:`unregister_agent`.
@@ -139,10 +151,27 @@ class OrchestratorAgent(
         **kwargs: Passed through to :class:`BaseAgent.__init__`.
     """
 
+    # Class-level task input factory registry (Rec #9)
+    _task_input_factories: dict[type, Callable[[str], Any]] = {}
+
+    @classmethod
+    def register_task_input_factory(
+        cls, agent_type: type, factory: Callable[[str], Any]
+    ) -> None:
+        """Register a task input factory for a specific agent type.
+
+        Args:
+            agent_type: The agent class this factory handles.
+            factory: Callable that takes a subtask description string
+                and returns the appropriate TaskInput instance.
+        """
+        cls._task_input_factories[agent_type] = factory
+
     def __init__(
         self,
         config: Optional[AgentConfig] = None,
         agents: Optional[dict[str, BaseAgent]] = None,
+        execution_engine: Optional[ExecutionEngine] = None,
         **kwargs,
     ):
         if config is None:
@@ -156,6 +185,9 @@ class OrchestratorAgent(
 
         super().__init__(config=config, **kwargs)
 
+        # Execution engine (defaults to DAGExecutor for backward compat)
+        self._execution_engine = execution_engine
+
         # Managed agents
         self._agents: dict[str, BaseAgent] = agents or {}
         self._agent_capabilities: dict[str, CapabilitySet] = {}
@@ -163,6 +195,35 @@ class OrchestratorAgent(
         # Execution state
         self._subtasks: dict[str, SubTask] = {}
         self._execution_trace: list[dict[str, Any]] = []
+
+        # Fallback chain: subtask_id -> [agent_name, ...] in score order
+        self._fallback_chains: dict[str, list[str]] = {}
+
+        # Lazy-register built-in factories (once)
+        if not OrchestratorAgent._task_input_factories:
+            _register_default_factories()
+
+    def _resolve_task_input(
+        self, subtask_desc: str, target_agent: BaseAgent
+    ) -> Any:
+        """Create the right TaskInput subclass for the given agent.
+
+        Checks the registered factory for the agent's exact type first,
+        then walks the MRO for base-class factories, and finally falls
+        back to CodeGenerationInput.
+        """
+        for cls in type(target_agent).__mro__:
+            factory = self._task_input_factories.get(cls)
+            if factory is not None:
+                return factory(subtask_desc)
+
+        # Default fallback
+        from ..contracts import CodeGenerationInput
+
+        return CodeGenerationInput(
+            description=subtask_desc,
+            language="python",
+        )
 
     def register_agent(self, name: str, agent: BaseAgent) -> None:
         """Register an agent for orchestration."""
@@ -295,48 +356,51 @@ class OrchestratorAgent(
         }
 
     def _extract_json(self, text: str) -> dict[str, Any]:
-        """Extract JSON from response."""
-        import re
+        """Extract JSON from response using balanced-brace extraction.
 
-        json_match = re.search(r"```json\s*(.*?)```", text, re.DOTALL)
-        if json_match:
-            return json.loads(json_match.group(1))
-
-        json_match = re.search(r"\{.*\}", text, re.DOTALL)
-        if json_match:
-            return json.loads(json_match.group(0))
-
-        raise ValueError("No JSON found")
+        Delegates to :func:`extract_json` which replaces the previous
+        greedy regex (``\\{.*\\}``) with proper brace balancing.
+        """
+        return extract_json(text)
 
     async def _assign_agents(self) -> dict[str, str]:
-        """Assign agents to subtasks based on capabilities."""
+        """Assign agents to subtasks based on capabilities.
+
+        Stores a ranked fallback chain for each subtask so that
+        execution can try the next-best agent if the primary fails.
+        """
         assignments = {}
 
         for task_id, subtask in self._subtasks.items():
-            best_agent = None
-            best_score = 0.0
-
             required = CapabilitySet()
             for cap_type in subtask.required_capabilities:
                 required.add(Capability(type=cap_type))
 
+            # Score all agents and sort descending
+            candidates: list[tuple[str, float]] = []
             for agent_name, agent_caps in self._agent_capabilities.items():
                 score = agent_caps.score_match(required)
-                if score > best_score:
-                    best_score = score
-                    best_agent = agent_name
+                if score > 0.0:
+                    candidates.append((agent_name, score))
 
-            if best_agent:
+            candidates.sort(key=lambda pair: pair[1], reverse=True)
+
+            if candidates:
+                best_agent = candidates[0][0]
                 subtask.assigned_agent = best_agent
                 assignments[task_id] = best_agent
+                # Store fallback chain (excluding primary)
+                self._fallback_chains[task_id] = [
+                    name for name, _ in candidates[1:]
+                ]
 
         return assignments
 
     async def _execute_plan(self, task: OrchestratorInput) -> Any:
-        """Execute the decomposed plan."""
+        """Execute the decomposed plan with fallback chain support."""
         # Group by dependencies for parallel execution
-        executed = set()
-        results = {}
+        executed: set[str] = set()
+        results: dict[str, Any] = {}
 
         while len(executed) < len(self._subtasks):
             # Find tasks ready to execute
@@ -354,24 +418,38 @@ class OrchestratorAgent(
             batch = ready[: task.max_parallel]
 
             async def execute_subtask(st: SubTask) -> tuple[str, Any]:
-                agent = self._agents.get(st.assigned_agent or "")
-                if not agent:
-                    return st.id, {"error": "No agent assigned"}
+                # Build candidate list: primary agent + fallbacks
+                candidates: list[str] = []
+                if st.assigned_agent:
+                    candidates.append(st.assigned_agent)
+                candidates.extend(self._fallback_chains.get(st.id, []))
 
-                try:
-                    # Create a simple task input
-                    from ..contracts import CodeGenerationInput
+                for agent_name in candidates:
+                    agent = self._agents.get(agent_name)
+                    if not agent:
+                        continue
+                    try:
+                        task_input = self._resolve_task_input(
+                            st.description, agent
+                        )
+                        result = await agent.run(task_input)
+                        st.status = StepStatus.SUCCESS
+                        st.result = result
+                        return st.id, result
+                    except Exception as e:
+                        logger.warning(
+                            "Agent %s failed for subtask %s: %s, "
+                            "trying fallback",
+                            agent_name,
+                            st.id,
+                            e,
+                        )
+                        continue
 
-                    task_input = CodeGenerationInput(
-                        description=st.description, language="python"
-                    )
-                    result = await agent.run(task_input)
-                    st.status = StepStatus.SUCCESS
-                    st.result = result
-                    return st.id, result
-                except Exception as e:
-                    st.status = StepStatus.FAILED
-                    return st.id, {"error": str(e)}
+                st.status = StepStatus.FAILED
+                return st.id, {
+                    "error": f"All agents failed for subtask {st.id}"
+                }
 
             batch_results = await asyncio.gather(
                 *[execute_subtask(st) for st in batch], return_exceptions=True
@@ -467,33 +545,15 @@ class OrchestratorAgent(
             description=f"DAG generated from task: {task.task}",
         )
 
-        from ..contracts import CodeGenerationInput, CodeReviewInput
         from ..engine.step import StepDefinition
-
-        def _make_task_input(subtask_desc: str, target_agent: BaseAgent) -> Any:
-            """Create the right TaskInput subclass based on the agent type."""
-            # Import here to avoid circular imports
-            from .reviewer import ReviewerAgent
-
-            if isinstance(target_agent, ReviewerAgent):
-                # ReviewerAgent needs CodeReviewInput with a 'code' field
-                return CodeReviewInput(
-                    code=f"# Task: {subtask_desc}\n# (code to be reviewed)",
-                    language="python",
-                    context={"subtask_description": subtask_desc},
-                )
-            else:
-                # Default to CodeGenerationInput for coder and other agents
-                return CodeGenerationInput(
-                    description=subtask_desc,
-                    language="python",
-                )
 
         def _make_step_func(bound_agent, bound_input):
             """Create a step function with bound agent and task input."""
+
             async def run_subtask(step_ctx: ExecutionContext) -> dict[str, Any]:
                 r = await bound_agent.run(bound_input, step_ctx)
                 return {"result": r}
+
             return run_subtask
 
         for subtask_data in result.subtasks:
@@ -501,7 +561,7 @@ class OrchestratorAgent(
             agent = self._agents.get(agent_name or "")
 
             if agent:
-                subtask_input = _make_task_input(
+                subtask_input = self._resolve_task_input(
                     subtask_data["description"], agent
                 )
 
@@ -515,9 +575,13 @@ class OrchestratorAgent(
                 step.depends_on = subtask_data.get("dependencies", [])
                 dag.add(step)
 
-        # Execute DAG with max parallelism
-        executor = DAGExecutor()
-        return await executor.execute(dag, ctx, max_concurrency=task.max_parallel)
+        # Execute DAG with max parallelism via injected engine (or default DAGExecutor)
+        engine = self._execution_engine
+        if engine is None:
+            from ..engine.dag_executor import DAGExecutor
+
+            engine = DAGExecutor()
+        return await engine.execute(dag, ctx, max_concurrency=task.max_parallel)
 
     # -------------------------------------------------------------------------
     # Pipeline integration (legacy, for backwards compatibility)
@@ -555,3 +619,45 @@ class OrchestratorAgent(
 
         pipeline = builder.build()
         return await run_pipeline(pipeline, ctx)
+
+
+# ---------------------------------------------------------------------------
+# Built-in task input factories (Rec #9)
+# ---------------------------------------------------------------------------
+
+
+def _reviewer_input_factory(description: str) -> Any:
+    """Create CodeReviewInput for ReviewerAgent subtasks."""
+    from ..contracts import CodeReviewInput
+
+    return CodeReviewInput(
+        code=f"# Task: {description}\n# (code to be reviewed)",
+        language="python",
+        context={"subtask_description": description},
+    )
+
+
+def _coder_input_factory(description: str) -> Any:
+    """Create CodeGenerationInput for CoderAgent subtasks."""
+    from ..contracts import CodeGenerationInput
+
+    return CodeGenerationInput(
+        description=description,
+        language="python",
+    )
+
+
+def _register_default_factories() -> None:
+    """Register default task input factories for built-in agent types.
+
+    Uses lazy imports to avoid circular dependencies.
+    """
+    from .coder import CoderAgent
+    from .reviewer import ReviewerAgent
+
+    OrchestratorAgent.register_task_input_factory(
+        ReviewerAgent, _reviewer_input_factory
+    )
+    OrchestratorAgent.register_task_input_factory(
+        CoderAgent, _coder_input_factory
+    )

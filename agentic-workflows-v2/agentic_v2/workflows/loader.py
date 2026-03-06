@@ -57,7 +57,9 @@ class WorkflowDefinition:
     version: str = "1.0"
     inputs: dict[str, WorkflowInput] = field(default_factory=dict)
     outputs: dict[str, WorkflowOutput] = field(default_factory=dict)
-    capabilities: "WorkflowCapabilities" = field(default_factory=lambda: WorkflowCapabilities())
+    capabilities: "WorkflowCapabilities" = field(
+        default_factory=lambda: WorkflowCapabilities()
+    )
     evaluation: "WorkflowEvaluation | None" = None
     experimental: bool = False
     dag: DAG = field(default_factory=lambda: DAG(name="unnamed"))
@@ -245,9 +247,13 @@ class WorkflowLoader:
             raw_outputs = raw_capabilities.get("outputs", [])
 
             if isinstance(raw_inputs, list):
-                capabilities.inputs = [str(item) for item in raw_inputs if str(item).strip()]
+                capabilities.inputs = [
+                    str(item) for item in raw_inputs if str(item).strip()
+                ]
             if isinstance(raw_outputs, list):
-                capabilities.outputs = [str(item) for item in raw_outputs if str(item).strip()]
+                capabilities.outputs = [
+                    str(item) for item in raw_outputs if str(item).strip()
+                ]
 
         # Parse optional workflow-level evaluation config
         workflow_evaluation: WorkflowEvaluation | None = None
@@ -389,7 +395,9 @@ class WorkflowLoader:
             workflow_evaluation = WorkflowEvaluation(
                 rubric_id=str(rubric_id) if rubric_id is not None else None,
                 weights=weights,
-                scoring_profile=str(scoring_profile) if scoring_profile is not None else None,
+                scoring_profile=(
+                    str(scoring_profile) if scoring_profile is not None else None
+                ),
                 criteria=criteria,
             )
 
@@ -436,9 +444,7 @@ class WorkflowLoader:
                     resolve_agent(placeholder)
                     dag.add(placeholder)
             else:
-                raise WorkflowLoadError(
-                    f"Workflow '{name}' has no executable steps."
-                )
+                raise WorkflowLoadError(f"Workflow '{name}' has no executable steps.")
 
         return WorkflowDefinition(
             name=name,
@@ -492,12 +498,16 @@ class WorkflowLoader:
             # The ExpressionEvaluator is instantiated at runtime with the live
             # ExecutionContext so that ${...} references are resolved.
             raw_expr = when_expr
+
             def _make_condition(expr: str):
                 def _condition(ctx) -> bool:
                     from ..engine.expressions import ExpressionEvaluator
+
                     evaluator = ExpressionEvaluator(ctx, {})
                     return evaluator.evaluate(expr)
+
                 return _condition
+
             when_func = _make_condition(raw_expr)
 
         # Parse loop_max — must be a positive integer
@@ -528,9 +538,7 @@ class WorkflowLoader:
                 # - [] => no tools
                 # - ["file_read", "search"] => only those tool names
                 "tools": (
-                    data.get("tools")
-                    if isinstance(data.get("tools"), list)
-                    else None
+                    data.get("tools") if isinstance(data.get("tools"), list) else None
                 ),
             },
         )

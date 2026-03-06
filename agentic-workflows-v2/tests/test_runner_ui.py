@@ -5,13 +5,11 @@ Tests the interactive UI helper functions extracted into runner_ui.py.
 
 from __future__ import annotations
 
-import io
 import json
 from pathlib import Path
 from unittest.mock import patch
 
 import pytest
-
 
 # ---------------------------------------------------------------------------
 # colorize
@@ -189,6 +187,7 @@ class TestLoadDiscoveredModels:
     def test_handles_corrupted_json_gracefully(self) -> None:
         """load_discovered_models must silently swallow JSON decode errors."""
         import json as _json
+
         import tools.agents.benchmarks.runner_ui as runner_ui_mod
         from tools.agents.benchmarks.runner_ui import load_discovered_models
 

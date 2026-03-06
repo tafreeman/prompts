@@ -211,7 +211,9 @@ def call_local(
         pass
 
     try:
-        local_model = LocalModel(model_path=model_path, model_key=model_key, verbose=False)
+        local_model = LocalModel(
+            model_path=model_path, model_key=model_key, verbose=False
+        )
         full_prompt = prompt
         if system_instruction:
             full_prompt = f"System: {system_instruction}\n\nUser: {prompt}"
@@ -302,7 +304,9 @@ def call_github_models(
     max_retries = _get_int_env("PROMPTS_GH_MAX_RETRIES", 1)
     base_delay = _get_int_env("PROMPTS_GH_BASE_DELAY_SECONDS", 2)
 
-    clean_env = {key: value for key, value in os.environ.items() if key != "GITHUB_TOKEN"}
+    clean_env = {
+        key: value for key, value in os.environ.items() if key != "GITHUB_TOKEN"
+    }
     for attempt in range(max_retries):
         try:
             result = subprocess.run(
@@ -417,7 +421,9 @@ def call_gemini(
 
         api_key = os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY")
         if not api_key:
-            raise ValueError("GOOGLE_API_KEY or GEMINI_API_KEY environment variable not set")
+            raise ValueError(
+                "GOOGLE_API_KEY or GEMINI_API_KEY environment variable not set"
+            )
 
         genai.configure(api_key=api_key)
         model = genai.GenerativeModel(model_name)
@@ -444,7 +450,9 @@ def call_claude(
 
         api_key = os.getenv("ANTHROPIC_API_KEY") or os.getenv("CLAUDE_API_KEY")
         if not api_key:
-            raise ValueError("ANTHROPIC_API_KEY or CLAUDE_API_KEY environment variable not set")
+            raise ValueError(
+                "ANTHROPIC_API_KEY or CLAUDE_API_KEY environment variable not set"
+            )
 
         client = Anthropic(api_key=api_key)
         messages = [{"role": "user", "content": prompt}]
@@ -487,4 +495,3 @@ def call_openai(
         return response.choices[0].message.content
     except ImportError:
         raise ImportError("openai package not installed. Run: pip install openai")
-

@@ -47,8 +47,10 @@ logger = logging.getLogger(__name__)
 # Project root helpers
 # ---------------------------------------------------------------------------
 
+
 def _resolve_project_root() -> Path:
-    """Locate the project root by searching parent directories for ``pyproject.toml``.
+    """Locate the project root by searching parent directories for
+    ``pyproject.toml``.
 
     Returns:
         Path to the project root directory.
@@ -58,7 +60,9 @@ def _resolve_project_root() -> Path:
     for root in candidates:
         if (root / "agentic_v2").exists() and (root / "pyproject.toml").exists():
             return root
-        if (root / "src" / "agentic_v2").exists() and (root / "pyproject.toml").exists():
+        if (root / "src" / "agentic_v2").exists() and (
+            root / "pyproject.toml"
+        ).exists():
             return root
     return this_file.parents[2]
 
@@ -108,6 +112,7 @@ def _load_eval_config() -> dict[str, Any]:
 # Dataset discovery & listing
 # ---------------------------------------------------------------------------
 
+
 def list_repository_datasets() -> list[dict[str, Any]]:
     """Return repository-backed dataset options from benchmark registries.
 
@@ -139,11 +144,7 @@ def list_repository_datasets() -> list[dict[str, Any]]:
     except Exception as exc:
         logger.info("Repository benchmark definitions unavailable: %s", exc)
 
-    fallback = (
-        _load_eval_config()
-        .get("evaluation", {})
-        .get("datasets", {})
-    )
+    fallback = _load_eval_config().get("evaluation", {}).get("datasets", {})
     for dataset_id, cfg in fallback.items():
         if not isinstance(cfg, dict):
             continue
@@ -241,17 +242,15 @@ def list_local_datasets() -> list[dict[str, Any]]:
 
 
 def list_eval_sets() -> list[dict[str, Any]]:
-    """Return predefined evaluation sets from the ``evaluation.eval_sets`` config section.
+    """Return predefined evaluation sets from the ``evaluation.eval_sets``
+    config section.
 
     Returns:
         Sorted list of eval set dicts with ``id``, ``name``,
         ``description``, and ``datasets`` keys.
     """
     config = _load_eval_config()
-    eval_sets_config = (
-        config.get("evaluation", {})
-        .get("eval_sets", {})
-    )
+    eval_sets_config = config.get("evaluation", {}).get("eval_sets", {})
 
     if not isinstance(eval_sets_config, dict):
         return []
@@ -261,12 +260,14 @@ def list_eval_sets() -> list[dict[str, Any]]:
         if not isinstance(set_config, dict):
             continue
 
-        eval_sets.append({
-            "id": str(set_id),
-            "name": set_config.get("name", str(set_id).replace("_", " ").title()),
-            "description": set_config.get("description", ""),
-            "datasets": set_config.get("datasets", []),
-        })
+        eval_sets.append(
+            {
+                "id": str(set_id),
+                "name": set_config.get("name", str(set_id).replace("_", " ").title()),
+                "description": set_config.get("description", ""),
+                "datasets": set_config.get("datasets", []),
+            }
+        )
 
     return sorted(eval_sets, key=lambda x: x["id"])
 
@@ -274,6 +275,7 @@ def list_eval_sets() -> list[dict[str, Any]]:
 # ---------------------------------------------------------------------------
 # Dataset loading
 # ---------------------------------------------------------------------------
+
 
 def _is_under_allowed_root(path: Path) -> bool:
     """Check whether a resolved path falls under an allowed dataset root.
@@ -295,7 +297,8 @@ def _is_under_allowed_root(path: Path) -> bool:
 
 
 def _resolve_local_dataset(dataset_ref: str) -> Path:
-    """Resolve a local dataset reference to a JSON file path under an allowed root.
+    """Resolve a local dataset reference to a JSON file path under an allowed
+    root.
 
     Args:
         dataset_ref: Dataset ID string matching a known local dataset.
@@ -409,7 +412,9 @@ def load_repository_dataset_sample(
 
         tasks = load_benchmark(dataset_id=dataset_id, limit=max(sample_index + 1, 1))
         if not tasks:
-            raise ValueError(f"No samples returned for repository dataset '{dataset_id}'")
+            raise ValueError(
+                f"No samples returned for repository dataset '{dataset_id}'"
+            )
         index = min(max(sample_index, 0), len(tasks) - 1)
         task = tasks[index]
         sample = task.to_dict() if hasattr(task, "to_dict") else asdict(task)
@@ -432,8 +437,10 @@ def load_repository_dataset_sample(
 # Dataset / workflow matching
 # ---------------------------------------------------------------------------
 
+
 def _is_empty_value(value: Any) -> bool:
-    """Check whether a value is effectively empty (None, blank string, or empty collection).
+    """Check whether a value is effectively empty (None, blank string, or empty
+    collection).
 
     Args:
         value: The value to test.
@@ -454,7 +461,8 @@ def _extract_message_text(
     sample: dict[str, Any],
     preferred_roles: tuple[str, ...] = ("user", "system", "assistant"),
 ) -> str | None:
-    """Extract the best text snippet from chat-style ``messages`` in a dataset sample.
+    """Extract the best text snippet from chat-style ``messages`` in a dataset
+    sample.
 
     Iterates through the ``messages`` list and returns the content of the
     first message matching a preferred role.  Falls back to the first
@@ -495,7 +503,8 @@ def _extract_message_text(
 
 
 def _pick_first(sample: dict[str, Any], keys: list[str]) -> Any:
-    """Return the first non-empty value found in the sample for any of the given keys.
+    """Return the first non-empty value found in the sample for any of the
+    given keys.
 
     Searches the top-level sample dict, then ``sample["inputs"]``, then
     ``sample["input"]`` (if they are dicts).
@@ -512,9 +521,17 @@ def _pick_first(sample: dict[str, Any], keys: list[str]) -> Any:
     for key in keys:
         if key in sample and sample[key] not in (None, ""):
             return sample[key]
-        if isinstance(nested_inputs, dict) and key in nested_inputs and nested_inputs[key] not in (None, ""):
+        if (
+            isinstance(nested_inputs, dict)
+            and key in nested_inputs
+            and nested_inputs[key] not in (None, "")
+        ):
             return nested_inputs[key]
-        if isinstance(nested_input, dict) and key in nested_input and nested_input[key] not in (None, ""):
+        if (
+            isinstance(nested_input, dict)
+            and key in nested_input
+            and nested_input[key] not in (None, "")
+        ):
             return nested_input[key]
         if key == "input" and isinstance(nested_input, str) and nested_input.strip():
             return nested_input
@@ -526,7 +543,8 @@ def _dataset_value_for_input(
     input_def: WorkflowInput,
     dataset_sample: dict[str, Any],
 ) -> Any:
-    """Resolve a single workflow input value from a dataset sample using heuristic field matching.
+    """Resolve a single workflow input value from a dataset sample using
+    heuristic field matching.
 
     Tries exact name match first, then semantic matching based on the
     input name (e.g., ``file`` inputs look for ``code_file``, ``patch``;
@@ -554,19 +572,36 @@ def _dataset_value_for_input(
         return _pick_first(
             dataset_sample,
             [
-                "code_file", "file_path", "path", "source_path",
-                "patch", "code", "body", "prompt",
-                "task_description", "instruction", "input",
+                "code_file",
+                "file_path",
+                "path",
+                "source_path",
+                "patch",
+                "code",
+                "body",
+                "prompt",
+                "task_description",
+                "instruction",
+                "input",
             ],
         )
     if "bug" in lowered or "report" in lowered or "issue" in lowered:
         value = _pick_first(
             dataset_sample,
             [
-                "bug_report", "problem_statement", "issue_text",
-                "issue_body", "description", "prompt",
-                "task_description", "body", "instruction", "input",
-                "question", "query", "request",
+                "bug_report",
+                "problem_statement",
+                "issue_text",
+                "issue_body",
+                "description",
+                "prompt",
+                "task_description",
+                "body",
+                "instruction",
+                "input",
+                "question",
+                "query",
+                "request",
             ],
         )
         if value not in (None, ""):
@@ -576,9 +611,16 @@ def _dataset_value_for_input(
         value = _pick_first(
             dataset_sample,
             [
-                "feature_spec", "task_description", "prompt",
-                "description", "instruction", "input",
-                "question", "query", "request", "body",
+                "feature_spec",
+                "task_description",
+                "prompt",
+                "description",
+                "instruction",
+                "input",
+                "question",
+                "query",
+                "request",
+                "body",
             ],
         )
         if value not in (None, ""):
@@ -597,10 +639,20 @@ def _dataset_value_for_input(
     value = _pick_first(
         dataset_sample,
         [
-            "prompt", "task_description", "problem_statement",
-            "description", "body", "instruction", "input",
-            "question", "query", "request", "issue_text",
-            "content", "text", "code",
+            "prompt",
+            "task_description",
+            "problem_statement",
+            "description",
+            "body",
+            "instruction",
+            "input",
+            "question",
+            "query",
+            "request",
+            "issue_text",
+            "content",
+            "text",
+            "code",
         ],
     )
     if value not in (None, ""):
@@ -639,14 +691,17 @@ def match_workflow_dataset(
 
     for input_name in required_input_names:
         value = _dataset_value_for_input(
-            input_name, workflow_def.inputs[input_name], dataset_sample,
+            input_name,
+            workflow_def.inputs[input_name],
+            dataset_sample,
         )
         if _is_empty_value(value):
             missing_reasons.append(f"missing: {input_name}")
 
     caps = workflow_def.capabilities
     capability_inputs = (
-        caps.get("inputs", []) if isinstance(caps, dict)
+        caps.get("inputs", [])
+        if isinstance(caps, dict)
         else getattr(caps, "inputs", [])
     )
     if capability_inputs:
@@ -656,7 +711,9 @@ def match_workflow_dataset(
                 continue
 
             if input_def is not None:
-                value = _dataset_value_for_input(capability_input, input_def, dataset_sample)
+                value = _dataset_value_for_input(
+                    capability_input, input_def, dataset_sample
+                )
             else:
                 value = dataset_sample.get(capability_input)
 
@@ -696,7 +753,8 @@ def _materialize_file_input(
     run_id: str,
     artifacts_dir: Path,
 ) -> Any:
-    """Materialize a string value to a file on disk for file-type workflow inputs.
+    """Materialize a string value to a file on disk for file-type workflow
+    inputs.
 
     If the value contains Python code markers (``def``, ``class``, ``import``),
     writes it as a ``.py`` file.  If it looks like a path, resolves it
@@ -775,10 +833,21 @@ def adapt_sample_to_workflow_inputs(
     generic_text = _pick_first(
         sample,
         [
-            "prompt", "task_description", "problem_statement",
-            "description", "body", "instruction", "input",
-            "question", "query", "request", "issue_text",
-            "content", "text", "code", "expected_output",
+            "prompt",
+            "task_description",
+            "problem_statement",
+            "description",
+            "body",
+            "instruction",
+            "input",
+            "question",
+            "query",
+            "request",
+            "issue_text",
+            "content",
+            "text",
+            "code",
+            "expected_output",
         ],
     )
     if generic_text in (None, ""):
@@ -793,18 +862,34 @@ def adapt_sample_to_workflow_inputs(
                 value = _pick_first(
                     sample,
                     [
-                        "code_file", "file_path", "path", "source_path",
-                        "patch", "code", "body", "prompt", "task_description",
+                        "code_file",
+                        "file_path",
+                        "path",
+                        "source_path",
+                        "patch",
+                        "code",
+                        "body",
+                        "prompt",
+                        "task_description",
                     ],
                 )
             elif "bug" in lowered or "report" in lowered or "issue" in lowered:
                 value = _pick_first(
                     sample,
                     [
-                        "bug_report", "problem_statement", "issue_text",
-                        "issue_body", "description", "prompt",
-                        "task_description", "body", "instruction", "input",
-                        "question", "query", "request",
+                        "bug_report",
+                        "problem_statement",
+                        "issue_text",
+                        "issue_body",
+                        "description",
+                        "prompt",
+                        "task_description",
+                        "body",
+                        "instruction",
+                        "input",
+                        "question",
+                        "query",
+                        "request",
                     ],
                 )
                 if value in (None, ""):
@@ -813,9 +898,16 @@ def adapt_sample_to_workflow_inputs(
                 value = _pick_first(
                     sample,
                     [
-                        "feature_spec", "task_description", "prompt",
-                        "description", "instruction", "input",
-                        "question", "query", "request", "body",
+                        "feature_spec",
+                        "task_description",
+                        "prompt",
+                        "description",
+                        "instruction",
+                        "input",
+                        "question",
+                        "query",
+                        "request",
+                        "body",
                     ],
                 )
                 if value in (None, ""):

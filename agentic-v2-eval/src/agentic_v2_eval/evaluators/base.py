@@ -9,7 +9,7 @@ by name at runtime.
 from __future__ import annotations
 
 import abc
-from typing import Any, Dict, Optional, Type
+from typing import Any
 
 
 class Evaluator(abc.ABC):
@@ -20,7 +20,7 @@ class Evaluator(abc.ABC):
     """
 
     @abc.abstractmethod
-    def evaluate(self, output: Any, **kwargs) -> Dict[str, Any]:
+    def evaluate(self, output: Any, **kwargs) -> dict[str, Any]:
         """Evaluate an output.
 
         Args:
@@ -48,7 +48,7 @@ class EvaluatorRegistry:
         cls = EvaluatorRegistry.get("custom")
     """
 
-    _registry: Dict[str, Type[Evaluator]] = {}
+    _registry: dict[str, type[Evaluator]] = {}
 
     @classmethod
     def register(cls, name: str):
@@ -61,14 +61,14 @@ class EvaluatorRegistry:
             Decorator that stores the class and returns it unchanged.
         """
 
-        def wrapper(evaluator_cls: Type[Evaluator]):
+        def wrapper(evaluator_cls: type[Evaluator]):
             cls._registry[name.lower()] = evaluator_cls
             return evaluator_cls
 
         return wrapper
 
     @classmethod
-    def get(cls, name: str) -> Optional[Type[Evaluator]]:
+    def get(cls, name: str) -> type[Evaluator] | None:
         """Retrieve a registered evaluator class by name.
 
         Args:

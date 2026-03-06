@@ -8,6 +8,7 @@ from pathlib import Path
 
 import pytest
 
+from agentic_v2_eval.__main__ import main
 from agentic_v2_eval.metrics.accuracy import (
     calculate_accuracy,
     calculate_f1_score,
@@ -18,10 +19,17 @@ from agentic_v2_eval.metrics.performance import (
     execution_time_score,
     latency_percentiles,
 )
-from agentic_v2_eval.metrics.quality import code_quality_score, complexity_score, lint_score
+from agentic_v2_eval.metrics.quality import (
+    code_quality_score,
+    complexity_score,
+    lint_score,
+)
 from agentic_v2_eval.reporters.html import HtmlReporter, generate_html_report
 from agentic_v2_eval.reporters.json import JsonReporter, generate_json_report
-from agentic_v2_eval.reporters.markdown import MarkdownReporter, generate_markdown_report
+from agentic_v2_eval.reporters.markdown import (
+    MarkdownReporter,
+    generate_markdown_report,
+)
 from agentic_v2_eval.runners.batch import BatchRunner, run_batch_evaluation
 from agentic_v2_eval.runners.streaming import (
     AsyncStreamingRunner,
@@ -29,8 +37,6 @@ from agentic_v2_eval.runners.streaming import (
     run_streaming_evaluation,
 )
 from agentic_v2_eval.scorer import Scorer, ScoringResult
-
-from agentic_v2_eval.__main__ import main
 
 # === Accuracy Metrics Tests ===
 
@@ -290,7 +296,8 @@ def test_scorer_from_dict():
 
 
 def test_async_streaming_runner_supports_async_iterables_and_awaitables():
-    """AsyncStreamingRunner should handle async iterables and awaitable return values."""
+    """AsyncStreamingRunner should handle async iterables and awaitable return
+    values."""
 
     async def _gen(n: int):
         for i in range(n):
@@ -342,7 +349,9 @@ def test_async_streaming_runner_respects_max_concurrency():
     assert max_seen <= 3
 
 
-def test_cli_evaluate_defaults_to_packaged_rubric(tmp_path: Path, capsys: pytest.CaptureFixture[str]):
+def test_cli_evaluate_defaults_to_packaged_rubric(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+):
     """CLI should run evaluate without an explicit --rubric."""
     results_path = tmp_path / "results.json"
     out_path = tmp_path / "scored.json"

@@ -8,16 +8,13 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 
-import pytest
-
 from agentic_v2.contracts import StepResult, StepStatus, WorkflowResult
 from agentic_v2.server.evaluation_scoring import (
-    HardGateResult,
     CriterionFloorResult,
+    HardGateResult,
     compute_hard_gates,
     validate_evaluation_payload_schema,
 )
-
 
 # ---------------------------------------------------------------------------
 # Helpers

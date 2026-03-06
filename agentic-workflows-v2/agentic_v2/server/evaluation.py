@@ -48,7 +48,11 @@ from .evaluation_scoring import (
     _build_judge_criteria,
     _clamp,
     _compose_hybrid_score,
+)
+from .evaluation_scoring import (
     _compute_criterion_score as _compute_criterion_score_impl,
+)
+from .evaluation_scoring import (
     _extract_expected_text,
     _grade,
     _output_text,
@@ -106,9 +110,17 @@ def _pick_first(sample: dict[str, Any], keys: list[str]) -> Any:
     for key in keys:
         if key in sample and sample[key] not in (None, ""):
             return sample[key]
-        if isinstance(nested_inputs, dict) and key in nested_inputs and nested_inputs[key] not in (None, ""):
+        if (
+            isinstance(nested_inputs, dict)
+            and key in nested_inputs
+            and nested_inputs[key] not in (None, "")
+        ):
             return nested_inputs[key]
-        if isinstance(nested_input, dict) and key in nested_input and nested_input[key] not in (None, ""):
+        if (
+            isinstance(nested_input, dict)
+            and key in nested_input
+            and nested_input[key] not in (None, "")
+        ):
             return nested_input[key]
         if key == "input" and isinstance(nested_input, str) and nested_input.strip():
             return nested_input
@@ -232,7 +244,9 @@ def adapt_sample_to_workflow_inputs(
                     ],
                 )
                 if value in (None, ""):
-                    value = _extract_message_text(sample, preferred_roles=("user", "system", "assistant"))
+                    value = _extract_message_text(
+                        sample, preferred_roles=("user", "system", "assistant")
+                    )
             elif "tech_stack" in lowered and definition.type == "object":
                 value = sample.get("tech_stack") or {
                     "frontend": "react",
@@ -264,6 +278,7 @@ def adapt_sample_to_workflow_inputs(
         adapted[name] = value
 
     return adapted
+
 
 __all__ = [
     "CriterionFloorResult",

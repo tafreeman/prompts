@@ -1,23 +1,23 @@
 """Unit tests for base adapter contracts and tracing."""
 
 import json
-import pytest
+import tempfile
 from datetime import datetime
 from pathlib import Path
-import tempfile
 
+import pytest
 from agentic_v2.integrations.base import (
     AgentAdapter,
+    CanonicalEvent,
     ToolAdapter,
-    WorkflowAdapter,
     TraceAdapter,
-    CanonicalEvent
+    WorkflowAdapter,
 )
 from agentic_v2.integrations.tracing import (
+    CompositeTraceAdapter,
     ConsoleTraceAdapter,
     FileTraceAdapter,
-    CompositeTraceAdapter,
-    NullTraceAdapter
+    NullTraceAdapter,
 )
 
 
@@ -27,7 +27,10 @@ def test_agent_adapter_is_abstract():
     with pytest.raises(TypeError) as exc_info:
         AgentAdapter()
 
-    assert "abstract" in str(exc_info.value).lower() or "instantiate" in str(exc_info.value).lower()
+    assert (
+        "abstract" in str(exc_info.value).lower()
+        or "instantiate" in str(exc_info.value).lower()
+    )
 
 
 # Test W1-AD-001 requirement #2: CanonicalEvent round-trips through JSON
@@ -37,7 +40,7 @@ def test_canonical_event_serializable():
         type="test_event",
         timestamp=datetime(2026, 2, 13, 10, 30, 0),
         step_name="test_step",
-        data={"key": "value", "count": 42}
+        data={"key": "value", "count": 42},
     )
 
     # Serialize to dict
@@ -92,6 +95,7 @@ def test_adapter_subclass_contract():
 
 # Additional tests for concrete tracing implementations
 
+
 def test_console_trace_adapter_emits():
     """ConsoleTraceAdapter emits events without error."""
     adapter = ConsoleTraceAdapter(pretty_print=True)
@@ -100,7 +104,7 @@ def test_console_trace_adapter_emits():
         type="test_event",
         timestamp=datetime.now(),
         step_name="test_step",
-        data={"test": "data"}
+        data={"test": "data"},
     )
 
     # Should not raise
@@ -114,14 +118,10 @@ def test_file_trace_adapter_writes():
         adapter = FileTraceAdapter(file_path, buffer_size=1)
 
         event1 = CanonicalEvent(
-            type="event_1",
-            timestamp=datetime.now(),
-            data={"id": 1}
+            type="event_1", timestamp=datetime.now(), data={"id": 1}
         )
         event2 = CanonicalEvent(
-            type="event_2",
-            timestamp=datetime.now(),
-            data={"id": 2}
+            type="event_2", timestamp=datetime.now(), data={"id": 2}
         )
 
         adapter.emit(event1)
@@ -131,7 +131,7 @@ def test_file_trace_adapter_writes():
         adapter._flush()
 
         # Read and verify
-        lines = file_path.read_text().strip().split('\n')
+        lines = file_path.read_text().strip().split("\n")
         assert len(lines) == 2
 
         loaded1 = json.loads(lines[0])
@@ -155,10 +155,7 @@ def test_composite_trace_adapter_forwards():
     adapter2 = CaptureAdapter()
     composite = CompositeTraceAdapter(adapter1, adapter2)
 
-    event = CanonicalEvent(
-        type="test",
-        timestamp=datetime.now()
-    )
+    event = CanonicalEvent(type="test", timestamp=datetime.now())
 
     composite.emit(event)
 
@@ -172,10 +169,7 @@ def test_null_trace_adapter_no_op():
     """NullTraceAdapter discards events without error."""
     adapter = NullTraceAdapter()
 
-    event = CanonicalEvent(
-        type="test",
-        timestamp=datetime.now()
-    )
+    event = CanonicalEvent(type="test", timestamp=datetime.now())
 
     # Should not raise
     adapter.emit(event)
@@ -194,7 +188,9 @@ def test_trace_adapter_helpers():
     adapter.emit_workflow_start("test_workflow", "run_123", {"input": "value"})
     adapter.emit_step_start("step_1", "run_123", {"arg": "val"})
     adapter.emit_step_complete("step_1", "run_123", "success", {"output": "result"})
-    adapter.emit_workflow_end("test_workflow", "run_123", "success", {"final": "output"})
+    adapter.emit_workflow_end(
+        "test_workflow", "run_123", "success", {"final": "output"}
+    )
 
     assert len(captured) == 4
     assert captured[0].type == "workflow_start"

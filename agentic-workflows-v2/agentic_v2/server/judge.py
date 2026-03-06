@@ -127,8 +127,9 @@ class JudgeResponseProvider(Protocol):
     keyword arguments and return either a parsed dict or a raw JSON string.
     """
 
-    def __call__(self, *, prompt: str, model: str, temperature: float) -> dict[str, Any] | str:
-        ...
+    def __call__(
+        self, *, prompt: str, model: str, temperature: float
+    ) -> dict[str, Any] | str: ...
 
 
 def _stable_seed(*parts: str) -> int:
@@ -237,7 +238,8 @@ def check_swapped_order_consistency(
     *,
     max_delta: float = 1.0,
 ) -> tuple[bool, list[str]]:
-    """Detect positional bias by comparing forward and swapped-order judge scores.
+    """Detect positional bias by comparing forward and swapped-order judge
+    scores.
 
     For each criterion present in both payloads, checks whether the
     absolute score difference exceeds ``max_delta``.
@@ -303,7 +305,9 @@ def evaluate_calibration_set(
         )
         for criterion in result.criteria:
             if criterion.name in human_scores:
-                deltas.append(abs(criterion.raw_score - float(human_scores[criterion.name])))
+                deltas.append(
+                    abs(criterion.raw_score - float(human_scores[criterion.name]))
+                )
 
     mae = (sum(deltas) / len(deltas)) if deltas else 0.0
     return {
@@ -398,22 +402,28 @@ class LLMJudge:
     ) -> JudgeEvaluationResult:
         """Score candidate output using anchored 1..5 criteria."""
         normalized_criteria = [
-            item
-            if isinstance(item, JudgeCriterionDefinition)
-            else JudgeCriterionDefinition(
-                name=str(item.get("name")),
-                definition=str(item.get("definition", "")),
-                scale={
-                    str(key): str(value)
-                    for key, value in (item.get("scale") or {}).items()
-                },
+            (
+                item
+                if isinstance(item, JudgeCriterionDefinition)
+                else JudgeCriterionDefinition(
+                    name=str(item.get("name")),
+                    definition=str(item.get("definition", "")),
+                    scale={
+                        str(key): str(value)
+                        for key, value in (item.get("scale") or {}).items()
+                    },
+                )
             )
             for item in criteria
         ]
         if not normalized_criteria:
             raise ValueError("Judge criteria cannot be empty")
 
-        eval_seed = seed if seed is not None else _stable_seed(candidate_output, expected_output, self.prompt_version)
+        eval_seed = (
+            seed
+            if seed is not None
+            else _stable_seed(candidate_output, expected_output, self.prompt_version)
+        )
         rng = random.Random(eval_seed)
         shuffled_criteria = list(normalized_criteria)
         rng.shuffle(shuffled_criteria)
@@ -427,7 +437,9 @@ class LLMJudge:
         forward_payload = self._invoke_prompt(prompt)
 
         expected_names = {item.name for item in normalized_criteria}
-        ok, errors = validate_judge_structured_output(forward_payload, expected_criteria=expected_names)
+        ok, errors = validate_judge_structured_output(
+            forward_payload, expected_criteria=expected_names
+        )
         if not ok:
             raise ValueError(f"Judge output schema invalid: {', '.join(errors)}")
 
@@ -448,8 +460,7 @@ class LLMJudge:
                 max_delta=1.0,
             )
             inconsistency_reasons = [
-                f"inconsistent_swapped_order:{criterion}"
-                for criterion in inconsistent
+                f"inconsistent_swapped_order:{criterion}" for criterion in inconsistent
             ]
 
         scores_by_name: dict[str, tuple[float, str]] = {}
@@ -461,7 +472,9 @@ class LLMJudge:
 
         criterion_scores: list[JudgeCriterionScore] = []
         for criterion in normalized_criteria:
-            raw_score, evidence = scores_by_name.get(criterion.name, (3.0, "missing_from_response"))
+            raw_score, evidence = scores_by_name.get(
+                criterion.name, (3.0, "missing_from_response")
+            )
             normalized_score = normalize_score(raw_score, "likert_1_5")
             criterion_scores.append(
                 JudgeCriterionScore(
@@ -472,7 +485,9 @@ class LLMJudge:
                 )
             )
 
-        overall = sum(item.normalized_score for item in criterion_scores) / len(criterion_scores)
+        overall = sum(item.normalized_score for item in criterion_scores) / len(
+            criterion_scores
+        )
         return JudgeEvaluationResult(
             criteria=criterion_scores,
             normalized_score=overall,
@@ -511,7 +526,7 @@ class LLMJudge:
         )
         return (
             "You are a strict rubric judge. Return ONLY valid JSON.\n"
-            "Schema: {\"criteria\":[{\"name\":\"...\",\"score\":1-5,\"evidence\":\"...\"}]}\n"
+            'Schema: {"criteria":[{"name":"...","score":1-5,"evidence":"..."}]}\n'
             f"mode: {mode}\n"
             f"rubric:\n{chr(10).join(rubric_lines)}\n"
             f"\nEXPECTED OUTPUT:\n{expected_output}\n"

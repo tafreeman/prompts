@@ -7,11 +7,11 @@ The graph compiler (``graph.py``) turns configs into runnable graphs.
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-import re
 import yaml
 
 from ..utils.path_safety import ensure_within_base
@@ -154,11 +154,7 @@ def list_workflows(definitions_dir: Path | None = None) -> list[str]:
     base = definitions_dir or _DEFAULT_DEFINITIONS_DIR
     if not base.exists():
         return []
-    return sorted(
-        p.stem
-        for p in base.iterdir()
-        if p.suffix in (".yaml", ".yml")
-    )
+    return sorted(p.stem for p in base.iterdir() if p.suffix in (".yaml", ".yml"))
 
 
 # ---------------------------------------------------------------------------
@@ -192,9 +188,7 @@ def _parse(data: dict[str, Any], default_name: str) -> WorkflowConfig:
                 loop_until=raw.get("loop_until"),
                 loop_max=max(1, int(raw.get("loop_max", 3))),
                 tools=(
-                    raw.get("tools")
-                    if isinstance(raw.get("tools"), list)
-                    else None
+                    raw.get("tools") if isinstance(raw.get("tools"), list) else None
                 ),
                 prompt_file=raw.get("prompt_file"),
                 model_override=(

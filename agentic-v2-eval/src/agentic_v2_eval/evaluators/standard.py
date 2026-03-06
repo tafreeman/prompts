@@ -11,11 +11,12 @@ import json
 import re
 import statistics
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Union
 
 from agentic_v2_eval.interfaces import LLMClientProtocol
 from agentic_v2_eval.rubrics import load_rubric
+
 from .base import EvaluatorRegistry
+
 
 @dataclass
 class StandardScore:
@@ -38,11 +39,13 @@ class StandardScore:
     """
 
     prompt_file: str
-    scores: Dict[str, float]  # clarity, effectiveness, structure, specificity, completeness
+    scores: dict[
+        str, float
+    ]  # clarity, effectiveness, structure, specificity, completeness
     overall_score: float  # 0-10
     grade: str  # A, B, C, D, F
     passed: bool
-    improvements: List[str] = field(default_factory=list)
+    improvements: list[str] = field(default_factory=list)
     confidence: float = 1.0
     model: str = ""
     # Metadata
@@ -67,6 +70,7 @@ class StandardScore:
             "confidence": self.confidence,
         }
 
+
 def _load_standard_prompt() -> str:
     """Load standard judge prompt from YAML."""
     try:
@@ -76,7 +80,9 @@ def _load_standard_prompt() -> str:
         print(f"Warning: Failed to load prompt_standard.yaml: {e}")
         return ""
 
+
 STANDARD_JUDGE_PROMPT = _load_standard_prompt()
+
 
 @EvaluatorRegistry.register("standard")
 class StandardEvaluator:
@@ -102,7 +108,7 @@ class StandardEvaluator:
         temperature: float = 0.1,
     ) -> StandardScore:
         """Score a prompt using standard (simple) 5-dimension rubric."""
-        
+
         # Max chars check
         max_chars = 18_000
         content_for_judge = prompt_content
@@ -125,7 +131,7 @@ class StandardEvaluator:
                     temperature=temperature,
                     max_tokens=900,
                 )
-                
+
                 scores = self._parse_response(response)
                 if scores:
                     all_scores.append(scores)
@@ -133,22 +139,28 @@ class StandardEvaluator:
                 print(f"Standard eval run {i+1} failed: {e}")
 
         if not all_scores:
-             return self._create_empty_score(prompt_name, model, runs)
+            return self._create_empty_score(prompt_name, model, runs)
 
         # Aggregate
         final_scores = {}
-        for dim in ["clarity", "effectiveness", "structure", "specificity", "completeness"]:
+        for dim in [
+            "clarity",
+            "effectiveness",
+            "structure",
+            "specificity",
+            "completeness",
+        ]:
             values = [s["scores"].get(dim, 0) for s in all_scores if "scores" in s]
             final_scores[dim] = statistics.median(values) if values else 0
 
         # Uniform weights for now (or load from rubric in future)
-        overall = sum(final_scores.values()) / 5.0 # Simple average, max 10
-        
+        overall = sum(final_scores.values()) / 5.0  # Simple average, max 10
+
         all_improvement = []
         for s in all_scores:
-             all_improvement.extend(s.get("improvements", []))
+            all_improvement.extend(s.get("improvements", []))
         improvements = list(dict.fromkeys(all_improvement))[:5]
-        
+
         confidences = [s.get("confidence", 1.0) for s in all_scores]
         confidence = statistics.median(confidences) if confidences else 1.0
 
@@ -162,18 +174,24 @@ class StandardEvaluator:
             confidence=confidence,
             model=model,
             runs=runs,
-            successful_runs=len(all_scores)
+            successful_runs=len(all_scores),
         )
 
     def _get_grade(self, score: float, max_score: float) -> str:
         percent = (score / max_score) * 100
-        if percent >= 90: return "A"
-        if percent >= 80: return "B"
-        if percent >= 70: return "C"
-        if percent >= 60: return "D"
+        if percent >= 90:
+            return "A"
+        if percent >= 80:
+            return "B"
+        if percent >= 70:
+            return "C"
+        if percent >= 60:
+            return "D"
         return "F"
 
-    def _create_empty_score(self, prompt_name: str, model: str, runs: int) -> StandardScore:
+    def _create_empty_score(
+        self, prompt_name: str, model: str, runs: int
+    ) -> StandardScore:
         return StandardScore(
             prompt_file=prompt_name,
             scores={},
@@ -182,23 +200,23 @@ class StandardEvaluator:
             passed=False,
             improvements=["Evaluation failed"],
             model=model,
-            runs=runs
+            runs=runs,
         )
 
-    def _parse_response(self, text: str) -> Optional[dict]:
+    def _parse_response(self, text: str) -> dict | None:
         match = re.search(r"```(?:json)?\s*(.*?)\s*```", text, re.DOTALL)
         if match:
-             text = match.group(1)
-             
+            text = match.group(1)
+
         try:
             return json.loads(text)
         except:
-             # Try finding object
-             s = text.find("{")
-             e = text.rfind("}")
-             if s != -1 and e != -1:
-                 try:
-                     return json.loads(text[s:e+1])
-                 except:
-                     pass
+            # Try finding object
+            s = text.find("{")
+            e = text.rfind("}")
+            if s != -1 and e != -1:
+                try:
+                    return json.loads(text[s : e + 1])
+                except:
+                    pass
         return None

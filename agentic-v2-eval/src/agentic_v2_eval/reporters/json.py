@@ -15,6 +15,7 @@ from typing import Any
 
 from ._summary import calculate_summary
 
+
 @dataclass
 class JsonReportConfig:
     """Configuration options for JSON report generation.

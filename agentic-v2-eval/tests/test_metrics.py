@@ -74,9 +74,7 @@ class TestPrecisionRecall:
         """Mixed predictions give expected values."""
         # Predictions: [1, 1, 0, 1], Truth: [1, 0, 0, 1]
         # TP=2, FP=1, FN=0 -> precision=2/3, recall=2/2=1.0
-        precision, recall = calculate_precision_recall(
-            [1, 1, 0, 1], [1, 0, 0, 1]
-        )
+        precision, recall = calculate_precision_recall([1, 1, 0, 1], [1, 0, 0, 1])
         assert abs(precision - 2 / 3) < 1e-6
         assert recall == 1.0
 
@@ -117,18 +115,14 @@ class TestConfusionMatrix:
 
     def test_multiclass_matrix(self) -> None:
         """3-class confusion matrix correct."""
-        matrix = calculate_confusion_matrix(
-            ["a", "b", "c", "a"], ["a", "b", "b", "a"]
-        )
+        matrix = calculate_confusion_matrix(["a", "b", "c", "a"], ["a", "b", "b", "a"])
         assert matrix["a"]["a"] == 2
         assert matrix["b"]["b"] == 1
         assert matrix["b"]["c"] == 1
 
     def test_custom_labels(self) -> None:
         """Custom label list used."""
-        matrix = calculate_confusion_matrix(
-            [1, 0], [1, 0], labels=[0, 1, 2]
-        )
+        matrix = calculate_confusion_matrix([1, 0], [1, 0], labels=[0, 1, 2])
         assert "2" in matrix
         assert matrix["2"]["0"] == 0
 
@@ -209,7 +203,7 @@ class TestBenchmark:
     """Tests for benchmark function."""
 
     def test_returns_stats_dict(self) -> None:
-        """benchmark() returns result and stats with min/max/mean/median."""
+        """Benchmark() returns result and stats with min/max/mean/median."""
         result, stats = benchmark(sorted, [3, 1, 2], iterations=5, warmup=1)
         assert result == [1, 2, 3]
         assert "min" in stats

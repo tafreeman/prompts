@@ -1,15 +1,27 @@
 """Tests for agent components."""
 
-
 import pytest
-from agentic_v2.agents import (AgentConfig,  # Base; Capabilities; Agents
-                               AgentEvent, AgentState, Capability,
-                               CapabilitySet, CapabilityType, CoderAgent,
-                               ConversationMemory, OrchestratorAgent, OrchestratorInput,
-                               ReviewerAgent, agent_to_step,
-                               get_agent_capabilities)
-from agentic_v2.contracts import (CodeGenerationInput, CodeGenerationOutput,
-                                  CodeReviewInput, CodeReviewOutput)
+from agentic_v2.agents import AgentConfig  # Base; Capabilities; Agents
+from agentic_v2.agents import (
+    AgentEvent,
+    AgentState,
+    Capability,
+    CapabilitySet,
+    CapabilityType,
+    CoderAgent,
+    ConversationMemory,
+    OrchestratorAgent,
+    OrchestratorInput,
+    ReviewerAgent,
+    agent_to_step,
+    get_agent_capabilities,
+)
+from agentic_v2.contracts import (
+    CodeGenerationInput,
+    CodeGenerationOutput,
+    CodeReviewInput,
+    CodeReviewOutput,
+)
 from agentic_v2.models import ModelTier
 
 # ============================================================================

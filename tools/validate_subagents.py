@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
-"""
-Minimal validator for docs/subagents.yml
-Checks that each subagent definition contains required fields and basic typing.
+"""Minimal validator for docs/subagents.yml Checks that each subagent
+definition contains required fields and basic typing.
 
 Usage:
   python tools/validate_subagents.py docs/subagents.yml
@@ -10,14 +9,17 @@ Exit codes:
   0 - success
   2 - validation errors
 """
-import sys
+
 import argparse
+import sys
 from pathlib import Path
 
 try:
     import yaml
-except Exception as e:
-    print("Missing dependency 'PyYAML'. Install with: pip install pyyaml", file=sys.stderr)
+except Exception:
+    print(
+        "Missing dependency 'PyYAML'. Install with: pip install pyyaml", file=sys.stderr
+    )
     raise
 
 REQUIRED_FIELDS = [
@@ -38,7 +40,12 @@ def load_yaml(path: Path):
 
 def main():
     p = argparse.ArgumentParser(description="Validate docs/subagents.yml structure")
-    p.add_argument("file", nargs="?", default="docs/subagents.yml", help="Path to subagents YAML file")
+    p.add_argument(
+        "file",
+        nargs="?",
+        default="docs/subagents.yml",
+        help="Path to subagents YAML file",
+    )
     args = p.parse_args()
 
     path = Path(args.file)
@@ -48,13 +55,19 @@ def main():
 
     data = load_yaml(path)
     # Support both list-of-items or {subagents: [...]} formats
-    if isinstance(data, dict) and "subagents" in data and isinstance(data["subagents"], list):
+    if (
+        isinstance(data, dict)
+        and "subagents" in data
+        and isinstance(data["subagents"], list)
+    ):
         items = data["subagents"]
     elif isinstance(data, list):
         items = data
     else:
-        print("ERROR: Unexpected YAML top-level structure. Expect list or {subagents: [...]}",
-              file=sys.stderr)
+        print(
+            "ERROR: Unexpected YAML top-level structure. Expect list or {subagents: [...]}",
+            file=sys.stderr,
+        )
         sys.exit(2)
 
     errors = []
@@ -79,7 +92,9 @@ def main():
             print(" - ", e)
         sys.exit(2)
 
-    print(f"OK: validated {len(items)} subagent entr{'y' if len(items)==1 else 'ies'} in {path}")
+    print(
+        f"OK: validated {len(items)} subagent entr{'y' if len(items)==1 else 'ies'} in {path}"
+    )
     sys.exit(0)
 
 
@@ -98,13 +113,14 @@ Exit codes:
   2 - validation errors
 """
 import sys
-import argparse
 from pathlib import Path
 
 try:
     import yaml
-except Exception as e:
-    print("Missing dependency 'PyYAML'. Install with: pip install pyyaml", file=sys.stderr)
+except Exception:
+    print(
+        "Missing dependency 'PyYAML'. Install with: pip install pyyaml", file=sys.stderr
+    )
     raise
 
 REQUIRED_FIELDS = [
@@ -125,7 +141,12 @@ def load_yaml(path: Path):
 
 def main():
     p = argparse.ArgumentParser(description="Validate docs/subagents.yml structure")
-    p.add_argument("file", nargs="?", default="docs/subagents.yml", help="Path to subagents YAML file")
+    p.add_argument(
+        "file",
+        nargs="?",
+        default="docs/subagents.yml",
+        help="Path to subagents YAML file",
+    )
     args = p.parse_args()
 
     path = Path(args.file)
@@ -135,12 +156,19 @@ def main():
 
     data = load_yaml(path)
     # Support both list-of-items or {subagents: [...]} formats
-    if isinstance(data, dict) and "subagents" in data and isinstance(data["subagents"], list):
+    if (
+        isinstance(data, dict)
+        and "subagents" in data
+        and isinstance(data["subagents"], list)
+    ):
         items = data["subagents"]
     elif isinstance(data, list):
         items = data
     else:
-        print("ERROR: Unexpected YAML top-level structure. Expect list or {subagents: [...]}", file=sys.stderr)
+        print(
+            "ERROR: Unexpected YAML top-level structure. Expect list or {subagents: [...]}",
+            file=sys.stderr,
+        )
         sys.exit(2)
 
     errors = []
@@ -165,7 +193,9 @@ def main():
             print(" - ", e)
         sys.exit(2)
 
-    print(f"OK: validated {len(items)} subagent entr{'y' if len(items)==1 else 'ies'} in {path}")
+    print(
+        f"OK: validated {len(items)} subagent entr{'y' if len(items)==1 else 'ies'} in {path}"
+    )
     sys.exit(0)
 
 

@@ -30,11 +30,10 @@ Example::
 
 from __future__ import annotations
 
-import asyncio
 from typing import Any, Optional
 
 try:
-    from claude_agent_sdk import query, ClaudeAgentOptions, AgentDefinition
+    from claude_agent_sdk import AgentDefinition, ClaudeAgentOptions, query
 except ImportError as e:
     raise ImportError(
         "claude-agent-sdk is required: pip install 'agentic-workflows-v2[claude]'"
@@ -42,7 +41,16 @@ except ImportError as e:
 
 
 # Available built-in tools provided by the Agent SDK
-BUILTIN_TOOLS = ["Read", "Write", "Edit", "Bash", "Glob", "Grep", "WebSearch", "WebFetch"]
+BUILTIN_TOOLS = [
+    "Read",
+    "Write",
+    "Edit",
+    "Bash",
+    "Glob",
+    "Grep",
+    "WebSearch",
+    "WebFetch",
+]
 
 
 class ClaudeSDKAgent:

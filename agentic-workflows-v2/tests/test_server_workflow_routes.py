@@ -2,9 +2,8 @@
 
 from __future__ import annotations
 
-from fastapi.testclient import TestClient
-
 from agentic_v2.server.app import create_app
+from fastapi.testclient import TestClient
 
 
 def test_eval_datasets_endpoint_returns_expected_shape():
@@ -88,7 +87,11 @@ def test_eval_datasets_filtered_by_workflow(monkeypatch):
     def _mock_load_config(name, definitions_dir=None):
         return config.WorkflowConfig(
             name=name,
-            inputs={"code_file": config.InputConfig(name="code_file", type="string", required=True)},
+            inputs={
+                "code_file": config.InputConfig(
+                    name="code_file", type="string", required=True
+                )
+            },
             steps=[],
         )
 
@@ -97,8 +100,20 @@ def test_eval_datasets_filtered_by_workflow(monkeypatch):
         workflows,
         "list_local_datasets",
         lambda: [
-            {"id": "a.json", "name": "A", "source": "local", "description": "", "sample_count": 1},
-            {"id": "b.json", "name": "B", "source": "local", "description": "", "sample_count": 1},
+            {
+                "id": "a.json",
+                "name": "A",
+                "source": "local",
+                "description": "",
+                "sample_count": 1,
+            },
+            {
+                "id": "b.json",
+                "name": "B",
+                "source": "local",
+                "description": "",
+                "sample_count": 1,
+            },
         ],
     )
     monkeypatch.setattr(workflows, "list_repository_datasets", lambda: [])
@@ -127,7 +142,11 @@ def test_run_rejects_incompatible_dataset_422(monkeypatch):
     def _mock_load_config(name, definitions_dir=None):
         return config.WorkflowConfig(
             name=name,
-            inputs={"code_file": config.InputConfig(name="code_file", type="string", required=True)},
+            inputs={
+                "code_file": config.InputConfig(
+                    name="code_file", type="string", required=True
+                )
+            },
             steps=[],
         )
 
@@ -167,8 +186,12 @@ def test_reject_empty_required_adapted_input(monkeypatch):
         return config.WorkflowConfig(
             name=name,
             inputs={
-                "code_file": config.InputConfig(name="code_file", type="string", required=True),
-                "notes": config.InputConfig(name="notes", type="string", required=False),
+                "code_file": config.InputConfig(
+                    name="code_file", type="string", required=True
+                ),
+                "notes": config.InputConfig(
+                    name="notes", type="string", required=False
+                ),
             },
             steps=[],
         )
@@ -177,7 +200,10 @@ def test_reject_empty_required_adapted_input(monkeypatch):
     monkeypatch.setattr(
         workflows,
         "load_local_dataset_sample",
-        lambda _dataset_ref, sample_index=0: ({"code_file": "x.py"}, {"source": "local"}),
+        lambda _dataset_ref, sample_index=0: (
+            {"code_file": "x.py"},
+            {"source": "local"},
+        ),
     )
     monkeypatch.setattr(
         workflows,
@@ -214,8 +240,12 @@ def test_accept_empty_optional_adapted_input(monkeypatch):
         return config.WorkflowConfig(
             name=name,
             inputs={
-                "code_file": config.InputConfig(name="code_file", type="string", required=True),
-                "notes": config.InputConfig(name="notes", type="string", required=False),
+                "code_file": config.InputConfig(
+                    name="code_file", type="string", required=True
+                ),
+                "notes": config.InputConfig(
+                    name="notes", type="string", required=False
+                ),
             },
             steps=[],
         )
@@ -224,7 +254,10 @@ def test_accept_empty_optional_adapted_input(monkeypatch):
     monkeypatch.setattr(
         workflows,
         "load_local_dataset_sample",
-        lambda _dataset_ref, sample_index=0: ({"code_file": "x.py"}, {"source": "local"}),
+        lambda _dataset_ref, sample_index=0: (
+            {"code_file": "x.py"},
+            {"source": "local"},
+        ),
     )
     monkeypatch.setattr(
         workflows,
@@ -260,8 +293,12 @@ def test_accept_full_adapted_inputs(monkeypatch):
         return config.WorkflowConfig(
             name=name,
             inputs={
-                "code_file": config.InputConfig(name="code_file", type="string", required=True),
-                "notes": config.InputConfig(name="notes", type="string", required=False),
+                "code_file": config.InputConfig(
+                    name="code_file", type="string", required=True
+                ),
+                "notes": config.InputConfig(
+                    name="notes", type="string", required=False
+                ),
             },
             steps=[],
         )
@@ -270,7 +307,10 @@ def test_accept_full_adapted_inputs(monkeypatch):
     monkeypatch.setattr(
         workflows,
         "load_local_dataset_sample",
-        lambda _dataset_ref, sample_index=0: ({"code_file": "x.py"}, {"source": "local"}),
+        lambda _dataset_ref, sample_index=0: (
+            {"code_file": "x.py"},
+            {"source": "local"},
+        ),
     )
     monkeypatch.setattr(
         workflows,
@@ -304,8 +344,12 @@ def test_empty_request_input_does_not_override_dataset_adapted_value(monkeypatch
         return config.WorkflowConfig(
             name=name,
             inputs={
-                "code_file": config.InputConfig(name="code_file", type="string", required=True),
-                "review_depth": config.InputConfig(name="review_depth", type="string", required=False),
+                "code_file": config.InputConfig(
+                    name="code_file", type="string", required=True
+                ),
+                "review_depth": config.InputConfig(
+                    name="review_depth", type="string", required=False
+                ),
             },
             steps=[],
         )
@@ -314,12 +358,18 @@ def test_empty_request_input_does_not_override_dataset_adapted_value(monkeypatch
     monkeypatch.setattr(
         workflows,
         "load_local_dataset_sample",
-        lambda _dataset_ref, sample_index=0: ({"prompt": "Review this code"}, {"source": "local"}),
+        lambda _dataset_ref, sample_index=0: (
+            {"prompt": "Review this code"},
+            {"source": "local"},
+        ),
     )
     monkeypatch.setattr(
         workflows,
         "adapt_sample_to_workflow_inputs",
-        lambda *_args, **_kwargs: {"code_file": "adapted/path.py", "review_depth": "deep"},
+        lambda *_args, **_kwargs: {
+            "code_file": "adapted/path.py",
+            "review_depth": "deep",
+        },
     )
 
     response = client.post(

@@ -39,12 +39,18 @@ class TestEvaluateCondition:
     def test_in_operator(self) -> None:
         """${steps.x.outputs.status} in ['APPROVED'] works."""
         state = {"steps": {"x": {"outputs": {"status": "APPROVED"}}}}
-        assert evaluate_condition("${steps.x.outputs.status} in ['APPROVED']", state) is True
+        assert (
+            evaluate_condition("${steps.x.outputs.status} in ['APPROVED']", state)
+            is True
+        )
 
     def test_in_operator_not_found(self) -> None:
         """${steps.x.outputs.status} in ['APPROVED'] is False when REJECTED."""
         state = {"steps": {"x": {"outputs": {"status": "REJECTED"}}}}
-        assert evaluate_condition("${steps.x.outputs.status} in ['APPROVED']", state) is False
+        assert (
+            evaluate_condition("${steps.x.outputs.status} in ['APPROVED']", state)
+            is False
+        )
 
     def test_not_equal(self) -> None:
         """${inputs.depth} != 'quick' evaluates correctly."""
@@ -58,7 +64,8 @@ class TestEvaluateCondition:
         assert evaluate_condition("len(${inputs.x}) > 0", state) is False
 
     def test_missing_variable_returns_false(self) -> None:
-        """Missing variable path evaluates to None, causing comparison to fail."""
+        """Missing variable path evaluates to None, causing comparison to
+        fail."""
         state = {"inputs": {}}
         assert evaluate_condition("${inputs.missing_key} == 'value'", state) is False
 

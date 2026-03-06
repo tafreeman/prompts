@@ -1,6 +1,5 @@
 """Unit tests for tools.llm.llm_client — no real LLM calls made."""
 
-import os
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -62,27 +61,37 @@ class TestPickPreferredModel:
 class TestRemoteProviderGating:
     """Remote providers must be blocked unless PROMPTEVAL_ALLOW_REMOTE=1."""
 
-    @pytest.mark.parametrize("model_name", [
-        "gpt-4o",
-        "gpt-4o-mini",
-        "claude-3-haiku",
-        "gemini-1.5-pro",
-        "openai:gpt-4o",
-        "gemini:gemini-1.5-pro",
-        "claude:claude-3-haiku",
-        "azure-foundry:phi4mini",
-        "azure-openai:gpt-4o",
-    ])
-    def test_remote_blocked_by_default(self, model_name: str, monkeypatch: pytest.MonkeyPatch):
+    @pytest.mark.parametrize(
+        "model_name",
+        [
+            "gpt-4o",
+            "gpt-4o-mini",
+            "claude-3-haiku",
+            "gemini-1.5-pro",
+            "openai:gpt-4o",
+            "gemini:gemini-1.5-pro",
+            "claude:claude-3-haiku",
+            "azure-foundry:phi4mini",
+            "azure-openai:gpt-4o",
+        ],
+    )
+    def test_remote_blocked_by_default(
+        self, model_name: str, monkeypatch: pytest.MonkeyPatch
+    ):
         monkeypatch.delenv("PROMPTEVAL_ALLOW_REMOTE", raising=False)
         with pytest.raises(RuntimeError, match="Remote provider disabled"):
             LLMClient.generate_text(model_name, "hello")
 
-    @pytest.mark.parametrize("model_name", [
-        "gh:gpt-4o-mini",
-        "ollama:llama3",
-    ])
-    def test_allowed_providers_bypass_gate(self, model_name: str, monkeypatch: pytest.MonkeyPatch):
+    @pytest.mark.parametrize(
+        "model_name",
+        [
+            "gh:gpt-4o-mini",
+            "ollama:llama3",
+        ],
+    )
+    def test_allowed_providers_bypass_gate(
+        self, model_name: str, monkeypatch: pytest.MonkeyPatch
+    ):
         """gh: and ollama: are allowed without the env flag — they reach the provider call."""
         monkeypatch.delenv("PROMPTEVAL_ALLOW_REMOTE", raising=False)
         monkeypatch.setenv("PROMPTS_CACHE_ENABLED", "0")
@@ -101,7 +110,9 @@ class TestRemoteProviderGating:
 class TestGenerateTextRouting:
     """Verify routing dispatches to the right provider adapter."""
 
-    def _make_call(self, model_name: str, adapter_path: str, monkeypatch: pytest.MonkeyPatch):
+    def _make_call(
+        self, model_name: str, adapter_path: str, monkeypatch: pytest.MonkeyPatch
+    ):
         monkeypatch.setenv("PROMPTEVAL_ALLOW_REMOTE", "1")
         monkeypatch.setenv("PROMPTS_CACHE_ENABLED", "0")
         mock_fn = MagicMock(return_value="ok")
@@ -150,13 +161,17 @@ class TestGenerateTextRouting:
         )
         mock.assert_called_once()
 
-    def test_unknown_model_raises_llm_client_error(self, monkeypatch: pytest.MonkeyPatch):
+    def test_unknown_model_raises_llm_client_error(
+        self, monkeypatch: pytest.MonkeyPatch
+    ):
         monkeypatch.setenv("PROMPTEVAL_ALLOW_REMOTE", "1")
         monkeypatch.setenv("PROMPTS_CACHE_ENABLED", "0")
         with pytest.raises(LLMClientError, match="Unknown model"):
             LLMClient.generate_text("totally-unknown-model-xyz", "prompt")
 
-    def test_provider_exception_wrapped_as_llm_client_error(self, monkeypatch: pytest.MonkeyPatch):
+    def test_provider_exception_wrapped_as_llm_client_error(
+        self, monkeypatch: pytest.MonkeyPatch
+    ):
         monkeypatch.setenv("PROMPTEVAL_ALLOW_REMOTE", "1")
         monkeypatch.setenv("PROMPTS_CACHE_ENABLED", "0")
         with patch(

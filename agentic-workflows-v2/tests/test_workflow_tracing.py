@@ -5,12 +5,13 @@ from datetime import datetime
 from unittest.mock import MagicMock, patch
 
 import pytest
+from agentic_v2.integrations.base import CanonicalEvent, TraceAdapter
 from agentic_v2.workflows.runner import WorkflowRunner
-from agentic_v2.integrations.base import TraceAdapter, CanonicalEvent
 
 
 class CaptureTraceAdapter(TraceAdapter):
     """Test adapter that captures events in a list."""
+
     def __init__(self):
         self.events = []
 
@@ -115,17 +116,20 @@ class TestOtelTraceAdapter:
     def adapter(self, mock_tracer):
         """Create an OtelTraceAdapter with sensitive content excluded."""
         from agentic_v2.integrations.tracing import OtelTraceAdapter
+
         return OtelTraceAdapter(tracer=mock_tracer, capture_sensitive=False)
 
     @pytest.fixture
     def sensitive_adapter(self, mock_tracer):
         """Create an OtelTraceAdapter with sensitive content included."""
         from agentic_v2.integrations.tracing import OtelTraceAdapter
+
         return OtelTraceAdapter(tracer=mock_tracer, capture_sensitive=True)
 
     def test_sensitive_content_excluded_by_default(self, mock_tracer):
         """OtelTraceAdapter excludes sensitive content by default."""
         from agentic_v2.integrations.tracing import OtelTraceAdapter
+
         adapter = OtelTraceAdapter(tracer=mock_tracer)
         assert adapter._capture_sensitive is False
 
@@ -173,18 +177,22 @@ class TestOtelTraceAdapter:
     def test_step_start_creates_child_span(self, adapter, mock_tracer):
         """step_start event creates a child span under the workflow."""
         # Start workflow first
-        adapter.emit(make_event(
-            "workflow_start",
-            workflow_name="test-workflow",
-            run_id="run-001",
-        ))
+        adapter.emit(
+            make_event(
+                "workflow_start",
+                workflow_name="test-workflow",
+                run_id="run-001",
+            )
+        )
 
         # Start step
-        adapter.emit(make_event(
-            "step_start",
-            step_name="analyze",
-            run_id="run-001",
-        ))
+        adapter.emit(
+            make_event(
+                "step_start",
+                step_name="analyze",
+                run_id="run-001",
+            )
+        )
 
         # Step span should be tracked with run_id:step_name key
         assert "run-001:analyze" in adapter._workflow_spans
@@ -195,24 +203,30 @@ class TestOtelTraceAdapter:
         mock_tracer.start_span.return_value = mock_span
 
         # Setup: workflow + step
-        adapter.emit(make_event(
-            "workflow_start",
-            run_id="run-002",
-        ))
-        adapter.emit(make_event(
-            "step_start",
-            step_name="generate",
-            run_id="run-002",
-        ))
+        adapter.emit(
+            make_event(
+                "workflow_start",
+                run_id="run-002",
+            )
+        )
+        adapter.emit(
+            make_event(
+                "step_start",
+                step_name="generate",
+                run_id="run-002",
+            )
+        )
         assert "run-002:generate" in adapter._workflow_spans
 
         # Complete step
-        adapter.emit(make_event(
-            "step_complete",
-            step_name="generate",
-            run_id="run-002",
-            status="success",
-        ))
+        adapter.emit(
+            make_event(
+                "step_complete",
+                step_name="generate",
+                run_id="run-002",
+                status="success",
+            )
+        )
         assert "run-002:generate" not in adapter._workflow_spans
 
     def test_sensitive_content_excluded_in_sanitize(self, adapter):
@@ -249,7 +263,8 @@ class TestOtelTraceAdapter:
         assert sanitized["model"] == "gpt-4"
 
     def test_non_sensitive_fields_always_included(self, adapter):
-        """Non-sensitive fields are included regardless of capture_sensitive."""
+        """Non-sensitive fields are included regardless of
+        capture_sensitive."""
         data = {
             "model": "gpt-4",
             "step_name": "analyze",

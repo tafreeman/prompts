@@ -3,25 +3,30 @@ blocks appear in the raw LLM response, then check the parser output."""
 
 import asyncio
 import json
-import sys
 import os
+import sys
 
 # Add project root to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from agentic_v2.engine.context import ExecutionContext
 from agentic_v2.engine.agent_resolver import (
+    _TIER_MAX_TOKENS,
     _make_llm_step,
     _parse_sentinel_output,
-    _TIER_MAX_TOKENS,
 )
+from agentic_v2.engine.context import ExecutionContext
 from agentic_v2.models.router import ModelTier
 
 
 async def main():
     ctx = ExecutionContext()
-    await ctx.set("feature_spec", "Build a minimal 'hello world' FastAPI app with one GET /health endpoint that returns {status: ok}.")
-    await ctx.set("tech_stack", {"frontend": "none", "backend": "fastapi", "database": "none"})
+    await ctx.set(
+        "feature_spec",
+        "Build a minimal 'hello world' FastAPI app with one GET /health endpoint that returns {status: ok}.",
+    )
+    await ctx.set(
+        "tech_stack", {"frontend": "none", "backend": "fastapi", "database": "none"}
+    )
 
     tier = ModelTier.TIER_2
     print(f"max_tokens for tier {tier.name}: {_TIER_MAX_TOKENS[tier]}")
@@ -57,7 +62,9 @@ async def main():
         else:
             print("\nNo sentinel blocks found in raw_response")
     else:
-        print(f"\n❓ Unexpected result: {json.dumps({k: str(v)[:100] for k, v in result.items()}, indent=2)}")
+        print(
+            f"\n❓ Unexpected result: {json.dumps({k: str(v)[:100] for k, v in result.items()}, indent=2)}"
+        )
 
     if "backend_code_files" in result:
         files = result["backend_code_files"]
@@ -65,7 +72,9 @@ async def main():
 
     meta = result.get("_meta", {})
     if meta:
-        print(f"\nModel used: {meta.get('model_used')}, tokens: {meta.get('tokens_used')}")
+        print(
+            f"\nModel used: {meta.get('model_used')}, tokens: {meta.get('tokens_used')}"
+        )
 
 
 if __name__ == "__main__":

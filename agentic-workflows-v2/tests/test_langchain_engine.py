@@ -6,23 +6,23 @@ without requiring any API keys (tier-0 only).
 
 import json
 import os
-import pytest
-from pathlib import Path
 from datetime import datetime
 
+import pytest
+from agentic_v2.contracts import StepStatus
+from agentic_v2.integrations.base import CanonicalEvent, TraceAdapter
+from agentic_v2.integrations.tracing import LangSmithTraceAdapter
 from agentic_v2.langchain.config import (
-    WorkflowConfig,
     StepConfig,
-    load_workflow_config,
+    WorkflowConfig,
     list_workflows,
+    load_workflow_config,
 )
 from agentic_v2.langchain.state import WorkflowState, initial_state
 from agentic_v2.langchain.graph import compile_workflow
 from agentic_v2.langchain.runner import WorkflowRunner
+from agentic_v2.langchain.state import initial_state
 from agentic_v2.langchain.tools import get_tools_for_tier, web_search
-from agentic_v2.integrations.base import CanonicalEvent, TraceAdapter
-from agentic_v2.integrations.tracing import LangSmithTraceAdapter
-
 
 # ---------------------------------------------------------------------------
 # Config loader tests
@@ -59,9 +59,7 @@ class TestConfigLoader:
 
     def test_conditional_step(self):
         config = load_workflow_config("code_review")
-        summary_step = next(
-            s for s in config.steps if s.name == "generate_summary"
-        )
+        summary_step = next(s for s in config.steps if s.name == "generate_summary")
         assert summary_step.when is not None
         assert "review_depth" in summary_step.when
 
@@ -113,11 +111,18 @@ class TestConfigLoader:
         config = load_workflow_config("deep_research")
         source_policy = next(s for s in config.steps if s.name == "source_policy")
         final_synthesis = next(s for s in config.steps if s.name == "final_synthesis")
-        assert source_policy.model_override == "env:DEEP_RESEARCH_SMALL_MODEL|gemini:gemini-2.0-flash-lite"
-        assert final_synthesis.model_override == "env:DEEP_RESEARCH_HEAVY_MODEL|gemini:gemini-2.5-flash"
+        assert (
+            source_policy.model_override
+            == "env:DEEP_RESEARCH_SMALL_MODEL|gemini:gemini-2.0-flash-lite"
+        )
+        assert (
+            final_synthesis.model_override
+            == "env:DEEP_RESEARCH_HEAVY_MODEL|gemini:gemini-2.5-flash"
+        )
 
     def test_compile_validate_only_all_runnable_workflows(self):
-        """All runnable workflow definitions should compile in validate_only mode."""
+        """All runnable workflow definitions should compile in validate_only
+        mode."""
         workflows = [name for name in list_workflows() if name != "plan_implementation"]
         assert workflows, "Expected at least one runnable workflow definition"
 
@@ -408,9 +413,11 @@ class TestWorkflowRunner:
             runner_module.load_workflow_config = original_loader
             runner_module.compile_workflow = original_compiler
 
-        assert result.status == "success"
+        assert result.overall_status == StepStatus.SUCCESS
         assert dummy_graph.config is not None
-        assert dummy_graph.config.get("configurable", {}).get("thread_id") == "thread-123"
+        assert (
+            dummy_graph.config.get("configurable", {}).get("thread_id") == "thread-123"
+        )
 
     def test_invoke_falls_back_when_config_unsupported(self):
         class _LegacyGraph:
@@ -442,7 +449,7 @@ class TestWorkflowRunner:
             runner_module.load_workflow_config = original_loader
             runner_module.compile_workflow = original_compiler
 
-        assert result.status == "success"
+        assert result.overall_status == StepStatus.SUCCESS
         assert legacy_graph.calls == 1
 
     def test_stream_passes_thread_id_in_config(self):
@@ -472,7 +479,10 @@ class TestWorkflowRunner:
 
         assert len(events) == 1
         assert streaming_graph.config is not None
-        assert streaming_graph.config.get("configurable", {}).get("thread_id") == "stream-thread"
+        assert (
+            streaming_graph.config.get("configurable", {}).get("thread_id")
+            == "stream-thread"
+        )
 
     def test_invoke_emits_trace_events(self):
         class _TraceCollector(TraceAdapter):
@@ -506,7 +516,7 @@ class TestWorkflowRunner:
             runner_module.load_workflow_config = original_loader
             runner_module.compile_workflow = original_compiler
 
-        assert result.status == "success"
+        assert result.overall_status == StepStatus.SUCCESS
         assert len(trace.events) >= 2
         assert trace.events[0].type == "workflow_start"
         assert trace.events[-1].type == "workflow_end"
@@ -603,7 +613,7 @@ class TestWorkflowRunner:
             runner_module.load_workflow_config = original_loader
             runner_module.compile_workflow = original_compiler
 
-        assert result.status == "success"
+        assert result.overall_status == StepStatus.SUCCESS
         assert graph.invoked_with is None
         assert graph.config is not None
         assert graph.config.get("configurable", {}).get("thread_id") == "thread-resume"
@@ -646,7 +656,12 @@ class TestLangSmithTracing:
             CanonicalEvent(
                 type="workflow_end",
                 timestamp=datetime.now(),
-                data={"workflow_name": "wf", "run_id": "run-1", "status": "success", "outputs": {"ok": True}},
+                data={
+                    "workflow_name": "wf",
+                    "run_id": "run-1",
+                    "status": "success",
+                    "outputs": {"ok": True},
+                },
             )
         )
 
@@ -670,6 +685,7 @@ class TestConfigParserNonStringInputs:
 
     def test_dict_input_preserved(self):
         from agentic_v2.langchain.config import _parse
+
         data = {
             "name": "test_wf",
             "steps": [
@@ -678,7 +694,10 @@ class TestConfigParserNonStringInputs:
                     "agent": "tier0_parser",
                     "inputs": {
                         "simple": "${inputs.code_file}",
-                        "composite": {"backend": "${steps.x.outputs.code}", "frontend": "${steps.y.outputs.ui}"},
+                        "composite": {
+                            "backend": "${steps.x.outputs.code}",
+                            "frontend": "${steps.y.outputs.ui}",
+                        },
                     },
                 }
             ],
@@ -689,7 +708,8 @@ class TestConfigParserNonStringInputs:
         assert isinstance(config.steps[0].inputs["composite"], dict)
 
     def test_loads_fullstack_bounded_rereview(self):
-        """fullstack_generation_bounded_rereview.yaml uses coalesce() in inputs — should load cleanly."""
+        """fullstack_generation_bounded_rereview.yaml uses coalesce() in inputs
+        — should load cleanly."""
         try:
             config = load_workflow_config("fullstack_generation_bounded_rereview")
             assert len(config.steps) > 0
@@ -701,7 +721,8 @@ class TestLoopIterationCounter:
     """Tests that loop iteration is tracked correctly in step data."""
 
     def test_tier0_node_increments_iteration(self):
-        """Running a tier-0 step twice should show loop_iteration=2 on second call."""
+        """Running a tier-0 step twice should show loop_iteration=2 on second
+        call."""
         from agentic_v2.langchain.config import StepConfig, WorkflowConfig
         from agentic_v2.langchain.graph import compile_workflow
 
@@ -723,10 +744,11 @@ class TestLoopIterationCounter:
 
 
 class TestConditionalFanOut:
-    """Tests that unconditional siblings are not dropped when conditional edges exist."""
+    """Tests that unconditional siblings are not dropped when conditional edges
+    exist."""
 
     def _make_config(self, cond_true: bool) -> WorkflowConfig:
-        from agentic_v2.langchain.config import StepConfig, WorkflowConfig, InputConfig
+        from agentic_v2.langchain.config import InputConfig, StepConfig, WorkflowConfig
 
         return WorkflowConfig(
             name="fanout_test",
@@ -738,31 +760,54 @@ class TestConditionalFanOut:
                     name="conditional",
                     agent="tier0_parser",
                     depends_on=["root"],
-                    when="${inputs.flag} == 'yes'" if cond_true else "${inputs.flag} == 'no'",
+                    when=(
+                        "${inputs.flag} == 'yes'"
+                        if cond_true
+                        else "${inputs.flag} == 'no'"
+                    ),
                 ),
             ],
         )
 
     def test_unconditional_sibling_always_runs(self):
-        """The 'always' step must execute even when a conditional sibling exists."""
+        """The 'always' step must execute even when a conditional sibling
+        exists."""
         config = self._make_config(cond_true=False)
         g = compile_workflow(config)
-        state = {"inputs": {"flag": "no"}, "context": {"inputs": {"flag": "no"}}, "steps": {}, "messages": [], "errors": [], "outputs": {}, "current_step": ""}
+        state = {
+            "inputs": {"flag": "no"},
+            "context": {"inputs": {"flag": "no"}},
+            "steps": {},
+            "messages": [],
+            "errors": [],
+            "outputs": {},
+            "current_step": "",
+        }
         result = g.invoke(state)
         assert "always" in result["steps"]
         assert result["steps"]["always"]["status"] == "success"
 
     def test_conditional_step_runs_when_condition_true(self):
-        """The 'conditional' step must execute when its when-expression is true."""
+        """The 'conditional' step must execute when its when-expression is
+        true."""
         config = self._make_config(cond_true=True)
         g = compile_workflow(config)
-        state = {"inputs": {"flag": "yes"}, "context": {"inputs": {"flag": "yes"}}, "steps": {}, "messages": [], "errors": [], "outputs": {}, "current_step": ""}
+        state = {
+            "inputs": {"flag": "yes"},
+            "context": {"inputs": {"flag": "yes"}},
+            "steps": {},
+            "messages": [],
+            "errors": [],
+            "outputs": {},
+            "current_step": "",
+        }
         result = g.invoke(state)
         assert "always" in result["steps"]
         assert "conditional" in result["steps"]
 
     def test_self_skipped_conditional_allows_downstream_join(self):
-        """A self-skipped conditional node should still allow join dependents to run."""
+        """A self-skipped conditional node should still allow join dependents
+        to run."""
         from agentic_v2.langchain.config import InputConfig, StepConfig, WorkflowConfig
 
         config = WorkflowConfig(
@@ -812,18 +857,21 @@ class TestModelRegistry:
 
     def test_unsupported_provider_raises(self):
         from agentic_v2.langchain.models import get_chat_model
+
         with pytest.raises(ValueError, match="Unsupported model provider"):
             get_chat_model("azure:some-model")
 
     def test_gh_prefix_requires_github_token(self, monkeypatch):
         monkeypatch.delenv("GITHUB_TOKEN", raising=False)
         from agentic_v2.langchain.models import get_chat_model
+
         with pytest.raises((ValueError, ImportError)):
             get_chat_model("gh:openai/gpt-4o-mini")
 
     def test_gh_prefix_builds_openai_with_token(self, monkeypatch):
         monkeypatch.setenv("GITHUB_TOKEN", "fake-token")
         from agentic_v2.langchain.models import get_chat_model
+
         try:
             model = get_chat_model("gh:openai/gpt-4o-mini")
             assert model is not None
@@ -835,6 +883,7 @@ class TestModelRegistry:
     def test_ollama_prefix_builds_ollama_model(self, monkeypatch):
         monkeypatch.setenv("OLLAMA_BASE_URL", "http://localhost:11434")
         from agentic_v2.langchain.models import get_chat_model
+
         try:
             model = get_chat_model("ollama:qwen2.5-coder")
             assert model is not None
@@ -843,6 +892,7 @@ class TestModelRegistry:
 
     def test_bare_name_treated_as_ollama(self, monkeypatch):
         from agentic_v2.langchain.models import get_chat_model
+
         try:
             model = get_chat_model("llama3.2")
             assert model is not None
@@ -852,12 +902,14 @@ class TestModelRegistry:
     def test_openai_prefix_requires_api_key(self, monkeypatch):
         monkeypatch.delenv("OPENAI_API_KEY", raising=False)
         from agentic_v2.langchain.models import get_chat_model
+
         with pytest.raises((ValueError, ImportError)):
             get_chat_model("openai:gpt-4o-mini")
 
     def test_openai_prefix_builds_model(self, monkeypatch):
         monkeypatch.setenv("OPENAI_API_KEY", "fake-openai-key")
         from agentic_v2.langchain.models import get_chat_model
+
         try:
             model = get_chat_model("openai:gpt-4o-mini")
             assert model is not None
@@ -868,12 +920,14 @@ class TestModelRegistry:
     def test_anthropic_prefix_requires_key(self, monkeypatch):
         monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
         from agentic_v2.langchain.models import get_chat_model
+
         with pytest.raises((ValueError, ImportError)):
             get_chat_model("anthropic:claude-3-5-sonnet-latest")
 
     def test_claude_alias_prefix(self, monkeypatch):
         monkeypatch.setenv("ANTHROPIC_API_KEY", "fake-anthropic-key")
         from agentic_v2.langchain.models import get_chat_model
+
         try:
             model = get_chat_model("claude:claude-3-5-sonnet-latest")
             assert model is not None
@@ -884,6 +938,7 @@ class TestModelRegistry:
         monkeypatch.delenv("GOOGLE_API_KEY", raising=False)
         monkeypatch.delenv("GEMINI_API_KEY", raising=False)
         from agentic_v2.langchain.models import get_chat_model
+
         with pytest.raises((ValueError, ImportError)):
             get_chat_model("gemini:gemini-2.5-pro")
 
@@ -891,6 +946,7 @@ class TestModelRegistry:
         monkeypatch.delenv("NOTEBOOKLM_MODEL", raising=False)
         monkeypatch.delenv("NOTEBOOKLM_GEMINI_MODEL", raising=False)
         from agentic_v2.langchain.models import _resolve_notebooklm_model_name
+
         assert _resolve_notebooklm_model_name("") == "gemini-2.5-pro"
 
         monkeypatch.setenv("NOTEBOOKLM_MODEL", "gemini-2.5-flash")
@@ -901,14 +957,17 @@ class TestModelRegistry:
 
     def test_local_onnx_prefix_builds_wrapper(self):
         from agentic_v2.langchain.models import get_chat_model
+
         model = get_chat_model("local:phi4mini")
         assert model is not None
         assert getattr(model, "_llm_type") == "local-onnx"
 
     def test_tier_env_var_override(self, monkeypatch):
         monkeypatch.setenv("AGENTIC_MODEL_TIER_2", "ollama:phi4")
-        from agentic_v2.langchain import models as models_mod
         import importlib
+
+        from agentic_v2.langchain import models as models_mod
+
         importlib.reload(models_mod)  # pick up env var in module scope
         try:
             model = models_mod.get_model_for_tier(2)
@@ -921,6 +980,7 @@ class TestModelRegistry:
     def test_env_model_override_with_fallback(self, monkeypatch):
         monkeypatch.delenv("DEEP_RESEARCH_SMALL_MODEL", raising=False)
         from agentic_v2.langchain.models import _resolve_model_override
+
         resolved = _resolve_model_override(
             "env:DEEP_RESEARCH_SMALL_MODEL|gh:openai/gpt-4o-mini"
         )
@@ -929,6 +989,7 @@ class TestModelRegistry:
     def test_env_model_override_uses_env_value(self, monkeypatch):
         monkeypatch.setenv("DEEP_RESEARCH_HEAVY_MODEL", "ollama:deepseek-r1")
         from agentic_v2.langchain.models import _resolve_model_override
+
         resolved = _resolve_model_override(
             "env:DEEP_RESEARCH_HEAVY_MODEL|gh:openai/gpt-4o"
         )
@@ -963,8 +1024,8 @@ class TestGraphResponseParsing:
     """Regression tests for provider-specific response parsing."""
 
     def test_extract_agent_response_text_handles_content_list(self):
-        from langchain_core.messages import AIMessage
         from agentic_v2.langchain import graph as graph_module
+        from langchain_core.messages import AIMessage
 
         payload = {
             "messages": [
@@ -993,8 +1054,8 @@ class TestGraphResponseParsing:
         assert parsed["references"] == ["a"]
 
     def test_llm_step_maps_outputs_from_list_content(self, monkeypatch):
-        from langchain_core.messages import AIMessage
         from agentic_v2.langchain import graph as graph_module
+        from langchain_core.messages import AIMessage
 
         class _DummyAgent:
             def invoke(self, payload):
@@ -1029,13 +1090,11 @@ class TestGraphResponseParsing:
 
         updated = node(state)
         assert updated["context"]["scoped_goal"] == "mapped"
-        assert (
-            updated["steps"]["intake_scope"]["outputs"]["scoped_goal"] == "mapped"
-        )
+        assert updated["steps"]["intake_scope"]["outputs"]["scoped_goal"] == "mapped"
 
     def test_llm_step_retries_with_fallback_model(self, monkeypatch):
-        from langchain_core.messages import AIMessage
         from agentic_v2.langchain import graph as graph_module
+        from langchain_core.messages import AIMessage
 
         created_models: list[str] = []
 

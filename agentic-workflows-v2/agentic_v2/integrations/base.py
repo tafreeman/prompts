@@ -1,20 +1,21 @@
 """Base adapter interfaces for framework-neutral integration."""
 
+import json
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any, Dict, Optional
-import json
 
 
 @dataclass
 class CanonicalEvent:
     """Unified event model for workflow execution tracing.
 
-    All framework adapters emit events in this canonical format to enable
-    consistent observability and debugging across LangChain, Microsoft Agent Framework,
-    and other integrations.
+    All framework adapters emit events in this canonical format to
+    enable consistent observability and debugging across LangChain,
+    Microsoft Agent Framework, and other integrations.
     """
+
     type: str  # e.g., "workflow_start", "step_start", "step_complete", "workflow_end"
     timestamp: datetime
     step_name: Optional[str] = None
@@ -26,7 +27,7 @@ class CanonicalEvent:
             "type": self.type,
             "timestamp": self.timestamp.isoformat(),
             "step_name": self.step_name,
-            "data": self.data
+            "data": self.data,
         }
 
     def to_json(self) -> str:
@@ -40,7 +41,7 @@ class CanonicalEvent:
             type=data["type"],
             timestamp=datetime.fromisoformat(data["timestamp"]),
             step_name=data.get("step_name"),
-            data=data.get("data", {})
+            data=data.get("data", {}),
         )
 
 
@@ -87,7 +88,9 @@ class WorkflowAdapter(ABC):
     """Abstract base class for workflow execution adapters."""
 
     @abstractmethod
-    async def run(self, workflow_def: Dict[str, Any], inputs: Dict[str, Any]) -> Dict[str, Any]:
+    async def run(
+        self, workflow_def: Dict[str, Any], inputs: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Run a workflow with the given inputs.
 
         Args:
@@ -106,8 +109,9 @@ class WorkflowAdapter(ABC):
 class TraceAdapter(ABC):
     """Abstract base class for execution tracing adapters.
 
-    TraceAdapter implementations receive CanonicalEvent instances during workflow
-    execution and can emit them to various backends (console, file, OpenTelemetry, etc.).
+    TraceAdapter implementations receive CanonicalEvent instances during
+    workflow execution and can emit them to various backends (console,
+    file, OpenTelemetry, etc.).
     """
 
     @abstractmethod
@@ -119,36 +123,61 @@ class TraceAdapter(ABC):
         """
         pass
 
-    def emit_workflow_start(self, workflow_name: str, run_id: str, inputs: Dict[str, Any]) -> None:
+    def emit_workflow_start(
+        self, workflow_name: str, run_id: str, inputs: Dict[str, Any]
+    ) -> None:
         """Helper to emit a workflow start event."""
-        self.emit(CanonicalEvent(
-            type="workflow_start",
-            timestamp=datetime.now(),
-            data={"workflow_name": workflow_name, "run_id": run_id, "inputs": inputs}
-        ))
+        self.emit(
+            CanonicalEvent(
+                type="workflow_start",
+                timestamp=datetime.now(),
+                data={
+                    "workflow_name": workflow_name,
+                    "run_id": run_id,
+                    "inputs": inputs,
+                },
+            )
+        )
 
-    def emit_workflow_end(self, workflow_name: str, run_id: str, status: str, outputs: Dict[str, Any]) -> None:
+    def emit_workflow_end(
+        self, workflow_name: str, run_id: str, status: str, outputs: Dict[str, Any]
+    ) -> None:
         """Helper to emit a workflow end event."""
-        self.emit(CanonicalEvent(
-            type="workflow_end",
-            timestamp=datetime.now(),
-            data={"workflow_name": workflow_name, "run_id": run_id, "status": status, "outputs": outputs}
-        ))
+        self.emit(
+            CanonicalEvent(
+                type="workflow_end",
+                timestamp=datetime.now(),
+                data={
+                    "workflow_name": workflow_name,
+                    "run_id": run_id,
+                    "status": status,
+                    "outputs": outputs,
+                },
+            )
+        )
 
-    def emit_step_start(self, step_name: str, run_id: str, inputs: Dict[str, Any]) -> None:
+    def emit_step_start(
+        self, step_name: str, run_id: str, inputs: Dict[str, Any]
+    ) -> None:
         """Helper to emit a step start event."""
-        self.emit(CanonicalEvent(
-            type="step_start",
-            timestamp=datetime.now(),
-            step_name=step_name,
-            data={"run_id": run_id, "inputs": inputs}
-        ))
+        self.emit(
+            CanonicalEvent(
+                type="step_start",
+                timestamp=datetime.now(),
+                step_name=step_name,
+                data={"run_id": run_id, "inputs": inputs},
+            )
+        )
 
-    def emit_step_complete(self, step_name: str, run_id: str, status: str, outputs: Dict[str, Any]) -> None:
+    def emit_step_complete(
+        self, step_name: str, run_id: str, status: str, outputs: Dict[str, Any]
+    ) -> None:
         """Helper to emit a step complete event."""
-        self.emit(CanonicalEvent(
-            type="step_complete",
-            timestamp=datetime.now(),
-            step_name=step_name,
-            data={"run_id": run_id, "status": status, "outputs": outputs}
-        ))
+        self.emit(
+            CanonicalEvent(
+                type="step_complete",
+                timestamp=datetime.now(),
+                step_name=step_name,
+                data={"run_id": run_id, "status": status, "outputs": outputs},
+            )
+        )

@@ -10,16 +10,16 @@ All evaluators self-register in :class:`EvaluatorRegistry` at import time.
 """
 
 from .base import Evaluator, EvaluatorRegistry
-from .llm import LLMClientProtocol, LLMEvaluator, Choice, STANDARD_CHOICES
+from .llm import STANDARD_CHOICES, Choice, LLMClientProtocol, LLMEvaluator
 from .pattern import PatternEvaluator, PatternScore
 from .quality import (
-    QualityEvaluator,
-    LLMEvaluatorDefinition,
     COHERENCE,
     FLUENCY,
-    RELEVANCE,
     GROUNDEDNESS,
+    RELEVANCE,
     SIMILARITY,
+    LLMEvaluatorDefinition,
+    QualityEvaluator,
 )
 from .standard import StandardEvaluator, StandardScore
 

@@ -11,7 +11,7 @@ Covers:
 
 from __future__ import annotations
 
-import asyncio
+
 import pytest
 
 pytestmark = pytest.mark.integration
@@ -23,8 +23,6 @@ import yaml
 from agentic_v2.contracts import StepStatus
 from agentic_v2.engine import (
     DAG,
-    DAGExecutor,
-    ExecutionContext,
     StepDefinition,
     WorkflowExecutor,
 )
@@ -33,7 +31,6 @@ from agentic_v2.workflows.runner import (
     WorkflowValidationError,
     run_workflow,
 )
-
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -73,7 +70,11 @@ class TestWorkflowRunnerValidation:
                         }
                     },
                     "steps": [
-                        {"name": "placeholder", "agent": "tier2_coder", "description": "placeholder"},
+                        {
+                            "name": "placeholder",
+                            "agent": "tier2_coder",
+                            "description": "placeholder",
+                        },
                     ],
                 },
             )
@@ -98,7 +99,11 @@ class TestWorkflowRunnerValidation:
                         }
                     },
                     "steps": [
-                        {"name": "placeholder", "agent": "tier2_coder", "description": "placeholder"},
+                        {
+                            "name": "placeholder",
+                            "agent": "tier2_coder",
+                            "description": "placeholder",
+                        },
                     ],
                 },
             )
@@ -123,7 +128,11 @@ class TestWorkflowRunnerValidation:
                         }
                     },
                     "steps": [
-                        {"name": "placeholder", "agent": "tier2_coder", "description": "placeholder"},
+                        {
+                            "name": "placeholder",
+                            "agent": "tier2_coder",
+                            "description": "placeholder",
+                        },
                     ],
                 },
             )

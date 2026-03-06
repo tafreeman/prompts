@@ -38,36 +38,66 @@ from fastapi.responses import StreamingResponse
 
 from ...contracts import StepResult, StepStatus, WorkflowResult
 from ...integrations.otel import create_trace_adapter
-from ...langchain import WorkflowRunner as LangChainRunner
-from ...langchain import list_workflows as lc_list_workflows
-from ...langchain import load_workflow_config
 from ...utils.path_safety import is_within_base
+
+# LangChain imports — optional at the package level.  Guard so the
+# server module can be imported even without langchain extras.
+try:
+    from ...langchain import WorkflowRunner as LangChainRunner
+    from ...langchain import list_workflows as lc_list_workflows
+    from ...langchain import load_workflow_config
+
+    _LANGCHAIN_AVAILABLE = True
+except ImportError:
+    _LANGCHAIN_AVAILABLE = False
 from ...workflows.run_logger import RunLogger
+from .. import websocket
 from ..evaluation import (
     adapt_sample_to_workflow_inputs,
+    list_eval_sets,
     list_local_datasets,
     list_repository_datasets,
-    list_eval_sets,
     load_local_dataset_sample,
     load_repository_dataset_sample,
     match_workflow_dataset,
     score_workflow_result,
     validate_required_inputs_present,
 )
-from .. import websocket
+from ..judge import LLMJudge
 from ..models import (
     ListEvaluationDatasetsResponse,
     ListWorkflowsResponse,
     WorkflowRunRequest,
     WorkflowRunResponse,
 )
-from ..judge import LLMJudge
 
 logger = logging.getLogger(__name__)
 router = APIRouter(tags=["workflows"])
-# LangChain runner — primary execution engine for this branch
-lc_runner = LangChainRunner(trace_adapter=create_trace_adapter())
+# LangChain runner — lazily initialized so server starts without langchain
+_lc_runner = None
 run_logger = RunLogger()
+
+
+def _get_lc_runner():
+    """Lazily initialize the LangChain runner."""
+    global _lc_runner
+    if not _LANGCHAIN_AVAILABLE:
+        raise HTTPException(
+            status_code=501,
+            detail="LangChain extras not installed. Install with: pip install -e '.[langchain]'",
+        )
+    if _lc_runner is None:
+        _lc_runner = LangChainRunner(trace_adapter=create_trace_adapter())
+    return _lc_runner
+
+
+def _require_langchain() -> None:
+    """Raise 501 if langchain extras are missing."""
+    if not _LANGCHAIN_AVAILABLE:
+        raise HTTPException(
+            status_code=501,
+            detail="LangChain extras not installed. Install with: pip install -e '.[langchain]'",
+        )
 
 
 def _resolve_judge_model() -> str | None:
@@ -92,7 +122,8 @@ def _is_within_base(path, base_dir) -> bool:
 
 
 def _is_effectively_empty(value: Any) -> bool:
-    """Check whether a value is effectively empty (None, blank, or empty collection).
+    """Check whether a value is effectively empty (None, blank, or empty
+    collection).
 
     Args:
         value: The value to test.
@@ -205,7 +236,8 @@ def _build_step_results(
     token_counts: Mapping[str, Any] | None = None,
     models_used: Mapping[str, Any] | None = None,
 ) -> list[StepResult]:
-    """Convert LangGraph step state mappings into contract :class:`StepResult` objects.
+    """Convert LangGraph step state mappings into contract :class:`StepResult`
+    objects.
 
     Merges token counts and model identifiers from separate metadata
     dictionaries into each step result.
@@ -256,9 +288,7 @@ def _build_step_results(
         )
 
         end_ts = step_data.get("end_time")
-        end_time = (
-            datetime.fromisoformat(end_ts) if isinstance(end_ts, str) else None
-        )
+        end_time = datetime.fromisoformat(end_ts) if isinstance(end_ts, str) else None
 
         results.append(
             StepResult(
@@ -293,7 +323,8 @@ def _normalize_workflow_result(
     workflow_name: str,
     run_id: str,
 ) -> WorkflowResult:
-    """Normalize a runner result (LangGraph or native) into a contract :class:`WorkflowResult`.
+    """Normalize a runner result (LangGraph or native) into a contract
+    :class:`WorkflowResult`.
 
     Handles both :class:`WorkflowResult` pass-through and duck-typed runner
     result objects with ``steps``, ``errors``, ``overall_status``, etc.
@@ -355,8 +386,7 @@ def _normalize_workflow_result(
     start_time = end_time - timedelta(seconds=max(elapsed_seconds, 0.0))
 
     final_output = _as_dict(
-        getattr(result, "final_output", None)
-        or getattr(result, "outputs", None)
+        getattr(result, "final_output", None) or getattr(result, "outputs", None)
     )
     metadata: dict[str, Any] = {}
     langgraph_run_id = getattr(result, "run_id", None)
@@ -425,13 +455,30 @@ def _merge_stream_state(
 @router.get("/workflows", response_model=ListWorkflowsResponse)
 async def list_workflows():
     """List available workflows."""
+    _require_langchain()
     workflows = lc_list_workflows()
     return ListWorkflowsResponse(workflows=workflows)
+
+
+@router.get("/adapters")
+async def list_adapters():
+    """List available execution engine adapters.
+
+    Returns:
+        JSON object with ``adapters`` key containing a list of registered
+        adapter names (e.g. ``["native", "langchain"]``).
+    """
+    from ...adapters import get_registry
+
+    registry = get_registry()
+    names = registry.list_adapters()
+    return {"adapters": names}
 
 
 @router.get("/workflows/{name}/dag")
 async def get_workflow_dag(name: str):
     """Return the DAG structure for visualization."""
+    _require_langchain()
     try:
         wf = load_workflow_config(name)
     except Exception as e:
@@ -478,6 +525,7 @@ async def get_workflow_dag(name: str):
 @router.get("/workflows/{name}/capabilities")
 async def get_workflow_capabilities(name: str):
     """Return workflow capability declarations (inputs/outputs)."""
+    _require_langchain()
     try:
         wf = load_workflow_config(name)
     except Exception as e:
@@ -511,11 +559,7 @@ async def list_runs(
             ):
                 continue
 
-            extra = (
-                record.get("extra")
-                if isinstance(record.get("extra"), dict)
-                else {}
-            )
+            extra = record.get("extra") if isinstance(record.get("extra"), dict) else {}
             evaluation = (
                 extra.get("evaluation")
                 if isinstance(extra.get("evaluation"), dict)
@@ -562,13 +606,9 @@ async def get_run(filename: str):
     candidate = (base_dir / filename).resolve()
     if not _is_within_base(candidate, base_dir):
         # Do not leak filesystem layout; treat as not found
-        raise HTTPException(
-            status_code=404, detail=f"Run not found: {filename}"
-        )
+        raise HTTPException(status_code=404, detail=f"Run not found: {filename}")
     if not Path(candidate).exists():
-        raise HTTPException(
-            status_code=404, detail=f"Run not found: {filename}"
-        )
+        raise HTTPException(status_code=404, detail=f"Run not found: {filename}")
 
     run_data = run_logger.load_run(candidate)
 
@@ -645,6 +685,8 @@ async def stream_run_events(run_id: str):
 @router.get("/eval/datasets", response_model=ListEvaluationDatasetsResponse)
 async def list_evaluation_datasets(workflow: Optional[str] = None):
     """List repository and local dataset options for workflow evaluation."""
+    if workflow:
+        _require_langchain()
     repository = list_repository_datasets()
     local = list_local_datasets()
     eval_sets = list_eval_sets()
@@ -658,9 +700,7 @@ async def list_evaluation_datasets(workflow: Optional[str] = None):
         filtered_local: list[dict[str, Any]] = []
         for dataset in local:
             try:
-                sample, _ = load_local_dataset_sample(
-                    dataset["id"], sample_index=0
-                )
+                sample, _ = load_local_dataset_sample(dataset["id"], sample_index=0)
             except Exception:
                 continue
             compatible, _ = match_workflow_dataset(workflow_def, sample)
@@ -699,6 +739,7 @@ async def preview_dataset_inputs(
     sample_index: int = 0,
 ):
     """Preview how dataset sample fields will map to workflow inputs."""
+    _require_langchain()
     try:
         workflow_def = load_workflow_config(workflow_name)
     except Exception as exc:
@@ -799,7 +840,8 @@ def _resolve_evaluation_inputs(
     run_id: str,
     workflow_inputs: dict[str, Any],
 ) -> tuple[dict[str, Any], dict[str, Any] | None, dict[str, Any] | None]:
-    """Load a dataset sample, adapt it to workflow inputs, and merge with request inputs.
+    """Load a dataset sample, adapt it to workflow inputs, and merge with
+    request inputs.
 
     Args:
         workflow_def: Loaded workflow definition.
@@ -857,27 +899,78 @@ def _resolve_evaluation_inputs(
     return merged, dataset_sample, dataset_meta
 
 
-async def _stream_and_run(
+async def _run_via_native_adapter(
+    adapter_name: str,
     workflow_name: str,
     run_id: str,
     workflow_inputs: dict[str, Any],
 ) -> WorkflowResult:
-    """Stream LangGraph node events to WebSocket clients, then build a final WorkflowResult.
+    """Execute a workflow through a non-LangChain adapter and return a
+    normalised :class:`WorkflowResult`.
 
-    Iterates over the LangGraph async stream, broadcasting ``step_start``
-    and ``step_end`` events via :mod:`~agentic_v2.server.websocket`.  On
-    stream completion, resolves workflow outputs and assembles a contract
-    :class:`WorkflowResult`.  Falls back to a non-streaming ``invoke``
-    if the stream raises an exception.
+    Loads the workflow DAG via :class:`~agentic_v2.workflows.loader.WorkflowLoader`,
+    builds an :class:`~agentic_v2.engine.context.ExecutionContext`, and
+    delegates execution to the adapter resolved from the registry.  The raw
+    engine result is normalised to a contract :class:`WorkflowResult` so the
+    rest of the server pipeline (logging, evaluation, WebSocket) is unaffected.
+
+    Args:
+        adapter_name: Registered adapter name (e.g. ``"native"``).
+        workflow_name: Name of the workflow to execute.
+        run_id: Unique run identifier (used as ``workflow_id``).
+        workflow_inputs: Input variables for the workflow.
+
+    Returns:
+        A fully populated :class:`WorkflowResult`.
+    """
+    from ...adapters import get_registry
+    from ...engine.context import ExecutionContext
+    from ...workflows.loader import WorkflowLoader
+
+    loader = WorkflowLoader()
+    workflow_def = loader.load(workflow_name)
+    dag = workflow_def.dag
+    ctx = ExecutionContext(variables=dict(workflow_inputs))
+
+    engine = get_registry().get_adapter(adapter_name)
+    raw = await engine.execute(dag, ctx)
+
+    return _normalize_workflow_result(raw, workflow_name=workflow_name, run_id=run_id)
+
+
+async def _stream_and_run(
+    workflow_name: str,
+    run_id: str,
+    workflow_inputs: dict[str, Any],
+    adapter_name: str = "langchain",
+) -> WorkflowResult:
+    """Stream LangGraph node events to WebSocket clients, then build a final
+    WorkflowResult.
+
+    When *adapter_name* is ``"langchain"`` (the default), iterates over the
+    LangGraph async stream, broadcasting ``step_start`` and ``step_end``
+    events via :mod:`~agentic_v2.server.websocket`.  On stream completion,
+    resolves workflow outputs and assembles a contract
+    :class:`WorkflowResult`.  Falls back to a non-streaming ``invoke`` if the
+    stream raises an exception.
+
+    When *adapter_name* is any other registered adapter, execution is
+    delegated to that adapter via :func:`_run_via_native_adapter`; no
+    streaming events are emitted (the adapter does not support SSE streaming).
 
     Args:
         workflow_name: Name of the workflow to execute.
         run_id: Unique run identifier.
         workflow_inputs: Input variables for the workflow.
+        adapter_name: Execution adapter to use (default ``"langchain"``).
 
     Returns:
         The completed :class:`WorkflowResult`.
     """
+    if adapter_name != "langchain":
+        return await _run_via_native_adapter(
+            adapter_name, workflow_name, run_id, workflow_inputs
+        )
     import time
 
     started_at = datetime.now(timezone.utc)
@@ -892,7 +985,7 @@ async def _stream_and_run(
     }
 
     try:
-        async for node_update in lc_runner.astream(
+        async for node_update in _get_lc_runner().astream(
             workflow_name,
             thread_id=run_id,
             **workflow_inputs,
@@ -914,18 +1007,14 @@ async def _stream_and_run(
                     if not isinstance(step_data, Mapping):
                         continue
 
-                    status = (
-                        str(step_data.get("status", "running")).strip().lower()
-                    )
+                    status = str(step_data.get("status", "running")).strip().lower()
                     previous_status = last_status_by_step.get(str(step_name))
 
                     if status in {"running", "pending"}:
                         if previous_status == "running":
                             continue
                         last_status_by_step[str(step_name)] = "running"
-                        step_start_times.setdefault(
-                            str(step_name), time.time()
-                        )
+                        step_start_times.setdefault(str(step_name), time.time())
                         await websocket.manager.broadcast(
                             run_id,
                             {
@@ -957,9 +1046,7 @@ async def _stream_and_run(
                             try:
                                 st = datetime.fromisoformat(start_ts_str)
                                 et = datetime.fromisoformat(end_ts_str)
-                                calc_duration = int(
-                                    (et - st).total_seconds() * 1000
-                                )
+                                calc_duration = int((et - st).total_seconds() * 1000)
                             except Exception:
                                 pass
 
@@ -968,18 +1055,12 @@ async def _stream_and_run(
                             step_start = step_start_times.pop(
                                 str(step_name), time.time()
                             )
-                            calc_duration = int(
-                                (time.time() - step_start) * 1000
-                            )
+                            calc_duration = int((time.time() - step_start) * 1000)
 
                     duration_ms = max(0, calc_duration)
 
                     metadata_raw = step_data.get("metadata")
-                    metadata = (
-                        metadata_raw
-                        if isinstance(metadata_raw, Mapping)
-                        else {}
-                    )
+                    metadata = metadata_raw if isinstance(metadata_raw, Mapping) else {}
                     model_used = metadata.get("model")
                     if not isinstance(model_used, str):
                         model_used = None
@@ -1007,7 +1088,7 @@ async def _stream_and_run(
                     )
 
         workflow_cfg = load_workflow_config(workflow_name)
-        resolved_outputs = lc_runner._resolve_outputs(
+        resolved_outputs = _get_lc_runner().resolve_outputs(
             workflow_cfg, aggregated_state
         )
         if not isinstance(resolved_outputs, dict):
@@ -1015,31 +1096,23 @@ async def _stream_and_run(
         if not resolved_outputs:
             resolved_outputs = _as_dict(aggregated_state.get("outputs"))
 
-        token_counts, models_used = lc_runner._extract_metadata(
-            aggregated_state
-        )
+        token_counts, models_used = _get_lc_runner().extract_metadata(aggregated_state)
         step_results = _build_step_results(
             aggregated_state.get("steps", {}),
             token_counts=token_counts,
             models_used=models_used,
         )
-        errors = [
-            str(err) for err in aggregated_state.get("errors", []) if err
-        ]
+        errors = [str(err) for err in aggregated_state.get("errors", []) if err]
 
         overall_status = StepStatus.SUCCESS
-        if errors or any(
-            step.status == StepStatus.FAILED for step in step_results
-        ):
+        if errors or any(step.status == StepStatus.FAILED for step in step_results):
             overall_status = StepStatus.FAILED
 
         ended_at = datetime.now(timezone.utc)
         metadata: dict[str, Any] = {}
         if errors:
             metadata["errors"] = errors
-        metadata["elapsed_seconds"] = max(
-            0.0, time.perf_counter() - started_perf
-        )
+        metadata["elapsed_seconds"] = max(0.0, time.perf_counter() - started_perf)
 
         return WorkflowResult(
             workflow_id=run_id,
@@ -1052,10 +1125,8 @@ async def _stream_and_run(
             metadata=metadata,
         )
     except Exception as stream_err:
-        logger.warning(
-            "Streaming failed (%s); falling back to invoke", stream_err
-        )
-        fallback = await lc_runner.run(
+        logger.warning("Streaming failed (%s); falling back to invoke", stream_err)
+        fallback = await _get_lc_runner().run(
             workflow_name,
             thread_id=run_id,
             **workflow_inputs,
@@ -1075,6 +1146,7 @@ async def _run_and_evaluate(
     evaluation: Any,
     dataset_sample: dict[str, Any] | None,
     dataset_meta: dict[str, Any] | None,
+    adapter_name: str = "langchain",
 ) -> None:
     """Background task: execute workflow, optionally evaluate, broadcast events, and log.
 
@@ -1094,6 +1166,7 @@ async def _run_and_evaluate(
         evaluation: Evaluation settings from the request (or None).
         dataset_sample: Dataset sample dict for scoring (or None).
         dataset_meta: Dataset metadata dict for scoring (or None).
+        adapter_name: Execution adapter to use (default ``"langchain"``).
     """
     try:
         logger.info("Starting background execution for run_id=%s", run_id)
@@ -1106,7 +1179,9 @@ async def _run_and_evaluate(
                 "timestamp": datetime.now(timezone.utc).isoformat(),
             },
         )
-        result = await _stream_and_run(workflow_name, run_id, workflow_inputs)
+        result = await _stream_and_run(
+            workflow_name, run_id, workflow_inputs, adapter_name=adapter_name
+        )
 
         status = result.overall_status.value
         workflow_errors = [
@@ -1188,9 +1263,7 @@ async def _run_and_evaluate(
             dataset_meta=dataset_meta,
             workflow_inputs=workflow_inputs,
             extra={
-                "evaluation_requested": bool(
-                    evaluation and evaluation.enabled
-                ),
+                "evaluation_requested": bool(evaluation and evaluation.enabled),
                 "evaluation": scored_evaluation,
             },
         )
@@ -1209,25 +1282,34 @@ async def _run_and_evaluate(
 
 
 @router.post("/run", response_model=WorkflowRunResponse)
-async def run_workflow(
-    request: WorkflowRunRequest, background_tasks: BackgroundTasks
-):
+async def run_workflow(request: WorkflowRunRequest, background_tasks: BackgroundTasks):
     """Execute a workflow asynchronously."""
+    # Validate adapter name before proceeding
+    adapter_name = request.adapter
+    from ...adapters import get_registry as _get_adapter_registry
+
+    try:
+        _get_adapter_registry().get_adapter(adapter_name)
+    except Exception:
+        raise HTTPException(
+            status_code=422,
+            detail=f"Unknown adapter: {adapter_name!r}. "
+            f"Available: {_get_adapter_registry().list_adapters()}",
+        )
+
+    if adapter_name == "langchain":
+        _require_langchain()
     try:
         workflow_def = load_workflow_config(request.workflow)
-        run_id = (
-            request.run_id or f"{workflow_def.name}-{uuid.uuid4().hex[:8]}"
-        )
+        run_id = request.run_id or f"{workflow_def.name}-{uuid.uuid4().hex[:8]}"
         workflow_inputs = dict(request.input_data)
         evaluation = request.evaluation
         dataset_sample: dict[str, Any] | None = None
         dataset_meta: dict[str, Any] | None = None
 
         if evaluation and evaluation.enabled:
-            workflow_inputs, dataset_sample, dataset_meta = (
-                _resolve_evaluation_inputs(
-                    workflow_def, evaluation, run_id, workflow_inputs
-                )
+            workflow_inputs, dataset_sample, dataset_meta = _resolve_evaluation_inputs(
+                workflow_def, evaluation, run_id, workflow_inputs
             )
 
         background_tasks.add_task(
@@ -1239,6 +1321,7 @@ async def run_workflow(
             evaluation,
             dataset_sample,
             dataset_meta,
+            adapter_name,
         )
         return WorkflowRunResponse(run_id=run_id, status=StepStatus.PENDING)
     except HTTPException:

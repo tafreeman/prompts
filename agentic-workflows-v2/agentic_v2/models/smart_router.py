@@ -104,9 +104,7 @@ class SmartModelRouter(ModelRouter):
     )
 
     # ADR-002D: Per-provider probe locks (half-open serialization)
-    _probe_locks: dict[str, asyncio.Lock] = field(
-        default_factory=dict, repr=False
-    )
+    _probe_locks: dict[str, asyncio.Lock] = field(default_factory=dict, repr=False)
 
     def __post_init__(self) -> None:
         if self.stats_file:
@@ -121,8 +119,9 @@ class SmartModelRouter(ModelRouter):
     def _get_semaphore(self, model: str) -> asyncio.Semaphore:
         """Get or create a bulkhead semaphore for a provider (ADR-002A).
 
-        Limits concurrent requests per provider to prevent cascade failures
-        when one provider goes down and its traffic floods remaining providers.
+        Limits concurrent requests per provider to prevent cascade
+        failures when one provider goes down and its traffic floods
+        remaining providers.
         """
         provider = _extract_provider(model)
         if provider not in self._provider_semaphores:
@@ -134,7 +133,8 @@ class SmartModelRouter(ModelRouter):
         """Get or create a probe lock for half-open serialization (ADR-002D).
 
         Only one request at a time should probe a HALF_OPEN provider.
-        All others receive immediate fallback to prevent thundering herd.
+        All others receive immediate fallback to prevent thundering
+        herd.
         """
         provider = _extract_provider(model)
         if provider not in self._probe_locks:
@@ -241,11 +241,14 @@ class SmartModelRouter(ModelRouter):
         """Search adjacent tiers for available models (ADR-002B).
 
         Degrade downward first (cheaper, more reliable), then escalate
-        upward (more capable).  TIER_0 is excluded (deterministic, no LLM).
+        upward (more capable).  TIER_0 is excluded (deterministic, no
+        LLM).
         """
         all_tiers = sorted(ModelTier, key=lambda t: t.value)
         # Exclude TIER_0 and the original tier
-        eligible = [t for t in all_tiers if t != original_tier and t != ModelTier.TIER_0]
+        eligible = [
+            t for t in all_tiers if t != original_tier and t != ModelTier.TIER_0
+        ]
 
         # Sort by distance from original tier, preferring lower (degrade) first
         def tier_priority(t: ModelTier) -> tuple[int, int]:
@@ -295,7 +298,8 @@ class SmartModelRouter(ModelRouter):
         max_cost: Optional[float] = None,
         allow_cross_tier: bool = True,
     ) -> Optional[str]:
-        """Get best available model for a tier (ADR-002B: cross-tier degradation).
+        """Get best available model for a tier (ADR-002B: cross-tier
+        degradation).
 
         When all models in the requested tier are unavailable and
         ``allow_cross_tier`` is True, walks adjacent tiers: degrade downward
@@ -470,8 +474,8 @@ class SmartModelRouter(ModelRouter):
     def _is_model_ready_for_attempt(self, model: str) -> bool:
         """Check if a model can accept a request right now (ADR-002A/D).
 
-        Returns False if the provider's bulkhead is at capacity or if
-        a half-open probe is already in progress.
+        Returns False if the provider's bulkhead is at capacity or if a
+        half-open probe is already in progress.
         """
         stats = self._get_stats(model)
 

@@ -315,9 +315,7 @@ def save_workflow_phases_md(
 
                 dim_scores = agent_eval.get("dimension_scores", {})
                 if dim_scores:
-                    dims_str = ", ".join(
-                        f"{k}: {v:.1f}" for k, v in dim_scores.items()
-                    )
+                    dims_str = ", ".join(f"{k}: {v:.1f}" for k, v in dim_scores.items())
                     lines.append(f"  - Dimensions: {dims_str}")
 
                 strengths = agent_eval.get("strengths", [])

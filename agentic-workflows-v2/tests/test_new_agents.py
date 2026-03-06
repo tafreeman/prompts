@@ -1,10 +1,15 @@
 """Tests for Architect and Test agents."""
 
 import pytest
-from agentic_v2.agents import (ArchitectAgent, ArchitectureInput,
-                               TechStackChoice, TestAgent,
-                               TestFile, TestGenerationInput,
-                               TestType)
+from agentic_v2.agents import (
+    ArchitectAgent,
+    ArchitectureInput,
+    TechStackChoice,
+    TestAgent,
+    TestFile,
+    TestGenerationInput,
+    TestType,
+)
 from agentic_v2.agents.base import AgentConfig, AgentState
 from agentic_v2.models import ModelTier
 

@@ -32,7 +32,8 @@ from typing import Mapping
 
 @dataclass(frozen=True)
 class ScoringProfile:
-    """Immutable scoring profile binding criterion weights to a workflow family.
+    """Immutable scoring profile binding criterion weights to a workflow
+    family.
 
     Attributes:
         profile_id: Single-letter identifier (``"A"``--``"E"``).
@@ -136,4 +137,3 @@ def get_profile(profile_id: str | None) -> ScoringProfile:
     if not profile_id:
         return SCORING_PROFILES[DEFAULT_PROFILE_ID]
     return SCORING_PROFILES.get(profile_id, SCORING_PROFILES[DEFAULT_PROFILE_ID])
-

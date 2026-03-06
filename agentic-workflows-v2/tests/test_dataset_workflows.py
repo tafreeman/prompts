@@ -23,7 +23,6 @@ from tests.fixtures.datasets import (
     plan_implementation_inputs,
 )
 
-
 # ---------------------------------------------------------------------------
 # Dataset loading smoke tests
 # ---------------------------------------------------------------------------
@@ -106,7 +105,8 @@ class TestCodeReviewAdapter:
 
 
 class TestFullstackGenerationAdapter:
-    """fullstack_generation_inputs() maps datasets → fullstack_generation.yaml schema."""
+    """fullstack_generation_inputs() maps datasets → fullstack_generation.yaml
+    schema."""
 
     def test_returns_expected_keys(self):
         inputs = fullstack_generation_inputs(limit=2)
@@ -130,7 +130,8 @@ class TestFullstackGenerationAdapter:
 
 
 class TestPlanImplementationAdapter:
-    """plan_implementation_inputs() maps SWE-bench → plan_implementation.yaml schema."""
+    """plan_implementation_inputs() maps SWE-bench → plan_implementation.yaml
+    schema."""
 
     def test_returns_expected_keys(self):
         inputs = plan_implementation_inputs(limit=2)

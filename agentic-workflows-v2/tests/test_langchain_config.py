@@ -6,7 +6,6 @@ from pathlib import Path
 
 import pytest
 import yaml
-
 from agentic_v2.langchain.config import (
     WorkflowConfig,
     list_workflows,

@@ -3,16 +3,12 @@
 Tests end-to-end execution, checkpointing, and streaming behavior.
 """
 
-import asyncio
 import os
-from pathlib import Path
 
 import pytest
-from langgraph.checkpoint.memory import MemorySaver
-
-from agentic_v2.langchain import WorkflowRunner, load_workflow_config, compile_workflow
+from agentic_v2.langchain import WorkflowRunner, compile_workflow, load_workflow_config
 from agentic_v2.langchain.state import initial_state
-
+from langgraph.checkpoint.memory import MemorySaver
 
 # Skip when neither set of API credentials is available in the environment
 _HAS_CREDENTIALS = bool(os.environ.get("GH_TOKEN") or os.environ.get("GOOGLE_API_KEY"))
@@ -28,7 +24,9 @@ class TestEndToEndExecution:
     def test_simple_workflow_invocation(self):
         """Execute a simple workflow and verify result structure."""
         runner = WorkflowRunner()
-        result = runner.invoke("code_review", code_file="def foo(): pass", review_depth="quick")
+        result = runner.invoke(
+            "code_review", code_file="def foo(): pass", review_depth="quick"
+        )
 
         assert result.run_id, "run_id should be set"
         assert result.workflow_name == "code_review"
@@ -42,7 +40,9 @@ class TestEndToEndExecution:
     async def test_async_workflow_execution(self):
         """Execute a workflow asynchronously."""
         runner = WorkflowRunner()
-        result = await runner.run("code_review", code_file="def bar(): pass", review_depth="full")
+        result = await runner.run(
+            "code_review", code_file="def bar(): pass", review_depth="full"
+        )
 
         assert result.run_id
         assert result.status in ("success", "partial", "failed")
@@ -63,7 +63,9 @@ class TestEndToEndExecution:
         """Verify WorkflowResult includes execution metadata."""
         runner = WorkflowRunner()
         try:
-            result = runner.invoke("code_review", code_file="x = 1", review_depth="quick")
+            result = runner.invoke(
+                "code_review", code_file="x = 1", review_depth="quick"
+            )
 
             # run_id should be set
             assert result.run_id
@@ -102,7 +104,9 @@ class TestCheckpointing:
         thread_id = "inspect_test"
 
         # Run workflow
-        runner.invoke("code_review", thread_id=thread_id, code_file="x = 1", review_depth="quick")
+        runner.invoke(
+            "code_review", thread_id=thread_id, code_file="x = 1", review_depth="quick"
+        )
 
         # Inspect checkpoint state
         checkpoint = runner.get_checkpoint_state("code_review", thread_id=thread_id)
@@ -117,9 +121,13 @@ class TestCheckpointing:
         runner = WorkflowRunner(checkpointer=checkpointer)
         thread_id = "history_test"
 
-        runner.invoke("code_review", thread_id=thread_id, code_file="y = 2", review_depth="quick")
+        runner.invoke(
+            "code_review", thread_id=thread_id, code_file="y = 2", review_depth="quick"
+        )
 
-        history = runner.get_checkpoint_history("code_review", thread_id=thread_id, limit=5)
+        history = runner.get_checkpoint_history(
+            "code_review", thread_id=thread_id, limit=5
+        )
         # History may be empty if not supported
         assert isinstance(history, list)
 
@@ -130,7 +138,9 @@ class TestStreamingEvents:
     def test_stream_execution(self):
         """Stream workflow execution events."""
         runner = WorkflowRunner()
-        events = list(runner.stream("code_review", code_file="z = 3", review_depth="quick"))
+        events = list(
+            runner.stream("code_review", code_file="z = 3", review_depth="quick")
+        )
 
         # Should get some node updates
         assert len(events) > 0
@@ -143,7 +153,9 @@ class TestStreamingEvents:
         """Stream workflow execution asynchronously."""
         runner = WorkflowRunner()
         events = []
-        async for event in runner.astream("code_review", code_file="w = 4", review_depth="quick"):
+        async for event in runner.astream(
+            "code_review", code_file="w = 4", review_depth="quick"
+        ):
             events.append(event)
 
         assert len(events) > 0
@@ -153,7 +165,9 @@ class TestStreamingEvents:
     def test_stream_node_updates(self):
         """Verify streaming events contain step updates."""
         runner = WorkflowRunner()
-        events = list(runner.stream("code_review", code_file="a = 5", review_depth="quick"))
+        events = list(
+            runner.stream("code_review", code_file="a = 5", review_depth="quick")
+        )
 
         # At minimum, should have events for graph nodes
         assert any(isinstance(e, dict) for e in events)
@@ -176,7 +190,9 @@ class TestGraphCompilation:
         config = load_workflow_config("code_review")
         graph = compile_workflow(config)
 
-        state = initial_state(workflow_inputs={"code_file": "test", "review_depth": "quick"})
+        state = initial_state(
+            workflow_inputs={"code_file": "test", "review_depth": "quick"}
+        )
         state["context"]["inputs"] = {"code_file": "test", "review_depth": "quick"}
 
         # Should be able to invoke the compiled graph
@@ -190,7 +206,9 @@ class TestGraphCompilation:
         config = load_workflow_config("code_review")
         graph = compile_workflow(config)
 
-        state = initial_state(workflow_inputs={"code_file": "test", "review_depth": "quick"})
+        state = initial_state(
+            workflow_inputs={"code_file": "test", "review_depth": "quick"}
+        )
         state["context"]["inputs"] = {"code_file": "test", "review_depth": "quick"}
 
         result = await graph.ainvoke(state)
@@ -205,6 +223,7 @@ class TestWorkflowVariations:
         # Just verify we can list workflows without API credentials
         try:
             from agentic_v2.langchain import list_workflows
+
             workflows = list_workflows()
             assert isinstance(workflows, list)
             # Verify list is valid (may be empty if definitions dir doesn't exist)

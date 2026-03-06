@@ -158,7 +158,8 @@ class ModelStats:
     def is_in_cooldown(self) -> bool:
         """Check if model is in cooldown period.
 
-        Uses monotonic clock (ADR-002C) to avoid NTP clock-jump corruption.
+        Uses monotonic clock (ADR-002C) to avoid NTP clock-jump
+        corruption.
         """
         if self._cooldown_until_mono is None:
             return False

@@ -20,7 +20,6 @@ Example::
 
 from __future__ import annotations
 
-import json
 from typing import Any, Optional
 
 try:
@@ -30,13 +29,13 @@ except ImportError as e:
         "anthropic package is required: pip install 'agentic-workflows-v2[claude]'"
     ) from e
 
-from ..base import AgentConfig, BaseAgent
 from ...contracts import TaskInput, TaskOutput
-
+from ..base import AgentConfig, BaseAgent
 
 # ---------------------------------------------------------------------------
 # Default task/output types (override for typed agents)
 # ---------------------------------------------------------------------------
+
 
 class SimpleTask(TaskInput):
     """Minimal task input containing a single prompt string.
@@ -61,6 +60,7 @@ class SimpleOutput(TaskOutput):
 # ---------------------------------------------------------------------------
 # ClaudeAgent
 # ---------------------------------------------------------------------------
+
 
 class ClaudeAgent(BaseAgent[SimpleTask, SimpleOutput]):
     """Concrete agent that calls Claude via the Anthropic Messages API.
@@ -103,7 +103,9 @@ class ClaudeAgent(BaseAgent[SimpleTask, SimpleOutput]):
         )
         super().__init__(config=cfg, **kwargs)
         self._model = model
-        self._client = anthropic.AsyncAnthropic(api_key=api_key)  # uses ANTHROPIC_API_KEY if None
+        self._client = anthropic.AsyncAnthropic(
+            api_key=api_key
+        )  # uses ANTHROPIC_API_KEY if None
 
     # ------------------------------------------------------------------
     # _call_model — translate formats and call Anthropic
@@ -153,14 +155,18 @@ class ClaudeAgent(BaseAgent[SimpleTask, SimpleOutput]):
 
             if role == "tool":
                 # OpenAI tool result → Anthropic tool_result content block
-                out.append({
-                    "role": "user",
-                    "content": [{
-                        "type": "tool_result",
-                        "tool_use_id": msg.get("tool_call_id", ""),
-                        "content": msg["content"],
-                    }],
-                })
+                out.append(
+                    {
+                        "role": "user",
+                        "content": [
+                            {
+                                "type": "tool_result",
+                                "tool_use_id": msg.get("tool_call_id", ""),
+                                "content": msg["content"],
+                            }
+                        ],
+                    }
+                )
                 continue
 
             out.append({"role": role, "content": msg["content"]})
@@ -175,11 +181,15 @@ class ClaudeAgent(BaseAgent[SimpleTask, SimpleOutput]):
         result = []
         for t in tools:
             fn = t.get("function", {})
-            result.append({
-                "name": fn["name"],
-                "description": fn.get("description", ""),
-                "input_schema": fn.get("parameters", {"type": "object", "properties": {}}),
-            })
+            result.append(
+                {
+                    "name": fn["name"],
+                    "description": fn.get("description", ""),
+                    "input_schema": fn.get(
+                        "parameters", {"type": "object", "properties": {}}
+                    ),
+                }
+            )
         return result
 
     @staticmethod
@@ -192,13 +202,15 @@ class ClaudeAgent(BaseAgent[SimpleTask, SimpleOutput]):
             if block.type == "text":
                 text = block.text
             elif block.type == "tool_use":
-                tool_calls.append({
-                    "id": block.id,
-                    "function": {
-                        "name": block.name,
-                        "arguments": block.input,  # already a dict
-                    },
-                })
+                tool_calls.append(
+                    {
+                        "id": block.id,
+                        "function": {
+                            "name": block.name,
+                            "arguments": block.input,  # already a dict
+                        },
+                    }
+                )
 
         return {"content": text, "tool_calls": tool_calls or None}
 

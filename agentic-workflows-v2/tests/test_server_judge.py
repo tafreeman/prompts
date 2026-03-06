@@ -29,7 +29,11 @@ def test_judge_structured_output_schema():
     valid_payload = {
         "criteria": [
             {"name": "correctness", "score": 4, "evidence": "good mapping"},
-            {"name": "completeness", "score": 3, "evidence": "covers most requirements"},
+            {
+                "name": "completeness",
+                "score": 3,
+                "evidence": "covers most requirements",
+            },
         ]
     }
     ok, errors = validate_judge_structured_output(
@@ -53,8 +57,16 @@ def test_judge_swapped_order_consistency():
         if "SWAPPED_ORDER" in prompt:
             return {
                 "criteria": [
-                    {"name": "correctness", "score": 4, "evidence": "swapped still close"},
-                    {"name": "completeness", "score": 3, "evidence": "swapped still close"},
+                    {
+                        "name": "correctness",
+                        "score": 4,
+                        "evidence": "swapped still close",
+                    },
+                    {
+                        "name": "completeness",
+                        "score": 3,
+                        "evidence": "swapped still close",
+                    },
                 ]
             }
         return {
@@ -84,7 +96,9 @@ def test_judge_calibration_within_tolerance():
             ]
         }
 
-    judge = LLMJudge(response_provider=_provider, model_version="mock-judge-calibration")
+    judge = LLMJudge(
+        response_provider=_provider, model_version="mock-judge-calibration"
+    )
     report = evaluate_calibration_set(
         judge=judge,
         fixtures=[

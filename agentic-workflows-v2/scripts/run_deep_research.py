@@ -90,11 +90,15 @@ def _to_markdown(payload: dict[str, Any]) -> str:
     lines.append("")
     lines.append("## Executive Summary")
     lines.append("")
-    lines.append(str(outputs.get("executive_summary", "_No executive summary generated._")))
+    lines.append(
+        str(outputs.get("executive_summary", "_No executive summary generated._"))
+    )
     lines.append("")
     lines.append("## Detailed Analysis")
     lines.append("")
-    lines.append(str(outputs.get("detailed_analysis", "_No detailed analysis generated._")))
+    lines.append(
+        str(outputs.get("detailed_analysis", "_No detailed analysis generated._"))
+    )
     lines.append("")
     lines.append("## Best Practices")
     lines.append("")
@@ -114,7 +118,9 @@ def _to_markdown(payload: dict[str, Any]) -> str:
     lines.append("")
     lines.append("## Next Search Actions")
     lines.append("")
-    lines.append(str(outputs.get("next_search_actions", "_No next actions generated._")))
+    lines.append(
+        str(outputs.get("next_search_actions", "_No next actions generated._"))
+    )
     lines.append("")
     lines.append("## References")
     lines.append("")
@@ -154,9 +160,7 @@ def main(argv: list[str]) -> int:
     )
     parser.add_argument(
         "--topic",
-        default=(
-            "agentic AI for software engineers and architects"
-        ),
+        default=("agentic AI for software engineers and architects"),
         help="Research topic. Used to build the default goal prompt.",
     )
     parser.add_argument(
@@ -198,7 +202,6 @@ def main(argv: list[str]) -> int:
         help="Optional DEEP_RESEARCH_HEAVY_MODEL override for this run.",
     )
     args = parser.parse_args(argv)
-
 
     _ensure_import_path()
     _load_dotenv(_repo_root() / ".env")
@@ -246,12 +249,13 @@ def main(argv: list[str]) -> int:
     result = runner.invoke("deep_research", thread_id=run_id, **workflow_inputs)
 
     timestamp_utc = datetime.now(timezone.utc).isoformat()
+    metadata = result.metadata or {}
     payload = {
         "run_id": run_id,
         "timestamp_utc": timestamp_utc,
-        "status": result.status,
-        "errors": result.errors,
-        "elapsed_seconds": result.elapsed_seconds,
+        "status": result.overall_status.value,
+        "errors": metadata.get("errors", []),
+        "elapsed_seconds": metadata.get("elapsed_seconds", 0.0),
         "topic": topic,
         "input": workflow_inputs,
         "model_overrides": {
@@ -261,8 +265,8 @@ def main(argv: list[str]) -> int:
             "AGENTIC_MODEL_TIER_3": os.getenv("AGENTIC_MODEL_TIER_3", ""),
             "AGENTIC_MODEL_TIER_4": os.getenv("AGENTIC_MODEL_TIER_4", ""),
         },
-        "outputs": result.outputs,
-        "steps": result.steps,
+        "outputs": result.final_output,
+        "steps": {s.step_name: s.model_dump() for s in result.steps},
     }
 
     out_dir = Path(args.out_dir)
@@ -275,16 +279,18 @@ def main(argv: list[str]) -> int:
     json_path.write_text(json.dumps(payload, indent=2, default=str), encoding="utf-8")
     md_path.write_text(_to_markdown(payload), encoding="utf-8")
 
-    print(f"Workflow: deep_research")
+    print("Workflow: deep_research")
     print(f"Run ID: {run_id}")
-    print(f"Status: {result.status}")
-    print(f"Elapsed: {result.elapsed_seconds:.2f}s")
+    print(f"Status: {result.overall_status.value}")
+    elapsed = metadata.get("elapsed_seconds", 0.0)
+    print(f"Elapsed: {elapsed:.2f}s")
     print(f"JSON: {json_path}")
     print(f"Markdown: {md_path}")
 
-    if result.errors:
+    errors = metadata.get("errors", [])
+    if errors:
         print("Errors:")
-        for err in result.errors:
+        for err in errors:
             print(f"- {err}")
         return 1
     return 0

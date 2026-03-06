@@ -120,7 +120,8 @@ class HardGateResult:
 
 @dataclass
 class CriterionFloorResult:
-    """Record of a single criterion whose normalized score fell below its floor.
+    """Record of a single criterion whose normalized score fell below its
+    floor.
 
     Attributes:
         criterion: Name of the criterion that violated the floor.
@@ -266,7 +267,8 @@ def _validate_rubric_weights(
     *,
     known_criteria: set[str] | None = None,
 ) -> None:
-    """Validate that rubric weights are non-empty, positive, sum to ~1.0, and reference only known criteria.
+    """Validate that rubric weights are non-empty, positive, sum to ~1.0, and
+    reference only known criteria.
 
     Args:
         weights: Mapping of criterion name to weight.
@@ -294,9 +296,7 @@ def _validate_rubric_weights(
     if any(value <= 0 for value in weights.values()):
         raise ValueError("Rubric weights must all be positive.")
     if abs(total - 1.0) > 0.01:
-        raise ValueError(
-            f"Rubric weights must sum to 1.0 (+/-0.01), got {total:.4f}."
-        )
+        raise ValueError(f"Rubric weights must sum to 1.0 (+/-0.01), got {total:.4f}.")
 
 
 def _step_scores(result: WorkflowResult) -> list[dict[str, Any]]:
@@ -327,7 +327,9 @@ def _step_scores(result: WorkflowResult) -> list[dict[str, Any]]:
     return scores
 
 
-def validate_evaluation_payload_schema(payload: dict[str, Any]) -> tuple[bool, list[str]]:
+def validate_evaluation_payload_schema(
+    payload: dict[str, Any],
+) -> tuple[bool, list[str]]:
     """Validate that an evaluation payload conforms to the expected schema.
 
     Checks for required top-level fields (``rubric_id``, ``criteria``,
@@ -487,9 +489,7 @@ def _tokenize(text: str) -> set[str]:
         Set of unique lowercase token strings.
     """
     return {
-        token
-        for token in re.findall(r"[A-Za-z0-9_]+", text.lower())
-        if len(token) > 2
+        token for token in re.findall(r"[A-Za-z0-9_]+", text.lower()) if len(token) > 2
     }
 
 
@@ -626,7 +626,9 @@ def _compute_criterion_score(
         "relevance",
     ):
         overlap = (
-            _text_overlap_score(expected_text, output_text) if expected_text else success_rate
+            _text_overlap_score(expected_text, output_text)
+            if expected_text
+            else success_rate
         )
         blended = (success_rate * 0.7) + (overlap * 0.3)
         if is_failed:
@@ -657,7 +659,9 @@ def _compute_criterion_score(
         if not output_text:
             return 20.0
         chars = len(output_text)
-        final_out = getattr(result, "final_output", None) or getattr(result, "outputs", {})
+        final_out = getattr(result, "final_output", None) or getattr(
+            result, "outputs", {}
+        )
         key_count = len(final_out.keys()) if isinstance(final_out, dict) else 1
         richness = min(chars / 120.0, 45.0) + min(key_count * 6.0, 30.0)
         base = 30.0 + richness
@@ -714,7 +718,8 @@ def _build_judge_criteria(
     weights: dict[str, float],
     criteria_by_name: dict[str, WorkflowCriterion],
 ) -> list[JudgeCriterionDefinition]:
-    """Build LLM Judge criterion definitions from workflow criteria and weights.
+    """Build LLM Judge criterion definitions from workflow criteria and
+    weights.
 
     If the workflow defines criteria with definitions and scale anchors,
     those are used.  Otherwise, generic definitions are generated from
@@ -880,7 +885,9 @@ def score_workflow_result_impl(
     enforce_hard_gates: bool = True,
     judge: LLMJudge | None = None,
     hybrid_component_weights: dict[str, float] | None = None,
-    compute_criterion_score_fn: Callable[[str, WorkflowResult, str], float] = _compute_criterion_score,
+    compute_criterion_score_fn: Callable[
+        [str, WorkflowResult, str], float
+    ] = _compute_criterion_score,
     match_workflow_dataset_fn: Callable[
         [WorkflowDefinition, dict[str, Any]], tuple[bool, list[str]]
     ] = match_workflow_dataset,
@@ -929,9 +936,13 @@ def score_workflow_result_impl(
         config = criteria_by_name.get(criterion)
         formula_id = config.formula_id if config else "zero_one"
         normalized_score = normalize_score(raw_score / 100.0, formula_id)
-        adjusted_score = adjust_for_sample_size(normalized_score, n=max(len(result.steps), 1))
+        adjusted_score = adjust_for_sample_size(
+            normalized_score, n=max(len(result.steps), 1)
+        )
         critical_floor = config.critical_floor if config else None
-        floor_passed = True if critical_floor is None else normalized_score >= critical_floor
+        floor_passed = (
+            True if critical_floor is None else normalized_score >= critical_floor
+        )
 
         criteria.append(
             {
@@ -963,7 +974,9 @@ def score_workflow_result_impl(
         result=result,
         normalized_scores=normalized_scores,
     )
-    advisory_score_0_1 = (advisory_similarity_0_1 * 0.67) + (advisory_efficiency_0_1 * 0.33)
+    advisory_score_0_1 = (advisory_similarity_0_1 * 0.67) + (
+        advisory_efficiency_0_1 * 0.33
+    )
 
     judge_result: JudgeEvaluationResult | None = None
     judge_score_0_1: float | None = None
@@ -1030,12 +1043,16 @@ def score_workflow_result_impl(
 
     for correctness_key in ("correctness", "correctness_rubric"):
         if correctness_key in normalized_scores:
-            _record_floor_failure(correctness_key, 0.70, normalized_scores[correctness_key])
+            _record_floor_failure(
+                correctness_key, 0.70, normalized_scores[correctness_key]
+            )
             break
 
     for validation_key in ("safety_validation", "validation", "safety", "code_quality"):
         if validation_key in normalized_scores:
-            _record_floor_failure(validation_key, 0.80, normalized_scores[validation_key])
+            _record_floor_failure(
+                validation_key, 0.80, normalized_scores[validation_key]
+            )
             break
 
     step_scores = _step_scores(result)
@@ -1055,7 +1072,9 @@ def score_workflow_result_impl(
         "dataset": dataset_meta,
         "score_layers": {
             "layer1_objective": round(objective_score_0_1 * 100.0, 2),
-            "layer2_judge": None if judge_score_0_1 is None else round(judge_score_0_1 * 100.0, 2),
+            "layer2_judge": (
+                None if judge_score_0_1 is None else round(judge_score_0_1 * 100.0, 2)
+            ),
             "layer3_similarity": round(advisory_similarity_0_1 * 100.0, 2),
             "layer3_efficiency": round(advisory_efficiency_0_1 * 100.0, 2),
             "layer3_advisory": round(advisory_score_0_1 * 100.0, 2),

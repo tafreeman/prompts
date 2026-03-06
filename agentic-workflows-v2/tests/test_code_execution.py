@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from agentic_v2.tools.builtin.code_execution import CodeExecutionTool
 
 
@@ -11,14 +10,14 @@ class TestCodeSafetyChecker:
     """Tests for _check_code_safety blocklist."""
 
     def test_dangerous_import_blocked(self) -> None:
-        """import subprocess is blocked."""
+        """Import subprocess is blocked."""
         tool = CodeExecutionTool(sandbox=True)
         result = tool._check_code_safety("import subprocess")
         assert result is not None
         assert "subprocess" in result
 
     def test_dangerous_from_import_blocked(self) -> None:
-        """from subprocess import run is blocked."""
+        """From subprocess import run is blocked."""
         tool = CodeExecutionTool(sandbox=True)
         result = tool._check_code_safety("from subprocess import run")
         assert result is not None
@@ -32,7 +31,7 @@ class TestCodeSafetyChecker:
         assert "os.system" in result
 
     def test_open_call_blocked(self) -> None:
-        """open() is blocked in sandbox mode."""
+        """Open() is blocked in sandbox mode."""
         tool = CodeExecutionTool(sandbox=True)
         result = tool._check_code_safety("f = open('file.txt')")
         assert result is not None
@@ -52,7 +51,7 @@ class TestCodeSafetyChecker:
         assert result is None
 
     def test_safe_import_passes(self) -> None:
-        """import math is allowed."""
+        """Import math is allowed."""
         tool = CodeExecutionTool(sandbox=True)
         result = tool._check_code_safety("import math\nprint(math.pi)")
         assert result is None
@@ -70,14 +69,14 @@ class TestCodeSafetyChecker:
         assert result is None
 
     def test_socket_import_blocked(self) -> None:
-        """import socket is blocked."""
+        """Import socket is blocked."""
         tool = CodeExecutionTool(sandbox=True)
         result = tool._check_code_safety("import socket")
         assert result is not None
         assert "socket" in result
 
     def test_importlib_pattern_blocked(self) -> None:
-        """importlib pattern is blocked."""
+        """Importlib pattern is blocked."""
         tool = CodeExecutionTool(sandbox=True)
         result = tool._check_code_safety("importlib.import_module('os')")
         assert result is not None
@@ -88,7 +87,7 @@ class TestCodeExecution:
 
     @pytest.mark.asyncio
     async def test_simple_print(self) -> None:
-        """print('hello') captures stdout."""
+        """Print('hello') captures stdout."""
         tool = CodeExecutionTool(sandbox=True)
         result = await tool.execute("print('hello')", timeout=10.0)
         assert result.success
@@ -121,7 +120,7 @@ class TestCodeExecution:
 
     @pytest.mark.asyncio
     async def test_blocked_import_returns_safety_error(self) -> None:
-        """import subprocess returns safety error without executing."""
+        """Import subprocess returns safety error without executing."""
         tool = CodeExecutionTool(sandbox=True)
         result = await tool.execute("import subprocess", timeout=10.0)
         assert not result.success
@@ -129,7 +128,7 @@ class TestCodeExecution:
 
     @pytest.mark.asyncio
     async def test_safe_import_allowed(self) -> None:
-        """import math is allowed and works."""
+        """Import math is allowed and works."""
         tool = CodeExecutionTool(sandbox=True)
         result = await tool.execute("import math\nprint(math.pi)", timeout=10.0)
         assert result.success

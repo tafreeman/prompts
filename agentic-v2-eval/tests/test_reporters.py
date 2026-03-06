@@ -6,24 +6,21 @@ import json
 from pathlib import Path
 from typing import Any
 
-import pytest
-
-from agentic_v2_eval.reporters.markdown import (
-    MarkdownReportConfig,
-    MarkdownReporter,
-    generate_markdown_report,
+from agentic_v2_eval.reporters.html import (
+    HtmlReportConfig,
+    HtmlReporter,
+    generate_html_report,
 )
 from agentic_v2_eval.reporters.json import (
     JsonReportConfig,
     JsonReporter,
     generate_json_report,
 )
-from agentic_v2_eval.reporters.html import (
-    HtmlReportConfig,
-    HtmlReporter,
-    generate_html_report,
+from agentic_v2_eval.reporters.markdown import (
+    MarkdownReportConfig,
+    MarkdownReporter,
+    generate_markdown_report,
 )
-
 
 _SAMPLE_RESULTS: list[dict[str, Any]] = [
     {"name": "test_a", "accuracy": 0.95, "score": 0.9},
@@ -36,7 +33,7 @@ class TestMarkdownReporter:
     """Tests for MarkdownReporter."""
 
     def test_generate_creates_file(self, tmp_path: Path) -> None:
-        """generate() writes a .md file."""
+        """Generate() writes a .md file."""
         output = tmp_path / "report.md"
         reporter = MarkdownReporter()
         result = reporter.generate(_SAMPLE_RESULTS, output)
@@ -110,7 +107,7 @@ class TestJsonReporter:
     """Tests for JsonReporter."""
 
     def test_generate_creates_file(self, tmp_path: Path) -> None:
-        """generate() writes a .json file."""
+        """Generate() writes a .json file."""
         output = tmp_path / "report.json"
         reporter = JsonReporter()
         result = reporter.generate(_SAMPLE_RESULTS, output)
@@ -161,7 +158,7 @@ class TestHtmlReporter:
     """Tests for HtmlReporter."""
 
     def test_generate_creates_file(self, tmp_path: Path) -> None:
-        """generate() writes an .html file."""
+        """Generate() writes an .html file."""
         output = tmp_path / "report.html"
         reporter = HtmlReporter()
         result = reporter.generate(_SAMPLE_RESULTS, output)

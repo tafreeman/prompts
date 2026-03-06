@@ -29,6 +29,7 @@ Key abstractions:
 from __future__ import annotations
 
 import asyncio
+import logging
 import uuid
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
@@ -38,9 +39,16 @@ from typing import Any, AsyncIterator, Callable, Generic, Optional, TypeVar
 
 from ..contracts import TaskInput, TaskOutput
 from ..engine import ExecutionContext, StepDefinition
-from ..models import (LLMClientWrapper, ModelTier, SmartModelRouter,
-                      get_client, get_smart_router)
+from ..models import (
+    LLMClientWrapper,
+    ModelTier,
+    SmartModelRouter,
+    get_client,
+    get_smart_router,
+)
 from ..tools import BaseTool, ToolRegistry, get_registry
+
+logger = logging.getLogger(__name__)
 
 TInput = TypeVar("TInput", bound=TaskInput)
 TOutput = TypeVar("TOutput", bound=TaskOutput)
@@ -87,7 +95,7 @@ class AgentEvent(str, Enum):
 AgentEventHandler = Callable[["BaseAgent", AgentEvent, dict[str, Any]], None]
 
 
-@dataclass
+@dataclass(frozen=True)
 class ConversationMessage:
     """A single message in the agent's conversation history.
 
@@ -760,7 +768,12 @@ class BaseAgent(ABC, Generic[TInput, TOutput]):
             try:
                 handler(self, event, data)
             except Exception:
-                pass  # Don't let handler errors break agent
+                logger.warning(
+                    "Event handler %r failed for event %s",
+                    handler,
+                    event.value,
+                    exc_info=True,
+                )
 
     def _set_state(self, state: AgentState) -> None:
         """Set agent state and emit event."""
@@ -812,7 +825,8 @@ class BaseAgent(ABC, Generic[TInput, TOutput]):
 def agent_to_step(
     agent: BaseAgent[TInput, TOutput], name: Optional[str] = None
 ) -> StepDefinition:
-    """Wrap a :class:`BaseAgent` as a :class:`~agentic_v2.engine.StepDefinition`.
+    """Wrap a :class:`BaseAgent` as a
+    :class:`~agentic_v2.engine.StepDefinition`.
 
     Creates a step function that extracts a ``"task"`` key from the
     :class:`~agentic_v2.engine.ExecutionContext`, passes it to
