@@ -1,0 +1,301 @@
+{
+  "deck": {
+    "brand": "Your Project · Division Name",
+    "title": "Project Name",
+    "titleAccent": "Advocacy Deck",
+    "tagline": "Four narratives. One story. Select a topic to explore.",
+    "accentGradient": ["#22D3EE", "#10B981"],
+    "stats": [
+      { "val": "XX%", "label": "Key Metric 1" },
+      { "val": "X mo", "label": "Key Metric 2" },
+      { "val": "0", "label": "Key Metric 3" },
+      { "val": "~X%", "label": "Key Metric 4" },
+      { "val": "~X%", "label": "Key Metric 5" },
+      { "val": "X wk", "label": "Key Metric 6" }
+    ],
+    "theme": {
+      "bg": "#0B1426",
+      "bgCard": "#111827",
+      "bgDeep": "#162240",
+      "text": "#F0F4F8",
+      "textMuted": "#94A3B8",
+      "textDim": "#64748B",
+      "border": "rgba(255,255,255,0.06)",
+      "aiBg": "#1E1B4B",
+      "fontDisplay": "'Space Grotesk', sans-serif",
+      "fontBody": "'DM Sans', sans-serif",
+      "googleFontsUrl": "https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    }
+  },
+  "pages": [
+    {
+      "id": "topic1",
+      "num": "01",
+      "title": "Topic One Title",
+      "subtitle": "Short supporting subtitle for this narrative.",
+      "icon": "◉",
+      "theme": { "color": "#0891B2", "light": "#22D3EE" },
+      "layout": "stat-cards",
+      "banner": "Optional banner paragraph. Appears at the top of the screen as a highlighted statement about this topic.",
+      "callout": "One bold closing line that crystallizes the 'so what' of this topic for a senior audience.",
+      "cards": [
+        {
+          "title": "Card One",
+          "body": "Describe what happened, how it was achieved, or what this metric represents in plain language.",
+          "icon": "📊",
+          "stat": { "value": "100%", "label": "Stat Label" }
+        },
+        {
+          "title": "Card Two",
+          "body": "Second supporting point. Keep it factual and punchy — one insight per card.",
+          "icon": "🤖",
+          "stat": { "value": "~90%", "label": "Stat Label" }
+        },
+        {
+          "title": "Card Three",
+          "body": "Third point. End with the impact or implication — not just the activity.",
+          "icon": "✅",
+          "stat": { "value": "0", "label": "Stat Label" }
+        }
+      ]
+    },
+    {
+      "id": "topic2",
+      "num": "02",
+      "title": "Topic Two Title",
+      "subtitle": "Challenge and resolution framing for this section.",
+      "icon": "⬡",
+      "theme": { "color": "#F59E0B", "light": "#FBBF24" },
+      "layout": "before-after",
+      "callout": "One bold closing statement summarizing the transformation this section describes.",
+      "cards": [
+        {
+          "title": "Challenge One",
+          "before": "Describe the original problem, friction, or limitation that existed.",
+          "after": "Describe the solution, improvement, or new approach that resolved it.",
+          "icon": "📝"
+        },
+        {
+          "title": "Challenge Two",
+          "before": "Another pain point or obstacle the team faced early on.",
+          "after": "How the team addressed it — process change, tool adoption, or new standard.",
+          "icon": "🔄"
+        },
+        {
+          "title": "Challenge Three",
+          "before": "A compliance, legal, or organizational hurdle.",
+          "after": "The framework or approval process established to clear it.",
+          "icon": "🛡️"
+        },
+        {
+          "title": "Challenge Four",
+          "before": "A skills gap or team readiness issue.",
+          "after": "The enablement approach — training, hackathon, pairing, etc.",
+          "icon": "🎓"
+        }
+      ]
+    },
+    {
+      "id": "topic3",
+      "num": "03",
+      "title": "Phased Roadmap",
+      "subtitle": "Phased rollout from pilot to scale.",
+      "icon": "📅",
+      "theme": { "color": "#10B981", "light": "#34D399" },
+      "layout": "timeline",
+      "callout": "Each phase builds on validated outcomes from the last. No phase starts until the prior one meets its exit criteria.",
+      "phases": [
+        {
+          "label": "Phase 1 — Foundation",
+          "cards": [
+            { "title": "Milestone 1A", "body": "Description of this milestone and what it achieves.", "icon": "🎯" },
+            { "title": "Milestone 1B", "body": "Description of this milestone and what it achieves.", "icon": "📚" },
+            { "title": "Milestone 1C", "body": "Description of this milestone and what it achieves.", "icon": "🛡️" }
+          ]
+        },
+        {
+          "label": "Phase 2 — Prove",
+          "cards": [
+            { "title": "Milestone 2A", "body": "Description of this milestone and what it achieves.", "icon": "⚡" },
+            { "title": "Milestone 2B", "body": "Description of this milestone and what it achieves.", "icon": "📊" }
+          ]
+        },
+        {
+          "label": "Phase 3 — Scale",
+          "cards": [
+            { "title": "Milestone 3A", "body": "Description of this milestone and what it achieves.", "icon": "🚀" },
+            { "title": "Milestone 3B", "body": "Description of this milestone and what it achieves.", "icon": "🔍" }
+          ]
+        },
+        {
+          "label": "Phase 4 — Optimize",
+          "cards": [
+            { "title": "Milestone 4A", "body": "Description of this milestone and what it achieves.", "icon": "💰" },
+            { "title": "Milestone 4B", "body": "Description of this milestone and what it achieves.", "icon": "📖" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "topic4",
+      "num": "04",
+      "title": "Process / Sprint Cycle",
+      "subtitle": "Human checkpoints at every stage of delivery.",
+      "icon": "⟳",
+      "theme": { "color": "#8B5CF6", "light": "#A78BFA" },
+      "layout": "sprint",
+      "callout": "The modified process cycle includes human-in-the-loop checkpoints and rapid iteration aligned to best practices.",
+      "sprint": {
+        "phase1Label": "Phase 1 — Build",
+        "phase2Label": "Phase 2 — Validate",
+        "handoffLabel": "Handoff",
+        "nodes": [
+          { "icon": "📋", "label": "Requirements", "type": "human" },
+          { "icon": "🖥️", "label": "Design", "type": "human" },
+          { "icon": "🤖", "label": "Generate", "type": "ai" },
+          { "icon": "✅", "label": "Refine", "type": "human" },
+          { "icon": "👥", "label": "Review", "type": "human" },
+          { "icon": "⚙️", "label": "Build", "type": "ai" },
+          { "icon": "💻", "label": "Output", "type": "ai" },
+          { "icon": "👥", "label": "QA Review", "type": "human" },
+          { "icon": "🧪", "label": "Testing", "type": "human" },
+          { "icon": "🐛", "label": "Fix", "type": "human" },
+          { "icon": "🚀", "label": "Deploy", "type": "human" },
+          { "icon": "📊", "label": "Stakeholder Review", "type": "human" }
+        ]
+      }
+    },
+    {
+      "id": "topic5",
+      "num": "05",
+      "title": "Outcomes & Results",
+      "subtitle": "What the numbers say about the work.",
+      "icon": "△",
+      "theme": { "color": "#10B981", "light": "#34D399" },
+      "layout": "results",
+      "callout": "The playbook is proven. The question is no longer whether — it's how fast we scale.",
+      "metrics": [
+        { "value": "XX%", "label": "Primary outcome metric", "icon": "📈", "color": "#10B981" },
+        { "value": "X mo", "label": "Time-to-value metric", "icon": "⏱️", "color": "#22D3EE" },
+        { "value": "0", "label": "Quality or defect metric", "icon": "✅", "color": "#FBBF24" },
+        { "value": "X×", "label": "Efficiency or multiplier", "icon": "⚡", "color": "#A78BFA" }
+      ],
+      "cards": [
+        { "title": "What We Proved", "body": "Summarize the core proof point this project established." },
+        { "title": "What Comes Next", "body": "Describe the logical next step or investment case that follows." }
+      ]
+    },
+    {
+      "id": "topic6",
+      "num": "06",
+      "title": "Who This Helps",
+      "subtitle": "Every role benefits differently.",
+      "icon": "👥",
+      "theme": { "color": "#EC4899", "light": "#F472B6" },
+      "layout": "personas",
+      "callout": "Adoption succeeds when every stakeholder sees their own win in the story.",
+      "cards": [
+        {
+          "title": "Role A",
+          "icon": "💻",
+          "pain": "Describe the pain point or frustration this role faces today.",
+          "gain": "Describe how the solution addresses their specific needs.",
+          "stat": { "value": "XX%", "label": "Key Metric" }
+        },
+        {
+          "title": "Role B",
+          "icon": "🏗️",
+          "pain": "Describe the pain point or frustration this role faces today.",
+          "gain": "Describe how the solution addresses their specific needs.",
+          "stat": { "value": "X×", "label": "Key Metric" }
+        },
+        {
+          "title": "Role C",
+          "icon": "📊",
+          "pain": "Describe the pain point or frustration this role faces today.",
+          "gain": "Describe how the solution addresses their specific needs.",
+          "stat": { "value": "XX%", "label": "Key Metric" }
+        },
+        {
+          "title": "Role D",
+          "icon": "🤝",
+          "pain": "Describe the pain point or frustration this role faces today.",
+          "gain": "Describe how the solution addresses their specific needs.",
+          "stat": { "value": "0", "label": "Key Metric" }
+        }
+      ]
+    },
+    {
+      "id": "topic7",
+      "num": "07",
+      "title": "Comparison Matrix",
+      "subtitle": "Cross-option evaluation for your context.",
+      "icon": "🔍",
+      "theme": { "color": "#6366F1", "light": "#818CF8" },
+      "layout": "comparison",
+      "callout": "No single option wins everywhere. The right answer depends on your specific context and constraints.",
+      "comparison": {
+        "columns": [
+          { "label": "Option A", "icon": "🅰️" },
+          { "label": "Option B", "icon": "🅱️" },
+          { "label": "Option C", "icon": "⚡" },
+          { "label": "Option D", "icon": "💎" }
+        ],
+        "rows": [
+          { "criteria": "Criteria One", "scores": ["Strong", "Medium", "Medium", "Strong"] },
+          { "criteria": "Criteria Two", "scores": ["Medium", "Very Large", "Large", "Large"] },
+          { "criteria": "Criteria Three", "scores": ["Available", "In Progress", "Limited", "Available"] },
+          { "criteria": "Criteria Four", "scores": ["Basic", "Strong", "Strong", "Medium"] },
+          { "criteria": "Criteria Five", "scores": ["$$", "$$$", "$$", "$$"] }
+        ]
+      }
+    },
+    {
+      "id": "topic8",
+      "num": "08",
+      "title": "Framework Overview",
+      "subtitle": "Three pillars that support the approach.",
+      "icon": "🛡️",
+      "theme": { "color": "#F59E0B", "light": "#FBBF24" },
+      "layout": "pillars",
+      "callout": "The framework isn't overhead — it's what enables speed without sacrificing quality.",
+      "pillars": [
+        {
+          "icon": "🛡️",
+          "title": "Pillar One",
+          "items": [
+            "First point under this pillar",
+            "Second point under this pillar",
+            "Third point under this pillar",
+            "Fourth point under this pillar"
+          ]
+        },
+        {
+          "icon": "🔍",
+          "title": "Pillar Two",
+          "items": [
+            "First point under this pillar",
+            "Second point under this pillar",
+            "Third point under this pillar",
+            "Fourth point under this pillar"
+          ]
+        },
+        {
+          "icon": "📝",
+          "title": "Pillar Three",
+          "items": [
+            "First point under this pillar",
+            "Second point under this pillar",
+            "Third point under this pillar"
+          ]
+        }
+      ],
+      "results": [
+        { "val": "XX%", "label": "Result metric one" },
+        { "val": "0", "label": "Result metric two" },
+        { "val": "~X%", "label": "Result metric three" },
+        { "val": "X wk", "label": "Result metric four" }
+      ]
+    }
+  ]
+}
