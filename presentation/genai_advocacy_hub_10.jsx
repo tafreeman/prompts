@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef, useCallback, createContext, useCont
 
 const IS_SINGLE_FILE_BUILD = import.meta.env.MODE === "single-file";
 
-// ─── NAVAL IMAGERY ───
+// ─── HERO IMAGERY ───
 const _IMGBASE = import.meta.env.BASE_URL ?? "./";
-const NAVAL_IMGS = {
+const HERO_IMGS = {
   carrierFleet:     _IMGBASE + "images/carrier-fleet.jpg",
   helicopterRappel: _IMGBASE + "images/helicopter-rappel.jpg",
   droneDeck:        _IMGBASE + "images/drone-deck.jpg",
@@ -51,32 +51,32 @@ const ThemeCtx = createContext(THEMES[0]);
 const topics = [
   {
     id: "overview", num: "01", title: "Case Study Overview",
-    subtitle: "How the Naval Marketplace story unfolds across governance, delivery, and scale",
+    subtitle: "How the AI-accelerated delivery story unfolds across governance, execution, and scale",
     color: "#67E8F9", colorLight: "#A5F3FC", colorGlow: "rgba(103,232,249,0.24)",
     eyebrow: "Deck Flow",
-    summary: "This opener gives the audience the full story in one pass: the mission need, the marketplace model, the governance proof points, and the path to scale.",
-    heroPoints: ["Mission need", "Marketplace model", "Delivery guardrails", "Scale path"],
+    summary: "This opener gives the audience the full story in one pass: the mission need, the platform model, the governance proof points, and the path to scale.",
+    heroPoints: ["Mission need", "Platform model", "Delivery guardrails", "Scale path"],
     cards: [
-      { title: "Mission Need", body: "The Navy needed one front door for fragmented IT demand." },
-      { title: "Operating Model", body: "The marketplace links discovery, approval, and procurement handoff." },
+      { title: "Mission Need", body: "The agency needed one front door for fragmented IT demand." },
+      { title: "Operating Model", body: "The platform links discovery, approval, and procurement handoff." },
       { title: "Human Governance", body: "Speed stayed credible because humans still owned review and release." },
       { title: "What Follows", body: "The next pages prove governance, execution, and scale in detail." },
     ],
     talkingPoints: [
       "Lead with the mission problem before the technology.",
-      "Frame the marketplace as an operating model, not a catalog screen.",
+      "Frame the platform as an operating model, not a catalog screen.",
       "Use the rest of the deck as proof of governance and execution.",
       "Keep the throughline on readiness, speed, and controlled handoff.",
     ],
     callout: "Use this slide as the executive opener, then move into the proof pages.",
   },
   {
-    id: "marketplace", num: "Optional", title: "Naval Marketplace",
-    subtitle: "Issue to impact: one front door for IT demand, approvals, and procurement handoff",
+    id: "platform", num: "Optional", title: "Service Platform",
+    subtitle: "One front door for IT demand, approvals, and procurement handoff",
     color: "#38BDF8", colorLight: "#7DD3FC", colorGlow: "rgba(56,189,248,0.28)",
     optional: true,
     eyebrow: "Issue to Impact",
-    summary: "Naval Marketplace creates one governed front door for IT demand, approvals, and procurement continuation, helping users get the right tools faster.",
+    summary: "The platform creates one governed front door for IT demand, approvals, and procurement continuation, helping users get the right tools faster.",
     heroPoints: ["Unified IT catalogs", "Role-based approvals", "Procurement handoff", "Mission readiness"],
     focusPanels: [
       { label: "Overview", title: "One governed entry point", body: "Discovery, request intake, approvals, and procurement continuation all sit in one flow." },
@@ -85,15 +85,15 @@ const topics = [
     ],
     capabilities: [
       { title: "Browse IT Goods", body: "See hardware and software options in one place.", marker: "BG" },
-      { title: "Research Solutions", body: "Explore Navy IT services before submitting demand.", marker: "RS" },
+      { title: "Research Solutions", body: "Explore available IT services before submitting demand.", marker: "RS" },
       { title: "Track Requests", body: "Users and admins can see request status clearly.", marker: "TR" },
       { title: "Continue Procurement", body: "Approved demand flows into the right downstream tool.", marker: "CP" },
     ],
     lanes: [
       {
         title: "Review & Request Tool",
-        subtitle: "Naval Marketplace",
-        persona: "User: Any DoD Personnel with Active CAC",
+        subtitle: "Service Platform",
+        persona: "User: Any authorized personnel with agency credentials",
         accent: "#38BDF8",
         steps: [
           "Browse orderable goods and services.",
@@ -103,8 +103,8 @@ const topics = [
       },
       {
         title: "Procurement Tool",
-        subtitle: "e.g. NEST",
-        persona: "User: Admin role authenticated via NIS (IT POC, ECH II, etc.)",
+        subtitle: "e.g. Legacy Procurement",
+        persona: "User: Admin with procurement permissions",
         accent: "#22D3EE",
         steps: [
           "Approved requests continue in the relevant procurement tool.",
@@ -113,7 +113,7 @@ const topics = [
     ],
     talkingPoints: [
       "Fast-changing IT demand needs one clear front door.",
-      "The marketplace simplifies discovery without weakening control.",
+      "The platform simplifies discovery without weakening control.",
       "Role-based routing keeps the right people in the loop.",
       "The real payoff is faster access and stronger readiness.",
     ],
@@ -122,7 +122,7 @@ const topics = [
   {
     id: "human", num: "02", title: "Human in the Loop",
     heroTitle: "Human-in-the-Loop Focused AI Development",
-    kicker: "Naval Marketplace",
+    kicker: "AI-Accelerated Delivery",
     subkicker: "Governance-First Delivery",
     subtitle: "AI accelerates delivery. Human judgment governs quality.",
     thesis: "Accelerated by AI. Governed by human expertise.",
@@ -133,7 +133,7 @@ const topics = [
         eyebrow: "Approvals before acceleration",
         highlight: "Approvals and legal clearance came before acceleration.",
         details: [
-          "QRM, OGC, and Navy legal approved AI use before production release.",
+          "Risk, legal, and compliance teams approved AI use before production release.",
           "Contract updates included explicit AI language and operating guardrails.",
         ],
       },
@@ -163,7 +163,7 @@ const topics = [
       "Review rigor made speed credible to leadership.",
     ],
     results: [
-      { value: "50%", label: "Reduction in development time", detail: "through NEST incorporation of AI tools in development processes" },
+      { value: "50%", label: "Reduction in development time", detail: "through incorporation of AI tools in development processes" },
       { value: "90%", label: "Of production code developed via AI" },
       { value: "2", label: "Months from idea to production" },
       { value: "0", label: "Critical defects discovered post deployment" },
@@ -403,7 +403,7 @@ function TitleReveal({ onComplete }) {
   return (
     <div onClick={proceed} style={{
       position: "fixed", inset: 0, zIndex: 200, cursor: "pointer",
-      backgroundImage: `url(${NAVAL_IMGS.carrierFleet})`,
+      backgroundImage: `url(${HERO_IMGS.carrierFleet})`,
       backgroundSize: "cover", backgroundPosition: "center",
       display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
       opacity: fading ? 0 : 1, transition: "opacity 0.6s ease",
@@ -526,7 +526,7 @@ function LandingTile({ topic, onClick, hovered, onHover, borderVariant }) {
     hurdles: CARD_ICONS.stepsHurdles,
     sprint: CARD_ICONS.infinitySprint,
     future: CARD_ICONS.horizonFuture,
-    marketplace: CARD_ICONS.marketArch,
+    platform: CARD_ICONS.marketArch,
   };
   const TileIcon = TILE_ICONS[topic.id];
 
@@ -565,7 +565,7 @@ function LandingTile({ topic, onClick, hovered, onHover, borderVariant }) {
 function StoryArcDiagram({ topic, T }) {
   const steps = [
     { num: "01", label: "Mission Need", sub: "One front door for IT demand" },
-    { num: "02", label: "Marketplace Model", sub: "Discovery to procurement" },
+    { num: "02", label: "Platform Model", sub: "Discovery to procurement" },
     { num: "03", label: "Human Governance", sub: "Speed with oversight" },
     { num: "04", label: "Scale Path", sub: "Repeatable delivery" },
   ];
@@ -592,7 +592,7 @@ function OverviewScreen({ topic, onBack }) {
   const T = useContext(ThemeCtx);
   const [entered, setEntered] = useState(false);
   const [showTalking, setShowTalking] = useState(false);
-  const marketplaceTopic = topics.find((item) => item.id === "marketplace") || topic;
+  const platformTopic = topics.find((item) => item.id === "platform") || topic;
 
   useEffect(() => { const t = setTimeout(() => setEntered(true), 50); return () => clearTimeout(t); }, []);
 
@@ -633,9 +633,9 @@ function OverviewScreen({ topic, onBack }) {
               </div>
             )}
           </div>
-          {/* Right: story arc + marketplace snapshot */}
+          {/* Right: story arc + platform snapshot */}
           <div style={{ opacity: entered ? 1 : 0, transform: entered ? "translateY(0)" : "translateY(20px)", transition: "all 0.6s 0.1s ease" }}>
-            <div style={{ ...TYPE_SCALE.EYEBROW, fontFamily: T.fontDisplay, color: marketplaceTopic.colorLight, marginBottom: 8 }}>Operating Model Snapshot</div>
+            <div style={{ ...TYPE_SCALE.EYEBROW, fontFamily: T.fontDisplay, color: platformTopic.colorLight, marginBottom: 8 }}>Operating Model Snapshot</div>
             <div style={{ fontFamily: T.fontDisplay, ...TYPE_SCALE.SECTION, color: T.text, marginBottom: 16 }}>How the story unfolds</div>
             <StoryArcDiagram topic={topic} T={T} />
             <div style={{ marginTop: 16, padding: "12px 16px", borderRadius: 8, borderLeft: `3px solid ${topic.color}`, background: T.bgCard }}>
@@ -674,7 +674,7 @@ function HumanScreen({ topic, onBack }) {
           </div>
           {/* Governance approval chain */}
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12, flexWrap: "wrap" }}>
-            {["QRM", "OGC", "Navy Legal"].map((org, i) => (
+            {["Risk Mgmt", "Legal", "Compliance"].map((org, i) => (
               <React.Fragment key={org}>
                 <div style={{ borderRadius: 6, padding: "4px 10px", background: topic.color + "12", border: `1px solid ${topic.color}30`, fontSize: 11, fontWeight: 700, color: topic.colorLight, fontFamily: T.fontDisplay }}>{org}</div>
                 {i < 2 && <div style={{ fontSize: 14, color: topic.color, opacity: 0.5 }}>→</div>}
@@ -855,9 +855,9 @@ function HurdlesScreen({ topic, onBack }) {
           {/* Right: photo placeholder + callout */}
           <div style={{ display: "flex", flexDirection: "column", gap: 16, opacity: e ? 1 : 0, transition: "opacity 0.6s 0.5s" }}>
             <div style={{ borderRadius: 10, overflow: "hidden", minHeight: 200, position: "relative" }}>
-              <img src={NAVAL_IMGS.helicopterRappel} alt="Naval helicopter operations" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", minHeight: 200, filter: "brightness(0.72) saturate(0.85)" }} />
+              <img src={HERO_IMGS.helicopterRappel} alt="Field operations" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", minHeight: 200, filter: "brightness(0.72) saturate(0.85)" }} />
               <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, ${T.bg}CC 0%, transparent 55%)` }} />
-              <div style={{ position: "absolute", bottom: 10, left: 12, ...TYPE_SCALE.EYEBROW, fontSize: 10, color: topic.colorLight }}>Naval Operations</div>
+              <div style={{ position: "absolute", bottom: 10, left: 12, ...TYPE_SCALE.EYEBROW, fontSize: 10, color: topic.colorLight }}>Operations</div>
             </div>
             <div style={{ borderLeft: `3px solid ${topic.color}`, paddingLeft: 16 }}>
               <p style={{ ...TYPE_SCALE.BODY, color: T.text, fontStyle: "italic", lineHeight: 1.6, margin: 0 }}>
@@ -1031,7 +1031,7 @@ function FutureScreen({ topic, onBack }) {
       <Particles color={topic.color} active={e} />
       {/* UAV photo — right-edge accent */}
       <div style={{ position: "absolute", right: 0, bottom: 0, width: 340, height: 260, overflow: "hidden", pointerEvents: "none", zIndex: 0 }}>
-        <img src={NAVAL_IMGS.uavSunset} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.18, filter: "saturate(0.7)" }} />
+        <img src={HERO_IMGS.uavSunset} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.18, filter: "saturate(0.7)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to bottom-right, ${T.bg} 0%, transparent 60%)` }} />
       </div>
       {/* Concentric arc decoration */}
@@ -1092,8 +1092,8 @@ function FutureScreen({ topic, onBack }) {
   );
 }
 
-// ─── MARKETPLACE MOCK FRAME ───
-function MarketplaceMockFrame({ topic, entered, theme }) {
+// ─── PLATFORM MOCK FRAME ───
+function PlatformMockFrame({ topic, entered, theme }) {
   return (
     <div style={{ position: "relative", minHeight: 280, borderRadius: 12, overflow: "hidden", background: `linear-gradient(145deg, ${theme.bgDeep}, ${theme.bgCard})`, border: `1px solid ${topic.color}26` }}>
       <div style={{ position: "relative", zIndex: 1, padding: "16px 18px 0", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
@@ -1132,8 +1132,8 @@ function MarketplaceMockFrame({ topic, entered, theme }) {
   );
 }
 
-// ─── MARKETPLACE SCREEN ───
-function MarketplaceScreen({ topic, onBack }) {
+// ─── PLATFORM SCREEN ───
+function PlatformScreen({ topic, onBack }) {
   const T = useContext(ThemeCtx);
   const [entered, setEntered] = useState(false);
   const [showCaps, setShowCaps] = useState(false);
@@ -1171,20 +1171,20 @@ function MarketplaceScreen({ topic, onBack }) {
 
           {/* Right: mock frame */}
           <div style={{ opacity: entered ? 1 : 0, transform: entered ? "translateY(0)" : "translateY(20px)", transition: "all 0.6s 0.1s ease" }}>
-            {/* Naval photo strip */}
+            {/* Photo strip */}
             <div style={{ borderRadius: 10, overflow: "hidden", height: 100, marginBottom: 12, position: "relative" }}>
-              <img src={NAVAL_IMGS.droneDeck} alt="Carrier deck operations" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 40%", filter: "brightness(0.65) saturate(0.8)" }} />
+              <img src={HERO_IMGS.droneDeck} alt="Operations deck" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 40%", filter: "brightness(0.65) saturate(0.8)" }} />
               <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${T.bg}AA, transparent 40%, ${T.bg}AA)` }} />
               <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <span style={{ ...TYPE_SCALE.EYEBROW, fontSize: 10, color: topic.colorLight, letterSpacing: 3 }}>NAVAL MARKETPLACE — MISSION READY</span>
+                <span style={{ ...TYPE_SCALE.EYEBROW, fontSize: 10, color: topic.colorLight, letterSpacing: 3 }}>SERVICE PLATFORM — MISSION READY</span>
               </div>
             </div>
             {/* Issue-to-Impact flow */}
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16, flexWrap: "wrap" }}>
               {[
                 { label: "IT Need", sub: "User Request" },
-                { label: "Marketplace", sub: "Review & Route" },
-                { label: "Procurement", sub: "Handoff to NEST" },
+                { label: "Platform", sub: "Review & Route" },
+                { label: "Procurement", sub: "Handoff to downstream tool" },
               ].map((node, i) => (
                 <React.Fragment key={i}>
                   <div style={{ borderRadius: 8, padding: "8px 14px", background: topic.color + (i === 1 ? "22" : "10"), border: `1px solid ${topic.color}${i === 1 ? "50" : "28"}`, textAlign: "center" }}>
@@ -1196,7 +1196,7 @@ function MarketplaceScreen({ topic, onBack }) {
               ))}
             </div>
             <div style={{ ...TYPE_SCALE.EYEBROW, fontFamily: T.fontDisplay, color: topic.colorLight, marginBottom: 8 }}>One-Pager Snapshot</div>
-            <MarketplaceMockFrame topic={topic} entered={entered} theme={T} />
+            <PlatformMockFrame topic={topic} entered={entered} theme={T} />
           </div>
         </div>
 
@@ -1291,7 +1291,7 @@ export default function App() {
   const handleBack = () => { setTransitioning(true); setTimeout(() => { setActive(null); setTransitioning(false); }, 350); };
   const activeTopic = topics.find(t => t.id === active);
   const primaryTopics = topics.filter((t) => !t.optional);
-  const optionalMarketplace = topics.find((t) => t.id === "marketplace");
+  const optionalPlatform = topics.find((t) => t.id === "platform");
 
   const landingStats = [
     { val: "~40%", lbl: "Productivity Uplift" },
@@ -1314,7 +1314,7 @@ export default function App() {
         <div style={{ height: "100vh", display: "flex", padding: "32px 40px", gap: 32, opacity: comet.active ? 0 : 1, transition: "opacity 0.4s ease", overflow: "hidden" }}>
           {/* Large quarter-circle decoration */}
           <div style={{ position: "fixed", bottom: -200, right: -200, width: 500, height: 500, borderRadius: "50%", background: T.accent + "08", pointerEvents: "none" }} />
-          {/* Aircraft carrier silhouette — very subtle, 4% opacity */}
+          {/* Background silhouette — very subtle, 4% opacity */}
           <div style={{ position: "fixed", bottom: 0, right: 0, width: 480, height: 160, pointerEvents: "none", opacity: 0.04 }}>
             <svg viewBox="0 0 480 160" fill={T.text} xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
               <path d="M20 90 L440 90 L460 80 L460 95 L20 110 Z"/>
@@ -1336,7 +1336,7 @@ export default function App() {
               GenAI Transformation<br />
               <span style={{ background: `linear-gradient(90deg, ${T.gradient[0]}, ${T.gradient[1]})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Advocacy Deck</span>
             </h1>
-            <p style={{ ...TYPE_SCALE.BODY, color: T.textMuted, margin: "0 0 20px", maxWidth: 420 }}>Five core pages. One clean storyline. Open the optional Naval Marketplace one-pager below.</p>
+            <p style={{ ...TYPE_SCALE.BODY, color: T.textMuted, margin: "0 0 20px", maxWidth: 420 }}>Five core pages. One clean storyline. Open the optional Service Platform one-pager below.</p>
 
             {/* Inline stats 2x2 */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 20 }}>
@@ -1351,22 +1351,22 @@ export default function App() {
               })}
             </div>
 
-            {/* Optional marketplace link */}
-            {optionalMarketplace && (
+            {/* Optional platform link */}
+            {optionalPlatform && (
               <div
-                onClick={(e) => { const r = e.currentTarget.getBoundingClientRect(); handleSelect("marketplace", { x: r.left + r.width / 2, y: r.top + r.height / 2 }); }}
-                onMouseEnter={() => setHovered("marketplace")}
+                onClick={(e) => { const r = e.currentTarget.getBoundingClientRect(); handleSelect("platform", { x: r.left + r.width / 2, y: r.top + r.height / 2 }); }}
+                onMouseEnter={() => setHovered("platform")}
                 onMouseLeave={() => setHovered(null)}
                 style={{
                   cursor: "pointer", borderRadius: 8, padding: "12px 16px",
                   background: T.bgCard,
-                  borderLeft: `3px solid ${hovered === "marketplace" ? optionalMarketplace.color : optionalMarketplace.color + "40"}`,
+                  borderLeft: `3px solid ${hovered === "platform" ? optionalPlatform.color : optionalPlatform.color + "40"}`,
                   transition: "border-color 0.2s ease",
                 }}>
-                <div style={{ ...TYPE_SCALE.EYEBROW, fontSize: 10, fontFamily: T.fontDisplay, color: optionalMarketplace.colorLight, marginBottom: 4 }}>Optional One-Pager</div>
-                <div style={{ fontFamily: T.fontDisplay, ...TYPE_SCALE.CARD, color: T.text, marginBottom: 4 }}>{optionalMarketplace.title}</div>
-                <p style={{ ...TYPE_SCALE.CAPTION, color: T.textMuted, margin: "0 0 6px" }}>{optionalMarketplace.subtitle}</p>
-                <div style={{ display: "flex", alignItems: "center", gap: 6, color: optionalMarketplace.color, ...TYPE_SCALE.CAPTION, fontWeight: 700, fontFamily: T.fontDisplay }}>
+                <div style={{ ...TYPE_SCALE.EYEBROW, fontSize: 10, fontFamily: T.fontDisplay, color: optionalPlatform.colorLight, marginBottom: 4 }}>Optional One-Pager</div>
+                <div style={{ fontFamily: T.fontDisplay, ...TYPE_SCALE.CARD, color: T.text, marginBottom: 4 }}>{optionalPlatform.title}</div>
+                <p style={{ ...TYPE_SCALE.CAPTION, color: T.textMuted, margin: "0 0 6px" }}>{optionalPlatform.subtitle}</p>
+                <div style={{ display: "flex", alignItems: "center", gap: 6, color: optionalPlatform.color, ...TYPE_SCALE.CAPTION, fontWeight: 700, fontFamily: T.fontDisplay }}>
                   <span>Open</span><span>&#8594;</span>
                 </div>
               </div>
@@ -1399,7 +1399,7 @@ export default function App() {
       {active === "human" && <HumanScreen topic={activeTopic} onBack={handleBack} />}
       {active === "hurdles" && <HurdlesScreen topic={activeTopic} onBack={handleBack} />}
       {active === "future" && <FutureScreen topic={activeTopic} onBack={handleBack} />}
-      {active === "marketplace" && <MarketplaceScreen topic={activeTopic} onBack={handleBack} />}
+      {active === "platform" && <PlatformScreen topic={activeTopic} onBack={handleBack} />}
       {active === "sprint" && <SprintScreen topic={activeTopic} onBack={handleBack} />}
     </div>
     </ThemeCtx.Provider>
