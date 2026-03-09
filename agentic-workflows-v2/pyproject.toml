@@ -19,7 +19,11 @@ dependencies = [
     "aiohttp>=3.9,<4",
     "typer>=0.9,<1",
     "rich>=13.0,<14",
+    "prompts-tools",
 ]
+
+[tool.uv.sources]
+prompts-tools = { workspace = true }
 
 
 [project.optional-dependencies]
@@ -65,6 +69,9 @@ rag = [
 [project.scripts]
 agentic = "agentic_v2.cli:main"
 
+
+[tool.hatch.build]
+exclude = [".venv*", "ui/node_modules"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["agentic_v2"]

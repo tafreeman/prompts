@@ -1,1 +1,5 @@
-advocacy-deck-refactor.md
+node_modules/
+dist/
+single-file/
+*.log
+.DS_Store

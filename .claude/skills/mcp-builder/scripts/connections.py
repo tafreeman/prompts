@@ -122,34 +122,34 @@ def create_connection(
     """Factory function to create the appropriate MCP connection.
 
     Args:
-        transport: Connection type ("stdio", "sse", or "http")
-        command: Command to run (stdio only)
-        args: Command arguments (stdio only)
-        env: Environment variables (stdio only)
-        url: Server URL (sse and http only)
-        headers: HTTP headers (sse and http only)
+        transport (str): Connection type ("stdio", "sse", or "http").
+        command (str, optional): Command to run (stdio only).
+        args (list[str], optional): Command arguments (stdio only).
+        env (dict[str, str], optional): Environment variables (stdio only).
+        url (str, optional): Server URL (sse and http only).
+        headers (dict[str, str], optional): HTTP headers (sse and http only).
 
     Returns:
-        MCPConnection instance
+        MCPConnection: An instance of the appropriate MCPConnection subclass.
     """
-    transport = transport.lower()
+    transport_lc = transport.lower()
 
-    if transport == "stdio":
+    if transport_lc == "stdio":
         if not command:
             raise ValueError("Command is required for stdio transport")
         return MCPConnectionStdio(command=command, args=args, env=env)
 
-    elif transport == "sse":
+    elif transport_lc == "sse":
         if not url:
             raise ValueError("URL is required for sse transport")
         return MCPConnectionSSE(url=url, headers=headers)
 
-    elif transport in ["http", "streamable_http", "streamable-http"]:
+    elif transport_lc in ["http", "streamable_http", "streamable-http"]:
         if not url:
             raise ValueError("URL is required for http transport")
         return MCPConnectionHTTP(url=url, headers=headers)
 
     else:
         raise ValueError(
-            f"Unsupported transport type: {transport}. Use 'stdio', 'sse', or 'http'"
+            f"Unsupported transport type: {transport}. Use one of: 'stdio', 'sse', 'http', 'streamable_http', or 'streamable-http'"
         )

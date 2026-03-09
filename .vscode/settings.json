@@ -20,5 +20,6 @@
 	"diffEditor.codeLens": true,
 	"gemini-cli.debug.logging.enabled": true,
 	"livePreview.defaultPreviewPath": "/multiagent-workflows/ui/index.html",
-	"githubPullRequests.experimental.useQuickChat": true
+	"githubPullRequests.experimental.useQuickChat": true,
+	"workbench.browser.enableChatTools": true
 }
