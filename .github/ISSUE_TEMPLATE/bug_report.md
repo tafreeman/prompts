@@ -1,31 +1,34 @@
 ---
 name: Bug Report
-about: Report a bug or unexpected behavior
-title: "fix: "
+about: Report a bug in the agentic workflows platform
+title: '[BUG] '
 labels: bug
+assignees: ''
 ---
 
-## Description
-
-<!-- Clear description of the bug -->
+## Bug Description
+A clear description of the bug.
 
 ## Steps to Reproduce
-
 1.
 2.
 3.
 
 ## Expected Behavior
-
-<!-- What should happen -->
+What you expected to happen.
 
 ## Actual Behavior
-
-<!-- What actually happens (include error messages, stack traces) -->
+What actually happened.
 
 ## Environment
+- OS:
+- Python version:
+- Package version:
 
-- **Python version:**
-- **OS:**
-- **Package version:** (`pip show agentic-workflows-v2`)
-- **Relevant env vars set:** (e.g., OPENAI_API_KEY, ANTHROPIC_API_KEY)
+## Logs / Stack Trace
+```
+Paste relevant logs here
+```
+
+## Additional Context
+Any other context about the problem.

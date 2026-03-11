@@ -1,24 +1,32 @@
 ---
 name: Feature Request
 about: Suggest a new feature or enhancement
-title: "feat: "
+title: "[FEATURE] "
 labels: enhancement
+assignees: ""
 ---
 
-## Problem
+## Problem Statement
 
-<!-- What problem does this solve? Why is it needed? -->
+What problem does this feature solve?
 
 ## Proposed Solution
 
-<!-- How should this work? Include API sketches, YAML examples, or UI mockups if relevant -->
+Describe the solution you'd like.
 
 ## Alternatives Considered
 
-<!-- Other approaches you've thought about and why they're less suitable -->
+Other approaches you've considered.
 
 ## Impact
 
-- **Packages affected:** (agentic-workflows-v2, tools, agentic-v2-eval)
-- **Breaking changes:** (yes/no)
-- **Estimated effort:** (S/M/L)
+Which package(s) does this affect?
+
+- [ ] agentic-workflows-v2 (runtime)
+- [ ] agentic-v2-eval (evaluation)
+- [ ] tools (shared utilities)
+- [ ] UI (dashboard)
+
+## Additional Context
+
+Any other context, mockups, or references.
