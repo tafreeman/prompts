@@ -9,9 +9,10 @@ export type EventHandler = (event: ExecutionEvent) => void;
 export function connectExecutionStream(
   runId: string,
   onEvent: EventHandler,
-  options: { maxRetries?: number; retryDelayMs?: number } = {}
+  options: { maxRetries?: number; retryDelayMs?: number; pathPrefix?: string } = {}
 ): { close: () => void } {
-  const { maxRetries = 5, retryDelayMs = 1000 } = options;
+  // maxRetries=5, retryDelayMs=1000 → exponential sequence: 1s, 2s, 4s, 8s, 16s (31s total)
+  const { maxRetries = 5, retryDelayMs = 1000, pathPrefix = "execution" } = options;
   let ws: WebSocket | null = null;
   let retries = 0;
   let closed = false;
@@ -20,7 +21,7 @@ export function connectExecutionStream(
     if (closed) return;
 
     const protocol = location.protocol === "https:" ? "wss:" : "ws:";
-    ws = new WebSocket(`${protocol}//${location.host}/ws/execution/${runId}`);
+    ws = new WebSocket(`${protocol}//${location.host}/ws/${pathPrefix}/${runId}`);
 
     ws.onopen = () => {
       retries = 0;
@@ -39,7 +40,10 @@ export function connectExecutionStream(
       if (closed) return;
       if (retries < maxRetries) {
         retries++;
-        setTimeout(connect, retryDelayMs * retries);
+        // Exponential backoff: retryDelayMs × 2^(retryCount-1)
+        // Protects restarting server from hammering; matches AWS/GCP/Azure standards
+        // Retries at: 1s, 2s, 4s, 8s, 16s (cumulative: 31s max)
+        setTimeout(connect, retryDelayMs * Math.pow(2, retries - 1));
       }
     };
 

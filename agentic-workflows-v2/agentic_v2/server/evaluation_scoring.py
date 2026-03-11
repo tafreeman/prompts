@@ -24,13 +24,14 @@ Implements a three-stage scoring pipeline:
 Rubric resolution (:func:`_resolve_rubric`) merges defaults from the
 evaluation YAML config, workflow-level scoring profiles (A--E), per-criterion
 weight overrides, and an optional rubric ID override.
+
+Criterion-level scoring, text analysis, grading, judge criteria building,
+and hybrid score composition live in :mod:`~agentic_v2.server.scoring_criteria`.
 """
 
 from __future__ import annotations
 
-import json
 import logging
-import re
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, Callable
@@ -42,9 +43,25 @@ from ..workflows.loader import (
     WorkflowOutput,
 )
 from .datasets import _load_eval_config, match_workflow_dataset
-from .judge import JudgeCriterionDefinition, JudgeEvaluationResult, LLMJudge
+from .judge import JudgeEvaluationResult, LLMJudge
 from .normalization import adjust_for_sample_size, normalize_score
 from .scoring_profiles import get_profile
+
+# Re-export everything from scoring_criteria so callers that import from
+# this module continue to work unchanged.
+from .scoring_criteria import (  # noqa: F401
+    _advisory_efficiency_score,
+    _advisory_similarity_score,
+    _build_judge_criteria,
+    _clamp,
+    _compose_hybrid_score,
+    _compute_criterion_score,
+    _extract_expected_text,
+    _grade,
+    _output_text,
+    _text_overlap_score,
+    _tokenize,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -63,34 +80,19 @@ _DEFAULT_RUBRIC_VERSION = "1.0"
 class HardGateResult:
     """Result of hard-gate (binary pass/fail) checks for a workflow run.
 
-    All gates must pass for the run to be eligible for a passing grade.
-    When any gate fails, :func:`score_workflow_result_impl` forces grade ``F``.
-
-    Attributes:
-        required_outputs_present: True if every non-optional workflow output
-            was produced and is non-None.
-        overall_status_success: True if ``WorkflowResult.overall_status``
-            is ``StepStatus.SUCCESS``.
-        no_critical_step_failures: True if no individual step has status
-            ``StepStatus.FAILED``.
-        schema_contract_valid: True if the evaluation payload conforms to
-            the expected JSON schema (see :func:`validate_evaluation_payload_schema`).
-        dataset_workflow_compatible: True if the dataset sample satisfies
-            the workflow's required inputs.
-        release_build_verified: True if any ``build_verify_release*`` steps
-            succeeded and report ``ready_for_release``.  Defaults to True
-            when no such step exists.
+    Each flag is ``True`` if the gate passed, ``False`` if violated.
     """
 
     required_outputs_present: bool
     overall_status_success: bool
     no_critical_step_failures: bool
+    release_build_verified: bool
     schema_contract_valid: bool
     dataset_workflow_compatible: bool
-    release_build_verified: bool = True
 
     @property
     def all_passed(self) -> bool:
+        """Return ``True`` only if every hard gate passed."""
         return (
             self.required_outputs_present
             and self.overall_status_success
@@ -102,6 +104,7 @@ class HardGateResult:
 
     @property
     def failures(self) -> list[str]:
+        """List of human-readable gate names that failed."""
         failed: list[str] = []
         if not self.required_outputs_present:
             failed.append("required_outputs_present")
@@ -120,32 +123,15 @@ class HardGateResult:
 
 @dataclass
 class CriterionFloorResult:
-    """Record of a single criterion whose normalized score fell below its
-    floor.
+    """Records a single criterion floor violation.
 
-    Attributes:
-        criterion: Name of the criterion that violated the floor.
-        floor: Minimum normalized score (0--1) required.
-        normalized_score: Actual normalized score achieved.
+    A floor violation occurs when a criterion's normalized score falls
+    below the minimum ``critical_floor`` defined in the workflow.
     """
 
     criterion: str
     floor: float
     normalized_score: float
-
-
-def _clamp(value: float, lo: float = 0.0, hi: float = 100.0) -> float:
-    """Clamp *value* to the closed interval ``[lo, hi]``.
-
-    Args:
-        value: The number to clamp.
-        lo: Lower bound (default 0.0).
-        hi: Upper bound (default 100.0).
-
-    Returns:
-        The clamped value.
-    """
-    return max(lo, min(hi, value))
 
 
 def _scoring_weights() -> dict[str, float]:
@@ -477,402 +463,6 @@ def compute_hard_gates(
         schema_contract_valid=schema_contract_valid,
         dataset_workflow_compatible=dataset_workflow_compatible,
     )
-
-
-def _tokenize(text: str) -> set[str]:
-    """Split text into a set of lowercase alphanumeric tokens (length > 2).
-
-    Args:
-        text: Input text to tokenize.
-
-    Returns:
-        Set of unique lowercase token strings.
-    """
-    return {
-        token for token in re.findall(r"[A-Za-z0-9_]+", text.lower()) if len(token) > 2
-    }
-
-
-def _extract_expected_text(sample: dict[str, Any]) -> str:
-    """Extract the expected/golden output text from a dataset sample.
-
-    Searches the sample dict for keys ``expected_output``, ``golden_patch``,
-    ``answer.body``, and ``solution`` in priority order.
-
-    Args:
-        sample: A single dataset sample dict.
-
-    Returns:
-        The expected text string, or ``""`` if none found.
-    """
-    if not isinstance(sample, dict):
-        return ""
-    if isinstance(sample.get("expected_output"), str):
-        return sample["expected_output"]
-    if isinstance(sample.get("golden_patch"), str):
-        return sample["golden_patch"]
-    answer = sample.get("answer")
-    if isinstance(answer, dict) and isinstance(answer.get("body"), str):
-        return answer["body"]
-    if isinstance(sample.get("solution"), str):
-        return sample["solution"]
-    return ""
-
-
-def _output_text(result: WorkflowResult) -> str:
-    """Serialize the workflow's final output to a JSON string for scoring.
-
-    Args:
-        result: The completed workflow result.
-
-    Returns:
-        JSON-serialized output string, or ``str()`` fallback on error.
-    """
-    final = getattr(result, "final_output", None) or getattr(result, "outputs", {})
-    try:
-        return json.dumps(final, default=str)
-    except Exception:
-        return str(final)
-
-
-def _text_overlap_score(expected: str, generated: str) -> float:
-    """Compute token-level recall of expected text in generated text.
-
-    Tokenizes both strings into sets of alphanumeric tokens and returns
-    the fraction of expected tokens present in the generated output,
-    scaled to 0--100.
-
-    Args:
-        expected: The reference/golden text.
-        generated: The model-produced text.
-
-    Returns:
-        Overlap score in the 0.0--100.0 range.
-    """
-    expected_tokens = _tokenize(expected)
-    generated_tokens = _tokenize(generated)
-    if not expected_tokens:
-        return 0.0
-    overlap = expected_tokens & generated_tokens
-    return (len(overlap) / len(expected_tokens)) * 100.0
-
-
-def _compute_criterion_score(
-    criterion: str,
-    result: WorkflowResult,
-    expected_text: str,
-) -> float:
-    """Compute a raw 0--100 score for a single evaluation criterion.
-
-    Dispatches on ``criterion`` name to one of four scoring formulas:
-
-    * **correctness-family** (``correctness``, ``objective_tests``,
-      ``task_completion``, ``faithfulness``, ``relevance``):
-      Blends success rate (70%) with text overlap recall (30%).
-    * **quality-family** (``code_quality``, ``safety_validation``,
-      ``tool_selection_accuracy``):
-      Penalizes for step failures and retries, with a status bonus.
-    * **efficiency-family** (``efficiency``, ``performance``):
-      Penalizes for execution duration and retries.
-    * **documentation-family** (``documentation``, ``citation_quality``,
-      ``coherence``):
-      Rewards output richness (character count and dict key count).
-
-    Unknown criteria receive a neutral baseline of 50.0 so the LLM
-    Judge can fully determine the final score.
-
-    Args:
-        criterion: Evaluation criterion name.
-        result: The completed workflow result.
-        expected_text: Golden/expected output text for overlap scoring.
-
-    Returns:
-        Raw score clamped to the 0.0--100.0 range.
-    """
-    # Support both contract WorkflowResult and langchain runner WorkflowResult
-    if hasattr(result, "success_rate"):
-        success_rate = float(result.success_rate)
-        total_steps = max(len(result.steps), 1)
-        failed_steps = len(result.failed_steps)
-        retries = result.total_retries
-        duration_ms = result.total_duration_ms or 0.0
-    else:
-        status = getattr(result, "status", "unknown")
-        success_rate = 100.0 if status == "success" else 0.0
-        steps = getattr(result, "steps", {})
-        total_steps = max(len(steps), 1)
-        errors = getattr(result, "errors", [])
-        failed_steps = len(errors)
-        retries = 0
-        elapsed = getattr(result, "elapsed_seconds", 0.0)
-        duration_ms = elapsed * 1000.0
-    output_text = _output_text(result)
-
-    _overall = getattr(result, "overall_status", None)
-    if _overall is None:
-        _status_str = getattr(result, "status", "unknown")
-        is_failed = _status_str != "success"
-        is_success = _status_str == "success"
-    else:
-        is_failed = _overall == StepStatus.FAILED
-        is_success = _overall == StepStatus.SUCCESS
-
-    if criterion in (
-        "correctness",
-        "objective_tests",
-        "task_completion",
-        "correctness_rubric",
-        "faithfulness",
-        "relevance",
-    ):
-        overlap = (
-            _text_overlap_score(expected_text, output_text)
-            if expected_text
-            else success_rate
-        )
-        blended = (success_rate * 0.7) + (overlap * 0.3)
-        if is_failed:
-            blended *= 0.75
-        return _clamp(blended)
-
-    if criterion in (
-        "code_quality",
-        "safety_validation",
-        "validation",
-        "safety",
-        "tool_selection_accuracy",
-    ):
-        failure_penalty = (failed_steps / total_steps) * 45.0
-        retry_penalty = min(retries * 4.0, 20.0)
-        status_bonus = 8.0 if is_success else -12.0
-        score = 78.0 - failure_penalty - retry_penalty + status_bonus
-        return _clamp(score)
-
-    if criterion in ("efficiency", "performance"):
-        seconds = duration_ms / 1000.0
-        duration_penalty = min(seconds * 1.5, 55.0)
-        retry_penalty = min(retries * 5.0, 20.0)
-        score = 100.0 - duration_penalty - retry_penalty
-        return _clamp(score)
-
-    if criterion in ("documentation", "citation_quality", "coherence"):
-        if not output_text:
-            return 20.0
-        chars = len(output_text)
-        final_out = getattr(result, "final_output", None) or getattr(
-            result, "outputs", {}
-        )
-        key_count = len(final_out.keys()) if isinstance(final_out, dict) else 1
-        richness = min(chars / 120.0, 45.0) + min(key_count * 6.0, 30.0)
-        base = 30.0 + richness
-        if is_failed:
-            base -= 15.0
-        return _clamp(base)
-
-    # For unknown criteria, start at a baseline of 50.0 (neutral)
-    # so that the LLM Judge (which scores 1-5) can truly dictate the output score.
-    baseline = 50.0
-    if is_failed:
-        baseline -= 20.0
-    return _clamp(baseline)
-
-
-def _grade(score: float) -> str:
-    """Map a 0--100 weighted score to a letter grade.
-
-    Args:
-        score: Weighted composite score.
-
-    Returns:
-        One of ``"A"`` (>=90), ``"B"`` (>=80), ``"C"`` (>=70),
-        ``"D"`` (>=60), or ``"F"`` (<60).
-    """
-    if score >= 90:
-        return "A"
-    if score >= 80:
-        return "B"
-    if score >= 70:
-        return "C"
-    if score >= 60:
-        return "D"
-    return "F"
-
-
-def _default_judge_scale() -> dict[str, str]:
-    """Return the default 1--5 anchored scale labels for LLM Judge criteria.
-
-    Returns:
-        Mapping of score (as string) to human-readable anchor description.
-    """
-    return {
-        "1": "Major requirement failures",
-        "2": "Multiple significant errors",
-        "3": "Minimum acceptable quality",
-        "4": "Strong quality with minor gaps",
-        "5": "Excellent quality and completeness",
-    }
-
-
-def _build_judge_criteria(
-    *,
-    weights: dict[str, float],
-    criteria_by_name: dict[str, WorkflowCriterion],
-) -> list[JudgeCriterionDefinition]:
-    """Build LLM Judge criterion definitions from workflow criteria and
-    weights.
-
-    If the workflow defines criteria with definitions and scale anchors,
-    those are used.  Otherwise, generic definitions are generated from
-    the weight keys.
-
-    Args:
-        weights: Active criterion-to-weight mapping.
-        criteria_by_name: Workflow-defined criteria keyed by name.
-
-    Returns:
-        List of :class:`JudgeCriterionDefinition` instances for the judge prompt.
-    """
-    criteria: list[JudgeCriterionDefinition] = []
-    if criteria_by_name:
-        for criterion_name in weights:
-            criterion = criteria_by_name.get(criterion_name)
-            if criterion is None:
-                continue
-            criteria.append(
-                JudgeCriterionDefinition(
-                    name=criterion.name,
-                    definition=criterion.definition,
-                    scale=criterion.scale or _default_judge_scale(),
-                )
-            )
-        if criteria:
-            return criteria
-
-    for criterion_name in weights:
-        criteria.append(
-            JudgeCriterionDefinition(
-                name=criterion_name,
-                definition=f"Evaluate {criterion_name}",
-                scale=_default_judge_scale(),
-            )
-        )
-    return criteria
-
-
-def _advisory_similarity_score(
-    *,
-    expected_text: str,
-    generated_text: str,
-    objective_score_0_1: float,
-) -> float:
-    """Compute the advisory similarity component (0--1) for hybrid scoring.
-
-    When expected text is available, uses token-overlap recall normalized
-    to [0, 1].  Otherwise, falls back to the objective criterion score.
-
-    Args:
-        expected_text: Golden/reference output text.
-        generated_text: Model-produced output text.
-        objective_score_0_1: Pre-computed objective score as fallback.
-
-    Returns:
-        Normalized similarity score in [0, 1].
-    """
-    if expected_text:
-        overlap = _text_overlap_score(expected_text, generated_text)
-        return normalize_score(overlap / 100.0, "zero_one")
-    return normalize_score(objective_score_0_1, "zero_one")
-
-
-def _advisory_efficiency_score(
-    *,
-    result: WorkflowResult,
-    normalized_scores: dict[str, float],
-) -> float:
-    """Compute the advisory efficiency component (0--1) for hybrid scoring.
-
-    If an ``efficiency`` criterion was already scored, reuses it.
-    Otherwise, derives efficiency from execution duration (SLO: 2s good,
-    60s bad) and retry count (SLO: 0 good, 8 bad), blended 70/30.
-
-    Args:
-        result: The completed workflow result (for duration and retries).
-        normalized_scores: Already-computed normalized criterion scores.
-
-    Returns:
-        Normalized efficiency score in [0, 1].
-    """
-    if "efficiency" in normalized_scores:
-        return normalize_score(normalized_scores["efficiency"], "zero_one")
-
-    duration_seconds = (result.total_duration_ms or 0.0) / 1000.0
-    duration_norm = normalize_score(
-        duration_seconds,
-        "lower_is_better",
-        slo_good=2.0,
-        slo_bad=60.0,
-    )
-    retry_norm = normalize_score(
-        result.total_retries,
-        "lower_is_better",
-        slo_good=0.0,
-        slo_bad=8.0,
-    )
-    return (duration_norm * 0.7) + (retry_norm * 0.3)
-
-
-def _compose_hybrid_score(
-    *,
-    objective_score_0_1: float,
-    advisory_score_0_1: float,
-    judge_score_0_1: float | None,
-    component_weights: dict[str, float] | None = None,
-) -> tuple[float, dict[str, float]]:
-    """Compose a hybrid score from objective, advisory, and judge components.
-
-    Default component weights are ``objective=0.35``, ``judge=0.50``,
-    ``advisory=0.15``.  If the judge score is ``None`` (judge unavailable),
-    only objective and advisory are used with re-normalized weights.
-
-    Args:
-        objective_score_0_1: Weighted criterion score in [0, 1].
-        advisory_score_0_1: Heuristic advisory score in [0, 1].
-        judge_score_0_1: LLM Judge normalized score in [0, 1], or None.
-        component_weights: Optional override for component weight map.
-
-    Returns:
-        A 2-tuple of ``(hybrid_score_0_1, active_weights_used)``.
-    """
-    default_weights = {
-        "objective": 0.35,
-        "judge": 0.50,
-        "advisory": 0.15,
-    }
-    weights = dict(default_weights)
-    if component_weights:
-        weights.update(component_weights)
-
-    active_components: dict[str, float] = {
-        "objective": objective_score_0_1,
-        "advisory": advisory_score_0_1,
-    }
-    if judge_score_0_1 is not None:
-        active_components["judge"] = judge_score_0_1
-
-    weight_sum = 0.0
-    weighted = 0.0
-    active_weights: dict[str, float] = {}
-    for name, value in active_components.items():
-        weight = max(float(weights.get(name, 0.0)), 0.0)
-        if weight <= 0:
-            continue
-        active_weights[name] = weight
-        weighted += value * weight
-        weight_sum += weight
-
-    if weight_sum <= 0:
-        return objective_score_0_1, {"objective": 1.0}
-    return weighted / weight_sum, active_weights
 
 
 def score_workflow_result_impl(
