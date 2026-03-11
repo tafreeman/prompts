@@ -35,6 +35,7 @@ from __future__ import annotations
 
 import io
 import json
+import logging
 import os
 import sys
 import time
@@ -42,10 +43,12 @@ from contextlib import contextmanager
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Callable, List, Optional
+from typing import Any, Callable
 
 from tools.core.errors import ErrorCode, classify_error
 from tools.core.model_availability import is_model_available
+
+logger = logging.getLogger(__name__)
 
 # =============================================================================
 # WINDOWS CONSOLE ENCODING FIX (Applied on import)
@@ -129,7 +132,7 @@ class LogEntry:
             code, _ = classify_error(error)
         self._log(code, error, data)
 
-    def _log(self, code: str, error: Optional[str], data: dict):
+    def _log(self, code: str, error: str | None, data: dict):
         """Write log entry."""
         if self._logged:
             return
@@ -192,7 +195,7 @@ class ToolInit:
     # Internal state
     _success_count: int = 0
     _failed_count: int = 0
-    _failed_items: List[dict] = field(default_factory=list)
+    _failed_items: list[dict] = field(default_factory=list)
     _start_time: float = field(default_factory=time.time)
     _total_items: int = 0
     _current_item: int = 0
@@ -206,7 +209,7 @@ class ToolInit:
     # PREREQUISITE CHECKING
     # =========================================================================
 
-    def check_env(self, required: List[str]) -> List[str]:
+    def check_env(self, required: list[str]) -> list[str]:
         """Check required environment variables.
 
         Returns list of missing vars.
@@ -217,7 +220,7 @@ class ToolInit:
                 missing.append(var)
         return missing
 
-    def check_models(self, required: List[str]) -> List[str]:
+    def check_models(self, required: list[str]) -> list[str]:
         """Check required models.
 
         Returns list of unavailable models.
@@ -228,7 +231,7 @@ class ToolInit:
                 unavailable.append(model)
         return unavailable
 
-    def check_paths(self, required: List[Path]) -> List[Path]:
+    def check_paths(self, required: list[Path]) -> list[Path]:
         """Check required paths exist.
 
         Returns list of missing paths.
@@ -241,9 +244,9 @@ class ToolInit:
 
     def check_all(
         self,
-        required_env: List[str] = None,
-        required_models: List[str] = None,
-        required_paths: List[Path] = None,
+        required_env: list[str] = None,
+        required_models: list[str] = None,
+        required_paths: list[Path] = None,
     ) -> bool:
         """Check all prerequisites. Exits with code 1 if any fail.
 
@@ -267,16 +270,16 @@ class ToolInit:
                 errors.append(f"Path not found: {path}")
 
         if errors:
-            safe_print(f"\n{'='*60}", file=sys.stderr)
-            safe_print(f"FATAL: Prerequisites not met for {self.name}", file=sys.stderr)
-            safe_print(f"{'='*60}", file=sys.stderr)
+            logger.error("=" * 60)
+            logger.error("FATAL: Prerequisites not met for %s", self.name)
+            logger.error("=" * 60)
             for e in errors:
-                safe_print(f"  ✗ {e}", file=sys.stderr)
-            safe_print("\nExiting with code 1.\n", file=sys.stderr)
+                logger.error("  x %s", e)
+            logger.error("Exiting with code 1.")
             sys.exit(1)
 
         if self.verbose:
-            safe_print(f"✓ All prerequisites satisfied for {self.name}")
+            logger.info("All prerequisites satisfied for %s", self.name)
 
         return True
 
@@ -296,11 +299,15 @@ class ToolInit:
         self._current_item += 1
         if self._total_items > 0:
             pct = (self._current_item / self._total_items) * 100
-            safe_print(
-                f"[{self._current_item}/{self._total_items}] ({pct:5.1f}%) {safe_str(item)[:50]}..."
+            logger.info(
+                "[%d/%d] (%5.1f%%) %s...",
+                self._current_item,
+                self._total_items,
+                pct,
+                safe_str(item)[:50],
             )
         else:
-            safe_print(f"[{self._current_item}] {safe_str(item)[:50]}...")
+            logger.info("[%d] %s...", self._current_item, safe_str(item)[:50])
 
         entry = LogEntry(init=self, item=str(item))
         try:
@@ -336,23 +343,21 @@ class ToolInit:
             "log_file": str(self.log_file),
         }
 
-        safe_print(f"\n{'='*60}")
-        safe_print(f"Summary: {self.name}")
-        safe_print(f"{'='*60}")
-        safe_print(f"  Duration: {duration:.1f}s")
-        safe_print(f"  Total: {summary['total']}")
-        safe_print(f"  Success: {summary['success']} ({summary['success_rate']}%)")
-        safe_print(f"  Failed: {summary['failed']}")
-        safe_print(f"  Log: {self.log_file}")
+        logger.info("=" * 60)
+        logger.info("Summary: %s", self.name)
+        logger.info("=" * 60)
+        logger.info("  Duration: %.1fs", duration)
+        logger.info("  Total: %d", summary["total"])
+        logger.info("  Success: %d (%s%%)", summary["success"], summary["success_rate"])
+        logger.info("  Failed: %d", summary["failed"])
+        logger.info("  Log: %s", self.log_file)
 
         if self._failed_items:
-            safe_print("\nFailed items:")
+            logger.warning("Failed items:")
             for item in self._failed_items[:10]:
-                safe_print(f"  ✗ {item['item']}: {item['code']}")
+                logger.warning("  x %s: %s", item["item"], item["code"])
             if len(self._failed_items) > 10:
-                safe_print(f"  ... and {len(self._failed_items) - 10} more")
-
-        safe_print()
+                logger.warning("  ... and %d more", len(self._failed_items) - 10)
 
         # Write summary to log
         self._write_log({"type": "summary", **summary})
@@ -371,9 +376,9 @@ class ToolInit:
 
 def init_tool(
     name: str,
-    required_models: List[str] = None,
-    required_env: List[str] = None,
-    required_paths: List[Path] = None,
+    required_models: list[str] = None,
+    required_env: list[str] = None,
+    required_paths: list[Path] = None,
     verbose: bool = False,
     log_file: Path = None,
 ) -> ToolInit:
@@ -439,9 +444,12 @@ def with_retry(
                         raise  # Don't retry permanent errors
 
                     if attempt < max_attempts - 1:
-                        safe_print(
-                            f"  [Retry {attempt + 1}/{max_attempts}] {error_code}: "
-                            f"waiting {current_delay:.1f}s..."
+                        logger.info(
+                            "  [Retry %d/%d] %s: waiting %.1fs...",
+                            attempt + 1,
+                            max_attempts,
+                            error_code,
+                            current_delay,
                         )
                         time.sleep(current_delay)
                         current_delay *= backoff

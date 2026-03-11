@@ -11,12 +11,14 @@ This evaluator is benchmark-agnostic: it works for SWE-bench patches,
 HumanEval functions, or any task with a gold-standard dictionary.
 """
 
+from __future__ import annotations
+
 import json
 import re
 from dataclasses import asdict, dataclass, field
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 # =============================================================================
 # SCORING RUBRIC (0.0 - 10.0 Scale)
@@ -81,7 +83,7 @@ class DimensionScore:
     dimension: str
     score: float  # 0.0 - 10.0
     reasoning: str
-    evidence: List[str] = field(default_factory=list)  # Specific quotes/examples
+    evidence: list[str] = field(default_factory=list)  # Specific quotes/examples
     weight: float = 0.2
 
     @property
@@ -122,7 +124,7 @@ class EvaluationResult:
     timestamp: str
 
     # Scores
-    dimension_scores: Dict[str, DimensionScore] = field(default_factory=dict)
+    dimension_scores: dict[str, DimensionScore] = field(default_factory=dict)
     overall_score: float = 0.0
     grade: str = "F"
 
@@ -136,12 +138,12 @@ class EvaluationResult:
     evaluator_model: str = ""
 
     # Analysis
-    strengths: List[str] = field(default_factory=list)
-    weaknesses: List[str] = field(default_factory=list)
-    improvement_suggestions: List[str] = field(default_factory=list)
-    key_findings: List[str] = field(default_factory=list)
+    strengths: list[str] = field(default_factory=list)
+    weaknesses: list[str] = field(default_factory=list)
+    improvement_suggestions: list[str] = field(default_factory=list)
+    key_findings: list[str] = field(default_factory=list)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         result = asdict(self)
         # Convert DimensionScore to dict
         result["dimension_scores"] = {
@@ -172,8 +174,8 @@ class EvaluationResult:
 def build_evaluation_prompt(
     task_prompt: str,
     generated_output: str,
-    gold_standard: Dict[str, Any],
-    dimensions: Dict[str, Dict[str, Any]] = None,
+    gold_standard: dict[str, Any],
+    dimensions: dict[str, dict[str, Any]] = None,
 ) -> str:
     """Build the evaluation prompt for the LLM judge."""
 
@@ -328,7 +330,7 @@ Respond with a valid JSON object (no markdown code blocks):
     return prompt
 
 
-def parse_evaluation_response(response: str) -> Dict[str, Any]:
+def parse_evaluation_response(response: str) -> dict[str, Any]:
     """Parse the LLM evaluation response."""
     # Try to extract JSON from the response
     response = response.strip()
@@ -373,7 +375,7 @@ def evaluate_with_llm(
     task_id: str,
     task_prompt: str,
     generated_output: str,
-    gold_standard: Dict[str, Any],
+    gold_standard: dict[str, Any],
     model: str,
     benchmark_id: str,
     evaluator_model: str = None,
@@ -708,17 +710,17 @@ class BatchEvaluationSummary:
     total_tasks: int = 0
     evaluated_tasks: int = 0
     average_score: float = 0.0
-    grade_distribution: Dict[str, int] = field(default_factory=dict)
-    dimension_averages: Dict[str, float] = field(default_factory=dict)
+    grade_distribution: dict[str, int] = field(default_factory=dict)
+    dimension_averages: dict[str, float] = field(default_factory=dict)
 
-    top_strengths: List[str] = field(default_factory=list)
-    common_weaknesses: List[str] = field(default_factory=list)
+    top_strengths: list[str] = field(default_factory=list)
+    common_weaknesses: list[str] = field(default_factory=list)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return asdict(self)
 
 
-def summarize_batch_results(results: List[EvaluationResult]) -> BatchEvaluationSummary:
+def summarize_batch_results(results: list[EvaluationResult]) -> BatchEvaluationSummary:
     """Summarize batch evaluation results."""
     if not results:
         return BatchEvaluationSummary(
@@ -740,7 +742,7 @@ def summarize_batch_results(results: List[EvaluationResult]) -> BatchEvaluationS
     grade_dist = {g: grades.count(g) for g in set(grades)}
 
     # Dimension averages
-    dim_totals: Dict[str, List[float]] = {}
+    dim_totals: dict[str, list[float]] = {}
     for r in results:
         for dim_name, dim_score in r.dimension_scores.items():
             if dim_name not in dim_totals:

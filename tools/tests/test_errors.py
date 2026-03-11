@@ -1,5 +1,7 @@
 """Unit tests for tools.core.errors."""
 
+from __future__ import annotations
+
 import pytest
 
 from tools.core.errors import (

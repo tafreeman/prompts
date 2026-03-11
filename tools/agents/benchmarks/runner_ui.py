@@ -4,13 +4,12 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Dict, List, Optional
 
 from tools.agents.benchmarks.datasets import BENCHMARK_DEFINITIONS
 from tools.agents.benchmarks.registry import BenchmarkConfig
 
 
-def load_discovered_models() -> Dict[str, List[str]]:
+def load_discovered_models() -> dict[str, list[str]]:
     """Load discovered models from discovery_results.json or run discovery."""
     discovery_file = Path(__file__).parents[3] / "discovery_results.json"
 
@@ -30,7 +29,7 @@ def load_discovered_models() -> Dict[str, List[str]]:
         return {}
 
 
-def get_available_models_by_provider() -> Dict[str, List[str]]:
+def get_available_models_by_provider() -> dict[str, list[str]]:
     """Get all available models grouped by provider."""
     providers = load_discovered_models()
     result = {}
@@ -44,7 +43,7 @@ def get_available_models_by_provider() -> Dict[str, List[str]]:
     return result
 
 
-def get_flat_model_list() -> List[str]:
+def get_flat_model_list() -> list[str]:
     """Get a flat list of all available models."""
     models = []
     for provider_models in get_available_models_by_provider().values():
@@ -59,7 +58,7 @@ def print_header(text: str, char: str = "=") -> None:
     print(f"{char * 80}")
 
 
-def print_table(headers: List[str], rows: List[List[str]], widths: List[int]) -> None:
+def print_table(headers: list[str], rows: list[list[str]], widths: list[int]) -> None:
     """Print a formatted table."""
     header_line = " | ".join(h.ljust(w) for h, w in zip(headers, widths))
     print(header_line)
@@ -82,7 +81,7 @@ def colorize(text: str, color: str) -> str:
     return f"{colors.get(color, '')}{text}{colors.get('reset', '')}"
 
 
-def prompt_choice(options: List[str], prompt: str = "Select") -> int:
+def prompt_choice(options: list[str], prompt: str = "Select") -> int:
     """Prompt user to select from options."""
     for i, opt in enumerate(options, 1):
         print(f"  [{i}] {opt}")
@@ -117,7 +116,7 @@ def prompt_yes_no(prompt: str, default: bool = True) -> bool:
     return result in ("y", "yes", "1", "true")
 
 
-def select_benchmark() -> Optional[str]:
+def select_benchmark() -> str | None:
     """Interactive benchmark selection."""
     print_header("SELECT BENCHMARK")
 
@@ -146,7 +145,7 @@ def select_benchmark() -> Optional[str]:
     return options[choice]
 
 
-def select_model() -> Optional[str]:
+def select_model() -> str | None:
     """Interactive model selection using discovered models."""
     print_header("SELECT MODEL")
 
@@ -226,7 +225,7 @@ def select_model() -> Optional[str]:
         print("Invalid choice. Try again.")
 
 
-def browse_all_models(providers: Dict[str, List[str]]) -> Optional[str]:
+def browse_all_models(providers: dict[str, list[str]]) -> str | None:
     """Browse complete model list by provider."""
     print_header("ALL AVAILABLE MODELS")
 
@@ -279,7 +278,7 @@ def browse_all_models(providers: Dict[str, List[str]]) -> Optional[str]:
     return None
 
 
-def select_workflow() -> Optional[str]:
+def select_workflow() -> str | None:
     """Interactive workflow selection."""
     print_header("SELECT WORKFLOW")
 
@@ -319,7 +318,7 @@ def configure_options(config: BenchmarkConfig) -> BenchmarkConfig:
     return config
 
 
-def interactive_mode() -> Optional[BenchmarkConfig]:
+def interactive_mode() -> BenchmarkConfig | None:
     """Run interactive configuration flow."""
     print_header("BENCHMARK RUNNER - INTERACTIVE MODE")
     print("Press 'q' at any prompt to quit.\n")

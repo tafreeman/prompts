@@ -23,6 +23,8 @@ Usage:
     tasks = load_benchmark("swe-bench-lite", limit=10)
 """
 
+from __future__ import annotations
+
 from .datasets import BENCHMARK_DEFINITIONS
 from .loader import fetch_task, load_benchmark
 from .registry import BenchmarkConfig, BenchmarkRegistry

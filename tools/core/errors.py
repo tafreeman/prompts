@@ -16,8 +16,9 @@ Usage::
         ...
 """
 
+from __future__ import annotations
+
 from enum import Enum
-from typing import Optional, Set, Tuple
 
 
 class ErrorCode(str, Enum):
@@ -40,7 +41,7 @@ class ErrorCode(str, Enum):
 
 
 # Errors that should NOT be retried (permanent failures)
-PERMANENT_ERRORS: Set[ErrorCode] = {
+PERMANENT_ERRORS: set[ErrorCode] = {
     ErrorCode.UNAVAILABLE_MODEL,
     ErrorCode.PERMISSION_DENIED,
     ErrorCode.FILE_NOT_FOUND,
@@ -48,7 +49,7 @@ PERMANENT_ERRORS: Set[ErrorCode] = {
 }
 
 # Errors that CAN be retried (transient failures)
-TRANSIENT_ERRORS: Set[ErrorCode] = {
+TRANSIENT_ERRORS: set[ErrorCode] = {
     ErrorCode.RATE_LIMITED,
     ErrorCode.TIMEOUT,
     ErrorCode.NETWORK_ERROR,
@@ -57,8 +58,8 @@ TRANSIENT_ERRORS: Set[ErrorCode] = {
 
 
 def classify_error(
-    error_message: str, return_code: Optional[int] = None
-) -> Tuple[ErrorCode, bool]:
+    error_message: str, return_code: int | None = None
+) -> tuple[ErrorCode, bool]:
     """Classify an error message into a standard error code.
 
     Args:

@@ -1,5 +1,7 @@
 """Unit tests for tools.core.config."""
 
+from __future__ import annotations
+
 import pytest
 
 from tools.core.config import Config, ModelConfig, PathConfig

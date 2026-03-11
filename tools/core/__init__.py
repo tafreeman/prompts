@@ -6,3 +6,5 @@ Modules:
     cache: Disk-backed response cache for LLM calls.
     _encoding: Windows console UTF-8 encoding fix.
 """
+
+from __future__ import annotations

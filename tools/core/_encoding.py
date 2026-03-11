@@ -16,6 +16,8 @@ Usage:
 Note: This fix is automatically applied when importing from tool_init.py
 """
 
+from __future__ import annotations
+
 import io
 import os
 import sys

@@ -1,5 +1,7 @@
 """Unit tests for tools.llm.llm_client — no real LLM calls made."""
 
+from __future__ import annotations
+
 from unittest.mock import MagicMock, patch
 
 import pytest

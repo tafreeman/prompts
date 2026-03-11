@@ -26,13 +26,18 @@ Usage:
         cache.set(prompt_content, model, system_prompt, response)
 """
 
+from __future__ import annotations
+
 import hashlib
 import json
+import logging
 import threading
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any
+
+logger = logging.getLogger(__name__)
 
 # =============================================================================
 # CONFIGURATION
@@ -54,11 +59,11 @@ class CacheEntry:
     prompt_hash: str
     hit_count: int = 0
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return asdict(self)
 
     @classmethod
-    def from_dict(cls, d: Dict[str, Any]) -> "CacheEntry":
+    def from_dict(cls, d: dict[str, Any]) -> "CacheEntry":
         return cls(**d)
 
 
@@ -114,7 +119,7 @@ class ResponseCache:
         self.enabled = enabled
         self.ttl = timedelta(hours=ttl_hours)
         self.verbose = verbose
-        self._index: Dict[str, Dict[str, Any]] = {}
+        self._index: dict[str, dict[str, Any]] = {}
         self._stats = {"hits": 0, "misses": 0, "writes": 0}
 
         if enabled:
@@ -122,7 +127,7 @@ class ResponseCache:
 
     def _log(self, msg: str) -> None:
         if self.verbose:
-            print(f"[ResponseCache] {msg}")
+            logger.debug("[ResponseCache] %s", msg)
 
     def _load_index(self) -> None:
         """Load the cache index from disk."""
@@ -153,7 +158,7 @@ class ResponseCache:
             except Exception as e:
                 self._log(f"Failed to save cache index: {e}")
 
-    def _is_expired(self, entry_meta: Dict[str, Any]) -> bool:
+    def _is_expired(self, entry_meta: dict[str, Any]) -> bool:
         """Check if a cache entry has expired."""
         try:
             created = datetime.fromisoformat(entry_meta["created_at"])
@@ -166,7 +171,7 @@ class ResponseCache:
         prompt_content: str,
         model: str,
         system_prompt: str = "",
-    ) -> Optional[str]:
+    ) -> str | None:
         """Get a cached response if available.
 
         Returns:
@@ -358,7 +363,7 @@ class ResponseCache:
 
         return len(expired_keys)
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get cache statistics."""
         total_requests = self._stats["hits"] + self._stats["misses"]
         hit_rate = (
@@ -385,7 +390,7 @@ class ResponseCache:
 # =============================================================================
 
 # Global cache instance (disabled by default, enable with --cache flag)
-_global_cache: Optional[ResponseCache] = None
+_global_cache: ResponseCache | None = None
 
 
 def get_cache(enabled: bool = False, **kwargs) -> ResponseCache:
