@@ -20,7 +20,7 @@ import argparse
 import json
 import os
 import sys
-from typing import Any, Dict
+from typing import Any
 
 try:
     import requests
@@ -54,12 +54,12 @@ COMMON_ENV_KEYS = {
 }
 
 
-def detect_env_keys() -> Dict[str, Dict[str, bool]]:
+def detect_env_keys() -> dict[str, dict[str, bool]]:
     """Return a mapping of provider -> {env_var: is_set} for common keys (never
     exposes values)."""
-    found: Dict[str, Dict[str, bool]] = {}
+    found: dict[str, dict[str, bool]] = {}
     for provider, keys in COMMON_ENV_KEYS.items():
-        provider_map: Dict[str, bool] = {}
+        provider_map: dict[str, bool] = {}
         for k in keys:
             provider_map[k] = bool(os.getenv(k))
         found[provider] = provider_map
@@ -74,7 +74,7 @@ def mask(val: str | None) -> str | None:
     return val[:4] + "..." + val[-4:]
 
 
-def check_github(token: str) -> Dict[str, Any]:
+def check_github(token: str) -> dict[str, Any]:
     headers = {
         "Authorization": f"Bearer {token}",
         "Accept": "application/vnd.github+json",
@@ -88,7 +88,7 @@ def check_github(token: str) -> Dict[str, Any]:
     }
 
 
-def check_openai(key: str, base: str | None = None) -> Dict[str, Any]:
+def check_openai(key: str, base: str | None = None) -> dict[str, Any]:
     base = base or "https://api.openai.com"
     url = f"{base.rstrip('/')}/v1/models"
     headers = {"Authorization": f"Bearer {key}"}
@@ -109,7 +109,7 @@ def check_openai(key: str, base: str | None = None) -> Dict[str, Any]:
     }
 
 
-def check_anthropic(key: str) -> Dict[str, Any]:
+def check_anthropic(key: str) -> dict[str, Any]:
     url = "https://api.anthropic.com/v1/models"
     headers = {
         "x-api-key": key,
@@ -124,7 +124,7 @@ def check_anthropic(key: str) -> Dict[str, Any]:
     }
 
 
-def check_lmstudio(host: str) -> Dict[str, Any]:
+def check_lmstudio(host: str) -> dict[str, Any]:
     url = f"{host.rstrip('/')}/v1/models"
     r = requests.get(url, timeout=6)
     return {
@@ -134,7 +134,7 @@ def check_lmstudio(host: str) -> Dict[str, Any]:
     }
 
 
-def check_ollama(host: str) -> Dict[str, Any]:
+def check_ollama(host: str) -> dict[str, Any]:
     url = f"{host.rstrip('/')}/api/models"
     r = requests.get(url, timeout=6)
     return {
@@ -144,7 +144,7 @@ def check_ollama(host: str) -> Dict[str, Any]:
     }
 
 
-def check_local_openai(host: str) -> Dict[str, Any]:
+def check_local_openai(host: str) -> dict[str, Any]:
     url = f"{host.rstrip('/')}/v1/models"
     r = requests.get(url, timeout=6)
     return {
@@ -169,7 +169,7 @@ def main(argv: list[str] | None = None) -> int:
         print("Failed to load probe file:", e)
         return 2
 
-    out: Dict[str, Any] = {"checked": {}, "probe_summary": probe.get("summary")}
+    out: dict[str, Any] = {"checked": {}, "probe_summary": probe.get("summary")}
 
     # GitHub
     gh = os.getenv("GITHUB_TOKEN") or os.getenv("GH_TOKEN")

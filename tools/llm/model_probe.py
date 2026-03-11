@@ -1,19 +1,16 @@
 #!/usr/bin/env python3
-"""
-Model Probe & Cache
-===================
+"""Model Probe & Cache -- slim facade.
 
 Provides runtime probing of model availability with persistent caching.
 This prevents wasted evaluation runs on models that are known to be unavailable.
 
-Features:
-- Probe models once and cache results (per-session or persistent)
-- Classify errors as transient vs permanent
-- Filter model lists to runnable intersection
-- Retry logic with exponential backoff for transient errors
+Implementation is split across:
+    - ``probe_config``     : Constants, ProbeResult, cache helpers, retry decorator
+    - ``probe_providers``  : Per-provider probe functions
+    - ``probe_discovery``  : Multi-provider discovery
 
 Usage:
-    from model_probe import ModelProbe
+    from tools.llm.model_probe import ModelProbe
 
     probe = ModelProbe()
 
@@ -32,268 +29,38 @@ Usage:
 
 from __future__ import annotations
 
-import hashlib
 import json
-import os
-import subprocess
 import sys
-import time
-from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-# Add parent directory to path for imports when run as script
-if __name__ == "__main__":
-    sys.path.insert(0, str(Path(__file__).parents[2]))
+# Re-export everything callers used to import from this module
+from tools.core.errors import ErrorCode, classify_error  # noqa: F401
+from tools.llm.probe_config import (
+    CACHE_VERSION,
+    ProbeResult,
+    cache_key,
+    get_cache_file,
+    load_cache,
+    save_cache,
+    with_retry,
+)
+from tools.llm.probe_discovery import discover_all_models  # noqa: F401
+from tools.llm.probe_providers import get_provider, probe_model
 
-
-# ---------------------------------------------------------------------------
-# Load .env so provider API keys are available via os.getenv().
-# We search upward from this file to find the nearest .env, which covers both
-# the repo root (d:\source\prompts\.env) and any nested package roots.
-# ---------------------------------------------------------------------------
-def _load_dotenv() -> None:
-    """Load the nearest .env file into os.environ (idempotent)."""
-    try:
-        from dotenv import load_dotenv  # type: ignore[import-untyped]
-    except ImportError:
-        # python-dotenv not installed — fall back to manual parse
-        _load_dotenv_manual()
-        return
-
-    # Walk up from this file's directory to find .env
-    search = Path(__file__).resolve().parent
-    for _ in range(10):
-        candidate = search / ".env"
-        if candidate.is_file():
-            load_dotenv(candidate, override=False)
-            return
-        if search.parent == search:
-            break
-        search = search.parent
-
-
-def _load_dotenv_manual() -> None:
-    """Minimal .env loader when python-dotenv is not installed."""
-    search = Path(__file__).resolve().parent
-    for _ in range(10):
-        candidate = search / ".env"
-        if candidate.is_file():
-            for line in candidate.read_text(
-                encoding="utf-8", errors="replace"
-            ).splitlines():
-                line = line.strip()
-                if not line or line.startswith("#"):
-                    continue
-                if "=" not in line:
-                    continue
-                key, _, value = line.partition("=")
-                key = key.strip()
-                value = value.strip()
-                if not key or key.startswith(" "):
-                    continue
-                # Only set if not already present (don't override real env)
-                if key not in os.environ:
-                    # Strip surrounding quotes (python-dotenv does this automatically)
-                    if (
-                        len(value) >= 2
-                        and value[0] == value[-1]
-                        and value[0] in ('"', "'")
-                    ):
-                        value = value[1:-1]
-                    os.environ[key] = value
-            return
-        if search.parent == search:
-            break
-        search = search.parent
-
-
-_load_dotenv()
-
-
-# =============================================================================
-# ERROR CLASSIFICATION - Import from canonical source
-# =============================================================================
-
-from tools.core.errors import ErrorCode, classify_error
-
-# =============================================================================
-# CONSTANTS - Path, Provider, Environment, URL, and Timeout Configuration
-# =============================================================================
-
-# Cache paths and configuration
-_CACHE_BASE_DIR = ".cache"
-_CACHE_APP_DIR = "prompts-eval"
-_CACHE_PROBES_DIR = "model-probes"
-_CACHE_FILE_NAME = "probe_cache.json"
-_CACHE_VERSION = "1.0.0"
-
-# AI Gallery and AI Toolkit paths
-_AI_GALLERY_CACHE_DIR = "aigallery"
-_AITK_HOME_DIR = ".aitk"
-_AITK_MODELS_DIR = "models"
-_AITK_MODELINFO_FILE = "foundry.modelinfo.json"
-_AITK_MODELS_TASK_TYPE = "chat-completion"
-
-# Model provider prefixes
-_PREFIX_LOCAL = "local:"
-_PREFIX_GITHUB = "gh:"
-_PREFIX_GITHUB_ALT = "github:"
-_PREFIX_OLLAMA = "ollama:"
-_PREFIX_OPENAI = "openai:"
-_PREFIX_GPT = "gpt"
-_PREFIX_AZURE_FOUNDRY = "azure-foundry:"
-_PREFIX_AZURE_OPENAI = "azure-openai:"
-_PREFIX_WINDOWS_AI = "windows-ai:"
-_PREFIX_AITK = "aitk:"
-_PREFIX_AITK_ALT = "ai-toolkit:"
-_PREFIX_GEMINI = "gemini:"
-_PREFIX_CLAUDE = "claude:"
-_PREFIX_LMSTUDIO = "lmstudio:"
-_PREFIX_LMSTUDIO_ALT = "lm-studio:"
-_PREFIX_LOCAL_API = "local-api:"
-
-# Environment variable names
-_ENV_GITHUB_TOKEN = "GITHUB_TOKEN"
-_ENV_GH_TOKEN = "GH_TOKEN"
-_ENV_OLLAMA_HOST = "OLLAMA_HOST"
-_ENV_OLLAMA_API_KEY = "OLLAMA_API_KEY"
-_ENV_OPENAI_API_KEY = "OPENAI_API_KEY"
-_ENV_OPENAI_BASE_URL = "OPENAI_BASE_URL"
-_ENV_OPENAI_API_BASE = "OPENAI_API_BASE"
-_ENV_AZURE_FOUNDRY_API_KEY = "AZURE_FOUNDRY_API_KEY"
-_ENV_AZURE_FOUNDRY_ENDPOINT_PREFIX = "AZURE_FOUNDRY_ENDPOINT"
-_ENV_AZURE_OPENAI_ENDPOINT = "AZURE_OPENAI_ENDPOINT"
-_ENV_AZURE_OPENAI_API_KEY = "AZURE_OPENAI_API_KEY"
-_ENV_AZURE_OPENAI_DEPLOYMENT = "AZURE_OPENAI_DEPLOYMENT"
-_ENV_GEMINI_API_KEY = "GEMINI_API_KEY"
-_ENV_GOOGLE_API_KEY = "GOOGLE_API_KEY"
-_ENV_ANTHROPIC_API_KEY = "ANTHROPIC_API_KEY"
-_ENV_LMSTUDIO_HOST = "LMSTUDIO_HOST"
-_ENV_LOCAL_AI_API_BASE_URL = "LOCAL_AI_API_BASE_URL"
-_ENV_LOCAL_OPENAI_BASE_URL = "LOCAL_OPENAI_BASE_URL"
-
-# URLs and API endpoints
-_OLLAMA_DEFAULT_HOST = "http://localhost:11434"
-_OLLAMA_API_TAGS_ENDPOINT = "/api/tags"
-_LMSTUDIO_DEFAULT_HOST = "http://127.0.0.1:12340"
-_LOCAL_SERVER_COMMON_PORTS = [12340, 1234, 5000, 5001, 8080, 8081]
-
-# Windows AI bridge
-_WINDOWS_AI_BRIDGE_DIR = "windows_ai_bridge"
-_WINDOWS_AI_BRIDGE_PROJECT = "PhiSilicaBridge.csproj"
-
-# AI Toolkit model directories
-_AITK_MS_SUBDIR = "Microsoft"
-
-# Timeout values (seconds)
-_TIMEOUT_GH_AUTH = 10
-_TIMEOUT_GH_MODELS_LIST = 30
-_TIMEOUT_GH_MODELS_RUN = 30
-_TIMEOUT_WINDOWS_AI_BRIDGE = 60
-_TIMEOUT_OLLAMA_HTTP = 3
-_TIMEOUT_CLOUD_HTTP = 10  # Remote cloud APIs (Gemini, Anthropic) — higher latency
-
-# Cache key and string truncation lengths
-_CACHE_KEY_MD5_LENGTH = 12
-_GH_CLI_OUTPUT_MODELS_LIMIT = 5
-_ENDPOINT_TRUNCATION_LENGTH = 50
-_ERROR_BRIEF_LENGTH = 200
-_ERROR_STANDARD_LENGTH = 500
-_ERROR_DISPLAY_LENGTH = 60
-
-# GitHub CLI and model probing
-_GH_CLI_PROBE_TEST_MESSAGE = "Hi"
-_GH_CLI_PROBE_MAX_TOKENS = "1"
-_GH_CLI_ARG_MAX_TOKENS = "--max-tokens"
-
-# Windows AI and dotnet
-_DOTNET_CLI_ARG_PROJECT = "--project"
-_WINDOWS_AI_CLI_ARG_INFO = "--info"
-
-# Path separators and delimiters
-_PATH_SEPARATOR = "/"
-_TAB_SEPARATOR = "\t"
-_OLLAMA_MODEL_TAG_SUFFIX = ":latest"
-
-# AI Toolkit model name cleanup suffixes
-_AITK_SUFFIX_GENERIC_CPU = "-generic-cpu"
-_AITK_SUFFIX_GENERIC_GPU = "-generic-gpu"
-_AITK_SUFFIX_CPU = "-cpu"
-_AITK_SUFFIX_GPU = "-gpu"
-_AITK_TRAILING_CHARS = "0123456789-"
-
-# Azure deployment slot range
-_AZURE_SLOT_RANGE = 10
-
-# Exponential backoff configuration
-_BACKOFF_BASE = 2
-_JITTER_LOWER = 0.8
-_JITTER_RANGE = 0.4
-
-# Windows AI specific constants
-_WINDOWS_AI_MODEL_ID = "windows-ai:phi-silica"
-
-# Platform check
-_PLATFORM_WINDOWS = "win32"
-
-# =============================================================================
-# PROBE RESULT
-# =============================================================================
-
-
-@dataclass
-class ProbeResult:
-    """Result of probing a model's availability."""
-
-    model: str
-    provider: str
-    usable: bool
-    error_code: Optional[str] = None
-    error_message: Optional[str] = None
-    should_retry: bool = False
-    probe_time: str = ""
-    duration_ms: int = 0
-    cached: bool = False
-
-    def to_dict(self) -> Dict[str, Any]:
-        return asdict(self)
-
-
-# =============================================================================
-# CACHE MANAGEMENT
-# =============================================================================
-
-
-def get_cache_dir() -> Path:
-    """Get the directory for probe cache files."""
-    cache_dir = Path.home() / _CACHE_BASE_DIR / _CACHE_APP_DIR / _CACHE_PROBES_DIR
-    cache_dir.mkdir(parents=True, exist_ok=True)
-    return cache_dir
-
-
-def get_cache_file() -> Path:
-    """Get the main probe cache file."""
-    return get_cache_dir() / _CACHE_FILE_NAME
-
-
-def load_cache() -> Dict[str, Any]:
-    """Load the probe cache from disk."""
-    cache_file = get_cache_file()
-    if cache_file.exists():
-        try:
-            return json.loads(cache_file.read_text(encoding="utf-8"))
-        except Exception:
-            pass
-    return {"version": _CACHE_VERSION, "probes": {}, "last_updated": None}
-
-
-def save_cache(cache: Dict[str, Any]) -> None:
-    """Save the probe cache to disk."""
-    cache["last_updated"] = datetime.now().isoformat()
-    cache_file = get_cache_file()
-    cache_file.write_text(json.dumps(cache, indent=2), encoding="utf-8")
+# Backward-compat: re-export public names so ``from tools.llm.model_probe import X`` still works
+__all__ = [
+    "ModelProbe",
+    "ProbeResult",
+    "discover_all_models",
+    "is_model_usable",
+    "filter_usable_models",
+    "get_model_error",
+    "get_probe",
+    "with_retry",
+    "main",
+]
 
 
 # =============================================================================
@@ -319,9 +86,9 @@ class ModelProbe:
         self.use_cache = use_cache
         self.verbose = verbose
         self._cache = (
-            load_cache() if use_cache else {"version": _CACHE_VERSION, "probes": {}}
+            load_cache() if use_cache else {"version": CACHE_VERSION, "probes": {}}
         )
-        self._session_probes: Dict[str, ProbeResult] = {}
+        self._session_probes: dict[str, ProbeResult] = {}
 
     def _log(self, msg: str) -> None:
         if self.verbose:
@@ -329,37 +96,13 @@ class ModelProbe:
 
     def _get_provider(self, model: str) -> str:
         """Extract provider from model string."""
-        if model.startswith(_PREFIX_LOCAL):
-            return "local"
-        if model.startswith(_PREFIX_WINDOWS_AI):
-            return "windows_ai"
-        if model.startswith(_PREFIX_GITHUB) or model.startswith(_PREFIX_GITHUB_ALT):
-            return "github"
-        if model.startswith(_PREFIX_OPENAI) or model.startswith(_PREFIX_GPT):
-            return "openai"
-        if model.startswith(_PREFIX_AZURE_FOUNDRY):
-            return "azure_foundry"
-        if model.startswith(_PREFIX_AZURE_OPENAI):
-            return "azure_openai"
-        if model.startswith(_PREFIX_OLLAMA):
-            return "ollama"
-        if model.startswith(_PREFIX_GEMINI):
-            return "gemini"
-        if model.startswith(_PREFIX_AITK) or model.startswith(_PREFIX_AITK_ALT):
-            return "ai_toolkit"
-        if model.startswith(_PREFIX_CLAUDE):
-            return "claude"
-        if model.startswith(_PREFIX_LMSTUDIO) or model.startswith(_PREFIX_LMSTUDIO_ALT):
-            return "lmstudio"
-        if model.startswith(_PREFIX_LOCAL_API):
-            return "local_api"
-        return "unknown"
+        return get_provider(model)
 
     def _cache_key(self, model: str) -> str:
         """Generate cache key for a model."""
-        return hashlib.md5(model.encode()).hexdigest()[:_CACHE_KEY_MD5_LENGTH]
+        return cache_key(model)
 
-    def _is_cache_valid(self, cached: Dict[str, Any]) -> bool:
+    def _is_cache_valid(self, cached: dict[str, Any]) -> bool:
         """Check if a cached probe result is still valid."""
         if not cached.get("probe_time"):
             return False
@@ -384,946 +127,9 @@ class ModelProbe:
 
         return (now - probe_time) < ttl
 
-    def _probe_local(self, model: str) -> ProbeResult:
-        """Probe a local ONNX model."""
-        start = time.time()
-        model_key = model.replace(_PREFIX_LOCAL, "")
-
-        try:
-            # Check if model exists in AI Gallery cache
-            ai_gallery = Path.home() / _CACHE_BASE_DIR / _AI_GALLERY_CACHE_DIR
-
-            # Import LLMClient to get model paths
-            from tools.llm.llm_client import LLMClient
-
-            model_path = LLMClient.LOCAL_MODELS.get(model_key)
-            if not model_path:
-                return ProbeResult(
-                    model=model,
-                    provider="local",
-                    usable=False,
-                    error_code=ErrorCode.UNAVAILABLE_MODEL.value,
-                    error_message=f"Unknown local model key: {model_key}",
-                    probe_time=datetime.now().isoformat(),
-                    duration_ms=int((time.time() - start) * 1000),
-                )
-
-            # Check if the model directory exists
-            top_dir = str(model_path).split(_PATH_SEPARATOR)[0]
-            if not (ai_gallery / top_dir).exists():
-                return ProbeResult(
-                    model=model,
-                    provider="local",
-                    usable=False,
-                    error_code=ErrorCode.UNAVAILABLE_MODEL.value,
-                    error_message=f"Model not installed: {top_dir}",
-                    probe_time=datetime.now().isoformat(),
-                    duration_ms=int((time.time() - start) * 1000),
-                )
-
-            return ProbeResult(
-                model=model,
-                provider="local",
-                usable=True,
-                probe_time=datetime.now().isoformat(),
-                duration_ms=int((time.time() - start) * 1000),
-            )
-
-        except Exception as e:
-            code, retry = classify_error(str(e))
-            return ProbeResult(
-                model=model,
-                provider="local",
-                usable=False,
-                error_code=code.value,
-                error_message=str(e),
-                should_retry=retry,
-                probe_time=datetime.now().isoformat(),
-                duration_ms=int((time.time() - start) * 1000),
-            )
-
-    def _probe_github(self, model: str) -> ProbeResult:
-        """Probe a GitHub Models model with a lightweight test."""
-        start = time.time()
-        model_id = model.replace(_PREFIX_GITHUB, "").replace(_PREFIX_GITHUB_ALT, "")
-
-        # Check if gh CLI is available
-        import shutil
-
-        if not shutil.which("gh"):
-            return ProbeResult(
-                model=model,
-                provider="github",
-                usable=False,
-                error_code=ErrorCode.UNAVAILABLE_MODEL.value,
-                error_message="GitHub CLI (gh) not found on PATH",
-                probe_time=datetime.now().isoformat(),
-                duration_ms=int((time.time() - start) * 1000),
-            )
-
-        # Check for authentication (env var OR gh auth)
-        gh_authenticated = bool(
-            os.getenv(_ENV_GITHUB_TOKEN) or os.getenv(_ENV_GH_TOKEN)
-        )
-
-        if not gh_authenticated:
-            # Check if logged in via gh auth
-            try:
-                auth_check = subprocess.run(
-                    ["gh", "auth", "status"],
-                    capture_output=True,
-                    text=True,
-                    timeout=_TIMEOUT_GH_AUTH,
-                )
-                gh_authenticated = auth_check.returncode == 0
-            except Exception:
-                pass
-
-        if not gh_authenticated:
-            return ProbeResult(
-                model=model,
-                provider="github",
-                usable=False,
-                error_code=ErrorCode.PERMISSION_DENIED.value,
-                error_message="Not authenticated (run: gh auth login or set GITHUB_TOKEN)",
-                probe_time=datetime.now().isoformat(),
-                duration_ms=int((time.time() - start) * 1000),
-            )
-
-        # If model_id doesn't have a slash, we need to resolve it from gh models list
-        if "/" not in model_id:
-            try:
-                result = subprocess.run(
-                    ["gh", "models", "list"],
-                    capture_output=True,
-                    text=True,
-                    timeout=_TIMEOUT_GH_MODELS_LIST,
-                )
-                if result.returncode == 0:
-                    for line in result.stdout.strip().split("\n"):
-                        if line.strip():
-                            parts = line.split(_TAB_SEPARATOR)
-                            if parts:
-                                full_id = parts[0].strip()
-                                # Check if model_id matches the short name
-                                if (
-                                    full_id.endswith(f"/{model_id}")
-                                    or full_id == model_id
-                                ):
-                                    model_id = full_id
-                                    break
-            except Exception:
-                pass  # Continue with original model_id
-
-        try:
-            # Do a minimal probe - just ask for a single token response
-            result = subprocess.run(
-                [
-                    "gh",
-                    "models",
-                    "run",
-                    model_id,
-                    _GH_CLI_PROBE_TEST_MESSAGE,
-                    _GH_CLI_ARG_MAX_TOKENS,
-                    _GH_CLI_PROBE_MAX_TOKENS,
-                ],
-                capture_output=True,
-                text=True,
-                timeout=_TIMEOUT_GH_MODELS_RUN,
-            )
-
-            duration_ms = int((time.time() - start) * 1000)
-
-            if result.returncode == 0:
-                return ProbeResult(
-                    model=model,
-                    provider="github",
-                    usable=True,
-                    probe_time=datetime.now().isoformat(),
-                    duration_ms=duration_ms,
-                )
-            else:
-                error_text = result.stderr or result.stdout
-                code, retry = classify_error(error_text, result.returncode)
-                return ProbeResult(
-                    model=model,
-                    provider="github",
-                    usable=False,
-                    error_code=code.value,
-                    error_message=error_text[:500],
-                    should_retry=retry,
-                    probe_time=datetime.now().isoformat(),
-                    duration_ms=duration_ms,
-                )
-
-        except subprocess.TimeoutExpired:
-            return ProbeResult(
-                model=model,
-                provider="github",
-                usable=False,
-                error_code=ErrorCode.TIMEOUT.value,
-                error_message="Probe timed out after 30s",
-                should_retry=True,
-                probe_time=datetime.now().isoformat(),
-                duration_ms=int((time.time() - start) * 1000),
-            )
-        except Exception as e:
-            code, retry = classify_error(str(e))
-            return ProbeResult(
-                model=model,
-                provider="github",
-                usable=False,
-                error_code=code.value,
-                error_message=str(e),
-                should_retry=retry,
-                probe_time=datetime.now().isoformat(),
-                duration_ms=int((time.time() - start) * 1000),
-            )
-
     def _probe_model(self, model: str) -> ProbeResult:
         """Probe a model based on its provider."""
-        provider = self._get_provider(model)
-
-        if provider == "local":
-            return self._probe_local(model)
-        elif provider == "windows_ai":
-            return self._probe_windows_ai(model)
-        elif provider == "github":
-            return self._probe_github(model)
-        elif provider == "azure_foundry":
-            return self._probe_azure_foundry(model)
-        elif provider == "azure_openai":
-            return self._probe_azure_openai(model)
-        elif provider == "ollama":
-            return self._probe_ollama(model)
-        elif provider == "openai":
-            return self._probe_openai(model)
-        elif provider == "gemini":
-            return self._probe_gemini(model)
-        elif provider == "claude":
-            return self._probe_claude(model)
-        elif provider == "ai_toolkit":
-            return self._probe_ai_toolkit(model)
-        elif provider == "lmstudio":
-            return self._probe_lmstudio(model)
-        elif provider == "local_api":
-            return self._probe_local_api(model)
-        else:
-            # Unknown provider — not usable without a probe method
-            return ProbeResult(
-                model=model,
-                provider=provider,
-                usable=False,
-                error_code=ErrorCode.INVALID_INPUT.value,
-                error_message=f"Unknown provider '{provider}' — no probe available",
-                probe_time=datetime.now().isoformat(),
-                duration_ms=0,
-            )
-
-    def _probe_windows_ai(self, model: str) -> ProbeResult:
-        """Probe Windows AI (Phi Silica) via the .NET bridge --info."""
-        start = time.time()
-
-        if sys.platform != _PLATFORM_WINDOWS:
-            return ProbeResult(
-                model=model,
-                provider="windows_ai",
-                usable=False,
-                error_code=ErrorCode.UNAVAILABLE_MODEL.value,
-                error_message="Windows AI is only available on Windows",
-                probe_time=datetime.now().isoformat(),
-                duration_ms=int((time.time() - start) * 1000),
-            )
-
-        import shutil
-
-        if not shutil.which("dotnet"):
-            return ProbeResult(
-                model=model,
-                provider="windows_ai",
-                usable=False,
-                error_code=ErrorCode.UNAVAILABLE_MODEL.value,
-                error_message="dotnet not found on PATH (install .NET SDK)",
-                probe_time=datetime.now().isoformat(),
-                duration_ms=int((time.time() - start) * 1000),
-            )
-
-        bridge_proj = (
-            Path(__file__).parent / _WINDOWS_AI_BRIDGE_DIR / _WINDOWS_AI_BRIDGE_PROJECT
-        )
-        if not bridge_proj.exists():
-            return ProbeResult(
-                model=model,
-                provider="windows_ai",
-                usable=False,
-                error_code=ErrorCode.FILE_NOT_FOUND.value,
-                error_message="Bridge project not found (tools/windows_ai_bridge/PhiSilicaBridge.csproj)",
-                probe_time=datetime.now().isoformat(),
-                duration_ms=int((time.time() - start) * 1000),
-            )
-
-        try:
-            r = subprocess.run(
-                [
-                    "dotnet",
-                    "run",
-                    _DOTNET_CLI_ARG_PROJECT,
-                    str(bridge_proj),
-                    "--",
-                    _WINDOWS_AI_CLI_ARG_INFO,
-                ],
-                capture_output=True,
-                text=True,
-                timeout=_TIMEOUT_WINDOWS_AI_BRIDGE,
-                cwd=str(bridge_proj.parent),
-            )
-
-            stdout = (r.stdout or "").strip()
-            stderr = (r.stderr or "").strip()
-            duration_ms = int((time.time() - start) * 1000)
-
-            info: Dict[str, Any] = {}
-            if stdout:
-                try:
-                    info = json.loads(stdout)
-                except Exception:
-                    info = {}
-
-            available = bool(info.get("available")) if info else False
-            if available:
-                return ProbeResult(
-                    model=model,
-                    provider="windows_ai",
-                    usable=True,
-                    probe_time=datetime.now().isoformat(),
-                    duration_ms=duration_ms,
-                )
-
-            err_msg = None
-            if info:
-                err_msg = info.get("error")
-            err_msg = err_msg or stderr or stdout or "Windows AI not available"
-
-            # Add a little extra context for common Phi Silica failures.
-            msg_lower = str(err_msg).lower()
-            if "limited access feature" in msg_lower or "unauthorized" in msg_lower:
-                err_msg = (
-                    f"{err_msg} | Phi Silica may require a Limited Access Feature (LAF) token "
-                    f"and/or package identity + systemAIModels capability. "
-                    f"See: https://learn.microsoft.com/windows/ai/apis/troubleshooting "
-                    f"(unlock: https://aka.ms/phi-silica-unlock)"
-                )
-            code, retry = classify_error(str(err_msg), r.returncode)
-            return ProbeResult(
-                model=model,
-                provider="windows_ai",
-                usable=False,
-                error_code=code.value,
-                error_message=str(err_msg)[:500],
-                should_retry=retry,
-                probe_time=datetime.now().isoformat(),
-                duration_ms=duration_ms,
-            )
-
-        except subprocess.TimeoutExpired:
-            return ProbeResult(
-                model=model,
-                provider="windows_ai",
-                usable=False,
-                error_code=ErrorCode.TIMEOUT.value,
-                error_message="Bridge probe timed out after 60s",
-                should_retry=True,
-                probe_time=datetime.now().isoformat(),
-                duration_ms=int((time.time() - start) * 1000),
-            )
-        except Exception as e:
-            code, retry = classify_error(str(e))
-            return ProbeResult(
-                model=model,
-                provider="windows_ai",
-                usable=False,
-                error_code=code.value,
-                error_message=str(e),
-                should_retry=retry,
-                probe_time=datetime.now().isoformat(),
-                duration_ms=int((time.time() - start) * 1000),
-            )
-
-    def _probe_azure_foundry(self, model: str) -> ProbeResult:
-        """Probe an Azure Foundry model."""
-        start = time.time()
-        _ = model.replace(_PREFIX_AZURE_FOUNDRY, "")
-
-        # Check for API key
-        api_key = os.getenv(_ENV_AZURE_FOUNDRY_API_KEY)
-        if not api_key:
-            return ProbeResult(
-                model=model,
-                provider="azure_foundry",
-                usable=False,
-                error_code=ErrorCode.PERMISSION_DENIED.value,
-                error_message="No AZURE_FOUNDRY_API_KEY environment variable",
-                probe_time=datetime.now().isoformat(),
-                duration_ms=int((time.time() - start) * 1000),
-            )
-
-        # Check for endpoint
-        endpoint = None
-        for k, v in os.environ.items():
-            if k.startswith(_ENV_AZURE_FOUNDRY_ENDPOINT_PREFIX) and v:
-                endpoint = v
-                break
-
-        if not endpoint:
-            return ProbeResult(
-                model=model,
-                provider="azure_foundry",
-                usable=False,
-                error_code=ErrorCode.INVALID_INPUT.value,
-                error_message="No AZURE_FOUNDRY_ENDPOINT_* environment variable",
-                probe_time=datetime.now().isoformat(),
-                duration_ms=int((time.time() - start) * 1000),
-            )
-
-        # Assume configured = usable (actual probe would require API call)
-        return ProbeResult(
-            model=model,
-            provider="azure_foundry",
-            usable=True,
-            probe_time=datetime.now().isoformat(),
-            duration_ms=int((time.time() - start) * 1000),
-        )
-
-    def _probe_azure_openai(self, model: str) -> ProbeResult:
-        """Probe an Azure OpenAI model."""
-        start = time.time()
-        _ = model.replace(_PREFIX_AZURE_OPENAI, "")
-
-        # Check for endpoint and key (check slots 0-9)
-        configured = False
-        for i in range(_AZURE_SLOT_RANGE):
-            ep = os.getenv(f"{_ENV_AZURE_OPENAI_ENDPOINT}_{i}")
-            key = os.getenv(f"{_ENV_AZURE_OPENAI_API_KEY}_{i}")
-            if ep and key:
-                configured = True
-                break
-
-        if not configured:
-            # Also check default (non-numbered) env vars
-            if os.getenv(_ENV_AZURE_OPENAI_ENDPOINT) and os.getenv(
-                _ENV_AZURE_OPENAI_API_KEY
-            ):
-                configured = True
-
-        if not configured:
-            return ProbeResult(
-                model=model,
-                provider="azure_openai",
-                usable=False,
-                error_code=ErrorCode.PERMISSION_DENIED.value,
-                error_message="No AZURE_OPENAI_ENDPOINT/API_KEY environment variables",
-                probe_time=datetime.now().isoformat(),
-                duration_ms=int((time.time() - start) * 1000),
-            )
-
-        return ProbeResult(
-            model=model,
-            provider="azure_openai",
-            usable=True,
-            probe_time=datetime.now().isoformat(),
-            duration_ms=int((time.time() - start) * 1000),
-        )
-
-    def _probe_ollama(self, model: str) -> ProbeResult:
-        """Probe an Ollama model."""
-        import urllib.error
-        import urllib.request
-
-        start = time.time()
-        model_id = model.replace(_PREFIX_OLLAMA, "")
-
-        ollama_host = os.getenv(_ENV_OLLAMA_HOST, _OLLAMA_DEFAULT_HOST)
-
-        try:
-            # Check if Ollama is running
-            req = urllib.request.Request(
-                f"{ollama_host}{_OLLAMA_API_TAGS_ENDPOINT}",
-                headers={"Accept": "application/json"},
-            )
-            with urllib.request.urlopen(req, timeout=_TIMEOUT_OLLAMA_HTTP) as resp:
-                data = json.loads(resp.read().decode("utf-8"))
-                models = [m.get("name", "") for m in data.get("models", [])]
-
-                # Check if specific model is available
-                if (
-                    model_id
-                    and model_id not in models
-                    and f"{model_id}{_OLLAMA_MODEL_TAG_SUFFIX}" not in models
-                ):
-                    return ProbeResult(
-                        model=model,
-                        provider="ollama",
-                        usable=False,
-                        error_code=ErrorCode.UNAVAILABLE_MODEL.value,
-                        error_message=f"Model '{model_id}' not found. Available: {', '.join(models[:_GH_CLI_OUTPUT_MODELS_LIMIT])}",
-                        probe_time=datetime.now().isoformat(),
-                        duration_ms=int((time.time() - start) * 1000),
-                    )
-
-                return ProbeResult(
-                    model=model,
-                    provider="ollama",
-                    usable=True,
-                    probe_time=datetime.now().isoformat(),
-                    duration_ms=int((time.time() - start) * 1000),
-                )
-
-        except urllib.error.URLError as e:
-            return ProbeResult(
-                model=model,
-                provider="ollama",
-                usable=False,
-                error_code=ErrorCode.NETWORK_ERROR.value,
-                error_message=f"Ollama not reachable at {ollama_host}: {e}",
-                should_retry=True,
-                probe_time=datetime.now().isoformat(),
-                duration_ms=int((time.time() - start) * 1000),
-            )
-        except Exception as e:
-            code, retry = classify_error(str(e))
-            return ProbeResult(
-                model=model,
-                provider="ollama",
-                usable=False,
-                error_code=code.value,
-                error_message=str(e),
-                should_retry=retry,
-                probe_time=datetime.now().isoformat(),
-                duration_ms=int((time.time() - start) * 1000),
-            )
-
-    def _probe_openai(self, model: str) -> ProbeResult:
-        """Probe an OpenAI model."""
-        start = time.time()
-        _ = model.replace(_PREFIX_OPENAI, "")
-
-        api_key = os.getenv(_ENV_OPENAI_API_KEY)
-        if not api_key:
-            return ProbeResult(
-                model=model,
-                provider="openai",
-                usable=False,
-                error_code=ErrorCode.PERMISSION_DENIED.value,
-                error_message="No OPENAI_API_KEY environment variable",
-                probe_time=datetime.now().isoformat(),
-                duration_ms=int((time.time() - start) * 1000),
-            )
-
-        return ProbeResult(
-            model=model,
-            provider="openai",
-            usable=True,
-            probe_time=datetime.now().isoformat(),
-            duration_ms=int((time.time() - start) * 1000),
-        )
-
-    def _probe_gemini(self, model: str) -> ProbeResult:
-        """Probe a Google Gemini model.
-
-        Checks for GEMINI_API_KEY or GOOGLE_API_KEY, then optionally
-        hits the Gemini models.list endpoint to confirm reachability.
-        """
-        start = time.time()
-
-        api_key = os.getenv(_ENV_GEMINI_API_KEY) or os.getenv(_ENV_GOOGLE_API_KEY)
-        if not api_key:
-            return ProbeResult(
-                model=model,
-                provider="gemini",
-                usable=False,
-                error_code=ErrorCode.PERMISSION_DENIED.value,
-                error_message="No GEMINI_API_KEY or GOOGLE_API_KEY environment variable",
-                probe_time=datetime.now().isoformat(),
-                duration_ms=int((time.time() - start) * 1000),
-            )
-
-        # Lightweight connectivity check — list models endpoint
-        import urllib.error
-        import urllib.request
-
-        try:
-            url = "https://generativelanguage.googleapis.com/v1beta/models?pageSize=1"
-            req = urllib.request.Request(
-                url, headers={"Accept": "application/json", "x-goog-api-key": api_key}
-            )
-            with urllib.request.urlopen(req, timeout=_TIMEOUT_CLOUD_HTTP) as resp:
-                data = json.loads(resp.read().decode("utf-8"))
-                if data.get("models"):
-                    return ProbeResult(
-                        model=model,
-                        provider="gemini",
-                        usable=True,
-                        probe_time=datetime.now().isoformat(),
-                        duration_ms=int((time.time() - start) * 1000),
-                    )
-                return ProbeResult(
-                    model=model,
-                    provider="gemini",
-                    usable=False,
-                    error_code=ErrorCode.UNAVAILABLE_MODEL.value,
-                    error_message="Gemini API returned no models",
-                    probe_time=datetime.now().isoformat(),
-                    duration_ms=int((time.time() - start) * 1000),
-                )
-        except urllib.error.HTTPError as e:
-            code_val = (
-                ErrorCode.PERMISSION_DENIED.value
-                if e.code in (401, 403)
-                else ErrorCode.NETWORK_ERROR.value
-            )
-            return ProbeResult(
-                model=model,
-                provider="gemini",
-                usable=False,
-                error_code=code_val,
-                error_message=f"Gemini API HTTP {e.code}: {str(e.reason)[:200]}",
-                should_retry=e.code not in (401, 403),
-                probe_time=datetime.now().isoformat(),
-                duration_ms=int((time.time() - start) * 1000),
-            )
-        except Exception as e:
-            code, retry = classify_error(str(e))
-            return ProbeResult(
-                model=model,
-                provider="gemini",
-                usable=False,
-                error_code=code.value,
-                error_message=str(e)[:_ERROR_STANDARD_LENGTH],
-                should_retry=retry,
-                probe_time=datetime.now().isoformat(),
-                duration_ms=int((time.time() - start) * 1000),
-            )
-
-    def _probe_claude(self, model: str) -> ProbeResult:
-        """Probe an Anthropic Claude model.
-
-        Checks for ANTHROPIC_API_KEY, then hits the Anthropic models
-        endpoint to confirm the key is valid and reachable.
-        """
-        start = time.time()
-
-        api_key = os.getenv(_ENV_ANTHROPIC_API_KEY)
-        if not api_key:
-            return ProbeResult(
-                model=model,
-                provider="claude",
-                usable=False,
-                error_code=ErrorCode.PERMISSION_DENIED.value,
-                error_message="No ANTHROPIC_API_KEY environment variable",
-                probe_time=datetime.now().isoformat(),
-                duration_ms=int((time.time() - start) * 1000),
-            )
-
-        # Lightweight connectivity check — list models endpoint
-        import urllib.error
-        import urllib.request
-
-        try:
-            url = "https://api.anthropic.com/v1/models?limit=1"
-            req = urllib.request.Request(
-                url,
-                headers={
-                    "x-api-key": api_key,
-                    "anthropic-version": "2023-06-01",
-                    "Accept": "application/json",
-                },
-            )
-            with urllib.request.urlopen(req, timeout=_TIMEOUT_CLOUD_HTTP) as resp:
-                data = json.loads(resp.read().decode("utf-8"))
-                if data.get("data"):
-                    return ProbeResult(
-                        model=model,
-                        provider="claude",
-                        usable=True,
-                        probe_time=datetime.now().isoformat(),
-                        duration_ms=int((time.time() - start) * 1000),
-                    )
-                # Key accepted but no models listed — still usable
-                return ProbeResult(
-                    model=model,
-                    provider="claude",
-                    usable=True,
-                    probe_time=datetime.now().isoformat(),
-                    duration_ms=int((time.time() - start) * 1000),
-                )
-        except urllib.error.HTTPError as e:
-            code_val = (
-                ErrorCode.PERMISSION_DENIED.value
-                if e.code in (401, 403)
-                else ErrorCode.NETWORK_ERROR.value
-            )
-            return ProbeResult(
-                model=model,
-                provider="claude",
-                usable=False,
-                error_code=code_val,
-                error_message=f"Anthropic API HTTP {e.code}: {str(e.reason)[:200]}",
-                should_retry=e.code not in (401, 403),
-                probe_time=datetime.now().isoformat(),
-                duration_ms=int((time.time() - start) * 1000),
-            )
-        except Exception as e:
-            code, retry = classify_error(str(e))
-            return ProbeResult(
-                model=model,
-                provider="claude",
-                usable=False,
-                error_code=code.value,
-                error_message=str(e)[:_ERROR_STANDARD_LENGTH],
-                should_retry=retry,
-                probe_time=datetime.now().isoformat(),
-                duration_ms=int((time.time() - start) * 1000),
-            )
-
-    def _probe_openai_compatible_endpoint(
-        self, base_url: str, model: str, provider: str
-    ) -> ProbeResult:
-        """Shared probe for any OpenAI-compatible server (LM Studio, LocalAI,
-        etc.).
-
-        Hits GET /v1/models to list available models.
-        """
-        import urllib.error
-        import urllib.request
-
-        start = time.time()
-        base = base_url.rstrip("/")
-
-        try:
-            url = f"{base}/v1/models"
-            req = urllib.request.Request(url, headers={"Accept": "application/json"})
-            with urllib.request.urlopen(req, timeout=_TIMEOUT_OLLAMA_HTTP) as resp:
-                raw = resp.read()
-                # Verify the response is a valid OpenAI-compatible model list,
-                # not a captive-portal or proxy HTML page
-                content_type = resp.headers.get("Content-Type", "")
-                if "json" not in content_type and not raw.lstrip().startswith(b"{"):
-                    return ProbeResult(
-                        model=model,
-                        provider=provider,
-                        usable=False,
-                        error_code=ErrorCode.UNAVAILABLE_MODEL.value,
-                        error_message=f"Unexpected response from {base}: not a JSON model list",
-                        probe_time=datetime.now().isoformat(),
-                        duration_ms=int((time.time() - start) * 1000),
-                    )
-                return ProbeResult(
-                    model=model,
-                    provider=provider,
-                    usable=True,
-                    probe_time=datetime.now().isoformat(),
-                    duration_ms=int((time.time() - start) * 1000),
-                )
-        except urllib.error.URLError:
-            return ProbeResult(
-                model=model,
-                provider=provider,
-                usable=False,
-                error_code=ErrorCode.NETWORK_ERROR.value,
-                error_message=f"Server not reachable at {base}",
-                should_retry=True,
-                probe_time=datetime.now().isoformat(),
-                duration_ms=int((time.time() - start) * 1000),
-            )
-        except Exception as e:
-            code, retry = classify_error(str(e))
-            return ProbeResult(
-                model=model,
-                provider=provider,
-                usable=False,
-                error_code=code.value,
-                error_message=str(e)[:_ERROR_STANDARD_LENGTH],
-                should_retry=retry,
-                probe_time=datetime.now().isoformat(),
-                duration_ms=int((time.time() - start) * 1000),
-            )
-
-    def _probe_lmstudio(self, model: str) -> ProbeResult:
-        """Probe LM Studio via its OpenAI-compatible API.
-
-        LM Studio serves on http://localhost:1234 by default.
-        Override with LMSTUDIO_HOST env var.
-        """
-        host = os.getenv(_ENV_LMSTUDIO_HOST, _LMSTUDIO_DEFAULT_HOST)
-        return self._probe_openai_compatible_endpoint(host, model, "lmstudio")
-
-    def _probe_local_api(self, model: str) -> ProbeResult:
-        """Probe a generic OpenAI-compatible local server.
-
-        Checks OPENAI_BASE_URL, OPENAI_API_BASE, LOCAL_AI_API_BASE_URL,
-        LOCAL_OPENAI_BASE_URL env vars for the endpoint. If none set,
-        scans common local ports (1234, 5000, 5001, 8080, 8081).
-        """
-        import urllib.request
-
-        base_url = (
-            os.getenv(_ENV_OPENAI_BASE_URL)
-            or os.getenv(_ENV_OPENAI_API_BASE)
-            or os.getenv(_ENV_LOCAL_AI_API_BASE_URL)
-            or os.getenv(_ENV_LOCAL_OPENAI_BASE_URL)
-        )
-
-        if base_url:
-            return self._probe_openai_compatible_endpoint(base_url, model, "local_api")
-
-        # No env var — scan common ports
-        start = time.time()
-        for port in _LOCAL_SERVER_COMMON_PORTS:
-            try:
-                url = f"http://localhost:{port}/v1/models"
-                req = urllib.request.Request(
-                    url, headers={"Accept": "application/json"}
-                )
-                with urllib.request.urlopen(req, timeout=1) as resp:
-                    data = json.loads(resp.read().decode("utf-8"))
-                    if data.get("data"):
-                        self._log(f"Found local API server on port {port}")
-                        return ProbeResult(
-                            model=model,
-                            provider="local_api",
-                            usable=True,
-                            probe_time=datetime.now().isoformat(),
-                            duration_ms=int((time.time() - start) * 1000),
-                        )
-            except Exception:
-                continue
-
-        return ProbeResult(
-            model=model,
-            provider="local_api",
-            usable=False,
-            error_code=ErrorCode.NETWORK_ERROR.value,
-            error_message=(
-                "No local API server found. Set OPENAI_BASE_URL, LOCAL_AI_API_BASE_URL, "
-                f"or start a server on ports {_LOCAL_SERVER_COMMON_PORTS}"
-            ),
-            probe_time=datetime.now().isoformat(),
-            duration_ms=int((time.time() - start) * 1000),
-        )
-
-    def _probe_ai_toolkit(self, model: str) -> ProbeResult:
-        """Probe an AI Toolkit local model.
-
-        AI Toolkit stores downloaded models in ~/.aitk/models/ with metadata
-        in ~/.aitk/models/foundry.modelinfo.json (these are FREE local ONNX models,
-        NOT paid cloud Foundry models).
-
-        Model format: aitk:<model-alias> or aitk:<full-model-name>
-        Examples: aitk:phi-4-mini, aitk:qwen2.5-coder-7b
-        """
-        start = time.time()
-        model_id = model.replace(_PREFIX_AITK, "").replace(_PREFIX_AITK_ALT, "")
-
-        aitk_base = Path.home() / _AITK_HOME_DIR
-        models_dir = aitk_base / _AITK_MODELS_DIR
-        modelinfo_file = models_dir / _AITK_MODELINFO_FILE
-
-        # Check if AI Toolkit is installed
-        if not aitk_base.exists():
-            return ProbeResult(
-                model=model,
-                provider="ai_toolkit",
-                usable=False,
-                error_code=ErrorCode.FILE_NOT_FOUND.value,
-                error_message="AI Toolkit not installed (~/.aitk not found)",
-                probe_time=datetime.now().isoformat(),
-                duration_ms=int((time.time() - start) * 1000),
-            )
-
-        # Check if models directory exists
-        if not models_dir.exists():
-            return ProbeResult(
-                model=model,
-                provider="ai_toolkit",
-                usable=False,
-                error_code=ErrorCode.FILE_NOT_FOUND.value,
-                error_message="No AI Toolkit models downloaded (~/.aitk/models not found)",
-                probe_time=datetime.now().isoformat(),
-                duration_ms=int((time.time() - start) * 1000),
-            )
-
-        # Load model info to check available models
-        available_aliases = []
-        available_names = []
-
-        if modelinfo_file.exists():
-            try:
-                info = json.loads(modelinfo_file.read_text(encoding="utf-8"))
-                for m in info.get("models", []):
-                    if m.get("task") == _AITK_MODELS_TASK_TYPE:  # Only chat models
-                        alias = m.get("alias", "")
-                        name = m.get("name", "")
-                        if alias:
-                            available_aliases.append(alias)
-                        if name:
-                            available_names.append(name)
-            except Exception:
-                pass
-
-        # Check downloaded models in the models directory
-        downloaded = []
-        if models_dir.exists():
-            for subdir in models_dir.iterdir():
-                if subdir.is_dir() and subdir.name != _AITK_MS_SUBDIR:
-                    downloaded.append(subdir.name)
-            # Also check Microsoft subdir
-            ms_dir = models_dir / _AITK_MS_SUBDIR
-            if ms_dir.exists():
-                for subdir in ms_dir.iterdir():
-                    if subdir.is_dir():
-                        downloaded.append(subdir.name)
-
-        # Match model_id against available aliases, names, and downloaded folders
-        model_lower = model_id.lower()
-
-        # Direct match against aliases
-        if model_lower in [a.lower() for a in available_aliases]:
-            # Check if it's actually downloaded
-            # Find the corresponding model name
-            for d in downloaded:
-                if model_lower in d.lower():
-                    return ProbeResult(
-                        model=model,
-                        provider="ai_toolkit",
-                        usable=True,
-                        probe_time=datetime.now().isoformat(),
-                        duration_ms=int((time.time() - start) * 1000),
-                    )
-
-        # Fuzzy match against downloaded models
-        for d in downloaded:
-            d_lower = d.lower()
-            if model_lower in d_lower or d_lower.startswith(
-                model_lower.replace("-", "")
-            ):
-                return ProbeResult(
-                    model=model,
-                    provider="ai_toolkit",
-                    usable=True,
-                    probe_time=datetime.now().isoformat(),
-                    duration_ms=int((time.time() - start) * 1000),
-                )
-
-        # Model not found
-        return ProbeResult(
-            model=model,
-            provider="ai_toolkit",
-            usable=False,
-            error_code=ErrorCode.UNAVAILABLE_MODEL.value,
-            error_message=f"Model '{model_id}' not downloaded. Available: {', '.join(downloaded[:_GH_CLI_OUTPUT_MODELS_LIMIT])}",
-            probe_time=datetime.now().isoformat(),
-            duration_ms=int((time.time() - start) * 1000),
-        )
+        return probe_model(model, log=self._log)
 
     def check_model(self, model: str, force_probe: bool = False) -> ProbeResult:
         """Check if a model is usable.
@@ -1335,21 +141,21 @@ class ModelProbe:
         Returns:
             ProbeResult with usability status
         """
-        cache_key = self._cache_key(model)
+        ck = self._cache_key(model)
 
         # Check session cache first (fastest)
-        if not force_probe and cache_key in self._session_probes:
-            result = self._session_probes[cache_key]
+        if not force_probe and ck in self._session_probes:
+            result = self._session_probes[ck]
             result.cached = True
             return result
 
         # Check persistent cache
         if not force_probe and self.use_cache:
-            cached = self._cache.get("probes", {}).get(cache_key)
+            cached = self._cache.get("probes", {}).get(ck)
             if cached and self._is_cache_valid(cached):
                 result = ProbeResult(**cached)
                 result.cached = True
-                self._session_probes[cache_key] = result
+                self._session_probes[ck] = result
                 self._log(f"Cache hit: {model} -> usable={result.usable}")
                 return result
 
@@ -1358,9 +164,9 @@ class ModelProbe:
         result = self._probe_model(model)
 
         # Cache the result
-        self._session_probes[cache_key] = result
+        self._session_probes[ck] = result
         if self.use_cache:
-            self._cache.setdefault("probes", {})[cache_key] = result.to_dict()
+            self._cache.setdefault("probes", {})[ck] = result.to_dict()
             save_cache(self._cache)
 
         self._log(
@@ -1369,8 +175,8 @@ class ModelProbe:
         return result
 
     def filter_runnable(
-        self, models: List[str], force_probe: bool = False
-    ) -> List[str]:
+        self, models: list[str], force_probe: bool = False
+    ) -> list[str]:
         """Filter a list of models to only those that are runnable.
 
         Args:
@@ -1387,7 +193,7 @@ class ModelProbe:
                 runnable.append(model)
         return runnable
 
-    def get_probe_report(self, models: List[str]) -> Dict[str, Any]:
+    def get_probe_report(self, models: list[str]) -> dict[str, Any]:
         """Get a detailed probe report for a list of models.
 
         Returns:
@@ -1424,9 +230,9 @@ class ModelProbe:
             model: If provided, clear only this model. Otherwise clear all.
         """
         if model:
-            cache_key = self._cache_key(model)
-            self._session_probes.pop(cache_key, None)
-            self._cache.get("probes", {}).pop(cache_key, None)
+            ck = self._cache_key(model)
+            self._session_probes.pop(ck, None)
+            self._cache.get("probes", {}).pop(ck, None)
         else:
             self._session_probes.clear()
             self._cache["probes"] = {}
@@ -1434,7 +240,7 @@ class ModelProbe:
         if self.use_cache:
             save_cache(self._cache)
 
-    def get_cache_summary(self) -> Dict[str, Any]:
+    def get_cache_summary(self) -> dict[str, Any]:
         """Get a summary of the current cache state."""
         probes = self._cache.get("probes", {})
 
@@ -1465,644 +271,8 @@ class ModelProbe:
 
 
 # =============================================================================
-# RETRY DECORATOR
+# CONVENIENCE FUNCTIONS
 # =============================================================================
-
-
-def with_retry(
-    max_retries: int = 3,
-    base_delay: float = 1.0,
-    max_delay: float = 30.0,
-    exponential: bool = True,
-):
-    """Decorator for retrying functions with exponential backoff.
-
-    Only retries on transient errors (rate limit, timeout, network).
-
-    Args:
-        max_retries: Maximum number of retry attempts
-        base_delay: Initial delay in seconds
-        max_delay: Maximum delay cap
-        exponential: Use exponential backoff
-    """
-
-    def decorator(func):
-        def wrapper(*args, **kwargs):
-            last_error = None
-            last_code = None
-
-            for attempt in range(max_retries + 1):
-                try:
-                    return func(*args, **kwargs)
-                except Exception as e:
-                    error_str = str(e)
-                    code, should_retry = classify_error(error_str)
-                    last_error = error_str
-                    last_code = code
-
-                    if not should_retry or attempt >= max_retries:
-                        # Don't retry permanent errors or if we've exhausted retries
-                        raise
-
-                    # Calculate delay
-                    if exponential:
-                        delay = min(base_delay * (2**attempt), max_delay)
-                    else:
-                        delay = base_delay
-
-                    # Add jitter (±20%)
-                    import random
-
-                    delay = delay * (0.8 + random.random() * 0.4)
-
-                    print(
-                        f"[Retry] {code.value}: attempt {attempt + 1}/{max_retries}, waiting {delay:.1f}s"
-                    )
-                    time.sleep(delay)
-
-            # Should not reach here, but just in case
-            raise RuntimeError(f"Exhausted retries: {last_code} - {last_error}")
-
-        return wrapper
-
-    return decorator
-
-
-# =============================================================================
-# DISCOVERY FUNCTIONS
-# =============================================================================
-
-
-def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
-    """Discover all available models from all configured providers.
-
-    Returns a dict with models grouped by provider.
-    """
-    import shutil
-    import urllib.error
-    import urllib.request
-
-    discovered = {
-        "timestamp": datetime.now().isoformat(),
-        "providers": {},
-    }
-
-    # 1. Local ONNX (AI Gallery)
-    if verbose:
-        print("[Discovery] Checking local ONNX models...")
-
-    ai_gallery = Path.home() / _CACHE_BASE_DIR / _AI_GALLERY_CACHE_DIR
-    local_models = []
-    local_missing = []
-
-    try:
-        from tools.llm.llm_client import LLMClient
-
-        for key, model_path in LLMClient.LOCAL_MODELS.items():
-            top_dir = str(model_path).split(_PATH_SEPARATOR)[0]
-            if ai_gallery.exists() and (ai_gallery / top_dir).exists():
-                local_models.append(f"{_PREFIX_LOCAL}{key}")
-            else:
-                local_missing.append(f"{_PREFIX_LOCAL}{key}")
-    except Exception as e:
-        if verbose:
-            print(f"  Error: {e}")
-
-    discovered["providers"]["local_onnx"] = {
-        "available": local_models,
-        "missing": local_missing,
-        "count": len(local_models),
-        "path": str(ai_gallery),
-    }
-
-    # 2. GitHub Models
-    if verbose:
-        print("[Discovery] Checking GitHub Models...")
-
-    gh_models = []
-    gh_error = None
-    gh_authenticated = False
-
-    # Check for gh CLI and authentication (either via env var or gh auth)
-    if shutil.which("gh"):
-        # Check if logged in via gh auth
-        try:
-            auth_check = subprocess.run(
-                ["gh", "auth", "status"],
-                capture_output=True,
-                text=True,
-                timeout=_TIMEOUT_GH_AUTH,
-            )
-            gh_authenticated = auth_check.returncode == 0
-        except Exception:
-            pass
-
-        # Also accept env var token
-        if not gh_authenticated:
-            gh_authenticated = bool(
-                os.getenv(_ENV_GITHUB_TOKEN) or os.getenv(_ENV_GH_TOKEN)
-            )
-
-    if gh_authenticated:
-        try:
-            # List models via gh CLI (plain text format: "model-id<tab>Description")
-            result = subprocess.run(
-                ["gh", "models", "list"],
-                capture_output=True,
-                text=True,
-                timeout=_TIMEOUT_GH_MODELS_LIST,
-            )
-            if result.returncode == 0:
-                # Parse tab-separated output: "publisher/model<tab>Display Name"
-                for line in result.stdout.strip().split("\n"):
-                    if line.strip():
-                        # First column is the model ID (full format: publisher/model)
-                        parts = line.split(_TAB_SEPARATOR)
-                        if parts:
-                            model_id = parts[0].strip()
-                            if model_id:
-                                gh_models.append(f"{_PREFIX_GITHUB}{model_id}")
-            else:
-                gh_error = (
-                    result.stderr[:_ERROR_BRIEF_LENGTH]
-                    if result.stderr
-                    else "Unknown error"
-                )
-        except Exception as e:
-            gh_error = str(e)
-    else:
-        gh_error = "gh CLI not available or not authenticated (run: gh auth login)"
-
-    discovered["providers"]["github_models"] = {
-        "available": gh_models,
-        "count": len(gh_models),
-        "error": gh_error,
-    }
-
-    # 3. Ollama
-    if verbose:
-        print("[Discovery] Checking Ollama models...")
-
-    ollama_host = os.getenv(_ENV_OLLAMA_HOST, _OLLAMA_DEFAULT_HOST)
-    ollama_models = []
-    ollama_error = None
-
-    try:
-        req = urllib.request.Request(
-            f"{ollama_host}{_OLLAMA_API_TAGS_ENDPOINT}",
-            headers={"Accept": "application/json"},
-        )
-        with urllib.request.urlopen(req, timeout=_TIMEOUT_OLLAMA_HTTP) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
-            ollama_models = [
-                f"{_PREFIX_OLLAMA}{m.get('name', '')}" for m in data.get("models", [])
-            ]
-    except Exception:
-        ollama_error = f"Ollama not reachable at {ollama_host}"
-
-    discovered["providers"]["ollama"] = {
-        "available": ollama_models,
-        "count": len(ollama_models),
-        "host": ollama_host,
-        "error": ollama_error,
-    }
-
-    # 4. Azure Foundry
-    if verbose:
-        print("[Discovery] Checking Azure Foundry...")
-
-    foundry_configured = bool(os.getenv(_ENV_AZURE_FOUNDRY_API_KEY))
-    foundry_endpoints = []
-    for k, v in os.environ.items():
-        if k.startswith(_ENV_AZURE_FOUNDRY_ENDPOINT_PREFIX) and v:
-            foundry_endpoints.append(v)
-
-    discovered["providers"]["azure_foundry"] = {
-        "configured": foundry_configured and bool(foundry_endpoints),
-        "endpoints": foundry_endpoints,
-        "notes": "Azure Foundry models require explicit model IDs (azure-foundry:model-name)",
-    }
-
-    # 5. Azure OpenAI
-    if verbose:
-        print("[Discovery] Checking Azure OpenAI...")
-
-    azure_slots = []
-    for i in range(_AZURE_SLOT_RANGE):
-        ep = os.getenv(f"{_ENV_AZURE_OPENAI_ENDPOINT}_{i}")
-        key = os.getenv(f"{_ENV_AZURE_OPENAI_API_KEY}_{i}")
-        deployment = os.getenv(f"{_ENV_AZURE_OPENAI_DEPLOYMENT}_{i}")
-        if ep and key:
-            azure_slots.append(
-                {
-                    "slot": i,
-                    "endpoint": (
-                        ep[:_ENDPOINT_TRUNCATION_LENGTH] + "..."
-                        if len(ep) > _ENDPOINT_TRUNCATION_LENGTH
-                        else ep
-                    ),
-                    "deployment": deployment,
-                }
-            )
-
-    # Also check default env vars
-    if os.getenv(_ENV_AZURE_OPENAI_ENDPOINT) and os.getenv(_ENV_AZURE_OPENAI_API_KEY):
-        azure_slots.append(
-            {
-                "slot": "default",
-                "endpoint": os.getenv(_ENV_AZURE_OPENAI_ENDPOINT, "")[
-                    :_ENDPOINT_TRUNCATION_LENGTH
-                ],
-                "deployment": os.getenv(_ENV_AZURE_OPENAI_DEPLOYMENT),
-            }
-        )
-
-    discovered["providers"]["azure_openai"] = {
-        "configured": bool(azure_slots),
-        "slots": azure_slots,
-        "notes": "Use azure-openai:deployment-name to specify model",
-    }
-
-    # 6. OpenAI (direct)
-    if verbose:
-        print("[Discovery] Checking OpenAI API...")
-
-    openai_configured = bool(os.getenv(_ENV_OPENAI_API_KEY))
-    openai_models = []
-
-    if openai_configured:
-        try:
-            from llm_client import LLMClient
-
-            openai_models = [
-                f"{_PREFIX_OPENAI}{m}" for m in LLMClient.list_openai_models()[:20]
-            ]
-        except Exception:
-            openai_models = [
-                f"{_PREFIX_OPENAI}gpt-4o",
-                f"{_PREFIX_OPENAI}gpt-4o-mini",
-                f"{_PREFIX_OPENAI}gpt-4-turbo",
-            ]
-
-    discovered["providers"]["openai"] = {
-        "configured": openai_configured,
-        "available": openai_models,
-        "count": len(openai_models),
-    }
-
-    # 7. Gemini
-    if verbose:
-        print("[Discovery] Checking Google Gemini...")
-
-    gemini_key = os.getenv(_ENV_GEMINI_API_KEY) or os.getenv(_ENV_GOOGLE_API_KEY)
-    gemini_configured = bool(gemini_key)
-    gemini_models: List[str] = []
-    gemini_error = None
-
-    if gemini_configured:
-        try:
-            url = "https://generativelanguage.googleapis.com/v1beta/models?pageSize=50"
-            req = urllib.request.Request(
-                url,
-                headers={"Accept": "application/json", "x-goog-api-key": gemini_key},
-            )
-            with urllib.request.urlopen(req, timeout=_TIMEOUT_CLOUD_HTTP) as resp:
-                data = json.loads(resp.read().decode("utf-8"))
-                for m in data.get("models", []):
-                    name = m.get("name", "")  # e.g. "models/gemini-2.0-flash"
-                    if name.startswith("models/"):
-                        short = name.replace("models/", "")
-                        gemini_models.append(f"{_PREFIX_GEMINI}{short}")
-        except Exception as e:
-            gemini_error = str(e)[:_ERROR_BRIEF_LENGTH]
-            # Fall back to well-known models
-            gemini_models = [
-                f"{_PREFIX_GEMINI}gemini-2.5-flash",
-                f"{_PREFIX_GEMINI}gemini-2.0-flash",
-                f"{_PREFIX_GEMINI}gemini-2.0-flash-lite",
-            ]
-    else:
-        gemini_error = "No GEMINI_API_KEY or GOOGLE_API_KEY environment variable"
-
-    # Also collect rotation keys for reporting
-    gemini_keys_found = []
-    for i in range(10):
-        k = os.getenv(f"GEMINI_API_KEY_{i}")
-        if k:
-            gemini_keys_found.append(f"GEMINI_API_KEY_{i}")
-
-    discovered["providers"]["gemini"] = {
-        "configured": gemini_configured,
-        "available": gemini_models,
-        "count": len(gemini_models),
-        "rotation_keys": gemini_keys_found,
-        "error": gemini_error,
-    }
-
-    # 8. Anthropic Claude
-    if verbose:
-        print("[Discovery] Checking Anthropic Claude...")
-
-    anthropic_key = os.getenv(_ENV_ANTHROPIC_API_KEY)
-    anthropic_configured = bool(anthropic_key)
-    anthropic_models: List[str] = []
-    anthropic_error = None
-
-    if anthropic_configured:
-        try:
-            url = "https://api.anthropic.com/v1/models?limit=50"
-            req = urllib.request.Request(
-                url,
-                headers={
-                    "x-api-key": anthropic_key,
-                    "anthropic-version": "2023-06-01",
-                    "Accept": "application/json",
-                },
-            )
-            with urllib.request.urlopen(req, timeout=_TIMEOUT_CLOUD_HTTP) as resp:
-                data = json.loads(resp.read().decode("utf-8"))
-                for m in data.get("data", []):
-                    model_id = m.get("id", "")
-                    if model_id:
-                        anthropic_models.append(f"{_PREFIX_CLAUDE}{model_id}")
-        except Exception as e:
-            anthropic_error = str(e)[:_ERROR_BRIEF_LENGTH]
-            # Fall back to well-known models
-            anthropic_models = [
-                f"{_PREFIX_CLAUDE}claude-sonnet-4-20250514",
-                f"{_PREFIX_CLAUDE}claude-haiku-4-20250414",
-            ]
-    else:
-        anthropic_error = "No ANTHROPIC_API_KEY environment variable"
-
-    # Rotation keys
-    anthropic_keys_found = []
-    for i in range(10):
-        k = os.getenv(f"ANTHROPIC_API_KEY_{i}")
-        if k:
-            anthropic_keys_found.append(f"ANTHROPIC_API_KEY_{i}")
-
-    discovered["providers"]["anthropic"] = {
-        "configured": anthropic_configured,
-        "available": anthropic_models,
-        "count": len(anthropic_models),
-        "rotation_keys": anthropic_keys_found,
-        "error": anthropic_error,
-    }
-
-    # 9. Windows AI (Phi Silica)
-    if verbose:
-        print("[Discovery] Checking Windows AI / Phi Silica...")
-
-    windows_ai_available = False
-    windows_ai_error = None
-    windows_ai_ready_state = None
-
-    if sys.platform == _PLATFORM_WINDOWS and shutil.which("dotnet"):
-        bridge_proj = (
-            Path(__file__).parent / _WINDOWS_AI_BRIDGE_DIR / _WINDOWS_AI_BRIDGE_PROJECT
-        )
-        if bridge_proj.exists():
-            try:
-                result = subprocess.run(
-                    [
-                        "dotnet",
-                        "run",
-                        _DOTNET_CLI_ARG_PROJECT,
-                        str(bridge_proj),
-                        "--",
-                        _WINDOWS_AI_CLI_ARG_INFO,
-                    ],
-                    capture_output=True,
-                    text=True,
-                    timeout=_TIMEOUT_WINDOWS_AI_BRIDGE,
-                    cwd=str(bridge_proj.parent),
-                )
-                stdout = (result.stdout or "").strip()
-                stderr = (result.stderr or "").strip()
-
-                info = None
-                if stdout:
-                    try:
-                        info = json.loads(stdout)
-                    except Exception:
-                        info = None
-
-                if isinstance(info, dict):
-                    windows_ai_available = bool(info.get("available", False))
-                    windows_ai_ready_state = info.get("readyState")
-                    if not windows_ai_available:
-                        windows_ai_error = info.get("error") or stderr or "Unknown"
-                else:
-                    windows_ai_error = stderr or stdout or "Bridge did not return JSON"
-            except Exception as e:
-                windows_ai_error = str(e)
-        else:
-            windows_ai_error = "Bridge project not found"
-    else:
-        windows_ai_error = "Windows only / dotnet not available"
-
-    discovered["providers"]["windows_ai"] = {
-        "available": windows_ai_available,
-        "readyState": windows_ai_ready_state,
-        "models": [_WINDOWS_AI_MODEL_ID] if windows_ai_available else [],
-        "error": windows_ai_error,
-    }
-
-    # 8. AI Toolkit Local Models (FREE - local ONNX models from VS Code AI Toolkit)
-    if verbose:
-        print("[Discovery] Checking AI Toolkit local models...")
-
-    aitk_base = Path.home() / _AITK_HOME_DIR
-    aitk_models_dir = aitk_base / _AITK_MODELS_DIR
-    aitk_modelinfo = aitk_models_dir / _AITK_MODELINFO_FILE
-
-    aitk_models = []
-    aitk_catalog = []  # Available but not downloaded
-    aitk_error = None
-
-    if not aitk_base.exists():
-        aitk_error = "AI Toolkit not installed (run: code --install-extension ms-windows-ai-studio.windows-ai-studio)"
-    elif not aitk_models_dir.exists():
-        aitk_error = "No AI Toolkit models downloaded"
-    else:
-        # Get downloaded models
-        downloaded = []
-        for subdir in aitk_models_dir.iterdir():
-            if subdir.is_dir() and subdir.name != _AITK_MS_SUBDIR:
-                downloaded.append(subdir.name)
-        # Also check Microsoft subdir
-        ms_dir = aitk_models_dir / _AITK_MS_SUBDIR
-        if ms_dir.exists():
-            for subdir in ms_dir.iterdir():
-                if subdir.is_dir():
-                    downloaded.append(subdir.name)
-
-        # Map downloaded folders to aitk: model IDs
-        for d in downloaded:
-            # Simplify name for model ID
-            simple_name = d.lower()
-            # Remove version suffixes like "-generic-cpu-5"
-            for suffix in [
-                _AITK_SUFFIX_GENERIC_CPU,
-                _AITK_SUFFIX_GENERIC_GPU,
-                _AITK_SUFFIX_CPU,
-                _AITK_SUFFIX_GPU,
-            ]:
-                if suffix in simple_name:
-                    simple_name = simple_name.split(suffix)[0]
-            # Remove trailing version numbers like -1, -2, -3
-            while simple_name and simple_name[-1].isdigit():
-                simple_name = simple_name.rstrip(_AITK_TRAILING_CHARS)
-            aitk_models.append(f"{_PREFIX_AITK}{simple_name}")
-
-        # Deduplicate
-        aitk_models = list(dict.fromkeys(aitk_models))
-
-        # Load catalog to show available but not downloaded
-        if aitk_modelinfo.exists():
-            try:
-                info = json.loads(aitk_modelinfo.read_text(encoding="utf-8"))
-                for m in info.get("models", []):
-                    if m.get("task") == _AITK_MODELS_TASK_TYPE:
-                        alias = m.get("alias", "")
-                        if alias:
-                            catalog_id = f"{_PREFIX_AITK}{alias}"
-                            if catalog_id not in aitk_models:
-                                aitk_catalog.append(catalog_id)
-            except Exception:
-                pass
-
-    discovered["providers"]["ai_toolkit"] = {
-        "available": aitk_models,
-        "count": len(aitk_models),
-        "catalog": aitk_catalog[
-            :_GH_CLI_OUTPUT_MODELS_LIMIT
-        ],  # First N not-downloaded models
-        "path": str(aitk_models_dir) if aitk_models_dir.exists() else None,
-        "error": aitk_error,
-        "notes": "FREE local ONNX models via VS Code AI Toolkit (NOT cloud/paid)",
-    }
-
-    # 11. LM Studio (OpenAI-compatible local server)
-    if verbose:
-        print("[Discovery] Checking LM Studio...")
-
-    lmstudio_host = os.getenv(_ENV_LMSTUDIO_HOST, _LMSTUDIO_DEFAULT_HOST)
-    lmstudio_models: List[str] = []
-    lmstudio_error = None
-    lmstudio_reachable = False
-
-    try:
-        lm_url = f"{lmstudio_host.rstrip('/')}/v1/models"
-        req = urllib.request.Request(lm_url, headers={"Accept": "application/json"})
-        with urllib.request.urlopen(req, timeout=3) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
-            for m in data.get("data", []):
-                mid = m.get("id", "") if isinstance(m, dict) else ""
-                if mid:
-                    lmstudio_models.append(f"{_PREFIX_LMSTUDIO}{mid}")
-            lmstudio_reachable = True
-    except Exception as e:
-        lmstudio_error = f"LM Studio not reachable at {lmstudio_host}: {str(e)[:100]}"
-
-    discovered["providers"]["lmstudio"] = {
-        "configured": lmstudio_reachable,
-        "host": lmstudio_host,
-        "reachable": lmstudio_reachable,
-        "available": lmstudio_models,
-        "count": len(lmstudio_models),
-        "error": lmstudio_error,
-        "notes": (
-            "Queries OpenAI-compatible API (/v1/models) since native REST "
-            "(/api/v1/chat) lacks Custom Tool support. Override host with "
-            "LMSTUDIO_HOST."
-        ),
-    }
-
-    # 12. Generic OpenAI-compatible local servers (LocalAI, text-generation-webui, etc.)
-    if verbose:
-        print("[Discovery] Checking local OpenAI-compatible servers...")
-
-    local_api_base = (
-        os.getenv(_ENV_OPENAI_BASE_URL)
-        or os.getenv(_ENV_OPENAI_API_BASE)
-        or os.getenv(_ENV_LOCAL_AI_API_BASE_URL)
-        or os.getenv(_ENV_LOCAL_OPENAI_BASE_URL)
-    )
-
-    local_api_models: List[str] = []
-    local_api_error = None
-    local_api_host = local_api_base
-    local_api_reachable = False
-
-    if local_api_base:
-        try:
-            la_url = f"{local_api_base.rstrip('/')}/v1/models"
-            req = urllib.request.Request(la_url, headers={"Accept": "application/json"})
-            with urllib.request.urlopen(req, timeout=3) as resp:
-                data = json.loads(resp.read().decode("utf-8"))
-                for m in data.get("data", []):
-                    mid = m.get("id", "") if isinstance(m, dict) else ""
-                    if mid:
-                        local_api_models.append(f"{_PREFIX_LOCAL_API}{mid}")
-                local_api_reachable = True
-        except Exception as e:
-            local_api_error = (
-                f"Local API not reachable at {local_api_base}: {str(e)[:100]}"
-            )
-    else:
-        # Scan common ports for any OpenAI-compatible server
-        for port in _LOCAL_SERVER_COMMON_PORTS:
-            # Skip LM Studio port (already checked above)
-            if f":{port}" in lmstudio_host:
-                continue
-            try:
-                scan_url = f"http://localhost:{port}/v1/models"
-                req = urllib.request.Request(
-                    scan_url, headers={"Accept": "application/json"}
-                )
-                with urllib.request.urlopen(req, timeout=1) as resp:
-                    data = json.loads(resp.read().decode("utf-8"))
-                    for m in data.get("data", []):
-                        mid = m.get("id", "") if isinstance(m, dict) else ""
-                        if mid:
-                            local_api_models.append(f"{_PREFIX_LOCAL_API}{mid}")
-                    if local_api_models:
-                        local_api_host = f"http://localhost:{port}"
-                        local_api_reachable = True
-                        break
-            except Exception:
-                continue
-        if not local_api_reachable:
-            local_api_error = "No local API server found (set OPENAI_BASE_URL or LOCAL_AI_API_BASE_URL)"
-
-    discovered["providers"]["local_openai_compatible"] = {
-        "configured": local_api_reachable,
-        "host": local_api_host,
-        "reachable": local_api_reachable,
-        "available": local_api_models,
-        "count": len(local_api_models),
-        "error": local_api_error,
-        "notes": "Any OpenAI-compatible local server (LocalAI, AMD ROCm, text-gen-webui, etc.)",
-    }
-
-    # Summary
-    total_available = sum(
-        len(p.get("available", []))
-        for p in discovered["providers"].values()
-        if isinstance(p.get("available"), list)
-    )
-    discovered["summary"] = {
-        "total_available": total_available,
-        "providers_configured": sum(
-            1
-            for p in discovered["providers"].values()
-            if p.get("configured", False) or p.get("available")
-        ),
-    }
-
-    return discovered
 
 
 def is_model_usable(model: str) -> bool:
@@ -2110,12 +280,12 @@ def is_model_usable(model: str) -> bool:
     return get_probe().check_model(model).usable
 
 
-def filter_usable_models(models: List[str]) -> List[str]:
+def filter_usable_models(models: list[str]) -> list[str]:
     """Filter a list to only usable models."""
     return get_probe().filter_runnable(models)
 
 
-def get_model_error(model: str) -> Optional[str]:
+def get_model_error(model: str) -> str | None:
     """Get the error message for an unusable model."""
     result = get_probe().check_model(model)
     return result.error_message if not result.usable else None
@@ -2125,7 +295,7 @@ def get_model_error(model: str) -> Optional[str]:
 # CANONICAL SINGLETON ACCESS
 # =============================================================================
 
-_DEFAULT_PROBE: Optional[ModelProbe] = None
+_DEFAULT_PROBE: ModelProbe | None = None
 
 
 def get_probe(*, verbose: bool = False, use_cache: bool = True) -> ModelProbe:
@@ -2149,7 +319,7 @@ def get_probe(*, verbose: bool = False, use_cache: bool = True) -> ModelProbe:
 # =============================================================================
 
 
-def main(argv: List[str]) -> int:
+def main(argv: list[str]) -> int:
     """CLI entry point."""
     import argparse
 
@@ -2217,17 +387,17 @@ def main(argv: List[str]) -> int:
             print()
 
             for name, info in discovered["providers"].items():
-                print(f"\n📦 {name.upper().replace('_', ' ')}")
+                print(f"\n{name.upper().replace('_', ' ')}")
                 if info.get("available"):
-                    print(f"   ✅ {len(info['available'])} model(s) available:")
+                    print(f"   [OK] {len(info['available'])} model(s) available:")
                     for m in info["available"][:10]:
                         print(f"      - {m}")
                     if len(info.get("available", [])) > 10:
                         print(f"      ... and {len(info['available']) - 10} more")
                 elif info.get("configured"):
-                    print("   ✅ Configured (use explicit model IDs)")
+                    print("   [OK] Configured (use explicit model IDs)")
                 else:
-                    print(f"   ❌ {info.get('error', 'Not configured')}")
+                    print(f"   [FAIL] {info.get('error', 'Not configured')}")
 
         return 0
 
@@ -2316,7 +486,7 @@ def main(argv: List[str]) -> int:
         return 1
 
     # Remove duplicates while preserving order
-    seen = set()
+    seen: set[str] = set()
     unique_models = []
     for m in models:
         if m not in seen:

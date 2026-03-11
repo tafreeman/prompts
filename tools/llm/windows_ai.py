@@ -27,11 +27,16 @@ Docs:
 - Unlock (short link): https://aka.ms/phi-silica-unlock
 """
 
+from __future__ import annotations
+
 import json
+import logging
 import subprocess
 import sys
 from pathlib import Path
-from typing import Any, Dict, Optional, Tuple
+from typing import Any
+
+logger = logging.getLogger(__name__)
 
 
 class WindowsAIModel:
@@ -58,7 +63,7 @@ class WindowsAIModel:
     def generate(
         self,
         prompt: str,
-        system_instruction: Optional[str] = None,
+        system_instruction: str | None = None,
         temperature: float = 0.7,
         max_tokens: int = 2000,
     ) -> str:
@@ -82,9 +87,9 @@ class WindowsAIModel:
                 full_prompt = f"{system_instruction}\n\n{prompt}"
 
             if self.verbose:
-                print("🧠 Running Phi Silica (NPU)...")
-                print(f"   Temperature: {temperature}")
-                print(f"   Max tokens: {max_tokens}")
+                logger.debug("Running Phi Silica (NPU)...")
+                logger.debug("   Temperature: %s", temperature)
+                logger.debug("   Max tokens: %d", max_tokens)
 
             # Call Phi Silica
             response = self._call_phi_silica(
@@ -149,10 +154,10 @@ def check_windows_ai_available() -> bool:
         return False
 
 
-def get_model_info() -> Dict[str, Any]:
+def get_model_info() -> dict[str, Any]:
     """Get information about Windows AI model availability."""
     info, raw = get_phi_silica_bridge_info(timeout_s=60)
-    out: Dict[str, Any] = {
+    out: dict[str, Any] = {
         "platform": sys.platform,
         "bridge": {
             "project": str(_bridge_project_path()),
@@ -166,7 +171,7 @@ def get_model_info() -> Dict[str, Any]:
     return out
 
 
-def _which(cmd: str) -> Optional[str]:
+def _which(cmd: str) -> str | None:
     import shutil
 
     return shutil.which(cmd)
@@ -176,7 +181,7 @@ def _bridge_project_path() -> Path:
     return Path(__file__).parent / "windows_ai_bridge" / "PhiSilicaBridge.csproj"
 
 
-def get_phi_silica_bridge_info(timeout_s: int = 60) -> Tuple[Dict[str, Any], str]:
+def get_phi_silica_bridge_info(timeout_s: int = 60) -> tuple[dict[str, Any], str]:
     """Call the bridge `--info` and parse its JSON output.
 
     Returns: (info_dict, raw_stdout)

@@ -28,7 +28,7 @@ import sys
 import urllib.error
 import urllib.request
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 
 def _repo_root() -> Path:
@@ -74,7 +74,7 @@ def _bool_env_present(*names: str) -> bool:
     return any(bool(os.getenv(n)) for n in names)
 
 
-def _safe_hostname_from_url(url: str) -> Optional[str]:
+def _safe_hostname_from_url(url: str) -> str | None:
     # Very small URL parser, good enough for https://host/... and
     # http://host/...
     m = re.match(r"^https?://([^/]+)/?", url.strip())
@@ -94,7 +94,7 @@ def _dns_resolves(hostname: str) -> bool:
 def _probe_http_json(
     url: str,
     timeout_s: int = 3,
-) -> tuple[bool, Optional[dict[str, Any]], Optional[str]]:
+) -> tuple[bool, dict[str, Any] | None, str | None]:
     try:
         req = urllib.request.Request(
             url,
@@ -239,7 +239,7 @@ def build_inventory(active_probes: bool = False) -> dict[str, Any]:
     # ---------------------------------------------------------------------
     openai_configured = _bool_env_present("OPENAI_API_KEY")
     openai_models: list[str] = []
-    openai_error: Optional[str] = None
+    openai_error: str | None = None
 
     if active_probes and openai_configured:
         try:
@@ -260,7 +260,7 @@ def build_inventory(active_probes: bool = False) -> dict[str, Any]:
     # ---------------------------------------------------------------------
     gemini_configured = _bool_env_present("GEMINI_API_KEY", "GOOGLE_API_KEY")
     gemini_models: list[str] = []
-    gemini_error: Optional[str] = None
+    gemini_error: str | None = None
 
     if active_probes and gemini_configured:
         try:

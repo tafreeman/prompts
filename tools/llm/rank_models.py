@@ -5,6 +5,8 @@ checks.
 Includes ALL available models.
 """
 
+from __future__ import annotations
+
 import argparse
 import json
 from datetime import datetime, timezone

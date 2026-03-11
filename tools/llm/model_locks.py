@@ -16,12 +16,13 @@ Usage:
     in_use = get_models_in_use(available_models_dict)
 """
 
+from __future__ import annotations
+
 import atexit
 import json
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Dict
 
 
 def get_lock_dir() -> Path:
@@ -68,7 +69,7 @@ def create_model_lock(model_name: str) -> Path:
     return lock_file
 
 
-def get_models_in_use(available: Dict[str, Path] = None) -> Dict[str, str]:
+def get_models_in_use(available: dict[str, Path] = None) -> dict[str, str]:
     """Check which models are currently in use by checking lock files.
     Validates PIDs are still running and cleans up stale locks.
 

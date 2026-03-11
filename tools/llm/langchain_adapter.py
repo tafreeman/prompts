@@ -9,7 +9,7 @@ library is available; otherwise it returns simple, duck-typed structures.
 
 from __future__ import annotations
 
-from typing import Any, List
+from typing import Any
 
 from tools.llm.llm_client import LLMClient
 
@@ -38,7 +38,7 @@ class LangChainAdapter:
             max_tokens=kwargs.get("max_tokens", 1024),
         )
 
-    def generate(self, prompts: List[str], **kwargs) -> Any:
+    def generate(self, prompts: list[str], **kwargs) -> Any:
         """Return a LangChain-compatible result for a list of prompts.
 
         If `langchain.schema` types are available, returns an `LLMResult`
