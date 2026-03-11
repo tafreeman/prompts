@@ -20,8 +20,8 @@
 > evaluation hub with two tabs and a "Compare Agents" call-to-action. Two additive screens
 > are introduced: a 2-step wizard for configuring a new comparison, and a single-page
 > result view that auto-transitions from live progress to final results without navigation.
-> All real-time streaming reuses `connectExecutionStream()` verbatim — no new WebSocket
-> infrastructure. Contestant configuration is inline in the wizard (no file editing).
+> All real-time streaming reuses `connectExecutionStream()` verbatim — no new client-side
+> WebSocket infrastructure (a new server-side route handler for `/ws/eval/{run_id}` is required). Contestant configuration is inline in the wizard (no file editing).
 > A visual workflow pipeline builder is identified as the logical next phase but explicitly
 > deferred.**
 
@@ -66,6 +66,12 @@ The existing UI has seven pages. Six are working well and unchanged; one needs a
 └──────────────────────────────────────────────────────┘
 ```
 
+> **Note:** The "no entry point" observation applies specifically to `EvaluationsPage.tsx`.
+> `WorkflowDetailPage.tsx` already has an evaluation entry point via `RunConfigForm`, which
+> supports evaluation dataset selection, rubric selection, and multi-sample batch runs.
+> The gap is that `EvaluationsPage` — the page whose purpose is evaluations — lacks any
+> entry point to initiate one.
+
 This page is a passive read-only table. It provides no user action and is not an
 evaluation hub.
 
@@ -93,12 +99,14 @@ The existing WebSocket infrastructure is proven stable in production:
 ```typescript
 // api/websocket.ts — connectExecutionStream()
 // Deployed: stable for 30–60 minute workflow runs in LivePage
-// Auto-reconnect: 5 retries, exponential backoff (retryDelayMs * retryCount)
+// Auto-reconnect: 5 retries, exponential backoff (retryDelayMs × 2^(retryCount-1) → 1s, 2s, 4s, 8s, 16s)
+// pathPrefix option: pass pathPrefix="eval" to reach /ws/eval/{runId} — no new function needed
 // Used by: useWorkflowStream.ts → LivePage.tsx
 ```
 
-This is production infrastructure. The eval feature reuses it without modification.
-`useEvalStream.ts` mirrors `useWorkflowStream.ts` line-for-line with eval-specific
+This is production infrastructure. The eval feature reuses it by passing `pathPrefix: "eval"`
+to `connectExecutionStream()` — zero new client-side WebSocket code required.
+`useEvalStream.ts` mirrors `useWorkflowStream.ts` structurally with eval-specific
 event types — the only difference is the shape of the state object.
 
 ---
@@ -192,6 +200,11 @@ Step 2 of 2: Configure Contestants
 
 On submit: `POST /eval/compare` → navigate to `/evaluations/compare/{run_id}`.
 
+> **Existing API surface:** A partial eval API already exists — `api/client.ts:64` defines
+> `listEvaluationDatasets()` calling `GET /api/eval/datasets`. The proposed endpoints
+> (`POST /eval/validate-commit`, `POST /eval/compare`) are additive to this existing
+> `/eval/` namespace.
+
 ### 4.3 Comparison Run Page — Single Page, Two States
 
 **Design principle**: GitHub Actions / Vercel deployment pattern — progress and result
@@ -233,7 +246,7 @@ on the same URL. No navigation disruption during a long-running job.
 │  quality         ████████░  ███████░░        │
 │  specificity     ███████░░  ██████░░░        │
 │  alignment       █████████  ███████░░        │
-│  Rubric (0–100)  78.3       61.4             │
+│  Rubric (0.0–1.0)  0.783      0.614          │
 │                                              │
 │  Tests    A: 12/14 ✅    B: 9/14 ✅          │
 │                                              │
@@ -267,14 +280,26 @@ interface EvalStreamState {
 }
 
 export function useEvalStream(runId: string | null): EvalStreamState {
-  // Identical structure to useWorkflowStream:
-  // - connectExecutionStream() for WS connection (ws://host/ws/eval/{runId})
-  // - useEffect cleanup on unmount
-  // - useReducer for typed state transitions
+  // Mirrors useWorkflowStream.ts exactly — four independent useState calls, no useReducer:
+  const [phases, setPhases] = useState<EvalStreamState["phases"]>({});
+  const [status, setStatus] = useState<EvalStreamState["status"]>("connecting");
+  const [result, setResult] = useState<ComparisonResult | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!runId) return;
+    const stream = connectExecutionStream(runId, (event) => {
+      // dispatch on event.type → call appropriate setter
+    }, { pathPrefix: "eval" });
+    return () => stream.close();
+  }, [runId]);
+
+  return { phases, status, result, error };
 }
 ```
 
-WebSocket URL: `ws://host/ws/eval/{run_id}` — same host, different path prefix from workflow WS.
+WebSocket URL: `ws://host/ws/eval/{run_id}` — reached via `pathPrefix: "eval"` option; same
+host, no new client-side WebSocket infrastructure required.
 
 ### 4.5 New Files
 
@@ -396,6 +421,12 @@ No new Tailwind classes. The comparison result dimension bars use the same
 `bg-green-500` / `bg-amber-500` / `bg-red-500` pattern established in `CriterionRow`
 in `LivePage.tsx`.
 
+> **Known defect:** `bg-surface-hover` is used in the current `EvaluationsPage.tsx:60` but
+> is NOT defined in `tailwind.config.js` or `globals.css`. Tailwind JIT silently drops
+> undefined classes, so `bg-surface-hover` produces no styles. Implementers studying the
+> existing page for token precedents should be aware of this phantom token and avoid
+> replicating it.
+
 ### 5.5 Production Precedents for This UI Pattern
 
 | Pattern | Precedent | Applied In |
@@ -418,7 +449,7 @@ in `LivePage.tsx`.
 | No file editing to run a comparison | Inline contestant config in wizard |
 | Live feedback for 30–120 min evals | WebSocket progress events via `useEvalStream` |
 | Comparison history browsable with scored runs | Two-tab EvaluationsPage hub |
-| No new WebSocket infrastructure | `connectExecutionStream()` reused verbatim |
+| No new *client-side* WebSocket infrastructure | `connectExecutionStream()` called with `pathPrefix: "eval"` — reaches `/ws/eval/{run_id}` with zero new client code. **Note:** a new server-side WebSocket route handler for `/ws/eval/{run_id}` must be written — the server currently only registers `/ws/execution/{run_id}` |
 | Six of seven pages untouched | Only EvaluationsPage modified; all routes additive |
 
 ### 6.2 Trade-offs and Risks
@@ -452,6 +483,7 @@ in `LivePage.tsx`.
 | Citation | Relevance |
 |----------|-----------|
 | Nielsen Norman Group — **4 Principles to Reduce Cognitive Load in Forms** (nngroup.com) | Wizard pattern justification; progressive disclosure; one-focus-per-screen |
+| Nielsen Norman Group — **Wizards: Definition and Design Recommendations** (nngroup.com/articles/wizards/) | Source for §5.1 quote: "dynamically display relevant fields based on users' prior input" |
 | GOV.UK Design System — **Question pages: One thing per page** (design-system.service.gov.uk) | Validated through lab testing on Register to vote and GOV.UK Verify; starting pattern for multi-step flows |
 | Smashing Magazine — **Better Form Design: One Thing Per Page** (smashingmagazine.com, 2017) | User research: single-question pages reduce errors and improve completion rates |
 | GitHub Actions — workflow run page (github.com) | Single-URL progress → result auto-transition pattern |
@@ -461,7 +493,7 @@ in `LivePage.tsx`.
 | `api/websocket.ts:connectExecutionStream()` | Existing WebSocket client infrastructure — reused verbatim |
 | `hooks/useWorkflowStream.ts` | Existing WebSocket React hook — mirrored for eval event types |
 | `pages/LivePage.tsx` | Proven single-page real-time display; `CriterionRow` bar chart pattern |
-| React Flow documentation (reactflow.dev) | Visual builder option for future pipeline editor phase |
+| React Flow documentation — `@xyflow/react` (reactflow.dev) | Visual builder option for future pipeline editor phase (React Flow v12 publishes under the `@xyflow` org) |
 
 ---
 

@@ -88,7 +88,7 @@ rigorous, non-trivial evaluation surface.
 
 ### 3.3 Extension to Own Repos — The Automation Gap
 
-SWE-rebench (Aleithan et al., NeurIPS 2025, arXiv:2505.20411) demonstrated that the
+SWE-rebench (Badertdinov et al., NeurIPS 2025, arXiv:2505.20411) demonstrated that the
 SWE-bench pattern can be fully automated and extended to arbitrary repositories. The pipeline
 filters approximately 450,000 pull requests across 30,000+ repositories and uses LLM-driven
 extraction to produce 21,000+ verified interactive tasks. A key finding: models like GPT-4.1
@@ -96,7 +96,7 @@ show a measurable performance drop on March–April 2025 tasks compared to earli
 suggesting contamination in fixed benchmarks. This validates the need for continuously
 updated, private-commit evaluation.
 
-SWE-Bench++ (arXiv:2512.17419) further demonstrated scalable benchmark generation across
+SWE-Bench++ (Wang et al., arXiv:2512.17419, 2025) further demonstrated scalable benchmark generation across
 11 languages and 3,971 repositories, achieving 137% higher environment yield than the
 SetUpAgent baseline on Python repos by using template-guided Dockerfile synthesis and
 adaptive test log parsing.
@@ -209,9 +209,11 @@ with SandboxManager(repo_path, pre_commit_sha) as worktree_path:
 │  agentic-v2-eval/src/agentic_v2_eval/scorer.py:Scorer       │
 │                                                             │
 │  Input:  patch text (raw diff)                             │
-│  Output: ScoringResult, 0–100 weighted rubric score        │
-│  Rubric: coding_standards.yaml (type hints, error handling, │
-│          naming, no magic numbers, test presence, …)        │
+│  Output: ScoringResult, 0.0–1.0 weighted rubric score      │
+│  Rubric: coding_standards.yaml (Style & Formatting,         │
+│          Type Safety, Naming & Structure, Error Handling,    │
+│          Testing, Security & Privacy, ML Reproducibility,   │
+│          Deployment Readiness)                               │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -219,6 +221,16 @@ Both layers are required. The LLM judge evaluates semantic intent and functional
 correctness but is known to reward fluency over structure. The rubric layer
 mechanically catches missing type annotations, bare `except` clauses, undocumented
 functions, and other project standards that the LLM does not reliably penalize.
+
+> **Integration note:** `evaluate_with_llm()` and `Scorer` exist independently in the
+> codebase today and are not currently wired together. The two-layer scoring pipeline
+> described here is **new integration work proposed by this ADR**, not reuse of an
+> existing composed system.
+>
+> **Async note:** `evaluate_with_llm()` is a synchronous function (regular `def`, not
+> `async def`). Since the `Comparator` orchestrator is async, calls to
+> `evaluate_with_llm()` must be wrapped with `asyncio.to_thread()` to avoid blocking
+> the event loop.
 
 ---
 
@@ -237,7 +249,7 @@ functions, and other project standards that the LLM does not reliably penalize.
 | `tools/commit_eval/reporter.py` | `ComparisonReporter` (wraps existing HTML/MD reporters) |
 | `tools/commit_eval/cli.py` | typer CLI entry point |
 | `tools/__init__.py` | Add `commit_eval` export |
-| `tools/pyproject.toml` | Add `typer`, `pytest-json-report` dependencies |
+| `pyproject.toml` (root) | Add `pytest-json-report` dependency; add `agentic-v2-eval` as cross-package dependency (required for `tools/commit_eval/` to import `agentic_v2_eval.scorer`) (note: `typer >=0.9,<1` is already declared in `agentic-workflows-v2/pyproject.toml`, so it is not a net-new dependency to the workspace) |
 
 ---
 
@@ -249,7 +261,7 @@ functions, and other project standards that the LLM does not reliably penalize.
 |--------|----------|-----------------------|
 | **SWE-bench** (Jimenez et al., ICLR 2024) | 2,294 real GitHub PRs; Docker sandbox; patch vs. test oracle | Direct methodology inspiration; validates commit as verifiable task source |
 | **SWE-rebench** (NeurIPS 2025) | Automated LLM extraction from 450K+ PRs; 21K+ tasks; decontamination-aware | Proves that LLM can reliably extract requirements from `git show` output at scale |
-| **SWE-Bench++** (arXiv:2512.17419, 2024) | 11 languages, 3,971 repos; 137% yield improvement; template-guided env setup | Confirms the base/before/after three-snapshot model; shows test oracle generation is automatable |
+| **SWE-Bench++** (Wang et al., arXiv:2512.17419, 2025) | 11 languages, 3,971 repos; 137% yield improvement; template-guided env setup | Confirms the base/before/after three-snapshot model; shows test oracle generation is automatable |
 | **Aider SWE-bench** (aider.chat, 2024) | 26.3% on SWE-bench Lite (SOTA); uses git repo map + AST analysis | Demonstrates that commit-driven eval is the de facto standard for code agent benchmarking |
 | **SWE-bench Live** (arXiv:2505.23419) | Continuously updatable commit corpus; broader repo coverage | Validates continuously updated private-commit eval as superior to fixed benchmarks |
 
@@ -297,7 +309,7 @@ catches these mechanically and deterministically.
 | Scoring Layer | Catches | Misses |
 |---------------|---------|--------|
 | LLM-as-judge | Semantic correctness, task alignment, code intent, logical completeness | Structural standards, missing annotations, bare excepts, naming violations |
-| Rubric (coding_standards) | Type hints, error handling patterns, naming conventions, no magic numbers, test presence | Semantic correctness, business logic correctness |
+| Rubric (coding_standards) | Style & Formatting, Type Safety, Naming & Structure, Error Handling, Testing, Security & Privacy, ML Reproducibility, Deployment Readiness | Semantic correctness, business logic correctness |
 | **Both combined** | Full spectrum — semantic AND structural | — |
 
 ---
@@ -347,12 +359,12 @@ catches these mechanically and deterministically.
 | Citation | Relevance |
 |----------|-----------|
 | Jimenez, Yang, Wettig, Yao, Pei, Press, Narasimhan — **SWE-bench: Can Language Models Resolve Real-World GitHub Issues?** (ICLR 2024, arXiv:2310.06770) | Original commit-as-ground-truth benchmark; establishes 1.96% RAG baseline, test oracle methodology |
-| Aleithan et al. — **SWE-rebench: An Automated Pipeline for Task Collection and Decontaminated Evaluation of Software Engineering Agents** (NeurIPS 2025, arXiv:2505.20411) | Automated LLM extraction from 450K+ PRs; 21K+ tasks; decontamination evidence |
-| Chen et al. — **SWE-Bench++: A Framework for the Scalable Generation of Software Engineering Benchmarks** (arXiv:2512.17419, 2024) | Multi-language scalable commit extraction; base/before/after snapshot model |
-| Gauthier Guinet et al. — **SWE-bench Live** (arXiv:2505.23419) | Continuously updatable commit corpus; broader repo coverage than fixed benchmarks |
+| Badertdinov et al. — **SWE-rebench: An Automated Pipeline for Task Collection and Decontaminated Evaluation of Software Engineering Agents** (NeurIPS 2025, arXiv:2505.20411) | Automated LLM extraction from 450K+ PRs; 21K+ tasks; decontamination evidence |
+| Wang et al. — **SWE-Bench++: A Framework for the Scalable Generation of Software Engineering Benchmarks** (arXiv:2512.17419, 2025) | Multi-language scalable commit extraction; base/before/after snapshot model |
+| Zhang et al. — **SWE-bench Live** (arXiv:2505.23419) | Continuously updatable commit corpus; broader repo coverage than fixed benchmarks |
 | Aider Team — **SWE-bench technical results** (aider.chat, 2024) | 26.3% on SWE-bench Lite using git repo map + AST; validates commit-driven eval as de facto standard |
 | `tools/agents/benchmarks/llm_evaluator.py` | Existing `evaluate_with_llm()` function (5 dimensions, 0–10 scale, weighted) |
-| `agentic-v2-eval/src/agentic_v2_eval/scorer.py` | Existing `Scorer` class (rubric-driven, weighted 0–100) |
+| `agentic-v2-eval/src/agentic_v2_eval/scorer.py` | Existing `Scorer` class (rubric-driven, weighted 0.0–1.0) |
 | `agentic-v2-eval/src/agentic_v2_eval/rubrics/coding_standards.yaml` | Default structural rubric for Python code evaluation |
 | git-scm.com — **git-worktree documentation** | Worktree semantics, `checkout -f HEAD` reset behavior, `remove --force` cleanup |
 

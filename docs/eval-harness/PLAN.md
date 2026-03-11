@@ -183,7 +183,7 @@ WS   /ws/eval/{run_id}      → event stream
 { "type": "eval_start",  "run_id": "..." }
 { "type": "phase_start", "phase": "extract|run_a|run_b|score" }
 { "type": "phase_end",   "phase": "...", "status": "done|error", "elapsed_ms": 3200 }
-{ "type": "eval_complete", "winner": "A", "score_a": 7.8, "score_b": 6.4, "result": {...} }
+{ "type": "eval_complete", "winner": "A", "score_a": 0.78, "score_b": 0.64, "result": {...} }
 { "type": "error",       "message": "..." }
 ```
 
@@ -235,7 +235,7 @@ WS   /ws/eval/{run_id}      → event stream
 | File | Change |
 |------|--------|
 | `tools/__init__.py` | Add `commit_eval` export |
-| `tools/pyproject.toml` | Add `typer>=0.12`, `pytest-json-report>=1.5` deps |
+| `pyproject.toml` (root) | Add `typer>=0.12`, `pytest-json-report>=1.5`, `agentic-v2-eval` deps |
 | `agentic-workflows-v2/agentic_v2/server/app.py` | Register eval router |
 
 ---

@@ -69,12 +69,16 @@ The project already has a battle-tested WebSocket pattern for real-time streamin
 ```
 api/websocket.ts:connectExecutionStream()
   - Auto-reconnects on disconnect (5 retries)
-  - Exponential backoff: retryDelayMs * retryCount
+  - Exponential backoff: retryDelayMs × 2^(retryCount-1) (produces 1s, 2s, 4s, 8s, 16s)
   - Deployed and stable in LivePage.tsx since initial release
+  - URL parameterized via `pathPrefix?: string = "execution"` option —
+    eval reuse passes `pathPrefix: "eval"` to reach `/ws/eval/${runId}`.
+    No new function or wrapper required; one caller (LivePage) is unaffected.
 
 hooks/useWorkflowStream.ts
   - React hook mapping raw WebSocket events to typed state
-  - Handles: workflow_start, step_start/end, evaluation_*, error
+  - Handles: workflow_start, workflow_end, step_start, step_complete,
+    step_error, evaluation_*, error, keepalive, connection_established
   - Proven in production for 30-60 minute workflow runs
 ```
 
@@ -118,7 +122,13 @@ commit-driven use case (repo path, commit SHA, contestant definitions, rubric se
 │   EvalHarness            ComparisonReporter                      │
 │                                                                   │
 │    SECONDARY ADAPTERS (driven services)                           │
-│    LLMClient, WorkflowRunner, ClaudeAgent, Scorer                │
+│    LLMClient, WorkflowRunner*, ClaudeAgent, Scorer               │
+│                                                                   │
+│    * Two WorkflowRunner implementations exist:                    │
+│      - Native: agentic_v2/workflows/runner.py                    │
+│      - LangChain: agentic_v2/langchain/runner.py                 │
+│      Both implement ExecutionEngine protocol. Comparator          │
+│      dispatches via AdapterRegistry (see §4.1.1 below).          │
 └───────────────────────────────────────────────────────────────────┘
 ```
 
@@ -128,10 +138,34 @@ automated test or batch scripts, and to be developed and tested in isolation fro
 eventual run-time devices." This is exactly the requirement: `Comparator.run()` must be
 callable from both CLI and HTTP API without modification.
 
+#### 4.1.1 WorkflowRunner Dispatch — AdapterRegistry
+
+`Comparator` must run a contestant of `type: "workflow"` through the same execution
+infrastructure used by the server. The correct mechanism is `AdapterRegistry`, the
+thread-safe singleton that maps engine names to `ExecutionEngine` protocol implementations:
+
+```python
+from agentic_v2.adapters.registry import get_registry
+
+registry = get_registry()
+# Default to "langchain" — matches server behavior in routes/workflows.py
+engine = registry.get_adapter(config.get("engine", "langchain"))
+result = await engine.execute(dag, ctx)
+```
+
+Both `native` and `langchain` adapters implement the `ExecutionEngine` protocol
+(`core/protocols.py`). Contestants can opt into either backend via the `eval.yaml`
+config or the CLI `--engine` flag — the `Comparator` is agnostic to which is chosen.
+This ensures eval runs exercise the same code paths as production workflow runs.
+
+> **Registry initialization:** `get_registry()` returns the singleton; both built-in
+> adapters are registered at import time. No additional setup is required in
+> `Comparator.__init__`.
+
 ### 4.2 CLI Design (`cli.py`)
 
-**Framework: typer** — built on top of click (the most widely adopted Python CLI library,
-used by 38.7% of Python CLI projects as of 2025), typer adds Python type hint–driven
+**Framework: typer** — built on top of click (the most widely used Python CLI framework),
+typer adds Python type hint–driven
 argument parsing with zero boilerplate. It auto-generates `--help` from function signatures,
 provides shell auto-completion out of the box, and integrates natively with Pydantic models.
 
@@ -185,7 +219,7 @@ evaluate — reproducible, auditable, committable.
 POST /eval/compare          → { run_id: str }
 GET  /eval/runs             → list[ComparisonRunSummary]
 GET  /eval/runs/{run_id}    → ComparisonResult
-WS   /ws/eval/{run_id}      → event stream (see §4.4)
+WS   /ws/eval/{run_id}      → event stream (see §4.4)  [NEW route required]
 ```
 
 **POST /eval/compare** body:
@@ -206,6 +240,10 @@ WS   /ws/eval/{run_id}      → event stream (see §4.4)
 The server starts `Comparator.run()` as a background task (FastAPI `BackgroundTasks`),
 returns `run_id` immediately, and emits phase events over the WebSocket connection.
 
+> **Implementation note:** The server currently only has a WebSocket handler at
+> `/ws/execution/{run_id}` (in `server/websocket.py:189`). A **new** backend route handler
+> for `/ws/eval/{run_id}` must be written — it does not exist today.
+
 ### 4.4 WebSocket Event Stream
 
 ```
@@ -224,8 +262,13 @@ client connects: ws://host/ws/eval/{run_id}
 ```
 
 **Minimal event vocabulary** — four event types (`phase_start`, `phase_end`,
-`eval_complete`, `error`) — matches the granularity of the existing workflow event taxonomy
-and avoids over-engineering the streaming protocol.
+`eval_complete`, `error`) plus `eval_start` — matches the granularity of the existing
+workflow event taxonomy and avoids over-engineering the streaming protocol.
+
+> **Replay buffer:** The `ConnectionManager` in `server/websocket.py` maintains a 500-event
+> circular replay buffer (lines 57-69) that sends buffered events to late-connecting clients.
+> This is relevant for eval clients that connect after a run has already started — they will
+> receive up to 500 prior events on connection, reducing the risk of missed phase transitions.
 
 ### 4.5 Data Contracts (Pydantic v2, additive-only)
 
@@ -272,7 +315,7 @@ evolves — consistent with the `contracts/` additive-only convention.
 | `tools/commit_eval/models.py` | New — `Contestant`, `ComparisonResult`, `Trial`, `TaskInstance` |
 | `agentic_v2/server/routes/eval.py` | New — FastAPI router with POST/GET/WS endpoints |
 | `agentic_v2/server/app.py` | Register eval router: `app.include_router(eval_router)` |
-| `tools/pyproject.toml` | Add `typer>=0.12`, `pytest-json-report>=1.5` |
+| `pyproject.toml` (root) | Add `typer>=0.12`, `pytest-json-report>=1.5` to `[project.optional-dependencies]` |
 
 ---
 
@@ -285,23 +328,29 @@ evolves — consistent with the `contracts/` additive-only convention.
 | Type hint-driven (no decorators per arg) | Yes | No — explicit `@click.option` per arg | No |
 | Auto-generates `--help` from docstrings | Yes | Partial | Manual |
 | Shell auto-completion | Built-in | Plugin (`click-completion`) | Manual |
-| Pydantic model integration | Native | Manual serialization | Manual |
+| Pydantic v2 integration | Native (requires typer 0.12+; codebase currently pins `typer>=0.9,<1`) | Manual serialization | Manual |
 | Built on top of | click | — | stdlib |
 | Lines of CLI code for this use case | ~100 | ~160 | ~200 |
 
-typer is click with type hints. Since click is the most widely adopted Python CLI library
-(38.7% of Python CLI projects as of 2025), typer inherits its stability and ecosystem while
+typer is click with type hints. Since click is the most widely used Python CLI framework,
+typer inherits its stability and ecosystem while
 reducing boilerplate by ~40% through type-hint inference. For a tool where the primary
 users are developers who value discoverability (`--help`, auto-complete), typer is the
 right choice.
 
 ### 6.2 WebSocket over SSE for Real-Time Streaming
 
+> **Note:** The server already has an SSE endpoint at `GET /api/runs/{run_id}/stream`
+> (lines 660-682 of `server/routes/workflows.py`, using `StreamingResponse` with
+> `media_type="text/event-stream"`). The argument for WebSocket here is therefore not
+> about server-side novelty but about **client-side reuse** of the proven
+> `connectExecutionStream()` infrastructure already deployed in LivePage.
+
 | Factor | WebSocket | Server-Sent Events (SSE) |
 |--------|-----------|--------------------------|
 | Direction | Bidirectional (could support cancel) | Server → client only |
-| Existing client infrastructure | `connectExecutionStream()` + `useWorkflowStream.ts` — proven, deployed | Would require new hook and reconnect logic |
-| Auto-reconnect | Implemented in `connectExecutionStream()` (5 retries, exponential backoff) | Must implement from scratch |
+| Existing client infrastructure | `connectExecutionStream()` + `useWorkflowStream.ts` — proven, deployed | Would require new hook and reconnect logic (the existing SSE endpoint has no corresponding client-side reconnect wrapper) |
+| Auto-reconnect | Implemented in `connectExecutionStream()` (5 retries, exponential backoff) | Must implement from scratch on the client side |
 | Binary data support | Yes | Text only |
 | HTTP/2 multiplexing | Not native | Yes |
 | Performance difference | Negligible for this use case — both are TCP push | Negligible |
@@ -309,14 +358,17 @@ right choice.
 
 The performance characteristics of WebSocket and SSE are similar for simple server-to-client
 streaming (Ably Engineering, 2024; Timeplus benchmark, 2024). WebSocket is chosen here not
-for inherent performance superiority but for **infrastructure reuse**: `connectExecutionStream()`
-with its 5-retry exponential backoff has been running in production in LivePage without issues
-for long-duration workflow runs. Creating a parallel SSE infrastructure would require:
+for inherent performance superiority but for **client-side infrastructure reuse**: the
+`connectExecutionStream()` function with its 5-retry exponential backoff (`pathPrefix`-parameterized
+to reach `/ws/eval/{run_id}` without any new client code) has been running in
+production in LivePage without issues for long-duration workflow runs. While the server
+already supports SSE via the `/api/runs/{run_id}/stream` endpoint, the React client has no
+corresponding SSE reconnect wrapper or hook. Creating a parallel SSE client infrastructure
+would require:
 
 1. A new browser EventSource reconnect wrapper
 2. A new React hook
-3. A new FastAPI streaming response handler
-4. Parallel maintenance of two real-time patterns
+3. Parallel maintenance of two real-time client patterns
 
 This cost is unjustified when WebSocket covers the use case identically.
 
@@ -364,7 +416,7 @@ consumers.
 |---------|-----------|
 | No duplicated evaluation logic | Single `Comparator.run()` core — CLI and API are thin adapters |
 | CLI usable in CI without a running server | Direct Python import, no HTTP or WebSocket required |
-| Real-time UI out of the box | Zero new WebSocket infrastructure — reuses existing `connectExecutionStream()` |
+| Real-time UI out of the box | Zero new WebSocket client code — reuses `connectExecutionStream()` via `pathPrefix: "eval"` option |
 | Config file enables reproducible evals | `eval.yaml` pinned in repo alongside code being evaluated |
 | Type-safe contracts at both boundaries | Pydantic models validated at CLI input and API request body |
 
@@ -405,7 +457,7 @@ consumers.
 | Promptfoo — **Configuration reference** (promptfoo.dev/docs/configuration) | Declarative YAML A/B eval config; inspiration for `eval.yaml` format |
 | Ably Engineering — **WebSockets vs SSE: Key differences** (ably.com/blog, 2024) | Performance comparison; confirms negligible difference for server-to-client streaming |
 | Timeplus — **WebSocket vs SSE: A Performance Comparison** (timeplus.com, 2024) | Benchmark results; similar CPU utilization for streaming scenarios |
-| `api/websocket.ts:connectExecutionStream()` | Existing WS client with 5-retry exponential backoff — reused verbatim |
+| `api/websocket.ts:connectExecutionStream()` | Existing WS client with 5-retry exponential backoff; `pathPrefix` option added — reused without forking |
 | `hooks/useWorkflowStream.ts` | Existing WS React hook — mirrored for eval event types |
 | `server/routes/workflows.py` | Existing FastAPI router structure — matched for consistency |
 | `contracts/` directory — additive-only policy | Schema evolution constraint for `ComparisonResult` |
