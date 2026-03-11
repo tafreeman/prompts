@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, createContext, useContext } from "react";
+import PropTypes from "prop-types";
 
 const IS_SINGLE_FILE_BUILD = import.meta.env.MODE === "single-file";
 
@@ -14,14 +15,14 @@ const HERO_IMGS = {
 
 // ─── TYPE SCALE ───
 const TYPE_SCALE = {
-  STAT:    { fontSize: 48, fontWeight: 800, letterSpacing: -1.5, lineHeight: 1.0 },
+  STAT:    { fontSize: 48, fontWeight: 800, letterSpacing: -1.5, lineHeight: 1 },
   HERO:    { fontSize: 44, fontWeight: 800, letterSpacing: -1, lineHeight: 0.96 },
   TITLE:   { fontSize: 32, fontWeight: 700, letterSpacing: -0.5, lineHeight: 1.05 },
   SECTION: { fontSize: 24, fontWeight: 700, letterSpacing: 0, lineHeight: 1.12 },
   CARD:    { fontSize: 18, fontWeight: 600, letterSpacing: 0, lineHeight: 1.2 },
   BODY:    { fontSize: 16, fontWeight: 400, letterSpacing: 0, lineHeight: 1.6 },
   CAPTION: { fontSize: 13, fontWeight: 500, letterSpacing: 0.5, lineHeight: 1.4 },
-  EYEBROW: { fontSize: 11, fontWeight: 700, letterSpacing: 2.5, lineHeight: 1.0, textTransform: "uppercase" },
+  EYEBROW: { fontSize: 11, fontWeight: 700, letterSpacing: 2.5, lineHeight: 1, textTransform: "uppercase" },
 };
 
 // ─── THEMES ───
@@ -46,6 +47,98 @@ const THEME_FONT_URLS = {
 };
 
 const ThemeCtx = createContext(THEMES[0]);
+
+const positionPropType = PropTypes.shape({
+  x: PropTypes.number.isRequired,
+  y: PropTypes.number.isRequired,
+});
+
+const themePropType = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  vibe: PropTypes.string.isRequired,
+  fontDisplay: PropTypes.string.isRequired,
+  fontBody: PropTypes.string.isRequired,
+  bg: PropTypes.string.isRequired,
+  bgCard: PropTypes.string.isRequired,
+  bgDeep: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+  textMuted: PropTypes.string.isRequired,
+  textDim: PropTypes.string.isRequired,
+  accent: PropTypes.string.isRequired,
+  accentGlow: PropTypes.string.isRequired,
+  gradient: PropTypes.arrayOf(PropTypes.string).isRequired,
+  success: PropTypes.string.isRequired,
+  danger: PropTypes.string.isRequired,
+  warning: PropTypes.string.isRequired,
+  surfaceElevated: PropTypes.string.isRequired,
+});
+
+const topicCardPropType = PropTypes.shape({
+  title: PropTypes.string.isRequired,
+  body: PropTypes.string,
+  challenge: PropTypes.string,
+  fix: PropTypes.string,
+  step: PropTypes.string,
+  marker: PropTypes.string,
+  eyebrow: PropTypes.string,
+  highlight: PropTypes.string,
+  details: PropTypes.arrayOf(PropTypes.string),
+});
+
+const topicResultPropType = PropTypes.shape({
+  value: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  detail: PropTypes.string,
+});
+
+const topicFocusPanelPropType = PropTypes.shape({
+  label: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  body: PropTypes.string.isRequired,
+});
+
+const topicCapabilityPropType = PropTypes.shape({
+  title: PropTypes.string.isRequired,
+  body: PropTypes.string.isRequired,
+  marker: PropTypes.string.isRequired,
+});
+
+const topicLanePropType = PropTypes.shape({
+  title: PropTypes.string.isRequired,
+  subtitle: PropTypes.string.isRequired,
+  persona: PropTypes.string.isRequired,
+  accent: PropTypes.string.isRequired,
+  steps: PropTypes.arrayOf(PropTypes.string).isRequired,
+});
+
+const topicPropType = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  num: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  subtitle: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
+  colorLight: PropTypes.string.isRequired,
+  colorGlow: PropTypes.string,
+  optional: PropTypes.bool,
+  eyebrow: PropTypes.string,
+  summary: PropTypes.string,
+  heroPoints: PropTypes.arrayOf(PropTypes.string),
+  cards: PropTypes.arrayOf(topicCardPropType),
+  talkingPoints: PropTypes.arrayOf(PropTypes.string),
+  callout: PropTypes.string.isRequired,
+  heroTitle: PropTypes.string,
+  kicker: PropTypes.string,
+  subkicker: PropTypes.string,
+  thesis: PropTypes.string,
+  leadershipPoints: PropTypes.arrayOf(PropTypes.string),
+  results: PropTypes.arrayOf(topicResultPropType),
+  enablementTitle: PropTypes.string,
+  enablement: PropTypes.string,
+  focusPanels: PropTypes.arrayOf(topicFocusPanelPropType),
+  capabilities: PropTypes.arrayOf(topicCapabilityPropType),
+  lanes: PropTypes.arrayOf(topicLanePropType),
+});
 
 // ─── TOPICS DATA ───
 const topics = [
@@ -205,73 +298,75 @@ const topics = [
 ];
 
 // ─── SPRINT NODE ICONS (custom stroke-based SVGs, 24×24 viewBox) ───
-const SI = ({ children }) => (
+const SvgIcon = ({ children }) => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
     strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" style={{ display: "block" }}>
     {children}
   </svg>
 );
+SvgIcon.propTypes = { children: PropTypes.node };
 const SPRINT_ICONS = {
   // Requirements — spec document with bullet rows
-  RQ: () => <SI><rect x="5" y="2" width="14" height="20" rx="1.5"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="15" y2="11"/><line x1="9" y1="15" x2="13" y2="15"/><circle cx="7" cy="7" r="1" fill="currentColor" stroke="none"/><circle cx="7" cy="11" r="1" fill="currentColor" stroke="none"/><circle cx="7" cy="15" r="1" fill="currentColor" stroke="none"/></SI>,
+  RQ: () => <SvgIcon><rect x="5" y="2" width="14" height="20" rx="1.5"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="15" y2="11"/><line x1="9" y1="15" x2="13" y2="15"/><circle cx="7" cy="7" r="1" fill="currentColor" stroke="none"/><circle cx="7" cy="11" r="1" fill="currentColor" stroke="none"/><circle cx="7" cy="15" r="1" fill="currentColor" stroke="none"/></SvgIcon>,
 
   // UI Mockup — split-pane wireframe
-  UI: () => <SI><rect x="2" y="4" width="20" height="16" rx="1.5"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="9" y1="9" x2="9" y2="20"/><rect x="11" y="12" width="8" height="3" rx="0.5" opacity="0.5"/><rect x="11" y="17" width="5" height="1.5" rx="0.5" opacity="0.4"/></SI>,
+  UI: () => <SvgIcon><rect x="2" y="4" width="20" height="16" rx="1.5"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="9" y1="9" x2="9" y2="20"/><rect x="11" y="12" width="8" height="3" rx="0.5" opacity="0.5"/><rect x="11" y="17" width="5" height="1.5" rx="0.5" opacity="0.4"/></SvgIcon>,
 
   // AI Draft — 4-pointed diamond star (generative spark)
-  AD: () => <SI><path d="M12 2 L14 10 L22 12 L14 14 L12 22 L10 14 L2 12 L10 10 Z"/></SI>,
+  AD: () => <SvgIcon><path d="M12 2 L14 10 L22 12 L14 14 L12 22 L10 14 L2 12 L10 10 Z"/></SvgIcon>,
 
   // AC Refine — pencil with underlining stroke
-  RF: () => <SI><path d="M15.5 4.5 L19.5 8.5 L9 19 L5 20 L6 16 Z"/><line x1="13" y1="7" x2="17" y2="11"/><line x1="4" y1="22" x2="20" y2="22"/></SI>,
+  RF: () => <SvgIcon><path d="M15.5 4.5 L19.5 8.5 L9 19 L5 20 L6 16 Z"/><line x1="13" y1="7" x2="17" y2="11"/><line x1="4" y1="22" x2="20" y2="22"/></SvgIcon>,
 
   // Human Review — eye with iris detail
-  RV: () => <SI><path d="M2 12 C5 6 19 6 22 12 C19 18 5 18 2 12 Z"/><circle cx="12" cy="12" r="3.5"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/></SI>,
+  RV: () => <SvgIcon><path d="M2 12 C5 6 19 6 22 12 C19 18 5 18 2 12 Z"/><circle cx="12" cy="12" r="3.5"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/></SvgIcon>,
 
   // AI Code — brackets with central circuit dot
-  AC: () => <SI><polyline points="8,5 3,12 8,19"/><polyline points="16,5 21,12 16,19"/><circle cx="12" cy="12" r="1.8" fill="currentColor" stroke="none"/><line x1="12" y1="7" x2="12" y2="9.2" opacity="0.5"/><line x1="12" y1="14.8" x2="12" y2="17" opacity="0.5"/></SI>,
+  AC: () => <SvgIcon><polyline points="8,5 3,12 8,19"/><polyline points="16,5 21,12 16,19"/><circle cx="12" cy="12" r="1.8" fill="currentColor" stroke="none"/><line x1="12" y1="7" x2="12" y2="9.2" opacity="0.5"/><line x1="12" y1="14.8" x2="12" y2="17" opacity="0.5"/></SvgIcon>,
 
   // Code Output — terminal with prompt cursor
-  CO: () => <SI><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="2" y1="9" x2="22" y2="9"/><circle cx="5.5" cy="6.5" r="0.9" fill="currentColor" stroke="none"/><circle cx="8.5" cy="6.5" r="0.9" fill="currentColor" stroke="none"/><polyline points="6,13 9.5,16 6,19"/><line x1="12" y1="19" x2="18" y2="19"/></SI>,
+  CO: () => <SvgIcon><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="2" y1="9" x2="22" y2="9"/><circle cx="5.5" cy="6.5" r="0.9" fill="currentColor" stroke="none"/><circle cx="8.5" cy="6.5" r="0.9" fill="currentColor" stroke="none"/><polyline points="6,13 9.5,16 6,19"/><line x1="12" y1="19" x2="18" y2="19"/></SvgIcon>,
 
   // PR Review — git Y-merge topology
-  PR: () => <SI><circle cx="7" cy="5" r="2"/><circle cx="17" cy="5" r="2"/><circle cx="12" cy="19" r="2"/><path d="M7 7 C7 13 12 17 12 17"/><path d="M17 7 C17 13 12 17 12 17"/></SI>,
+  PR: () => <SvgIcon><circle cx="7" cy="5" r="2"/><circle cx="17" cy="5" r="2"/><circle cx="12" cy="19" r="2"/><path d="M7 7 C7 13 12 17 12 17"/><path d="M17 7 C17 13 12 17 12 17"/></SvgIcon>,
 
   // Testing — shield with interior checkmark
-  QA: () => <SI><path d="M12 2 L20 5.5 L20 12 C20 16.8 16.5 21 12 22.5 C7.5 21 4 16.8 4 12 L4 5.5 Z"/><polyline points="8.5,12 11,14.5 15.5,9.5"/></SI>,
+  QA: () => <SvgIcon><path d="M12 2 L20 5.5 L20 12 C20 16.8 16.5 21 12 22.5 C7.5 21 4 16.8 4 12 L4 5.5 Z"/><polyline points="8.5,12 11,14.5 15.5,9.5"/></SvgIcon>,
 
   // Fixes — adjustable wrench rotated diagonal
-  FX: () => <SI><path d="M15 5 C18 5 20 7 20 10 C20 12 18.5 13.5 17 14 L7 21 L4 18 L11 10 C10.5 8.5 11 6 12.5 5.5"/><line x1="15.5" y1="8.5" x2="18.5" y2="5.5"/></SI>,
+  FX: () => <SvgIcon><path d="M15 5 C18 5 20 7 20 10 C20 12 18.5 13.5 17 14 L7 21 L4 18 L11 10 C10.5 8.5 11 6 12.5 5.5"/><line x1="15.5" y1="8.5" x2="18.5" y2="5.5"/></SvgIcon>,
 
   // Deploy — rocket with twin exhaust fins
-  DP: () => <SI><path d="M12 2 C12 2 18 8 18 14 L15.5 17 L8.5 17 L6 14 C6 8 12 2 12 2 Z"/><circle cx="12" cy="10" r="2"/><line x1="8.5" y1="17" x2="6" y2="22"/><line x1="15.5" y1="17" x2="18" y2="22"/></SI>,
+  DP: () => <SvgIcon><path d="M12 2 C12 2 18 8 18 14 L15.5 17 L8.5 17 L6 14 C6 8 12 2 12 2 Z"/><circle cx="12" cy="10" r="2"/><line x1="8.5" y1="17" x2="6" y2="22"/><line x1="15.5" y1="17" x2="18" y2="22"/></SvgIcon>,
 
   // Client Readout — monitor with rising bar chart
-  RO: () => <SI><rect x="2" y="3" width="20" height="14" rx="1.5"/><line x1="12" y1="17" x2="12" y2="21"/><line x1="7" y1="21" x2="17" y2="21"/><line x1="7" y1="14" x2="7" y2="10"/><line x1="11" y1="14" x2="11" y2="7"/><line x1="15" y1="14" x2="15" y2="11"/><line x1="5.5" y1="14" x2="16.5" y2="14"/></SI>,
+  RO: () => <SvgIcon><rect x="2" y="3" width="20" height="14" rx="1.5"/><line x1="12" y1="17" x2="12" y2="21"/><line x1="7" y1="21" x2="17" y2="21"/><line x1="7" y1="14" x2="7" y2="10"/><line x1="11" y1="14" x2="11" y2="7"/><line x1="15" y1="14" x2="15" y2="11"/><line x1="5.5" y1="14" x2="16.5" y2="14"/></SvgIcon>,
 };
 
 // ─── CARD ICONS (for screen markers, tile icons, and badges) ───
-const CI = ({ children, size = 20 }) => (
+const CardIcon = ({ children, size = 20 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
     strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" style={{ display: "block" }}>
     {children}
   </svg>
 );
+CardIcon.propTypes = { children: PropTypes.node, size: PropTypes.number };
 
 const CARD_ICONS = {
-  humanInLoop: (size) => <CI size={size}><circle cx="12" cy="7" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/><path d="M19 5 A9 9 0 1 1 5 19" strokeDasharray="2.5 1.5"/><polyline points="21.5,2.5 19,5 16.5,2.5"/></CI>,
-  governanceScale: (size) => <CI size={size}><line x1="12" y1="3" x2="12" y2="21"/><path d="M5 8h14"/><path d="M7.5 8 L4 15 h7 z"/><path d="M16.5 8 L13 15 h7 z"/><line x1="8" y1="21" x2="16" y2="21"/></CI>,
-  qualityGate: (size) => <CI size={size}><rect x="4" y="5" width="3.5" height="14" rx="1"/><rect x="16.5" y="5" width="3.5" height="14" rx="1"/><line x1="7.5" y1="12" x2="16.5" y2="12" strokeDasharray="2 1.5"/><polyline points="12,9 15,12 12,15" /></CI>,
-  contextHub: (size) => <CI size={size}><circle cx="12" cy="12" r="2.5"/><circle cx="4" cy="5" r="1.5"/><line x1="5.5" y1="6.5" x2="10" y2="10.5"/><circle cx="20" cy="5" r="1.5"/><line x1="18.5" y1="6.5" x2="14" y2="10.5"/><circle cx="4" cy="19" r="1.5"/><line x1="5.5" y1="17.5" x2="10" y2="13.5"/><circle cx="20" cy="19" r="1.5"/><line x1="18.5" y1="17.5" x2="14" y2="13.5"/></CI>,
-  resultsChart: (size) => <CI size={size}><line x1="3" y1="20" x2="21" y2="20"/><rect x="4.5" y="13" width="3.5" height="7" rx="0.5"/><rect x="10.25" y="9" width="3.5" height="11" rx="0.5"/><rect x="16" y="5" width="3.5" height="15" rx="0.5"/></CI>,
-  browseCatalog: (size) => <CI size={size}><rect x="3" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.5"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.5"/></CI>,
-  researchMagnify: (size) => <CI size={size}><circle cx="10" cy="10" r="6.5"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="8" y1="10" x2="12" y2="10"/><line x1="10" y1="8" x2="10" y2="12"/></CI>,
-  trackFlow: (size) => <CI size={size}><circle cx="5" cy="12" r="2" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="2" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="2" fill="currentColor" stroke="none"/><line x1="7" y1="12" x2="10" y2="12"/><line x1="14" y1="12" x2="17" y2="12"/><polyline points="6,8 12,5 18,8"/></CI>,
-  procureHandoff: (size) => <CI size={size}><circle cx="6" cy="12" r="3.5"/><circle cx="18" cy="12" r="3.5"/><line x1="9.5" y1="12" x2="14.5" y2="12"/><polyline points="12.5,9 15,12 12.5,15"/></CI>,
-  compassOverview: (size) => <CI size={size}><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><line x1="12" y1="3" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="21"/><line x1="3" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="21" y2="12"/><polyline points="12,7 14,12 12,17 10,12 Z" fill="currentColor" stroke="none" opacity="0.5"/></CI>,
-  stepsHurdles: (size) => <CI size={size}><polyline points="3,21 3,15 9,15 9,9 15,9 15,3 21,3"/><line x1="3" y1="21" x2="21" y2="21"/></CI>,
-  infinitySprint: (size) => <CI size={size}><path d="M12 12C12 12 9 6 6 6a4 4 0 0 0 0 8c3 0 6-6 6-6s3 6 6 6a4 4 0 0 0 0-8c-3 0-6 6-6 6z"/></CI>,
-  horizonFuture: (size) => <CI size={size}><line x1="3" y1="16" x2="21" y2="16"/><line x1="12" y1="14" x2="12" y2="8"/><line x1="7" y1="13" x2="5" y2="8"/><line x1="17" y1="13" x2="19" y2="8"/></CI>,
-  marketArch: (size) => <CI size={size}><path d="M5 21 V12 A7 7 0 0 1 19 12 V21"/><line x1="3" y1="21" x2="21" y2="21"/><line x1="9" y1="21" x2="9" y2="14"/><line x1="15" y1="21" x2="15" y2="14"/></CI>,
+  humanInLoop: (size) => <CardIcon size={size}><circle cx="12" cy="7" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/><path d="M19 5 A9 9 0 1 1 5 19" strokeDasharray="2.5 1.5"/><polyline points="21.5,2.5 19,5 16.5,2.5"/></CardIcon>,
+  governanceScale: (size) => <CardIcon size={size}><line x1="12" y1="3" x2="12" y2="21"/><path d="M5 8h14"/><path d="M7.5 8 L4 15 h7 z"/><path d="M16.5 8 L13 15 h7 z"/><line x1="8" y1="21" x2="16" y2="21"/></CardIcon>,
+  qualityGate: (size) => <CardIcon size={size}><rect x="4" y="5" width="3.5" height="14" rx="1"/><rect x="16.5" y="5" width="3.5" height="14" rx="1"/><line x1="7.5" y1="12" x2="16.5" y2="12" strokeDasharray="2 1.5"/><polyline points="12,9 15,12 12,15" /></CardIcon>,
+  contextHub: (size) => <CardIcon size={size}><circle cx="12" cy="12" r="2.5"/><circle cx="4" cy="5" r="1.5"/><line x1="5.5" y1="6.5" x2="10" y2="10.5"/><circle cx="20" cy="5" r="1.5"/><line x1="18.5" y1="6.5" x2="14" y2="10.5"/><circle cx="4" cy="19" r="1.5"/><line x1="5.5" y1="17.5" x2="10" y2="13.5"/><circle cx="20" cy="19" r="1.5"/><line x1="18.5" y1="17.5" x2="14" y2="13.5"/></CardIcon>,
+  resultsChart: (size) => <CardIcon size={size}><line x1="3" y1="20" x2="21" y2="20"/><rect x="4.5" y="13" width="3.5" height="7" rx="0.5"/><rect x="10.25" y="9" width="3.5" height="11" rx="0.5"/><rect x="16" y="5" width="3.5" height="15" rx="0.5"/></CardIcon>,
+  browseCatalog: (size) => <CardIcon size={size}><rect x="3" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.5"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.5"/></CardIcon>,
+  researchMagnify: (size) => <CardIcon size={size}><circle cx="10" cy="10" r="6.5"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="8" y1="10" x2="12" y2="10"/><line x1="10" y1="8" x2="10" y2="12"/></CardIcon>,
+  trackFlow: (size) => <CardIcon size={size}><circle cx="5" cy="12" r="2" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="2" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="2" fill="currentColor" stroke="none"/><line x1="7" y1="12" x2="10" y2="12"/><line x1="14" y1="12" x2="17" y2="12"/><polyline points="6,8 12,5 18,8"/></CardIcon>,
+  procureHandoff: (size) => <CardIcon size={size}><circle cx="6" cy="12" r="3.5"/><circle cx="18" cy="12" r="3.5"/><line x1="9.5" y1="12" x2="14.5" y2="12"/><polyline points="12.5,9 15,12 12.5,15"/></CardIcon>,
+  compassOverview: (size) => <CardIcon size={size}><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><line x1="12" y1="3" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="21"/><line x1="3" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="21" y2="12"/><polyline points="12,7 14,12 12,17 10,12 Z" fill="currentColor" stroke="none" opacity="0.5"/></CardIcon>,
+  stepsHurdles: (size) => <CardIcon size={size}><polyline points="3,21 3,15 9,15 9,9 15,9 15,3 21,3"/><line x1="3" y1="21" x2="21" y2="21"/></CardIcon>,
+  infinitySprint: (size) => <CardIcon size={size}><path d="M12 12C12 12 9 6 6 6a4 4 0 0 0 0 8c3 0 6-6 6-6s3 6 6 6a4 4 0 0 0 0-8c-3 0-6 6-6 6z"/></CardIcon>,
+  horizonFuture: (size) => <CardIcon size={size}><line x1="3" y1="16" x2="21" y2="16"/><line x1="12" y1="14" x2="12" y2="8"/><line x1="7" y1="13" x2="5" y2="8"/><line x1="17" y1="13" x2="19" y2="8"/></CardIcon>,
+  marketArch: (size) => <CardIcon size={size}><path d="M5 21 V12 A7 7 0 0 1 19 12 V21"/><line x1="3" y1="21" x2="21" y2="21"/><line x1="9" y1="21" x2="9" y2="14"/><line x1="15" y1="21" x2="15" y2="14"/></CardIcon>,
 };
 
 // ─── SPRINT NODES ───
@@ -299,6 +394,21 @@ function BackBtn({ onClick }) {
     </button>
   );
 }
+BackBtn.propTypes = { onClick: PropTypes.func.isRequired };
+
+let fallbackEntropyCursor = 0;
+const FALLBACK_ENTROPY_DIVISOR = 997;
+
+function getRandomUnit() {
+  const cryptoApi = globalThis.crypto;
+
+  if (cryptoApi && typeof cryptoApi.getRandomValues === "function") {
+    return cryptoApi.getRandomValues(new Uint32Array(1))[0] / 0x100000000;
+  }
+
+  fallbackEntropyCursor = (fallbackEntropyCursor + 619) % FALLBACK_ENTROPY_DIVISOR;
+  return fallbackEntropyCursor / FALLBACK_ENTROPY_DIVISOR;
+}
 
 // ─── PARTICLES (reduced to 20) ───
 function Particles({ color, active }) {
@@ -316,9 +426,9 @@ function Particles({ color, active }) {
     pRef.current = [];
     for (let i = 0; i < 20; i++) {
       pRef.current.push({
-        x: Math.random() * W, y: Math.random() * H,
-        vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.4,
-        r: Math.random() * 2 + 0.8, o: Math.random() * 0.4 + 0.1, life: Math.random() * 100,
+        x: getRandomUnit() * W, y: getRandomUnit() * H,
+        vx: (getRandomUnit() - 0.5) * 0.4, vy: (getRandomUnit() - 0.5) * 0.4,
+        r: getRandomUnit() * 2 + 0.8, o: getRandomUnit() * 0.4 + 0.1, life: getRandomUnit() * 100,
       });
     }
     function draw() {
@@ -340,6 +450,10 @@ function Particles({ color, active }) {
   }, [color, active]);
   return <canvas ref={canvasRef} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none", opacity: active ? 1 : 0, transition: "opacity 0.8s" }} />;
 }
+Particles.propTypes = {
+  color: PropTypes.string.isRequired,
+  active: PropTypes.bool.isRequired,
+};
 
 // ─── COMET TRANSITION ───
 function CometTransition({ from, color, active, onDone }) {
@@ -366,6 +480,12 @@ function CometTransition({ from, color, active, onDone }) {
     </div>
   );
 }
+CometTransition.propTypes = {
+  from: positionPropType,
+  color: PropTypes.string,
+  active: PropTypes.bool.isRequired,
+  onDone: PropTypes.func.isRequired,
+};
 
 // ─── TITLE REVEAL (replaces ThematicIntro) ───
 function TitleReveal({ onComplete }) {
@@ -460,6 +580,7 @@ function TitleReveal({ onComplete }) {
     </div>
   );
 }
+TitleReveal.propTypes = { onComplete: PropTypes.func.isRequired };
 
 // ─── THEME SELECTOR ───
 function ThemeSelector({ onSelect }) {
@@ -510,6 +631,7 @@ function ThemeSelector({ onSelect }) {
     </div>
   );
 }
+ThemeSelector.propTypes = { onSelect: PropTypes.func.isRequired };
 
 // ─── LANDING TILE ───
 function LandingTile({ topic, onClick, hovered, onHover, borderVariant }) {
@@ -560,6 +682,13 @@ function LandingTile({ topic, onClick, hovered, onHover, borderVariant }) {
     </div>
   );
 }
+LandingTile.propTypes = {
+  topic: topicPropType.isRequired,
+  onClick: PropTypes.func.isRequired,
+  hovered: PropTypes.string,
+  onHover: PropTypes.func.isRequired,
+  borderVariant: PropTypes.oneOf(["left", "top"]).isRequired,
+};
 
 // ─── STORY ARC DIAGRAM ───
 function StoryArcDiagram({ topic, T }) {
@@ -586,6 +715,10 @@ function StoryArcDiagram({ topic, T }) {
     </div>
   );
 }
+StoryArcDiagram.propTypes = {
+  topic: topicPropType.isRequired,
+  T: themePropType.isRequired,
+};
 
 // ─── OVERVIEW SCREEN ───
 function OverviewScreen({ topic, onBack }) {
@@ -647,6 +780,10 @@ function OverviewScreen({ topic, onBack }) {
     </div>
   );
 }
+OverviewScreen.propTypes = {
+  topic: topicPropType.isRequired,
+  onBack: PropTypes.func.isRequired,
+};
 
 // ─── HUMAN SCREEN ───
 function HumanScreen({ topic, onBack }) {
@@ -804,6 +941,10 @@ function HumanScreen({ topic, onBack }) {
     </div>
   );
 }
+HumanScreen.propTypes = {
+  topic: topicPropType.isRequired,
+  onBack: PropTypes.func.isRequired,
+};
 
 // ─── HURDLES SCREEN (horizontal timeline rows) ───
 function HurdlesScreen({ topic, onBack }) {
@@ -870,6 +1011,10 @@ function HurdlesScreen({ topic, onBack }) {
     </div>
   );
 }
+HurdlesScreen.propTypes = {
+  topic: topicPropType.isRequired,
+  onBack: PropTypes.func.isRequired,
+};
 
 // ─── FIGURE-8 SPRINT CYCLE ───
 function Figure8Cycle({ entered }) {
@@ -943,18 +1088,23 @@ function Figure8Cycle({ entered }) {
       {nodePositions.map((n, i) => {
         const isAI = n.type === "ai";
         const size = 34;
+        const humanBorderColor = T.gradient ? T.gradient[1] : "#0891B2";
+        const humanIconColor = T.gradient ? T.gradient[1] : "#22D3EE";
+        const borderColor = isAI ? `${T.accent}99` : `${humanBorderColor}60`;
+        const iconColor = isAI ? T.accent : humanIconColor;
+        const nodeIcon = SPRINT_ICONS[n.abbr] ? React.createElement(SPRINT_ICONS[n.abbr]) : n.abbr;
         return (
           <div key={i} style={{
             position: "absolute", left: n.x - size, top: n.y - size, width: size * 2, height: size * 2,
             borderRadius: "50%", background: isAI ? T.accent + "18" : T.bgCard,
-            border: `2px solid ${isAI ? T.accent + "99" : (T.gradient ? T.gradient[1] : "#0891B2") + "60"}`,
+            border: `2px solid ${borderColor}`,
             boxShadow: isAI ? `0 0 12px ${T.accent}2E` : "none",
             display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
             zIndex: 5,
             opacity: entered ? 1 : 0, transform: entered ? "scale(1)" : "scale(0.7)",
             transition: `all 0.4s ${0.15 + i * 0.06}s cubic-bezier(0.34,1.56,0.64,1)`,
           }}>
-            <span style={{ color: isAI ? T.accent : (T.gradient ? T.gradient[1] : "#22D3EE") }}>{SPRINT_ICONS[n.abbr] ? React.createElement(SPRINT_ICONS[n.abbr]) : n.abbr}</span>
+            <span style={{ color: iconColor }}>{nodeIcon}</span>
             <div style={{ position: "absolute", top: -6, right: -6, width: 16, height: 16, borderRadius: "50%", background: isAI ? "#7C3AED" : "#0891B2", display: "flex", alignItems: "center", justifyContent: "center" }}>
               {isAI ? (
                 <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor" stroke="none" style={{ color: "#fff" }}>
@@ -974,6 +1124,7 @@ function Figure8Cycle({ entered }) {
     </div>
   );
 }
+Figure8Cycle.propTypes = { entered: PropTypes.bool.isRequired };
 
 // ─── SPRINT SCREEN (Figure-8 only) ───
 function SprintScreen({ topic, onBack }) {
@@ -1019,6 +1170,10 @@ function SprintScreen({ topic, onBack }) {
     </div>
   );
 }
+SprintScreen.propTypes = {
+  topic: topicPropType.isRequired,
+  onBack: PropTypes.func.isRequired,
+};
 
 // ─── FUTURE SCREEN (1x4 horizontal strip) ───
 function FutureScreen({ topic, onBack }) {
@@ -1057,7 +1212,7 @@ function FutureScreen({ topic, onBack }) {
 
         {/* Pull-quote */}
         <div style={{ marginBottom: 24, padding: "16px 20px", borderLeft: `3px solid ${topic.color}`, opacity: e ? 1 : 0, transition: "opacity 0.6s 0.3s ease" }}>
-          <div style={{ fontFamily: "Georgia, serif", fontSize: 80, lineHeight: 0.7, color: topic.color, opacity: 0.12, marginBottom: -8, userSelect: "none" }}>"</div>
+          <div style={{ fontFamily: "Georgia, serif", fontSize: 80, lineHeight: 0.7, color: topic.color, opacity: 0.12, marginBottom: -8, userSelect: "none" }}>&ldquo;</div>
           <p style={{ fontFamily: T.fontDisplay, fontSize: 22, fontStyle: "italic", fontWeight: 500, color: T.text, margin: 0, lineHeight: 1.45 }}>{topic.callout}</p>
         </div>
 
@@ -1091,6 +1246,10 @@ function FutureScreen({ topic, onBack }) {
     </div>
   );
 }
+FutureScreen.propTypes = {
+  topic: topicPropType.isRequired,
+  onBack: PropTypes.func.isRequired,
+};
 
 // ─── PLATFORM MOCK FRAME ───
 function PlatformMockFrame({ topic, entered, theme }) {
@@ -1131,6 +1290,11 @@ function PlatformMockFrame({ topic, entered, theme }) {
     </div>
   );
 }
+PlatformMockFrame.propTypes = {
+  topic: topicPropType.isRequired,
+  entered: PropTypes.bool.isRequired,
+  theme: themePropType.isRequired,
+};
 
 // ─── PLATFORM SCREEN ───
 function PlatformScreen({ topic, onBack }) {
@@ -1266,6 +1430,10 @@ function PlatformScreen({ topic, onBack }) {
     </div>
   );
 }
+PlatformScreen.propTypes = {
+  topic: topicPropType.isRequired,
+  onBack: PropTypes.func.isRequired,
+};
 
 // ─── MAIN APP ───
 export default function App() {

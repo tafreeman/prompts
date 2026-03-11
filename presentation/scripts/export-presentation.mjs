@@ -28,7 +28,7 @@ export const SLIDES = [
   { id: "hurdles", label: "Hurdles We Overcame" },
   { id: "sprint", label: "AI Sprint Cycle" },
   { id: "future", label: "Looking Ahead" },
-  { id: "marketplace", label: "Naval Marketplace" },
+  { id: "platform", label: "Service Platform" },
 ];
 
 const TILE_TITLES = {
@@ -37,10 +37,10 @@ const TILE_TITLES = {
   hurdles: "Hurdles We Overcame",
   sprint: "AI Sprint Cycle",
   future: "Looking Ahead",
-  marketplace: "Naval Marketplace",
+  platform: "Service Platform",
 };
 
-const CAPTURE_ORDER = ["overview", "human", "hurdles", "sprint", "future", "marketplace"];
+const CAPTURE_ORDER = ["overview", "human", "hurdles", "sprint", "future", "platform"];
 
 async function startDevServer() {
   const server = await createServer({

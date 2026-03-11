@@ -12,6 +12,7 @@
     "export:all": "npm run export:html && npm run export:images && npm run export:pdf"
   },
   "dependencies": {
+    "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

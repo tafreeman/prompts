@@ -1,4 +1,5 @@
 import React, { lazy, Suspense, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom/client';
 
 const VARIANTS = {
@@ -66,6 +67,11 @@ function Picker({ active, onChange }) {
     </div>
   );
 }
+
+Picker.propTypes = {
+  active: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+};
 
 function Root() {
   const [activeKey, setActiveKey] = useState(getInitialKey);

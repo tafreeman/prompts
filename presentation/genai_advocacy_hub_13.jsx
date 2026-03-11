@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef, useCallback, createContext, useContext } from "react";
+import React, { useState, useEffect, useRef, useCallback, createContext, useContext } from "react";
+import PropTypes from "prop-types";
 
 const THEMES = [
   { id: "midnight-teal", name: "Midnight Teal", vibe: "Current Default", fontDisplay: "'Space Grotesk',sans-serif", fontBody: "'DM Sans',sans-serif", fontsUrl: "https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700&family=Space+Grotesk:wght@500;700&display=swap", bg: "#0B1426", bgCard: "#162240", bgDeep: "#111827", text: "#F0F4F8", textMuted: "#CBD5E1", textDim: "#64748B", accent: "#22D3EE", accentGlow: "rgba(8,145,178,0.3)", gradient: ["#22D3EE", "#10B981"] },
@@ -10,6 +11,76 @@ const THEMES = [
 ];
 
 const ThemeCtx = createContext(THEMES[0]);
+
+const positionPropType = PropTypes.shape({
+  x: PropTypes.number.isRequired,
+  y: PropTypes.number.isRequired,
+});
+
+const topicCardPropType = PropTypes.shape({
+  title: PropTypes.string.isRequired,
+  body: PropTypes.string,
+  challenge: PropTypes.string,
+  fix: PropTypes.string,
+  icon: PropTypes.string,
+  stat: PropTypes.string,
+  statLabel: PropTypes.string,
+});
+
+const topicFocusPanelPropType = PropTypes.shape({
+  label: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  body: PropTypes.string.isRequired,
+});
+
+const topicCapabilityPropType = PropTypes.shape({
+  title: PropTypes.string.isRequired,
+  body: PropTypes.string.isRequired,
+  icon: PropTypes.string.isRequired,
+});
+
+const topicLanePropType = PropTypes.shape({
+  title: PropTypes.string.isRequired,
+  subtitle: PropTypes.string.isRequired,
+  persona: PropTypes.string.isRequired,
+  accent: PropTypes.string.isRequired,
+  steps: PropTypes.arrayOf(PropTypes.string).isRequired,
+});
+
+const topicPropType = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  num: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  subtitle: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
+  colorLight: PropTypes.string.isRequired,
+  colorGlow: PropTypes.string.isRequired,
+  icon: PropTypes.string.isRequired,
+  optional: PropTypes.bool,
+  eyebrow: PropTypes.string,
+  summary: PropTypes.string,
+  heroPoints: PropTypes.arrayOf(PropTypes.string),
+  cards: PropTypes.arrayOf(topicCardPropType),
+  talkingPoints: PropTypes.arrayOf(PropTypes.string),
+  callout: PropTypes.string.isRequired,
+  focusPanels: PropTypes.arrayOf(topicFocusPanelPropType),
+  capabilities: PropTypes.arrayOf(topicCapabilityPropType),
+  lanes: PropTypes.arrayOf(topicLanePropType),
+});
+
+let fallbackEntropyCursor = 0;
+const FALLBACK_ENTROPY_DIVISOR = 997;
+
+function getRandomUnit() {
+  const cryptoApi = globalThis.crypto;
+
+  if (cryptoApi && typeof cryptoApi.getRandomValues === "function") {
+    return cryptoApi.getRandomValues(new Uint32Array(1))[0] / 0x100000000;
+  }
+
+  fallbackEntropyCursor = (fallbackEntropyCursor + 619) % FALLBACK_ENTROPY_DIVISOR;
+  return fallbackEntropyCursor / FALLBACK_ENTROPY_DIVISOR;
+}
 
 const topics = [
   {
@@ -81,19 +152,74 @@ function Particles({ color, type, active }) {
     c.width = c.offsetWidth * 2; c.height = c.offsetHeight * 2; ctx.scale(2, 2);
     const W = c.offsetWidth, H = c.offsetHeight;
     pRef.current = [];
-    const n = type === "hurdles" ? 60 : type === "sprint" ? 40 : 30;
-    for (let i = 0; i < n; i++) pRef.current.push({ x: Math.random()*W, y: Math.random()*H, vx: type==="hurdles"?(Math.random()-0.3)*3:(Math.random()-0.5)*0.5, vy: type==="hurdles"?-Math.random()*4-1:(Math.random()-0.5)*0.5, r: type==="hurdles"?Math.random()*3+1:Math.random()*2+1, o: Math.random()*0.5+0.15, life: Math.random()*100 });
+    let n;
+    if (type === "hurdles") {
+      n = 60;
+    } else if (type === "sprint") {
+      n = 40;
+    } else {
+      n = 30;
+    }
+    for (let i = 0; i < n; i++) {
+      const hurdleParticle = type === "hurdles";
+      pRef.current.push({
+        x: getRandomUnit() * W,
+        y: getRandomUnit() * H,
+        vx: hurdleParticle ? (getRandomUnit() - 0.3) * 3 : (getRandomUnit() - 0.5) * 0.5,
+        vy: hurdleParticle ? -getRandomUnit() * 4 - 1 : (getRandomUnit() - 0.5) * 0.5,
+        r: hurdleParticle ? getRandomUnit() * 3 + 1 : getRandomUnit() * 2 + 1,
+        o: getRandomUnit() * 0.5 + 0.15,
+        life: getRandomUnit() * 100,
+      });
+    }
     function draw() {
       ctx.clearRect(0,0,W,H);
       pRef.current.forEach(p => {
         p.life++;
-        if(type==="hurdles"){p.x+=p.vx;p.y+=p.vy;p.vy-=0.02;if(p.y<-10||p.x<-10||p.x>W+10){p.x=Math.random()*W;p.y=H+10;p.vy=-Math.random()*4-1;p.vx=(Math.random()-0.3)*3;}}
+        if(type==="hurdles"){p.x+=p.vx;p.y+=p.vy;p.vy-=0.02;if(p.y<-10||p.x<-10||p.x>W+10){p.x=getRandomUnit()*W;p.y=H+10;p.vy=-getRandomUnit()*4-1;p.vx=(getRandomUnit()-0.3)*3;}}
         else if(type==="human"){p.x+=Math.sin(p.life*0.015)*0.3;p.y+=Math.cos(p.life*0.012)*0.3;}
-        else if(type==="sprint"){const cx=W/2,cy=H/2,a=Math.atan2(p.y-cy,p.x-cx);p.x+=Math.cos(a+Math.PI/2)*0.35;p.y+=Math.sin(a+Math.PI/2)*0.35;const d=Math.sqrt((p.x-cx)**2+(p.y-cy)**2);if(d>Math.max(W,H)*0.55){p.x=cx+(Math.random()-0.5)*W*0.4;p.y=cy+(Math.random()-0.5)*H*0.4;}}
-        else{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;}
+        else if (type === "sprint") {
+          const cx = W / 2;
+          const cy = H / 2;
+          const a = Math.atan2(p.y - cy, p.x - cx);
+          p.x += Math.cos(a + Math.PI / 2) * 0.35;
+          p.y += Math.sin(a + Math.PI / 2) * 0.35;
+          const d = Math.sqrt((p.x - cx) ** 2 + (p.y - cy) ** 2);
+          if (d > Math.max(W, H) * 0.55) {
+            p.x = cx + (getRandomUnit() - 0.5) * W * 0.4;
+            p.y = cy + (getRandomUnit() - 0.5) * H * 0.4;
+          }
+        }
+        else {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < 0 || p.x > W) {
+            p.vx *= -1;
+          }
+          if (p.y < 0 || p.y > H) {
+            p.vy *= -1;
+          }
+        }
         ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=color+Math.round(p.o*255).toString(16).padStart(2,"0");ctx.fill();
       });
-      if(type==="human"){const pts=pRef.current;for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<120){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=color+Math.round((1-d/120)*40).toString(16).padStart(2,"0");ctx.lineWidth=0.5;ctx.stroke();}}}
+      if (type === "human") {
+        const pts = pRef.current;
+        for (let i = 0; i < pts.length; i++) {
+          for (let j = i + 1; j < pts.length; j++) {
+            const dx = pts[i].x - pts[j].x;
+            const dy = pts[i].y - pts[j].y;
+            const d = Math.sqrt(dx * dx + dy * dy);
+            if (d < 120) {
+              ctx.beginPath();
+              ctx.moveTo(pts[i].x, pts[i].y);
+              ctx.lineTo(pts[j].x, pts[j].y);
+              ctx.strokeStyle = color + Math.round((1 - d / 120) * 40).toString(16).padStart(2, "0");
+              ctx.lineWidth = 0.5;
+              ctx.stroke();
+            }
+          }
+        }
+      }
       animRef.current=requestAnimationFrame(draw);
     }
     if(active) draw();
@@ -101,6 +227,11 @@ function Particles({ color, type, active }) {
   }, [color, type, active]);
   return <canvas ref={canvasRef} style={{ position:"absolute",inset:0,width:"100%",height:"100%",pointerEvents:"none",opacity:active?1:0,transition:"opacity 0.8s" }}/>;
 }
+Particles.propTypes = {
+  color: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  active: PropTypes.bool.isRequired,
+};
 
 // ─── COMET TRANSITION ───
 function CometTransition({ from, color, active, onDone }) {
@@ -173,6 +304,12 @@ function CometTransition({ from, color, active, onDone }) {
     </div>
   );
 }
+CometTransition.propTypes = {
+  from: positionPropType,
+  color: PropTypes.string,
+  active: PropTypes.bool.isRequired,
+  onDone: PropTypes.func.isRequired,
+};
 
 // ─── LANDING TILE ───
 function LandingTile({ topic, onClick, hovered, onHover }) {
@@ -196,6 +333,12 @@ function LandingTile({ topic, onClick, hovered, onHover }) {
     </div>
   );
 }
+LandingTile.propTypes = {
+  topic: topicPropType.isRequired,
+  onClick: PropTypes.func.isRequired,
+  hovered: PropTypes.string,
+  onHover: PropTypes.func.isRequired,
+};
 
 // ─── THEMATIC INTRO ───
 function ThematicIntro({ onComplete }) {
@@ -216,12 +359,17 @@ function ThematicIntro({ onComplete }) {
 
   // Generate static star positions once
   const starsRef = useRef(Array.from({ length: 50 }, () => ({
-    x: 50 + (Math.random() - 0.5) * 80,
-    y: 50 + (Math.random() - 0.5) * 80,
-    s: Math.random() * 2 + 1,
-    d: Math.random() * 0.8,
-    angle: Math.random() * 360,
-    dist: Math.random() * 40 + 10,
+    x: 50 + (getRandomUnit() - 0.5) * 80,
+    y: 50 + (getRandomUnit() - 0.5) * 80,
+    s: getRandomUnit() * 2 + 1,
+    d: getRandomUnit() * 0.8,
+    hue: 190 + getRandomUnit() * 40,
+    lightness: 70 + getRandomUnit() * 20,
+  })));
+  const streaksRef = useRef(Array.from({ length: 12 }, () => ({
+    left: 15 + getRandomUnit() * 70,
+    alpha: 0.1 + getRandomUnit() * 0.15,
+    duration: 0.8 + getRandomUnit() * 0.6,
   })));
 
   return (
@@ -264,23 +412,23 @@ function ThematicIntro({ onComplete }) {
           left: `${star.x}%`, top: `${star.y}%`,
           width: star.s, height: star.s,
           borderRadius: "50%",
-          background: `hsl(${190 + Math.random() * 40}, 80%, ${70 + Math.random() * 20}%)`,
+          background: `hsl(${star.hue}, 80%, ${star.lightness}%)`,
           animation: phase >= 1 ? `warpStar ${1.5 + star.d}s ${star.d * 0.5}s ease-out forwards` : "none",
           opacity: 0,
         }} />
       ))}
 
       {/* Speed streaks */}
-      {phase >= 1 && [...Array(12)].map((_, i) => (
+      {phase >= 1 && streaksRef.current.map((streak, i) => (
         <div key={`s${i}`} style={{
           position: "absolute",
-          left: `${15 + Math.random() * 70}%`,
+          left: `${streak.left}%`,
           top: "0%",
           width: 1,
           height: "100%",
-          background: `linear-gradient(180deg, transparent, rgba(34,211,238,${0.1 + Math.random() * 0.15}), transparent)`,
+          background: `linear-gradient(180deg, transparent, rgba(34,211,238,${streak.alpha}), transparent)`,
           transformOrigin: "top center",
-          animation: `streakLine ${0.8 + Math.random() * 0.6}s ${i * 0.08}s ease-out forwards`,
+          animation: `streakLine ${streak.duration}s ${i * 0.08}s ease-out forwards`,
         }} />
       ))}
 
@@ -368,6 +516,7 @@ function ThematicIntro({ onComplete }) {
     </div>
   );
 }
+ThematicIntro.propTypes = { onComplete: PropTypes.func.isRequired };
 
 // ─── THEME SELECTOR (Start Page) ───
 function ThemeSelector({ onSelect }) {
@@ -434,12 +583,14 @@ function ThemeSelector({ onSelect }) {
     </div>
   );
 }
+ThemeSelector.propTypes = { onSelect: PropTypes.func.isRequired };
 
 // ─── BACK BUTTON ───
 function BackBtn({ onClick }) {
   const T = useContext(ThemeCtx);
   return <button onClick={onClick} style={{ background:"none",border:"none",color:T.textDim,fontSize:13,cursor:"pointer",fontFamily:T.fontDisplay,marginBottom:20,display:"flex",alignItems:"center",gap:6 }}><span>←</span> Back</button>;
 }
+BackBtn.propTypes = { onClick: PropTypes.func.isRequired };
 
 // ─── HUMAN SCREEN ───
 function HumanScreen({ topic, onBack }) {
@@ -461,19 +612,30 @@ function HumanScreen({ topic, onBack }) {
           <div><h3 style={{ fontFamily:"'Space Grotesk',sans-serif",fontSize:18,fontWeight:700,color:topic.colorLight,margin:"0 0 8px" }}>{c.title}</h3><p style={{ fontSize:14,color:"#CBD5E1",lineHeight:1.6,margin:0 }}>{c.body}</p></div>
         </div>))}
         <div style={{ textAlign:"center",marginTop:32,padding:"24px",borderTop:`1px solid ${topic.color}20`,borderBottom:`1px solid ${topic.color}20`,opacity:e?1:0,transition:"opacity 1s 0.9s" }}>
-          <p style={{ fontSize:16,color:"#CBD5E1",lineHeight:1.6,margin:0,maxWidth:600,marginLeft:"auto",marginRight:"auto" }}><span style={{ color:topic.colorLight,fontWeight:700 }}>"{topic.callout}"</span></p>
+          <p style={{ fontSize:16,color:"#CBD5E1",lineHeight:1.6,margin:0,maxWidth:600,marginLeft:"auto",marginRight:"auto" }}><span style={{ color:topic.colorLight,fontWeight:700 }}>&ldquo;{topic.callout}&rdquo;</span></p>
         </div>
       </div>
     </div>
   );
 }
+HumanScreen.propTypes = {
+  topic: topicPropType.isRequired,
+  onBack: PropTypes.func.isRequired,
+};
 
 // ─── HURDLES SCREEN ───
 function HurdlesScreen({ topic, onBack }) {
   const T = useContext(ThemeCtx);
   const [e,setE]=useState(false);const [vc,setVc]=useState(0);
   useEffect(()=>{const t=setTimeout(()=>setE(true),50);return()=>clearTimeout(t)},[]);
-  useEffect(()=>{if(!e)return;const iv=topic.cards.map((_,i)=>setTimeout(()=>setVc(i+1),400+i*250));return()=>iv.forEach(clearTimeout)},[e,topic.cards.length]);
+  useEffect(() => {
+    if (!e) {
+      return undefined;
+    }
+
+    const iv = topic.cards.map((_, i) => setTimeout(() => setVc(i + 1), 400 + i * 250));
+    return () => iv.forEach(clearTimeout);
+  }, [e, topic.cards]);
   return (
     <div style={{ position:"relative",minHeight:"100vh",background:T.bg,overflow:"hidden" }}>
       <Particles color={topic.color} type="hurdles" active={e}/>
@@ -485,8 +647,8 @@ function HurdlesScreen({ topic, onBack }) {
           <p style={{ fontSize:15,color:topic.colorLight,fontStyle:"italic",margin:0,paddingLeft:52 }}>{topic.subtitle}</p>
         </div>
         <div style={{ display:"grid",gridTemplateColumns:"1fr 1fr",gap:20,maxWidth:1100 }}>
-          {topic.cards.map((c,i)=>{const v=i<vc,fl=i%2===0;return(
-            <div key={i} style={{ background:"#162240",borderRadius:12,padding:"24px 28px",borderTop:`3px solid ${topic.color}`,position:"relative",overflow:"hidden",opacity:v?1:0,transform:v?"translateX(0) scale(1)":`translateX(${fl?"-60px":"60px"}) scale(0.92)`,transition:"all 0.45s cubic-bezier(0.34,1.56,0.64,1)" }}>
+          {topic.cards.map((c,i)=>{const v=i<vc,fl=i%2===0;const hiddenTransform=`translateX(${fl ? "-60px" : "60px"}) scale(0.92)`;return(
+            <div key={i} style={{ background:"#162240",borderRadius:12,padding:"24px 28px",borderTop:`3px solid ${topic.color}`,position:"relative",overflow:"hidden",opacity:v?1:0,transform:v?"translateX(0) scale(1)":hiddenTransform,transition:"all 0.45s cubic-bezier(0.34,1.56,0.64,1)" }}>
               <div style={{ position:"absolute",inset:0,background:`radial-gradient(circle at ${fl?"left":"right"} center,${topic.color}15,transparent 60%)`,opacity:v?1:0,transition:"opacity 0.3s" }}/>
               <div style={{ position:"relative",zIndex:1 }}>
                 <div style={{ display:"flex",alignItems:"center",gap:10,marginBottom:14 }}><div style={{ width:28,height:28,borderRadius:6,background:topic.color+"20",display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,fontSize:13,color:topic.color }}>{i+1}</div><h3 style={{ fontFamily:"'Space Grotesk',sans-serif",fontSize:17,fontWeight:700,color:"#F0F4F8",margin:0 }}>{c.title}</h3></div>
@@ -502,6 +664,10 @@ function HurdlesScreen({ topic, onBack }) {
     </div>
   );
 }
+HurdlesScreen.propTypes = {
+  topic: topicPropType.isRequired,
+  onBack: PropTypes.func.isRequired,
+};
 
 // ─── FUTURE SCREEN ───
 function FutureScreen({ topic, onBack }) {
@@ -526,6 +692,10 @@ function FutureScreen({ topic, onBack }) {
     </div>
   );
 }
+FutureScreen.propTypes = {
+  topic: topicPropType.isRequired,
+  onBack: PropTypes.func.isRequired,
+};
 
 // ═══════════════════════════════════════════
 // SPRINT CYCLE: FIGURE-8 (OPTION B)
@@ -628,6 +798,7 @@ function Figure8Cycle({ entered }) {
     </div>
   );
 }
+Figure8Cycle.propTypes = { entered: PropTypes.bool.isRequired };
 
 // ═══════════════════════════════════════════
 // SPRINT CYCLE: CIRCULAR RING (OPTION C)
@@ -745,6 +916,7 @@ function CircularRingCycle({ entered }) {
     </div>
   );
 }
+CircularRingCycle.propTypes = { entered: PropTypes.bool.isRequired };
 
 // ═══════════════════════════════════════════
 // SPRINT SCREEN (with B/C toggle)
@@ -800,6 +972,10 @@ function SprintScreen({ topic, onBack }) {
     </div>
   );
 }
+SprintScreen.propTypes = {
+  topic: topicPropType.isRequired,
+  onBack: PropTypes.func.isRequired,
+};
 
 // ═══════════════════════════════════════════
 // MAIN APP
