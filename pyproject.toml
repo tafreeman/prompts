@@ -41,6 +41,12 @@ members = [
     "agentic-v2-eval",
 ]
 
+[tool.pytest.ini_options]
+markers = [
+    "e2e: end-to-end cross-package integration tests",
+    "slow: tests taking more than 5 seconds",
+]
+
 # ---------------------------------------------------------------------------
 # Ruff — shared config inherited by all workspace members
 # ---------------------------------------------------------------------------
