@@ -6,6 +6,11 @@ Provides the high-level ``WorkflowRunner`` class that:
 3. Compiles it into a LangGraph
 4. Executes (invoke / stream)
 5. Resolves outputs
+
+Result construction helpers are implemented in :mod:`.result_builder` and
+imported here.  The private aliases ``_steps_dict_to_list`` and
+``_build_workflow_result`` are kept at module level so any existing internal
+call sites continue to work without change.
 """
 
 from __future__ import annotations
@@ -13,7 +18,7 @@ from __future__ import annotations
 import logging
 import time
 import uuid
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, AsyncIterator, Iterator
 
@@ -23,120 +28,18 @@ from ..integrations.tracing import NullTraceAdapter
 from .config import WorkflowConfig, list_workflows, load_workflow_config
 from .expressions import resolve_expression
 from .graph import compile_workflow
+from .result_builder import (
+    build_workflow_result,
+    extract_metadata,
+    steps_dict_to_list,
+)
 from .state import initial_state
 
 logger = logging.getLogger(__name__)
 
-
-def _steps_dict_to_list(
-    steps_dict: dict[str, dict],
-    token_counts: dict[str, dict] | None = None,
-    models_used: dict[str, str] | None = None,
-) -> list[StepResult]:
-    """Convert LangGraph step dict to a list of contract StepResult objects.
-
-    Args:
-        steps_dict: Mapping of step name → step data from LangGraph state.
-        token_counts: Per-step token counts extracted from metadata.
-        models_used: Per-step model identifiers.
-
-    Returns:
-        Ordered list of ``StepResult`` Pydantic models.
-    """
-    token_counts = token_counts or {}
-    models_used = models_used or {}
-    results: list[StepResult] = []
-
-    for step_name, step_data in steps_dict.items():
-        if not isinstance(step_data, dict):
-            continue
-
-        raw_status = step_data.get("status", "success")
-        if raw_status == "success":
-            status = StepStatus.SUCCESS
-        elif raw_status in ("failed", "error"):
-            status = StepStatus.FAILED
-        elif raw_status == "skipped":
-            status = StepStatus.SKIPPED
-        else:
-            logger.warning(
-                "Unknown step status %r for step %r, defaulting to FAILED",
-                raw_status,
-                step_name,
-            )
-            status = StepStatus.FAILED
-
-        step_tokens = token_counts.get(step_name, {})
-        meta: dict[str, Any] = {}
-        if step_tokens:
-            meta["input_tokens"] = step_tokens.get("input", 0)
-            meta["output_tokens"] = step_tokens.get("output", 0)
-
-        results.append(
-            StepResult(
-                step_name=step_name,
-                status=status,
-                agent_role=step_data.get("agent"),
-                model_used=models_used.get(step_name),
-                input_data=step_data.get("inputs", {}),
-                output_data=step_data.get("outputs", {}),
-                error=step_data.get("error"),
-                metadata=meta,
-            )
-        )
-
-    return results
-
-
-def _build_workflow_result(
-    *,
-    workflow_name: str,
-    run_id: str,
-    started_at: datetime,
-    elapsed_seconds: float,
-    final_state: dict[str, Any] | None = None,
-    outputs: dict[str, Any] | None = None,
-    steps: list[StepResult] | None = None,
-    errors: list[str] | None = None,
-    token_counts: dict[str, dict] | None = None,
-    models_used: dict[str, str] | None = None,
-    failed: bool = False,
-) -> WorkflowResult:
-    """Construct a canonical WorkflowResult from LangGraph execution state.
-
-    Bridges between the LangGraph runner's internal data and the
-    contract type used throughout the rest of the system.
-    """
-    errors = errors or []
-    if failed or errors:
-        overall_status = StepStatus.FAILED
-    else:
-        overall_status = StepStatus.SUCCESS
-
-    ended_at = started_at + timedelta(seconds=elapsed_seconds)
-
-    metadata: dict[str, Any] = {
-        "elapsed_seconds": elapsed_seconds,
-    }
-    if token_counts:
-        metadata["token_counts"] = token_counts
-    if models_used:
-        metadata["models_used"] = models_used
-    if final_state is not None:
-        metadata["final_state"] = final_state
-    if errors:
-        metadata["errors"] = errors
-
-    return WorkflowResult(
-        workflow_id=run_id,
-        workflow_name=workflow_name,
-        steps=steps or [],
-        overall_status=overall_status,
-        start_time=started_at,
-        end_time=ended_at,
-        final_output=outputs or {},
-        metadata=metadata,
-    )
+# Private aliases keep call-site names stable throughout this module.
+_steps_dict_to_list = steps_dict_to_list
+_build_workflow_result = build_workflow_result
 
 
 class WorkflowRunner:
@@ -656,23 +559,11 @@ class WorkflowRunner:
     def extract_metadata(
         final_state: dict[str, Any],
     ) -> tuple[dict[str, dict], dict[str, str]]:
-        """Extract token counts and models used from final workflow state."""
-        token_counts: dict[str, dict] = {}
-        models_used: dict[str, str] = {}
+        """Extract token counts and models used from final workflow state.
 
-        for step_name, step_data in final_state.get("steps", {}).items():
-            # Extract token counts if available in metadata
-            meta = step_data.get("metadata", {})
-            if meta.get("input_tokens") or meta.get("output_tokens"):
-                token_counts[step_name] = {
-                    "input": meta.get("input_tokens", 0),
-                    "output": meta.get("output_tokens", 0),
-                }
-            # Extract model used if available
-            if model := meta.get("model"):
-                models_used[step_name] = model
-
-        return token_counts, models_used
+        Delegates to :func:`.result_builder.extract_metadata`.
+        """
+        return extract_metadata(final_state)
 
     # -----------------------------------------------------------------
     # Internal

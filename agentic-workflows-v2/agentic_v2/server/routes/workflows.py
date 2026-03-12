@@ -1,6 +1,6 @@
-"""Workflow execution, DAG visualization, run history, and evaluation routes.
+"""Workflow execution, DAG visualization, and evaluation routes.
 
-This is the largest route module, providing:
+This is the primary route module, providing:
 
 * ``GET /api/workflows`` -- list available workflow definitions.
 * ``GET /api/workflows/{name}/dag`` -- return DAG nodes, edges, and input
@@ -8,14 +8,14 @@ This is the largest route module, providing:
 * ``GET /api/workflows/{name}/capabilities`` -- return workflow I/O declarations.
 * ``POST /api/run`` -- execute a workflow asynchronously with optional
   dataset-backed evaluation scoring.
-* ``GET /api/runs`` -- list past runs with summary metadata.
-* ``GET /api/runs/summary`` -- aggregate statistics across runs.
-* ``GET /api/runs/{filename}`` -- full run detail with step data.
-* ``GET /api/runs/{run_id}/stream`` -- SSE event stream for a running workflow.
 * ``GET /api/eval/datasets`` -- list repository and local datasets for the
   evaluation picker UI.
 * ``GET /api/workflows/{name}/preview-dataset-inputs`` -- preview dataset-to-input
   field mapping before execution.
+
+Run-history routes (``GET /api/runs``, ``GET /api/runs/summary``,
+``GET /api/runs/{filename}``, ``GET /api/runs/{run_id}/stream``) are provided
+by :mod:`~agentic_v2.server.routes.runs`.
 
 Workflow execution uses :class:`~agentic_v2.langchain.WorkflowRunner` as the
 primary LangGraph-based engine.  Execution runs in a FastAPI background task;
@@ -24,21 +24,16 @@ real-time step events are broadcast via :mod:`~agentic_v2.server.websocket`.
 
 from __future__ import annotations
 
-import asyncio
-import json
 import logging
 import os
 import uuid
 from datetime import datetime, timedelta, timezone
-from pathlib import Path
 from typing import Any, Mapping, Optional
 
 from fastapi import APIRouter, BackgroundTasks, HTTPException
-from fastapi.responses import StreamingResponse
 
 from ...contracts import StepResult, StepStatus, WorkflowResult
 from ...integrations.otel import create_trace_adapter
-from ...utils.path_safety import is_within_base
 
 # LangChain imports — optional at the package level.  Guard so the
 # server module can be imported even without langchain extras.
@@ -114,11 +109,6 @@ def _resolve_judge_model() -> str | None:
         if value and value.strip():
             return value.strip()
     return None
-
-
-def _is_within_base(path, base_dir) -> bool:
-    """Compatibility shim for tests importing this helper directly."""
-    return is_within_base(path, base_dir)
 
 
 def _is_effectively_empty(value: Any) -> bool:
@@ -535,151 +525,6 @@ async def get_workflow_capabilities(name: str):
         "workflow": wf.name,
         "capabilities": wf.capabilities,
     }
-
-
-@router.get("/runs")
-async def list_runs(
-    workflow: Optional[str] = None,
-    limit: int = 50,
-):
-    """List past workflow runs with summary data."""
-    paths = run_logger.list_runs(workflow_name=workflow)
-    results = []
-    # Reverse iterate, take at most limit valid runs
-    for p in reversed(paths):
-        if len(results) >= limit:
-            break
-        try:
-            record = run_logger.load_run(p)
-            # Skip invalid runs (e.g., config files)
-            if (
-                not isinstance(record, dict)
-                or "workflow_name" not in record
-                or "status" not in record
-            ):
-                continue
-
-            extra = record.get("extra") if isinstance(record.get("extra"), dict) else {}
-            evaluation = (
-                extra.get("evaluation")
-                if isinstance(extra.get("evaluation"), dict)
-                else {}
-            )
-            results.append(
-                {
-                    "filename": p.name,
-                    **{
-                        k: v
-                        for k, v in record.items()
-                        if k
-                        in (
-                            "run_id",
-                            "workflow_name",
-                            "status",
-                            "success_rate",
-                            "total_duration_ms",
-                            "step_count",
-                            "failed_step_count",
-                            "start_time",
-                            "end_time",
-                        )
-                    },
-                    "evaluation_score": evaluation.get("weighted_score"),
-                    "evaluation_grade": evaluation.get("grade"),
-                }
-            )
-        except Exception as e:
-            logger.warning("Failed to load run %s: %s", p.name, e)
-    return results
-
-
-@router.get("/runs/summary")
-async def runs_summary(workflow: Optional[str] = None):
-    """Aggregate stats across runs."""
-    return run_logger.summary(workflow_name=workflow)
-
-
-@router.get("/runs/{filename}")
-async def get_run(filename: str):
-    """Get full run detail including all step data."""
-    base_dir = run_logger.runs_dir
-    candidate = (base_dir / filename).resolve()
-    if not _is_within_base(candidate, base_dir):
-        # Do not leak filesystem layout; treat as not found
-        raise HTTPException(status_code=404, detail=f"Run not found: {filename}")
-    if not Path(candidate).exists():
-        raise HTTPException(status_code=404, detail=f"Run not found: {filename}")
-
-    run_data = run_logger.load_run(candidate)
-
-    # Best-effort retroactive model identification
-    # If model_used is missing in the run log, try to infer it from current workflow config
-    workflow_name = run_data.get("workflow_name")
-    if workflow_name:
-        try:
-            config = load_workflow_config(workflow_name)
-            steps_cfg = {s.name: s for s in config.steps}
-
-            for step in run_data.get("steps", []):
-                # Skip if we already have a model
-                if step.get("model_used"):
-                    continue
-
-                # Skip tier 0 (no model)
-                if step.get("tier") == 0:
-                    continue
-
-                s_name = step.get("step_name")
-                if s_name in steps_cfg:
-                    step_cfg = steps_cfg[s_name]
-
-                    # 1. Check specific model override
-                    if step_cfg.model_override:
-                        val = step_cfg.model_override
-                        # Handle "env:VAR|fallback"
-                        if val.startswith("env:"):
-                            parts = val.split("|", 1)
-                            if len(parts) > 1:
-                                env_key = parts[0][4:]
-                                val = os.environ.get(env_key, parts[1])
-                            else:
-                                env_key = val[4:]
-                                val = os.environ.get(env_key, val)
-
-                        step["model_used"] = val
-                        # Mark as inferred (optional, maybe distinct UI style?)
-                        step["metadata"] = step.get("metadata", {})
-                        step["metadata"]["model_inferred"] = True
-        except Exception:
-            # Workflow definition might have changed or been deleted; ignore errors
-            pass
-
-    return run_data
-
-
-@router.get("/runs/{run_id}/stream")
-async def stream_run_events(run_id: str):
-    """SSE stream of execution events for a running workflow."""
-
-    async def event_generator():
-        queue: asyncio.Queue[dict[str, Any]] = asyncio.Queue()
-        websocket.manager.register_sse_listener(run_id, queue)
-        try:
-            while True:
-                try:
-                    event = await asyncio.wait_for(queue.get(), timeout=30)
-                    yield f"data: {json.dumps(event)}\n\n"
-                    if event.get("type") in {
-                        "evaluation_complete",
-                        "workflow_end",
-                    }:
-                        break
-                except asyncio.TimeoutError:
-                    yield f"data: {json.dumps({'type': 'keepalive'})}\n\n"
-        finally:
-            websocket.manager.unregister_sse_listener(run_id, queue)
-
-    return StreamingResponse(event_generator(), media_type="text/event-stream")
 
 
 @router.get("/eval/datasets", response_model=ListEvaluationDatasetsResponse)
