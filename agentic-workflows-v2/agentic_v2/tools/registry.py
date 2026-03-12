@@ -3,10 +3,13 @@
 from __future__ import annotations
 
 import importlib
+import logging
 import pkgutil
 from pathlib import Path
 
 from .base import BaseTool, ToolSchema
+
+logger = logging.getLogger(__name__)
 
 
 class ToolRegistry:
@@ -120,7 +123,7 @@ class ToolRegistry:
             self._initialized = True
         except Exception as e:
             # Log error but don't fail
-            print(f"Warning: Failed to discover builtin tools: {e}")
+            logger.warning(f"Failed to discover builtin tools: {e}")
 
     def clear(self) -> None:
         """Clear all registered tools."""
