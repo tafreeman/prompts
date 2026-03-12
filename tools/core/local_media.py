@@ -444,7 +444,7 @@ Examples:
             seed=args.seed,
             verbose=args.verbose,
         )
-        print(f"Generated: {result}")
+        logger.info(f"Generated: {result}")
 
     elif args.command == "transcribe":
         result = transcribe_audio(
@@ -454,7 +454,7 @@ Examples:
             output_path=args.output,
             verbose=args.verbose,
         )
-        print(f"\nTranscription:\n{result}")
+        logger.info(f"\nTranscription:\n{result}")
 
     elif args.command == "upscale":
         result = upscale_image(
@@ -462,7 +462,7 @@ Examples:
             output_path=args.output,
             verbose=args.verbose,
         )
-        print(f"Upscaled: {result}")
+        logger.info(f"Upscaled: {result}")
 
     else:
         parser.print_help()

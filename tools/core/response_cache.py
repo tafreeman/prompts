@@ -446,20 +446,20 @@ def main():
 
     if args.clear:
         count = cache.clear()
-        print(f"Cleared {count} cache entries")
+        logger.info(f"Cleared {count} cache entries")
     elif args.cleanup:
         count = cache.cleanup_expired()
-        print(f"Removed {count} expired entries")
+        logger.info(f"Removed {count} expired entries")
     elif args.stats:
         stats = cache.get_stats()
-        print("\nResponse Cache Statistics:")
-        print(f"  Entries:   {stats['entries']}")
-        print(f"  Hits:      {stats['hits']}")
-        print(f"  Misses:    {stats['misses']}")
-        print(f"  Writes:    {stats['writes']}")
-        print(f"  Hit Rate:  {stats['hit_rate']}%")
-        print(f"  TTL:       {stats['ttl_hours']} hours")
-        print(f"  Location:  {get_cache_dir()}")
+        logger.info("\nResponse Cache Statistics:")
+        logger.info(f"  Entries:   {stats['entries']}")
+        logger.info(f"  Hits:      {stats['hits']}")
+        logger.info(f"  Misses:    {stats['misses']}")
+        logger.info(f"  Writes:    {stats['writes']}")
+        logger.info(f"  Hit Rate:  {stats['hit_rate']}%")
+        logger.info(f"  TTL:       {stats['ttl_hours']} hours")
+        logger.info(f"  Location:  {get_cache_dir()}")
     else:
         parser.print_help()
 

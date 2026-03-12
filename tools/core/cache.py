@@ -30,11 +30,14 @@ implementation. Both modules now use the same underlying cache storage.
 
 from __future__ import annotations
 
+import logging
 import os
 from typing import Any
 
 # Import the canonical implementation
 from response_cache import DEFAULT_TTL_HOURS, ResponseCache, get_cache_dir
+
+logger = logging.getLogger(__name__)
 
 # =============================================================================
 # GLOBAL CACHE INSTANCE
@@ -199,16 +202,16 @@ if __name__ == "__main__":
 
     if args.stats:
         stats = get_cache_stats()
-        print(f"Cache entries: {stats.get('entries', 0)}")
-        print(f"Hits: {stats.get('hits', 0)}")
-        print(f"Misses: {stats.get('misses', 0)}")
-        print(f"Hit rate: {stats.get('hit_rate', 0)}%")
-        print(f"Cache location: {get_cache_dir()}")
+        logger.info(f"Cache entries: {stats.get('entries', 0)}")
+        logger.info(f"Hits: {stats.get('hits', 0)}")
+        logger.info(f"Misses: {stats.get('misses', 0)}")
+        logger.info(f"Hit rate: {stats.get('hit_rate', 0)}%")
+        logger.info(f"Cache location: {get_cache_dir()}")
     elif args.clear:
         cleared = clear_cache()
-        print(f"Cleared {cleared} cache entries")
+        logger.info(f"Cleared {cleared} cache entries")
     elif args.clear_old:
         cleared = clear_cache(max_age_hours=args.clear_old)
-        print(f"Cleared {cleared} cache entries older than {args.clear_old} hours")
+        logger.info(f"Cleared {cleared} cache entries older than {args.clear_old} hours")
     else:
         parser.print_help()

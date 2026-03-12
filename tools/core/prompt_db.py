@@ -3,9 +3,12 @@
 from __future__ import annotations
 
 import json
+import logging
 import os
 import uuid
 from datetime import datetime
+
+logger = logging.getLogger(__name__)
 
 DB_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "db")
 PROMPTS_FILE = os.path.join(DB_DIR, "prompts.json")
@@ -139,6 +142,6 @@ class PromptDatabase:
 if __name__ == "__main__":
     # Simple test
     db = PromptDatabase()
-    print(
+    logger.info(
         f"Loaded {len(db.prompts)} prompts, {len(db.rubrics)} rubrics, {len(db.evaluations)} evaluations."
     )

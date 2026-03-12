@@ -33,6 +33,8 @@ from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
+logger = logging.getLogger(__name__)
+
 
 def _repo_root() -> Path:
     # prompts/tools/model_inventory.py -> prompts/

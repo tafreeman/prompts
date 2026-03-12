@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import logging
 import os
 import time
 from dataclasses import asdict, dataclass
@@ -18,6 +19,8 @@ from pathlib import Path
 from typing import Any, Callable
 
 from tools.core.errors import ErrorCode, classify_error
+
+logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
 # Load .env so provider API keys are available via os.getenv().
@@ -331,7 +334,7 @@ def with_retry(
 
                     delay = delay * (JITTER_LOWER + random.random() * JITTER_RANGE)
 
-                    print(
+                    logger.debug(
                         f"[Retry] {code.value}: attempt {attempt + 1}/{max_retries}, waiting {delay:.1f}s"
                     )
                     time.sleep(delay)

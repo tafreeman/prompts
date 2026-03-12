@@ -137,10 +137,10 @@ def clear_all_locks():
 
 if __name__ == "__main__":
     # Show current locks
-    print("Current model locks:")
+    logger.info("Current model locks:")
     in_use = get_models_in_use()
     if in_use:
         for model, info in in_use.items():
-            print(f"  - {model}: {info}")
+            logger.info(f"  - {model}: {info}")
     else:
-        print("  (none)")
+        logger.info("  (none)")

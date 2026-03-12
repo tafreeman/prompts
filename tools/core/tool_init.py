@@ -468,11 +468,11 @@ def with_retry(
 
 def main():
     """Self-test and demo."""
-    print("Tool Init Module - Self Test")
-    print("=" * 40)
+    logger.info("Tool Init Module - Self Test")
+    logger.info("=" * 40)
 
     # Test encoding fix
-    print("✓ Unicode test: 你好世界 🎉 émojis")
+    logger.info("✓ Unicode test: 你好世界 🎉 émojis")
 
     # Test error classification
     test_errors = [
@@ -482,13 +482,13 @@ def main():
         "Connection refused",
     ]
 
-    print("\nError Classification:")
+    logger.info("\nError Classification:")
     for err in test_errors:
         code, retry = classify_error(err)
-        print(f"  '{err}' -> {code} (retry={retry})")
+        logger.info(f"  '{err}' -> {code} (retry={retry})")
 
     # Test init (without actual model check)
-    print("\nTool Init Demo:")
+    logger.info("\nTool Init Demo:")
     init = ToolInit(name="demo", verbose=True)
     init.set_total(3)
 
@@ -501,8 +501,8 @@ def main():
 
     init.summary()
 
-    print(f"\nLog file created: {init.log_file}")
-    print(f"Exit code would be: {init.exit_code()}")
+    logger.info(f"\nLog file created: {init.log_file}")
+    logger.info(f"Exit code would be: {init.exit_code()}")
 
 
 if __name__ == "__main__":

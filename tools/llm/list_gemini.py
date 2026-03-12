@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import sys
 from pathlib import Path
 
@@ -9,14 +10,16 @@ sys.path.insert(0, str(repo_root))
 
 from tools.llm.llm_client import LLMClient
 
+logger = logging.getLogger(__name__)
+
 try:
-    print("Checking for Gemini models...")
+    logger.info("Checking for Gemini models...")
     models = LLMClient.list_gemini_models()
     if models:
-        print(f"Found {len(models)} Gemini models:")
+        logger.info(f"Found {len(models)} Gemini models:")
         for m in models:
-            print(f"- {m}")
+            logger.info(f"- {m}")
     else:
-        print("No Gemini models found. Check GEMINI_API_KEY env var.")
+        logger.info("No Gemini models found. Check GEMINI_API_KEY env var.")
 except Exception as e:
-    print(f"Error listing models: {e}")
+    logger.error(f"Error listing models: {e}")
