@@ -89,6 +89,7 @@ class OrchestratorAgent(
 ):
     """Meta-agent that coordinates a pool of registered agents."""
 
+
     _task_input_factories: dict[type, Callable[[str], Any]] = {}
 
     @classmethod
@@ -162,7 +163,6 @@ class OrchestratorAgent(
 
     def _format_task_message(self, task: OrchestratorInput) -> str:
         """Format orchestration task."""
-        # Build agent info
         agent_info = []
         for name, agent in self._agents.items():
             caps = self._agent_capabilities.get(name, CapabilitySet())
@@ -375,6 +375,7 @@ class OrchestratorAgent(
 
         return results
 
+
     async def decompose_task(self, task: str) -> list[dict[str, Any]]:
         """Decompose a task into subtasks."""
         input_task = OrchestratorInput(task=task)
@@ -413,6 +414,7 @@ class OrchestratorAgent(
                 best_agent = agent
 
         return best_agent
+
 
     async def execute_as_dag(
         self, task: OrchestratorInput, ctx: ExecutionContext | None = None
@@ -475,6 +477,7 @@ class OrchestratorAgent(
 
             engine = DAGExecutor()
         return await engine.execute(dag, ctx, max_concurrency=task.max_parallel)
+
 
     async def execute_as_pipeline(
         self, task: OrchestratorInput, ctx: ExecutionContext | None = None

@@ -103,12 +103,7 @@ class SmartModelRouter(ModelRouter):
         return self._probe_locks[provider]
 
     def record_success(self, model: str, latency_ms: float) -> None:
-        """Record a successful call.
-
-        Args:
-            model: Model identifier
-            latency_ms: Call latency in milliseconds
-        """
+        """Record a successful call."""
         stats = self._get_stats(model)
         stats.record_success(latency_ms)
         self.mark_available(model)
@@ -119,13 +114,7 @@ class SmartModelRouter(ModelRouter):
     def record_failure(
         self, model: str, error_type: str = "unknown", is_permanent: bool = False
     ) -> None:
-        """Record a failed call.
-
-        Args:
-            model: Model identifier
-            error_type: Type of error
-            is_permanent: Whether error is permanent (no retry)
-        """
+        """Record a failed call."""
         stats = self._get_stats(model)
         stats.record_failure(error_type)
 
@@ -145,12 +134,7 @@ class SmartModelRouter(ModelRouter):
         model: str,
         response_headers: dict[str, str] | None = None,
     ) -> None:
-        """Record a rate limit hit with provider-aware cooldown (ADR-002E).
-
-        Args:
-            model: Model identifier
-            response_headers: HTTP response headers for Retry-After parsing
-        """
+        """Record a rate limit hit with provider-aware cooldown."""
         stats = self._get_stats(model)
         cooldown = self.rate_limit_tracker.get_cooldown_seconds(
             model, headers=response_headers
@@ -161,11 +145,7 @@ class SmartModelRouter(ModelRouter):
             self._save_stats()
 
     def record_timeout(self, model: str) -> None:
-        """Record a timeout.
-
-        Args:
-            model: Model identifier
-        """
+        """Record a timeout."""
         stats = self._get_stats(model)
         stats.record_timeout()
 
@@ -178,16 +158,12 @@ class SmartModelRouter(ModelRouter):
     def _calculate_cooldown(self, stats: ModelStats, error_type: str) -> int:
         """Calculate adaptive cooldown duration."""
         cfg = self.cooldown_config
-
-        # Base duration by error type
         if error_type == "rate_limit":
             base = cfg.base_rate_limit_cooldown_seconds
         elif error_type == "timeout":
             base = cfg.base_timeout_cooldown_seconds
         else:
             base = cfg.base_failure_cooldown_seconds
-
-        # Scale by consecutive failures
         failures = stats._consecutive_failures
         multiplier = cfg.consecutive_failure_multiplier ** min(failures, 5)
 
@@ -201,7 +177,6 @@ class SmartModelRouter(ModelRouter):
     ) -> list[tuple[str, ModelStats]]:
         """Search adjacent tiers for available models."""
         all_tiers = sorted(ModelTier, key=lambda t: t.value)
-        # Exclude TIER_0 and the original tier
         eligible = [
             t for t in all_tiers if t != original_tier and t != ModelTier.TIER_0
         ]
@@ -209,7 +184,6 @@ class SmartModelRouter(ModelRouter):
         # Sort by distance from original tier, preferring lower (degrade) first
         def tier_priority(t: ModelTier) -> tuple[int, int]:
             distance = abs(t.value - original_tier.value)
-            # Prefer lower tiers (degrade) over higher (escalate)
             direction = 0 if t.value < original_tier.value else 1
             return (distance, direction)
 
@@ -256,8 +230,6 @@ class SmartModelRouter(ModelRouter):
     ) -> str | None:
         """Get best available model for a tier with cross-tier degradation."""
         candidates = self._find_candidates_in_tier(tier, max_cost)
-
-        # ADR-002B: Cross-tier degradation when primary tier is exhausted
         if not candidates and allow_cross_tier:
             candidates = self._cross_tier_search(tier, max_cost)
 
@@ -291,14 +263,7 @@ class SmartModelRouter(ModelRouter):
     def get_fallback_chain_with_health(
         self, tier: ModelTier
     ) -> list[tuple[str, float]]:
-        """Get fallback chain with health scores.
-
-        Args:
-            tier: Model tier
-
-        Returns:
-            List of (model, health_score) tuples, sorted by health
-        """
+        """Get fallback chain with health scores."""
         chain = self.get_chain(tier)
         scored = []
 
@@ -311,14 +276,7 @@ class SmartModelRouter(ModelRouter):
         return scored
 
     def predict_availability(self, model: str) -> dict[str, Any]:
-        """Predict model availability.
-
-        Args:
-            model: Model identifier
-
-        Returns:
-            Prediction dict with confidence and reason
-        """
+        """Predict model availability (dict with confidence and reason)."""
         stats = self._get_stats(model)
 
         # Check obvious blockers
@@ -355,7 +313,6 @@ class SmartModelRouter(ModelRouter):
             }
 
         if stats.rate_limit_count > 5:
-            # High rate limit history suggests future limits
             return {
                 "available": True,
                 "confidence": 0.6,
@@ -414,13 +371,9 @@ class SmartModelRouter(ModelRouter):
     def _is_model_ready_for_attempt(self, model: str) -> bool:
         """Check if a model can accept a request right now."""
         stats = self._get_stats(model)
-
-        # ADR-002D: Skip if another probe is testing this half-open provider
         if stats.circuit_state == CircuitState.HALF_OPEN:
             if self._get_probe_lock(model).locked():
                 return False
-
-        # ADR-002A: Skip if provider is at bulkhead capacity
         semaphore = self._get_semaphore(model)
         if semaphore._value <= 0:
             return False
@@ -440,7 +393,7 @@ class SmartModelRouter(ModelRouter):
             return await caller(model, prompt)
 
     def _classify_and_record_error(self, model: str, error: Exception) -> None:
-        """Classify an error and record it with appropriate cooldown."""
+        """Classify error and record with appropriate cooldown."""
         error_str = str(error).lower()
         response_headers = getattr(error, "headers", None)
         headers_dict: dict[str, str] | None = None

@@ -38,14 +38,7 @@ class RetryConfig:
     no_retry_on: tuple[type[Exception], ...] = ()
 
     def get_delay(self, attempt: int) -> float:
-        """Calculate the backoff delay for *attempt* (1-indexed).
-
-        Args:
-            attempt: Current attempt number (1 = first retry).
-
-        Returns:
-            Non-negative delay in seconds, capped at ``max_delay_seconds``
-            and perturbed by ±``jitter``.
+        """Calculate backoff delay for attempt (1-indexed, with jitter).
         """
         import random
 
@@ -68,11 +61,7 @@ class RetryConfig:
         return max(0, delay)
 
     def should_retry(self, error: Exception) -> bool:
-        """Check whether *error* should trigger a retry.
-
-        ``no_retry_on`` takes precedence: if the error matches that tuple
-        the answer is always ``False``, regardless of ``retry_on``.
-        """
+        """Check if error should trigger a retry (no_retry_on has priority)."""
         if isinstance(error, self.no_retry_on):
             return False
         return isinstance(error, self.retry_on)
@@ -132,18 +121,7 @@ class StepDefinition:
     metadata: dict[str, Any] = field(default_factory=dict)
 
     def should_run(self, ctx: ExecutionContext) -> bool:
-        """Determine whether this step is eligible to execute.
-
-        Checks, in order: (1) all ``depends_on`` steps are complete and
-        none have failed, (2) ``when`` predicate passes (if set),
-        (3) ``unless`` predicate does not trigger (if set).
-
-        Args:
-            ctx: Current execution context with step completion state.
-
-        Returns:
-            ``True`` if all conditions are satisfied.
-        """
+        """Check if step is eligible to run (dependencies met, when/unless satisfied)."""
         # Check dependencies
         for dep in self.depends_on:
             if not ctx.is_step_complete(dep):
@@ -237,17 +215,7 @@ class StepExecutor:
     async def execute(
         self, step_def: StepDefinition, ctx: ExecutionContext
     ) -> StepResult:
-        """Execute a single step through the full lifecycle pipeline.
-
-        Args:
-            step_def: The step specification to execute.
-            ctx: Parent execution context (a child context is created for
-                isolated input mapping).
-
-        Returns:
-            :class:`StepResult` with status, output data, model info,
-            retry count, and timing metadata.
-        """
+        """Execute a step through the full lifecycle pipeline."""
         result = StepResult(
             step_name=step_def.name,
             status=StepStatus.PENDING,
@@ -468,14 +436,7 @@ class StepExecutor:
             self._running_tasks.pop(step_name, None)
 
     async def cancel(self, step_name: str) -> bool:
-        """Cancel a running step by name.
-
-        Args:
-            step_name: Name of the step to cancel.
-
-        Returns:
-            ``True`` if the task was found and cancelled, ``False`` otherwise.
-        """
+        """Cancel a running step by name (returns True if found and cancelled)."""
         task = self._running_tasks.get(step_name)
         if task and not task.done():
             task.cancel()
@@ -483,11 +444,7 @@ class StepExecutor:
         return False
 
     async def cancel_all(self) -> int:
-        """Cancel every currently running step.
-
-        Returns:
-            Number of tasks successfully cancelled.
-        """
+        """Cancel all running steps (returns count of cancelled tasks)."""
         count = 0
         for name in list(self._running_tasks.keys()):
             if await self.cancel(name):
