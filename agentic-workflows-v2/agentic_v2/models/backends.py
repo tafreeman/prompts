@@ -9,6 +9,10 @@ Provides concrete backends for:
 - Multi-backend dispatcher (routes by model prefix)
 - Mock backend for testing
 
+Cloud backends are defined in backends_cloud.py.
+Local backends are defined in backends_local.py.
+The ABC is defined in backends_base.py.
+
 Implementation classes live in submodules; this module re-exports
 everything so that ``from agentic_v2.models.backends import X`` keeps
 working unchanged.
@@ -20,6 +24,16 @@ import logging
 import os
 from dataclasses import dataclass, field
 from typing import Any, AsyncIterator
+
+from .backends_base import LLMBackend
+from .backends_cloud import (
+    AnthropicBackend,
+    GeminiBackend,
+    GitHubModelsBackend,
+    OpenAIBackend,
+)
+from .backends_local import OllamaBackend
+from typing import Any, AsyncIterator, Optional
 
 from .backends_base import LLMBackend
 from .backends_cloud import (
@@ -295,18 +309,21 @@ def auto_configure_backend() -> LLMBackend:
     return MultiBackend(backends=backends)
 
 
+# ---------------------------------------------------------------------------
+# Re-exports for backward compatibility
+# ---------------------------------------------------------------------------
+# All names that were previously importable from this module remain available.
+
 __all__ = [
-    # Re-exported from submodules for backward compatibility
     "LLMBackend",
     "GitHubModelsBackend",
     "OpenAIBackend",
     "AnthropicBackend",
     "GeminiBackend",
     "OllamaBackend",
-    # Defined here
-    "PREFIX_MAP",
     "MultiBackend",
     "MockBackend",
+    "PREFIX_MAP",
     "get_backend",
     "auto_configure_backend",
 ]
