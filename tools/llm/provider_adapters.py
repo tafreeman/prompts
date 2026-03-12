@@ -3,11 +3,14 @@
 from __future__ import annotations
 
 import json
+import logging
 import os
 import urllib.error
 import urllib.request
 from pathlib import Path
 from typing import Callable, Optional
+
+logger = logging.getLogger(__name__)
 
 
 def call_ollama(
@@ -329,8 +332,8 @@ def call_github_models(
             ):
                 if rate_limit_strategy == "wait" and attempt < max_retries - 1:
                     wait_time = min(base_delay * (2**attempt), 60)
-                    print(
-                        f"  [gh] Rate limited, waiting {wait_time}s (attempt {attempt + 1}/{max_retries})..."
+                    logger.info(
+                        f"[gh] Rate limited, waiting {wait_time}s (attempt {attempt + 1}/{max_retries})..."
                     )
                     time.sleep(wait_time)
                     continue
@@ -345,8 +348,8 @@ def call_github_models(
             return "gh models error: gh CLI not found. Install with: winget install GitHub.cli"
         except subprocess.TimeoutExpired:
             if attempt < max_retries - 1:
-                print(
-                    f"  [gh] Timeout, retrying (attempt {attempt + 1}/{max_retries})..."
+                logger.info(
+                    f"[gh] Timeout, retrying (attempt {attempt + 1}/{max_retries})..."
                 )
                 time.sleep(base_delay)
                 continue

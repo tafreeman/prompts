@@ -18,14 +18,17 @@ from __future__ import annotations
 
 import argparse
 import json
+import logging
 import os
 import sys
 from typing import Any, Dict
 
+logger = logging.getLogger(__name__)
+
 try:
     import requests
 except Exception:
-    print("Please install 'requests' (pip install requests) to run this script.")
+    logger.error("Please install 'requests' (pip install requests) to run this script.")
     sys.exit(1)
 
 try:
@@ -166,7 +169,7 @@ def main(argv: list[str] | None = None) -> int:
         with open(args.probe_file, "r", encoding="utf-8") as f:
             probe = json.load(f)
     except Exception as e:
-        print("Failed to load probe file:", e)
+        logger.error(f"Failed to load probe file: {e}")
         return 2
 
     out: Dict[str, Any] = {"checked": {}, "probe_summary": probe.get("summary")}
@@ -231,9 +234,9 @@ def main(argv: list[str] | None = None) -> int:
     if args.out:
         with open(args.out, "w", encoding="utf-8") as f:
             f.write(json.dumps(out, indent=2))
-        print("Saved check results to:", args.out)
+        logger.info(f"Saved check results to: {args.out}")
     else:
-        print(json.dumps(out, indent=2))
+        logger.info(json.dumps(out, indent=2))
 
     return 0
 

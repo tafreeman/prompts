@@ -18,10 +18,13 @@ Usage:
 
 import atexit
 import json
+import logging
 import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Dict
+
+logger = logging.getLogger(__name__)
 
 
 def get_lock_dir() -> Path:

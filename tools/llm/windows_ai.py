@@ -28,10 +28,13 @@ Docs:
 """
 
 import json
+import logging
 import subprocess
 import sys
 from pathlib import Path
 from typing import Any, Dict, Optional, Tuple
+
+logger = logging.getLogger(__name__)
 
 
 class WindowsAIModel:
@@ -82,9 +85,9 @@ class WindowsAIModel:
                 full_prompt = f"{system_instruction}\n\n{prompt}"
 
             if self.verbose:
-                print("🧠 Running Phi Silica (NPU)...")
-                print(f"   Temperature: {temperature}")
-                print(f"   Max tokens: {max_tokens}")
+                logger.info("Running Phi Silica (NPU)...")
+                logger.info(f"Temperature: {temperature}")
+                logger.info(f"Max tokens: {max_tokens}")
 
             # Call Phi Silica
             response = self._call_phi_silica(

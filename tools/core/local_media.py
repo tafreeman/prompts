@@ -22,8 +22,11 @@ Usage:
 Author: Prompts Library Team
 """
 
+import logging
 from pathlib import Path
 from typing import Optional
+
+logger = logging.getLogger(__name__)
 
 # AI Gallery cache path
 AI_GALLERY_PATH = Path.home() / ".cache" / "aigallery"
@@ -85,7 +88,7 @@ def generate_image(
         )
 
     if verbose:
-        print(f"Loading Stable Diffusion from: {sd_path}")
+        logger.info(f"Loading Stable Diffusion from: {sd_path}")
 
     # Load pipeline
     pipe = OnnxStableDiffusionPipeline.from_pretrained(
@@ -99,7 +102,7 @@ def generate_image(
         generator = np.random.RandomState(seed)
 
     if verbose:
-        print(f"Generating image for: {prompt[:50]}...")
+        logger.info(f"Generating image for: {prompt[:50]}...")
 
     # Generate
     result = pipe(
@@ -121,7 +124,7 @@ def generate_image(
     image.save(output_path)
 
     if verbose:
-        print(f"Image saved to: {output_path}")
+        logger.info(f"Image saved to: {output_path}")
 
     return output_path
 
@@ -186,7 +189,7 @@ def transcribe_audio(
         if available:
             whisper_path = available[0]  # Use first available
             if verbose:
-                print(f"Using available model: {whisper_path.name}")
+                logger.info(f"Using available model: {whisper_path.name}")
         else:
             raise FileNotFoundError(
                 f"Whisper model not found at: {whisper_path}\n"
@@ -194,7 +197,7 @@ def transcribe_audio(
             )
 
     if verbose:
-        print(f"Loading Whisper from: {whisper_path}")
+        logger.info(f"Loading Whisper from: {whisper_path}")
 
     # Load audio
     audio_data, sample_rate = sf.read(audio_path)
@@ -213,12 +216,12 @@ def transcribe_audio(
             )
         except ImportError:
             if verbose:
-                print(
-                    f"Warning: Audio is {sample_rate}Hz, Whisper expects 16kHz. Install librosa for resampling."
+                logger.warning(
+                    f"Audio is {sample_rate}Hz, Whisper expects 16kHz. Install librosa for resampling."
                 )
 
     if verbose:
-        print(f"Audio loaded: {len(audio_data) / 16000:.1f} seconds")
+        logger.info(f"Audio loaded: {len(audio_data) / 16000:.1f} seconds")
 
     # For now, use the transformers library for easier Whisper inference
     # The raw ONNX model requires more complex preprocessing
@@ -257,13 +260,13 @@ def transcribe_audio(
         )
 
     if verbose:
-        print(f"Transcription: {transcription[:100]}...")
+        logger.info(f"Transcription: {transcription[:100]}...")
 
     # Save to file if requested
     if output_path:
         Path(output_path).write_text(transcription, encoding="utf-8")
         if verbose:
-            print(f"Saved to: {output_path}")
+            logger.info(f"Saved to: {output_path}")
 
     return transcription
 
@@ -320,7 +323,7 @@ def upscale_image(
         )
 
     if verbose:
-        print(f"Loading ESRGAN from: {esrgan_path}")
+        logger.info(f"Loading ESRGAN from: {esrgan_path}")
 
     # Load image
     img = Image.open(input_path).convert("RGB")
@@ -334,7 +337,7 @@ def upscale_image(
     img_array = np.expand_dims(img_array, 0)  # Add batch dimension
 
     if verbose:
-        print(f"Input shape: {img_array.shape}")
+        logger.info(f"Input shape: {img_array.shape}")
 
     # Run inference
     session = ort.InferenceSession(str(esrgan_path), providers=["CPUExecutionProvider"])
@@ -356,7 +359,7 @@ def upscale_image(
     upscaled_img.save(output_path)
 
     if verbose:
-        print(f"Upscaled image saved to: {output_path}")
+        logger.info(f"Upscaled image saved to: {output_path}")
 
     return output_path
 

@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import logging
 import os
 import sys
 import time
@@ -14,6 +15,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from threading import Lock
 from typing import Any
+
+logger = logging.getLogger(__name__)
 
 
 def _repo_root() -> Path:
@@ -221,8 +224,8 @@ def main(argv: list[str]) -> int:
     _load_dotenv(_repo_root() / ".env")
 
     if args.dry_run:
-        print("Dry run configuration:")
-        print(json.dumps(vars(args), indent=2))
+        logger.info("Dry run configuration:")
+        logger.info(json.dumps(vars(args), indent=2))
         return 0
 
     rounds = max(1, args.rounds)
@@ -304,23 +307,23 @@ def main(argv: list[str]) -> int:
         out_dir = _repo_root() / out_dir
     out_path = _write_report(payload, out_dir)
 
-    print("Local concurrency test complete")
-    print(f"CPU model: {args.cpu_model}")
-    print(f"GPU model: {args.gpu_model}")
+    logger.info("Local concurrency test complete")
+    logger.info(f"CPU model: {args.cpu_model}")
+    logger.info(f"GPU model: {args.gpu_model}")
     if summary.get("avg_sequential_wall_s") is not None:
-        print(f"Avg sequential wall time: {summary['avg_sequential_wall_s']}s")
-    print(f"Avg parallel wall time: {summary['avg_parallel_wall_s']}s")
+        logger.info(f"Avg sequential wall time: {summary['avg_sequential_wall_s']}s")
+    logger.info(f"Avg parallel wall time: {summary['avg_parallel_wall_s']}s")
     if summary.get("parallel_speedup_vs_sequential") is not None:
-        print(f"Parallel speedup: {summary['parallel_speedup_vs_sequential']}x")
-    print(
+        logger.info(f"Parallel speedup: {summary['parallel_speedup_vs_sequential']}x")
+    logger.info(
         f"Calls: {summary['successful_calls']}/{summary['total_calls']} successful "
         f"(failed={summary['failed_calls']})"
     )
     if summary["failed_calls"] > 0:
-        print(
-            "Warning: one or more model calls failed; latency comparison may be invalid."
+        logger.warning(
+            "One or more model calls failed; latency comparison may be invalid."
         )
-    print(f"Report: {out_path}")
+    logger.info(f"Report: {out_path}")
 
     return 0
 

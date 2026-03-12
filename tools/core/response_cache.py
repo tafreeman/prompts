@@ -28,11 +28,14 @@ Usage:
 
 import hashlib
 import json
+import logging
 import threading
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any, Dict, Optional
+
+logger = logging.getLogger(__name__)
 
 # =============================================================================
 # CONFIGURATION
@@ -122,7 +125,7 @@ class ResponseCache:
 
     def _log(self, msg: str) -> None:
         if self.verbose:
-            print(f"[ResponseCache] {msg}")
+            logger.debug(msg)
 
     def _load_index(self) -> None:
         """Load the cache index from disk."""

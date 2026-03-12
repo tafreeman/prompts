@@ -15,6 +15,7 @@ Raises:
     LLMClientError: On any provider failure (wraps the original exception).
 """
 
+import logging
 import os
 import sys
 from pathlib import Path
@@ -22,6 +23,8 @@ from typing import Optional
 
 from tools.llm import provider_adapters
 from tools.llm.local_models import LOCAL_MODELS
+
+logger = logging.getLogger(__name__)
 
 # =============================================================================
 # WINDOWS CONSOLE ENCODING FIX - Use shared module
@@ -234,7 +237,7 @@ class LLMClient:
                     max_tokens=max_tokens,
                 )
                 if cached is not None:
-                    print(f"[{model_name}] Cache hit")
+                    logger.debug(f"[{model_name}] Cache hit")
                     return cached
         except ImportError:
             cache_enabled = False
@@ -274,7 +277,7 @@ class LLMClient:
                         "Set PROMPTEVAL_ALLOW_REMOTE=1 to enable remote providers."
                     )
 
-        print(f"[{model_name}] Processing request...")
+        logger.debug(f"[{model_name}] Processing request...")
 
         try:
             result = None

@@ -22,9 +22,12 @@ Author: Prompts Library Team
 
 import argparse
 import json
+import logging
 import sys
 from pathlib import Path
 from typing import Any, Dict, List, Optional
+
+logger = logging.getLogger(__name__)
 
 # Default model locations.
 # Keep these portable: avoid hard-coded user paths.
@@ -128,7 +131,7 @@ class LocalModel:
             )
 
         if self.verbose:
-            print(f"Loading model from: {self.model_path}")
+            logger.info(f"Loading model from: {self.model_path}")
 
         self._load_model()
 
@@ -141,7 +144,7 @@ class LocalModel:
             self.tokenizer = og.Tokenizer(self.model)
 
             if self.verbose:
-                print("Model loaded successfully!")
+                logger.info("Model loaded successfully!")
 
         except ImportError:
             raise ImportError(

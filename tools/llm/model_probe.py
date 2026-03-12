@@ -34,6 +34,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import logging
 import os
 import subprocess
 import sys
@@ -42,6 +43,8 @@ from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any, Dict, List, Optional
+
+logger = logging.getLogger(__name__)
 
 # Add parent directory to path for imports when run as script
 if __name__ == "__main__":
@@ -325,7 +328,7 @@ class ModelProbe:
 
     def _log(self, msg: str) -> None:
         if self.verbose:
-            print(f"[ModelProbe] {msg}")
+            logger.debug(msg)
 
     def _get_provider(self, model: str) -> str:
         """Extract provider from model string."""
