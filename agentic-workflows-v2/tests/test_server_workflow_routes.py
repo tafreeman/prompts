@@ -84,7 +84,7 @@ def test_eval_datasets_filtered_by_workflow(monkeypatch):
     client = TestClient(app)
 
     from agentic_v2.langchain import config
-    from agentic_v2.server.routes import workflows
+    from agentic_v2.server.routes import evaluation_routes
 
     def _mock_load_config(name, definitions_dir=None):
         return config.WorkflowConfig(
