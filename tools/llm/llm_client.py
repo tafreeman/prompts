@@ -47,7 +47,7 @@ except ImportError:
             sys.stderr = io.TextIOWrapper(
                 sys.stderr.buffer, encoding="utf-8", errors="replace"
             )
-        except (AttributeError, IOError):
+        except (OSError, AttributeError):
             pass
 
 
@@ -177,9 +177,7 @@ class LLMClient:
                 model_id = name.split("/", 1)[1] if "/" in name else name
                 methods = getattr(m, "supported_generation_methods", None) or []
                 # Only include models that can generate content.
-                if "generateContent" in methods:
-                    models_out.append(model_id)
-                elif "generate_content" in methods:
+                if "generateContent" in methods or "generate_content" in methods:
                     models_out.append(model_id)
         except Exception:
             return []
@@ -238,7 +236,7 @@ class LLMClient:
                     max_tokens=max_tokens,
                 )
                 if cached is not None:
-                    logger.debug("[%s] Cache hit", model_name)
+                    logger.debug(f"[{model_name}] Cache hit")
                     return cached
         except ImportError:
             cache_enabled = False
@@ -278,7 +276,7 @@ class LLMClient:
                         "Set PROMPTEVAL_ALLOW_REMOTE=1 to enable remote providers."
                     )
 
-        logger.info("[%s] Processing request...", model_name)
+        logger.debug(f"[{model_name}] Processing request...")
 
         try:
             result = None

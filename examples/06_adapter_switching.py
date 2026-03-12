@@ -33,6 +33,7 @@ from agentic_v2.engine import (
     PipelineExecutor,
     StepDefinition,
 )
+
 logging.basicConfig(level=logging.INFO, format="%(levelname)s | %(message)s")
 logger = logging.getLogger(__name__)
 
@@ -62,7 +63,8 @@ async def validate_data(ctx: ExecutionContext) -> dict[str, Any]:
 
 
 async def enrich_data(ctx: ExecutionContext) -> dict[str, Any]:
-    """Enrich data with metadata (depends on fetch_data, parallel with validate)."""
+    """Enrich data with metadata (depends on fetch_data, parallel with
+    validate)."""
     await asyncio.sleep(0.08)
     raw = ctx.get_sync("raw_data")
     records = raw if isinstance(raw, list) else []
@@ -162,7 +164,7 @@ async def demo_dag_execution() -> None:
     print(f"  DAG: {dag.name}")
     print(f"  Steps: {[s.name for s in dag.steps.values()]}")
     print(f"  Initially ready (no deps): {ready_initially}")
-    print(f"  Dependency graph:")
+    print("  Dependency graph:")
     for step_name, step_def in dag.steps.items():
         deps = step_def.depends_on or []
         print(f"    {step_name} <- {deps if deps else '(no deps)'}")
@@ -176,7 +178,7 @@ async def demo_dag_execution() -> None:
     result = await executor.execute(dag, ctx)
     elapsed = (time.monotonic() - start) * 1000
 
-    print(f"\n  DAG Results:")
+    print("\n  DAG Results:")
     print(f"    Overall status: {result.overall_status.value}")
     print(f"    Elapsed: {elapsed:.0f}ms")
     print(f"    Steps completed: {len(result.steps)}")
@@ -242,14 +244,14 @@ async def demo_pipeline_execution() -> None:
     executor = PipelineExecutor()
 
     print(f"  Pipeline: {pipeline.name}")
-    print(f"  Steps run strictly in order (no parallelism)")
+    print("  Steps run strictly in order (no parallelism)")
 
     print("\n  Executing Pipeline...")
     start = time.monotonic()
     result = await executor.execute(pipeline, ctx)
     elapsed = (time.monotonic() - start) * 1000
 
-    print(f"\n  Pipeline Results:")
+    print("\n  Pipeline Results:")
     print(f"    Status: {result.overall_status.value}")
     print(f"    Elapsed: {elapsed:.0f}ms")
     print(f"    Steps completed: {len(result.steps)}")

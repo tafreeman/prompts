@@ -14,7 +14,7 @@ diff-based review comparing original versus modified code.
 from __future__ import annotations
 
 import json
-from typing import Any, Optional
+from typing import Any
 
 from ..contracts import (
     CodeIssue,
@@ -93,8 +93,8 @@ class ReviewerAgent(BaseAgent[CodeReviewInput, CodeReviewOutput], CodeReviewMixi
 
     def __init__(
         self,
-        config: Optional[AgentConfig] = None,
-        focus_areas: Optional[list[str]] = None,
+        config: AgentConfig | None = None,
+        focus_areas: list[str] | None = None,
         **kwargs,
     ):
         """Initialize the reviewer agent with optional config and focus
@@ -200,7 +200,7 @@ class ReviewerAgent(BaseAgent[CodeReviewInput, CodeReviewOutput], CodeReviewMixi
     async def _call_model(
         self,
         messages: list[dict[str, Any]],
-        tools: Optional[list[dict[str, Any]]] = None,
+        tools: list[dict[str, Any]] | None = None,
     ) -> dict[str, Any]:
         """Call LLM for code review."""
         # Default implementation for testing
@@ -265,7 +265,7 @@ class ReviewerAgent(BaseAgent[CodeReviewInput, CodeReviewOutput], CodeReviewMixi
         self,
         code: str,
         language: str = "python",
-        focus_areas: Optional[list[str]] = None,
+        focus_areas: list[str] | None = None,
     ) -> dict[str, Any]:
         """Review code and return issues."""
         task = CodeReviewInput(
@@ -295,7 +295,7 @@ class ReviewerAgent(BaseAgent[CodeReviewInput, CodeReviewOutput], CodeReviewMixi
     # -------------------------------------------------------------------------
 
     async def multi_pass_review(
-        self, task: CodeReviewInput, passes: Optional[list[str]] = None
+        self, task: CodeReviewInput, passes: list[str] | None = None
     ) -> CodeReviewOutput:
         """Perform multi-pass review with different focus areas.
 

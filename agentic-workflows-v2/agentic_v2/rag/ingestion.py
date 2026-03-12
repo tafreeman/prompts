@@ -8,7 +8,6 @@ ready for embedding and indexing.
 from __future__ import annotations
 
 import logging
-from typing import Optional
 
 from .chunking import RecursiveChunker
 from .config import ChunkingConfig

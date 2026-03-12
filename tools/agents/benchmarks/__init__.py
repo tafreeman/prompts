@@ -30,9 +30,9 @@ from .loader import fetch_task, load_benchmark
 from .registry import BenchmarkConfig, BenchmarkRegistry
 
 __all__ = [
-    "BenchmarkRegistry",
-    "BenchmarkConfig",
-    "load_benchmark",
-    "fetch_task",
     "BENCHMARK_DEFINITIONS",
+    "BenchmarkConfig",
+    "BenchmarkRegistry",
+    "fetch_task",
+    "load_benchmark",
 ]

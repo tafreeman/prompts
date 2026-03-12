@@ -1,21 +1,4 @@
-"""Step definition and execution.
-
-Provides the two core abstractions for individual step lifecycle:
-
-- :class:`StepDefinition` — declarative specification of *what* a step does
-  (function, tier, conditions, I/O mappings, hooks, retry, loop_until).
-- :class:`StepExecutor` — executes a :class:`StepDefinition` with full
-  lifecycle management (input mapping, timeout, retry, hooks, output
-  capture, loop-until re-execution, and review-report normalization).
-
-Design highlights:
-- **Fluent builder API** for programmatic step construction.
-- **@step decorator** for defining steps from async functions.
-- **Configurable retry** with FIXED / LINEAR / EXPONENTIAL backoff + jitter.
-- **Conditional execution** via ``when`` / ``unless`` callables.
-- **Loop-until** for bounded re-review: re-execute until a ``${...}``
-  expression evaluates ``True`` or ``loop_max`` iterations reached.
-"""
+"""Step definition and execution."""
 
 from __future__ import annotations
 
@@ -23,7 +6,7 @@ import asyncio
 import re
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Awaitable, Callable, Optional, TypeVar
+from typing import Any, Awaitable, Callable, TypeVar
 
 from ..contracts import ReviewStatus, StepResult, StepStatus
 from ..models import ModelTier
@@ -43,19 +26,7 @@ class RetryStrategy(str, Enum):
 
 @dataclass
 class RetryConfig:
-    """Configuration for step retry behaviour.
-
-    Attributes:
-        max_retries: Maximum number of retry attempts (0 = no retries).
-        strategy: Backoff algorithm — NONE, FIXED, LINEAR, or EXPONENTIAL.
-        base_delay_seconds: Starting delay between attempts.
-        max_delay_seconds: Ceiling for computed delay (prevents runaway waits).
-        jitter: Fractional jitter applied to the delay (±jitter × delay) to
-            prevent thundering-herd effects on parallel retries.
-        retry_on: Exception types that trigger a retry.
-        no_retry_on: Exception types that must *never* be retried, even if
-            they match ``retry_on`` (takes precedence).
-    """
+    """Configuration for step retry behaviour."""
 
     max_retries: int = 3
     strategy: RetryStrategy = RetryStrategy.EXPONENTIAL
@@ -115,60 +86,29 @@ ConditionFunction = Callable[[ExecutionContext], bool]
 
 @dataclass
 class StepDefinition:
-    """Declarative step definition for workflow DAGs.
-
-    Each instance describes a single node in the workflow graph: what
-    function to run, which LLM tier to use, how to map inputs/outputs,
-    when to skip, and how to handle failures.
-
-    Supports a **fluent builder API** (``with_retry``, ``with_timeout``,
-    ``with_dependency``, ``with_input``, ``with_output``, ``with_pre_hook``,
-    ``with_post_hook``) for programmatic construction, and is also
-    hydrated from YAML by the workflow loader.
-
-    Attributes:
-        name: Unique step identifier within a DAG.
-        description: Human-readable purpose of this step.
-        func: Async callable ``(ctx) → dict`` that performs the work.
-        tier: LLM model tier (TIER_0 = deterministic, higher = stronger).
-        timeout_seconds: Per-step wall-clock timeout (``None`` = unlimited).
-        retry: Retry policy (backoff strategy, max attempts, jitter).
-        when: Optional predicate — step runs only if this returns ``True``.
-        unless: Optional predicate — step is skipped if this returns ``True``.
-        loop_until: Expression string re-evaluated after each execution;
-            the step re-runs until it evaluates ``True`` or ``loop_max``
-            iterations are exhausted.
-        loop_max: Upper bound on loop-until iterations (default 3).
-        depends_on: List of upstream step names that must complete first.
-        input_mapping: Maps step-local input names to context variable paths.
-        output_mapping: Maps step output keys to context variable paths.
-        pre_hooks: Async callables invoked before step execution.
-        post_hooks: Async callables invoked after successful execution.
-        error_hooks: Async callables invoked on step failure.
-        tags: Freeform labels for filtering/grouping.
-        metadata: Arbitrary key-value pairs attached to the step.
-    """
+    """Declarative step definition for workflow DAGs with fluent builder
+    API."""
 
     name: str
     description: str = ""
 
     # Execution
-    func: Optional[StepFunction] = None
+    func: StepFunction | None = None
     tier: ModelTier = ModelTier.TIER_0
-    timeout_seconds: Optional[float] = None
+    timeout_seconds: float | None = None
 
     # Retry configuration
     retry: RetryConfig = field(default_factory=RetryConfig)
 
     # Conditions
-    when: Optional[ConditionFunction] = None  # Run only if True
-    unless: Optional[ConditionFunction] = None  # Skip if True
+    when: ConditionFunction | None = None  # Run only if True
+    unless: ConditionFunction | None = None  # Skip if True
 
     # Loop control (R5)
     # When set, the step re-executes until this expression evaluates to True,
     # or until loop_max iterations have been reached.
     # Example YAML:  loop_until: "${review_report.overall_status} in ['APPROVED']"
-    loop_until: Optional[str] = None
+    loop_until: str | None = None
     loop_max: int = 3
 
     # Dependencies
@@ -268,17 +208,11 @@ def step(
     name: str,
     description: str = "",
     tier: ModelTier = ModelTier.TIER_0,
-    timeout: Optional[float] = None,
-    depends_on: Optional[list[str]] = None,
-    retry: Optional[RetryConfig] = None,
+    timeout: float | None = None,
+    depends_on: list[str] | None = None,
+    retry: RetryConfig | None = None,
 ) -> Callable[[StepFunction], StepDefinition]:
-    """Decorator to define a step from an async function.
-
-    Usage:
-        @step("generate_code", tier=ModelTier.TIER_2, timeout=30)
-        async def generate_code(ctx: ExecutionContext) -> dict:
-            ...
-    """
+    """Decorator to define a step from an async function."""
 
     def decorator(func: StepFunction) -> StepDefinition:
         return StepDefinition(
@@ -295,27 +229,7 @@ def step(
 
 
 class StepExecutor:
-    """Executes :class:`StepDefinition` instances with full lifecycle
-    management.
-
-    Handles the complete step execution pipeline in order:
-
-    1. **Condition check** — ``should_run()`` gates on dependencies + when/unless.
-    2. **Pre-hooks** — async callables for logging, validation, etc.
-    3. **Input mapping** — resolve ``${...}`` expressions into a child context.
-    4. **Execution with retry** — run ``func(ctx)`` with timeout, retry on
-       eligible exceptions using :class:`RetryConfig` backoff.
-    5. **Output capture** — extract ``_meta`` for model tracking, normalize
-       ``review_report`` outputs for gating conditions.
-    6. **Loop-until** — optionally re-execute until a ``${...}`` condition
-       is satisfied or ``loop_max`` iterations exhausted.
-    7. **Post-hooks / Error-hooks** — invoked on success / failure.
-    8. **Context update** — write outputs to parent context via ``output_mapping``.
-
-    Attributes:
-        _running_tasks: Active ``asyncio.Task`` instances keyed by step name,
-            supporting cancellation via :meth:`cancel`.
-    """
+    """Executes StepDefinition instances with full lifecycle management."""
 
     def __init__(self):
         self._running_tasks: dict[str, asyncio.Task] = {}
@@ -381,7 +295,7 @@ class StepExecutor:
 
         # Execute with retry
         attempt = 0
-        last_error: Optional[Exception] = None
+        last_error: Exception | None = None
 
         while attempt <= step_def.retry.max_retries:
             attempt += 1
@@ -494,11 +408,11 @@ class StepExecutor:
                 await ctx.mark_step_failed(step_def.name, result.error)
                 break
 
-            except asyncio.TimeoutError:
+            except TimeoutError:
                 result.status = StepStatus.FAILED
                 result.error = f"Step timed out after {step_def.timeout_seconds}s"
                 result.error_type = "TimeoutError"
-                last_error = asyncio.TimeoutError(result.error)
+                last_error = TimeoutError(result.error)
 
                 # Timeout typically shouldn't retry
                 await ctx.mark_step_failed(step_def.name, result.error)
@@ -538,27 +452,10 @@ class StepExecutor:
         self,
         func: StepFunction,
         ctx: ExecutionContext,
-        timeout: Optional[float],
+        timeout: float | None,
         step_name: str,
     ) -> dict[str, Any]:
-        """Execute *func* as an asyncio task with optional wall-clock timeout.
-
-        The task is tracked in ``_running_tasks`` so it can be cancelled
-        externally via :meth:`cancel`.
-
-        Args:
-            func: The async step callable ``(ctx) → dict``.
-            ctx: Child execution context with mapped inputs.
-            timeout: Maximum seconds to wait (``None`` = no limit).
-            step_name: Used as the key in ``_running_tasks``.
-
-        Returns:
-            The dict returned by *func*.
-
-        Raises:
-            asyncio.TimeoutError: If *timeout* is exceeded.
-            asyncio.CancelledError: If the task is cancelled externally.
-        """
+        """Execute func with optional timeout and task tracking."""
         task = asyncio.create_task(func(ctx))
         self._running_tasks[step_name] = task
 
@@ -599,20 +496,7 @@ class StepExecutor:
 
     @staticmethod
     def _resolve_input_mapping_value(ctx: ExecutionContext, mapping_value: Any) -> Any:
-        """Resolve an input mapping value from context.
-
-        If *mapping_value* is a ``${...}`` expression string, delegates to
-        :class:`ExpressionEvaluator`.  Otherwise performs a direct
-        synchronous context lookup.
-
-        Args:
-            ctx: Execution context to resolve against.
-            mapping_value: Either a ``${...}`` expression string or a
-                plain context key name.
-
-        Returns:
-            The resolved value.
-        """
+        """Resolve input mapping value from context or expression."""
         if not isinstance(mapping_value, str):
             return mapping_value
 
@@ -627,7 +511,7 @@ class StepExecutor:
 
 # Convenience function for simple step execution
 async def run_step(
-    step_def: StepDefinition, ctx: Optional[ExecutionContext] = None
+    step_def: StepDefinition, ctx: ExecutionContext | None = None
 ) -> StepResult:
     """Run a single step with optional context."""
     from .context import get_context

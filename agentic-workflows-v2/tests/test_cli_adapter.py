@@ -16,9 +16,8 @@ from tempfile import TemporaryDirectory
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
-from typer.testing import CliRunner
-
 from agentic_v2.cli.main import app
+from typer.testing import CliRunner
 
 runner = CliRunner()
 
@@ -86,9 +85,7 @@ class TestCompareCommand:
 
     @patch("agentic_v2.cli.main.load_workflow_config")
     @patch("agentic_v2.cli.main._run_adapter")
-    def test_compare_prints_comparison_table(
-        self, mock_run_adapter, mock_load_config
-    ):
+    def test_compare_prints_comparison_table(self, mock_run_adapter, mock_load_config):
         """Compare prints a comparison table with adapter results."""
         mock_load_config.return_value = MagicMock(
             name="test_workflow", description="Test"
@@ -155,9 +152,7 @@ class TestCompareCommand:
 
     @patch("agentic_v2.cli.main.load_workflow_config")
     @patch("agentic_v2.cli.main._run_adapter")
-    def test_compare_handles_adapter_failure(
-        self, mock_run_adapter, mock_load_config
-    ):
+    def test_compare_handles_adapter_failure(self, mock_run_adapter, mock_load_config):
         """Compare reports failure status when an adapter raises."""
         mock_load_config.return_value = MagicMock(
             name="test_workflow", description="Test"
@@ -182,7 +177,9 @@ class TestCompareCommand:
             )
             assert result.exit_code == 0
             # Should still complete and show results for both
-            assert "success" in result.stdout.lower() or "failed" in result.stdout.lower()
+            assert (
+                "success" in result.stdout.lower() or "failed" in result.stdout.lower()
+            )
 
     def test_compare_nonexistent_input_file(self):
         """Compare fails when input file does not exist."""

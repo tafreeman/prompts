@@ -79,7 +79,7 @@ if sys.platform == "win32" and not _is_pytest_running():
             sys.stderr = io.TextIOWrapper(
                 sys.stderr.buffer, encoding="utf-8", errors="replace"
             )
-    except (AttributeError, IOError):
+    except (OSError, AttributeError):
         pass  # Already wrapped or not available
 
 

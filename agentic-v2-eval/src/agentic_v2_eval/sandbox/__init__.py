@@ -14,7 +14,7 @@ from .base import ExecutionResult, Sandbox
 from .local import LocalSubprocessSandbox
 
 __all__ = [
-    "Sandbox",
     "ExecutionResult",
     "LocalSubprocessSandbox",
+    "Sandbox",
 ]

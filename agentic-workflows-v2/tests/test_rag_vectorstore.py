@@ -16,10 +16,8 @@ from __future__ import annotations
 import math
 
 import pytest
-
 from agentic_v2.rag.contracts import Chunk, RetrievalResult
 from agentic_v2.rag.protocols import VectorStoreProtocol
-
 
 # ── Fixtures ────────────────────────────────────────────────────────
 
@@ -60,7 +58,8 @@ def _normalize(vec: list[float]) -> list[float]:
 
 
 class TestInMemoryVectorStore:
-    """Verify InMemoryVectorStore — cosine similarity vector store for dev/test."""
+    """Verify InMemoryVectorStore — cosine similarity vector store for
+    dev/test."""
 
     def test_satisfies_vector_store_protocol(self):
         """InMemoryVectorStore must be recognized as VectorStoreProtocol."""
@@ -71,7 +70,7 @@ class TestInMemoryVectorStore:
 
     @pytest.mark.asyncio
     async def test_add_stores_chunks_and_embeddings(self):
-        """add() should store chunks so search can find them."""
+        """Add() should store chunks so search can find them."""
         from agentic_v2.rag.vectorstore import InMemoryVectorStore
 
         store = InMemoryVectorStore()
@@ -89,7 +88,8 @@ class TestInMemoryVectorStore:
 
     @pytest.mark.asyncio
     async def test_search_returns_ranked_by_cosine_similarity(self):
-        """search() must return results sorted by descending cosine similarity."""
+        """Search() must return results sorted by descending cosine
+        similarity."""
         from agentic_v2.rag.vectorstore import InMemoryVectorStore
 
         store = InMemoryVectorStore()
@@ -119,7 +119,7 @@ class TestInMemoryVectorStore:
 
     @pytest.mark.asyncio
     async def test_search_respects_top_k(self):
-        """search() should return at most top_k results."""
+        """Search() should return at most top_k results."""
         from agentic_v2.rag.vectorstore import InMemoryVectorStore
 
         store = InMemoryVectorStore()
@@ -137,7 +137,7 @@ class TestInMemoryVectorStore:
 
     @pytest.mark.asyncio
     async def test_delete_removes_chunks_by_document_id(self):
-        """delete() should remove all chunks for a given document_id."""
+        """Delete() should remove all chunks for a given document_id."""
         from agentic_v2.rag.vectorstore import InMemoryVectorStore
 
         store = InMemoryVectorStore()
@@ -161,7 +161,7 @@ class TestInMemoryVectorStore:
 
     @pytest.mark.asyncio
     async def test_delete_returns_false_for_unknown_document(self):
-        """delete() should return False if document_id is not found."""
+        """Delete() should return False if document_id is not found."""
         from agentic_v2.rag.vectorstore import InMemoryVectorStore
 
         store = InMemoryVectorStore()
@@ -170,7 +170,7 @@ class TestInMemoryVectorStore:
 
     @pytest.mark.asyncio
     async def test_search_empty_store_returns_empty(self):
-        """search() on an empty store must return an empty list."""
+        """Search() on an empty store must return an empty list."""
         from agentic_v2.rag.vectorstore import InMemoryVectorStore
 
         store = InMemoryVectorStore()
@@ -179,7 +179,7 @@ class TestInMemoryVectorStore:
 
     @pytest.mark.asyncio
     async def test_search_results_are_retrieval_results(self):
-        """search() must return RetrievalResult instances."""
+        """Search() must return RetrievalResult instances."""
         from agentic_v2.rag.vectorstore import InMemoryVectorStore
 
         store = InMemoryVectorStore()
@@ -207,7 +207,8 @@ class TestInMemoryVectorStore:
 
     @pytest.mark.asyncio
     async def test_add_mismatched_lengths_raises(self):
-        """add() should raise ValueError if chunks and embeddings have different lengths."""
+        """Add() should raise ValueError if chunks and embeddings have
+        different lengths."""
         from agentic_v2.rag.vectorstore import InMemoryVectorStore
 
         store = InMemoryVectorStore()

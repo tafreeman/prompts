@@ -200,12 +200,14 @@ class InMemoryStore:
 
         results: list[dict[str, Any]] = []
         for key, entry in matches[:top_k]:
-            results.append({
-                "key": key,
-                "value": entry.value,
-                "score": 1.0,
-                "metadata": dict(entry.metadata),
-            })
+            results.append(
+                {
+                    "key": key,
+                    "value": entry.value,
+                    "score": 1.0,
+                    "metadata": dict(entry.metadata),
+                }
+            )
 
         return results
 

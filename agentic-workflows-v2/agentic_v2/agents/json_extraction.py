@@ -125,9 +125,7 @@ def extract_json(text: str) -> dict[str, Any]: ...
 def extract_json(text: str, model: type[T]) -> T: ...
 
 
-def extract_json(
-    text: str, model: type[T] | None = None
-) -> dict[str, Any] | T:
+def extract_json(text: str, model: type[T] | None = None) -> dict[str, Any] | T:
     """Extract and optionally validate JSON from an LLM response.
 
     Args:
@@ -151,9 +149,7 @@ def extract_json(
             return model.model_validate_json(json_str)
         except ValidationError:
             # Log and re-raise — caller decides fallback behavior
-            logger.warning(
-                "JSON schema validation failed for %s", model.__name__
-            )
+            logger.warning("JSON schema validation failed for %s", model.__name__)
             raise
 
     return json.loads(json_str)

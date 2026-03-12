@@ -49,7 +49,7 @@ A monorepo for multi-agent workflow runtime, evaluation framework, and shared LL
 │   │   ├── server/              # FastAPI + WebSocket/SSE streaming
 │   │   ├── tools/builtin/       # 11 built-in tool modules
 │   │   └── workflows/definitions/ # 10 YAML workflow definitions
-│   ├── tests/                   # 66 files, ~1456 tests (pytest-asyncio)
+│   ├── tests/                   # 72 files, ~1456 tests (pytest-asyncio)
 │   └── ui/                      # React 19 + React Flow 12 + TanStack Query + Tailwind
 ├── agentic-v2-eval/             # Evaluation: rubrics, evaluators, runners, reporters
 ├── tools/                       # Shared: LLM client, benchmarks, caching, errors
@@ -146,7 +146,7 @@ See `.env.example` for the full template. At least one LLM provider key is requi
 
 | Location | Count | Framework |
 |----------|-------|-----------|
-| `agentic-workflows-v2/tests/` | 66 files, ~1456 tests | pytest-asyncio (auto mode) |
+| `agentic-workflows-v2/tests/` | 72 files, ~1456 tests | pytest-asyncio (auto mode) |
 | `agentic-v2-eval/tests/` | 12 files | pytest + pytest-asyncio |
 | `tests/e2e/` | 1 file | pytest |
 | `agentic-workflows-v2/ui/` | — | Vitest + React Testing Library |

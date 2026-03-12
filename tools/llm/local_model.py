@@ -31,6 +31,8 @@ from typing import Any
 
 logger = logging.getLogger(__name__)
 
+logger = logging.getLogger(__name__)
+
 # Default model locations.
 # Keep these portable: avoid hard-coded user paths.
 _AI_GALLERY_ROOT = Path.home() / ".cache" / "aigallery"
@@ -133,7 +135,7 @@ class LocalModel:
             )
 
         if self.verbose:
-            logger.debug("Loading model from: %s", self.model_path)
+            logger.info(f"Loading model from: {self.model_path}")
 
         self._load_model()
 
@@ -146,7 +148,7 @@ class LocalModel:
             self.tokenizer = og.Tokenizer(self.model)
 
             if self.verbose:
-                logger.debug("Model loaded successfully!")
+                logger.info("Model loaded successfully!")
 
         except ImportError:
             raise ImportError(

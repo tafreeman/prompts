@@ -13,13 +13,12 @@ Usage::
     result = await engine.execute(dag, ctx)
 """
 
+# Auto-register built-in adapters
+from . import native as _native_adapter
 from .registry import AdapterRegistry, get_registry
 
-# Auto-register built-in adapters
-from . import native as _native_adapter  # noqa: F401 — triggers registration
-
 try:
-    from . import langchain as _langchain_adapter  # noqa: F401 — triggers registration
+    from . import langchain as _langchain_adapter
 except ImportError:  # pragma: no cover — optional dependency
     pass
 

@@ -30,13 +30,270 @@ Usage:
 from __future__ import annotations
 
 import json
+import logging
+import os
+import subprocess
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any
+from typing import Any, Dict, List, Optional
+
+logger = logging.getLogger(__name__)
+
+# Add parent directory to path for imports when run as script
+if __name__ == "__main__":
+    sys.path.insert(0, str(Path(__file__).parents[2]))
+
+
+# ---------------------------------------------------------------------------
+# Load .env so provider API keys are available via os.getenv().
+# We search upward from this file to find the nearest .env, which covers both
+# the repo root (d:\source\prompts\.env) and any nested package roots.
+# ---------------------------------------------------------------------------
+def _load_dotenv() -> None:
+    """Load the nearest .env file into os.environ (idempotent)."""
+    try:
+        from dotenv import load_dotenv  # type: ignore[import-untyped]
+    except ImportError:
+        # python-dotenv not installed — fall back to manual parse
+        _load_dotenv_manual()
+        return
+
+    # Walk up from this file's directory to find .env
+    search = Path(__file__).resolve().parent
+    for _ in range(10):
+        candidate = search / ".env"
+        if candidate.is_file():
+            load_dotenv(candidate, override=False)
+            return
+        if search.parent == search:
+            break
+        search = search.parent
+
+
+def _load_dotenv_manual() -> None:
+    """Minimal .env loader when python-dotenv is not installed."""
+    search = Path(__file__).resolve().parent
+    for _ in range(10):
+        candidate = search / ".env"
+        if candidate.is_file():
+            for line in candidate.read_text(
+                encoding="utf-8", errors="replace"
+            ).splitlines():
+                line = line.strip()
+                if not line or line.startswith("#"):
+                    continue
+                if "=" not in line:
+                    continue
+                key, _, value = line.partition("=")
+                key = key.strip()
+                value = value.strip()
+                if not key or key.startswith(" "):
+                    continue
+                # Only set if not already present (don't override real env)
+                if key not in os.environ:
+                    # Strip surrounding quotes (python-dotenv does this automatically)
+                    if (
+                        len(value) >= 2
+                        and value[0] == value[-1]
+                        and value[0] in ('"', "'")
+                    ):
+                        value = value[1:-1]
+                    os.environ[key] = value
+            return
+        if search.parent == search:
+            break
+        search = search.parent
+
+
+_load_dotenv()
+
+
+# =============================================================================
+# ERROR CLASSIFICATION - Import from canonical source
+# =============================================================================
+
+from tools.core.errors import ErrorCode, classify_error
+
+# =============================================================================
+# CONSTANTS - Path, Provider, Environment, URL, and Timeout Configuration
+# =============================================================================
+
+# Cache paths and configuration
+_CACHE_BASE_DIR = ".cache"
+_CACHE_APP_DIR = "prompts-eval"
+_CACHE_PROBES_DIR = "model-probes"
+_CACHE_FILE_NAME = "probe_cache.json"
+_CACHE_VERSION = "1.0.0"
+
+# AI Gallery and AI Toolkit paths
+_AI_GALLERY_CACHE_DIR = "aigallery"
+_AITK_HOME_DIR = ".aitk"
+_AITK_MODELS_DIR = "models"
+_AITK_MODELINFO_FILE = "foundry.modelinfo.json"
+_AITK_MODELS_TASK_TYPE = "chat-completion"
+
+# Model provider prefixes
+_PREFIX_LOCAL = "local:"
+_PREFIX_GITHUB = "gh:"
+_PREFIX_GITHUB_ALT = "github:"
+_PREFIX_OLLAMA = "ollama:"
+_PREFIX_OPENAI = "openai:"
+_PREFIX_GPT = "gpt"
+_PREFIX_AZURE_FOUNDRY = "azure-foundry:"
+_PREFIX_AZURE_OPENAI = "azure-openai:"
+_PREFIX_WINDOWS_AI = "windows-ai:"
+_PREFIX_AITK = "aitk:"
+_PREFIX_AITK_ALT = "ai-toolkit:"
+_PREFIX_GEMINI = "gemini:"
+_PREFIX_CLAUDE = "claude:"
+_PREFIX_LMSTUDIO = "lmstudio:"
+_PREFIX_LMSTUDIO_ALT = "lm-studio:"
+_PREFIX_LOCAL_API = "local-api:"
+
+# Environment variable names
+_ENV_GITHUB_TOKEN = "GITHUB_TOKEN"
+_ENV_GH_TOKEN = "GH_TOKEN"
+_ENV_OLLAMA_HOST = "OLLAMA_HOST"
+_ENV_OLLAMA_API_KEY = "OLLAMA_API_KEY"
+_ENV_OPENAI_API_KEY = "OPENAI_API_KEY"
+_ENV_OPENAI_BASE_URL = "OPENAI_BASE_URL"
+_ENV_OPENAI_API_BASE = "OPENAI_API_BASE"
+_ENV_AZURE_FOUNDRY_API_KEY = "AZURE_FOUNDRY_API_KEY"
+_ENV_AZURE_FOUNDRY_ENDPOINT_PREFIX = "AZURE_FOUNDRY_ENDPOINT"
+_ENV_AZURE_OPENAI_ENDPOINT = "AZURE_OPENAI_ENDPOINT"
+_ENV_AZURE_OPENAI_API_KEY = "AZURE_OPENAI_API_KEY"
+_ENV_AZURE_OPENAI_DEPLOYMENT = "AZURE_OPENAI_DEPLOYMENT"
+_ENV_GEMINI_API_KEY = "GEMINI_API_KEY"
+_ENV_GOOGLE_API_KEY = "GOOGLE_API_KEY"
+_ENV_ANTHROPIC_API_KEY = "ANTHROPIC_API_KEY"
+_ENV_LMSTUDIO_HOST = "LMSTUDIO_HOST"
+_ENV_LOCAL_AI_API_BASE_URL = "LOCAL_AI_API_BASE_URL"
+_ENV_LOCAL_OPENAI_BASE_URL = "LOCAL_OPENAI_BASE_URL"
+
+# URLs and API endpoints
+_OLLAMA_DEFAULT_HOST = "http://localhost:11434"
+_OLLAMA_API_TAGS_ENDPOINT = "/api/tags"
+_LMSTUDIO_DEFAULT_HOST = "http://127.0.0.1:12340"
+_LOCAL_SERVER_COMMON_PORTS = [12340, 1234, 5000, 5001, 8080, 8081]
+
+# Windows AI bridge
+_WINDOWS_AI_BRIDGE_DIR = "windows_ai_bridge"
+_WINDOWS_AI_BRIDGE_PROJECT = "PhiSilicaBridge.csproj"
+
+# AI Toolkit model directories
+_AITK_MS_SUBDIR = "Microsoft"
+
+# Timeout values (seconds)
+_TIMEOUT_GH_AUTH = 10
+_TIMEOUT_GH_MODELS_LIST = 30
+_TIMEOUT_GH_MODELS_RUN = 30
+_TIMEOUT_WINDOWS_AI_BRIDGE = 60
+_TIMEOUT_OLLAMA_HTTP = 3
+_TIMEOUT_CLOUD_HTTP = 10  # Remote cloud APIs (Gemini, Anthropic) — higher latency
+
+# Cache key and string truncation lengths
+_CACHE_KEY_MD5_LENGTH = 12
+_GH_CLI_OUTPUT_MODELS_LIMIT = 5
+_ENDPOINT_TRUNCATION_LENGTH = 50
+_ERROR_BRIEF_LENGTH = 200
+_ERROR_STANDARD_LENGTH = 500
+_ERROR_DISPLAY_LENGTH = 60
+
+# GitHub CLI and model probing
+_GH_CLI_PROBE_TEST_MESSAGE = "Hi"
+_GH_CLI_PROBE_MAX_TOKENS = "1"
+_GH_CLI_ARG_MAX_TOKENS = "--max-tokens"
+
+# Windows AI and dotnet
+_DOTNET_CLI_ARG_PROJECT = "--project"
+_WINDOWS_AI_CLI_ARG_INFO = "--info"
+
+# Path separators and delimiters
+_PATH_SEPARATOR = "/"
+_TAB_SEPARATOR = "\t"
+_OLLAMA_MODEL_TAG_SUFFIX = ":latest"
+
+# AI Toolkit model name cleanup suffixes
+_AITK_SUFFIX_GENERIC_CPU = "-generic-cpu"
+_AITK_SUFFIX_GENERIC_GPU = "-generic-gpu"
+_AITK_SUFFIX_CPU = "-cpu"
+_AITK_SUFFIX_GPU = "-gpu"
+_AITK_TRAILING_CHARS = "0123456789-"
+
+# Azure deployment slot range
+_AZURE_SLOT_RANGE = 10
+
+# Exponential backoff configuration
+_BACKOFF_BASE = 2
+_JITTER_LOWER = 0.8
+_JITTER_RANGE = 0.4
+
+# Windows AI specific constants
+_WINDOWS_AI_MODEL_ID = "windows-ai:phi-silica"
+
+# Platform check
+_PLATFORM_WINDOWS = "win32"
+
+# =============================================================================
+# PROBE RESULT
+# =============================================================================
+
+
+@dataclass
+class ProbeResult:
+    """Result of probing a model's availability."""
+
+    model: str
+    provider: str
+    usable: bool
+    error_code: Optional[str] = None
+    error_message: Optional[str] = None
+    should_retry: bool = False
+    probe_time: str = ""
+    duration_ms: int = 0
+    cached: bool = False
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+# =============================================================================
+# CACHE MANAGEMENT
+# =============================================================================
+
+
+def get_cache_dir() -> Path:
+    """Get the directory for probe cache files."""
+    cache_dir = Path.home() / _CACHE_BASE_DIR / _CACHE_APP_DIR / _CACHE_PROBES_DIR
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    return cache_dir
+
+
+def get_cache_file() -> Path:
+    """Get the main probe cache file."""
+    return get_cache_dir() / _CACHE_FILE_NAME
+
+
+def load_cache() -> dict[str, Any]:
+    """Load the probe cache from disk."""
+    cache_file = get_cache_file()
+    if cache_file.exists():
+        try:
+            return json.loads(cache_file.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+    return {"version": _CACHE_VERSION, "probes": {}, "last_updated": None}
+
+
+def save_cache(cache: dict[str, Any]) -> None:
+    """Save the probe cache to disk."""
+    cache["last_updated"] = datetime.now().isoformat()
+    cache_file = get_cache_file()
+    cache_file.write_text(json.dumps(cache, indent=2), encoding="utf-8")
+
 
 # Re-export everything callers used to import from this module
-from tools.core.errors import ErrorCode, classify_error  # noqa: F401
 from tools.llm.probe_config import (
     CACHE_VERSION,
     ProbeResult,
@@ -46,7 +303,7 @@ from tools.llm.probe_config import (
     save_cache,
     with_retry,
 )
-from tools.llm.probe_discovery import discover_all_models  # noqa: F401
+from tools.llm.probe_discovery import discover_all_models
 from tools.llm.probe_providers import get_provider, probe_model
 
 # Backward-compat: re-export public names so ``from tools.llm.model_probe import X`` still works
@@ -54,12 +311,12 @@ __all__ = [
     "ModelProbe",
     "ProbeResult",
     "discover_all_models",
-    "is_model_usable",
     "filter_usable_models",
     "get_model_error",
     "get_probe",
-    "with_retry",
+    "is_model_usable",
     "main",
+    "with_retry",
 ]
 
 
@@ -92,7 +349,7 @@ class ModelProbe:
 
     def _log(self, msg: str) -> None:
         if self.verbose:
-            print(f"[ModelProbe] {msg}")
+            logger.debug(msg)
 
     def _get_provider(self, model: str) -> str:
         """Extract provider from model string."""

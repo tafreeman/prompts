@@ -9,8 +9,11 @@ from __future__ import annotations
 
 import argparse
 import json
+import logging
 from datetime import datetime, timezone
 from pathlib import Path
+
+logger = logging.getLogger(__name__)
 
 # Repo root is 2 levels up from this file (tools/llm/rank_models.py)
 _REPO_ROOT = Path(__file__).resolve().parent.parent.parent
@@ -21,6 +24,7 @@ _DEFAULT_OUTPUT_FILE = str(_REPO_ROOT / "runs" / "model_ranking.json")
 
 
 def main(argv: list[str] | None = None) -> int:
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
     p = argparse.ArgumentParser(description="Rank models from probe and limits data")
     p.add_argument(
         "--probe-file", default=_DEFAULT_PROBE_FILE, help="Model probe JSON file"
@@ -38,17 +42,17 @@ def main(argv: list[str] | None = None) -> int:
     OUTPUT_FILE = args.out
     # Load data
     try:
-        with open(PROBE_FILE, "r", encoding="utf-8") as f:
+        with open(PROBE_FILE, encoding="utf-8") as f:
             probe = json.load(f)
     except Exception as e:
-        print(f"Error loading {PROBE_FILE}: {e}")
+        logger.error(f"Error loading {PROBE_FILE}: {e}")
         return 2
 
     try:
-        with open(LIMITS_FILE, "r", encoding="utf-8") as f:
+        with open(LIMITS_FILE, encoding="utf-8") as f:
             limits = json.load(f)
     except Exception as e:
-        print(f"Warning: Could not load {LIMITS_FILE}: {e}")
+        logger.warning(f"Could not load {LIMITS_FILE}: {e}")
         limits = {"checked": {}}
 
     ranked_providers = {}
@@ -220,7 +224,7 @@ def main(argv: list[str] | None = None) -> int:
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         json.dump(output, f, indent=2)
 
-    print(
+    logger.info(
         f"Generated {OUTPUT_FILE} with {output['summary']['total_available']} total models."
     )
     return 0

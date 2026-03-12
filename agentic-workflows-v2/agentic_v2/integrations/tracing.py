@@ -5,7 +5,7 @@ import logging
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 from .base import CanonicalEvent, TraceAdapter
 
@@ -193,7 +193,7 @@ class LangSmithTraceAdapter(TraceAdapter):
         self,
         *,
         project_name: str = "agentic-workflows-v2",
-        client: Optional[object] = None,
+        client: object | None = None,
     ):
         self.project_name = project_name
         self._root_run_by_workflow_run_id: dict[str, str] = {}

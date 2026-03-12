@@ -149,17 +149,20 @@ class RAGMemoryStore:
                 continue
 
             _, value, entry_metadata = entry
-            results.append({
-                "key": memory_key,
-                "value": value,
-                "score": rr.score,
-                "metadata": dict(entry_metadata),
-            })
+            results.append(
+                {
+                    "key": memory_key,
+                    "value": value,
+                    "score": rr.score,
+                    "metadata": dict(entry_metadata),
+                }
+            )
 
         return results
 
     async def delete(self, key: str) -> bool:
-        """Delete a memory entry from both the vector store and internal mapping.
+        """Delete a memory entry from both the vector store and internal
+        mapping.
 
         Args:
             key: The key to delete.

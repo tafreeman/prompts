@@ -29,6 +29,8 @@ from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
+logger = logging.getLogger(__name__)
+
 # AI Gallery cache path
 AI_GALLERY_PATH = Path.home() / ".cache" / "aigallery"
 

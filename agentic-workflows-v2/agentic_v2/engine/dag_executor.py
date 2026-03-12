@@ -18,7 +18,7 @@ from __future__ import annotations
 import asyncio
 from collections import deque
 from datetime import datetime, timezone
-from typing import Any, Awaitable, Callable, Optional
+from typing import Any, Awaitable, Callable
 
 from ..contracts import StepResult, StepStatus, WorkflowResult
 from .context import ExecutionContext, get_context
@@ -42,15 +42,15 @@ class DAGExecutor:
             (or FAILED/SKIPPED) transitions per step.
     """
 
-    def __init__(self, step_executor: Optional[StepExecutor] = None):
+    def __init__(self, step_executor: StepExecutor | None = None):
         self._step_executor = step_executor or StepExecutor()
         self._state_manager = StepStateManager()
 
     async def execute(
         self,
         workflow: Any,
-        ctx: Optional[ExecutionContext] = None,
-        on_update: Optional[Callable[[dict[str, Any]], Awaitable[None]]] = None,
+        ctx: ExecutionContext | None = None,
+        on_update: Callable[[dict[str, Any]], Awaitable[None]] | None = None,
         **kwargs: Any,
     ) -> WorkflowResult:
         """Execute a validated DAG with dynamic scheduling and concurrency

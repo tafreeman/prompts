@@ -1,23 +1,6 @@
-"""Smart model router with adaptive learning and production hardening.
+"""Smart model router with adaptive learning and production hardening."""
 
-Extends :class:`ModelRouter` with runtime intelligence (ADR-002):
-
-- **Health-weighted selection** — models are scored by
-  ``success_rate × 0.6 + latency_score × 0.2 + recency_score × 0.2``
-  and the highest-health model in the tier's chain is preferred.
-- **Circuit breaker** — per-model state machine: CLOSED → OPEN → HALF_OPEN.
-  Open models are skipped; half-open models get serialized recovery probes
-  (ADR-002D).
-- **Adaptive cooldowns** — ``base × 1.5^consecutive_failures``, capped at
-  600 s.  Rate-limit cooldowns parse ``Retry-After`` headers (ADR-002E).
-  All timers use ``time.monotonic()`` (ADR-002C).
-- **Per-provider bulkhead** — ``asyncio.Semaphore`` per provider prevents
-  cascade failures when one provider is slow (ADR-002A).
-- **Stats persistence** — atomic JSON writes (temp-file-rename) so router
-  state survives process restarts.
-- **Cost-aware routing** — optional token cost weights for budget-sensitive
-  selection.
-"""
+from __future__ import annotations
 
 import asyncio
 import json
@@ -25,7 +8,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Callable, Optional
+from typing import Any, Callable
 
 from .model_stats import CircuitState, ModelStats
 from .rate_limit_tracker import RateLimitTracker, _extract_provider
@@ -61,19 +44,7 @@ class CooldownConfig:
 
 @dataclass
 class SmartModelRouter(ModelRouter):
-    """Production-hardened router with learning and adaptive behavior.
-
-    Inherits basic chain-based routing from :class:`ModelRouter` and adds
-    per-model :class:`ModelStats` tracking, circuit breaker logic,
-    adaptive cooldowns, per-provider bulkhead semaphores, and optional
-    JSON persistence for cross-restart continuity.
-
-    Attributes:
-        model_stats: Per-model performance statistics and circuit state.
-        cooldown_config: Tunable parameters for adaptive cooldown scaling.
-        stats_file: Path for atomic JSON persistence (``None`` = no persistence).
-        model_costs: Token cost weights per model (tokens per $0.001).
-    """
+    """Production-hardened router with learning and adaptive behavior."""
 
     # Stats for each model
     model_stats: dict[str, ModelStats] = field(default_factory=dict)
@@ -82,7 +53,7 @@ class SmartModelRouter(ModelRouter):
     cooldown_config: CooldownConfig = field(default_factory=CooldownConfig)
 
     # Persistence
-    stats_file: Optional[Path] = None
+    stats_file: Path | None = None
     _auto_save: bool = True
 
     # Cost weights (tokens per $0.001)
@@ -117,12 +88,7 @@ class SmartModelRouter(ModelRouter):
         return self.model_stats[model]
 
     def _get_semaphore(self, model: str) -> asyncio.Semaphore:
-        """Get or create a bulkhead semaphore for a provider (ADR-002A).
-
-        Limits concurrent requests per provider to prevent cascade
-        failures when one provider goes down and its traffic floods
-        remaining providers.
-        """
+        """Get or create a bulkhead semaphore for a provider."""
         provider = _extract_provider(model)
         if provider not in self._provider_semaphores:
             limit = _DEFAULT_BULKHEAD_LIMITS.get(provider, 20)
@@ -130,12 +96,7 @@ class SmartModelRouter(ModelRouter):
         return self._provider_semaphores[provider]
 
     def _get_probe_lock(self, model: str) -> asyncio.Lock:
-        """Get or create a probe lock for half-open serialization (ADR-002D).
-
-        Only one request at a time should probe a HALF_OPEN provider.
-        All others receive immediate fallback to prevent thundering
-        herd.
-        """
+        """Get or create a probe lock for half-open serialization."""
         provider = _extract_provider(model)
         if provider not in self._probe_locks:
             self._probe_locks[provider] = asyncio.Lock()
@@ -182,7 +143,7 @@ class SmartModelRouter(ModelRouter):
     def record_rate_limit(
         self,
         model: str,
-        response_headers: Optional[dict[str, str]] = None,
+        response_headers: dict[str, str] | None = None,
     ) -> None:
         """Record a rate limit hit with provider-aware cooldown (ADR-002E).
 
@@ -236,14 +197,9 @@ class SmartModelRouter(ModelRouter):
     def _cross_tier_search(
         self,
         original_tier: ModelTier,
-        max_cost: Optional[float] = None,
+        max_cost: float | None = None,
     ) -> list[tuple[str, ModelStats]]:
-        """Search adjacent tiers for available models (ADR-002B).
-
-        Degrade downward first (cheaper, more reliable), then escalate
-        upward (more capable).  TIER_0 is excluded (deterministic, no
-        LLM).
-        """
+        """Search adjacent tiers for available models."""
         all_tiers = sorted(ModelTier, key=lambda t: t.value)
         # Exclude TIER_0 and the original tier
         eligible = [
@@ -269,7 +225,7 @@ class SmartModelRouter(ModelRouter):
     def _find_candidates_in_tier(
         self,
         tier: ModelTier,
-        max_cost: Optional[float] = None,
+        max_cost: float | None = None,
     ) -> list[tuple[str, ModelStats]]:
         """Find all healthy candidate models in a single tier."""
         chain = self.get_chain(tier)
@@ -295,26 +251,10 @@ class SmartModelRouter(ModelRouter):
         self,
         tier: ModelTier,
         prefer_healthy: bool = True,
-        max_cost: Optional[float] = None,
+        max_cost: float | None = None,
         allow_cross_tier: bool = True,
-    ) -> Optional[str]:
-        """Get best available model for a tier (ADR-002B: cross-tier
-        degradation).
-
-        When all models in the requested tier are unavailable and
-        ``allow_cross_tier`` is True, walks adjacent tiers: degrade downward
-        first (cheaper, more reliable), then escalate upward (more capable).
-        TIER_0 is never auto-selected (deterministic, no LLM).
-
-        Args:
-            tier: Model tier
-            prefer_healthy: Weight selection by health scores
-            max_cost: Maximum cost per 1K tokens (None = no limit)
-            allow_cross_tier: Allow degradation to adjacent tiers (ADR-002B)
-
-        Returns:
-            Best model or None
-        """
+    ) -> str | None:
+        """Get best available model for a tier with cross-tier degradation."""
         candidates = self._find_candidates_in_tier(tier, max_cost)
 
         # ADR-002B: Cross-tier degradation when primary tier is exhausted
@@ -472,11 +412,7 @@ class SmartModelRouter(ModelRouter):
             pass
 
     def _is_model_ready_for_attempt(self, model: str) -> bool:
-        """Check if a model can accept a request right now (ADR-002A/D).
-
-        Returns False if the provider's bulkhead is at capacity or if a
-        half-open probe is already in progress.
-        """
+        """Check if a model can accept a request right now."""
         stats = self._get_stats(model)
 
         # ADR-002D: Skip if another probe is testing this half-open provider
@@ -486,7 +422,7 @@ class SmartModelRouter(ModelRouter):
 
         # ADR-002A: Skip if provider is at bulkhead capacity
         semaphore = self._get_semaphore(model)
-        if semaphore._value <= 0:  # noqa: SLF001
+        if semaphore._value <= 0:
             return False
 
         return True
@@ -494,12 +430,10 @@ class SmartModelRouter(ModelRouter):
     async def _execute_call(
         self, caller: Callable[[str, str], Any], model: str, prompt: str
     ) -> Any:
-        """Execute a single model call with bulkhead and probe-lock guards."""
+        """Execute a model call with bulkhead and probe-lock guards."""
         stats = self._get_stats(model)
         semaphore = self._get_semaphore(model)
-
         async with semaphore:
-            # ADR-002D: Serialize recovery probes for half-open providers
             if stats.circuit_state == CircuitState.HALF_OPEN:
                 async with self._get_probe_lock(model):
                     return await caller(model, prompt)
@@ -508,10 +442,8 @@ class SmartModelRouter(ModelRouter):
     def _classify_and_record_error(self, model: str, error: Exception) -> None:
         """Classify an error and record it with appropriate cooldown."""
         error_str = str(error).lower()
-
-        # ADR-002E: Extract rate-limit headers from exception if available
         response_headers = getattr(error, "headers", None)
-        headers_dict: Optional[dict[str, str]] = None
+        headers_dict: dict[str, str] | None = None
         if isinstance(response_headers, dict):
             headers_dict = dict(response_headers)
             self.rate_limit_tracker.update_from_headers(model, headers_dict)
@@ -532,28 +464,9 @@ class SmartModelRouter(ModelRouter):
         tier: ModelTier,
         max_retries: int = 3,
     ) -> tuple[str, Any]:
-        """Call a model with automatic fallback and production hardening.
-
-        Hardening (ADR-002):
-        - Per-provider bulkhead semaphores prevent cascade failures (A)
-        - Serialized probes for HALF_OPEN providers prevent thundering herd (D)
-        - Rate-limit headers parsed for precise cooldown timing (E)
-        - Monotonic clock for latency measurement (C)
-
-        Args:
-            caller: Async function(model, prompt) -> response
-            prompt: Prompt to send
-            tier: Model tier
-            max_retries: Max models to try
-
-        Returns:
-            Tuple of (model_used, response)
-
-        Raises:
-            RuntimeError: If all models fail
-        """
+        """Call a model with automatic fallback and production hardening."""
         tried: list[str] = []
-        last_error: Optional[Exception] = None
+        last_error: Exception | None = None
 
         for _ in range(max_retries):
             model = self.get_model_for_tier(tier)
@@ -589,10 +502,10 @@ class SmartModelRouter(ModelRouter):
 
 
 # Global smart router instance
-_smart_router: Optional[SmartModelRouter] = None
+_smart_router: SmartModelRouter | None = None
 
 
-def get_smart_router(stats_file: Optional[Path] = None) -> SmartModelRouter:
+def get_smart_router(stats_file: Path | None = None) -> SmartModelRouter:
     """Get the global smart router."""
     global _smart_router
     if _smart_router is None:

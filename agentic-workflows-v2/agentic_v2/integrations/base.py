@@ -4,7 +4,7 @@ import json
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
 
 @dataclass
@@ -18,10 +18,10 @@ class CanonicalEvent:
 
     type: str  # e.g., "workflow_start", "step_start", "step_complete", "workflow_end"
     timestamp: datetime
-    step_name: Optional[str] = None
-    data: Dict[str, Any] = field(default_factory=dict)
+    step_name: str | None = None
+    data: dict[str, Any] = field(default_factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert event to dictionary for JSON serialization."""
         return {
             "type": self.type,
@@ -35,7 +35,7 @@ class CanonicalEvent:
         return json.dumps(self.to_dict(), default=str)
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "CanonicalEvent":
+    def from_dict(cls, data: dict[str, Any]) -> "CanonicalEvent":
         """Create event from dictionary."""
         return cls(
             type=data["type"],
@@ -49,7 +49,7 @@ class AgentAdapter(ABC):
     """Abstract base class for agent framework adapters."""
 
     @abstractmethod
-    async def invoke(self, prompt: str, context: Dict[str, Any]) -> Dict[str, Any]:
+    async def invoke(self, prompt: str, context: dict[str, Any]) -> dict[str, Any]:
         """Invoke the agent with a prompt and context.
 
         Args:
@@ -68,7 +68,7 @@ class ToolAdapter(ABC):
     """Abstract base class for tool execution adapters."""
 
     @abstractmethod
-    async def execute(self, tool_name: str, args: Dict[str, Any]) -> Dict[str, Any]:
+    async def execute(self, tool_name: str, args: dict[str, Any]) -> dict[str, Any]:
         """Execute a tool with the given arguments.
 
         Args:
@@ -89,8 +89,8 @@ class WorkflowAdapter(ABC):
 
     @abstractmethod
     async def run(
-        self, workflow_def: Dict[str, Any], inputs: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, workflow_def: dict[str, Any], inputs: dict[str, Any]
+    ) -> dict[str, Any]:
         """Run a workflow with the given inputs.
 
         Args:
@@ -124,7 +124,7 @@ class TraceAdapter(ABC):
         pass
 
     def emit_workflow_start(
-        self, workflow_name: str, run_id: str, inputs: Dict[str, Any]
+        self, workflow_name: str, run_id: str, inputs: dict[str, Any]
     ) -> None:
         """Helper to emit a workflow start event."""
         self.emit(
@@ -140,7 +140,7 @@ class TraceAdapter(ABC):
         )
 
     def emit_workflow_end(
-        self, workflow_name: str, run_id: str, status: str, outputs: Dict[str, Any]
+        self, workflow_name: str, run_id: str, status: str, outputs: dict[str, Any]
     ) -> None:
         """Helper to emit a workflow end event."""
         self.emit(
@@ -157,7 +157,7 @@ class TraceAdapter(ABC):
         )
 
     def emit_step_start(
-        self, step_name: str, run_id: str, inputs: Dict[str, Any]
+        self, step_name: str, run_id: str, inputs: dict[str, Any]
     ) -> None:
         """Helper to emit a step start event."""
         self.emit(
@@ -170,7 +170,7 @@ class TraceAdapter(ABC):
         )
 
     def emit_step_complete(
-        self, step_name: str, run_id: str, status: str, outputs: Dict[str, Any]
+        self, step_name: str, run_id: str, status: str, outputs: dict[str, Any]
     ) -> None:
         """Helper to emit a step complete event."""
         self.emit(

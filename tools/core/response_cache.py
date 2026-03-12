@@ -39,6 +39,8 @@ from typing import Any
 
 logger = logging.getLogger(__name__)
 
+logger = logging.getLogger(__name__)
+
 # =============================================================================
 # CONFIGURATION
 # =============================================================================
@@ -127,14 +129,14 @@ class ResponseCache:
 
     def _log(self, msg: str) -> None:
         if self.verbose:
-            logger.debug("[ResponseCache] %s", msg)
+            logger.debug(msg)
 
     def _load_index(self) -> None:
         """Load the cache index from disk."""
         index_file = get_cache_index_file()
         if index_file.exists():
             try:
-                with open(index_file, "r", encoding="utf-8") as f:
+                with open(index_file, encoding="utf-8") as f:
                     data = json.load(f)
                     self._index = data.get("entries", {})
                     self._log(f"Loaded {len(self._index)} cache entries")
@@ -207,7 +209,7 @@ class ResponseCache:
             return None
 
         try:
-            with open(entry_file, "r", encoding="utf-8") as f:
+            with open(entry_file, encoding="utf-8") as f:
                 entry = json.load(f)
 
             # Update hit count

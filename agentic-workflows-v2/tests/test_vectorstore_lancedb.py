@@ -72,7 +72,7 @@ def sample_embeddings():
 async def test_add_persists_and_len_reflects_count(
     store, sample_chunks, sample_embeddings
 ):
-    """add() persists chunks; __len__() reflects the count."""
+    """Add() persists chunks; __len__() reflects the count."""
     assert len(store) == 0
 
     await store.add(sample_chunks, sample_embeddings)
@@ -83,7 +83,7 @@ async def test_add_persists_and_len_reflects_count(
 async def test_search_returns_top_k_with_correct_fields(
     store, sample_chunks, sample_embeddings
 ):
-    """search() returns top_k results with correct chunk_id and score."""
+    """Search() returns top_k results with correct chunk_id and score."""
     await store.add(sample_chunks, sample_embeddings)
 
     # Query vector aligned with c1's embedding
@@ -100,7 +100,7 @@ async def test_search_returns_top_k_with_correct_fields(
 
 
 async def test_delete_removes_chunks(store, sample_chunks, sample_embeddings):
-    """delete() removes chunks; subsequent search excludes deleted."""
+    """Delete() removes chunks; subsequent search excludes deleted."""
     await store.add(sample_chunks, sample_embeddings)
     assert len(store) == 3
 
@@ -116,7 +116,7 @@ async def test_delete_removes_chunks(store, sample_chunks, sample_embeddings):
 
 
 async def test_delete_nonexistent_returns_false(store):
-    """delete() for a missing document_id returns False."""
+    """Delete() for a missing document_id returns False."""
     deleted = await store.delete("no_such_doc")
     assert deleted is False
 
@@ -162,7 +162,7 @@ async def test_search_empty_store_returns_empty(store):
 
 
 async def test_add_length_mismatch_raises(store, sample_chunks):
-    """add() raises ValueError when chunks/embeddings lengths differ."""
+    """Add() raises ValueError when chunks/embeddings lengths differ."""
     with pytest.raises(ValueError, match="same length"):
         await store.add(sample_chunks, [[1.0, 0.0, 0.0]])
 

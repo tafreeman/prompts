@@ -142,11 +142,11 @@ class BuildAppTool(BaseTool):
                 "stderr": _truncate(stderr.decode("utf-8", errors="replace")),
                 "duration_ms": round(duration_ms, 2),
             }
-        except asyncio.TimeoutError:
+        except TimeoutError:
             proc.terminate()
             try:
                 await asyncio.wait_for(proc.wait(), timeout=5.0)
-            except asyncio.TimeoutError:
+            except TimeoutError:
                 proc.kill()
                 await proc.wait()
             duration_ms = (time.perf_counter() - started) * 1000

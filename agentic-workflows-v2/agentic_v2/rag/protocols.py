@@ -6,7 +6,7 @@ conform by shape, not inheritance.
 
 from __future__ import annotations
 
-from typing import Any, Optional, Protocol, runtime_checkable
+from typing import Any, Protocol, runtime_checkable
 
 from .config import ChunkingConfig
 from .contracts import Chunk, Document, RetrievalResult
@@ -44,7 +44,7 @@ class ChunkerProtocol(Protocol):
     """
 
     def chunk(
-        self, document: Document, config: Optional[ChunkingConfig] = None
+        self, document: Document, config: ChunkingConfig | None = None
     ) -> list[Chunk]:
         """Split *document* into chunks.
 
@@ -83,9 +83,7 @@ class EmbeddingProtocol(Protocol):
 class VectorStoreProtocol(Protocol):
     """Interface for vector store backends."""
 
-    async def add(
-        self, chunks: list[Chunk], embeddings: list[list[float]]
-    ) -> None:
+    async def add(self, chunks: list[Chunk], embeddings: list[list[float]]) -> None:
         """Add chunks with their embeddings to the store."""
         ...
 

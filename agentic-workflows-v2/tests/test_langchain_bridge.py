@@ -9,10 +9,8 @@ from __future__ import annotations
 from datetime import datetime, timezone
 
 import pytest
-
 from agentic_v2.contracts import StepResult, StepStatus, WorkflowResult
 from agentic_v2.langchain.runner import _build_workflow_result, _steps_dict_to_list
-
 
 # ── _steps_dict_to_list ─────────────────────────────────────────────
 
@@ -83,10 +81,18 @@ class TestStepsDictToList:
         assert result[0].agent_role == "tier2_reviewer"
 
     def test_multiple_steps_ordering(self):
-        steps = {"a": {"status": "success"}, "b": {"status": "failed"}, "c": {"status": "skipped"}}
+        steps = {
+            "a": {"status": "success"},
+            "b": {"status": "failed"},
+            "c": {"status": "skipped"},
+        }
         result = _steps_dict_to_list(steps)
         assert [r.step_name for r in result] == ["a", "b", "c"]
-        assert [r.status for r in result] == [StepStatus.SUCCESS, StepStatus.FAILED, StepStatus.SKIPPED]
+        assert [r.status for r in result] == [
+            StepStatus.SUCCESS,
+            StepStatus.FAILED,
+            StepStatus.SKIPPED,
+        ]
 
 
 # ── _build_workflow_result ───────────────────────────────────────────

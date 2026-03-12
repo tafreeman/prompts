@@ -441,7 +441,7 @@ def evaluate_with_llm(
             task_prompt=task_prompt[:500],
             generated_output=generated_output[:500],
             evaluator_model=evaluator_model,
-            weaknesses=[f"Evaluation failed: {str(e)}"],
+            weaknesses=[f"Evaluation failed: {e!s}"],
         )
 
     # Parse response

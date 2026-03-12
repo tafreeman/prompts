@@ -163,7 +163,7 @@ def list_workflows(definitions_dir: Path | None = None) -> list[str]:
 
 
 def _parse_file(path: Path) -> WorkflowConfig:
-    with open(path, "r", encoding="utf-8") as f:
+    with open(path, encoding="utf-8") as f:
         data = yaml.safe_load(f)
     if not isinstance(data, dict):
         raise ValueError(f"Workflow YAML must be a mapping: {path}")

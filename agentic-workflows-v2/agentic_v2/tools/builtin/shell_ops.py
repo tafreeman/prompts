@@ -117,7 +117,7 @@ class ShellTool(BaseTool):
                         },
                     )
 
-                except asyncio.TimeoutError:
+                except TimeoutError:
                     process.kill()
                     await process.wait()
                     return ToolResult(
@@ -144,7 +144,7 @@ class ShellTool(BaseTool):
 
         except Exception as e:
             return ToolResult(
-                success=False, error=f"Failed to execute shell command: {str(e)}"
+                success=False, error=f"Failed to execute shell command: {e!s}"
             )
 
 
@@ -230,7 +230,7 @@ class ShellExecTool(BaseTool):
                     metadata={"cwd": cwd},
                 )
 
-            except asyncio.TimeoutError:
+            except TimeoutError:
                 process.kill()
                 await process.wait()
                 return ToolResult(
@@ -238,6 +238,4 @@ class ShellExecTool(BaseTool):
                 )
 
         except Exception as e:
-            return ToolResult(
-                success=False, error=f"Failed to execute command: {str(e)}"
-            )
+            return ToolResult(success=False, error=f"Failed to execute command: {e!s}")

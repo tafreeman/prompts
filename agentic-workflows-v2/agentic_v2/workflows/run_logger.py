@@ -13,7 +13,7 @@ import json
 import logging
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 from ..contracts import StepStatus, WorkflowResult
 
@@ -80,9 +80,9 @@ def build_step_record(step: Any) -> dict[str, Any]:
 def build_run_record(
     result: WorkflowResult,
     *,
-    dataset_meta: Optional[dict[str, Any]] = None,
-    workflow_inputs: Optional[dict[str, Any]] = None,
-    extra: Optional[dict[str, Any]] = None,
+    dataset_meta: dict[str, Any] | None = None,
+    workflow_inputs: dict[str, Any] | None = None,
+    extra: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Build a complete run record from a WorkflowResult.
 
@@ -149,9 +149,9 @@ class RunLogger:
         self,
         result: WorkflowResult,
         *,
-        dataset_meta: Optional[dict[str, Any]] = None,
-        workflow_inputs: Optional[dict[str, Any]] = None,
-        extra: Optional[dict[str, Any]] = None,
+        dataset_meta: dict[str, Any] | None = None,
+        workflow_inputs: dict[str, Any] | None = None,
+        extra: dict[str, Any] | None = None,
     ) -> Path:
         """Serialize a workflow result to a JSON file.
 

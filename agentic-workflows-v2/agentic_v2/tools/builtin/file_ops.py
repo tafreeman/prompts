@@ -74,7 +74,7 @@ class FileCopyTool(BaseTool):
                 metadata={"bytes_copied": dst_path.stat().st_size},
             )
         except Exception as e:
-            return ToolResult(success=False, error=f"Failed to copy file: {str(e)}")
+            return ToolResult(success=False, error=f"Failed to copy file: {e!s}")
 
 
 class FileMoveTool(BaseTool):
@@ -138,7 +138,7 @@ class FileMoveTool(BaseTool):
                 success=True, data={"source": source, "destination": destination}
             )
         except Exception as e:
-            return ToolResult(success=False, error=f"Failed to move file: {str(e)}")
+            return ToolResult(success=False, error=f"Failed to move file: {e!s}")
 
 
 class FileDeleteTool(BaseTool):
@@ -186,7 +186,7 @@ class FileDeleteTool(BaseTool):
 
             return ToolResult(success=True, data={"path": path, "deleted": True})
         except Exception as e:
-            return ToolResult(success=False, error=f"Failed to delete file: {str(e)}")
+            return ToolResult(success=False, error=f"Failed to delete file: {e!s}")
 
 
 class DirectoryCreateTool(BaseTool):
@@ -226,9 +226,7 @@ class DirectoryCreateTool(BaseTool):
         except FileExistsError:
             return ToolResult(success=False, error=f"Directory already exists: {path}")
         except Exception as e:
-            return ToolResult(
-                success=False, error=f"Failed to create directory: {str(e)}"
-            )
+            return ToolResult(success=False, error=f"Failed to create directory: {e!s}")
 
 
 class FileReadTool(BaseTool):
@@ -266,7 +264,7 @@ class FileReadTool(BaseTool):
             if not file_path.exists():
                 return ToolResult(success=False, error=f"File does not exist: {path}")
 
-            async with aiofiles.open(file_path, "r", encoding=encoding) as f:
+            async with aiofiles.open(file_path, encoding=encoding) as f:
                 content = await f.read()
 
             return ToolResult(
@@ -278,7 +276,7 @@ class FileReadTool(BaseTool):
                 },
             )
         except Exception as e:
-            return ToolResult(success=False, error=f"Failed to read file: {str(e)}")
+            return ToolResult(success=False, error=f"Failed to read file: {e!s}")
 
 
 class FileWriteTool(BaseTool):
@@ -340,4 +338,4 @@ class FileWriteTool(BaseTool):
                 data={"path": path, "bytes_written": len(content.encode(encoding))},
             )
         except Exception as e:
-            return ToolResult(success=False, error=f"Failed to write file: {str(e)}")
+            return ToolResult(success=False, error=f"Failed to write file: {e!s}")

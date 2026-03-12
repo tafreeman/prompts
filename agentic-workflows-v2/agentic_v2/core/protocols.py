@@ -1,4 +1,4 @@
-"""Core protocols — engine-agnostic interfaces for the workflow system.
+r"""Core protocols — engine-agnostic interfaces for the workflow system.
 
 Defines the structural subtyping contracts (PEP 544) that all execution
 engines, agents, tools, and memory stores must satisfy.  Uses
@@ -113,7 +113,7 @@ class SupportsCheckpointing(Protocol):
         *,
         thread_id: str,
         **kwargs: Any,
-    ) -> Optional[dict[str, Any]]:
+    ) -> dict[str, Any] | None:
         """Retrieve the latest checkpoint state for a workflow thread."""
         ...
 
@@ -131,7 +131,7 @@ class SupportsCheckpointing(Protocol):
 
 @runtime_checkable
 class AgentProtocol(Protocol):
-    """Common interface for workflow agents.
+    r"""Common interface for workflow agents.
 
     Agents process task inputs and produce task outputs, optionally
     maintaining state across invocations.
@@ -147,9 +147,7 @@ class AgentProtocol(Protocol):
         """Agent's unique name."""
         ...
 
-    async def run(
-        self, input_data: Any, ctx: Optional[ExecutionContext] = None
-    ) -> Any:
+    async def run(self, input_data: Any, ctx: Optional[ExecutionContext] = None) -> Any:
         """Execute the agent on the given input.
 
         Args:

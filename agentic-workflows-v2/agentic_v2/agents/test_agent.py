@@ -15,7 +15,7 @@ from __future__ import annotations
 
 import re
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 from pydantic import BaseModel, Field, field_validator
 
@@ -65,12 +65,10 @@ class TestGenerationInput(TaskInput):
         description="Types of tests to generate",
     )
     coverage_target: int = Field(default=80, description="Target coverage percentage")
-    framework: Optional[str] = Field(
+    framework: str | None = Field(
         default=None, description="Test framework (pytest, jest, etc.)"
     )
-    mocking_strategy: Optional[str] = Field(
-        default=None, description="Mocking approach"
-    )
+    mocking_strategy: str | None = Field(default=None, description="Mocking approach")
 
     @field_validator("test_types", mode="before")
     @classmethod
@@ -237,7 +235,7 @@ class TestAgent(BaseAgent[TestGenerationInput, TestGenerationOutput]):
 
     __test__ = False  # Not a pytest test class
 
-    def __init__(self, config: Optional[AgentConfig] = None, **kwargs):
+    def __init__(self, config: AgentConfig | None = None, **kwargs):
         if config is None:
             config = AgentConfig(
                 name="test_agent",
@@ -252,7 +250,7 @@ class TestAgent(BaseAgent[TestGenerationInput, TestGenerationOutput]):
     async def _call_model(
         self,
         messages: list[dict[str, Any]],
-        tools: Optional[list[dict[str, Any]]] = None,
+        tools: list[dict[str, Any]] | None = None,
     ) -> dict[str, Any]:
         """Call the underlying LLM to generate tests.
 

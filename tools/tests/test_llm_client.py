@@ -176,10 +176,12 @@ class TestGenerateTextRouting:
     ):
         monkeypatch.setenv("PROMPTEVAL_ALLOW_REMOTE", "1")
         monkeypatch.setenv("PROMPTS_CACHE_ENABLED", "0")
-        with patch(
-            "tools.llm.provider_adapters.call_github_models",
-            side_effect=ConnectionError("network down"),
+        with (
+            patch(
+                "tools.llm.provider_adapters.call_github_models",
+                side_effect=ConnectionError("network down"),
+            ),
+            pytest.raises(LLMClientError) as exc_info,
         ):
-            with pytest.raises(LLMClientError) as exc_info:
-                LLMClient.generate_text("gh:gpt-4o-mini", "prompt")
+            LLMClient.generate_text("gh:gpt-4o-mini", "prompt")
         assert isinstance(exc_info.value.original_error, ConnectionError)

@@ -135,7 +135,8 @@ class FallbackEmbedder:
                 return await provider.embed(texts)
             except EmbeddingError as exc:
                 logger.warning(
-                    "Embedding provider failed, trying next: %s", exc,
+                    "Embedding provider failed, trying next: %s",
+                    exc,
                 )
                 errors.append(exc)
             except Exception as exc:

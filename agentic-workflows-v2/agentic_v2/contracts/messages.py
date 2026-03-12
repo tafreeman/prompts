@@ -20,7 +20,7 @@ and ``exclude_none`` serialization.
 
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field, computed_field, field_validator
 
@@ -190,7 +190,7 @@ class Finding(BaseModel):
     )
     title: str = Field(default="", description="Brief one-line title")
     file: str = Field(default="", description="Affected file path")
-    line_range: Optional[tuple[int, int]] = Field(
+    line_range: tuple[int, int] | None = Field(
         default=None, description="(start_line, end_line) in the affected file"
     )
     description: str = Field(description="What is wrong")
@@ -223,7 +223,7 @@ class ReviewReport(BaseModel):
         default=ReviewStatus.NEEDS_FIXES,
         description="Canonical review outcome",
     )
-    quality_score: Optional[float] = Field(
+    quality_score: float | None = Field(
         default=None,
         description="0-10 quality score (10 = perfect)",
         ge=0,
@@ -298,7 +298,7 @@ class AgentMessage(BaseModel):
         default_factory=lambda: datetime.now(timezone.utc),
         description="UTC timestamp of message creation",
     )
-    correlation_id: Optional[str] = Field(
+    correlation_id: str | None = Field(
         default=None, description="ID to correlate related messages across workflow"
     )
 
@@ -373,16 +373,16 @@ class StepResult(BaseModel):
         description="Unique identifier for this workflow step", min_length=1
     )
     status: StepStatus = Field(description="Execution status of the step")
-    agent_role: Optional[str] = Field(
+    agent_role: str | None = Field(
         default=None, description="Role of agent that executed this step"
     )
-    tier: Optional[int] = Field(
+    tier: int | None = Field(
         default=None,
         description="Model tier used (0=no LLM, 1=1-3B, 2=7-14B, 3=32B+)",
         ge=0,
         le=5,
     )
-    model_used: Optional[str] = Field(
+    model_used: str | None = Field(
         default=None,
         description="Specific model identifier (e.g., 'ollama:phi4', 'gh:gpt-4o')",
     )
@@ -392,17 +392,15 @@ class StepResult(BaseModel):
     output_data: dict[str, Any] = Field(
         default_factory=dict, description="Output/results from this step"
     )
-    error: Optional[str] = Field(
-        default=None, description="Error message if step failed"
-    )
-    error_type: Optional[str] = Field(
+    error: str | None = Field(default=None, description="Error message if step failed")
+    error_type: str | None = Field(
         default=None, description="Error class name for structured handling"
     )
     start_time: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc),
         description="UTC timestamp when step started",
     )
-    end_time: Optional[datetime] = Field(
+    end_time: datetime | None = Field(
         default=None, description="UTC timestamp when step completed"
     )
     retry_count: int = Field(default=0, description="Number of retries attempted", ge=0)
@@ -435,14 +433,14 @@ class StepResult(BaseModel):
 
     @computed_field
     @property
-    def duration_ms(self) -> Optional[float]:
+    def duration_ms(self) -> float | None:
         """Calculate execution duration in milliseconds."""
         if self.end_time is None:
             return None
         delta = self.end_time - self.start_time
         return delta.total_seconds() * 1000
 
-    def mark_complete(self, success: bool = True, error: Optional[str] = None) -> None:
+    def mark_complete(self, success: bool = True, error: str | None = None) -> None:
         """Mark step as complete.
 
         Args:
@@ -493,7 +491,7 @@ class WorkflowResult(BaseModel):
         default_factory=lambda: datetime.now(timezone.utc),
         description="UTC timestamp when workflow started",
     )
-    end_time: Optional[datetime] = Field(
+    end_time: datetime | None = Field(
         default=None, description="UTC timestamp when workflow completed"
     )
     final_output: dict[str, Any] = Field(
@@ -506,7 +504,7 @@ class WorkflowResult(BaseModel):
 
     @computed_field
     @property
-    def total_duration_ms(self) -> Optional[float]:
+    def total_duration_ms(self) -> float | None:
         """Calculate total workflow duration in milliseconds."""
         if self.end_time is None:
             return None

@@ -185,7 +185,7 @@ class WorkflowLoader:
     def _parse_file(self, path: Path) -> WorkflowDefinition:
         """Parse a YAML workflow file."""
         try:
-            with open(path, "r", encoding="utf-8") as f:
+            with open(path, encoding="utf-8") as f:
                 data = yaml.safe_load(f)
         except yaml.YAMLError as e:
             raise WorkflowLoadError(f"Invalid YAML in {path}: {e}")
@@ -462,7 +462,7 @@ class WorkflowLoader:
     def _is_experimental_definition(path: Path) -> bool:
         """Return True when a workflow definition is marked experimental."""
         try:
-            with open(path, "r", encoding="utf-8") as f:
+            with open(path, encoding="utf-8") as f:
                 data = yaml.safe_load(f)
             return isinstance(data, dict) and bool(data.get("experimental", False))
         except Exception:

@@ -9,6 +9,8 @@ import pytest
 from agentic_v2.contracts import StepResult, StepStatus, WorkflowResult
 from agentic_v2.langchain import load_workflow_config
 from agentic_v2.langchain.config import InputConfig, OutputConfig, WorkflowConfig
+from agentic_v2.server import execution as execution_mod
+from agentic_v2.server import result_normalization
 from agentic_v2.server.evaluation import (
     adapt_sample_to_workflow_inputs,
     compute_hard_gates,
@@ -677,20 +679,21 @@ async def test_sse_payload_includes_hard_gates(monkeypatch):
         events.append(event)
 
     monkeypatch.setattr(workflow_routes, "load_workflow_config", _mock_load_config)
+    monkeypatch.setattr(execution_mod, "load_workflow_config", _mock_load_config)
     monkeypatch.setattr(
-        workflow_routes,
+        result_normalization,
         "load_local_dataset_sample",
         lambda *_a, **_k: ({}, {"source": "local"}),
     )
     monkeypatch.setattr(
-        workflow_routes, "adapt_sample_to_workflow_inputs", lambda *_a, **_k: {}
+        result_normalization, "adapt_sample_to_workflow_inputs", lambda *_a, **_k: {}
     )
     monkeypatch.setattr(
-        workflow_routes, "_get_lc_runner", lambda: type("R", (), {"run": _fake_run})()
+        execution_mod, "_get_lc_runner", lambda: type("R", (), {"run": _fake_run})()
     )
-    monkeypatch.setattr(workflow_routes.websocket.manager, "broadcast", _fake_broadcast)
+    monkeypatch.setattr(execution_mod.websocket.manager, "broadcast", _fake_broadcast)
     monkeypatch.setattr(
-        workflow_routes.run_logger, "log", lambda *_a, **_k: Path("dummy.json")
+        execution_mod.run_logger, "log", lambda *_a, **_k: Path("dummy.json")
     )
 
     request = WorkflowRunRequest(
@@ -735,19 +738,20 @@ async def test_run_log_evaluation_has_gate_fields(monkeypatch):
         return WorkflowConfig(name=name, inputs={}, outputs={}, steps=[])
 
     monkeypatch.setattr(workflow_routes, "load_workflow_config", _mock_load_config)
+    monkeypatch.setattr(execution_mod, "load_workflow_config", _mock_load_config)
     monkeypatch.setattr(
-        workflow_routes,
+        result_normalization,
         "load_local_dataset_sample",
         lambda *_a, **_k: ({}, {"source": "local"}),
     )
     monkeypatch.setattr(
-        workflow_routes, "adapt_sample_to_workflow_inputs", lambda *_a, **_k: {}
+        result_normalization, "adapt_sample_to_workflow_inputs", lambda *_a, **_k: {}
     )
     monkeypatch.setattr(
-        workflow_routes, "_get_lc_runner", lambda: type("R", (), {"run": _fake_run})()
+        execution_mod, "_get_lc_runner", lambda: type("R", (), {"run": _fake_run})()
     )
-    monkeypatch.setattr(workflow_routes.websocket.manager, "broadcast", _fake_broadcast)
-    monkeypatch.setattr(workflow_routes.run_logger, "log", _fake_log)
+    monkeypatch.setattr(execution_mod.websocket.manager, "broadcast", _fake_broadcast)
+    monkeypatch.setattr(execution_mod.run_logger, "log", _fake_log)
 
     request = WorkflowRunRequest(
         workflow="dummy_workflow",
@@ -784,20 +788,21 @@ async def test_sse_payload_schema_validation(monkeypatch):
         return WorkflowConfig(name=name, inputs={}, outputs={}, steps=[])
 
     monkeypatch.setattr(workflow_routes, "load_workflow_config", _mock_load_config)
+    monkeypatch.setattr(execution_mod, "load_workflow_config", _mock_load_config)
     monkeypatch.setattr(
-        workflow_routes,
+        result_normalization,
         "load_local_dataset_sample",
         lambda *_a, **_k: ({}, {"source": "local"}),
     )
     monkeypatch.setattr(
-        workflow_routes, "adapt_sample_to_workflow_inputs", lambda *_a, **_k: {}
+        result_normalization, "adapt_sample_to_workflow_inputs", lambda *_a, **_k: {}
     )
     monkeypatch.setattr(
-        workflow_routes, "_get_lc_runner", lambda: type("R", (), {"run": _fake_run})()
+        execution_mod, "_get_lc_runner", lambda: type("R", (), {"run": _fake_run})()
     )
-    monkeypatch.setattr(workflow_routes.websocket.manager, "broadcast", _fake_broadcast)
+    monkeypatch.setattr(execution_mod.websocket.manager, "broadcast", _fake_broadcast)
     monkeypatch.setattr(
-        workflow_routes.run_logger, "log", lambda *_a, **_k: Path("dummy.json")
+        execution_mod.run_logger, "log", lambda *_a, **_k: Path("dummy.json")
     )
 
     request = WorkflowRunRequest(

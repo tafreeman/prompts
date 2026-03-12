@@ -17,7 +17,6 @@ from ..workflows.loader import WorkflowCriterion
 from .judge import JudgeCriterionDefinition
 from .normalization import normalize_score
 
-
 # =============================================================================
 # TEXT ANALYSIS UTILITIES
 # =============================================================================
@@ -322,8 +321,7 @@ def _build_judge_criteria(
                 JudgeCriterionDefinition(
                     name=criterion_name,
                     definition=(
-                        criterion.definition
-                        or f"Quality of '{criterion_name}' aspect."
+                        criterion.definition or f"Quality of '{criterion_name}' aspect."
                     ),
                     scale=criterion.scale_anchors or _default_judge_scale(),
                 )

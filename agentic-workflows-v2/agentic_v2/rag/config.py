@@ -26,9 +26,7 @@ class ChunkingConfig(BaseModel):
     strategy: Literal["recursive", "semantic"] = "recursive"
     chunk_size: int = Field(default=512, gt=0)
     chunk_overlap: int = Field(default=64, ge=0)
-    separators: list[str] = Field(
-        default_factory=lambda: ["\n\n", "\n", ". ", " ", ""]
-    )
+    separators: list[str] = Field(default_factory=lambda: ["\n\n", "\n", ". ", " ", ""])
 
     @model_validator(mode="after")
     def _validate_overlap(self) -> ChunkingConfig:
@@ -89,7 +87,5 @@ class RAGConfig(BaseModel):
     @model_validator(mode="after")
     def _validate_db_path(self) -> RAGConfig:
         if self.vectorstore_type == "lancedb" and self.db_path is None:
-            raise ValueError(
-                "db_path is required when vectorstore_type is 'lancedb'"
-            )
+            raise ValueError("db_path is required when vectorstore_type is 'lancedb'")
         return self

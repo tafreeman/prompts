@@ -121,7 +121,7 @@ class GitTool(BaseTool):
             )
         except Exception as e:
             return ToolResult(
-                success=False, error=f"Failed to execute git command: {str(e)}"
+                success=False, error=f"Failed to execute git command: {e!s}"
             )
 
 

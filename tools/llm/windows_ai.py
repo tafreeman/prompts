@@ -38,6 +38,8 @@ from typing import Any
 
 logger = logging.getLogger(__name__)
 
+logger = logging.getLogger(__name__)
+
 
 class WindowsAIModel:
     """Wrapper for Windows AI APIs (Phi Silica SLM)."""
@@ -87,9 +89,9 @@ class WindowsAIModel:
                 full_prompt = f"{system_instruction}\n\n{prompt}"
 
             if self.verbose:
-                logger.debug("Running Phi Silica (NPU)...")
-                logger.debug("   Temperature: %s", temperature)
-                logger.debug("   Max tokens: %d", max_tokens)
+                logger.info("Running Phi Silica (NPU)...")
+                logger.info(f"Temperature: {temperature}")
+                logger.info(f"Max tokens: {max_tokens}")
 
             # Call Phi Silica
             response = self._call_phi_silica(
@@ -99,7 +101,7 @@ class WindowsAIModel:
             return response
 
         except Exception as e:
-            return f"[ERROR] Windows AI API error: {str(e)}"
+            return f"[ERROR] Windows AI API error: {e!s}"
 
     def _call_phi_silica(
         self, prompt: str, temperature: float = 0.7, max_tokens: int = 2000

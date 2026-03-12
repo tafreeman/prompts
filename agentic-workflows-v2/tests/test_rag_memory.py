@@ -20,12 +20,10 @@ from typing import Any
 from unittest.mock import AsyncMock, MagicMock
 
 import pytest
-
 from agentic_v2.core.memory import MemoryStoreProtocol
 from agentic_v2.rag.embeddings import InMemoryEmbedder
 from agentic_v2.rag.memory import RAGMemoryStore
 from agentic_v2.rag.vectorstore import InMemoryVectorStore
-
 
 # ── Helpers ──────────────────────────────────────────────────────────
 
@@ -46,13 +44,14 @@ class TestProtocolConformance:
     """RAGMemoryStore must satisfy the MemoryStoreProtocol interface."""
 
     def test_isinstance_memory_store_protocol(self):
-        """isinstance check against the runtime-checkable protocol passes."""
+        """Isinstance check against the runtime-checkable protocol passes."""
         store = _make_store()
         assert isinstance(store, MemoryStoreProtocol)
 
     @pytest.mark.asyncio
     async def test_protocol_methods_are_callable(self):
-        """All five protocol methods exist and are awaitable on a fresh store."""
+        """All five protocol methods exist and are awaitable on a fresh
+        store."""
         store = _make_store()
         # store() — returns None
         await store.store("k", "v")
@@ -83,14 +82,15 @@ class TestStore:
 
     @pytest.mark.asyncio
     async def test_store_and_retrieve_value(self, empty_store: RAGMemoryStore):
-        """store() followed by retrieve() returns the original value."""
+        """Store() followed by retrieve() returns the original value."""
         await empty_store.store("fact:1", "Python was created by Guido")
         result = await empty_store.retrieve("fact:1")
         assert result == "Python was created by Guido"
 
     @pytest.mark.asyncio
     async def test_store_non_string_value(self, empty_store: RAGMemoryStore):
-        """store() accepts non-string values; retrieve() returns the original type."""
+        """Store() accepts non-string values; retrieve() returns the original
+        type."""
         await empty_store.store("count", 42)
         result = await empty_store.retrieve("count")
         assert result == 42
@@ -98,7 +98,7 @@ class TestStore:
 
     @pytest.mark.asyncio
     async def test_store_dict_value(self, empty_store: RAGMemoryStore):
-        """store() accepts dict values and retrieve() returns the same dict."""
+        """Store() accepts dict values and retrieve() returns the same dict."""
         payload = {"agent": "coder", "status": "active"}
         await empty_store.store("agent:meta", payload)
         result = await empty_store.retrieve("agent:meta")
@@ -168,7 +168,8 @@ class TestStore:
     async def test_overwrite_removes_old_vectorstore_entry(
         self, empty_store: RAGMemoryStore
     ):
-        """After overwrite the old vectorstore chunk is gone; search reflects new value."""
+        """After overwrite the old vectorstore chunk is gone; search reflects
+        new value."""
         await empty_store.store("key", "version one text")
         await empty_store.store("key", "version two text")
 
@@ -215,7 +216,7 @@ class TestRetrieve:
     async def test_retrieve_known_key_returns_value(
         self, populated_store: RAGMemoryStore
     ):
-        """retrieve() on an existing key returns the stored value."""
+        """Retrieve() on an existing key returns the stored value."""
         value = await populated_store.retrieve("greeting")
         assert value == "hello world"
 
@@ -223,13 +224,13 @@ class TestRetrieve:
     async def test_retrieve_unknown_key_returns_none(
         self, populated_store: RAGMemoryStore
     ):
-        """retrieve() on a missing key returns None."""
+        """Retrieve() on a missing key returns None."""
         value = await populated_store.retrieve("no-such-key")
         assert value is None
 
     @pytest.mark.asyncio
     async def test_retrieve_empty_store_returns_none(self):
-        """retrieve() on an empty store returns None for any key."""
+        """Retrieve() on an empty store returns None for any key."""
         store = _make_store()
         result = await store.retrieve("anything")
         assert result is None
@@ -238,7 +239,8 @@ class TestRetrieve:
     async def test_retrieve_does_not_consume_entry(
         self, populated_store: RAGMemoryStore
     ):
-        """retrieve() is non-destructive; repeated calls return the same value."""
+        """Retrieve() is non-destructive; repeated calls return the same
+        value."""
         first = await populated_store.retrieve("greeting")
         second = await populated_store.retrieve("greeting")
         assert first == second == "hello world"
@@ -281,7 +283,7 @@ class TestSearch:
 
     @pytest.mark.asyncio
     async def test_search_empty_store_returns_empty_list(self):
-        """search() on an empty store must return []."""
+        """Search() on an empty store must return []."""
         store = _make_store()
         results = await store.search("anything")
         assert results == []
@@ -290,7 +292,7 @@ class TestSearch:
     async def test_search_returns_list_of_dicts(
         self, store_with_entries: RAGMemoryStore
     ):
-        """search() must return a list of dicts."""
+        """Search() must return a list of dicts."""
         results = await store_with_entries.search("Python programming language")
         assert isinstance(results, list)
         for item in results:
@@ -300,7 +302,8 @@ class TestSearch:
     async def test_search_result_has_required_fields(
         self, store_with_entries: RAGMemoryStore
     ):
-        """Each search result dict must contain key, value, score, and metadata."""
+        """Each search result dict must contain key, value, score, and
+        metadata."""
         results = await store_with_entries.search("Python")
         assert len(results) >= 1
         for item in results:
@@ -313,7 +316,7 @@ class TestSearch:
     async def test_search_result_key_is_string(
         self, store_with_entries: RAGMemoryStore
     ):
-        """key field in each result must be a string."""
+        """Key field in each result must be a string."""
         results = await store_with_entries.search("Python")
         for item in results:
             assert isinstance(item["key"], str)
@@ -322,7 +325,7 @@ class TestSearch:
     async def test_search_result_score_is_float(
         self, store_with_entries: RAGMemoryStore
     ):
-        """score field in each result must be a float."""
+        """Score field in each result must be a float."""
         results = await store_with_entries.search("Python")
         for item in results:
             assert isinstance(item["score"], float)
@@ -331,7 +334,8 @@ class TestSearch:
     async def test_search_result_score_non_negative(
         self, store_with_entries: RAGMemoryStore
     ):
-        """All returned scores must be >= 0.0 (cosine similarity clamped at 0)."""
+        """All returned scores must be >= 0.0 (cosine similarity clamped at
+        0)."""
         results = await store_with_entries.search("some query text")
         for item in results:
             assert item["score"] >= 0.0
@@ -340,7 +344,8 @@ class TestSearch:
     async def test_search_result_metadata_matches_stored(
         self, store_with_entries: RAGMemoryStore
     ):
-        """The metadata in search results must match what was passed to store()."""
+        """The metadata in search results must match what was passed to
+        store()."""
         results = await store_with_entries.search("Python was created")
         # Find the python:creator entry
         creator_hits = [r for r in results if r["key"] == "python:creator"]
@@ -351,14 +356,15 @@ class TestSearch:
     async def test_search_result_metadata_does_not_leak_memory_key(
         self, store_with_entries: RAGMemoryStore
     ):
-        """The _memory_key injected into the vectorstore chunk must not appear in results."""
+        """The _memory_key injected into the vectorstore chunk must not appear
+        in results."""
         results = await store_with_entries.search("Python")
         for item in results:
             assert "_memory_key" not in item["metadata"]
 
     @pytest.mark.asyncio
     async def test_search_respects_top_k(self):
-        """search() must return at most top_k results."""
+        """Search() must return at most top_k results."""
         store = _make_store()
         for i in range(10):
             await store.store(f"key:{i}", f"entry number {i}")
@@ -411,7 +417,8 @@ class TestSearch:
 
     @pytest.mark.asyncio
     async def test_search_score_uses_approx_for_exact_match(self):
-        """Searching for the stored text itself should yield a high score (>0)."""
+        """Searching for the stored text itself should yield a high score
+        (>0)."""
         store = _make_store()
         text = "the quick brown fox"
         await store.store("fox", text)
@@ -421,7 +428,8 @@ class TestSearch:
 
     @pytest.mark.asyncio
     async def test_search_score_values_are_close_across_identical_calls(self):
-        """Repeated identical searches yield the same scores (deterministic embedder)."""
+        """Repeated identical searches yield the same scores (deterministic
+        embedder)."""
         store = _make_store()
         await store.store("entry", "consistent content")
 
@@ -488,10 +496,8 @@ class TestDelete:
         return store
 
     @pytest.mark.asyncio
-    async def test_delete_known_key_returns_true(
-        self, populated_store: RAGMemoryStore
-    ):
-        """delete() on an existing key returns True."""
+    async def test_delete_known_key_returns_true(self, populated_store: RAGMemoryStore):
+        """Delete() on an existing key returns True."""
         result = await populated_store.delete("alpha")
         assert result is True
 
@@ -499,13 +505,13 @@ class TestDelete:
     async def test_delete_unknown_key_returns_false(
         self, populated_store: RAGMemoryStore
     ):
-        """delete() on a missing key returns False."""
+        """Delete() on a missing key returns False."""
         result = await populated_store.delete("does-not-exist")
         assert result is False
 
     @pytest.mark.asyncio
     async def test_delete_empty_store_returns_false(self):
-        """delete() on an empty store always returns False."""
+        """Delete() on an empty store always returns False."""
         store = _make_store()
         result = await store.delete("nothing")
         assert result is False
@@ -520,7 +526,7 @@ class TestDelete:
     async def test_delete_then_retrieve_returns_none(
         self, populated_store: RAGMemoryStore
     ):
-        """retrieve() after delete() returns None for the deleted key."""
+        """Retrieve() after delete() returns None for the deleted key."""
         await populated_store.delete("alpha")
         value = await populated_store.retrieve("alpha")
         assert value is None
@@ -535,9 +541,7 @@ class TestDelete:
         assert value == "second entry"
 
     @pytest.mark.asyncio
-    async def test_delete_removes_from_list_keys(
-        self, populated_store: RAGMemoryStore
-    ):
+    async def test_delete_removes_from_list_keys(self, populated_store: RAGMemoryStore):
         """After delete(), list_keys() no longer includes the deleted key."""
         await populated_store.delete("alpha")
         keys = await populated_store.list_keys()
@@ -609,7 +613,8 @@ class TestListKeys:
     async def test_list_keys_prefix_filters_correctly(
         self, store_with_keys: RAGMemoryStore
     ):
-        """list_keys(prefix=...) returns only keys beginning with that prefix."""
+        """list_keys(prefix=...) returns only keys beginning with that
+        prefix."""
         keys = await store_with_keys.list_keys(prefix="agent:")
         assert set(keys) == {"agent:coder", "agent:reviewer"}
 
@@ -625,7 +630,8 @@ class TestListKeys:
     async def test_list_keys_prefix_none_is_same_as_no_prefix(
         self, store_with_keys: RAGMemoryStore
     ):
-        """Passing prefix=None explicitly is equivalent to calling without prefix."""
+        """Passing prefix=None explicitly is equivalent to calling without
+        prefix."""
         keys_implicit = await store_with_keys.list_keys()
         keys_explicit = await store_with_keys.list_keys(prefix=None)
         assert set(keys_implicit) == set(keys_explicit)
@@ -634,14 +640,13 @@ class TestListKeys:
     async def test_list_keys_returns_correct_count(
         self, store_with_keys: RAGMemoryStore
     ):
-        """list_keys() with no prefix returns exactly as many keys as were stored."""
+        """list_keys() with no prefix returns exactly as many keys as were
+        stored."""
         keys = await store_with_keys.list_keys()
         assert len(keys) == 4
 
     @pytest.mark.asyncio
-    async def test_list_keys_reflects_deletions(
-        self, store_with_keys: RAGMemoryStore
-    ):
+    async def test_list_keys_reflects_deletions(self, store_with_keys: RAGMemoryStore):
         """After delete(), list_keys() count decreases by one."""
         await store_with_keys.delete("agent:coder")
         keys = await store_with_keys.list_keys()
@@ -666,9 +671,7 @@ class TestListKeys:
         assert keys == ["agent:coder"]
 
     @pytest.mark.asyncio
-    async def test_list_keys_returns_list_type(
-        self, store_with_keys: RAGMemoryStore
-    ):
+    async def test_list_keys_returns_list_type(self, store_with_keys: RAGMemoryStore):
         """list_keys() always returns a plain Python list."""
         keys = await store_with_keys.list_keys()
         assert isinstance(keys, list)
@@ -682,7 +685,8 @@ class TestEdgeCases:
 
     @pytest.mark.asyncio
     async def test_store_empty_string_value(self):
-        """store() with an empty-string value raises ValueError from Chunk validation."""
+        """Store() with an empty-string value raises ValueError from Chunk
+        validation."""
         store = _make_store()
         # Chunk.content has min_length=1; empty string should trigger a Pydantic error
         with pytest.raises(Exception):
@@ -690,7 +694,7 @@ class TestEdgeCases:
 
     @pytest.mark.asyncio
     async def test_store_unicode_key_and_value(self):
-        """store() handles Unicode keys and values without error."""
+        """Store() handles Unicode keys and values without error."""
         store = _make_store()
         await store.store("key:emoji", "hello world with unicode: cafe\u0301")
         result = await store.retrieve("key:emoji")
@@ -698,7 +702,8 @@ class TestEdgeCases:
 
     @pytest.mark.asyncio
     async def test_store_key_with_special_characters(self):
-        """Keys containing special characters (colons, dashes) are handled correctly."""
+        """Keys containing special characters (colons, dashes) are handled
+        correctly."""
         store = _make_store()
         await store.store("ns:sub:key-01", "value")
         result = await store.retrieve("ns:sub:key-01")
@@ -706,7 +711,8 @@ class TestEdgeCases:
 
     @pytest.mark.asyncio
     async def test_key_map_and_vectorstore_stay_in_sync_after_multiple_ops(self):
-        """After a sequence of store/overwrite/delete, _key_map and vectorstore agree."""
+        """After a sequence of store/overwrite/delete, _key_map and vectorstore
+        agree."""
         store = _make_store()
         await store.store("a", "alpha text")
         await store.store("b", "beta text")
@@ -752,8 +758,11 @@ class TestEdgeCases:
         assert await store.retrieve("key:199") == "value number 199"
 
     @pytest.mark.asyncio
-    async def test_search_query_with_no_similar_entries_returns_results_not_raises(self):
-        """search() with a completely dissimilar query returns results or empty — never raises."""
+    async def test_search_query_with_no_similar_entries_returns_results_not_raises(
+        self,
+    ):
+        """Search() with a completely dissimilar query returns results or empty
+        — never raises."""
         store = _make_store()
         await store.store("entry", "some stored content about bananas")
 
@@ -770,7 +779,8 @@ class TestEdgeCases:
 
     @pytest.mark.asyncio
     async def test_retrieve_after_full_store_lifecycle(self):
-        """Store → retrieve → overwrite → retrieve → delete → retrieve lifecycle."""
+        """Store → retrieve → overwrite → retrieve → delete → retrieve
+        lifecycle."""
         store = _make_store()
 
         await store.store("lifecycle", "step-one")

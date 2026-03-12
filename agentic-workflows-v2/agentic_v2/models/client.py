@@ -26,7 +26,7 @@ import random
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from functools import wraps
-from typing import Any, AsyncIterator, Callable, Optional, Protocol, TypeVar
+from typing import Any, AsyncIterator, Callable, Protocol, TypeVar
 
 from .router import ModelTier
 from .smart_router import SmartModelRouter, get_smart_router
@@ -163,7 +163,7 @@ class LLMClientWrapper:
     """
 
     # Backend (injected)
-    backend: Optional[LLMBackend] = None
+    backend: LLMBackend | None = None
 
     # Router
     router: SmartModelRouter = field(default_factory=get_smart_router)
@@ -174,14 +174,14 @@ class LLMClientWrapper:
     enable_cache: bool = True
 
     # Token budget
-    budget: Optional[TokenBudget] = None
+    budget: TokenBudget | None = None
 
     # Logging
     log_prompts: bool = False
     log_responses: bool = False
 
     @property
-    def model_id(self) -> Optional[str]:
+    def model_id(self) -> str | None:
         """Return the current default model ID from the router."""
         return self.router.get_model_for_tier(ModelTier.TIER_2)
 
@@ -211,7 +211,7 @@ class LLMClientWrapper:
         key_data = f"{prompt}:{tier.value}:{sorted(kwargs.items())}"
         return hashlib.sha256(key_data.encode()).hexdigest()[:16]
 
-    def _get_cached(self, key: str) -> Optional[CachedResponse]:
+    def _get_cached(self, key: str) -> CachedResponse | None:
         """Get cached response if valid.
 
         Checks for presence and ensures the entry has not exceeded the
@@ -439,7 +439,7 @@ class LLMClientWrapper:
 
 
 # Global client instance
-_client: Optional[LLMClientWrapper] = None
+_client: LLMClientWrapper | None = None
 
 
 def get_client(auto_configure: bool = False) -> LLMClientWrapper:

@@ -122,7 +122,7 @@ async def agent_loop(
                 else str(tool_result)
             )
         except Exception as e:
-            tool_response = f"Error executing tool {tool_name}: {str(e)}\n"
+            tool_response = f"Error executing tool {tool_name}: {e!s}\n"
             tool_response += traceback.format_exc()
         tool_duration = time.time() - tool_start_ts
 

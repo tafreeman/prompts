@@ -283,6 +283,9 @@ def adapt_sample_to_workflow_inputs(
 __all__ = [
     "CriterionFloorResult",
     "HardGateResult",
+    "Path",
+    "WorkflowDefinition",
+    "WorkflowInput",
     "_build_judge_criteria",
     "_clamp",
     "_compose_hybrid_score",
@@ -313,7 +316,4 @@ __all__ = [
     "score_workflow_result",
     "validate_evaluation_payload_schema",
     "validate_required_inputs_present",
-    "WorkflowDefinition",
-    "WorkflowInput",
-    "Path",
 ]

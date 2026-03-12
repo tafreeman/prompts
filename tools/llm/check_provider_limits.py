@@ -18,14 +18,17 @@ from __future__ import annotations
 
 import argparse
 import json
+import logging
 import os
 import sys
 from typing import Any
 
+logger = logging.getLogger(__name__)
+
 try:
     import requests
 except Exception:
-    print("Please install 'requests' (pip install requests) to run this script.")
+    logger.error("Please install 'requests' (pip install requests) to run this script.")
     sys.exit(1)
 
 try:
@@ -155,6 +158,7 @@ def check_local_openai(host: str) -> dict[str, Any]:
 
 
 def main(argv: list[str] | None = None) -> int:
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
     p = argparse.ArgumentParser()
     p.add_argument(
         "--probe-file", default="filename.json", help="Model probe JSON file"
@@ -163,10 +167,10 @@ def main(argv: list[str] | None = None) -> int:
     args = p.parse_args(argv)
 
     try:
-        with open(args.probe_file, "r", encoding="utf-8") as f:
+        with open(args.probe_file, encoding="utf-8") as f:
             probe = json.load(f)
     except Exception as e:
-        print("Failed to load probe file:", e)
+        logger.error(f"Failed to load probe file: {e}")
         return 2
 
     out: dict[str, Any] = {"checked": {}, "probe_summary": probe.get("summary")}
@@ -231,9 +235,9 @@ def main(argv: list[str] | None = None) -> int:
     if args.out:
         with open(args.out, "w", encoding="utf-8") as f:
             f.write(json.dumps(out, indent=2))
-        print("Saved check results to:", args.out)
+        logger.info(f"Saved check results to: {args.out}")
     else:
-        print(json.dumps(out, indent=2))
+        logger.info(json.dumps(out, indent=2))
 
     return 0
 

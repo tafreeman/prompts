@@ -494,10 +494,9 @@ class TestLoadRecencyWindows:
         assert result["default"] == 100
 
     def test_ignores_non_positive_values(self) -> None:
-        """Zero and negative integers must be rejected; domain falls back to default."""
-        cfg_zero = {
-            "evaluation": {"deep_research": {"recency_windows": {"ai_ml": 0}}}
-        }
+        """Zero and negative integers must be rejected; domain falls back to
+        default."""
+        cfg_zero = {"evaluation": {"deep_research": {"recency_windows": {"ai_ml": 0}}}}
         assert load_recency_windows(cfg_zero)["ai_ml"] == 90
 
         cfg_negative = {

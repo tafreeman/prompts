@@ -10,7 +10,7 @@ import hashlib
 import uuid
 from typing import Any
 
-from pydantic import BaseModel, ConfigDict, Field, computed_field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, computed_field
 
 
 class Document(BaseModel):

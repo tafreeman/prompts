@@ -12,10 +12,8 @@ from __future__ import annotations
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
-from fastapi.testclient import TestClient
-
 from agentic_v2.server.app import create_app
-
+from fastapi.testclient import TestClient
 
 # ---------------------------------------------------------------------------
 # GET /api/adapters
@@ -69,7 +67,8 @@ class TestRunWithAdapter:
     """Tests for adapter field in ``POST /api/run``."""
 
     def test_run_request_accepts_adapter_field(self, monkeypatch):
-        """POST /api/run accepts an 'adapter' field and routes to the native engine.
+        """POST /api/run accepts an 'adapter' field and routes to the native
+        engine.
 
         Verifies that when ``adapter="native"`` is passed:
         1. The request is accepted (HTTP 200 with a run_id) — confirming the
@@ -104,7 +103,9 @@ class TestRunWithAdapter:
                 start_time=datetime.now(timezone.utc),
             )
 
-        monkeypatch.setattr(workflows, "_run_via_native_adapter", _fake_native)
+        from agentic_v2.server import execution as execution_mod
+
+        monkeypatch.setattr(execution_mod, "_run_via_native_adapter", _fake_native)
 
         app = create_app()
         client = TestClient(app)

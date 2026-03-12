@@ -28,40 +28,39 @@ _SKIP_REASON_RUNTIME = (
     "(pip install -e agentic-workflows-v2)"
 )
 _SKIP_REASON_EVAL = (
-    "agentic-v2-eval package not installed "
-    "(pip install -e agentic-v2-eval)"
+    "agentic-v2-eval package not installed " "(pip install -e agentic-v2-eval)"
 )
 
 try:
-    from tools.llm.llm_client import LLMClient, LLMClientError  # noqa: F401
+    from tools.llm.llm_client import LLMClient, LLMClientError
 
     HAS_TOOLS = True
 except ImportError:
     HAS_TOOLS = False
 
 try:
-    from agentic_v2.agents import BaseAgent, CoderAgent  # noqa: F401
-    from agentic_v2.contracts import (  # noqa: F401
+    from agentic_v2.agents import BaseAgent, CoderAgent
+    from agentic_v2.contracts import (
         CodeGenerationInput,
         CodeGenerationOutput,
         TaskInput,
         TaskOutput,
     )
-    from agentic_v2.models import LLMClientWrapper, MockBackend, ModelTier  # noqa: F401
+    from agentic_v2.models import LLMClientWrapper, MockBackend, ModelTier
 
     HAS_RUNTIME = True
 except ImportError:
     HAS_RUNTIME = False
 
 try:
-    from agentic_v2_eval import (  # noqa: F401
+    from agentic_v2_eval import (
         EvaluatorRegistry,
         Scorer,
         ScoringResult,
         StandardEvaluator,
         StandardScore,
     )
-    from agentic_v2_eval.interfaces import LLMClientProtocol  # noqa: F401
+    from agentic_v2_eval.interfaces import LLMClientProtocol
 
     HAS_EVAL = True
 except ImportError:
@@ -76,8 +75,8 @@ except ImportError:
 class MockLLMClientForEval:
     """Adapter that satisfies agentic_v2_eval.LLMClientProtocol.
 
-    Returns a pre-configured JSON response so that StandardEvaluator
-    and PatternEvaluator can parse it without making real API calls.
+    Returns a pre-configured JSON response so that StandardEvaluator and
+    PatternEvaluator can parse it without making real API calls.
     """
 
     def __init__(self, canned_response: str = "") -> None:
@@ -153,9 +152,10 @@ class TestPackageImports:
     )
     def test_all_three_packages_coexist(self) -> None:
         """All three packages can be imported in the same process."""
-        from tools.llm.llm_client import LLMClient  # noqa: F811
-        from agentic_v2 import CoderAgent  # noqa: F811
-        from agentic_v2_eval import Scorer  # noqa: F811
+        from agentic_v2 import CoderAgent
+        from agentic_v2_eval import Scorer
+
+        from tools.llm.llm_client import LLMClient
 
         assert LLMClient is not None
         assert CoderAgent is not None
@@ -169,14 +169,16 @@ class TestPackageImports:
 
 @pytest.mark.e2e
 class TestToolsToRuntimeIntegration:
-    """Verify tools.llm.LLMClient can serve as a model backend in agentic_v2."""
+    """Verify tools.llm.LLMClient can serve as a model backend in
+    agentic_v2."""
 
     @pytest.mark.skipif(
         not (HAS_TOOLS and HAS_RUNTIME),
         reason="tools and agentic-workflows-v2 required",
     )
     def test_tools_llm_client_has_compatible_interface(self) -> None:
-        """LLMClient.generate_text signature is compatible with eval protocol."""
+        """LLMClient.generate_text signature is compatible with eval
+        protocol."""
         import inspect
 
         from tools.llm.llm_client import LLMClient
@@ -194,7 +196,7 @@ class TestToolsToRuntimeIntegration:
     def test_mock_backend_drives_coder_agent(self) -> None:
         """MockBackend from agentic_v2.models works as agent LLM backend."""
         mock_backend = MockBackend(
-            default_response='```python\ndef add(a, b):\n    return a + b\n```'
+            default_response="```python\ndef add(a, b):\n    return a + b\n```"
         )
         agent = CoderAgent()
         # Inject mock backend so no real API call happens
@@ -263,10 +265,10 @@ class TestRuntimeToEvalIntegration:
         # -- Step 1: Run the agent with a mock backend --
         mock_backend = MockBackend(
             default_response=(
-                '```python\ndef fibonacci(n):\n'
+                "```python\ndef fibonacci(n):\n"
                 '    """Return the nth Fibonacci number."""\n'
-                '    if n <= 1:\n        return n\n'
-                '    return fibonacci(n - 1) + fibonacci(n - 2)\n```'
+                "    if n <= 1:\n        return n\n"
+                "    return fibonacci(n - 1) + fibonacci(n - 2)\n```"
             )
         )
         agent = CoderAgent()
@@ -373,7 +375,8 @@ class TestToolsToEvalIntegration:
         reason="tools and agentic-v2-eval required",
     )
     def test_tools_llm_client_satisfies_eval_protocol(self) -> None:
-        """A thin wrapper around tools.LLMClient satisfies LLMClientProtocol."""
+        """A thin wrapper around tools.LLMClient satisfies
+        LLMClientProtocol."""
         # LLMClient is a static class, so wrap it to produce an instance
         # that satisfies the eval framework's protocol.
 
@@ -472,10 +475,10 @@ class TestFullPipeline:
         # -- 2. Agent processes task with mocked LLM --
         mock_backend = MockBackend(
             default_response=(
-                '```python\ndef is_palindrome(s: str) -> bool:\n'
+                "```python\ndef is_palindrome(s: str) -> bool:\n"
                 '    """Check if a string is a palindrome."""\n'
                 '    cleaned = s.lower().replace(" ", "")\n'
-                '    return cleaned == cleaned[::-1]\n```\n\n'
+                "    return cleaned == cleaned[::-1]\n```\n\n"
                 "The function handles case insensitivity and spaces."
             )
         )
@@ -549,7 +552,7 @@ class TestFullPipeline:
         # -- 1. Run agent --
         mock_backend = MockBackend(
             default_response=(
-                '```python\ndef merge_sorted(a: list, b: list) -> list:\n'
+                "```python\ndef merge_sorted(a: list, b: list) -> list:\n"
                 '    """Merge two sorted lists into one sorted list."""\n'
                 "    result = []\n"
                 "    i = j = 0\n"

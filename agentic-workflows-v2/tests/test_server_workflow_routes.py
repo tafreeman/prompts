@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+from agentic_v2.server import result_normalization
 from agentic_v2.server.app import create_app
+from agentic_v2.server.routes import evaluation_routes
 from fastapi.testclient import TestClient
 
 
@@ -95,9 +97,9 @@ def test_eval_datasets_filtered_by_workflow(monkeypatch):
             steps=[],
         )
 
-    monkeypatch.setattr(workflows, "load_workflow_config", _mock_load_config)
+    monkeypatch.setattr(evaluation_routes, "load_workflow_config", _mock_load_config)
     monkeypatch.setattr(
-        workflows,
+        evaluation_routes,
         "list_local_datasets",
         lambda: [
             {
@@ -116,14 +118,14 @@ def test_eval_datasets_filtered_by_workflow(monkeypatch):
             },
         ],
     )
-    monkeypatch.setattr(workflows, "list_repository_datasets", lambda: [])
+    monkeypatch.setattr(evaluation_routes, "list_repository_datasets", lambda: [])
 
     def _load_local(dataset_id: str, sample_index: int = 0):
         if dataset_id == "a.json":
             return {"code_file": "x.py"}, {"source": "local", "dataset_id": dataset_id}
         return {"prompt": ""}, {"source": "local", "dataset_id": dataset_id}
 
-    monkeypatch.setattr(workflows, "load_local_dataset_sample", _load_local)
+    monkeypatch.setattr(evaluation_routes, "load_local_dataset_sample", _load_local)
 
     response = client.get("/api/eval/datasets?workflow=dummy_workflow")
     assert response.status_code == 200
@@ -152,7 +154,7 @@ def test_run_rejects_incompatible_dataset_422(monkeypatch):
 
     monkeypatch.setattr(workflows, "load_workflow_config", _mock_load_config)
     monkeypatch.setattr(
-        workflows,
+        result_normalization,
         "load_local_dataset_sample",
         lambda _dataset_ref, sample_index=0: ({"prompt": ""}, {"source": "local"}),
     )
@@ -198,7 +200,7 @@ def test_reject_empty_required_adapted_input(monkeypatch):
 
     monkeypatch.setattr(workflows, "load_workflow_config", _mock_load_config)
     monkeypatch.setattr(
-        workflows,
+        result_normalization,
         "load_local_dataset_sample",
         lambda _dataset_ref, sample_index=0: (
             {"code_file": "x.py"},
@@ -206,7 +208,7 @@ def test_reject_empty_required_adapted_input(monkeypatch):
         ),
     )
     monkeypatch.setattr(
-        workflows,
+        result_normalization,
         "adapt_sample_to_workflow_inputs",
         lambda *_args, **_kwargs: {"code_file": "", "notes": ""},
     )
@@ -252,7 +254,7 @@ def test_accept_empty_optional_adapted_input(monkeypatch):
 
     monkeypatch.setattr(workflows, "load_workflow_config", _mock_load_config)
     monkeypatch.setattr(
-        workflows,
+        result_normalization,
         "load_local_dataset_sample",
         lambda _dataset_ref, sample_index=0: (
             {"code_file": "x.py"},
@@ -260,7 +262,7 @@ def test_accept_empty_optional_adapted_input(monkeypatch):
         ),
     )
     monkeypatch.setattr(
-        workflows,
+        result_normalization,
         "adapt_sample_to_workflow_inputs",
         lambda *_args, **_kwargs: {"code_file": "x.py", "notes": ""},
     )
@@ -305,7 +307,7 @@ def test_accept_full_adapted_inputs(monkeypatch):
 
     monkeypatch.setattr(workflows, "load_workflow_config", _mock_load_config)
     monkeypatch.setattr(
-        workflows,
+        result_normalization,
         "load_local_dataset_sample",
         lambda _dataset_ref, sample_index=0: (
             {"code_file": "x.py"},
@@ -313,7 +315,7 @@ def test_accept_full_adapted_inputs(monkeypatch):
         ),
     )
     monkeypatch.setattr(
-        workflows,
+        result_normalization,
         "adapt_sample_to_workflow_inputs",
         lambda *_args, **_kwargs: {"code_file": "x.py", "notes": "ready"},
     )
@@ -356,7 +358,7 @@ def test_empty_request_input_does_not_override_dataset_adapted_value(monkeypatch
 
     monkeypatch.setattr(workflows, "load_workflow_config", _mock_load_config)
     monkeypatch.setattr(
-        workflows,
+        result_normalization,
         "load_local_dataset_sample",
         lambda _dataset_ref, sample_index=0: (
             {"prompt": "Review this code"},
@@ -364,7 +366,7 @@ def test_empty_request_input_does_not_override_dataset_adapted_value(monkeypatch
         ),
     )
     monkeypatch.setattr(
-        workflows,
+        result_normalization,
         "adapt_sample_to_workflow_inputs",
         lambda *_args, **_kwargs: {
             "code_file": "adapted/path.py",

@@ -17,6 +17,7 @@ from pathlib import Path
 from typing import Any
 
 from tools.llm.probe_config import (
+    AI_GALLERY_CACHE_DIR,
     AITK_HOME_DIR,
     AITK_MODELINFO_FILE,
     AITK_MODELS_DIR,
@@ -27,7 +28,6 @@ from tools.llm.probe_config import (
     AITK_SUFFIX_GENERIC_GPU,
     AITK_SUFFIX_GPU,
     AITK_TRAILING_CHARS,
-    AI_GALLERY_CACHE_DIR,
     AZURE_SLOT_RANGE,
     CACHE_BASE_DIR,
     DOTNET_CLI_ARG_PROJECT,
@@ -41,6 +41,7 @@ from tools.llm.probe_config import (
     ENV_GEMINI_API_KEY,
     ENV_GH_TOKEN,
     ENV_GITHUB_TOKEN,
+    ENV_GOOGLE_API_KEY,
     ENV_LMSTUDIO_HOST,
     ENV_LOCAL_AI_API_BASE_URL,
     ENV_LOCAL_OPENAI_BASE_URL,
@@ -48,7 +49,6 @@ from tools.llm.probe_config import (
     ENV_OPENAI_API_BASE,
     ENV_OPENAI_API_KEY,
     ENV_OPENAI_BASE_URL,
-    ENV_GOOGLE_API_KEY,
     ERROR_BRIEF_LENGTH,
     GH_CLI_OUTPUT_MODELS_LIMIT,
     LMSTUDIO_DEFAULT_HOST,
@@ -61,9 +61,9 @@ from tools.llm.probe_config import (
     PREFIX_CLAUDE,
     PREFIX_GEMINI,
     PREFIX_GITHUB,
+    PREFIX_LMSTUDIO,
     PREFIX_LOCAL,
     PREFIX_LOCAL_API,
-    PREFIX_LMSTUDIO,
     PREFIX_OLLAMA,
     PREFIX_OPENAI,
     TAB_SEPARATOR,

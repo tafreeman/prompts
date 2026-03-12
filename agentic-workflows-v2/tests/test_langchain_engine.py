@@ -18,10 +18,9 @@ from agentic_v2.langchain.config import (
     list_workflows,
     load_workflow_config,
 )
-from agentic_v2.langchain.state import WorkflowState, initial_state
 from agentic_v2.langchain.graph import compile_workflow
 from agentic_v2.langchain.runner import WorkflowRunner
-from agentic_v2.langchain.state import initial_state
+from agentic_v2.langchain.state import WorkflowState, initial_state
 from agentic_v2.langchain.tools import get_tools_for_tier, web_search
 
 # ---------------------------------------------------------------------------
@@ -960,7 +959,7 @@ class TestModelRegistry:
 
         model = get_chat_model("local:phi4mini")
         assert model is not None
-        assert getattr(model, "_llm_type") == "local-onnx"
+        assert model._llm_type == "local-onnx"
 
     def test_tier_env_var_override(self, monkeypatch):
         monkeypatch.setenv("AGENTIC_MODEL_TIER_2", "ollama:phi4")

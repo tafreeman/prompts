@@ -19,6 +19,7 @@ The returned dict is JSON-serializable.
 from __future__ import annotations
 
 import json
+import logging
 import os
 import re
 import shutil
@@ -28,7 +29,9 @@ import sys
 import urllib.error
 import urllib.request
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
+
+logger = logging.getLogger(__name__)
 
 
 def _repo_root() -> Path:
@@ -518,9 +521,10 @@ def format_inventory_summary(inv: dict[str, Any]) -> str:
 
 
 def main(argv: list[str]) -> int:
+    logging.basicConfig(level=logging.INFO, format="%(message)s")
     active = "--active" in argv or "--active-probe" in argv
     inv = build_inventory(active_probes=active)
-    print(json.dumps(inv, indent=2, default=str))
+    logger.info(json.dumps(inv, indent=2, default=str))
     return 0 if inv.get("ok") else 1
 
 

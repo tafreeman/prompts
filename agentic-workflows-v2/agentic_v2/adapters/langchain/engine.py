@@ -16,7 +16,7 @@ installed (registration simply won't occur).
 from __future__ import annotations
 
 import logging
-from typing import Any, AsyncIterator, Awaitable, Callable, Optional
+from typing import Any, AsyncIterator, Awaitable, Callable
 
 logger = logging.getLogger(__name__)
 
@@ -64,7 +64,7 @@ class LangChainEngine:
         self,
         workflow: Any,
         ctx: Any = None,
-        on_update: Optional[Callable[[dict[str, Any]], Awaitable[None]]] = None,
+        on_update: Callable[[dict[str, Any]], Awaitable[None]] | None = None,
         **kwargs: Any,
     ) -> Any:
         """Execute a workflow by name via the LangChain runner.

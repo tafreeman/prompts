@@ -11,27 +11,6 @@ from datetime import datetime
 from typing import Callable
 
 from tools.core.errors import ErrorCode
-from tools.llm.probe_config import ProbeResult
-
-# Re-export all provider probe functions for a single import point
-from tools.llm.probe_providers_cloud import (  # noqa: F401
-    probe_azure_foundry,
-    probe_azure_openai,
-    probe_claude,
-    probe_gemini,
-    probe_github,
-    probe_openai,
-    probe_openai_compatible_endpoint,
-)
-from tools.llm.probe_providers_local import (  # noqa: F401
-    probe_ai_toolkit,
-    probe_lmstudio,
-    probe_local,
-    probe_local_api,
-    probe_ollama,
-    probe_windows_ai,
-)
-
 from tools.llm.probe_config import (
     PREFIX_AITK,
     PREFIX_AITK_ALT,
@@ -49,6 +28,26 @@ from tools.llm.probe_config import (
     PREFIX_OLLAMA,
     PREFIX_OPENAI,
     PREFIX_WINDOWS_AI,
+    ProbeResult,
+)
+
+# Re-export all provider probe functions for a single import point
+from tools.llm.probe_providers_cloud import (
+    probe_azure_foundry,
+    probe_azure_openai,
+    probe_claude,
+    probe_gemini,
+    probe_github,
+    probe_openai,
+    probe_openai_compatible_endpoint,
+)
+from tools.llm.probe_providers_local import (
+    probe_ai_toolkit,
+    probe_lmstudio,
+    probe_local,
+    probe_local_api,
+    probe_ollama,
+    probe_windows_ai,
 )
 
 # Type alias for optional logging callback

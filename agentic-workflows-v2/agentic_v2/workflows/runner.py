@@ -15,7 +15,7 @@ from __future__ import annotations
 
 import logging
 from pathlib import Path
-from typing import Any, Awaitable, Callable, Mapping, Optional
+from typing import Any, Awaitable, Callable, Mapping
 
 from ..contracts import WorkflowResult
 from ..engine.context import ExecutionContext
@@ -103,7 +103,7 @@ class WorkflowRunner:
         self,
         workflow_name: str,
         ctx: ExecutionContext | None = None,
-        on_update: Optional[Callable[[dict[str, Any]], Awaitable[None]]] = None,
+        on_update: Callable[[dict[str, Any]], Awaitable[None]] | None = None,
         dataset_meta: dict[str, Any] | None = None,
         execution_profile: Mapping[str, Any] | None = None,
         **inputs: Any,
@@ -185,7 +185,7 @@ class WorkflowRunner:
         self,
         definition: WorkflowDefinition,
         ctx: ExecutionContext | None = None,
-        on_update: Optional[Callable[[dict[str, Any]], Awaitable[None]]] = None,
+        on_update: Callable[[dict[str, Any]], Awaitable[None]] | None = None,
         dataset_meta: dict[str, Any] | None = None,
         execution_profile: Mapping[str, Any] | None = None,
         **inputs: Any,
@@ -257,7 +257,7 @@ class WorkflowRunner:
         self,
         definition: WorkflowDefinition,
         ctx: ExecutionContext,
-        on_update: Optional[Callable[[dict[str, Any]], Awaitable[None]]] = None,
+        on_update: Callable[[dict[str, Any]], Awaitable[None]] | None = None,
         execution_profile: Mapping[str, Any] | None = None,
     ) -> tuple[WorkflowResult, dict[str, Any], dict[str, Any]]:
         runtime_profile = self._resolve_execution_profile(execution_profile)

@@ -45,11 +45,10 @@ from ..workflows.loader import (
 from .datasets import _load_eval_config, match_workflow_dataset
 from .judge import JudgeEvaluationResult, LLMJudge
 from .normalization import adjust_for_sample_size, normalize_score
-from .scoring_profiles import get_profile
 
 # Re-export everything from scoring_criteria so callers that import from
 # this module continue to work unchanged.
-from .scoring_criteria import (  # noqa: F401
+from .scoring_criteria import (
     _advisory_efficiency_score,
     _advisory_similarity_score,
     _build_judge_criteria,
@@ -62,6 +61,7 @@ from .scoring_criteria import (  # noqa: F401
     _text_overlap_score,
     _tokenize,
 )
+from .scoring_profiles import get_profile
 
 logger = logging.getLogger(__name__)
 

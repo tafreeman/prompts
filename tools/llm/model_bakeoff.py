@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import logging
 import os
 import re
 import statistics
@@ -27,6 +28,8 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -335,7 +338,7 @@ def _run_bakeoff(
                     temperature=temperature,
                     max_tokens=max_tokens,
                 )
-            except Exception as exc:  # noqa: BLE001
+            except Exception as exc:
                 error = str(exc)
             elapsed = time.perf_counter() - started
             scored = _score_task(task, response, elapsed, error)
@@ -577,7 +580,7 @@ def main(argv: list[str]) -> int:
 
     runnable = runnable[: max(1, args.max_models)]
     if not runnable:
-        print("No runnable models found for the selected discovery settings.")
+        logger.error("No runnable models found for the selected discovery settings.")
         return 1
 
     if args.dry_run:
@@ -585,11 +588,11 @@ def main(argv: list[str]) -> int:
             "small": runnable[0] if runnable else None,
             "heavy": runnable[0] if runnable else None,
         }
-        print("Runnable models:")
+        logger.info("Runnable models:")
         for model in runnable:
-            print(f"- {model}")
-        print("\nPreview alignment:")
-        print(json.dumps(preview_alignment, indent=2))
+            logger.info(f"- {model}")
+        logger.info("Preview alignment:")
+        logger.info(json.dumps(preview_alignment, indent=2))
         return 0
 
     results = _run_bakeoff(
@@ -638,12 +641,12 @@ def main(argv: list[str]) -> int:
         write_env=write_env_path,
     )
 
-    print("\nModel bakeoff complete.")
-    print(f"- JSON report: {json_path}")
-    print(f"- Markdown report: {md_path}")
-    print("- Recommended alignment:")
-    print(f"  DEEP_RESEARCH_SMALL_MODEL={alignment.get('small') or ''}")
-    print(f"  DEEP_RESEARCH_HEAVY_MODEL={alignment.get('heavy') or ''}")
+    logger.info("Model bakeoff complete.")
+    logger.info(f"JSON report: {json_path}")
+    logger.info(f"Markdown report: {md_path}")
+    logger.info("Recommended alignment:")
+    logger.info(f"DEEP_RESEARCH_SMALL_MODEL={alignment.get('small') or ''}")
+    logger.info(f"DEEP_RESEARCH_HEAVY_MODEL={alignment.get('heavy') or ''}")
     return 0
 
 

@@ -5,7 +5,6 @@ from __future__ import annotations
 import time
 
 import pytest
-
 from agentic_v2_eval.metrics.accuracy import (
     calculate_accuracy,
     calculate_confusion_matrix,

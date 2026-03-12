@@ -20,9 +20,12 @@ from __future__ import annotations
 
 import atexit
 import json
+import logging
 import sys
 from datetime import datetime
 from pathlib import Path
+
+logger = logging.getLogger(__name__)
 
 
 def get_lock_dir() -> Path:
@@ -108,7 +111,7 @@ def get_models_in_use(available: dict[str, Path] = None) -> dict[str, str]:
                 # Stale lock file - remove it
                 lock_file.unlink()
 
-        except (json.JSONDecodeError, IOError):
+        except (OSError, json.JSONDecodeError):
             # Corrupted lock file - remove it
             try:
                 lock_file.unlink()

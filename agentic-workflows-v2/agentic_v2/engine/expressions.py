@@ -14,7 +14,7 @@ import re
 from dataclasses import dataclass
 from datetime import timezone
 from types import SimpleNamespace
-from typing import Any, Optional
+from typing import Any
 
 from ..contracts import StepResult
 from .context import ExecutionContext
@@ -105,9 +105,9 @@ class StepResultView:
     status: str
     output: dict[str, Any]
     outputs: dict[str, Any]
-    error: Optional[str]
-    error_type: Optional[str]
-    completed_at: Optional[str]
+    error: str | None
+    error_type: str | None
+    completed_at: str | None
 
 
 class ExpressionEvaluator:
@@ -140,7 +140,7 @@ class ExpressionEvaluator:
     def __init__(
         self,
         ctx: ExecutionContext,
-        step_results: Optional[dict[str, StepResult]] = None,
+        step_results: dict[str, StepResult] | None = None,
     ):
         self.ctx = ctx
         self.step_results = step_results or {}

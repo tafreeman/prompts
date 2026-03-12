@@ -5,7 +5,7 @@ from __future__ import annotations
 import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import Any, Optional
+from typing import Any
 
 
 @dataclass
@@ -26,7 +26,7 @@ class ToolResult:
 
     success: bool
     data: Any = None
-    error: Optional[str] = None
+    error: str | None = None
     execution_time_ms: float = 0.0
     tool_name: str = ""
     metadata: dict[str, Any] = field(default_factory=dict)
@@ -50,7 +50,7 @@ class BaseTool(ABC):
 
     def __init__(self):
         """Initialize the tool."""
-        self._schema: Optional[ToolSchema] = None
+        self._schema: ToolSchema | None = None
 
     @property
     @abstractmethod
@@ -139,12 +139,12 @@ class BaseTool(ABC):
             execution_time = (time.perf_counter() - start_time) * 1000
             return ToolResult(
                 success=False,
-                error=f"{type(e).__name__}: {str(e)}",
+                error=f"{type(e).__name__}: {e!s}",
                 execution_time_ms=execution_time,
                 tool_name=self.name,
             )
 
-    def validate_parameters(self, **kwargs) -> tuple[bool, Optional[str]]:
+    def validate_parameters(self, **kwargs) -> tuple[bool, str | None]:
         """Validate parameters against the schema.
 
         Returns:

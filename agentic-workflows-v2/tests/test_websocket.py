@@ -164,7 +164,7 @@ class TestConnectionManagerBroadcast:
 
     @pytest.mark.asyncio
     async def test_broadcast_tolerates_failed_ws(self) -> None:
-        """broadcast() tolerates a websocket that raises on send."""
+        """Broadcast() tolerates a websocket that raises on send."""
         mgr = ConnectionManager()
         ws = _mock_websocket()
         ws.send_json = AsyncMock(side_effect=Exception("disconnected"))

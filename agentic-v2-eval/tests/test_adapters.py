@@ -5,7 +5,6 @@ from __future__ import annotations
 from unittest.mock import MagicMock
 
 import pytest
-
 from agentic_v2_eval.adapters.llm_client import LLMClientAdapter, create_llm_client
 
 

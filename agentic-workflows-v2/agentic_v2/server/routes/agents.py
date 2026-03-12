@@ -43,7 +43,7 @@ def _discover_agents() -> list[AgentInfo]:
         return []
 
     try:
-        with open(_AGENTS_CONFIG_PATH, "r", encoding="utf-8") as f:
+        with open(_AGENTS_CONFIG_PATH, encoding="utf-8") as f:
             data = yaml.safe_load(f) or {}
     except Exception:
         logger.exception("Failed to load agents.yaml")

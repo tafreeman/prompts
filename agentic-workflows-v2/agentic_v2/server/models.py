@@ -21,7 +21,7 @@ Response models:
 
 from __future__ import annotations
 
-from typing import Any, Literal, Optional
+from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
@@ -47,9 +47,9 @@ class WorkflowExecutionProfileRequest(BaseModel):
     """
 
     runtime: Literal["subprocess", "docker"] = "subprocess"
-    max_attempts: Optional[int] = Field(default=None, ge=1)
-    max_duration_minutes: Optional[int] = Field(default=None, ge=1)
-    container_image: Optional[str] = None
+    max_attempts: int | None = Field(default=None, ge=1)
+    max_duration_minutes: int | None = Field(default=None, ge=1)
+    container_image: str | None = None
 
 
 class WorkflowRunRequest(BaseModel):
@@ -68,15 +68,15 @@ class WorkflowRunRequest(BaseModel):
     input_data: dict[str, Any] = Field(
         default_factory=dict, description="Input variables"
     )
-    run_id: Optional[str] = Field(None, description="Unique run identifier")
+    run_id: str | None = Field(None, description="Unique run identifier")
     adapter: str = Field(
         "langchain",
         description="Execution adapter: 'langchain' (default) or 'native'",
     )
-    evaluation: Optional["WorkflowEvaluationRequest"] = Field(
+    evaluation: WorkflowEvaluationRequest | None = Field(
         None, description="Optional evaluation settings for scored runs"
     )
-    execution_profile: Optional[WorkflowExecutionProfileRequest] = Field(
+    execution_profile: WorkflowExecutionProfileRequest | None = Field(
         None, description="Optional runtime execution settings"
     )
 
@@ -108,7 +108,7 @@ class StepResultModel(BaseModel):
     status: StepStatus
     duration_ms: float
     output: Any = None
-    error: Optional[str] = None
+    error: str | None = None
 
 
 class WorkflowResultModel(BaseModel):
@@ -167,10 +167,10 @@ class DAGNodeModel(BaseModel):
     """
 
     id: str
-    agent: Optional[str] = None
+    agent: str | None = None
     description: str = ""
     depends_on: list[str] = []
-    tier: Optional[str] = None
+    tier: str | None = None
 
 
 class DAGEdgeModel(BaseModel):
@@ -220,17 +220,17 @@ class RunSummaryModel(BaseModel):
     """
 
     filename: str
-    run_id: Optional[str] = None
-    workflow_name: Optional[str] = None
-    status: Optional[str] = None
-    success_rate: Optional[float] = None
-    total_duration_ms: Optional[float] = None
-    step_count: Optional[int] = None
-    failed_step_count: Optional[int] = None
-    start_time: Optional[str] = None
-    end_time: Optional[str] = None
-    evaluation_score: Optional[float] = None
-    evaluation_grade: Optional[str] = None
+    run_id: str | None = None
+    workflow_name: str | None = None
+    status: str | None = None
+    success_rate: float | None = None
+    total_duration_ms: float | None = None
+    step_count: int | None = None
+    failed_step_count: int | None = None
+    start_time: str | None = None
+    end_time: str | None = None
+    evaluation_score: float | None = None
+    evaluation_grade: str | None = None
 
 
 class RunsSummaryResponse(BaseModel):
@@ -247,7 +247,7 @@ class RunsSummaryResponse(BaseModel):
     total_runs: int = 0
     success: int = 0
     failed: int = 0
-    avg_duration_ms: Optional[float] = None
+    avg_duration_ms: float | None = None
     workflows: list[str] = []
 
 
@@ -270,11 +270,11 @@ class WorkflowEvaluationRequest(BaseModel):
     enabled: bool = False
     enforce_hard_gates: bool = True
     dataset_source: Literal["none", "repository", "local"] = "none"
-    dataset_id: Optional[str] = None
-    local_dataset_path: Optional[str] = None
+    dataset_id: str | None = None
+    local_dataset_path: str | None = None
     sample_index: int = Field(default=0, ge=0)
-    rubric: Optional[str] = None
-    rubric_id: Optional[str] = None
+    rubric: str | None = None
+    rubric_id: str | None = None
 
 
 class EvaluationDatasetOption(BaseModel):
@@ -292,7 +292,7 @@ class EvaluationDatasetOption(BaseModel):
     name: str
     source: Literal["repository", "local"]
     description: str = ""
-    sample_count: Optional[int] = None
+    sample_count: int | None = None
 
 
 class EvaluationSetOption(BaseModel):

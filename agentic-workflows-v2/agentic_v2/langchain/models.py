@@ -35,9 +35,30 @@ from __future__ import annotations
 
 import logging
 import os
-import sys
 from pathlib import Path
 from typing import Any
+
+from .model_builders import (
+    _resolve_notebooklm_model_name,
+    build_anthropic_model,
+    build_gemini_model,
+    build_github_model,
+    build_lmstudio_model,
+    build_local_api_model,
+    build_local_onnx_model,
+    build_notebooklm_model,
+    build_ollama_model,
+    build_openai_model,
+)
+from .model_utils import (
+    GH_BACKUP_MODELS,
+    PROVIDER_ENV_KEYS,
+    dedupe_keep_order,
+    is_provider_available,
+    is_retryable_model_error,
+    provider_prefix,
+    resolve_model_override,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -56,22 +77,6 @@ try:
             break
 except ImportError:
     pass
-
-# ---------------------------------------------------------------------------
-# Provider availability probe
-# ---------------------------------------------------------------------------
-
-# Env-var keys that gate each provider (any one present = provider available)
-_PROVIDER_ENV_KEYS: dict[str, list[str]] = {
-    "gemini": ["GOOGLE_API_KEY", "GEMINI_API_KEY"],
-    "anthropic": ["ANTHROPIC_API_KEY"],
-    "openai": ["OPENAI_API_KEY"],
-    "gh": ["GITHUB_TOKEN"],
-    "ollama": [],  # always available (local)
-    "local": [],  # always available (ONNX)
-    "lmstudio": [],  # always available (local server)
-    "local_api": [],  # always available (local server)
-}
 
 # ---------------------------------------------------------------------------
 # Tier defaults (updated dynamically by probe_and_update_tier_defaults)
@@ -130,31 +135,29 @@ _TIER_FALLBACK_CHAINS: dict[int, list[str]] = {
     ],
 }
 
-# GitHub Models base URL
-_GH_BASE_URL = "https://models.inference.ai.azure.com"
-_TRANSIENT_HTTP_STATUS_CODES = {408, 409, 425, 429, 500, 502, 503, 504}
-_GH_BACKUP_MODELS: tuple[str, ...] = (
-    "gh:openai/gpt-4o-mini",
-    "gh:openai/gpt-4o",
-)
+# NOTE: probe_and_update_tier_defaults() is intentionally NOT called here.
+# It is called once from the FastAPI lifespan handler in server/app.py so that
+# it runs at server startup only -- not on every test import, which would mutate
+# global _TIER_DEFAULTS and cause test-order dependencies.
 
+# ---------------------------------------------------------------------------
+# Private aliases for backward compatibility
+# (tests that imported the underscore-prefixed private names)
+# ---------------------------------------------------------------------------
 
-def _provider_prefix(model_id: str) -> str:
-    """Extract the provider prefix from a model ID."""
-    return model_id.split(":")[0] if ":" in model_id else "ollama"
+_provider_prefix = provider_prefix
+_is_provider_available = is_provider_available
+_dedupe_keep_order = dedupe_keep_order
+_resolve_model_override = resolve_model_override
 
-
-def _is_provider_available(provider: str) -> bool:
-    """Check if a provider's required env vars are present."""
-    keys = _PROVIDER_ENV_KEYS.get(provider, [])
-    if not keys:
-        return True  # ollama / local -- no key required
-    return any(os.environ.get(k) for k in keys)
+# ---------------------------------------------------------------------------
+# Provider availability probe
+# ---------------------------------------------------------------------------
 
 
 def probe_available_providers() -> dict[str, bool]:
     """Probe which LLM providers have credentials configured."""
-    return {prov: _is_provider_available(prov) for prov in _PROVIDER_ENV_KEYS}
+    return {prov: is_provider_available(prov) for prov in PROVIDER_ENV_KEYS}
 
 
 def probe_and_update_tier_defaults() -> dict[str, Any]:
@@ -175,8 +178,8 @@ def probe_and_update_tier_defaults() -> dict[str, Any]:
     resolved: dict[int, str] = {}
     for tier, chain in _TIER_FALLBACK_CHAINS.items():
         for model_id in chain:
-            provider = _provider_prefix(model_id)
-            if _is_provider_available(provider):
+            p = provider_prefix(model_id)
+            if is_provider_available(p):
                 resolved[tier] = model_id
                 break
         else:
@@ -215,8 +218,8 @@ def _configure_native_router(availability: dict[str, bool]) -> None:
     router = get_router()
 
     def _env_health_checker(model_id: str) -> bool:
-        provider = _provider_prefix(model_id)
-        return availability.get(provider, _is_provider_available(provider))
+        p = provider_prefix(model_id)
+        return availability.get(p, is_provider_available(p))
 
     router.set_health_checker(_env_health_checker)
 
@@ -226,7 +229,7 @@ def _configure_native_router(availability: dict[str, bool]) -> None:
     except ImportError:
         return
 
-    for provider, available in availability.items():
+    for p, available in availability.items():
         if not available:
             for tier_enum in ModelTier:
                 if tier_enum == ModelTier.TIER_0:
@@ -234,16 +237,11 @@ def _configure_native_router(availability: dict[str, bool]) -> None:
                 chain = DEFAULT_CHAINS.get(tier_enum)
                 if chain:
                     for m in chain:
-                        if _provider_prefix(m) == provider:
+                        if provider_prefix(m) == p:
                             router.mark_unavailable(m)
 
     logger.debug("Native ModelRouter configured with env-var health checker")
 
-
-# NOTE: probe_and_update_tier_defaults() is intentionally NOT called here.
-# It is called once from the FastAPI lifespan handler in server/app.py so that
-# it runs at server startup only — not on every test import, which would mutate
-# global _TIER_DEFAULTS and cause test-order dependencies.
 
 # ---------------------------------------------------------------------------
 # Provider dispatch
@@ -277,37 +275,37 @@ def get_chat_model(model_id: str, temperature: float = 0.0) -> Any:
         raise ValueError("Model ID must be a non-empty string.")
 
     if model_id.startswith("gh:"):
-        return _build_github_model(model_id[3:], temperature)
+        return build_github_model(model_id[3:], temperature)
 
     if model_id.startswith("ollama:"):
-        return _build_ollama_model(model_id[7:], temperature)
+        return build_ollama_model(model_id[7:], temperature)
 
     if model_id.startswith("openai:"):
-        return _build_openai_model(model_id[7:], temperature)
+        return build_openai_model(model_id[7:], temperature)
 
     if model_id.startswith("anthropic:"):
-        return _build_anthropic_model(model_id[10:], temperature)
+        return build_anthropic_model(model_id[10:], temperature)
 
     if model_id.startswith("claude:"):
-        return _build_anthropic_model(model_id[7:], temperature)
+        return build_anthropic_model(model_id[7:], temperature)
 
     if model_id.startswith("gemini:"):
-        return _build_gemini_model(model_id[7:], temperature)
+        return build_gemini_model(model_id[7:], temperature)
 
     if model_id == "notebooklm":
-        return _build_notebooklm_model("", temperature)
+        return build_notebooklm_model("", temperature)
 
     if model_id.startswith("notebooklm:"):
-        return _build_notebooklm_model(model_id[11:], temperature)
+        return build_notebooklm_model(model_id[11:], temperature)
 
     if model_id.startswith("local:"):
-        return _build_local_onnx_model(model_id[6:], temperature)
+        return build_local_onnx_model(model_id[6:], temperature)
 
     if model_id.startswith("lmstudio:"):
-        return _build_lmstudio_model(model_id[9:], temperature)
+        return build_lmstudio_model(model_id[9:], temperature)
 
     if model_id.startswith("local-api:"):
-        return _build_local_api_model(model_id[10:], temperature)
+        return build_local_api_model(model_id[10:], temperature)
 
     # Bare name without prefix -- treat as Ollama local model
     if not any(
@@ -325,7 +323,7 @@ def get_chat_model(model_id: str, temperature: float = 0.0) -> Any:
             "local-api:",
         )
     ):
-        return _build_ollama_model(model_id, temperature)
+        return build_ollama_model(model_id, temperature)
 
     raise ValueError(
         f"Unsupported model provider in '{model_id}'. "
@@ -384,7 +382,7 @@ def get_model_candidates_for_tier(
     pinned: list[str] = []
 
     if model_override:
-        pinned.append(_resolve_model_override(model_override))
+        pinned.append(resolve_model_override(model_override))
 
     env_key = f"AGENTIC_MODEL_TIER_{tier}"
     env_val = (os.environ.get(env_key) or "").strip()
@@ -398,421 +396,47 @@ def get_model_candidates_for_tier(
     fallback = list(_TIER_FALLBACK_CHAINS.get(tier, _TIER_FALLBACK_CHAINS.get(2, [])))
 
     if include_gh_backup and os.environ.get("GITHUB_TOKEN"):
-        fallback.extend(_GH_BACKUP_MODELS)
+        fallback.extend(GH_BACKUP_MODELS)
 
-    ordered_pinned = _dedupe_keep_order(pinned)
-    ordered_fallback = _dedupe_keep_order(fallback)
+    ordered_pinned = dedupe_keep_order(pinned)
+    ordered_fallback = dedupe_keep_order(fallback)
     if include_unavailable:
-        return _dedupe_keep_order(ordered_pinned + ordered_fallback)
+        return dedupe_keep_order(ordered_pinned + ordered_fallback)
 
     filtered_fallback = [
-        m for m in ordered_fallback if _is_provider_available(_provider_prefix(m))
+        m for m in ordered_fallback if is_provider_available(provider_prefix(m))
     ]
-    return _dedupe_keep_order(ordered_pinned + filtered_fallback)
-
-
-def is_retryable_model_error(exc: Exception) -> bool:
-    """Heuristic classification for transient model/provider failures."""
-    status_code = getattr(exc, "status_code", None)
-    if status_code is None:
-        response = getattr(exc, "response", None)
-        status_code = getattr(response, "status_code", None)
-    try:
-        if int(status_code) in _TRANSIENT_HTTP_STATUS_CODES:
-            return True
-    except (TypeError, ValueError):
-        pass
-
-    cls = exc.__class__.__name__.lower()
-    msg = str(exc).lower()
-
-    if any(
-        token in cls
-        for token in (
-            "ratelimit",
-            "timeout",
-            "apiconnection",
-            "serviceunavailable",
-            "temporar",
-        )
-    ):
-        return True
-
-    return any(
-        token in msg
-        for token in (
-            "429",
-            "too many requests",
-            "rate limit",
-            "quota exceeded",
-            "resource exhausted",
-            "temporarily unavailable",
-            "service unavailable",
-            "overloaded",
-            "timeout",
-            "timed out",
-            "connection reset",
-            "connection error",
-            "upstream error",
-            "try again later",
-        )
-    )
-
-
-def _dedupe_keep_order(items: list[str]) -> list[str]:
-    """Return deduplicated list preserving first-seen order."""
-    out: list[str] = []
-    seen: set[str] = set()
-    for item in items:
-        val = (item or "").strip()
-        if not val or val in seen:
-            continue
-        seen.add(val)
-        out.append(val)
-    return out
-
-
-def _resolve_model_override(model_override: str) -> str:
-    """Resolve a model override string.
-
-    Supported forms:
-    - ``gh:openai/gpt-4o`` (direct model id)
-    - ``ollama:deepseek-r1`` (direct model id)
-    - ``env:VAR_NAME`` (required environment variable)
-    - ``env:VAR_NAME|gh:openai/gpt-4o-mini`` (env with fallback)
-    """
-    if not model_override.startswith("env:"):
-        return model_override
-
-    raw = model_override[4:].strip()
-    if not raw:
-        raise ValueError("Invalid model override 'env:' (missing variable name).")
-
-    if "|" in raw:
-        env_key, fallback = raw.split("|", 1)
-        env_key = env_key.strip()
-        fallback = fallback.strip()
-    else:
-        env_key, fallback = raw, ""
-
-    if not env_key:
-        raise ValueError("Invalid model override: missing env var name.")
-
-    env_val = os.environ.get(env_key, "").strip()
-    if env_val:
-        return env_val
-    if fallback:
-        return fallback
-
-    raise ValueError(
-        f"Model override requires environment variable '{env_key}', "
-        "but it is not set."
-    )
+    return dedupe_keep_order(ordered_pinned + filtered_fallback)
 
 
 # ---------------------------------------------------------------------------
-# Provider builders
+# Re-exports for backward compatibility
 # ---------------------------------------------------------------------------
 
-
-def _build_github_model(model_name: str, temperature: float) -> Any:
-    """Build a ChatOpenAI instance pointed at GitHub Models."""
-    try:
-        from langchain_openai import ChatOpenAI
-    except ImportError as exc:
-        raise ImportError(
-            "langchain-openai is required for GitHub Models. "
-            "Install with: pip install langchain-openai"
-        ) from exc
-
-    token = os.environ.get("GITHUB_TOKEN")
-    if not token:
-        raise ValueError(
-            "GITHUB_TOKEN environment variable is required for GitHub Models. "
-            "Set it to a GitHub personal access token with 'models:read' scope."
-        )
-
-    logger.debug("Using GitHub Models: %s", model_name)
-    return ChatOpenAI(
-        model=model_name,
-        base_url=_GH_BASE_URL,
-        api_key=token,
-        temperature=temperature,
-    )
-
-
-def _build_openai_model(model_name: str, temperature: float) -> Any:
-    """Build a ChatOpenAI instance for direct OpenAI API."""
-    try:
-        from langchain_openai import ChatOpenAI
-    except ImportError as exc:
-        raise ImportError(
-            "langchain-openai is required for OpenAI models. "
-            "Install with: pip install langchain-openai"
-        ) from exc
-
-    api_key = os.environ.get("OPENAI_API_KEY")
-    if not api_key:
-        raise ValueError(
-            "OPENAI_API_KEY environment variable is required for OpenAI models."
-        )
-
-    kwargs: dict[str, Any] = {
-        "model": model_name,
-        "api_key": api_key,
-        "temperature": temperature,
-    }
-
-    base_url = os.environ.get("OPENAI_BASE_URL") or os.environ.get("OPENAI_API_BASE")
-    if base_url:
-        kwargs["base_url"] = base_url
-
-    org = os.environ.get("OPENAI_ORG_ID")
-    if org:
-        kwargs["organization"] = org
-
-    logger.debug("Using OpenAI model: %s", model_name)
-    return ChatOpenAI(**kwargs)
-
-
-def _build_anthropic_model(model_name: str, temperature: float) -> Any:
-    """Build a ChatAnthropic instance."""
-    try:
-        from langchain_anthropic import ChatAnthropic
-    except ImportError as exc:
-        raise ImportError(
-            "langchain-anthropic is required for Anthropic models. "
-            "Install with: pip install langchain-anthropic"
-        ) from exc
-
-    api_key = os.environ.get("ANTHROPIC_API_KEY")
-    if not api_key:
-        raise ValueError(
-            "ANTHROPIC_API_KEY environment variable is required for Anthropic models."
-        )
-
-    logger.debug("Using Anthropic model: %s", model_name)
-    return ChatAnthropic(
-        model=model_name,
-        api_key=api_key,
-        temperature=temperature,
-    )
-
-
-def _build_gemini_model(model_name: str, temperature: float) -> Any:
-    """Build a ChatGoogleGenerativeAI instance."""
-    try:
-        from langchain_google_genai import ChatGoogleGenerativeAI
-    except ImportError as exc:
-        raise ImportError(
-            "langchain-google-genai is required for Gemini models. "
-            "Install with: pip install langchain-google-genai"
-        ) from exc
-
-    api_key = os.environ.get("GOOGLE_API_KEY") or os.environ.get("GEMINI_API_KEY")
-    if not api_key:
-        raise ValueError(
-            "GOOGLE_API_KEY (or GEMINI_API_KEY) is required for Gemini models."
-        )
-
-    logger.debug("Using Gemini model: %s", model_name)
-    return ChatGoogleGenerativeAI(
-        model=model_name,
-        google_api_key=api_key,
-        temperature=temperature,
-    )
-
-
-def _build_notebooklm_model(model_name: str, temperature: float) -> Any:
-    """NotebookLM alias routed through Gemini models."""
-    resolved = _resolve_notebooklm_model_name(model_name)
-    logger.debug("Using NotebookLM alias via Gemini model: %s", resolved)
-    return _build_gemini_model(resolved, temperature)
-
-
-def _resolve_notebooklm_model_name(model_name: str) -> str:
-    """Resolve the Gemini model used for NotebookLM alias."""
-    raw = (model_name or "").strip()
-    if raw:
-        return raw
-
-    env_model = (
-        os.environ.get("NOTEBOOKLM_MODEL")
-        or os.environ.get("NOTEBOOKLM_GEMINI_MODEL")
-        or ""
-    ).strip()
-    if env_model:
-        return env_model
-
-    return "gemini-2.5-pro"
-
-
-def _build_ollama_model(model_name: str, temperature: float) -> Any:
-    """Build a ChatOllama instance for local Ollama server."""
-    try:
-        from langchain_ollama import ChatOllama
-    except ImportError as exc:
-        raise ImportError(
-            "langchain-ollama is required for Ollama models. "
-            "Install with: pip install langchain-ollama"
-        ) from exc
-
-    base_url = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434")
-    logger.debug("Using Ollama: %s at %s", model_name, base_url)
-    return ChatOllama(
-        model=model_name,
-        base_url=base_url,
-        temperature=temperature,
-    )
-
-
-def _build_lmstudio_model(model_name: str, temperature: float) -> Any:
-    """Build a ChatOpenAI instance for local LM Studio server."""
-    try:
-        from langchain_openai import ChatOpenAI
-    except ImportError as exc:
-        raise ImportError(
-            "langchain-openai is required for LM Studio models. "
-            "Install with: pip install langchain-openai"
-        ) from exc
-
-    base_url = os.environ.get("LMSTUDIO_HOST", "http://127.0.0.1:12340")
-    if not base_url.endswith("/v1"):
-        base_url = f"{base_url.rstrip('/')}/v1"
-
-    logger.debug("Using LM Studio: %s at %s", model_name, base_url)
-    return ChatOpenAI(
-        model=model_name,
-        base_url=base_url,
-        api_key="lm-studio",
-        temperature=temperature,
-    )
-
-
-def _build_local_api_model(model_name: str, temperature: float) -> Any:
-    """Build a ChatOpenAI instance for generic local OpenAI-compatible API."""
-    try:
-        from langchain_openai import ChatOpenAI
-    except ImportError as exc:
-        raise ImportError(
-            "langchain-openai is required for local API models. "
-            "Install with: pip install langchain-openai"
-        ) from exc
-
-    base_url = (
-        os.getenv("OPENAI_BASE_URL")
-        or os.getenv("OPENAI_API_BASE")
-        or os.getenv("LOCAL_AI_API_BASE_URL")
-        or os.getenv("LOCAL_OPENAI_BASE_URL")
-        or "http://localhost:1234/v1"
-    )
-    if not base_url.endswith("/v1"):
-        base_url = f"{base_url.rstrip('/')}/v1"
-
-    logger.debug("Using Local API: %s at %s", model_name, base_url)
-    return ChatOpenAI(
-        model=model_name,
-        base_url=base_url,
-        api_key="local-api",
-        temperature=temperature,
-    )
-
-
-def _build_local_onnx_model(model_name: str, temperature: float) -> Any:
-    """Build a minimal chat wrapper over repo-local ONNX via ``LLMClient``."""
-    try:
-        from langchain_core.language_models.chat_models import BaseChatModel
-        from langchain_core.messages import (
-            AIMessage,
-            BaseMessage,
-            HumanMessage,
-            SystemMessage,
-        )
-        from langchain_core.outputs import ChatGeneration, ChatResult
-    except ImportError as exc:
-        raise ImportError(
-            "langchain-core is required for local ONNX chat wrapper. "
-            "Install with: pip install langchain-core"
-        ) from exc
-
-    llm_client = _import_repo_llm_client()
-    key = (model_name or "phi4mini").strip()
-
-    class LocalOnnxChatModel(BaseChatModel):
-        model_key: str = key
-        default_temperature: float = temperature
-
-        @property
-        def _llm_type(self) -> str:
-            return "local-onnx"
-
-        def bind_tools(self, tools: Any, **kwargs: Any) -> Any:
-            return self
-
-        def _messages_to_prompt(
-            self,
-            messages: list[BaseMessage],
-        ) -> tuple[str, str | None]:
-            system_text: str | None = None
-            chunks: list[str] = []
-            for msg in messages:
-                if isinstance(msg, SystemMessage):
-                    system_text = str(msg.content)
-                elif isinstance(msg, HumanMessage):
-                    chunks.append(f"User: {msg.content}")
-                else:
-                    chunks.append(f"Assistant: {msg.content}")
-            prompt = "\n\n".join(chunks) if chunks else ""
-            return prompt, system_text
-
-        def _generate(
-            self,
-            messages: list[BaseMessage],
-            stop: list[str] | None = None,
-            run_manager: Any | None = None,
-            **kwargs: Any,
-        ) -> Any:
-            prompt, system_text = self._messages_to_prompt(messages)
-            response = llm_client.generate_text(
-                model_name=f"local:{self.model_key}",
-                prompt=prompt,
-                system_instruction=system_text,
-                temperature=float(kwargs.get("temperature", self.default_temperature)),
-                max_tokens=int(kwargs.get("max_tokens", 4096)),
-            )
-            text = response
-            if stop:
-                for token in stop:
-                    if token and token in text:
-                        text = text.split(token, 1)[0]
-                        break
-            message = AIMessage(content=text)
-            return ChatResult(generations=[ChatGeneration(message=message)])
-
-    logger.warning(
-        "Using local ONNX wrapper for 'local:%s'. This path is prompt-only and "
-        "does not support structured tool-calling.",
-        key,
-    )
-    return LocalOnnxChatModel()
-
-
-def _import_repo_llm_client() -> Any:
-    """Import repo ``tools.llm.llm_client`` with workspace fallback."""
-    try:
-        from tools.llm.llm_client import LLMClient
-
-        return LLMClient
-    except ImportError:
-        repo_root = Path(__file__).resolve().parents[3]
-        if str(repo_root) not in sys.path:
-            sys.path.insert(0, str(repo_root))
-        try:
-            from tools.llm.llm_client import LLMClient
-
-            return LLMClient
-        except ImportError as exc:
-            raise ImportError(
-                "Local ONNX provider requires importing tools.llm.llm_client. "
-                "Run from repo root or add the workspace root to PYTHONPATH."
-            ) from exc
+__all__ = [
+    # core dispatch
+    "get_chat_model",
+    "get_model_for_tier",
+    "get_model_candidates_for_tier",
+    # probe helpers
+    "probe_available_providers",
+    "probe_and_update_tier_defaults",
+    # re-exported from model_builders
+    "build_github_model",
+    "build_openai_model",
+    "build_anthropic_model",
+    "build_gemini_model",
+    "build_notebooklm_model",
+    "build_ollama_model",
+    "build_lmstudio_model",
+    "build_local_api_model",
+    "build_local_onnx_model",
+    # re-exported from model_utils
+    "is_retryable_model_error",
+    "provider_prefix",
+    "is_provider_available",
+    "dedupe_keep_order",
+    "resolve_model_override",
+    "PROVIDER_ENV_KEYS",
+    "GH_BACKUP_MODELS",
+]
