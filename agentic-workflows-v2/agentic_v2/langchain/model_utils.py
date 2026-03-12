@@ -34,8 +34,11 @@ GH_BACKUP_MODELS
 
 from __future__ import annotations
 
+import logging
 import os
 from typing import Any
+
+logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
 # Provider gate — env-var keys required per provider
@@ -115,6 +118,11 @@ def is_provider_available(provider: str) -> bool:
     if not keys:
         return True  # ollama / local -- no key required
     return any(os.environ.get(k) for k in keys)
+
+
+def probe_available_providers() -> dict[str, bool]:
+    """Probe which LLM providers have credentials configured."""
+    return {prov: is_provider_available(prov) for prov in PROVIDER_ENV_KEYS}
 
 
 # ---------------------------------------------------------------------------

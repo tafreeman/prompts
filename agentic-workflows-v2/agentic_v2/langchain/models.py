@@ -29,6 +29,13 @@ AGENTIC_MODEL_TIER_{N}
     Force a specific model ID for tier N (e.g. ``AGENTIC_MODEL_TIER_2=gh:openai/gpt-4o``).
 DEEP_RESEARCH_* (optional)
     Can be used with ``env:VAR|fallback`` per-step overrides in workflow YAML.
+
+Implementation notes
+--------------------
+Builder functions live in :mod:`agentic_v2.langchain.model_builders`.
+Provider detection utilities live in :mod:`agentic_v2.langchain.model_utils`.
+Both are re-exported here so that ``from agentic_v2.langchain.models import X``
+continues to work unchanged.
 """
 
 from __future__ import annotations
