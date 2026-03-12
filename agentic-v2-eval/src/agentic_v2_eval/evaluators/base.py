@@ -9,7 +9,7 @@ by name at runtime.
 from __future__ import annotations
 
 import abc
-from typing import Any
+from typing import Any, ClassVar
 
 
 class Evaluator(abc.ABC):
@@ -48,7 +48,7 @@ class EvaluatorRegistry:
         cls = EvaluatorRegistry.get("custom")
     """
 
-    _registry: dict[str, type[Evaluator]] = {}
+    _registry: ClassVar[dict[str, type[Evaluator]]] = {}
 
     @classmethod
     def register(cls, name: str):

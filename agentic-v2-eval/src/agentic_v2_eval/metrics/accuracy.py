@@ -6,8 +6,10 @@ recall, and F1 scores.
 
 from __future__ import annotations
 
-from collections.abc import Sequence
-from typing import Any, TypeVar
+from typing import Any, TypeVar, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
 
 T = TypeVar("T")
 
@@ -41,7 +43,7 @@ def calculate_accuracy(
     if not ground_truth:
         return 0.0
 
-    correct = sum(p == gt for p, gt in zip(predictions, ground_truth))
+    correct = sum(p == gt for p, gt in zip(predictions, ground_truth, strict=False))
     return correct / len(ground_truth)
 
 
@@ -75,7 +77,7 @@ def calculate_precision_recall(
 
     true_positives = sum(
         1
-        for p, gt in zip(predictions, ground_truth)
+        for p, gt in zip(predictions, ground_truth, strict=False)
         if p == positive_label and gt == positive_label
     )
 
@@ -144,7 +146,7 @@ def calculate_confusion_matrix(
         str(actual): {str(pred): 0 for pred in labels} for actual in labels
     }
 
-    for pred, actual in zip(predictions, ground_truth):
+    for pred, actual in zip(predictions, ground_truth, strict=False):
         matrix[str(actual)][str(pred)] += 1
 
     return matrix

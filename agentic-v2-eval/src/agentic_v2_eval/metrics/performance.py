@@ -7,10 +7,12 @@ memory, and throughput metrics.
 from __future__ import annotations
 
 import time
-from collections.abc import Callable, Generator
 from contextlib import contextmanager
 from dataclasses import dataclass
-from typing import Any, TypeVar
+from typing import Any, TypeVar, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from collections.abc import Callable, Generator
 
 T = TypeVar("T")
 

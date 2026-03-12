@@ -320,6 +320,6 @@ class PatternEvaluator:
             if start != -1 and end != -1:
                 try:
                     return json.loads(text[start : end + 1])
-                except:
+                except json.JSONDecodeError:
                     pass
             return None

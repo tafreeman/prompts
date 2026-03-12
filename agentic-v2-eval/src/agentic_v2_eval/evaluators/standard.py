@@ -210,13 +210,13 @@ class StandardEvaluator:
 
         try:
             return json.loads(text)
-        except:
+        except json.JSONDecodeError:
             # Try finding object
             s = text.find("{")
             e = text.rfind("}")
             if s != -1 and e != -1:
                 try:
                     return json.loads(text[s : e + 1])
-                except:
+                except json.JSONDecodeError:
                     pass
         return None
