@@ -1,6 +1,6 @@
 """Display and formatting helpers for the agentic CLI.
 
-All terminal-output logic — tables, trees, coloured status lines — lives
+All terminal-output logic -- tables, trees, coloured status lines -- lives
 here so that ``main.py`` stays focused on Typer command declarations.
 
 Public API
@@ -26,9 +26,9 @@ console = Console()
 # ---------------------------------------------------------------------------
 
 _STATUS_STYLE: dict[str, str] = {
-    "success": "[green]✓[/green] success",
-    "failed": "[red]✗[/red] failed",
-    "skipped": "[yellow]⊘[/yellow] skipped",
+    "success": "[green]\u2713[/green] success",
+    "failed": "[red]\u2717[/red] failed",
+    "skipped": "[yellow]\u2298[/yellow] skipped",
 }
 
 
@@ -38,7 +38,7 @@ def _step_label(step) -> str:
     if step.agent:
         label += f" [dim]({step.agent})[/dim]"
     if step.depends_on:
-        label += f" ← {step.depends_on}"
+        label += f" \u2190 {step.depends_on}"
     return label
 
 

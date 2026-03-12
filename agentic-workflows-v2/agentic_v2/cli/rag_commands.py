@@ -2,9 +2,9 @@
 
 Registers a ``rag`` Typer sub-application with two commands:
 
-- ``agentic rag ingest --source <path>``  — load, chunk, embed, and index
+- ``agentic rag ingest --source <path>``  -- load, chunk, embed, and index
   documents from a file or directory.
-- ``agentic rag search <query>``          — hybrid-retrieve ranked results
+- ``agentic rag search <query>``          -- hybrid-retrieve ranked results
   from the in-memory index populated by a prior ingest call.
 
 The actual RAG pipeline logic lives in :mod:`.helpers` (``_rag_ingest_impl``

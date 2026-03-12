@@ -34,7 +34,6 @@ import typer
 from rich.console import Console
 from rich.panel import Panel
 from rich.progress import Progress, SpinnerColumn, TextColumn
-from rich.table import Table
 
 from ..integrations.otel import create_trace_adapter, shutdown_tracing
 from .display import (
@@ -45,7 +44,8 @@ from .display import (
     _show_execution_plan,
     _show_results,
 )
-from .helpers import _rag_ingest_impl, _rag_search_impl, _run_adapter, _run_via_adapter
+from .helpers import _run_adapter, _run_via_adapter
+from .rag_commands import rag_group
 
 logger = logging.getLogger(__name__)
 
@@ -75,6 +75,9 @@ _runner = None  # lazily initialized by _get_runner()
 
 # Register shutdown hook for tracing cleanup
 atexit.register(shutdown_tracing)
+
+# Register RAG subcommand group
+app.add_typer(rag_group, name="rag")
 
 
 def _require_langchain() -> None:
@@ -253,6 +256,8 @@ def compare(
         agentic compare code_review --input review_input.json
         agentic compare code_review -i input.json --adapters native,langchain
     """
+    from rich.table import Table
+
     try:
         if not input_file.exists():
             console.print(f"[red]Error:[/red] Input file not found: {input_file}")
@@ -416,7 +421,7 @@ def validate(
         compile_workflow(workflow_def, validate_only=True)
 
         console.print(
-            f"\n[green]✓[/green] Workflow '[bold]{workflow_def.name}[/bold]' is valid!"
+            f"\n[green]\u2713[/green] Workflow '[bold]{workflow_def.name}[/bold]' is valid!"
         )
 
         if verbose:
@@ -428,104 +433,11 @@ def validate(
             _show_execution_plan(workflow_def)
 
     except FileNotFoundError as e:
-        console.print(f"[red]✗ Workflow not found:[/red] {e}")
+        console.print(f"[red]\u2717 Workflow not found:[/red] {e}")
         raise typer.Exit(1)
     except Exception as e:
-        console.print(f"[red]✗ Validation error:[/red] {e}")
+        console.print(f"[red]\u2717 Validation error:[/red] {e}")
         raise typer.Exit(1)
-
-
-# ---------------------------------------------------------------------------
-# RAG subcommands — rag_group defined here so that patches on
-# ``agentic_v2.cli.main._rag_ingest_impl`` / ``_rag_search_impl`` work in
-# tests.  The command implementations delegate to helpers imported above.
-# ---------------------------------------------------------------------------
-
-rag_group = typer.Typer(
-    name="rag",
-    help="RAG (Retrieval-Augmented Generation) pipeline commands.",
-    add_completion=False,
-)
-app.add_typer(rag_group, name="rag")
-
-
-@rag_group.command("ingest")
-def rag_ingest(
-    source: Path = typer.Option(
-        ...,
-        "--source",
-        "-s",
-        help="Path to file or directory to ingest",
-    ),
-    collection: str = typer.Option(
-        "default",
-        "--collection",
-        "-c",
-        help="Collection name for organizing ingested documents",
-    ),
-) -> None:
-    """Ingest documents into the RAG pipeline.
-
-    Loads, chunks, embeds, and indexes the source file for later retrieval.
-
-    Examples:
-        agentic rag ingest --source ./docs/README.md
-        agentic rag ingest --source ./docs --collection my_project
-    """
-    try:
-        chunk_count = _rag_ingest_impl(str(source))
-        console.print(f"[green]Ingested {chunk_count} chunks[/green] from {source}")
-    except FileNotFoundError as e:
-        console.print(f"[red]Error:[/red] {e}")
-        raise typer.Exit(1)
-    except Exception as e:
-        console.print(f"[red]Error:[/red] {e}")
-        raise typer.Exit(1)
-
-
-@rag_group.command("search")
-def rag_search(
-    query: str = typer.Argument(
-        ...,
-        help="Search query string",
-    ),
-    top_k: int = typer.Option(
-        5,
-        "--top-k",
-        "-k",
-        help="Maximum number of results to return",
-    ),
-) -> None:
-    """Search the RAG index for relevant content.
-
-    Returns ranked results from the hybrid retriever (dense + BM25).
-
-    Examples:
-        agentic rag search "how does the DAG executor work?"
-        agentic rag search "pipeline patterns" --top-k 3
-    """
-    results = _rag_search_impl(query, top_k)
-
-    if not results:
-        console.print("[yellow]No results found.[/yellow]")
-        return
-
-    table = Table(title=f"Search Results (top {top_k})")
-    table.add_column("#", justify="right", style="dim")
-    table.add_column("Score", justify="right")
-    table.add_column("Content")
-
-    for idx, result in enumerate(results, 1):
-        content_preview = result["content"]
-        if len(content_preview) > 120:
-            content_preview = content_preview[:117] + "..."
-        table.add_row(
-            str(idx),
-            f"{result['score']:.3f}",
-            content_preview,
-        )
-
-    console.print(table)
 
 
 @app.command()
