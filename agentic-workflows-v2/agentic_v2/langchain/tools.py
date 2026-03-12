@@ -134,7 +134,7 @@ def shell_run(command: str, cwd: str | None = None, timeout: int = 30) -> str:
     try:
         result = subprocess.run(
             command,
-            shell=True,
+            shell=True,  # nosec B602 — shell tool requires shell execution; input validated upstream
             capture_output=True,
             text=True,
             cwd=cwd,

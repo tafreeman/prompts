@@ -263,7 +263,9 @@ class ExpressionEvaluator:
                     else value
                 )
 
-        return eval(compile(tree, "<expr>", "eval"), {"__builtins__": {}}, env)
+        return eval(  # nosec B307 — sandboxed: AST-validated with empty __builtins__
+            compile(tree, "<expr>", "eval"), {"__builtins__": {}}, env
+        )
 
     def _build_step_views(self) -> dict[str, StepResultView]:
         """Convert :class:`StepResult` objects into lightweight

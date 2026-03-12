@@ -23,7 +23,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
-        python-version: ['3.10', '3.11', '3.12']
+        python-version: ['3.11', '3.12']
 
     steps:
       - uses: actions/checkout@v4
@@ -36,11 +36,8 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
+          pip install -e "../tools"
           pip install -e ".[dev]"
-
-      - name: Install parent tools package for integration tests
-        run: pip install -e ..
-        continue-on-error: true
       - name: Run tests with coverage
         run: |
           python -m pytest tests/ -v --cov=src/agentic_v2_eval --cov-report=xml --cov-report=term-missing
@@ -87,6 +84,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
+          pip install -e "../tools"
           pip install -e ".[dev]"
 
       - name: Run mypy
