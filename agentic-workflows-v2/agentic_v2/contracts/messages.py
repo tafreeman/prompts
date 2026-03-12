@@ -392,9 +392,7 @@ class StepResult(BaseModel):
     output_data: dict[str, Any] = Field(
         default_factory=dict, description="Output/results from this step"
     )
-    error: str | None = Field(
-        default=None, description="Error message if step failed"
-    )
+    error: str | None = Field(default=None, description="Error message if step failed")
     error_type: str | None = Field(
         default=None, description="Error class name for structured handling"
     )

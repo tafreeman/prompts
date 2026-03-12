@@ -12,7 +12,7 @@ from .streaming import StreamingRunner, run_streaming_evaluation
 
 __all__ = [
     "BatchRunner",
-    "run_batch_evaluation",
     "StreamingRunner",
+    "run_batch_evaluation",
     "run_streaming_evaluation",
 ]

@@ -230,7 +230,7 @@ class DockerRuntime(IsolatedTaskRuntime):
                 proc.communicate(),
                 timeout=self._timeout_seconds,
             )
-        except asyncio.TimeoutError:
+        except TimeoutError:
             timed_out = True
             logger.warning(
                 "Docker container %s exceeded %ds timeout — killing",
@@ -244,7 +244,7 @@ class DockerRuntime(IsolatedTaskRuntime):
                     proc.communicate(),
                     timeout=10,
                 )
-            except asyncio.TimeoutError:
+            except TimeoutError:
                 stdout_bytes = b""
                 stderr_bytes = b"<timeout: container killed>"
         finally:
@@ -340,7 +340,7 @@ class DockerRuntime(IsolatedTaskRuntime):
                 stderr=asyncio.subprocess.DEVNULL,
             )
             await asyncio.wait_for(proc.wait(), timeout=10)
-        except Exception:  # noqa: BLE001
+        except Exception:
             logger.debug("Failed to kill container %s (may already be stopped)", name)
 
 

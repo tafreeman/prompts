@@ -155,9 +155,12 @@ async def get_run(filename: str):
                         # Mark as inferred (optional, maybe distinct UI style?)
                         step["metadata"] = step.get("metadata", {})
                         step["metadata"]["model_inferred"] = True
-        except Exception:
+        except Exception as exc:
             # Workflow definition might have changed or been deleted; ignore errors
-            pass
+            # but log at debug level for operational diagnostics
+            logger.debug(
+                "Failed to infer model_used for run %s: %s", filename, exc, exc_info=True
+            )
 
     return run_data
 
@@ -179,7 +182,7 @@ async def stream_run_events(run_id: str):
                         "workflow_end",
                     }:
                         break
-                except asyncio.TimeoutError:
+                except TimeoutError:
                     yield f"data: {json.dumps({'type': 'keepalive'})}\n\n"
         finally:
             websocket.manager.unregister_sse_listener(run_id, queue)

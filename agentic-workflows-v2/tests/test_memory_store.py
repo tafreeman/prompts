@@ -13,17 +13,16 @@ import asyncio
 from typing import Any
 
 import pytest
-
 from agentic_v2.core.memory import InMemoryStore, MemoryStoreProtocol
 from agentic_v2.rag import InMemoryEmbedder, InMemoryVectorStore
 from agentic_v2.rag.memory import RAGMemoryStore
-
 
 # ── InMemoryStore Tests ──────────────────────────────────────────────
 
 
 class TestInMemoryStoreProtocolConformance:
-    """Verify InMemoryStore satisfies MemoryStoreProtocol via runtime_checkable."""
+    """Verify InMemoryStore satisfies MemoryStoreProtocol via
+    runtime_checkable."""
 
     def test_protocol_conformance(self) -> None:
         store = InMemoryStore()

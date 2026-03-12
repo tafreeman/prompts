@@ -1,4 +1,5 @@
-"""Tool execution — tool contract resolution, call normalization, and the tool loop.
+"""Tool execution — tool contract resolution, call normalization, and the tool
+loop.
 
 Provides the full machinery for multi-turn tool-use inside LLM step functions:
 

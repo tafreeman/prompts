@@ -135,7 +135,8 @@ def _run_via_adapter(
     workflow_name: str,
     input_data: dict[str, Any],
 ) -> _NormalizedResult:
-    """Execute a workflow through the named adapter and return a normalised result.
+    """Execute a workflow through the named adapter and return a normalised
+    result.
 
     Loads the workflow definition via
     :class:`~agentic_v2.workflows.loader.WorkflowLoader`, builds an
@@ -174,8 +175,10 @@ def _run_via_adapter(
     wall_clock = time.perf_counter() - start
 
     overall_status = getattr(result, "overall_status", None)
-    status = _status_str(overall_status) if overall_status is not None else _status_str(
-        getattr(result, "status", None)
+    status = (
+        _status_str(overall_status)
+        if overall_status is not None
+        else _status_str(getattr(result, "status", None))
     )
 
     steps_raw = getattr(result, "steps", [])
@@ -263,9 +266,9 @@ def _rag_ingest_impl(source: str) -> int:
 
     from ..rag import (
         HybridRetriever,
+        IngestionPipeline,
         InMemoryEmbedder,
         InMemoryVectorStore,
-        IngestionPipeline,
         MarkdownLoader,
         RecursiveChunker,
         TextLoader,

@@ -1,7 +1,6 @@
 """Tests for VectorStore metadata filtering."""
 
 import pytest
-
 from agentic_v2.rag.contracts import Chunk
 from agentic_v2.rag.vectorstore import InMemoryVectorStore
 
@@ -44,9 +43,7 @@ def embeddings():
     ]
 
 
-async def test_search_without_filter_returns_all(
-    chunks_with_metadata, embeddings
-):
+async def test_search_without_filter_returns_all(chunks_with_metadata, embeddings):
     """Search without metadata_filter returns top_k from all chunks."""
     store = InMemoryVectorStore()
     await store.add(chunks_with_metadata, embeddings)
@@ -109,14 +106,10 @@ async def test_search_filter_respects_top_k(chunks_with_metadata, embeddings):
     assert len(results) == 1
 
 
-async def test_search_none_filter_same_as_no_filter(
-    chunks_with_metadata, embeddings
-):
+async def test_search_none_filter_same_as_no_filter(chunks_with_metadata, embeddings):
     """Passing metadata_filter=None behaves like no filter."""
     store = InMemoryVectorStore()
     await store.add(chunks_with_metadata, embeddings)
 
-    results = await store.search(
-        [1.0, 0.0, 0.0], top_k=10, metadata_filter=None
-    )
+    results = await store.search([1.0, 0.0, 0.0], top_k=10, metadata_filter=None)
     assert len(results) == 3

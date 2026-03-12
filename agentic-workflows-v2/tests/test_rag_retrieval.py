@@ -9,12 +9,10 @@ Covers:
 from __future__ import annotations
 
 import pytest
-
 from agentic_v2.rag.contracts import Chunk, RetrievalResult
 from agentic_v2.rag.embeddings import InMemoryEmbedder
 from agentic_v2.rag.retrieval import BM25Index, HybridRetriever, reciprocal_rank_fusion
 from agentic_v2.rag.vectorstore import InMemoryVectorStore
-
 
 # ---------------------------------------------------------------------------
 # Fixtures
@@ -189,20 +187,12 @@ class TestReciprocalRankFusion:
     def test_correct_fusion_scores(self) -> None:
         """RRF assigns correct fused scores based on rank positions."""
         list_a = [
-            RetrievalResult(
-                content="A", score=0.9, document_id="d1", chunk_id="c1"
-            ),
-            RetrievalResult(
-                content="B", score=0.8, document_id="d1", chunk_id="c2"
-            ),
+            RetrievalResult(content="A", score=0.9, document_id="d1", chunk_id="c1"),
+            RetrievalResult(content="B", score=0.8, document_id="d1", chunk_id="c2"),
         ]
         list_b = [
-            RetrievalResult(
-                content="B", score=0.7, document_id="d1", chunk_id="c2"
-            ),
-            RetrievalResult(
-                content="A", score=0.6, document_id="d1", chunk_id="c1"
-            ),
+            RetrievalResult(content="B", score=0.7, document_id="d1", chunk_id="c2"),
+            RetrievalResult(content="A", score=0.6, document_id="d1", chunk_id="c1"),
         ]
         merged = reciprocal_rank_fusion([list_a, list_b], k=60, top_k=10)
 
@@ -243,9 +233,7 @@ class TestReciprocalRankFusion:
             )
             for i in range(5)
         ]
-        merged = reciprocal_rank_fusion(
-            [results_a, results_b], k=60, top_k=3
-        )
+        merged = reciprocal_rank_fusion([results_a, results_b], k=60, top_k=3)
         assert len(merged) <= 3
 
     def test_empty_lists_returns_empty(self) -> None:
@@ -270,9 +258,7 @@ class TestReciprocalRankFusion:
     def test_rrf_scores_are_positive(self) -> None:
         """All RRF fused scores must be positive."""
         results = [
-            RetrievalResult(
-                content="X", score=0.1, document_id="d1", chunk_id="c1"
-            ),
+            RetrievalResult(content="X", score=0.1, document_id="d1", chunk_id="c1"),
         ]
         merged = reciprocal_rank_fusion([results], k=60, top_k=5)
         assert all(r.score > 0 for r in merged)
@@ -294,9 +280,7 @@ class TestHybridRetriever:
         sample_chunks: list[Chunk],
     ) -> None:
         """dense_only() embeds the query and searches the vectorstore."""
-        embeddings = await embedder.embed(
-            [c.content for c in sample_chunks]
-        )
+        embeddings = await embedder.embed([c.content for c in sample_chunks])
         await vectorstore.add(sample_chunks, embeddings)
 
         retriever = HybridRetriever(embedder=embedder, vectorstore=vectorstore)
@@ -312,10 +296,8 @@ class TestHybridRetriever:
         vectorstore: InMemoryVectorStore,
         sample_chunks: list[Chunk],
     ) -> None:
-        """retrieve() fuses dense and BM25 results via RRF."""
-        embeddings = await embedder.embed(
-            [c.content for c in sample_chunks]
-        )
+        """Retrieve() fuses dense and BM25 results via RRF."""
+        embeddings = await embedder.embed([c.content for c in sample_chunks])
         await vectorstore.add(sample_chunks, embeddings)
 
         retriever = HybridRetriever(embedder=embedder, vectorstore=vectorstore)
@@ -385,9 +367,7 @@ class TestHybridRetriever:
         sample_chunks: list[Chunk],
     ) -> None:
         """Custom rrf_k parameter influences fusion scores."""
-        embeddings = await embedder.embed(
-            [c.content for c in sample_chunks]
-        )
+        embeddings = await embedder.embed([c.content for c in sample_chunks])
         await vectorstore.add(sample_chunks, embeddings)
 
         retriever_default = HybridRetriever(
@@ -413,7 +393,7 @@ class TestHybridRetriever:
         embedder: InMemoryEmbedder,
         vectorstore: InMemoryVectorStore,
     ) -> None:
-        """retrieve() respects top_k parameter."""
+        """Retrieve() respects top_k parameter."""
         chunks = [
             _make_chunk(f"content chunk {i}", chunk_id=f"c{i}", chunk_index=i)
             for i in range(10)

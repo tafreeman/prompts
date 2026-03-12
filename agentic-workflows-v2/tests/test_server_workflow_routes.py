@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
+from agentic_v2.server import result_normalization
 from agentic_v2.server.app import create_app
 from agentic_v2.server.routes import evaluation_routes
-from agentic_v2.server import result_normalization
 from fastapi.testclient import TestClient
 
 

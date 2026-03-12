@@ -11,10 +11,8 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-
 from agentic_v2.rag.config import ChunkingConfig
 from agentic_v2.rag.contracts import Chunk, Document
-
 
 # ── RecursiveChunker ─────────────────────────────────────────────────
 
@@ -62,7 +60,9 @@ class TestRecursiveChunker:
     def test_metadata_inherited_from_document(self):
         from agentic_v2.rag.chunking import RecursiveChunker
 
-        doc = Document(source="a.md", content="Hello world", metadata={"author": "test"})
+        doc = Document(
+            source="a.md", content="Hello world", metadata={"author": "test"}
+        )
         chunker = RecursiveChunker()
         chunks = chunker.chunk(doc)
         assert chunks[0].metadata["source"] == "a.md"

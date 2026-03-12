@@ -179,7 +179,7 @@ async def main() -> None:
     result = await agent.run(task)
 
     # 5. Inspect the result ---------------------------------------------------
-    print(f"\n=== Agent Result ===")
+    print("\n=== Agent Result ===")
     print(f"State      : {agent.state.value}")
     print(f"Iterations : {agent.iteration_count}")
     print(f"Success    : {result.success}")

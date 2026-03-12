@@ -79,7 +79,7 @@ if LANGCHAIN_AVAILABLE:
             return self._client
 
         def _messages_to_dicts(
-            self, messages: List[BaseMessage]
+            self, messages: list[BaseMessage]
         ) -> list[dict[str, str]]:
             """Convert LangChain messages to OpenAI-style dicts."""
             result = []
@@ -96,8 +96,8 @@ if LANGCHAIN_AVAILABLE:
 
         def _generate(
             self,
-            messages: List[BaseMessage],
-            stop: List[str] | None = None,
+            messages: list[BaseMessage],
+            stop: list[str] | None = None,
             run_manager: CallbackManagerForLLMRun | None = None,
             **kwargs: Any,
         ) -> ChatResult:
@@ -112,8 +112,8 @@ if LANGCHAIN_AVAILABLE:
 
         async def _agenerate(
             self,
-            messages: List[BaseMessage],
-            stop: List[str] | None = None,
+            messages: list[BaseMessage],
+            stop: list[str] | None = None,
             run_manager: CallbackManagerForLLMRun | None = None,
             **kwargs: Any,
         ) -> ChatResult:

@@ -29,9 +29,9 @@ import sys
 import urllib.error
 import urllib.request
 from pathlib import Path
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
-from typing import Any, Optional
 
 
 def _repo_root() -> Path:
@@ -521,6 +521,7 @@ def format_inventory_summary(inv: dict[str, Any]) -> str:
 
 
 def main(argv: list[str]) -> int:
+    logging.basicConfig(level=logging.INFO, format="%(message)s")
     active = "--active" in argv or "--active-probe" in argv
     inv = build_inventory(active_probes=active)
     logger.info(json.dumps(inv, indent=2, default=str))

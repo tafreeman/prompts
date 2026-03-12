@@ -45,7 +45,12 @@ def demo_basic_routing() -> None:
     router = ModelRouter()
 
     # Inspect the default chains for each tier
-    for tier in [ModelTier.TIER_1, ModelTier.TIER_2, ModelTier.TIER_3, ModelTier.TIER_4]:
+    for tier in [
+        ModelTier.TIER_1,
+        ModelTier.TIER_2,
+        ModelTier.TIER_3,
+        ModelTier.TIER_4,
+    ]:
         chain = router.get_chain(tier)
         models = list(chain)
         print(f"\n  {tier.name} ({chain.name}):")
@@ -69,9 +74,9 @@ def demo_custom_chains() -> None:
     # Build a custom chain using the fluent DSL
     custom_chain = (
         FallbackChain.build("my-tier2")
-        .add("ollama:phi4")               # Local model first (free)
-        .add("ollama:llama3.2:latest")     # Another local option
-        .add("gh:openai/gpt-4o-mini")      # GitHub Models fallback
+        .add("ollama:phi4")  # Local model first (free)
+        .add("ollama:llama3.2:latest")  # Another local option
+        .add("gh:openai/gpt-4o-mini")  # GitHub Models fallback
         .done()
     )
 
@@ -151,7 +156,7 @@ def demo_smart_routing() -> None:
 
     # Inspect health-scored fallback chain
     chain_with_health = router.get_fallback_chain_with_health(ModelTier.TIER_2)
-    print(f"\n  TIER_2 chain with health scores:")
+    print("\n  TIER_2 chain with health scores:")
     for model_name, health_score in chain_with_health:
         print(f"    {model_name}: health={health_score:.2f}")
 

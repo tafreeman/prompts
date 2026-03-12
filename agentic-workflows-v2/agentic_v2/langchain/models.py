@@ -39,13 +39,13 @@ from pathlib import Path
 from typing import Any
 
 from .model_builders import (
-    _resolve_notebooklm_model_name,  # noqa: F401 — re-export for tests
+    _resolve_notebooklm_model_name,
     build_anthropic_model,
     build_gemini_model,
     build_github_model,
+    build_lmstudio_model,
     build_local_api_model,
     build_local_onnx_model,
-    build_lmstudio_model,
     build_notebooklm_model,
     build_ollama_model,
     build_openai_model,
@@ -161,7 +161,8 @@ def probe_available_providers() -> dict[str, bool]:
 
 
 def probe_and_update_tier_defaults() -> dict[str, Any]:
-    """Probe providers and update ``_TIER_DEFAULTS`` to the best available model per tier.
+    """Probe providers and update ``_TIER_DEFAULTS`` to the best available
+    model per tier.
 
     Called on module import and can be re-called at server startup to pick up
     env changes.  Also installs a health-checker on the native ``ModelRouter``
@@ -207,7 +208,8 @@ def probe_and_update_tier_defaults() -> dict[str, Any]:
 
 
 def _configure_native_router(availability: dict[str, bool]) -> None:
-    """Set a health-checker on the native ModelRouter so it skips unavailable providers."""
+    """Set a health-checker on the native ModelRouter so it skips unavailable
+    providers."""
     try:
         from ..models.router import get_router
     except ImportError:

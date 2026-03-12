@@ -254,7 +254,7 @@ class ProbeResult:
     duration_ms: int = 0
     cached: bool = False
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return asdict(self)
 
 
@@ -275,7 +275,7 @@ def get_cache_file() -> Path:
     return get_cache_dir() / _CACHE_FILE_NAME
 
 
-def load_cache() -> Dict[str, Any]:
+def load_cache() -> dict[str, Any]:
     """Load the probe cache from disk."""
     cache_file = get_cache_file()
     if cache_file.exists():
@@ -286,15 +286,14 @@ def load_cache() -> Dict[str, Any]:
     return {"version": _CACHE_VERSION, "probes": {}, "last_updated": None}
 
 
-def save_cache(cache: Dict[str, Any]) -> None:
+def save_cache(cache: dict[str, Any]) -> None:
     """Save the probe cache to disk."""
     cache["last_updated"] = datetime.now().isoformat()
     cache_file = get_cache_file()
     cache_file.write_text(json.dumps(cache, indent=2), encoding="utf-8")
-from typing import Any
+
 
 # Re-export everything callers used to import from this module
-from tools.core.errors import ErrorCode, classify_error  # noqa: F401
 from tools.llm.probe_config import (
     CACHE_VERSION,
     ProbeResult,
@@ -304,7 +303,7 @@ from tools.llm.probe_config import (
     save_cache,
     with_retry,
 )
-from tools.llm.probe_discovery import discover_all_models  # noqa: F401
+from tools.llm.probe_discovery import discover_all_models
 from tools.llm.probe_providers import get_provider, probe_model
 
 # Backward-compat: re-export public names so ``from tools.llm.model_probe import X`` still works
@@ -312,12 +311,12 @@ __all__ = [
     "ModelProbe",
     "ProbeResult",
     "discover_all_models",
-    "is_model_usable",
     "filter_usable_models",
     "get_model_error",
     "get_probe",
-    "with_retry",
+    "is_model_usable",
     "main",
+    "with_retry",
 ]
 
 

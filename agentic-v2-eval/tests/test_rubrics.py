@@ -5,7 +5,6 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-
 from agentic_v2_eval.rubrics import (
     AGENT,
     CODE,

@@ -33,7 +33,7 @@ class PromptDatabase:
 
     def _load_json(self, file_path: str) -> list[dict]:
         try:
-            with open(file_path, "r") as f:
+            with open(file_path) as f:
                 return json.load(f)
         except (json.JSONDecodeError, FileNotFoundError):
             return []
@@ -49,9 +49,7 @@ class PromptDatabase:
 
     # --- Prompts ---
 
-    def add_prompt(
-        self, name: str, content: str, metadata: dict | None = None
-    ) -> str:
+    def add_prompt(self, name: str, content: str, metadata: dict | None = None) -> str:
         """Add a new prompt or a new version of an existing prompt."""
         prompt_id = str(uuid.uuid4())
 

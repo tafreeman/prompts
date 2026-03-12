@@ -7,7 +7,6 @@ import json
 from pathlib import Path
 
 import pytest
-
 from agentic_v2_eval.__main__ import main
 from agentic_v2_eval.metrics.accuracy import (
     calculate_accuracy,

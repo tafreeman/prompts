@@ -109,7 +109,7 @@ def _run_one(
             )
         if isinstance(text, str) and text.lower().startswith("local model error:"):
             error = text
-    except Exception as exc:  # noqa: BLE001
+    except Exception as exc:
         error = str(exc)
     elapsed = time.perf_counter() - started
     return {
@@ -171,6 +171,7 @@ def _write_report(payload: dict[str, Any], out_dir: Path) -> Path:
 
 
 def main(argv: list[str]) -> int:
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
     parser = argparse.ArgumentParser(
         description="Compare local CPU+GPU model runs in sequential vs parallel mode."
     )

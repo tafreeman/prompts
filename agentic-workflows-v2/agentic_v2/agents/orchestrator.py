@@ -15,7 +15,6 @@ from ..engine import DAG, ExecutionContext, PipelineBuilder, run_pipeline
 from ..engine.protocol import ExecutionEngine
 from ..models import ModelTier
 from .base import AgentConfig, BaseAgent, agent_to_step
-from .json_extraction import extract_json
 from .capabilities import (
     Capability,
     CapabilitySet,
@@ -23,6 +22,7 @@ from .capabilities import (
     OrchestrationMixin,
     get_agent_capabilities,
 )
+from .json_extraction import extract_json
 
 logger = logging.getLogger(__name__)
 
@@ -132,9 +132,7 @@ class OrchestratorAgent(
         if not OrchestratorAgent._task_input_factories:
             _register_default_factories()
 
-    def _resolve_task_input(
-        self, subtask_desc: str, target_agent: BaseAgent
-    ) -> Any:
+    def _resolve_task_input(self, subtask_desc: str, target_agent: BaseAgent) -> Any:
         """Create the right TaskInput subclass for the given agent."""
         for cls in type(target_agent).__mro__:
             factory = self._task_input_factories.get(cls)
@@ -306,9 +304,7 @@ class OrchestratorAgent(
                 subtask.assigned_agent = best_agent
                 assignments[task_id] = best_agent
                 # Store fallback chain (excluding primary)
-                self._fallback_chains[task_id] = [
-                    name for name, _ in candidates[1:]
-                ]
+                self._fallback_chains[task_id] = [name for name, _ in candidates[1:]]
 
         return assignments
 
@@ -345,17 +341,14 @@ class OrchestratorAgent(
                     if not agent:
                         continue
                     try:
-                        task_input = self._resolve_task_input(
-                            st.description, agent
-                        )
+                        task_input = self._resolve_task_input(st.description, agent)
                         result = await agent.run(task_input)
                         st.status = StepStatus.SUCCESS
                         st.result = result
                         return st.id, result
                     except Exception as e:
                         logger.warning(
-                            "Agent %s failed for subtask %s: %s, "
-                            "trying fallback",
+                            "Agent %s failed for subtask %s: %s, " "trying fallback",
                             agent_name,
                             st.id,
                             e,
@@ -363,9 +356,7 @@ class OrchestratorAgent(
                         continue
 
                 st.status = StepStatus.FAILED
-                return st.id, {
-                    "error": f"All agents failed for subtask {st.id}"
-                }
+                return st.id, {"error": f"All agents failed for subtask {st.id}"}
 
             batch_results = await asyncio.gather(
                 *[execute_subtask(st) for st in batch], return_exceptions=True
@@ -544,6 +535,4 @@ def _register_default_factories() -> None:
     OrchestratorAgent.register_task_input_factory(
         ReviewerAgent, _reviewer_input_factory
     )
-    OrchestratorAgent.register_task_input_factory(
-        CoderAgent, _coder_input_factory
-    )
+    OrchestratorAgent.register_task_input_factory(CoderAgent, _coder_input_factory)

@@ -95,7 +95,7 @@ async def main() -> None:
     print(f"Chunked into {len(chunks)} chunks")
     for i, chunk in enumerate(chunks):
         preview = chunk.content[:60].replace("\n", " ").strip()
-        print(f"  Chunk {i}: \"{preview}...\" ({len(chunk.content)} chars)")
+        print(f'  Chunk {i}: "{preview}..." ({len(chunk.content)} chars)')
 
     # 3. Embed chunks using the deterministic in-memory embedder ------------
     # InMemoryEmbedder uses SHA-256 hashing to produce consistent vectors.
@@ -121,7 +121,7 @@ async def main() -> None:
 
     # 6. Query the retriever ------------------------------------------------
     query = "How does the Strategy pattern work in Python?"
-    print(f"\nQuery: \"{query}\"")
+    print(f'\nQuery: "{query}"')
 
     results = await retriever.retrieve(query, top_k=3)
     print(f"Retrieved {len(results)} results via hybrid retrieval (dense + BM25):\n")
@@ -129,13 +129,13 @@ async def main() -> None:
     for rank, result in enumerate(results, 1):
         preview = result.content[:80].replace("\n", " ").strip()
         print(f"  [{rank}] score={result.score:.4f}  chunk_id={result.chunk_id[:8]}...")
-        print(f"      \"{preview}...\"")
+        print(f'      "{preview}..."')
 
     # 7. Assemble results within a token budget -----------------------------
     assembler = TokenBudgetAssembler(max_tokens=500)
     response = assembler.assemble(results, query=query)
 
-    print(f"\n=== Assembled RAG Response ===")
+    print("\n=== Assembled RAG Response ===")
     print(f"Query        : {response.query}")
     print(f"Total results: {response.total_results}")
     print(f"Tokens used  : {response.metadata.get('tokens_used', 'N/A')}")

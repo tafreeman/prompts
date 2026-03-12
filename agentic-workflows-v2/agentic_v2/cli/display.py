@@ -32,7 +32,7 @@ _STATUS_STYLE: dict[str, str] = {
 }
 
 
-def _step_label(step) -> str:  # noqa: ANN001
+def _step_label(step) -> str:
     """Return a Rich-markup label string for a single workflow step."""
     label = f"[yellow]{step.name}[/yellow]"
     if step.agent:
@@ -42,7 +42,7 @@ def _step_label(step) -> str:  # noqa: ANN001
     return label
 
 
-def _compute_step_levels(workflow_def) -> dict[int, list]:  # noqa: ANN001
+def _compute_step_levels(workflow_def) -> dict[int, list]:
     """Compute parallel execution levels (depth in the DAG) for each step.
 
     Args:
@@ -79,7 +79,7 @@ def _compute_step_levels(workflow_def) -> dict[int, list]:  # noqa: ANN001
     return levels
 
 
-def _show_execution_plan(workflow_def) -> None:  # noqa: ANN001
+def _show_execution_plan(workflow_def) -> None:
     """Render the workflow execution plan as a Rich Tree.
 
     Args:
@@ -111,7 +111,7 @@ def _step_info(step_data: dict) -> str:
     return ""
 
 
-def _show_results(result, verbose: bool) -> None:  # noqa: ANN001
+def _show_results(result, verbose: bool) -> None:
     """Render a workflow result to the console.
 
     Args:
@@ -157,7 +157,8 @@ def _show_results(result, verbose: bool) -> None:  # noqa: ANN001
 
 
 def _list_workflows() -> None:
-    """Print a table of available workflows using the LangChain config loader."""
+    """Print a table of available workflows using the LangChain config
+    loader."""
     import typer
 
     try:

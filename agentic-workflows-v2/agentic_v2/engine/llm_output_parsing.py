@@ -1,4 +1,5 @@
-"""LLM output parsing — JSON extraction, normalization, and sentinel artifact parsing.
+"""LLM output parsing — JSON extraction, normalization, and sentinel artifact
+parsing.
 
 Provides robust fallback strategies for turning raw LLM text into structured
 dicts:
@@ -43,9 +44,9 @@ FILE_BLOCK_RE = re.compile(
 def extract_json_candidates(text: str) -> list[str]:
     """Return increasingly permissive JSON candidates from model output.
 
-    Tries, in order: raw text, markdown-fence-stripped text, bracket-span
-    extraction for objects (``{…}``), and bracket-span for arrays (``[…]``).
-    Duplicates are removed while preserving priority order.
+    Tries, in order: raw text, markdown-fence-stripped text, bracket-
+    span extraction for objects (``{…}``), and bracket-span for arrays
+    (``[…]``). Duplicates are removed while preserving priority order.
     """
     candidates: list[str] = []
     raw = text.strip()

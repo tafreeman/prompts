@@ -64,7 +64,7 @@ class MarkdownLoader:
             raise IngestionError(f"Not a file: {source}")
 
         try:
-            async with aiofiles.open(path, mode="r", encoding="utf-8") as f:
+            async with aiofiles.open(path, encoding="utf-8") as f:
                 content = await f.read()
         except Exception as exc:
             raise IngestionError(f"Failed to read {source}: {exc}") from exc
@@ -125,7 +125,7 @@ class TextLoader:
             raise IngestionError(f"Not a file: {source}")
 
         try:
-            async with aiofiles.open(path, mode="r", encoding="utf-8") as f:
+            async with aiofiles.open(path, encoding="utf-8") as f:
                 content = await f.read()
         except Exception as exc:
             raise IngestionError(f"Failed to read {source}: {exc}") from exc

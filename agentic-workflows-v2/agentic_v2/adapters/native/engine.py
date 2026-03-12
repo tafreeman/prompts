@@ -93,16 +93,18 @@ class NativeEngine:
             ctx = ExecutionContext()
 
         thread_id: str | None = kwargs.pop("thread_id", None)
-        should_checkpoint = (
-            thread_id is not None and self._checkpoint_store is not None
-        )
+        should_checkpoint = thread_id is not None and self._checkpoint_store is not None
 
         # Wrap on_update to intercept step completions for checkpointing
-        wrapped_update = self._wrap_on_update(
-            workflow,
-            on_update,
-            thread_id,
-        ) if should_checkpoint else on_update
+        wrapped_update = (
+            self._wrap_on_update(
+                workflow,
+                on_update,
+                thread_id,
+            )
+            if should_checkpoint
+            else on_update
+        )
 
         result = await self._dispatch(workflow, ctx, wrapped_update, **kwargs)
 
@@ -208,7 +210,10 @@ class NativeEngine:
                             ctx.set_sync(key, value)
 
         return await self.execute(
-            workflow, ctx=ctx, thread_id=thread_id, **kwargs,
+            workflow,
+            ctx=ctx,
+            thread_id=thread_id,
+            **kwargs,
         )
 
     # ------------------------------------------------------------------

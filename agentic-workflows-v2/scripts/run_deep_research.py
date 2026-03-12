@@ -214,7 +214,7 @@ def main(argv: list[str]) -> int:
 
     # Dependency check for pydantic (and optionally others)
     try:
-        import pydantic  # noqa: F401
+        import pydantic
     except ImportError:
         print("\nERROR: Required dependency 'pydantic' is not installed.")
         print("To fix: activate your virtual environment and run:")

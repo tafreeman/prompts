@@ -122,9 +122,7 @@ class TokenBudgetAssembler:
         )
 
         for result in sorted_results:
-            result_tokens = (
-                self._estimate_tokens(result.content) + framing_overhead
-            )
+            result_tokens = self._estimate_tokens(result.content) + framing_overhead
             if tokens_used + result_tokens > self._max_tokens:
                 logger.debug(
                     "Token budget exhausted at %d/%d tokens, "

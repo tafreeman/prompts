@@ -54,10 +54,24 @@ class TestStepStateManager:
         [
             ([StepState.READY], StepState.READY),
             ([StepState.READY, StepState.RUNNING], StepState.RUNNING),
-            ([StepState.READY, StepState.RUNNING, StepState.SUCCESS], StepState.SUCCESS),
+            (
+                [StepState.READY, StepState.RUNNING, StepState.SUCCESS],
+                StepState.SUCCESS,
+            ),
             ([StepState.READY, StepState.RUNNING, StepState.FAILED], StepState.FAILED),
-            ([StepState.READY, StepState.RUNNING, StepState.RETRYING], StepState.RETRYING),
-            ([StepState.READY, StepState.RUNNING, StepState.RETRYING, StepState.RUNNING], StepState.RUNNING),
+            (
+                [StepState.READY, StepState.RUNNING, StepState.RETRYING],
+                StepState.RETRYING,
+            ),
+            (
+                [
+                    StepState.READY,
+                    StepState.RUNNING,
+                    StepState.RETRYING,
+                    StepState.RUNNING,
+                ],
+                StepState.RUNNING,
+            ),
             ([StepState.SKIPPED], StepState.SKIPPED),
         ],
         ids=[

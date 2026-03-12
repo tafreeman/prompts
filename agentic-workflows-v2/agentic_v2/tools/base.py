@@ -139,7 +139,7 @@ class BaseTool(ABC):
             execution_time = (time.perf_counter() - start_time) * 1000
             return ToolResult(
                 success=False,
-                error=f"{type(e).__name__}: {str(e)}",
+                error=f"{type(e).__name__}: {e!s}",
                 execution_time_ms=execution_time,
                 tool_name=self.name,
             )

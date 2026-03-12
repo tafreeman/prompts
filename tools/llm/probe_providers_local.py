@@ -18,12 +18,12 @@ from typing import Any, Callable
 
 from tools.core.errors import ErrorCode, classify_error
 from tools.llm.probe_config import (
+    AI_GALLERY_CACHE_DIR,
     AITK_HOME_DIR,
     AITK_MODELINFO_FILE,
     AITK_MODELS_DIR,
     AITK_MODELS_TASK_TYPE,
     AITK_MS_SUBDIR,
-    AI_GALLERY_CACHE_DIR,
     CACHE_BASE_DIR,
     DOTNET_CLI_ARG_PROJECT,
     ENV_LMSTUDIO_HOST,
@@ -334,8 +334,8 @@ def probe_local_api(model: str, log: LogFn = None) -> ProbeResult:
     """Probe a generic OpenAI-compatible local server.
 
     Checks OPENAI_BASE_URL, OPENAI_API_BASE, LOCAL_AI_API_BASE_URL,
-    LOCAL_OPENAI_BASE_URL env vars for the endpoint. If none set,
-    scans common local ports (1234, 5000, 5001, 8080, 8081).
+    LOCAL_OPENAI_BASE_URL env vars for the endpoint. If none set, scans
+    common local ports (1234, 5000, 5001, 8080, 8081).
     """
     import urllib.request
 
@@ -356,9 +356,7 @@ def probe_local_api(model: str, log: LogFn = None) -> ProbeResult:
     for port in LOCAL_SERVER_COMMON_PORTS:
         try:
             url = f"http://localhost:{port}/v1/models"
-            req = urllib.request.Request(
-                url, headers={"Accept": "application/json"}
-            )
+            req = urllib.request.Request(url, headers={"Accept": "application/json"})
             with urllib.request.urlopen(req, timeout=1) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
                 if data.get("data"):
@@ -477,9 +475,7 @@ def probe_ai_toolkit(model: str, log: LogFn = None) -> ProbeResult:
     # Fuzzy match against downloaded models
     for d in downloaded:
         d_lower = d.lower()
-        if model_lower in d_lower or d_lower.startswith(
-            model_lower.replace("-", "")
-        ):
+        if model_lower in d_lower or d_lower.startswith(model_lower.replace("-", "")):
             return ProbeResult(
                 model=model,
                 provider="ai_toolkit",

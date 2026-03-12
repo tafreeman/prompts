@@ -357,7 +357,9 @@ def resolve_agent(step_def: StepDefinition) -> StepDefinition:
     # Check tier-0 registry first
     if tier == ModelTier.TIER_0 and agent_name in TIER0_REGISTRY:
         step_def.func = TIER0_REGISTRY[agent_name]
-        logger.debug("Resolved step '%s' -> deterministic %s", step_def.name, agent_name)
+        logger.debug(
+            "Resolved step '%s' -> deterministic %s", step_def.name, agent_name
+        )
     else:
         # Generate an LLM-backed step
         step_def.func = _make_llm_step(

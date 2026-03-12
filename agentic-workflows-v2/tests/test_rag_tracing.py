@@ -16,11 +16,9 @@ from datetime import datetime
 from unittest.mock import MagicMock, patch
 
 import pytest
-
 from agentic_v2.integrations.base import CanonicalEvent, TraceAdapter
 from agentic_v2.integrations.tracing import NullTraceAdapter
 from agentic_v2.rag.tracing import RAGTracer
-
 
 # ---------------------------------------------------------------------------
 # Fixtures
@@ -76,9 +74,7 @@ class TestRAGTracerEvents:
         assert event.data["query"] == "test query"
         assert isinstance(event.timestamp, datetime)
 
-    def test_emit_embed(
-        self, tracer: RAGTracer, collector: CollectingAdapter
-    ) -> None:
+    def test_emit_embed(self, tracer: RAGTracer, collector: CollectingAdapter) -> None:
         """emit_embed creates a rag.embed event with text count."""
         tracer.emit_embed(text_count=5, latency_ms=12.3)
         assert len(collector.events) == 1
@@ -87,10 +83,9 @@ class TestRAGTracerEvents:
         assert event.data["text_count"] == 5
         assert event.data["latency_ms"] == pytest.approx(12.3)
 
-    def test_emit_search(
-        self, tracer: RAGTracer, collector: CollectingAdapter
-    ) -> None:
-        """emit_search creates a rag.search event with result count and latency."""
+    def test_emit_search(self, tracer: RAGTracer, collector: CollectingAdapter) -> None:
+        """emit_search creates a rag.search event with result count and
+        latency."""
         tracer.emit_search(result_count=3, latency_ms=45.6)
         assert len(collector.events) == 1
         event = collector.events[0]
@@ -156,7 +151,8 @@ class TestRAGTracerContextManager:
     def test_context_manager_emits_start_and_complete(
         self, tracer: RAGTracer, collector: CollectingAdapter
     ) -> None:
-        """Context manager emits query_start on entry and query_complete on exit."""
+        """Context manager emits query_start on entry and query_complete on
+        exit."""
         with tracer.query_span(query="test query") as result_count:
             result_count[0] = 3
 
@@ -198,7 +194,8 @@ class TestRAGTracerContextManager:
     def test_ingest_span_emits_start_and_complete(
         self, tracer: RAGTracer, collector: CollectingAdapter
     ) -> None:
-        """ingest_span emits ingest_start on entry and ingest_complete on exit."""
+        """ingest_span emits ingest_start on entry and ingest_complete on
+        exit."""
         with tracer.ingest_span(source="/path/to/file.md") as chunk_count:
             chunk_count[0] = 5
 
@@ -228,9 +225,7 @@ class TestRAGTracerNullOperation:
         null_tracer.emit_assemble(token_count=0, result_count=0)
         null_tracer.emit_query_complete(total_latency_ms=0.0, result_count=0)
         null_tracer.emit_ingest_start(source="test")
-        null_tracer.emit_ingest_complete(
-            source="test", chunk_count=0, latency_ms=0.0
-        )
+        null_tracer.emit_ingest_complete(source="test", chunk_count=0, latency_ms=0.0)
 
     def test_null_tracer_context_manager(self, null_tracer: RAGTracer) -> None:
         """Context manager works with null tracer."""
@@ -267,9 +262,7 @@ class TestRAGTracerLogging:
             tracer.emit_ingest_complete(
                 source="test.md", chunk_count=5, latency_ms=100.0
             )
-        assert any(
-            "rag.ingest_complete" in record.message for record in caplog.records
-        )
+        assert any("rag.ingest_complete" in record.message for record in caplog.records)
 
 
 # ===================================================================

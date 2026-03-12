@@ -13,10 +13,8 @@ Covers:
 from __future__ import annotations
 
 import pytest
-
 from agentic_v2.rag.context_assembly import TokenBudgetAssembler
 from agentic_v2.rag.contracts import RAGResponse, RetrievalResult
-
 
 # ---------------------------------------------------------------------------
 # Fixtures
@@ -146,9 +144,7 @@ class TestTokenBudgetAssembler:
         scores = [r.score for r in response.results]
         assert scores == sorted(scores, reverse=True)
 
-    def test_rag_response_structure(
-        self, small_results: list[RetrievalResult]
-    ) -> None:
+    def test_rag_response_structure(self, small_results: list[RetrievalResult]) -> None:
         """Output is a well-formed RAGResponse with correct fields."""
         assembler = TokenBudgetAssembler(max_tokens=10000)
         response = assembler.assemble(small_results, query="my query")
@@ -192,7 +188,8 @@ class TestTokenBudgetAssembler:
     def test_query_defaults_to_empty_string(
         self, small_results: list[RetrievalResult]
     ) -> None:
-        """When no query is provided, RAGResponse.query defaults to empty string."""
+        """When no query is provided, RAGResponse.query defaults to empty
+        string."""
         assembler = TokenBudgetAssembler(max_tokens=10000)
         response = assembler.assemble(small_results)
 

@@ -87,8 +87,8 @@ _load_dotenv()
 # Re-export for consumers that previously imported from model_probe
 __all__ = [
     "ErrorCode",
-    "classify_error",
     "ProbeResult",
+    "classify_error",
     "get_cache_dir",
     "get_cache_file",
     "load_cache",

@@ -251,7 +251,7 @@ class CodeExecutionTool(BaseTool):
                 tool_name=self.name,
             )
 
-        except asyncio.TimeoutError:
+        except TimeoutError:
             return ToolResult(
                 success=False,
                 error=f"Code execution timed out after {timeout}s",

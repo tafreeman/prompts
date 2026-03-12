@@ -338,7 +338,7 @@ def _run_bakeoff(
                     temperature=temperature,
                     max_tokens=max_tokens,
                 )
-            except Exception as exc:  # noqa: BLE001
+            except Exception as exc:
                 error = str(exc)
             elapsed = time.perf_counter() - started
             scored = _score_task(task, response, elapsed, error)

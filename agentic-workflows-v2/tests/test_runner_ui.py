@@ -177,9 +177,7 @@ class TestLoadDiscoveredModels:
         from tools.agents.benchmarks import runner_ui
 
         # Patch load_discovered_models to simulate missing discovery file
-        with patch.object(
-            runner_ui, "load_discovered_models", return_value={}
-        ):
+        with patch.object(runner_ui, "load_discovered_models", return_value={}):
             result = runner_ui.get_available_models_by_provider()
 
         assert result == {}

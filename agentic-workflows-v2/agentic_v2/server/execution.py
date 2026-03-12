@@ -267,9 +267,7 @@ async def _stream_and_run(
                             try:
                                 st = datetime.fromisoformat(start_ts_str)
                                 et = datetime.fromisoformat(end_ts_str)
-                                calc_duration = int(
-                                    (et - st).total_seconds() * 1000
-                                )
+                                calc_duration = int((et - st).total_seconds() * 1000)
                             except Exception:
                                 pass
 
@@ -282,9 +280,7 @@ async def _stream_and_run(
                     duration_ms = max(0, calc_duration)
 
                     metadata_raw = step_data.get("metadata")
-                    metadata = (
-                        metadata_raw if isinstance(metadata_raw, Mapping) else {}
-                    )
+                    metadata = metadata_raw if isinstance(metadata_raw, Mapping) else {}
                     model_used = metadata.get("model")
                     if not isinstance(model_used, str):
                         model_used = None
@@ -319,9 +315,7 @@ async def _stream_and_run(
         if not resolved_outputs:
             resolved_outputs = as_dict(aggregated_state.get("outputs"))
 
-        token_counts, models_used = _get_lc_runner().extract_metadata(
-            aggregated_state
-        )
+        token_counts, models_used = _get_lc_runner().extract_metadata(aggregated_state)
         step_results = build_step_results(
             aggregated_state.get("steps", {}),
             token_counts=token_counts,

@@ -27,9 +27,7 @@ from typing import Any
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
-
 from agentic_v2.adapters.langchain.engine import LangChainEngine
-
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -41,8 +39,9 @@ def _make_mock_runner() -> MagicMock:
     runner = MagicMock()
     # run() is a coroutine
     runner.run = AsyncMock(return_value=MagicMock(name="WorkflowResult"))
+
     # astream() is an async generator; yield one event to exercise stream flows.
-    async def _astream(*args: Any, **kwargs: Any):  # noqa: ANN202
+    async def _astream(*args: Any, **kwargs: Any):
         yield {"event": "test"}
 
     runner.astream = _astream
@@ -50,7 +49,8 @@ def _make_mock_runner() -> MagicMock:
 
 
 def _make_ctx(variables: dict | None = None) -> MagicMock:
-    """Return a mock ExecutionContext with all_variables() returning *variables*."""
+    """Return a mock ExecutionContext with all_variables() returning
+    *variables*."""
     ctx = MagicMock()
     # Tests only rely on all_variables(), so a lightweight MagicMock is enough.
     ctx.all_variables.return_value = variables or {"key": "value"}
@@ -63,7 +63,7 @@ def _make_ctx(variables: dict | None = None) -> MagicMock:
 
 
 async def test_execute_forwards_ctx_to_runner_run() -> None:
-    """ctx supplied to execute() must be passed as ctx= to runner.run()."""
+    """Ctx supplied to execute() must be passed as ctx= to runner.run()."""
     runner = _make_mock_runner()
     engine = LangChainEngine(runner=runner)
     ctx = _make_ctx({"user_id": "abc"})
@@ -72,13 +72,13 @@ async def test_execute_forwards_ctx_to_runner_run() -> None:
 
     runner.run.assert_awaited_once()
     _args, kwargs = runner.run.call_args
-    assert kwargs.get("ctx") is ctx, (
-        "runner.run() was not called with the ctx that was passed to execute()"
-    )
+    assert (
+        kwargs.get("ctx") is ctx
+    ), "runner.run() was not called with the ctx that was passed to execute()"
 
 
 async def test_execute_ctx_none_does_not_raise() -> None:
-    """ctx=None must not cause a TypeError in execute()."""
+    """Ctx=None must not cause a TypeError in execute()."""
     runner = _make_mock_runner()
     engine = LangChainEngine(runner=runner)
 
@@ -110,7 +110,7 @@ async def test_execute_forwards_extra_kwargs_alongside_ctx() -> None:
 
 
 async def test_stream_forwards_ctx_to_runner_astream() -> None:
-    """ctx supplied to stream() must be passed as ctx= to runner.astream()."""
+    """Ctx supplied to stream() must be passed as ctx= to runner.astream()."""
     received: dict = {}
 
     async def _astream(workflow_name: str, *, ctx: Any = None, **kwargs: Any):
@@ -125,15 +125,15 @@ async def test_stream_forwards_ctx_to_runner_astream() -> None:
 
     events = [e async for e in engine.stream("code_review", ctx=ctx)]
 
-    assert received.get("ctx") is ctx, (
-        "runner.astream() was not called with the ctx that was passed to stream()"
-    )
+    assert (
+        received.get("ctx") is ctx
+    ), "runner.astream() was not called with the ctx that was passed to stream()"
     assert received.get("workflow_name") == "code_review"
     assert events == [{"event": "ok"}]
 
 
 async def test_stream_ctx_none_does_not_raise() -> None:
-    """ctx=None must not cause a TypeError in stream()."""
+    """Ctx=None must not cause a TypeError in stream()."""
     received: dict = {}
 
     async def _astream(workflow_name: str, *, ctx: Any = None, **kwargs: Any):
@@ -177,7 +177,8 @@ async def test_stream_forwards_extra_kwargs_alongside_ctx() -> None:
 
 
 async def test_runner_run_merges_ctx_variables_into_state() -> None:
-    """WorkflowRunner.run() must merge ctx.all_variables() into state['context']."""
+    """WorkflowRunner.run() must merge ctx.all_variables() into
+    state['context']."""
     from agentic_v2.langchain.runner import WorkflowRunner
 
     ctx = _make_ctx({"tenant_id": "deloitte", "env": "prod"})
@@ -204,9 +205,7 @@ async def test_runner_run_merges_ctx_variables_into_state() -> None:
 
     # Patch external dependencies so this test focuses only on run() state setup.
     with (
-        patch(
-            "agentic_v2.langchain.runner.load_workflow_config"
-        ) as mock_load_cfg,
+        patch("agentic_v2.langchain.runner.load_workflow_config") as mock_load_cfg,
         patch(
             "agentic_v2.langchain.runner.WorkflowRunner._get_or_compile",
             return_value=mock_graph,
@@ -225,12 +224,12 @@ async def test_runner_run_merges_ctx_variables_into_state() -> None:
         await runner.run("code_review", ctx=ctx)
 
     state_ctx = captured_state.get("context", {})
-    assert state_ctx.get("tenant_id") == "deloitte", (
-        "ctx variable 'tenant_id' was not merged into LangGraph state['context']"
-    )
-    assert state_ctx.get("env") == "prod", (
-        "ctx variable 'env' was not merged into LangGraph state['context']"
-    )
+    assert (
+        state_ctx.get("tenant_id") == "deloitte"
+    ), "ctx variable 'tenant_id' was not merged into LangGraph state['context']"
+    assert (
+        state_ctx.get("env") == "prod"
+    ), "ctx variable 'env' was not merged into LangGraph state['context']"
     # Workflow-level keys must not be overwritten by ctx
     assert state_ctx.get("inputs") == {"input_key": "input_val"}
     assert "workflow_run_id" in state_ctx
@@ -285,7 +284,8 @@ async def test_runner_run_ctx_none_no_error() -> None:
 
 
 async def test_runner_astream_merges_ctx_variables_into_state() -> None:
-    """WorkflowRunner.astream() must merge ctx.all_variables() into state['context']."""
+    """WorkflowRunner.astream() must merge ctx.all_variables() into
+    state['context']."""
     from agentic_v2.langchain.runner import WorkflowRunner
 
     ctx = _make_ctx({"request_id": "req-999"})

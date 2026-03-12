@@ -9,7 +9,6 @@ Covers:
 from __future__ import annotations
 
 import pytest
-
 from agentic_v2.rag.chunking import RecursiveChunker
 from agentic_v2.rag.contracts import Chunk, RAGResponse, RetrievalResult
 from agentic_v2.rag.embeddings import InMemoryEmbedder
@@ -20,7 +19,6 @@ from agentic_v2.rag.tools import RAGIngestTool, RAGSearchTool
 from agentic_v2.rag.vectorstore import InMemoryVectorStore
 from agentic_v2.tools.base import BaseTool, ToolResult
 from agentic_v2.tools.registry import ToolRegistry
-
 
 # ---------------------------------------------------------------------------
 # Fixtures
@@ -156,9 +154,7 @@ class TestRAGSearchTool:
         assert params["top_k"]["required"] is False
 
     @pytest.mark.asyncio
-    async def test_returns_rag_response(
-        self, search_tool: RAGSearchTool
-    ) -> None:
+    async def test_returns_rag_response(self, search_tool: RAGSearchTool) -> None:
         """Execute returns a ToolResult with RAGResponse data."""
         result = await search_tool.execute(query="Python programming")
         assert isinstance(result, ToolResult)
@@ -193,18 +189,14 @@ class TestRAGSearchTool:
         assert result.data["total_results"] == 0
 
     @pytest.mark.asyncio
-    async def test_respects_top_k(
-        self, search_tool: RAGSearchTool
-    ) -> None:
+    async def test_respects_top_k(self, search_tool: RAGSearchTool) -> None:
         """top_k parameter limits the number of returned results."""
         result = await search_tool.execute(query="programming", top_k=1)
         assert result.success is True
         assert len(result.data["results"]) <= 1
 
     @pytest.mark.asyncio
-    async def test_default_top_k(
-        self, search_tool: RAGSearchTool
-    ) -> None:
+    async def test_default_top_k(self, search_tool: RAGSearchTool) -> None:
         """Default top_k is 5."""
         result = await search_tool.execute(query="programming")
         assert result.success is True
@@ -212,9 +204,7 @@ class TestRAGSearchTool:
         assert len(result.data["results"]) <= 5
 
     @pytest.mark.asyncio
-    async def test_metadata_includes_query(
-        self, search_tool: RAGSearchTool
-    ) -> None:
+    async def test_metadata_includes_query(self, search_tool: RAGSearchTool) -> None:
         """Result metadata includes the original query."""
         result = await search_tool.execute(query="Python")
         assert result.success is True
@@ -280,9 +270,7 @@ class TestRAGIngestTool:
         assert result.data["source"] == str(test_file)
 
     @pytest.mark.asyncio
-    async def test_handles_missing_file(
-        self, ingest_tool: RAGIngestTool
-    ) -> None:
+    async def test_handles_missing_file(self, ingest_tool: RAGIngestTool) -> None:
         """Ingesting a non-existent file returns failure gracefully."""
         result = await ingest_tool.execute(source="/nonexistent/file.txt")
         assert result.success is False
@@ -318,9 +306,7 @@ class TestRAGIngestTool:
 class TestRAGToolRegistration:
     """Test that RAG tools can be registered in ToolRegistry."""
 
-    def test_search_tool_registers(
-        self, search_tool: RAGSearchTool
-    ) -> None:
+    def test_search_tool_registers(self, search_tool: RAGSearchTool) -> None:
         """RAGSearchTool can be registered and retrieved."""
         registry = ToolRegistry()
         registry.register(search_tool)
@@ -328,9 +314,7 @@ class TestRAGToolRegistration:
         retrieved = registry.get("rag_search")
         assert retrieved is search_tool
 
-    def test_ingest_tool_registers(
-        self, ingest_tool: RAGIngestTool
-    ) -> None:
+    def test_ingest_tool_registers(self, ingest_tool: RAGIngestTool) -> None:
         """RAGIngestTool can be registered and retrieved."""
         registry = ToolRegistry()
         registry.register(ingest_tool)

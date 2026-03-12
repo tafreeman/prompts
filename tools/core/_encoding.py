@@ -72,7 +72,7 @@ def setup_encoding() -> bool:
             )
         _ENCODING_SETUP_DONE = True
         return True
-    except (AttributeError, IOError):
+    except (OSError, AttributeError):
         # Already wrapped or not available
         _ENCODING_SETUP_DONE = True
         return False

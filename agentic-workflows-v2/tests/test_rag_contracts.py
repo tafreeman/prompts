@@ -14,7 +14,6 @@ from __future__ import annotations
 import pytest
 from pydantic import ValidationError
 
-
 # ── Document ─────────────────────────────────────────────────────────
 
 
@@ -113,7 +112,10 @@ class TestRetrievalResult:
         from agentic_v2.rag.contracts import RetrievalResult
 
         rr = RetrievalResult(
-            content="text", score=0.3, document_id="d1", chunk_id="c1",
+            content="text",
+            score=0.3,
+            document_id="d1",
+            chunk_id="c1",
         )
         assert rr.is_high_confidence is False
 
@@ -122,7 +124,10 @@ class TestRetrievalResult:
 
         with pytest.raises(ValidationError):
             RetrievalResult(
-                content="text", score=-0.1, document_id="d1", chunk_id="c1",
+                content="text",
+                score=-0.1,
+                document_id="d1",
+                chunk_id="c1",
             )
 
 

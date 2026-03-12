@@ -5,7 +5,6 @@ from __future__ import annotations
 import sys
 
 import pytest
-
 from agentic_v2_eval.sandbox import ExecutionResult, LocalSubprocessSandbox, Sandbox
 
 
@@ -95,9 +94,8 @@ class TestLocalSubprocessSandbox:
             assert content == "nested content"
 
     def test_read_file_not_found(self):
-        with LocalSubprocessSandbox() as sb:
-            with pytest.raises(FileNotFoundError):
-                sb.read_file("nonexistent.txt")
+        with LocalSubprocessSandbox() as sb, pytest.raises(FileNotFoundError):
+            sb.read_file("nonexistent.txt")
 
     def test_path_escape_blocked_write(self):
         with LocalSubprocessSandbox() as sb:

@@ -33,7 +33,8 @@ def steps_dict_to_list(
     token_counts: dict[str, dict] | None = None,
     models_used: dict[str, str] | None = None,
 ) -> list[StepResult]:
-    """Convert a LangGraph step mapping to an ordered list of ``StepResult`` objects.
+    """Convert a LangGraph step mapping to an ordered list of ``StepResult``
+    objects.
 
     Args:
         steps_dict: Mapping of step name to step data from LangGraph state.
@@ -158,7 +159,8 @@ def build_workflow_result(
 def extract_metadata(
     final_state: dict[str, Any],
 ) -> tuple[dict[str, dict], dict[str, str]]:
-    """Extract per-step token counts and model identifiers from final workflow state.
+    """Extract per-step token counts and model identifiers from final workflow
+    state.
 
     Args:
         final_state: The LangGraph state dict produced after workflow execution.

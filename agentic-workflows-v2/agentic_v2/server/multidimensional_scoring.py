@@ -536,9 +536,9 @@ def coalesce_best_round(
 
 __all__ = [
     "RESEARCH_DIMENSIONS",
-    "ResearchTier",
     "DimensionResult",
     "MultidimensionalGateResult",
+    "ResearchTier",
     "classify_dimension",
     "coalesce_best_round",
     "compute_ci_tiebreaker",

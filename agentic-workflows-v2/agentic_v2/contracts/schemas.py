@@ -450,9 +450,7 @@ class TestGenerationOutput(TaskOutput):
     setup_code: str | None = Field(
         default=None, description="Shared setup/fixtures code"
     )
-    teardown_code: str | None = Field(
-        default=None, description="Shared teardown code"
-    )
+    teardown_code: str | None = Field(default=None, description="Shared teardown code")
     estimated_coverage: float = Field(
         default=0.0, description="Estimated code coverage percentage", ge=0.0, le=100.0
     )

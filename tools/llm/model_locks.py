@@ -111,7 +111,7 @@ def get_models_in_use(available: dict[str, Path] = None) -> dict[str, str]:
                 # Stale lock file - remove it
                 lock_file.unlink()
 
-        except (json.JSONDecodeError, IOError):
+        except (OSError, json.JSONDecodeError):
             # Corrupted lock file - remove it
             try:
                 lock_file.unlink()
