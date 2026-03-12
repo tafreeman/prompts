@@ -34,7 +34,7 @@ from fastapi.staticfiles import StaticFiles
 from ..integrations.otel import is_tracing_enabled, shutdown_tracing
 from . import websocket
 from .auth import APIKeyMiddleware
-from .routes import agents, health, runs, workflows
+from .routes import agents, evaluation_routes, health, runs, workflows
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -132,6 +132,7 @@ def create_app() -> FastAPI:
     app.include_router(health.router, prefix="/api")
     app.include_router(agents.router, prefix="/api")
     app.include_router(workflows.router, prefix="/api")
+    app.include_router(evaluation_routes.router, prefix="/api")
     app.include_router(runs.router, prefix="/api")
     app.include_router(websocket.router)
 

@@ -104,7 +104,9 @@ class TestRunWithAdapter:
                 start_time=datetime.now(timezone.utc),
             )
 
-        monkeypatch.setattr(workflows, "_run_via_native_adapter", _fake_native)
+        from agentic_v2.server import execution as execution_mod
+
+        monkeypatch.setattr(execution_mod, "_run_via_native_adapter", _fake_native)
 
         app = create_app()
         client = TestClient(app)
