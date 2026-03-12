@@ -16,6 +16,11 @@ field (e.g. ``tier2_coder``).  The resolver:
 5. **Parses LLM output** via sentinel artifacts (``<<<ARTIFACT>>>``), JSON
    extraction, and robust review-report normalization for gating conditions.
 
+Implementation is split across focused sub-modules:
+- :mod:`.llm_output_parsing` — JSON/artifact extraction and normalization
+- :mod:`.prompt_assembly` — system-message and tool-contract construction
+- :mod:`.tool_execution` — tool call dispatch and LLM chat fallback
+
 Key constants:
 - ``_TIER_MAX_TOKENS``: Conservative per-tier output token limits.
 - ``_MAX_TOOL_ROUNDS`` / ``_MAX_TOOL_CALLS_PER_ROUND``: Tool loop bounds.
@@ -378,3 +383,12 @@ def resolve_agent(step_def: StepDefinition) -> StepDefinition:
         )
 
     return step_def
+
+
+# ---------------------------------------------------------------------------
+# Re-exports for backward compatibility
+# ---------------------------------------------------------------------------
+# Every name that was importable from this module before the split remains
+# importable here.  The sub-modules are the authoritative definitions.
+# The explicit imports at the top of this file make all names available
+# as ``engine.agent_resolver.<name>`` without any further action needed.

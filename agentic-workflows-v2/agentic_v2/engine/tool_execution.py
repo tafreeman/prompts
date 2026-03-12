@@ -39,6 +39,11 @@ MAX_TOOL_ROUNDS = 8
 MAX_TOOL_CALLS_PER_ROUND = 12
 MAX_TOOL_RESULT_CHARS = 12000
 
+# Backward-compatibility aliases
+_MAX_TOOL_ROUNDS = MAX_TOOL_ROUNDS
+_MAX_TOOL_CALLS_PER_ROUND = MAX_TOOL_CALLS_PER_ROUND
+_MAX_TOOL_RESULT_CHARS = MAX_TOOL_RESULT_CHARS
+
 
 # ---------------------------------------------------------------------------
 # Tool contract resolution
@@ -136,6 +141,10 @@ def build_tool_contracts(
     return tool_schemas, bound_tools
 
 
+# Backward-compatibility aliases
+_build_tool_contracts = build_tool_contracts
+
+
 # ---------------------------------------------------------------------------
 # Token and message utilities
 # ---------------------------------------------------------------------------
@@ -160,6 +169,10 @@ def extract_usage_tokens(usage: Any) -> int:
     return 0
 
 
+# Backward-compatibility alias
+_extract_usage_tokens = extract_usage_tokens
+
+
 def messages_to_text(messages: list[dict[str, Any]]) -> str:
     """Flatten chat messages for fallback token estimation."""
     parts: list[str] = []
@@ -171,6 +184,10 @@ def messages_to_text(messages: list[dict[str, Any]]) -> str:
         else:
             parts.append(f"{role}:{json.dumps(content, default=str)}")
     return "\n".join(parts)
+
+
+# Backward-compatibility alias
+_messages_to_text = messages_to_text
 
 
 # ---------------------------------------------------------------------------
@@ -194,6 +211,10 @@ def parse_tool_args(raw_args: Any) -> dict[str, Any]:
             return {}
 
     return {}
+
+
+# Backward-compatibility alias
+_parse_tool_args = parse_tool_args
 
 
 def normalize_tool_call(call: dict[str, Any]) -> tuple[str, str, dict[str, Any]]:
@@ -225,6 +246,10 @@ def normalize_tool_call(call: dict[str, Any]) -> tuple[str, str, dict[str, Any]]
     return call_id, name, args
 
 
+# Backward-compatibility alias
+_normalize_tool_call = normalize_tool_call
+
+
 # ---------------------------------------------------------------------------
 # Tool result serialization
 # ---------------------------------------------------------------------------
@@ -235,6 +260,10 @@ def truncate_tool_result(text: str) -> str:
     if len(text) <= MAX_TOOL_RESULT_CHARS:
         return text
     return text[:MAX_TOOL_RESULT_CHARS] + "\n[truncated]"
+
+
+# Backward-compatibility alias
+_truncate_tool_result = truncate_tool_result
 
 
 def serialize_tool_result(tool_result: Any) -> str:
@@ -248,6 +277,10 @@ def serialize_tool_result(tool_result: Any) -> str:
         "tool_name": getattr(tool_result, "tool_name", ""),
     }
     return truncate_tool_result(json.dumps(payload, default=str))
+
+
+# Backward-compatibility alias
+_serialize_tool_result = serialize_tool_result
 
 
 # ---------------------------------------------------------------------------
@@ -328,6 +361,10 @@ async def complete_chat_with_fallback(
     )
 
 
+# Backward-compatibility alias
+_complete_chat_with_fallback = complete_chat_with_fallback
+
+
 # ---------------------------------------------------------------------------
 # Tool execution loop
 # ---------------------------------------------------------------------------
@@ -401,3 +438,7 @@ async def run_tool_calls(
         executed += 1
 
     return executed
+
+
+# Backward-compatibility alias
+_run_tool_calls = run_tool_calls

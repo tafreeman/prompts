@@ -24,6 +24,8 @@ import logging
 from pathlib import Path
 from typing import Any
 
+from ..models.router import ModelTier
+
 logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
@@ -61,6 +63,9 @@ Rules:
 - ENDFILE on its own line; <<<ENDARTIFACT>>> on its own line
 - Complete files only — no truncation, no TODO stubs
 """.strip()
+
+# Backward-compatibility alias
+_SENTINEL_OUTPUT_INSTRUCTIONS = SENTINEL_OUTPUT_INSTRUCTIONS
 
 
 # ---------------------------------------------------------------------------
@@ -115,6 +120,34 @@ def load_agent_system_prompt(
         agent_name,
     )
     return None
+
+
+# Backward-compatibility alias
+_load_agent_system_prompt = load_agent_system_prompt
+
+
+# ---------------------------------------------------------------------------
+# Tool contract resolution (parameter spec conversion)
+# ---------------------------------------------------------------------------
+
+
+def parameter_spec_to_json_schema(spec: Any) -> dict[str, Any]:
+    """Convert internal tool parameter spec to JSON schema object."""
+    if not isinstance(spec, dict):
+        return {"type": "string"}
+
+    normalized: dict[str, Any] = {}
+    for key, value in spec.items():
+        if key == "required":
+            continue
+        normalized[key] = value
+
+    normalized.setdefault("type", "string")
+    return normalized
+
+
+# Backward-compatibility alias
+_parameter_spec_to_json_schema = parameter_spec_to_json_schema
 
 
 # ---------------------------------------------------------------------------

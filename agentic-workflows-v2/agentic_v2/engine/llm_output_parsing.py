@@ -35,6 +35,10 @@ FILE_BLOCK_RE = re.compile(
     re.DOTALL | re.MULTILINE,
 )
 
+# Backward-compatibility aliases
+_ARTIFACT_RE = ARTIFACT_RE
+_FILE_BLOCK_RE = FILE_BLOCK_RE
+
 
 # ---------------------------------------------------------------------------
 # JSON candidate generation
@@ -83,6 +87,10 @@ def extract_json_candidates(text: str) -> list[str]:
             seen.add(candidate)
             ordered.append(candidate)
     return ordered
+
+
+# Backward-compatibility alias
+_extract_json_candidates = extract_json_candidates
 
 
 # ---------------------------------------------------------------------------
@@ -190,6 +198,10 @@ def normalize_expected_structure(
     return parsed
 
 
+# Backward-compatibility alias
+_normalize_expected_structure = normalize_expected_structure
+
+
 # ---------------------------------------------------------------------------
 # JSON output parsing
 # ---------------------------------------------------------------------------
@@ -245,6 +257,10 @@ def parse_llm_json_output(
     return fallback
 
 
+# Backward-compatibility alias
+_parse_llm_json_output = parse_llm_json_output
+
+
 # ---------------------------------------------------------------------------
 # Sentinel artifact parsing
 # ---------------------------------------------------------------------------
@@ -261,6 +277,10 @@ def extract_files_from_artifact(content: str) -> dict[str, str]:
         match.group(1).strip(): match.group(2)
         for match in FILE_BLOCK_RE.finditer(content)
     }
+
+
+# Backward-compatibility alias
+_extract_files_from_artifact = extract_files_from_artifact
 
 
 def parse_sentinel_output(
@@ -312,3 +332,7 @@ def parse_sentinel_output(
     if expected_output_keys and "review_report" in expected_output_keys:
         result = normalize_expected_structure(result, expected_output_keys)
     return result
+
+
+# Backward-compatibility alias
+_parse_sentinel_output = parse_sentinel_output
