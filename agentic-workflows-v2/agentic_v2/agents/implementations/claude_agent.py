@@ -20,7 +20,7 @@ Example::
 
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Any
 
 try:
     import anthropic
@@ -93,8 +93,8 @@ class ClaudeAgent(BaseAgent[SimpleTask, SimpleOutput]):
         self,
         model: str = "claude-opus-4-6",
         system_prompt: str = "You are a helpful AI assistant.",
-        config: Optional[AgentConfig] = None,
-        api_key: Optional[str] = None,
+        config: AgentConfig | None = None,
+        api_key: str | None = None,
         **kwargs: Any,
     ):
         cfg = config or AgentConfig(
@@ -114,7 +114,7 @@ class ClaudeAgent(BaseAgent[SimpleTask, SimpleOutput]):
     async def _call_model(
         self,
         messages: list[dict[str, Any]],
-        tools: Optional[list[dict[str, Any]]] = None,
+        tools: list[dict[str, Any]] | None = None,
     ) -> dict[str, Any]:
         system, anthropic_messages = self._convert_messages(messages)
         anthropic_tools = self._convert_tools(tools or [])
@@ -140,9 +140,9 @@ class ClaudeAgent(BaseAgent[SimpleTask, SimpleOutput]):
     @staticmethod
     def _convert_messages(
         messages: list[dict[str, Any]],
-    ) -> tuple[Optional[str], list[dict[str, Any]]]:
+    ) -> tuple[str | None, list[dict[str, Any]]]:
         """Split system prompt out; convert tool-result messages."""
-        system: Optional[str] = None
+        system: str | None = None
         out: list[dict[str, Any]] = []
 
         for msg in messages:

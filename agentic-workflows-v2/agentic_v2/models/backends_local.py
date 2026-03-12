@@ -12,7 +12,7 @@ appears in the ``thinking`` field rather than ``response``/``content``.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any, Optional
+from typing import Any
 
 import httpx
 
@@ -30,7 +30,7 @@ class OllamaBackend(LLMBackend):
 
     base_url: str = "http://localhost:11434"
     timeout: float = 300.0  # Local models can be slower
-    _client: Optional[httpx.AsyncClient] = field(default=None, repr=False)
+    _client: httpx.AsyncClient | None = field(default=None, repr=False)
 
     async def _get_client(self) -> httpx.AsyncClient:
         if self._client is None or self._client.is_closed:
@@ -82,7 +82,7 @@ class OllamaBackend(LLMBackend):
         messages: list[dict[str, Any]],
         max_tokens: int = 4096,
         temperature: float = 0.7,
-        tools: Optional[list[dict[str, Any]]] = None,
+        tools: list[dict[str, Any]] | None = None,
         **kwargs: Any,
     ) -> dict[str, Any]:
         """Send chat completion request to Ollama."""

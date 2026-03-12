@@ -15,7 +15,7 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass, field
-from typing import Any, Optional
+from typing import Any
 
 import httpx
 
@@ -43,7 +43,7 @@ class GitHubModelsBackend(LLMBackend):
     )
     base_url: str = "https://models.inference.ai.azure.com"
     timeout: float = 120.0
-    _client: Optional[httpx.AsyncClient] = field(default=None, repr=False)
+    _client: httpx.AsyncClient | None = field(default=None, repr=False)
 
     def __post_init__(self) -> None:
         if not self.token:
@@ -84,7 +84,7 @@ class GitHubModelsBackend(LLMBackend):
         messages: list[dict[str, Any]],
         max_tokens: int = 4096,
         temperature: float = 0.7,
-        tools: Optional[list[dict[str, Any]]] = None,
+        tools: list[dict[str, Any]] | None = None,
         **kwargs: Any,
     ) -> dict[str, Any]:
         """Send chat completion request."""
@@ -142,7 +142,7 @@ class OpenAIBackend(LLMBackend):
     )
     base_url: str = "https://api.openai.com/v1"
     timeout: float = 120.0
-    _client: Optional[httpx.AsyncClient] = field(default=None, repr=False)
+    _client: httpx.AsyncClient | None = field(default=None, repr=False)
 
     def __post_init__(self) -> None:
         if not self.api_key:
@@ -180,7 +180,7 @@ class OpenAIBackend(LLMBackend):
         messages: list[dict[str, Any]],
         max_tokens: int = 4096,
         temperature: float = 0.7,
-        tools: Optional[list[dict[str, Any]]] = None,
+        tools: list[dict[str, Any]] | None = None,
         **kwargs: Any,
     ) -> dict[str, Any]:
         client = await self._get_client()
@@ -234,7 +234,7 @@ class AnthropicBackend(LLMBackend):
     base_url: str = "https://api.anthropic.com"
     timeout: float = 120.0
     api_version: str = "2023-06-01"
-    _client: Optional[httpx.AsyncClient] = field(default=None, repr=False)
+    _client: httpx.AsyncClient | None = field(default=None, repr=False)
 
     def __post_init__(self) -> None:
         if not self.api_key:
@@ -273,7 +273,7 @@ class AnthropicBackend(LLMBackend):
         messages: list[dict[str, Any]],
         max_tokens: int = 4096,
         temperature: float = 0.7,
-        tools: Optional[list[dict[str, Any]]] = None,
+        tools: list[dict[str, Any]] | None = None,
         **kwargs: Any,
     ) -> dict[str, Any]:
         client = await self._get_client()
@@ -344,7 +344,7 @@ class GeminiBackend(LLMBackend):
     )
     base_url: str = "https://generativelanguage.googleapis.com/v1beta"
     timeout: float = 120.0
-    _client: Optional[httpx.AsyncClient] = field(default=None, repr=False)
+    _client: httpx.AsyncClient | None = field(default=None, repr=False)
 
     def __post_init__(self) -> None:
         if not self.api_key:
@@ -378,7 +378,7 @@ class GeminiBackend(LLMBackend):
         messages: list[dict[str, Any]],
         max_tokens: int = 4096,
         temperature: float = 0.7,
-        tools: Optional[list[dict[str, Any]]] = None,
+        tools: list[dict[str, Any]] | None = None,
         **kwargs: Any,
     ) -> dict[str, Any]:
         client = await self._get_client()

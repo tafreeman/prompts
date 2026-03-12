@@ -4,7 +4,7 @@ import json
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
 
 @dataclass
@@ -18,7 +18,7 @@ class CanonicalEvent:
 
     type: str  # e.g., "workflow_start", "step_start", "step_complete", "workflow_end"
     timestamp: datetime
-    step_name: Optional[str] = None
+    step_name: str | None = None
     data: Dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:

@@ -8,7 +8,6 @@ from __future__ import annotations
 
 from functools import lru_cache
 from pathlib import Path
-from typing import Optional
 
 # Directory containing prompt templates
 PROMPTS_DIR = Path(__file__).parent
@@ -47,7 +46,7 @@ def list_prompts() -> list[str]:
     return [p.stem for p in PROMPTS_DIR.glob("*.md")]
 
 
-def get_prompt_path(name: str) -> Optional[Path]:
+def get_prompt_path(name: str) -> Path | None:
     """Get the path to a prompt file.
 
     Args:

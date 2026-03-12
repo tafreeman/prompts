@@ -11,7 +11,7 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
-from typing import Any, List, Optional
+from typing import Any, List
 
 logger = logging.getLogger(__name__)
 
@@ -64,7 +64,7 @@ if LANGCHAIN_AVAILABLE:
 
         # Pydantic v2 fields
         tier: int = ModelTier.TIER_2
-        _client: Optional[LLMClientWrapper] = None
+        _client: LLMClientWrapper | None = None
 
         class Config:
             arbitrary_types_allowed = True
@@ -97,8 +97,8 @@ if LANGCHAIN_AVAILABLE:
         def _generate(
             self,
             messages: List[BaseMessage],
-            stop: Optional[List[str]] = None,
-            run_manager: Optional[CallbackManagerForLLMRun] = None,
+            stop: List[str] | None = None,
+            run_manager: CallbackManagerForLLMRun | None = None,
             **kwargs: Any,
         ) -> ChatResult:
             """Synchronous generation (runs async under the hood)."""
@@ -113,8 +113,8 @@ if LANGCHAIN_AVAILABLE:
         async def _agenerate(
             self,
             messages: List[BaseMessage],
-            stop: Optional[List[str]] = None,
-            run_manager: Optional[CallbackManagerForLLMRun] = None,
+            stop: List[str] | None = None,
+            run_manager: CallbackManagerForLLMRun | None = None,
             **kwargs: Any,
         ) -> ChatResult:
             """Async generation via V2 client."""
@@ -166,7 +166,7 @@ if LANGCHAIN_AVAILABLE:
 
         name: str = ""
         description: str = ""
-        _v2_tool: Optional[V2BaseTool] = None
+        _v2_tool: V2BaseTool | None = None
 
         class Config:
             arbitrary_types_allowed = True
@@ -214,7 +214,7 @@ if LANGCHAIN_AVAILABLE:
             self._agent = agent
 
         async def ainvoke(
-            self, input_data: dict[str, Any], config: Optional[Any] = None
+            self, input_data: dict[str, Any], config: Any | None = None
         ) -> dict[str, Any]:
             """Run the V2 agent and return output as dict."""
             # Build typed input from the agent's input class
@@ -226,7 +226,7 @@ if LANGCHAIN_AVAILABLE:
             return {"result": str(result)}
 
         def invoke(
-            self, input_data: dict[str, Any], config: Optional[Any] = None
+            self, input_data: dict[str, Any], config: Any | None = None
         ) -> dict[str, Any]:
             """Sync wrapper."""
             loop = asyncio.new_event_loop()

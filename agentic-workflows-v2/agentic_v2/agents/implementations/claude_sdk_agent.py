@@ -30,7 +30,7 @@ Example::
 
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Any
 
 try:
     from claude_agent_sdk import AgentDefinition, ClaudeAgentOptions, query
@@ -71,12 +71,12 @@ class ClaudeSDKAgent:
     def __init__(
         self,
         model: str = "claude-opus-4-6",
-        tools: Optional[list[str]] = None,
-        cwd: Optional[str] = None,
-        system_prompt: Optional[str] = None,
+        tools: list[str] | None = None,
+        cwd: str | None = None,
+        system_prompt: str | None = None,
         max_turns: int = 50,
         permission_mode: str = "default",
-        subagents: Optional[dict[str, dict[str, Any]]] = None,
+        subagents: dict[str, dict[str, Any]] | None = None,
     ):
         """
         Args:

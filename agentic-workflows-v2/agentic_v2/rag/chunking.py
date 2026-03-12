@@ -7,7 +7,6 @@ sentence → word → character).
 
 from __future__ import annotations
 
-from typing import Optional
 
 from .config import ChunkingConfig
 from .contracts import Chunk, Document
@@ -26,7 +25,7 @@ class RecursiveChunker:
     def chunk(
         self,
         document: Document,
-        config: Optional[ChunkingConfig] = None,
+        config: ChunkingConfig | None = None,
     ) -> list[Chunk]:
         """Split *document* into chunks.
 

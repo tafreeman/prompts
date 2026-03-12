@@ -39,7 +39,7 @@ from pathlib import Path
 from typing import Any
 
 from .model_builders import (
-    _resolve_notebooklm_model_name,
+    _resolve_notebooklm_model_name,  # noqa: F401 — re-export for tests
     build_anthropic_model,
     build_gemini_model,
     build_github_model,

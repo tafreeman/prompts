@@ -19,7 +19,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Callable, Optional
+from typing import Any, Callable
 
 
 @dataclass(frozen=True)
@@ -41,8 +41,8 @@ class ConversationMessage:
     role: str  # "user", "assistant", "system", "tool"
     content: str
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    tool_call_id: Optional[str] = None
-    tool_name: Optional[str] = None
+    tool_call_id: str | None = None
+    tool_name: str | None = None
     metadata: dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -79,7 +79,7 @@ class ConversationMemory:
     max_tokens: int = 8000
     summaries: list[str] = field(default_factory=list)
     max_summaries: int = 5
-    token_counter: Optional[Callable[[str], int]] = None
+    token_counter: Callable[[str], int] | None = None
 
     def add(self, role: str, content: str, **kwargs: Any) -> ConversationMessage:
         """Add a message to history."""
@@ -261,6 +261,6 @@ class ConversationMemory:
         self.summaries.clear()
 
     @property
-    def last_message(self) -> Optional[ConversationMessage]:
+    def last_message(self) -> ConversationMessage | None:
         """Get the last message."""
         return self.messages[-1] if self.messages else None

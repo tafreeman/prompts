@@ -17,7 +17,6 @@ import atexit
 import json
 import logging
 from pathlib import Path
-from typing import Optional
 
 # Load .env before anything reads os.environ
 try:
@@ -104,13 +103,13 @@ def run(
         ...,
         help="Workflow name (e.g., 'code_review') or path to YAML file",
     ),
-    input_file: Optional[Path] = typer.Option(
+    input_file: Path | None = typer.Option(
         None,
         "--input",
         "-i",
         help="JSON file with input variables",
     ),
-    output_file: Optional[Path] = typer.Option(
+    output_file: Path | None = typer.Option(
         None,
         "--output",
         "-o",
@@ -146,7 +145,7 @@ def run(
     try:
         # Resolve name from file path
         workflow_name = workflow
-        definitions_dir: Optional[Path] = None
+        definitions_dir: Path | None = None
         if workflow.endswith((".yaml", ".yml")):
             workflow_path = Path(workflow)
             if not workflow_path.exists():
@@ -401,7 +400,7 @@ def validate(
     """
     _require_langchain()
     try:
-        definitions_dir: Optional[Path] = None
+        definitions_dir: Path | None = None
         workflow_name = workflow
         if workflow.endswith((".yaml", ".yml")):
             workflow_path = Path(workflow)

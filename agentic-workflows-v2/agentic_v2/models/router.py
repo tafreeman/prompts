@@ -20,7 +20,7 @@ Model identifiers use a ``provider:model_name`` format, e.g.
 import asyncio
 from dataclasses import dataclass, field
 from enum import IntEnum
-from typing import Callable, Optional, Sequence
+from typing import Callable, Sequence
 
 
 class ModelTier(IntEnum):
@@ -177,7 +177,7 @@ class ModelRouter:
     _discovered: bool = False
 
     # Health check function (injected)
-    _health_checker: Optional[Callable[[str], bool]] = None
+    _health_checker: Callable[[str], bool] | None = None
 
     def set_health_checker(self, checker: Callable[[str], bool]) -> None:
         """Set the health check function.
@@ -245,7 +245,7 @@ class ModelRouter:
         self._unavailable_models.add(model)
         self._available_models.discard(model)
 
-    def get_model_for_tier(self, tier: ModelTier) -> Optional[str]:
+    def get_model_for_tier(self, tier: ModelTier) -> str | None:
         """Get first available model for a tier.
 
         Args:
@@ -260,7 +260,7 @@ class ModelRouter:
                 return model
         return None
 
-    def get_fallback_for_model(self, model: str, tier: ModelTier) -> Optional[str]:
+    def get_fallback_for_model(self, model: str, tier: ModelTier) -> str | None:
         """Get next model in chain after the given one.
 
         Args:
@@ -360,7 +360,7 @@ class ScopedRouter:
         self._parent = parent
         self._tier = tier
         self._models = list(models)
-        self._original_chain: Optional[FallbackChain] = None
+        self._original_chain: FallbackChain | None = None
 
     def __enter__(self) -> "ScopedRouter":
         # Save original chain and register scoped chain
@@ -378,7 +378,7 @@ class ScopedRouter:
             del self._parent.custom_chains[self._tier]
         return False
 
-    def get_model(self) -> Optional[str]:
+    def get_model(self) -> str | None:
         """Get first available model in scope."""
         return self._parent.get_model_for_tier(self._tier)
 
@@ -388,7 +388,7 @@ class ScopedRouter:
 
 
 # Global default router instance
-_default_router: Optional[ModelRouter] = None
+_default_router: ModelRouter | None = None
 
 
 def get_router() -> ModelRouter:

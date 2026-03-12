@@ -6,15 +6,16 @@ node factories, output-parsing helpers, and edge wiring live in
 
 ``_make_step_node`` is a thin shim that delegates to
 ``graph_wiring.make_step_node`` while forwarding this module's
-``create_agent`` and ``get_model_candidates_for_tier`` names.  This
-ensures that ``monkeypatch.setattr(graph_module, "create_agent", ...)``
-in tests propagates into node closures as expected.
+``create_agent`` and ``get_model_candidates_for_tier`` names.  Evaluated
+at call time, this ensures that monkeypatching those names on this module
+(``monkeypatch.setattr(graph_module, "create_agent", ...)``) propagates
+into the node closures produced by the factory.
 """
 
 from __future__ import annotations
 
 import logging
-from typing import Any, Optional
+from typing import Any
 
 try:
     from langgraph.graph import StateGraph
@@ -25,17 +26,16 @@ except ImportError as _lg_err:  # pragma: no cover
     ) from _lg_err
 
 from ..integrations.base import TraceAdapter
-from .agents import create_agent, parse_agent_tier  # noqa: F401 — re-exported for monkeypatching
+from .agents import create_agent  # noqa: F401 — in globals for monkeypatch
 from .config import StepConfig, WorkflowConfig
-from .models import get_model_candidates_for_tier  # noqa: F401 — re-exported for monkeypatching
+from .models import get_model_candidates_for_tier  # noqa: F401 — in globals for monkeypatch
 from .state import WorkflowState
 
 # ---------------------------------------------------------------------------
-# Import all public helpers from graph_wiring (topology + output-parsing)
+# Re-export all public helpers from graph_wiring
 # ---------------------------------------------------------------------------
 
-from .graph_wiring import (
-    _TIER0_REGISTRY,
+from .graph_wiring import (  # noqa: E402
     add_fan_out_edges,
     add_loop_edge,
     add_loop_edges,
@@ -62,9 +62,8 @@ from .graph_wiring import (
 
 logger = logging.getLogger(__name__)
 
-
 # ---------------------------------------------------------------------------
-# Private aliases for topology helpers (backward compat for internal callers)
+# Private aliases (backward compat for topology helpers)
 # ---------------------------------------------------------------------------
 
 _add_fan_out_edges = add_fan_out_edges
@@ -78,7 +77,7 @@ _validate_dependencies = validate_dependencies
 _wire_dependency_edges = wire_dependency_edges
 _wrap_with_skip_check = wrap_with_skip_check
 
-# Private aliases for output-parsing helpers (backward compat)
+# Private aliases (backward compat for output-parsing helpers)
 _build_task_description = build_task_description
 _coerce_message_content_to_text = coerce_message_content_to_text
 _extract_agent_metadata = extract_agent_metadata
@@ -92,24 +91,25 @@ _resolve_inputs_into_context = resolve_inputs_into_context
 
 
 # ---------------------------------------------------------------------------
-# Node factory shim — delegates to graph_wiring.make_step_node but forwards
-# this module's ``create_agent`` and ``get_model_candidates_for_tier`` names
-# so that monkeypatching via ``monkeypatch.setattr(graph_module, ...)`` works.
+# Node-factory shim — delegates to graph_wiring.make_step_node, but reads
+# ``create_agent`` and ``get_model_candidates_for_tier`` from *this* module's
+# namespace at call time so that monkeypatching those names propagates into
+# node closures.
 # ---------------------------------------------------------------------------
 
 
 def _make_step_node(
     step: StepConfig,
     workflow: WorkflowConfig,
-    trace_adapter: Optional[TraceAdapter] = None,
+    trace_adapter: TraceAdapter | None = None,
     *,
     validate_only: bool = False,
 ) -> Any:
-    """Shim for ``make_step_node`` that captures this module's globals.
+    """Shim for ``graph_wiring.make_step_node``.
 
-    Passing ``create_agent`` and ``get_model_candidates_for_tier`` by name
-    here means test monkeypatches on ``graph_module.create_agent`` are
-    seen by the node closures created in ``graph_wiring.make_step_node``.
+    Reads ``create_agent`` and ``get_model_candidates_for_tier`` from this
+    module's globals at call time so that test monkeypatches applied to
+    ``graph_module.create_agent`` etc. are seen by the returned node closure.
     """
     return make_step_node(
         step,
@@ -124,7 +124,7 @@ def _make_step_node(
 def _add_step_nodes(
     graph: StateGraph,
     config: WorkflowConfig,
-    trace_adapter: Optional[TraceAdapter] = None,
+    trace_adapter: TraceAdapter | None = None,
     *,
     validate_only: bool = False,
 ) -> None:
@@ -149,7 +149,7 @@ def _add_step_nodes(
 def compile_workflow(
     config: WorkflowConfig,
     checkpointer: Any = None,
-    trace_adapter: Optional[TraceAdapter] = None,
+    trace_adapter: TraceAdapter | None = None,
     *,
     validate_only: bool = False,
 ) -> Any:

@@ -11,7 +11,7 @@ Provides:
 from __future__ import annotations
 
 import logging
-from typing import Any, Optional
+from typing import Any
 
 from fastapi import APIRouter, HTTPException
 
@@ -50,7 +50,7 @@ def _require_langchain() -> None:
 
 
 @router.get("/eval/datasets", response_model=ListEvaluationDatasetsResponse)
-async def list_evaluation_datasets(workflow: Optional[str] = None):
+async def list_evaluation_datasets(workflow: str | None = None):
     """List repository and local dataset options for workflow evaluation."""
     if workflow:
         _require_langchain()

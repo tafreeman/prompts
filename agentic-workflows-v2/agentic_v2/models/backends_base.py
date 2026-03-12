@@ -8,7 +8,7 @@ modules can import from here without pulling in provider-specific deps.
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import Any, AsyncIterator, Optional
+from typing import Any, AsyncIterator
 
 
 class LLMBackend(ABC):
@@ -33,7 +33,7 @@ class LLMBackend(ABC):
         messages: list[dict[str, Any]],
         max_tokens: int = 4096,
         temperature: float = 0.7,
-        tools: Optional[list[dict[str, Any]]] = None,
+        tools: list[dict[str, Any]] | None = None,
         **kwargs: Any,
     ) -> dict[str, Any]:
         """Send chat completion request with tool support."""

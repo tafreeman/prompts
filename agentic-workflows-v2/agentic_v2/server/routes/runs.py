@@ -15,7 +15,7 @@ import json
 import logging
 import os
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import StreamingResponse
@@ -44,7 +44,7 @@ def _is_within_base(path, base_dir) -> bool:
 
 @router.get("/runs")
 async def list_runs(
-    workflow: Optional[str] = None,
+    workflow: str | None = None,
     limit: int = 50,
 ):
     """List past workflow runs with summary data."""
@@ -99,7 +99,7 @@ async def list_runs(
 
 
 @router.get("/runs/summary")
-async def runs_summary(workflow: Optional[str] = None):
+async def runs_summary(workflow: str | None = None):
     """Aggregate stats across runs."""
     return run_logger.summary(workflow_name=workflow)
 

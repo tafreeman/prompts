@@ -21,7 +21,7 @@ from __future__ import annotations
 import asyncio
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Awaitable, Callable, Optional, Union
+from typing import Any, Awaitable, Callable
 
 from ..contracts import StepResult, StepStatus, WorkflowResult
 from .context import ExecutionContext
@@ -53,7 +53,7 @@ class ParallelGroup:
     name: str
     steps: list[StepDefinition]
     fail_fast: bool = True  # Stop on first failure
-    max_concurrency: Optional[int] = None  # Limit parallel execution
+    max_concurrency: int | None = None  # Limit parallel execution
 
     def __post_init__(self):
         if not self.steps:
@@ -69,14 +69,14 @@ class ConditionalBranch:
 
     name: str
     condition: Callable[[ExecutionContext], bool]
-    then_steps: list[Union[StepDefinition, "ParallelGroup", "ConditionalBranch"]]
-    else_steps: list[Union[StepDefinition, "ParallelGroup", "ConditionalBranch"]] = (
+    then_steps: list[StepDefinition | "ParallelGroup" | "ConditionalBranch"]
+    else_steps: list[StepDefinition | "ParallelGroup" | "ConditionalBranch"] = (
         field(default_factory=list)
     )
 
 
 # Pipeline element type
-PipelineElement = Union[StepDefinition, ParallelGroup, ConditionalBranch]
+PipelineElement = StepDefinition | ParallelGroup | ConditionalBranch
 
 
 @dataclass
@@ -125,7 +125,7 @@ class Pipeline:
         return self.add(step)
 
     def add_parallel(
-        self, *steps: StepDefinition, name: Optional[str] = None, fail_fast: bool = True
+        self, *steps: StepDefinition, name: str | None = None, fail_fast: bool = True
     ) -> "Pipeline":
         """Add a parallel group of steps."""
         group = ParallelGroup(
@@ -139,8 +139,8 @@ class Pipeline:
         self,
         condition: Callable[[ExecutionContext], bool],
         then_steps: list[PipelineElement],
-        else_steps: Optional[list[PipelineElement]] = None,
-        name: Optional[str] = None,
+        else_steps: list[PipelineElement] | None = None,
+        name: str | None = None,
     ) -> "Pipeline":
         """Add a conditional branch."""
         branch = ConditionalBranch(
@@ -184,7 +184,7 @@ class PipelineExecutor:
         self._step_executor = StepExecutor()
         self._status = PipelineStatus.PENDING
         self._cancelled = False
-        self._progress_callback: Optional[ProgressCallback] = None
+        self._progress_callback: ProgressCallback | None = None
 
     def on_progress(self, callback: ProgressCallback) -> None:
         """Set progress callback."""
@@ -193,8 +193,8 @@ class PipelineExecutor:
     async def execute(
         self,
         workflow: Any,
-        ctx: Optional[ExecutionContext] = None,
-        on_update: Optional[Callable[[dict[str, Any]], Awaitable[None]]] = None,
+        ctx: ExecutionContext | None = None,
+        on_update: Callable[[dict[str, Any]], Awaitable[None]] | None = None,
         **kwargs: Any,
     ) -> WorkflowResult:
         """Execute a pipeline.
@@ -407,7 +407,7 @@ class PipelineBuilder:
         return self
 
     def parallel(
-        self, *steps: StepDefinition, name: Optional[str] = None, fail_fast: bool = True
+        self, *steps: StepDefinition, name: str | None = None, fail_fast: bool = True
     ) -> "PipelineBuilder":
         """Add parallel steps."""
         self._pipeline.add_parallel(*steps, name=name, fail_fast=fail_fast)
@@ -417,8 +417,8 @@ class PipelineBuilder:
         self,
         condition: Callable[[ExecutionContext], bool],
         then_steps: list[PipelineElement],
-        else_steps: Optional[list[PipelineElement]] = None,
-        name: Optional[str] = None,
+        else_steps: list[PipelineElement] | None = None,
+        name: str | None = None,
     ) -> "PipelineBuilder":
         """Add a conditional branch."""
         self._pipeline.add_branch(condition, then_steps, else_steps, name)
@@ -447,8 +447,8 @@ class PipelineBuilder:
 # Convenience function
 async def run_pipeline(
     pipeline: Pipeline,
-    ctx: Optional[ExecutionContext] = None,
-    progress_callback: Optional[ProgressCallback] = None,
+    ctx: ExecutionContext | None = None,
+    progress_callback: ProgressCallback | None = None,
 ) -> WorkflowResult:
     """Run a pipeline with optional context and progress callback."""
     executor = PipelineExecutor()

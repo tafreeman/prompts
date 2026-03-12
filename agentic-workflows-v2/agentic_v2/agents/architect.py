@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import json
 import re
-from typing import Any, Optional
+from typing import Any
 
 from pydantic import BaseModel, Field
 
@@ -43,14 +43,14 @@ class ArchitectureInput(TaskInput):
     requirements: str = Field(
         description="System requirements to design for", min_length=1
     )
-    arch_constraints: Optional[str] = Field(
+    arch_constraints: str | None = Field(
         default=None,
         description="Architecture constraints (not to be confused with TaskInput.constraints)",
     )
-    user_stories: Optional[str] = Field(
+    user_stories: str | None = Field(
         default=None, description="User stories to consider"
     )
-    existing_architecture: Optional[str] = Field(
+    existing_architecture: str | None = Field(
         default=None, description="Existing architecture to extend or integrate with"
     )
     preferences: dict[str, Any] = Field(
@@ -178,7 +178,7 @@ class ArchitectAgent(BaseAgent[ArchitectureInput, ArchitectureOutput]):
         **kwargs: Passed through to :class:`BaseAgent.__init__`.
     """
 
-    def __init__(self, config: Optional[AgentConfig] = None, **kwargs):
+    def __init__(self, config: AgentConfig | None = None, **kwargs):
         if config is None:
             config = AgentConfig(
                 name="architect",
@@ -193,7 +193,7 @@ class ArchitectAgent(BaseAgent[ArchitectureInput, ArchitectureOutput]):
     async def _call_model(
         self,
         messages: list[dict[str, Any]],
-        tools: Optional[list[dict[str, Any]]] = None,
+        tools: list[dict[str, Any]] | None = None,
     ) -> dict[str, Any]:
         """Call the underlying LLM to generate architecture design.
 

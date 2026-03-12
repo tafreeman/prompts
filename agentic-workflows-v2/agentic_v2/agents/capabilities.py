@@ -29,7 +29,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import TYPE_CHECKING, Any, Callable, Optional
+from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
     from .base import BaseAgent
@@ -135,7 +135,7 @@ class CapabilitySet:
         cap = self.capabilities.get(cap_type)
         return cap is not None and cap.proficiency >= min_proficiency
 
-    def get(self, cap_type: CapabilityType) -> Optional[Capability]:
+    def get(self, cap_type: CapabilityType) -> Capability | None:
         """Get a capability."""
         return self.capabilities.get(cap_type)
 
@@ -222,7 +222,7 @@ class CodeGenerationMixin(CapabilityMixin):
         )
 
     async def generate_code(
-        self, description: str, language: str = "python", context: Optional[str] = None
+        self, description: str, language: str = "python", context: str | None = None
     ) -> str:
         """Generate code from description."""
         # Default implementation - override in subclass
@@ -246,7 +246,7 @@ class CodeReviewMixin(CapabilityMixin):
         self,
         code: str,
         language: str = "python",
-        focus_areas: Optional[list[str]] = None,
+        focus_areas: list[str] | None = None,
     ) -> dict[str, Any]:
         """Review code and return issues."""
         raise NotImplementedError("Subclass must implement review_code")
@@ -288,7 +288,7 @@ class OrchestrationMixin(CapabilityMixin):
 
     async def select_agent(
         self, task: dict[str, Any], available_agents: list["BaseAgent"]
-    ) -> Optional["BaseAgent"]:
+    ) -> "BaseAgent" | None:
         """Select best agent for a task."""
         raise NotImplementedError("Subclass must implement select_agent")
 

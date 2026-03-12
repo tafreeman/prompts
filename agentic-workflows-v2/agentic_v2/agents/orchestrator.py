@@ -1,16 +1,4 @@
-"""Meta-agent that decomposes tasks and delegates to specialized agents.
-
-The :class:`OrchestratorAgent` uses an LLM to break a high-level task
-description into subtasks, matches each subtask to the best available
-agent via :class:`~agentic_v2.agents.capabilities.CapabilitySet` scoring,
-and executes the resulting plan.  Two execution strategies are supported:
-
-- :meth:`OrchestratorAgent.execute_as_dag` (preferred) -- builds a
-  :class:`~agentic_v2.engine.DAG` from the dependency graph and uses
-  Kahn's algorithm for maximum parallelism.
-- :meth:`OrchestratorAgent.execute_as_pipeline` (legacy) -- sequential
-  pipeline execution, kept for backward compatibility.
-"""
+"""Meta-agent that decomposes tasks and delegates to specialized agents."""
 
 from __future__ import annotations
 
@@ -18,7 +6,7 @@ import asyncio
 import json
 import logging
 from dataclasses import dataclass, field
-from typing import Any, Callable, Optional
+from typing import Any, Callable
 
 from pydantic import Field
 
@@ -41,38 +29,19 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class SubTask:
-    """A single subtask produced by the orchestrator's task decomposition.
-
-    Attributes:
-        id: Unique subtask identifier within the orchestration plan.
-        description: Human-readable description of the work to be done.
-        required_capabilities: List of :class:`CapabilityType` values
-            needed to execute this subtask.
-        dependencies: IDs of subtasks that must complete before this one.
-        assigned_agent: Name of the agent selected to execute this subtask,
-            populated by :meth:`OrchestratorAgent._assign_agents`.
-        result: Execution result, populated after the subtask completes.
-        status: Current execution status.
-    """
+    """A single subtask produced by the orchestrator's task decomposition."""
 
     id: str
     description: str
     required_capabilities: list[CapabilityType]
     dependencies: list[str] = field(default_factory=list)
-    assigned_agent: Optional[str] = None
-    result: Optional[Any] = None
+    assigned_agent: str | None = None
+    result: Any | None = None
     status: StepStatus = StepStatus.PENDING
 
 
 class OrchestratorInput(TaskInput):
-    """Input schema for the :class:`OrchestratorAgent`.
-
-    Attributes:
-        task: Natural-language description of the task to orchestrate.
-        available_agents: Optional list of agent names to restrict selection.
-        max_parallel: Maximum number of subtasks to execute concurrently.
-        require_review: Whether a review step is appended to the plan.
-    """
+    """Input schema for OrchestratorAgent."""
 
     task: str = Field(default="", description="Task description to orchestrate")
     available_agents: list[str] = Field(
@@ -83,20 +52,11 @@ class OrchestratorInput(TaskInput):
 
 
 class OrchestratorOutput(TaskOutput):
-    """Output schema produced by the :class:`OrchestratorAgent`.
-
-    Attributes:
-        subtasks: Serialized list of decomposed subtask dicts.
-        agent_assignments: Mapping of subtask ID to assigned agent name.
-        final_result: Aggregated result after plan execution, or ``None``
-            if no agents were registered.
-        execution_trace: Chronological log entries recording each subtask
-            execution.
-    """
+    """Output schema produced by OrchestratorAgent."""
 
     subtasks: list[dict[str, Any]] = Field(default_factory=list)
     agent_assignments: dict[str, str] = Field(default_factory=dict)
-    final_result: Optional[Any] = Field(default=None)
+    final_result: Any | None = Field(default=None)
     execution_trace: list[dict[str, Any]] = Field(default_factory=list)
 
 
@@ -127,51 +87,22 @@ When decomposing tasks, provide JSON with this structure:
 class OrchestratorAgent(
     BaseAgent[OrchestratorInput, OrchestratorOutput], OrchestrationMixin
 ):
-    """Meta-agent that coordinates a pool of registered agents.
+    """Meta-agent that coordinates a pool of registered agents."""
 
-    The orchestrator follows a three-phase workflow:
-
-    1. **Decomposition** -- The LLM breaks the input task into subtasks
-       with declared capability requirements and dependency edges.
-    2. **Assignment** -- Each subtask is matched to the registered agent
-       whose :class:`~agentic_v2.agents.capabilities.CapabilitySet`
-       best satisfies the requirements (via :meth:`CapabilitySet.score_match`).
-    3. **Execution** -- Subtasks are executed respecting dependency order.
-       Independent subtasks run concurrently up to ``max_parallel``.
-       If the primary agent fails, fallback candidates are tried in
-       descending capability-score order.
-
-    Agents are registered via :meth:`register_agent` and can be removed
-    with :meth:`unregister_agent`.
-
-    Args:
-        config: Agent configuration. Defaults to a Tier-3 orchestrator
-            config with a task-decomposition system prompt.
-        agents: Optional pre-populated dict of ``name -> BaseAgent``.
-        **kwargs: Passed through to :class:`BaseAgent.__init__`.
-    """
-
-    # Class-level task input factory registry (Rec #9)
     _task_input_factories: dict[type, Callable[[str], Any]] = {}
 
     @classmethod
     def register_task_input_factory(
         cls, agent_type: type, factory: Callable[[str], Any]
     ) -> None:
-        """Register a task input factory for a specific agent type.
-
-        Args:
-            agent_type: The agent class this factory handles.
-            factory: Callable that takes a subtask description string
-                and returns the appropriate TaskInput instance.
-        """
+        """Register a task input factory for a specific agent type."""
         cls._task_input_factories[agent_type] = factory
 
     def __init__(
         self,
-        config: Optional[AgentConfig] = None,
-        agents: Optional[dict[str, BaseAgent]] = None,
-        execution_engine: Optional[ExecutionEngine] = None,
+        config: AgentConfig | None = None,
+        agents: dict[str, BaseAgent] | None = None,
+        execution_engine: ExecutionEngine | None = None,
         **kwargs,
     ):
         if config is None:
@@ -184,8 +115,6 @@ class OrchestratorAgent(
             )
 
         super().__init__(config=config, **kwargs)
-
-        # Execution engine (defaults to DAGExecutor for backward compat)
         self._execution_engine = execution_engine
 
         # Managed agents
@@ -206,12 +135,7 @@ class OrchestratorAgent(
     def _resolve_task_input(
         self, subtask_desc: str, target_agent: BaseAgent
     ) -> Any:
-        """Create the right TaskInput subclass for the given agent.
-
-        Checks the registered factory for the agent's exact type first,
-        then walks the MRO for base-class factories, and finally falls
-        back to CodeGenerationInput.
-        """
+        """Create the right TaskInput subclass for the given agent."""
         for cls in type(target_agent).__mro__:
             factory = self._task_input_factories.get(cls)
             if factory is not None:
@@ -327,7 +251,7 @@ class OrchestratorAgent(
     async def _call_model(
         self,
         messages: list[dict[str, Any]],
-        tools: Optional[list[dict[str, Any]]] = None,
+        tools: list[dict[str, Any]] | None = None,
     ) -> dict[str, Any]:
         """Call LLM for orchestration."""
         # Default implementation for testing
@@ -356,19 +280,11 @@ class OrchestratorAgent(
         }
 
     def _extract_json(self, text: str) -> dict[str, Any]:
-        """Extract JSON from response using balanced-brace extraction.
-
-        Delegates to :func:`extract_json` which replaces the previous
-        greedy regex (``\\{.*\\}``) with proper brace balancing.
-        """
+        """Extract JSON from response using balanced-brace extraction."""
         return extract_json(text)
 
     async def _assign_agents(self) -> dict[str, str]:
-        """Assign agents to subtasks based on capabilities.
-
-        Stores a ranked fallback chain for each subtask so that
-        execution can try the next-best agent if the primary fails.
-        """
+        """Assign agents to subtasks based on capabilities."""
         assignments = {}
 
         for task_id, subtask in self._subtasks.items():
@@ -468,10 +384,6 @@ class OrchestratorAgent(
 
         return results
 
-    # -------------------------------------------------------------------------
-    # OrchestrationMixin implementation
-    # -------------------------------------------------------------------------
-
     async def decompose_task(self, task: str) -> list[dict[str, Any]]:
         """Decompose a task into subtasks."""
         input_task = OrchestratorInput(task=task)
@@ -488,7 +400,7 @@ class OrchestratorAgent(
 
     async def select_agent(
         self, task: dict[str, Any], available_agents: list[BaseAgent]
-    ) -> Optional[BaseAgent]:
+    ) -> BaseAgent | None:
         """Select best agent for a task."""
         capabilities = task.get("capabilities", [])
         required = CapabilitySet()
@@ -511,20 +423,10 @@ class OrchestratorAgent(
 
         return best_agent
 
-    # -------------------------------------------------------------------------
-    # DAG-based execution (preferred)
-    # -------------------------------------------------------------------------
-
     async def execute_as_dag(
-        self, task: OrchestratorInput, ctx: Optional[ExecutionContext] = None
+        self, task: OrchestratorInput, ctx: ExecutionContext | None = None
     ) -> WorkflowResult:
-        """Execute orchestrated task as a DAG for true parallel execution.
-
-        This is the preferred execution method as it:
-        - Has no artificial sync barriers between layers
-        - Achieves maximum parallelism from the dependency graph
-        - Uses Kahn's algorithm for dynamic scheduling
-        """
+        """Execute orchestrated task as a DAG for true parallel execution."""
         # First, decompose the task
         result = await self.run(task, ctx)
 
@@ -583,18 +485,10 @@ class OrchestratorAgent(
             engine = DAGExecutor()
         return await engine.execute(dag, ctx, max_concurrency=task.max_parallel)
 
-    # -------------------------------------------------------------------------
-    # Pipeline integration (legacy, for backwards compatibility)
-    # -------------------------------------------------------------------------
-
     async def execute_as_pipeline(
-        self, task: OrchestratorInput, ctx: Optional[ExecutionContext] = None
+        self, task: OrchestratorInput, ctx: ExecutionContext | None = None
     ) -> WorkflowResult:
-        """Execute orchestrated task as a pipeline.
-
-        DEPRECATED: Use execute_as_dag() for better parallelism.
-        This method is kept for backwards compatibility.
-        """
+        """Execute orchestrated task as a pipeline (legacy)."""
         # First, decompose the task
         result = await self.run(task, ctx)
 
@@ -621,13 +515,8 @@ class OrchestratorAgent(
         return await run_pipeline(pipeline, ctx)
 
 
-# ---------------------------------------------------------------------------
-# Built-in task input factories (Rec #9)
-# ---------------------------------------------------------------------------
-
-
 def _reviewer_input_factory(description: str) -> Any:
-    """Create CodeReviewInput for ReviewerAgent subtasks."""
+    """Create CodeReviewInput for subtasks."""
     from ..contracts import CodeReviewInput
 
     return CodeReviewInput(
@@ -638,7 +527,7 @@ def _reviewer_input_factory(description: str) -> Any:
 
 
 def _coder_input_factory(description: str) -> Any:
-    """Create CodeGenerationInput for CoderAgent subtasks."""
+    """Create CodeGenerationInput for subtasks."""
     from ..contracts import CodeGenerationInput
 
     return CodeGenerationInput(
@@ -648,10 +537,7 @@ def _coder_input_factory(description: str) -> Any:
 
 
 def _register_default_factories() -> None:
-    """Register default task input factories for built-in agent types.
-
-    Uses lazy imports to avoid circular dependencies.
-    """
+    """Register default task input factories for built-in agent types."""
     from .coder import CoderAgent
     from .reviewer import ReviewerAgent
 

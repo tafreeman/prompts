@@ -10,7 +10,7 @@ iterative refinement via conversational context.
 from __future__ import annotations
 
 import re
-from typing import Any, Optional
+from typing import Any
 
 from ..contracts import CodeGenerationInput, CodeGenerationOutput
 from ..models import ModelTier
@@ -73,7 +73,7 @@ class CoderAgent(
         **kwargs: Passed through to :class:`BaseAgent.__init__`.
     """
 
-    def __init__(self, config: Optional[AgentConfig] = None, **kwargs):
+    def __init__(self, config: AgentConfig | None = None, **kwargs):
         # Default config for coder
         if config is None:
             config = AgentConfig(
@@ -161,7 +161,7 @@ class CoderAgent(
     async def _call_model(
         self,
         messages: list[dict[str, Any]],
-        tools: Optional[list[dict[str, Any]]] = None,
+        tools: list[dict[str, Any]] | None = None,
     ) -> dict[str, Any]:
         """Call LLM for code generation using the SmartRouter.
 
@@ -206,7 +206,7 @@ This is a placeholder implementation."""}
             }
 
     def _extract_code_blocks(
-        self, text: str, language: Optional[str] = None
+        self, text: str, language: str | None = None
     ) -> list[str]:
         """Extract code blocks from markdown."""
         # Pattern for ```language\ncode\n```
@@ -254,7 +254,7 @@ This is a placeholder implementation."""}
     # -------------------------------------------------------------------------
 
     async def generate_code(
-        self, description: str, language: str = "python", context: Optional[str] = None
+        self, description: str, language: str = "python", context: str | None = None
     ) -> str:
         """Generate code from description."""
         task = CodeGenerationInput(

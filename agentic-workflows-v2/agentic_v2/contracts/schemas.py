@@ -18,7 +18,7 @@ programmatic task construction.
 """
 
 from enum import Enum
-from typing import Any, Optional, TypeVar
+from typing import Any, TypeVar
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
@@ -73,7 +73,7 @@ class TaskInput(BaseModel):
 
     model_config = ConfigDict(validate_assignment=True, extra="forbid", frozen=False)
 
-    task_id: Optional[str] = Field(
+    task_id: str | None = Field(
         default=None, description="Unique task identifier for tracking"
     )
     context: dict[str, Any] = Field(
@@ -116,12 +116,12 @@ class TaskOutput(BaseModel):
     )
 
     success: bool = Field(description="Whether task completed successfully")
-    error: Optional[str] = Field(default=None, description="Error message if failed")
+    error: str | None = Field(default=None, description="Error message if failed")
     confidence: float = Field(
         default=1.0, description="Model's confidence in output (0-1)", ge=0.0, le=1.0
     )
     tokens_used: int = Field(default=0, description="Total tokens consumed", ge=0)
-    model_used: Optional[str] = Field(
+    model_used: str | None = Field(
         default=None, description="Model that produced this output"
     )
 
@@ -158,16 +158,16 @@ class CodeGenerationInput(TaskInput):
         description="Natural language description of code to generate", min_length=10
     )
     language: str = Field(description="Target programming language", min_length=1)
-    file_path: Optional[str] = Field(
+    file_path: str | None = Field(
         default=None, description="Target file path for generated code"
     )
-    existing_code: Optional[str] = Field(
+    existing_code: str | None = Field(
         default=None, description="Existing code to modify/extend"
     )
     dependencies: list[str] = Field(
         default_factory=list, description="Required dependencies/imports"
     )
-    style_guide: Optional[str] = Field(
+    style_guide: str | None = Field(
         default=None, description="Coding style guide to follow"
     )
     examples: list[str] = Field(
@@ -221,7 +221,7 @@ class CodeGenerationOutput(TaskOutput):
     imports: list[str] = Field(
         default_factory=list, description="Required imports extracted from code"
     )
-    explanation: Optional[str] = Field(
+    explanation: str | None = Field(
         default=None, description="Explanation of generated code"
     )
 
@@ -260,10 +260,10 @@ class CodeIssue(BaseModel):
     severity: Severity = Field(description="Issue severity")
     category: IssueCategory = Field(description="Issue category")
     message: str = Field(description="Issue description", min_length=1)
-    line_number: Optional[int] = Field(default=None, ge=1)
-    column: Optional[int] = Field(default=None, ge=1)
-    suggestion: Optional[str] = Field(default=None, description="Suggested fix")
-    code_snippet: Optional[str] = Field(default=None, description="Relevant code")
+    line_number: int | None = Field(default=None, ge=1)
+    column: int | None = Field(default=None, ge=1)
+    suggestion: str | None = Field(default=None, description="Suggested fix")
+    code_snippet: str | None = Field(default=None, description="Relevant code")
 
     @property
     def location(self) -> str:
@@ -286,7 +286,7 @@ class CodeReviewInput(TaskInput):
 
     code: str = Field(description="Code to review", min_length=1)
     language: str = Field(description="Programming language")
-    file_path: Optional[str] = Field(default=None, description="File path for context")
+    file_path: str | None = Field(default=None, description="File path for context")
     focus_areas: list[IssueCategory] = Field(
         default_factory=list, description="Categories to focus on (empty = all)"
     )
@@ -396,7 +396,7 @@ class TestGenerationInput(TaskInput):
         default_factory=lambda: [TestType.UNIT],
         description="Types of tests to generate",
     )
-    framework: Optional[str] = Field(
+    framework: str | None = Field(
         default=None, description="Testing framework to use (pytest, jest, etc.)"
     )
     coverage_target: float = Field(
@@ -447,10 +447,10 @@ class TestGenerationOutput(TaskOutput):
     tests: list[TestCase] = Field(
         default_factory=list, description="Generated test cases"
     )
-    setup_code: Optional[str] = Field(
+    setup_code: str | None = Field(
         default=None, description="Shared setup/fixtures code"
     )
-    teardown_code: Optional[str] = Field(
+    teardown_code: str | None = Field(
         default=None, description="Shared teardown code"
     )
     estimated_coverage: float = Field(

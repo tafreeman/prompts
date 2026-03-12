@@ -21,7 +21,7 @@ import threading
 import time
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 from ..base import BaseTool, ToolResult
 
@@ -46,7 +46,7 @@ class _FileMemoryStore:
     small.
     """
 
-    def __init__(self, storage_path: Optional[str] = None):
+    def __init__(self, storage_path: str | None = None):
         env_path = os.environ.get("AGENTIC_MEMORY_PATH")
         self._path = Path(storage_path or env_path or ".agentic_memory.json").resolve()
         self._lock = threading.Lock()
@@ -79,7 +79,7 @@ class _FileMemoryStore:
             return str(value)
 
     def upsert(
-        self, key: str, value: Any, tags: Optional[list[str]] = None
+        self, key: str, value: Any, tags: list[str] | None = None
     ) -> dict[str, Any]:
         key = str(key).strip()
         if not key:
@@ -222,7 +222,7 @@ class MemoryUpsertTool(_MemoryToolBase):
         ]
 
     async def execute(
-        self, key: str, value: Any, tags: Optional[list[str]] = None
+        self, key: str, value: Any, tags: list[str] | None = None
     ) -> ToolResult:
         try:
             result = self._store.upsert(key=key, value=value, tags=tags)

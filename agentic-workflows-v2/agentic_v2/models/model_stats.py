@@ -13,7 +13,6 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Optional
 
 
 class CircuitState(str, Enum):
@@ -81,20 +80,20 @@ class ModelStats:
     circuit_state: CircuitState = CircuitState.CLOSED
     _failure_threshold: int = 5
     _recovery_timeout_seconds: int = 60
-    _last_failure_time: Optional[datetime] = None
-    _last_failure_mono: Optional[float] = None  # ADR-002C: monotonic clock
+    _last_failure_time: datetime | None = None
+    _last_failure_mono: float | None = None  # ADR-002C: monotonic clock
     _consecutive_failures: int = 0
     _half_open_success_required: int = 2
     _half_open_successes: int = 0
 
     # Timestamps (wall clock — for logging/serialization only)
-    last_success: Optional[datetime] = None
-    last_failure: Optional[datetime] = None
+    last_success: datetime | None = None
+    last_failure: datetime | None = None
     first_seen: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
     # Cooldown tracking — monotonic clock for runtime, wall clock for persistence
-    cooldown_until: Optional[datetime] = None  # Wall clock (serialization only)
-    _cooldown_until_mono: Optional[float] = None  # ADR-002C: monotonic clock
+    cooldown_until: datetime | None = None  # Wall clock (serialization only)
+    _cooldown_until_mono: float | None = None  # ADR-002C: monotonic clock
 
     @property
     def total_calls(self) -> int:
@@ -242,7 +241,7 @@ class ModelStats:
         elif self._consecutive_failures >= self._failure_threshold:
             self.circuit_state = CircuitState.OPEN
 
-    def record_rate_limit(self, retry_after_seconds: Optional[int] = None) -> None:
+    def record_rate_limit(self, retry_after_seconds: int | None = None) -> None:
         """Record a rate limit hit.
 
         Args:

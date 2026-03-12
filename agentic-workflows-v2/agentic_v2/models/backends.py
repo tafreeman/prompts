@@ -19,7 +19,7 @@ from __future__ import annotations
 import logging
 import os
 from dataclasses import dataclass, field
-from typing import Any, AsyncIterator, Optional
+from typing import Any, AsyncIterator
 
 from .backends_base import LLMBackend
 from .backends_cloud import (
@@ -96,7 +96,7 @@ class MultiBackend(LLMBackend):
         messages: list[dict[str, Any]],
         max_tokens: int = 4096,
         temperature: float = 0.7,
-        tools: Optional[list[dict[str, Any]]] = None,
+        tools: list[dict[str, Any]] | None = None,
         **kwargs: Any,
     ) -> dict[str, Any]:
         return await self._get_backend(model).complete_chat(
@@ -163,7 +163,7 @@ class MockBackend(LLMBackend):
         messages: list[dict[str, Any]],
         max_tokens: int = 4096,
         temperature: float = 0.7,
-        tools: Optional[list[dict[str, Any]]] = None,
+        tools: list[dict[str, Any]] | None = None,
         **kwargs: Any,
     ) -> dict[str, Any]:
         """Return mock chat response."""

@@ -14,7 +14,6 @@ Key design decisions:
 import random
 import time
 from dataclasses import dataclass, field
-from typing import Optional
 
 
 @dataclass
@@ -88,8 +87,8 @@ class ProviderRateLimits:
 
     provider: str
     rpm_bucket: TokenBucket  # Requests per minute
-    tpm_bucket: Optional[TokenBucket] = None  # Tokens per minute (if tracked)
-    last_retry_after: Optional[float] = None  # Last Retry-After value seen
+    tpm_bucket: TokenBucket | None = None  # Tokens per minute (if tracked)
+    last_retry_after: float | None = None  # Last Retry-After value seen
 
 
 # Default rate limits per provider (conservative estimates)
@@ -141,7 +140,7 @@ class RateLimitTracker:
             return False
         return True
 
-    def parse_retry_after(self, headers: dict[str, str]) -> Optional[int]:
+    def parse_retry_after(self, headers: dict[str, str]) -> int | None:
         """Parse Retry-After header (RFC 7231 Section 7.1.3).
 
         Supports both delta-seconds and HTTP-date formats.
@@ -169,7 +168,7 @@ class RateLimitTracker:
         # Could be HTTP-date format — for simplicity, fall back to None
         return None
 
-    def update_from_headers(self, model: str, headers: dict[str, str]) -> Optional[int]:
+    def update_from_headers(self, model: str, headers: dict[str, str]) -> int | None:
         """Parse provider-specific rate-limit headers and update buckets.
 
         Returns the recommended cooldown seconds if rate-limited, else None.
@@ -202,7 +201,7 @@ class RateLimitTracker:
     def get_cooldown_seconds(
         self,
         model: str,
-        headers: Optional[dict[str, str]] = None,
+        headers: dict[str, str] | None = None,
         default_cooldown: int = 120,
     ) -> int:
         """Get the appropriate cooldown for a rate-limited model.
@@ -236,7 +235,7 @@ class RateLimitTracker:
 
     def _parse_openai_headers(
         self, state: ProviderRateLimits, headers: dict[str, str]
-    ) -> Optional[int]:
+    ) -> int | None:
         """Parse OpenAI-style rate-limit headers."""
         remaining_requests = _safe_int(headers.get("x-ratelimit-remaining-requests"))
         reset_requests = _parse_duration(headers.get("x-ratelimit-reset-requests"))
@@ -263,7 +262,7 @@ class RateLimitTracker:
 
     def _parse_anthropic_headers(
         self, state: ProviderRateLimits, headers: dict[str, str]
-    ) -> Optional[int]:
+    ) -> int | None:
         """Parse Anthropic-style rate-limit headers."""
         remaining = _safe_int(headers.get("x-ratelimit-remaining-requests"))
 
@@ -289,7 +288,7 @@ def _extract_provider(model: str) -> str:
     return "unknown"
 
 
-def _safe_int(value: Optional[str]) -> Optional[int]:
+def _safe_int(value: str | None) -> int | None:
     """Parse an integer from a header value, returning None on failure."""
     if value is None:
         return None
@@ -301,7 +300,7 @@ def _safe_int(value: Optional[str]) -> Optional[int]:
         return None
 
 
-def _parse_duration(value: Optional[str]) -> Optional[float]:
+def _parse_duration(value: str | None) -> float | None:
     """Parse a duration string like '6s', '1m30s', '500ms' to seconds."""
     if value is None:
         return None

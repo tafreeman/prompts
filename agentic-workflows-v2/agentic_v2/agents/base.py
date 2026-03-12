@@ -36,13 +36,12 @@ import asyncio
 import logging
 import uuid
 from abc import ABC, abstractmethod
-from typing import Any, AsyncIterator, Generic, Optional, TypeVar
+from typing import Any, AsyncIterator, Generic, TypeVar
 
 from ..contracts import TaskInput, TaskOutput
 from ..engine import ExecutionContext, StepDefinition
 from ..models import (
     LLMClientWrapper,
-    ModelTier,
     SmartModelRouter,
     get_client,
     get_smart_router,
@@ -117,10 +116,10 @@ class BaseAgent(ABC, Generic[TInput, TOutput]):
 
     def __init__(
         self,
-        config: Optional[AgentConfig] = None,
-        router: Optional[SmartModelRouter] = None,
-        tools: Optional[ToolRegistry] = None,
-        llm_client: Optional[LLMClientWrapper] = None,
+        config: AgentConfig | None = None,
+        router: SmartModelRouter | None = None,
+        tools: ToolRegistry | None = None,
+        llm_client: LLMClientWrapper | None = None,
     ):
         self.id = str(uuid.uuid4())
         self.config = config or AgentConfig()
@@ -138,19 +137,19 @@ class BaseAgent(ABC, Generic[TInput, TOutput]):
         self._event_handlers: list[AgentEventHandler] = []
 
         # Execution tracking
-        self._current_ctx: Optional[ExecutionContext] = None
+        self._current_ctx: ExecutionContext | None = None
         self._iteration_count = 0
         self._tool_call_count = 0
 
         # Results
-        self._last_result: Optional[TOutput] = None
-        self._error: Optional[str] = None
+        self._last_result: TOutput | None = None
+        self._error: str | None = None
 
     # -------------------------------------------------------------------------
     # Lifecycle
     # -------------------------------------------------------------------------
 
-    async def initialize(self, ctx: Optional[ExecutionContext] = None) -> None:
+    async def initialize(self, ctx: ExecutionContext | None = None) -> None:
         """Initialize the agent."""
         self._set_state(AgentState.INITIALIZING)
         self._current_ctx = ctx or ExecutionContext()
@@ -187,7 +186,7 @@ class BaseAgent(ABC, Generic[TInput, TOutput]):
     # -------------------------------------------------------------------------
 
     async def run(
-        self, task: TInput, ctx: Optional[ExecutionContext] = None
+        self, task: TInput, ctx: ExecutionContext | None = None
     ) -> TOutput:
         """Run the agent on a task.
 
@@ -257,7 +256,7 @@ class BaseAgent(ABC, Generic[TInput, TOutput]):
         )
 
     async def stream(
-        self, task: TInput, ctx: Optional[ExecutionContext] = None
+        self, task: TInput, ctx: ExecutionContext | None = None
     ) -> AsyncIterator[str]:
         """Stream agent output.
 
@@ -310,7 +309,7 @@ class BaseAgent(ABC, Generic[TInput, TOutput]):
     async def _call_model(
         self,
         messages: list[dict[str, Any]],
-        tools: Optional[list[dict[str, Any]]] = None,
+        tools: list[dict[str, Any]] | None = None,
     ) -> dict[str, Any]:
         """Call the LLM.
 
@@ -475,17 +474,17 @@ class BaseAgent(ABC, Generic[TInput, TOutput]):
         return self._memory
 
     @property
-    def context(self) -> Optional[ExecutionContext]:
+    def context(self) -> ExecutionContext | None:
         """Get current execution context."""
         return self._current_ctx
 
     @property
-    def last_result(self) -> Optional[TOutput]:
+    def last_result(self) -> TOutput | None:
         """Get last execution result."""
         return self._last_result
 
     @property
-    def error(self) -> Optional[str]:
+    def error(self) -> str | None:
         """Get error if failed."""
         return self._error
 
@@ -499,7 +498,7 @@ class BaseAgent(ABC, Generic[TInput, TOutput]):
 
 
 def agent_to_step(
-    agent: BaseAgent[TInput, TOutput], name: Optional[str] = None
+    agent: BaseAgent[TInput, TOutput], name: str | None = None
 ) -> StepDefinition:
     """Wrap a :class:`BaseAgent` as a
     :class:`~agentic_v2.engine.StepDefinition`.

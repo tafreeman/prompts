@@ -30,7 +30,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Callable, Optional, TypeVar
+from typing import Any, Callable, TypeVar
 
 logger = logging.getLogger(__name__)
 
@@ -71,7 +71,7 @@ class ServiceContainer:
         """Register a factory for creating service instances."""
         self._factories[service_type] = factory
 
-    def resolve(self, service_type: type[T]) -> Optional[T]:
+    def resolve(self, service_type: type[T]) -> T | None:
         """Resolve a service by type.
 
         Checks singletons first, then tries factory.
@@ -123,7 +123,7 @@ class ExecutionContext:
     _lock: asyncio.Lock = field(default_factory=asyncio.Lock)
 
     # Parent context (for scoping)
-    _parent: Optional["ExecutionContext"] = None
+    _parent: "ExecutionContext" | None = None
 
     # Event handlers
     _event_handlers: dict[str, list[EventHandler]] = field(default_factory=dict)
@@ -136,14 +136,14 @@ class ExecutionContext:
     metadata: dict[str, Any] = field(default_factory=dict)
 
     # Step tracking
-    current_step: Optional[str] = None
+    current_step: str | None = None
     completed_steps: list[str] = field(default_factory=list)
     failed_steps: list[str] = field(default_factory=list)
 
     # Checkpointing
-    checkpoint_dir: Optional[Path] = None
+    checkpoint_dir: Path | None = None
 
-    def child(self, step_name: Optional[str] = None) -> "ExecutionContext":
+    def child(self, step_name: str | None = None) -> "ExecutionContext":
         """Create a child context with inherited variables.
 
         Child can read parent variables but writes are local.
@@ -343,7 +343,7 @@ class ExecutionContext:
     # Checkpointing
     # -------------------------------------------------------------------------
 
-    async def save_checkpoint(self, name: Optional[str] = None) -> Path:
+    async def save_checkpoint(self, name: str | None = None) -> Path:
         """Save current state to a checkpoint file.
 
         Returns path to checkpoint file.
@@ -427,7 +427,7 @@ class ExecutionContext:
 
 
 # Global context for simple use cases
-_current_context: Optional[ExecutionContext] = None
+_current_context: ExecutionContext | None = None
 
 
 def get_context() -> ExecutionContext:

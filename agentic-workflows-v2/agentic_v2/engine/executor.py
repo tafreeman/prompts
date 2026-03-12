@@ -25,7 +25,7 @@ import traceback
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Awaitable, Callable, Optional, Union
+from typing import Any, Awaitable, Callable
 
 logger = logging.getLogger(__name__)
 
@@ -74,7 +74,7 @@ class ExecutionConfig:
     """
 
     # Timeouts
-    global_timeout_seconds: Optional[float] = None
+    global_timeout_seconds: float | None = None
     step_default_timeout_seconds: float = 300.0
 
     # Retries
@@ -85,7 +85,7 @@ class ExecutionConfig:
     checkpoint_interval: int = 5
 
     # Resource limits
-    max_memory_mb: Optional[int] = None
+    max_memory_mb: int | None = None
     max_context_variables: int = 1000
 
     # Cleanup
@@ -105,8 +105,8 @@ class ExecutionHistory:
     def record(
         self,
         event_type: str,
-        step_name: Optional[str] = None,
-        data: Optional[dict[str, Any]] = None,
+        step_name: str | None = None,
+        data: dict[str, Any] | None = None,
     ) -> None:
         """Record an event."""
         self.entries.append(
@@ -144,9 +144,9 @@ class WorkflowExecutor:
 
     def __init__(
         self,
-        config: Optional[ExecutionConfig] = None,
-        router: Optional[SmartModelRouter] = None,
-        tools: Optional[ToolRegistry] = None,
+        config: ExecutionConfig | None = None,
+        router: SmartModelRouter | None = None,
+        tools: ToolRegistry | None = None,
     ):
         self.config = config or ExecutionConfig()
         self.router = router or get_smart_router()
@@ -158,7 +158,7 @@ class WorkflowExecutor:
         self._listeners: list[EventListener] = []
         self._history = ExecutionHistory()
         self._cancelled = False
-        self._current_ctx: Optional[ExecutionContext] = None
+        self._current_ctx: ExecutionContext | None = None
 
     def add_listener(self, listener: EventListener) -> None:
         """Add an event listener."""
@@ -188,8 +188,8 @@ class WorkflowExecutor:
     async def execute(
         self,
         workflow: Any,
-        ctx: Optional[ExecutionContext] = None,
-        on_update: Optional[Callable[[dict[str, Any]], Awaitable[None]]] = None,
+        ctx: ExecutionContext | None = None,
+        on_update: Callable[[dict[str, Any]], Awaitable[None]] | None = None,
         **kwargs: Any,
     ) -> WorkflowResult:
         """Execute a workflow.
@@ -299,7 +299,7 @@ class WorkflowExecutor:
 
     async def _execute_workflow(
         self,
-        workflow: Union[StepDefinition, Pipeline, DAG, list[StepDefinition]],
+        workflow: StepDefinition | Pipeline | DAG | list[StepDefinition],
         ctx: ExecutionContext,
         result: WorkflowResult,
     ) -> WorkflowResult:
@@ -401,7 +401,7 @@ class WorkflowExecutor:
         await self._pipeline_executor.cancel()
 
     def _get_workflow_name(
-        self, workflow: Union[StepDefinition, Pipeline, DAG, list[StepDefinition]]
+        self, workflow: StepDefinition | Pipeline | DAG | list[StepDefinition]
     ) -> str:
         """Get workflow name for logging."""
         if isinstance(workflow, DAG):
@@ -420,13 +420,13 @@ class WorkflowExecutor:
         return self._history
 
     @property
-    def current_context(self) -> Optional[ExecutionContext]:
+    def current_context(self) -> ExecutionContext | None:
         """Get current execution context."""
         return self._current_ctx
 
 
 # Global executor instance
-_executor: Optional[WorkflowExecutor] = None
+_executor: WorkflowExecutor | None = None
 
 
 def get_executor() -> WorkflowExecutor:
@@ -445,7 +445,7 @@ def reset_executor() -> None:
 
 # Convenience functions
 async def execute(
-    workflow: Union[StepDefinition, Pipeline, DAG, list[StepDefinition]],
+    workflow: StepDefinition | Pipeline | DAG | list[StepDefinition],
     **initial_vars: Any,
 ) -> WorkflowResult:
     """Execute a workflow with the global executor."""

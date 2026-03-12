@@ -15,7 +15,7 @@ from __future__ import annotations
 import asyncio
 import logging
 from pathlib import Path
-from typing import Any, Awaitable, Callable, Optional
+from typing import Any, Awaitable, Callable
 
 from ...contracts import StepStatus, WorkflowResult
 from ...engine.context import ExecutionContext
@@ -46,11 +46,11 @@ class NativeEngine:
 
     def __init__(
         self,
-        checkpoint_db_path: Optional[Path] = None,
+        checkpoint_db_path: Path | None = None,
     ) -> None:
         self._dag_executor = DAGExecutor()
         self._pipeline_executor = PipelineExecutor()
-        self._checkpoint_store: Optional[CheckpointStore] = (
+        self._checkpoint_store: CheckpointStore | None = (
             CheckpointStore(checkpoint_db_path)
             if checkpoint_db_path is not None
             else None
@@ -63,8 +63,8 @@ class NativeEngine:
     async def execute(
         self,
         workflow: Any,
-        ctx: Optional[ExecutionContext] = None,
-        on_update: Optional[Callable[[dict[str, Any]], Awaitable[None]]] = None,
+        ctx: ExecutionContext | None = None,
+        on_update: Callable[[dict[str, Any]], Awaitable[None]] | None = None,
         **kwargs: Any,
     ) -> WorkflowResult:
         """Execute a workflow using the appropriate native executor.
@@ -92,7 +92,7 @@ class NativeEngine:
         if ctx is None:
             ctx = ExecutionContext()
 
-        thread_id: Optional[str] = kwargs.pop("thread_id", None)
+        thread_id: str | None = kwargs.pop("thread_id", None)
         should_checkpoint = (
             thread_id is not None and self._checkpoint_store is not None
         )
@@ -118,7 +118,7 @@ class NativeEngine:
         *,
         thread_id: str,
         **kwargs: Any,
-    ) -> Optional[dict[str, Any]]:
+    ) -> dict[str, Any] | None:
         """Retrieve the latest checkpoint state for a workflow thread.
 
         Runs the async :meth:`CheckpointStore.read` synchronously via
@@ -165,7 +165,7 @@ class NativeEngine:
         workflow: Any,
         *,
         thread_id: str,
-        ctx: Optional[ExecutionContext] = None,
+        ctx: ExecutionContext | None = None,
         **kwargs: Any,
     ) -> Any:
         """Resume execution from the last checkpoint.
@@ -219,7 +219,7 @@ class NativeEngine:
         self,
         workflow: Any,
         ctx: ExecutionContext,
-        on_update: Optional[Callable[[dict[str, Any]], Awaitable[None]]],
+        on_update: Callable[[dict[str, Any]], Awaitable[None]] | None,
         **kwargs: Any,
     ) -> WorkflowResult:
         """Route *workflow* to the correct underlying executor.
@@ -244,8 +244,8 @@ class NativeEngine:
     def _wrap_on_update(
         self,
         workflow: Any,
-        original_callback: Optional[Callable[[dict[str, Any]], Awaitable[None]]],
-        thread_id: Optional[str],
+        original_callback: Callable[[dict[str, Any]], Awaitable[None]] | None,
+        thread_id: str | None,
     ) -> Callable[[dict[str, Any]], Awaitable[None]]:
         """Create a wrapper around *original_callback* that also writes
         checkpoints on ``step_end`` events.

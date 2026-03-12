@@ -13,7 +13,7 @@ Why Protocol over ABC:
 
 from __future__ import annotations
 
-from typing import Any, Awaitable, Callable, Optional, Protocol, runtime_checkable
+from typing import Any, Awaitable, Callable, Protocol, runtime_checkable
 
 
 @runtime_checkable
@@ -41,7 +41,7 @@ class ExecutionEngine(Protocol):
         self,
         workflow: Any,
         ctx: Any = None,
-        on_update: Optional[Callable[[dict[str, Any]], Awaitable[None]]] = None,
+        on_update: Callable[[dict[str, Any]], Awaitable[None]] | None = None,
         **kwargs: Any,
     ) -> Any:
         """Execute a workflow and return results.
@@ -84,7 +84,7 @@ class SupportsCheckpointing(Protocol):
         *,
         thread_id: str,
         **kwargs: Any,
-    ) -> Optional[dict[str, Any]]:
+    ) -> dict[str, Any] | None:
         """Retrieve the latest checkpoint state for a workflow thread."""
         ...
 
@@ -151,4 +151,4 @@ class ToolProtocol(Protocol):
 
 # MemoryStore is deprecated — use MemoryStoreProtocol from core.memory instead.
 # Kept as an alias for backward compatibility with existing agent code.
-from .memory import MemoryStoreProtocol as MemoryStore  # noqa: E402
+from .memory import MemoryStoreProtocol as MemoryStore  # noqa: E402, F401

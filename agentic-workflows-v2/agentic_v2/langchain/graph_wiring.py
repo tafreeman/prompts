@@ -26,7 +26,7 @@ import re
 from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 try:
     from langchain_core.messages import AIMessage, HumanMessage
@@ -336,7 +336,7 @@ def extract_agent_metadata(agent_result: dict[str, Any]) -> dict[str, Any]:
 def make_step_node(
     step: StepConfig,
     workflow: WorkflowConfig,
-    trace_adapter: Optional[TraceAdapter] = None,
+    trace_adapter: TraceAdapter | None = None,
     *,
     validate_only: bool = False,
     _create_agent_fn: Any = None,
@@ -604,7 +604,7 @@ def wrap_with_skip_check(step: StepConfig, node_fn: Any) -> Any:
 def add_step_nodes(
     graph: StateGraph,
     config: WorkflowConfig,
-    trace_adapter: Optional[TraceAdapter] = None,
+    trace_adapter: TraceAdapter | None = None,
     *,
     validate_only: bool = False,
     _create_agent_fn: Any = None,
@@ -761,7 +761,7 @@ def compile_graph(graph: StateGraph, checkpointer: Any = None) -> Any:
 
 def build_graph(
     config: WorkflowConfig,
-    trace_adapter: Optional[TraceAdapter] = None,
+    trace_adapter: TraceAdapter | None = None,
     *,
     validate_only: bool = False,
     _create_agent_fn: Any = None,

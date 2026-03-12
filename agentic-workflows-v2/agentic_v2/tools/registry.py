@@ -5,7 +5,6 @@ from __future__ import annotations
 import importlib
 import pkgutil
 from pathlib import Path
-from typing import Optional
 
 from .base import BaseTool, ToolSchema
 
@@ -33,7 +32,7 @@ class ToolRegistry:
         """
         self._tools[tool.name] = tool
 
-    def get(self, name: str) -> Optional[BaseTool]:
+    def get(self, name: str) -> BaseTool | None:
         """Get a tool by name.
 
         Args:
@@ -46,7 +45,7 @@ class ToolRegistry:
             self.discover_builtin()
         return self._tools.get(name)
 
-    def list_tools(self, tier: Optional[int] = None) -> list[BaseTool]:
+    def list_tools(self, tier: int | None = None) -> list[BaseTool]:
         """List all registered tools, optionally filtered by tier.
 
         Args:
@@ -63,7 +62,7 @@ class ToolRegistry:
             tools = [t for t in tools if t.tier == tier]
         return tools
 
-    def get_schemas(self, tier: Optional[int] = None) -> list[ToolSchema]:
+    def get_schemas(self, tier: int | None = None) -> list[ToolSchema]:
         """Get schemas for all tools, optionally filtered by tier.
 
         Args:
@@ -146,7 +145,7 @@ class ToolRegistry:
 
 
 # Global registry instance
-_global_registry: Optional[ToolRegistry] = None
+_global_registry: ToolRegistry | None = None
 
 
 def get_registry() -> ToolRegistry:
