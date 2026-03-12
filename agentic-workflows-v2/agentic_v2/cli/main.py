@@ -53,8 +53,7 @@ logger = logging.getLogger(__name__)
 # langchain extras are not installed.  Commands that need LangChain
 # call _get_runner() and catch the error at that point.
 try:
-    from ..langchain import WorkflowRunner
-    from ..langchain import load_workflow_config
+    from ..langchain import WorkflowRunner, load_workflow_config
     from ..langchain.graph import compile_workflow
 
     _LANGCHAIN_AVAILABLE = True

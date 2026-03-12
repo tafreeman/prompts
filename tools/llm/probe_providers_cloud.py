@@ -1,8 +1,8 @@
 """Cloud provider model probing functions.
 
 Probe functions for remote/cloud providers: GitHub Models, OpenAI,
-Google Gemini, Anthropic Claude, Azure Foundry, Azure OpenAI, and
-a shared OpenAI-compatible endpoint helper.
+Google Gemini, Anthropic Claude, Azure Foundry, Azure OpenAI, and a
+shared OpenAI-compatible endpoint helper.
 """
 
 from __future__ import annotations
@@ -69,9 +69,7 @@ def probe_github(model: str, log: LogFn = None) -> ProbeResult:
         )
 
     # Check for authentication (env var OR gh auth)
-    gh_authenticated = bool(
-        os.getenv(ENV_GITHUB_TOKEN) or os.getenv(ENV_GH_TOKEN)
-    )
+    gh_authenticated = bool(os.getenv(ENV_GITHUB_TOKEN) or os.getenv(ENV_GH_TOKEN))
 
     if not gh_authenticated:
         # Check if logged in via gh auth
@@ -112,10 +110,7 @@ def probe_github(model: str, log: LogFn = None) -> ProbeResult:
                         parts = line.split(TAB_SEPARATOR)
                         if parts:
                             full_id = parts[0].strip()
-                            if (
-                                full_id.endswith(f"/{model_id}")
-                                or full_id == model_id
-                            ):
+                            if full_id.endswith(f"/{model_id}") or full_id == model_id:
                                 model_id = full_id
                                 break
         except Exception:
@@ -249,9 +244,7 @@ def probe_azure_openai(model: str, log: LogFn = None) -> ProbeResult:
 
     if not configured:
         # Also check default (non-numbered) env vars
-        if os.getenv(ENV_AZURE_OPENAI_ENDPOINT) and os.getenv(
-            ENV_AZURE_OPENAI_API_KEY
-        ):
+        if os.getenv(ENV_AZURE_OPENAI_ENDPOINT) and os.getenv(ENV_AZURE_OPENAI_API_KEY):
             configured = True
 
     if not configured:
@@ -303,8 +296,8 @@ def probe_openai(model: str, log: LogFn = None) -> ProbeResult:
 def probe_gemini(model: str, log: LogFn = None) -> ProbeResult:
     """Probe a Google Gemini model.
 
-    Checks for GEMINI_API_KEY or GOOGLE_API_KEY, then optionally
-    hits the Gemini models.list endpoint to confirm reachability.
+    Checks for GEMINI_API_KEY or GOOGLE_API_KEY, then optionally hits
+    the Gemini models.list endpoint to confirm reachability.
     """
     start = time.time()
 
@@ -463,7 +456,8 @@ def probe_claude(model: str, log: LogFn = None) -> ProbeResult:
 def probe_openai_compatible_endpoint(
     base_url: str, model: str, provider: str
 ) -> ProbeResult:
-    """Shared probe for any OpenAI-compatible server (LM Studio, LocalAI, etc.).
+    """Shared probe for any OpenAI-compatible server (LM Studio, LocalAI,
+    etc.).
 
     Hits GET /v1/models to list available models.
     """

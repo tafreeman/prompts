@@ -21,7 +21,6 @@ import httpx
 
 from .backends_base import LLMBackend
 
-
 # ---------------------------------------------------------------------------
 # GitHub Models
 # ---------------------------------------------------------------------------
@@ -36,8 +35,7 @@ class GitHubModelsBackend(LLMBackend):
 
     token: str = field(
         default_factory=lambda: (
-            os.environ.get("GITHUB_TOKEN", "")
-            or os.environ.get("GH_TOKEN", "")
+            os.environ.get("GITHUB_TOKEN", "") or os.environ.get("GH_TOKEN", "")
         ),
         repr=False,
     )
@@ -433,8 +431,8 @@ class GeminiBackend(LLMBackend):
 
 
 __all__ = [
-    "GitHubModelsBackend",
-    "OpenAIBackend",
     "AnthropicBackend",
     "GeminiBackend",
+    "GitHubModelsBackend",
+    "OpenAIBackend",
 ]

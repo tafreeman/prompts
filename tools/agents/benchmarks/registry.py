@@ -101,7 +101,7 @@ class BenchmarkConfig:
     @classmethod
     def load(cls, path: Path) -> "BenchmarkConfig":
         """Load configuration from JSON file."""
-        with open(path, "r", encoding="utf-8") as f:
+        with open(path, encoding="utf-8") as f:
             return cls.from_dict(json.load(f))
 
 

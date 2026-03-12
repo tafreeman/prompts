@@ -639,9 +639,7 @@ def validate_dependencies(config: WorkflowConfig, step_names: set[str]) -> None:
     for step in config.steps:
         for dep in step.depends_on:
             if dep not in step_names:
-                raise ValueError(
-                    f"Step '{step.name}' depends on unknown step '{dep}'"
-                )
+                raise ValueError(f"Step '{step.name}' depends on unknown step '{dep}'")
 
 
 def build_outgoing_map(config: WorkflowConfig) -> dict[str, list[StepConfig]]:
@@ -746,7 +744,8 @@ def add_loop_edges(graph: StateGraph, config: WorkflowConfig) -> None:
 
 
 def compile_graph(graph: StateGraph, checkpointer: Any = None) -> Any:
-    """Compile graph with optional checkpointer, with compatibility fallback."""
+    """Compile graph with optional checkpointer, with compatibility
+    fallback."""
     if checkpointer is None:
         return graph.compile()
     try:

@@ -68,9 +68,7 @@ class TestGenerationInput(TaskInput):
     framework: str | None = Field(
         default=None, description="Test framework (pytest, jest, etc.)"
     )
-    mocking_strategy: str | None = Field(
-        default=None, description="Mocking approach"
-    )
+    mocking_strategy: str | None = Field(default=None, description="Mocking approach")
 
     @field_validator("test_types", mode="before")
     @classmethod

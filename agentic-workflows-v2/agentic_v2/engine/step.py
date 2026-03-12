@@ -86,7 +86,8 @@ ConditionFunction = Callable[[ExecutionContext], bool]
 
 @dataclass
 class StepDefinition:
-    """Declarative step definition for workflow DAGs with fluent builder API."""
+    """Declarative step definition for workflow DAGs with fluent builder
+    API."""
 
     name: str
     description: str = ""
@@ -407,11 +408,11 @@ class StepExecutor:
                 await ctx.mark_step_failed(step_def.name, result.error)
                 break
 
-            except asyncio.TimeoutError:
+            except TimeoutError:
                 result.status = StepStatus.FAILED
                 result.error = f"Step timed out after {step_def.timeout_seconds}s"
                 result.error_type = "TimeoutError"
-                last_error = asyncio.TimeoutError(result.error)
+                last_error = TimeoutError(result.error)
 
                 # Timeout typically shouldn't retry
                 await ctx.mark_step_failed(step_def.name, result.error)

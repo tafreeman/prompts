@@ -29,7 +29,6 @@ from agentic_v2.engine.dag import DAG
 from agentic_v2.engine.dag_executor import DAGExecutor
 from agentic_v2.engine.step import StepDefinition, StepExecutor
 
-
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
@@ -136,10 +135,13 @@ class TestNativeEngineCheckpoint:
         """Execute with thread_id writes checkpoint rows for each completed
         step."""
         db_path = tmp_path / "ckpt.db"
-        dag = _make_dag("linear", [
-            _make_step("a"),
-            _make_step("b", depends_on=["a"]),
-        ])
+        dag = _make_dag(
+            "linear",
+            [
+                _make_step("a"),
+                _make_step("b", depends_on=["a"]),
+            ],
+        )
 
         # Mock step executor to return success with output data
         mock_step_exec = MagicMock(spec=StepExecutor)
@@ -166,7 +168,8 @@ class TestNativeEngineCheckpoint:
         assert rows["b"]["status"] == "success"
 
     async def test_execute_without_thread_id_skips_checkpoint(
-        self, tmp_path: Path,
+        self,
+        tmp_path: Path,
     ) -> None:
         """Execute without thread_id does not create any checkpoint rows."""
         db_path = tmp_path / "ckpt.db"
@@ -193,11 +196,14 @@ class TestNativeEngineCheckpoint:
         returns SKIPPED instead of executing the step function.
         """
         db_path = tmp_path / "ckpt.db"
-        dag = _make_dag("chain", [
-            _make_step("a"),
-            _make_step("b", depends_on=["a"]),
-            _make_step("c", depends_on=["b"]),
-        ])
+        dag = _make_dag(
+            "chain",
+            [
+                _make_step("a"),
+                _make_step("b", depends_on=["a"]),
+                _make_step("c", depends_on=["b"]),
+            ],
+        )
 
         # Pre-populate checkpoints: step_a succeeded
         store = CheckpointStore(db_path)
@@ -266,14 +272,18 @@ class TestNativeEngineCheckpoint:
         assert state is None
 
     async def test_resume_unknown_thread_runs_from_scratch(
-        self, tmp_path: Path,
+        self,
+        tmp_path: Path,
     ) -> None:
         """Resume with an unknown thread_id runs the full workflow."""
         db_path = tmp_path / "ckpt.db"
-        dag = _make_dag("full", [
-            _make_step("a"),
-            _make_step("b", depends_on=["a"]),
-        ])
+        dag = _make_dag(
+            "full",
+            [
+                _make_step("a"),
+                _make_step("b", depends_on=["a"]),
+            ],
+        )
 
         executed_steps: list[str] = []
 
@@ -294,14 +304,15 @@ class TestNativeEngineCheckpoint:
         assert "b" in executed_steps
 
     async def test_concurrent_threads_no_cross_contamination(
-        self, tmp_path: Path,
+        self,
+        tmp_path: Path,
     ) -> None:
         """Concurrent executions with different thread_ids write isolated
         checkpoint rows to the same SQLite database.
 
-        Each NativeEngine gets its own DAGExecutor to avoid the
-        shared-state-manager race that occurs when two DAG runs share
-        one executor instance.
+        Each NativeEngine gets its own DAGExecutor to avoid the shared-
+        state-manager race that occurs when two DAG runs share one
+        executor instance.
         """
         db_path = tmp_path / "ckpt.db"
 
@@ -365,7 +376,8 @@ class TestProtocolConformance:
     """Verify NativeEngine satisfies SupportsCheckpointing."""
 
     def test_supports_checkpointing_protocol(self, tmp_path: Path) -> None:
-        """NativeEngine with checkpoint store satisfies SupportsCheckpointing."""
+        """NativeEngine with checkpoint store satisfies
+        SupportsCheckpointing."""
         engine = NativeEngine(checkpoint_db_path=tmp_path / "ckpt.db")
         assert isinstance(engine, SupportsCheckpointing)
 

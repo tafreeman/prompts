@@ -158,6 +158,7 @@ def check_local_openai(host: str) -> dict[str, Any]:
 
 
 def main(argv: list[str] | None = None) -> int:
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
     p = argparse.ArgumentParser()
     p.add_argument(
         "--probe-file", default="filename.json", help="Model probe JSON file"
@@ -166,7 +167,7 @@ def main(argv: list[str] | None = None) -> int:
     args = p.parse_args(argv)
 
     try:
-        with open(args.probe_file, "r", encoding="utf-8") as f:
+        with open(args.probe_file, encoding="utf-8") as f:
             probe = json.load(f)
     except Exception as e:
         logger.error(f"Failed to load probe file: {e}")

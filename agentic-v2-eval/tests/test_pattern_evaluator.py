@@ -5,7 +5,6 @@ from __future__ import annotations
 from unittest.mock import MagicMock
 
 import pytest
-
 from agentic_v2_eval.evaluators.pattern import (
     PATTERN_PHASES,
     PATTERN_SCORE_FIELDS,

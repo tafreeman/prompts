@@ -76,9 +76,7 @@ class CodeAnalysisTool(BaseTool):
             try:
                 tree = ast.parse(code)
             except SyntaxError as e:
-                return ToolResult(
-                    success=False, error=f"Syntax error in code: {str(e)}"
-                )
+                return ToolResult(success=False, error=f"Syntax error in code: {e!s}")
 
             # Compute metrics
             metrics = metrics or ["all"]
@@ -153,9 +151,7 @@ class CodeAnalysisTool(BaseTool):
                             ast.Assert,
                             ast.BoolOp,
                         ),
-                    ):
-                        complexity_nodes += 1
-                    elif isinstance(node, ast.Lambda):
+                    ) or isinstance(node, ast.Lambda):
                         complexity_nodes += 1
 
                 result_data["complexity"] = {
@@ -173,7 +169,7 @@ class CodeAnalysisTool(BaseTool):
             )
 
         except Exception as e:
-            return ToolResult(success=False, error=f"Failed to analyze code: {str(e)}")
+            return ToolResult(success=False, error=f"Failed to analyze code: {e!s}")
 
 
 class AstDumpTool(BaseTool):
@@ -221,6 +217,6 @@ class AstDumpTool(BaseTool):
                 },
             )
         except SyntaxError as e:
-            return ToolResult(success=False, error=f"Syntax error: {str(e)}")
+            return ToolResult(success=False, error=f"Syntax error: {e!s}")
         except Exception as e:
-            return ToolResult(success=False, error=f"Failed to dump AST: {str(e)}")
+            return ToolResult(success=False, error=f"Failed to dump AST: {e!s}")

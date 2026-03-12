@@ -130,9 +130,7 @@ class BM25Index:
             )
         return results
 
-    def _score_document(
-        self, query_tokens: list[str], doc_idx: int
-    ) -> float:
+    def _score_document(self, query_tokens: list[str], doc_idx: int) -> float:
         """Compute BM25 score for a single document against query tokens."""
         score = 0.0
         doc_len = self._doc_lengths[doc_idx]
@@ -146,14 +144,11 @@ class BM25Index:
             df = self._doc_freqs.get(token, 0)
 
             # IDF component: log((N - df + 0.5) / (df + 0.5) + 1)
-            idf = math.log(
-                (self._n_docs - df + 0.5) / (df + 0.5) + 1.0
-            )
+            idf = math.log((self._n_docs - df + 0.5) / (df + 0.5) + 1.0)
 
             # TF component with length normalization
-            tf_norm = (
-                (tf * (self._k1 + 1.0))
-                / (tf + self._k1 * (1.0 - self._b + self._b * doc_len / self._avg_dl))
+            tf_norm = (tf * (self._k1 + 1.0)) / (
+                tf + self._k1 * (1.0 - self._b + self._b * doc_len / self._avg_dl)
             )
 
             score += idf * tf_norm
@@ -260,12 +255,11 @@ class HybridRetriever:
             chunks: Chunks to index for BM25 keyword matching.
         """
         self._bm25.add(chunks)
-        logger.info("Added %d chunks to BM25 index (total: %d)",
-                     len(chunks), self._bm25._n_docs)
+        logger.info(
+            "Added %d chunks to BM25 index (total: %d)", len(chunks), self._bm25._n_docs
+        )
 
-    async def retrieve(
-        self, query: str, *, top_k: int = 5
-    ) -> list[RetrievalResult]:
+    async def retrieve(self, query: str, *, top_k: int = 5) -> list[RetrievalResult]:
         """Hybrid retrieval: dense + BM25 merged via Reciprocal Rank Fusion.
 
         Args:
@@ -289,9 +283,7 @@ class HybridRetriever:
 
         return results
 
-    async def dense_only(
-        self, query: str, *, top_k: int = 5
-    ) -> list[RetrievalResult]:
+    async def dense_only(self, query: str, *, top_k: int = 5) -> list[RetrievalResult]:
         """Dense-only retrieval for comparison or fallback.
 
         Embeds the query and searches the vector store for nearest neighbors.
@@ -304,9 +296,7 @@ class HybridRetriever:
             Ranked retrieval results from dense vector search only.
         """
         query_embedding = await self._embedder.embed([query])
-        return await self._vectorstore.search(
-            query_embedding[0], top_k=top_k
-        )
+        return await self._vectorstore.search(query_embedding[0], top_k=top_k)
 
 
 # ---------------------------------------------------------------------------

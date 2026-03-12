@@ -18,27 +18,6 @@ Exports:
 - **Errors**: Core exception hierarchy.
 """
 
-from .errors import (
-    AdapterError,
-    AdapterNotFoundError,
-    AgenticError,
-    ConfigurationError,
-    MemoryStoreError,
-    StepError,
-    ToolError,
-    SchemaValidationError,
-    WorkflowError,
-)
-from .memory import InMemoryStore, MemoryStoreProtocol
-from .protocols import (
-    AgentProtocol,
-    ExecutionEngine,
-    MemoryStore,
-    SupportsCheckpointing,
-    SupportsStreaming,
-    ToolProtocol,
-)
-
 # Re-export contracts (canonical types used across all engines)
 from ..contracts import (
     StepResult,
@@ -60,6 +39,26 @@ from ..engine.context import (
 
 # Re-export DAG (used by native engine and orchestrator)
 from ..engine.dag import DAG, CycleDetectedError, MissingDependencyError
+from .errors import (
+    AdapterError,
+    AdapterNotFoundError,
+    AgenticError,
+    ConfigurationError,
+    MemoryStoreError,
+    SchemaValidationError,
+    StepError,
+    ToolError,
+    WorkflowError,
+)
+from .memory import InMemoryStore, MemoryStoreProtocol
+from .protocols import (
+    AgentProtocol,
+    ExecutionEngine,
+    MemoryStore,
+    SupportsCheckpointing,
+    SupportsStreaming,
+    ToolProtocol,
+)
 
 __all__ = [
     # Protocols

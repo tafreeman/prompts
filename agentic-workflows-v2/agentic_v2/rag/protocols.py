@@ -83,9 +83,7 @@ class EmbeddingProtocol(Protocol):
 class VectorStoreProtocol(Protocol):
     """Interface for vector store backends."""
 
-    async def add(
-        self, chunks: list[Chunk], embeddings: list[list[float]]
-    ) -> None:
+    async def add(self, chunks: list[Chunk], embeddings: list[list[float]]) -> None:
         """Add chunks with their embeddings to the store."""
         ...
 

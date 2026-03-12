@@ -24,6 +24,7 @@ _DEFAULT_OUTPUT_FILE = str(_REPO_ROOT / "runs" / "model_ranking.json")
 
 
 def main(argv: list[str] | None = None) -> int:
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
     p = argparse.ArgumentParser(description="Rank models from probe and limits data")
     p.add_argument(
         "--probe-file", default=_DEFAULT_PROBE_FILE, help="Model probe JSON file"
@@ -41,14 +42,14 @@ def main(argv: list[str] | None = None) -> int:
     OUTPUT_FILE = args.out
     # Load data
     try:
-        with open(PROBE_FILE, "r", encoding="utf-8") as f:
+        with open(PROBE_FILE, encoding="utf-8") as f:
             probe = json.load(f)
     except Exception as e:
         logger.error(f"Error loading {PROBE_FILE}: {e}")
         return 2
 
     try:
-        with open(LIMITS_FILE, "r", encoding="utf-8") as f:
+        with open(LIMITS_FILE, encoding="utf-8") as f:
             limits = json.load(f)
     except Exception as e:
         logger.warning(f"Could not load {LIMITS_FILE}: {e}")

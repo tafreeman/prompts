@@ -332,7 +332,7 @@ def web_search(
 
                     parsed = urlparse(href)
                     qs = parse_qs(parsed.query)
-                    if "uddg" in qs and qs["uddg"]:
+                    if qs.get("uddg"):
                         url = unquote(qs["uddg"][0])
                 except Exception:
                     pass

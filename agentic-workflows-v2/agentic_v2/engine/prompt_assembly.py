@@ -1,4 +1,5 @@
-"""Prompt assembly — system prompt loading, context formatting, and tool descriptions.
+"""Prompt assembly — system prompt loading, context formatting, and tool
+descriptions.
 
 Responsible for constructing the full prompt fed to each LLM-backed step:
 
@@ -131,7 +132,8 @@ def build_context_block(all_vars: dict[str, Any]) -> str:
 
 
 def format_tool_descriptions(tool_names: list[str]) -> str:
-    """Return a comma-separated list of sorted tool names for prompt embedding."""
+    """Return a comma-separated list of sorted tool names for prompt
+    embedding."""
     return ", ".join(sorted(tool_names))
 
 

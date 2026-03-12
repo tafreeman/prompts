@@ -70,8 +70,8 @@ class ConditionalBranch:
     name: str
     condition: Callable[[ExecutionContext], bool]
     then_steps: list[StepDefinition | "ParallelGroup" | "ConditionalBranch"]
-    else_steps: list[StepDefinition | "ParallelGroup" | "ConditionalBranch"] = (
-        field(default_factory=list)
+    else_steps: list[StepDefinition | "ParallelGroup" | "ConditionalBranch"] = field(
+        default_factory=list
     )
 
 

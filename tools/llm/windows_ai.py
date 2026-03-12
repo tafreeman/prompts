@@ -101,7 +101,7 @@ class WindowsAIModel:
             return response
 
         except Exception as e:
-            return f"[ERROR] Windows AI API error: {str(e)}"
+            return f"[ERROR] Windows AI API error: {e!s}"
 
     def _call_phi_silica(
         self, prompt: str, temperature: float = 0.7, max_tokens: int = 2000

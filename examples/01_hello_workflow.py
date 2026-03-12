@@ -19,6 +19,8 @@ import logging
 import sys
 from typing import Any
 
+from agentic_v2.contracts import WorkflowResult
+
 # ---- Imports from the agentic-workflows-v2 package -----------------------
 from agentic_v2.engine import (
     ExecutionContext,
@@ -27,7 +29,6 @@ from agentic_v2.engine import (
     PipelineExecutor,
     StepDefinition,
 )
-from agentic_v2.contracts import WorkflowResult
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s | %(message)s")
 logger = logging.getLogger(__name__)
@@ -85,10 +86,7 @@ async def main() -> None:
     # 2. Build the pipeline ----------------------------------------------------
     # PipelineBuilder uses .step() for fluent construction.
     pipeline: Pipeline = (
-        PipelineBuilder("hello_workflow")
-        .step(step_greet)
-        .step(step_shout)
-        .build()
+        PipelineBuilder("hello_workflow").step(step_greet).step(step_shout).build()
     )
 
     # 3. Create a shared execution context with initial data -------------------

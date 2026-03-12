@@ -29,7 +29,6 @@ from ..workflows.loader import (
     WorkflowInput,
 )
 
-
 # ---------------------------------------------------------------------------
 # Text / value helpers
 # ---------------------------------------------------------------------------
@@ -536,9 +535,7 @@ def adapt_sample_to_workflow_inputs(
                     "database": "postgresql",
                 }
             else:
-                if definition.enum:
-                    pass
-                elif definition.default not in (None, ""):
+                if definition.enum or definition.default not in (None, ""):
                     pass
                 else:
                     value = generic_text

@@ -150,7 +150,7 @@ class SearchTool(BaseTool):
             )
 
         except Exception as e:
-            return ToolResult(success=False, error=f"Search failed: {str(e)}")
+            return ToolResult(success=False, error=f"Search failed: {e!s}")
 
     def _regex_search(self, pattern: str, content: str, file_path: Path) -> list[dict]:
         """Perform regex search."""

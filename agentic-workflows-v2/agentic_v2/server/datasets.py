@@ -40,7 +40,7 @@ from ..workflows.loader import (
 )
 
 # Re-export matching/adaptation functions for backward compatibility
-from .dataset_matching import (  # noqa: F401
+from .dataset_matching import (
     _dataset_value_for_input,
     _extract_message_text,
     _is_empty_value,

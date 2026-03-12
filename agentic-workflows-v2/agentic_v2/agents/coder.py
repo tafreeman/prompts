@@ -205,9 +205,7 @@ This is a placeholder implementation."""}
                 "tool_calls": None,
             }
 
-    def _extract_code_blocks(
-        self, text: str, language: str | None = None
-    ) -> list[str]:
+    def _extract_code_blocks(self, text: str, language: str | None = None) -> list[str]:
         """Extract code blocks from markdown."""
         # Pattern for ```language\ncode\n```
         if language:

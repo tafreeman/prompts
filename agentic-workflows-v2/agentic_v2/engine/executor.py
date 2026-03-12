@@ -254,7 +254,7 @@ class WorkflowExecutor:
             else:
                 result = await self._execute_workflow(workflow, ctx, result)
 
-        except (asyncio.TimeoutError, TimeoutError):
+        except TimeoutError:
             result.overall_status = StepStatus.FAILED
             result.metadata["error"] = (
                 f"Global timeout after {self.config.global_timeout_seconds}s"

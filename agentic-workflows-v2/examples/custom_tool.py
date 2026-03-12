@@ -77,9 +77,7 @@ class WordCountTool(BaseTool):
                 "line_count": len(lines),
                 "char_count": len(text),
                 "avg_word_length": (
-                    round(sum(len(w) for w in words) / len(words), 1)
-                    if words
-                    else 0.0
+                    round(sum(len(w) for w in words) / len(words), 1) if words else 0.0
                 ),
             },
         )
@@ -91,9 +89,7 @@ async def main() -> None:
     tool = WordCountTool()
 
     # ── Protocol check ────────────────────────────────────────
-    assert isinstance(tool, ToolProtocol), (
-        "WordCountTool must satisfy ToolProtocol"
-    )
+    assert isinstance(tool, ToolProtocol), "WordCountTool must satisfy ToolProtocol"
     logger.info("WordCountTool satisfies ToolProtocol: True")
 
     # ── Register with ToolRegistry ────────────────────────────
@@ -128,7 +124,9 @@ async def main() -> None:
 
     # ── Error handling ────────────────────────────────────────
     bad_result = await tool(text=42)  # type: ignore[arg-type]
-    logger.info("Bad input result: success=%s, error=%s", bad_result.success, bad_result.error)
+    logger.info(
+        "Bad input result: success=%s, error=%s", bad_result.success, bad_result.error
+    )
 
 
 if __name__ == "__main__":

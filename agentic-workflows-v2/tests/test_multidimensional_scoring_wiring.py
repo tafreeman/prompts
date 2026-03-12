@@ -1,4 +1,5 @@
-"""Tests for Sprint 9 Task 9.2: Wiring multidimensional scoring through CI calculator.
+"""Tests for Sprint 9 Task 9.2: Wiring multidimensional scoring through CI
+calculator.
 
 Verifies that ``compute_ci_tiebreaker`` in ``server/multidimensional_scoring.py``
 still works correctly after delegation to the centralized ``ci_calculator.compute_ci``.
@@ -7,7 +8,6 @@ still works correctly after delegation to the centralized ``ci_calculator.comput
 from __future__ import annotations
 
 import pytest
-
 from agentic_v2.server.multidimensional_scoring import (
     RESEARCH_DIMENSIONS,
     compute_ci_tiebreaker,
@@ -15,6 +15,8 @@ from agentic_v2.server.multidimensional_scoring import (
 )
 from agentic_v2.workflows.lib.ci_calculator import (
     RESEARCH_DIMENSIONS as LIB_RESEARCH_DIMENSIONS,
+)
+from agentic_v2.workflows.lib.ci_calculator import (
     compute_ci,
 )
 

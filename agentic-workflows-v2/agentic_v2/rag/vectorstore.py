@@ -48,9 +48,7 @@ class InMemoryVectorStore:
         self._entries: dict[str, _StoredEntry] = {}
         self._expected_dimensions: int | None = None
 
-    async def add(
-        self, chunks: list[Chunk], embeddings: list[list[float]]
-    ) -> None:
+    async def add(self, chunks: list[Chunk], embeddings: list[list[float]]) -> None:
         """Add chunks with their embeddings to the store.
 
         Args:
@@ -68,7 +66,10 @@ class InMemoryVectorStore:
         for chunk, embedding in zip(chunks, embeddings):
             if self._expected_dimensions is None and embedding:
                 self._expected_dimensions = len(embedding)
-            if self._expected_dimensions is not None and len(embedding) != self._expected_dimensions:
+            if (
+                self._expected_dimensions is not None
+                and len(embedding) != self._expected_dimensions
+            ):
                 raise ValueError(
                     f"Embedding dimension mismatch: expected "
                     f"{self._expected_dimensions}, got {len(embedding)} "
@@ -152,7 +153,9 @@ class InMemoryVectorStore:
         for chunk_id in to_remove:
             del self._entries[chunk_id]
         logger.info(
-            "Deleted %d chunks for document_id=%s", len(to_remove), document_id,
+            "Deleted %d chunks for document_id=%s",
+            len(to_remove),
+            document_id,
         )
         return True
 
@@ -167,9 +170,7 @@ def _cosine_similarity(vec_a: Sequence[float], vec_b: Sequence[float]) -> float:
         ValueError: If vectors have different dimensions.
     """
     if len(vec_a) != len(vec_b):
-        raise ValueError(
-            f"Vector dimension mismatch: {len(vec_a)} vs {len(vec_b)}"
-        )
+        raise ValueError(f"Vector dimension mismatch: {len(vec_a)} vs {len(vec_b)}")
     dot = sum(a * b for a, b in zip(vec_a, vec_b))
     norm_a = math.sqrt(sum(a * a for a in vec_a))
     norm_b = math.sqrt(sum(b * b for b in vec_b))
@@ -178,13 +179,11 @@ def _cosine_similarity(vec_a: Sequence[float], vec_b: Sequence[float]) -> float:
     return dot / (norm_a * norm_b)
 
 
-def _matches_filter(
-    metadata: dict[str, Any], filter_dict: dict[str, Any]
-) -> bool:
+def _matches_filter(metadata: dict[str, Any], filter_dict: dict[str, Any]) -> bool:
     """Check if metadata contains all key-value pairs from filter_dict.
 
-    Supports exact value matching.  A missing key in metadata means
-    the filter is not satisfied.
+    Supports exact value matching.  A missing key in metadata means the
+    filter is not satisfied.
     """
     for key, value in filter_dict.items():
         if key not in metadata or metadata[key] != value:
@@ -319,7 +318,7 @@ if _LANCEDB_AVAILABLE:
             await asyncio.to_thread(_write)
             logger.info("Added %d chunks to LanceDB table.", len(records))
 
-        async def search(  # noqa: S1172
+        async def search(
             self,
             query_embedding: list[float],
             top_k: int = 5,

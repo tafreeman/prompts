@@ -61,7 +61,7 @@ class JsonTransformTool(BaseTool):
             result = jmespath.search(query, data)
             return ToolResult(success=True, data=result, metadata={"query": query})
         except Exception as e:
-            return ToolResult(success=False, error=f"JMESPath query failed: {str(e)}")
+            return ToolResult(success=False, error=f"JMESPath query failed: {e!s}")
 
 
 class TemplateRenderTool(BaseTool):
@@ -118,9 +118,7 @@ class TemplateRenderTool(BaseTool):
                 },
             )
         except Exception as e:
-            return ToolResult(
-                success=False, error=f"Template rendering failed: {str(e)}"
-            )
+            return ToolResult(success=False, error=f"Template rendering failed: {e!s}")
 
 
 class ConfigMergeTool(BaseTool):
@@ -196,7 +194,7 @@ class ConfigMergeTool(BaseTool):
                 success=True, data=result, metadata={"num_configs": len(configs)}
             )
         except Exception as e:
-            return ToolResult(success=False, error=f"Config merge failed: {str(e)}")
+            return ToolResult(success=False, error=f"Config merge failed: {e!s}")
 
 
 class YamlLoadTool(BaseTool):
@@ -235,7 +233,7 @@ class YamlLoadTool(BaseTool):
                 success=True, data=data, metadata={"input_length": len(yaml_string)}
             )
         except yaml.YAMLError as e:
-            return ToolResult(success=False, error=f"YAML parsing failed: {str(e)}")
+            return ToolResult(success=False, error=f"YAML parsing failed: {e!s}")
 
 
 class YamlDumpTool(BaseTool):
@@ -283,7 +281,7 @@ class YamlDumpTool(BaseTool):
                 metadata={"output_length": len(yaml_string)},
             )
         except Exception as e:
-            return ToolResult(success=False, error=f"YAML dumping failed: {str(e)}")
+            return ToolResult(success=False, error=f"YAML dumping failed: {e!s}")
 
 
 class JsonLoadTool(BaseTool):
@@ -322,7 +320,7 @@ class JsonLoadTool(BaseTool):
                 success=True, data=data, metadata={"input_length": len(json_string)}
             )
         except json.JSONDecodeError as e:
-            return ToolResult(success=False, error=f"JSON parsing failed: {str(e)}")
+            return ToolResult(success=False, error=f"JSON parsing failed: {e!s}")
 
 
 class JsonDumpTool(BaseTool):
@@ -370,4 +368,4 @@ class JsonDumpTool(BaseTool):
                 metadata={"output_length": len(json_string)},
             )
         except Exception as e:
-            return ToolResult(success=False, error=f"JSON dumping failed: {str(e)}")
+            return ToolResult(success=False, error=f"JSON dumping failed: {e!s}")

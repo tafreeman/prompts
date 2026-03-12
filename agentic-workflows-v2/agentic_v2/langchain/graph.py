@@ -26,16 +26,9 @@ except ImportError as _lg_err:  # pragma: no cover
     ) from _lg_err
 
 from ..integrations.base import TraceAdapter
-from .agents import create_agent  # noqa: F401 — in globals for monkeypatch
+from .agents import create_agent
 from .config import StepConfig, WorkflowConfig
-from .models import get_model_candidates_for_tier  # noqa: F401 — in globals for monkeypatch
-from .state import WorkflowState
-
-# ---------------------------------------------------------------------------
-# Re-export all public helpers from graph_wiring
-# ---------------------------------------------------------------------------
-
-from .graph_wiring import (  # noqa: E402
+from .graph_wiring import (
     add_fan_out_edges,
     add_loop_edge,
     add_loop_edges,
@@ -59,6 +52,15 @@ from .graph_wiring import (  # noqa: E402
     wire_dependency_edges,
     wrap_with_skip_check,
 )
+from .models import (
+    get_model_candidates_for_tier,
+)
+from .state import WorkflowState
+
+# ---------------------------------------------------------------------------
+# Re-export all public helpers from graph_wiring
+# ---------------------------------------------------------------------------
+
 
 logger = logging.getLogger(__name__)
 

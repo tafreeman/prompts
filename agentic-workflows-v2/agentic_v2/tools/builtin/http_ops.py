@@ -141,12 +141,12 @@ class HttpTool(BaseTool):
         except aiohttp.ClientError as e:
             return ToolResult(
                 success=False,
-                error=f"HTTP request failed: {str(e)}",
+                error=f"HTTP request failed: {e!s}",
                 metadata={"url": url, "method": method},
             )
         except Exception as e:
             return ToolResult(
-                success=False, error=f"Failed to execute HTTP request: {str(e)}"
+                success=False, error=f"Failed to execute HTTP request: {e!s}"
             )
 
 

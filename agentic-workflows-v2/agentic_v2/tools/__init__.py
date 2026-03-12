@@ -7,9 +7,9 @@ from .registry import ToolRegistry, get_registry, reset_registry
 
 __all__ = [
     "BaseTool",
+    "ToolRegistry",
     "ToolResult",
     "ToolSchema",
-    "ToolRegistry",
     "get_registry",
     "reset_registry",
 ]

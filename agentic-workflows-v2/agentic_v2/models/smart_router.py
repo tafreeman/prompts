@@ -422,7 +422,7 @@ class SmartModelRouter(ModelRouter):
 
         # ADR-002A: Skip if provider is at bulkhead capacity
         semaphore = self._get_semaphore(model)
-        if semaphore._value <= 0:  # noqa: SLF001
+        if semaphore._value <= 0:
             return False
 
         return True

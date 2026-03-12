@@ -77,7 +77,9 @@ def demo_inline_rubric() -> None:
     print(f"  Rubric: {scorer.name} v{scorer.version}")
     print(f"  Criteria: {len(scorer.criteria)}")
     for c in scorer.criteria:
-        print(f"    - {c.name} (weight={c.weight}, range=[{c.min_value}, {c.max_value}])")
+        print(
+            f"    - {c.name} (weight={c.weight}, range=[{c.min_value}, {c.max_value}])"
+        )
 
     # Simulate evaluation metrics from a workflow run
     metrics = {
@@ -92,10 +94,10 @@ def demo_inline_rubric() -> None:
     # Score the metrics
     result: ScoringResult = scorer.score(metrics)
 
-    print(f"\n  Results:")
+    print("\n  Results:")
     print(f"    Weighted score: {result.weighted_score:.3f}")
     print(f"    Total score   : {result.total_score:.3f}")
-    print(f"    Per-criterion :")
+    print("    Per-criterion :")
     for name, value in result.criterion_scores.items():
         print(f"      {name}: {value:.2f}")
     if result.missing_criteria:
@@ -148,7 +150,7 @@ def demo_built_in_rubrics() -> None:
     # Load and inspect the default rubric
     if "default" in available:
         default_rubric = load_rubric("default")
-        print(f"\n  Default rubric:")
+        print("\n  Default rubric:")
         print(f"    Name: {default_rubric.get('name', 'N/A')}")
         criteria = default_rubric.get("criteria", [])
         print(f"    Criteria count: {len(criteria)}")
@@ -158,7 +160,7 @@ def demo_built_in_rubrics() -> None:
     # Load and inspect the code rubric if available
     if "code" in available:
         code_rubric = load_rubric("code")
-        print(f"\n  Code rubric:")
+        print("\n  Code rubric:")
         print(f"    Name: {code_rubric.get('name', 'N/A')}")
         criteria = code_rubric.get("criteria", [])
         print(f"    Criteria count: {len(criteria)}")
@@ -198,7 +200,7 @@ def demo_scoring_comparison() -> None:
 
     winner = "A" if result_a.weighted_score > result_b.weighted_score else "B"
     print(f"\n  Winner: Run {winner}")
-    print(f"  (Because Accuracy has weight=2.0, it dominates the score)")
+    print("  (Because Accuracy has weight=2.0, it dominates the score)")
 
 
 def main() -> None:

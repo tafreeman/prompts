@@ -11,7 +11,6 @@ Verifies:
 from __future__ import annotations
 
 import pytest
-
 from agentic_v2.core.protocols import (
     AgentProtocol,
     ExecutionEngine,
@@ -20,7 +19,6 @@ from agentic_v2.core.protocols import (
     SupportsStreaming,
     ToolProtocol,
 )
-
 
 # ── ExecutionEngine Protocol ──────────────────────────────────────────
 
@@ -64,20 +62,20 @@ class TestBackwardCompatShim:
     """Verify engine/protocol.py re-exports from core/protocols.py."""
 
     def test_import_from_engine_protocol(self):
-        from agentic_v2.engine.protocol import ExecutionEngine as EngineEE
         from agentic_v2.core.protocols import ExecutionEngine as CoreEE
+        from agentic_v2.engine.protocol import ExecutionEngine as EngineEE
 
         assert EngineEE is CoreEE
 
     def test_import_from_engine_protocol_streaming(self):
-        from agentic_v2.engine.protocol import SupportsStreaming as EngineSS
         from agentic_v2.core.protocols import SupportsStreaming as CoreSS
+        from agentic_v2.engine.protocol import SupportsStreaming as EngineSS
 
         assert EngineSS is CoreSS
 
     def test_import_from_engine_protocol_checkpointing(self):
-        from agentic_v2.engine.protocol import SupportsCheckpointing as EngineCP
         from agentic_v2.core.protocols import SupportsCheckpointing as CoreCP
+        from agentic_v2.engine.protocol import SupportsCheckpointing as EngineCP
 
         assert EngineCP is CoreCP
 
@@ -227,28 +225,28 @@ class TestCoreModuleExports:
 
     def test_protocols_available(self):
         from agentic_v2.core import (
-            ExecutionEngine,
-            SupportsStreaming,
-            SupportsCheckpointing,
             AgentProtocol,
-            ToolProtocol,
+            ExecutionEngine,
             MemoryStore,
+            SupportsCheckpointing,
+            SupportsStreaming,
+            ToolProtocol,
         )
 
     def test_contracts_available(self):
         from agentic_v2.core import (
             StepResult,
             StepStatus,
-            WorkflowResult,
             TaskInput,
             TaskOutput,
+            WorkflowResult,
         )
 
     def test_context_available(self):
         from agentic_v2.core import (
+            EventType,
             ExecutionContext,
             ServiceContainer,
-            EventType,
         )
 
     def test_dag_available(self):
@@ -256,10 +254,10 @@ class TestCoreModuleExports:
 
     def test_errors_available(self):
         from agentic_v2.core import (
-            AgenticError,
-            WorkflowError,
-            StepError,
-            SchemaValidationError,
             AdapterError,
             AdapterNotFoundError,
+            AgenticError,
+            SchemaValidationError,
+            StepError,
+            WorkflowError,
         )

@@ -157,7 +157,7 @@ def load_from_cache(benchmark_id: str, task_id: str | None = None) -> Any | None
         return None
 
     try:
-        with open(cache_path, "r", encoding="utf-8") as f:
+        with open(cache_path, encoding="utf-8") as f:
             cached = json.load(f)
             return cached.get("data")
     except (json.JSONDecodeError, KeyError):
@@ -244,7 +244,7 @@ def _transform_huggingface_item(
             hints=item.get("hints_text", ""),
             golden_patch=item.get("patch", ""),
             test_cases=[{"test_patch": item.get("test_patch", "")}],
-            difficulty=item.get("difficulty", None),
+            difficulty=item.get("difficulty"),
             language="python",
         )
 
@@ -396,7 +396,7 @@ def _load_from_local(
     tasks = []
     for file_path in task_files:
         try:
-            with open(file_path, "r", encoding="utf-8") as f:
+            with open(file_path, encoding="utf-8") as f:
                 task_data = json.load(f)
 
             task = BenchmarkTask(
@@ -546,7 +546,7 @@ def clear_cache(benchmark_id: str | None = None) -> int:
         if benchmark_id:
             # Only delete if matches benchmark
             try:
-                with open(cache_file, "r") as f:
+                with open(cache_file) as f:
                     data = json.load(f)
                     if data.get("benchmark_id") != benchmark_id:
                         continue

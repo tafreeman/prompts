@@ -154,10 +154,10 @@ def is_permanent(code: ErrorCode) -> bool:
 
 
 __all__ = [
+    "PERMANENT_ERRORS",
+    "TRANSIENT_ERRORS",
     "ErrorCode",
     "classify_error",
-    "is_retryable",
     "is_permanent",
-    "TRANSIENT_ERRORS",
-    "PERMANENT_ERRORS",
+    "is_retryable",
 ]

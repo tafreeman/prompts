@@ -7,7 +7,6 @@ sentence → word → character).
 
 from __future__ import annotations
 
-
 from .config import ChunkingConfig
 from .contracts import Chunk, Document
 
@@ -107,7 +106,11 @@ class RecursiveChunker:
                 segment = separator.join(current)
                 if len(segment) > chunk_size:
                     # Segment still too large — recurse with finer separators
-                    next_seps = separators[separators.index(separator) + 1:] if separator in separators else [""]
+                    next_seps = (
+                        separators[separators.index(separator) + 1 :]
+                        if separator in separators
+                        else [""]
+                    )
                     results.extend(
                         self._recursive_split(segment, next_seps, chunk_size, overlap)
                     )
@@ -125,7 +128,9 @@ class RecursiveChunker:
                             break
                         overlap_parts.insert(0, p)
                     current = overlap_parts
-                    current_len = sum(len(p) for p in current) + len(separator) * max(0, len(current) - 1)
+                    current_len = sum(len(p) for p in current) + len(separator) * max(
+                        0, len(current) - 1
+                    )
                 else:
                     current = []
                     current_len = 0
@@ -140,9 +145,7 @@ class RecursiveChunker:
 
         return [r for r in results if r.strip()]
 
-    def _hard_split(
-        self, text: str, chunk_size: int, overlap: int
-    ) -> list[str]:
+    def _hard_split(self, text: str, chunk_size: int, overlap: int) -> list[str]:
         """Split text by character count as a last resort."""
         results: list[str] = []
         start = 0

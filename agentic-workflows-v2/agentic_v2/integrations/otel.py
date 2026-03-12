@@ -20,9 +20,6 @@ from typing import TYPE_CHECKING, Any
 from .base import TraceAdapter
 from .tracing import NullTraceAdapter
 
-if TYPE_CHECKING:
-    pass
-
 logger = logging.getLogger(__name__)
 
 # Default AI Toolkit OTLP endpoint (gRPC)

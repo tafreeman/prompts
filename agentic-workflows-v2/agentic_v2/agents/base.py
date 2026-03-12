@@ -185,9 +185,7 @@ class BaseAgent(ABC, Generic[TInput, TOutput]):
     # Execution
     # -------------------------------------------------------------------------
 
-    async def run(
-        self, task: TInput, ctx: ExecutionContext | None = None
-    ) -> TOutput:
+    async def run(self, task: TInput, ctx: ExecutionContext | None = None) -> TOutput:
         """Run the agent on a task.
 
         Args:
