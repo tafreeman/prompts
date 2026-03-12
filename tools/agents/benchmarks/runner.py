@@ -17,12 +17,14 @@ Usage:
     python -m tools.agents.benchmarks.runner --preset quick-test
 """
 
+from __future__ import annotations
+
 import argparse
 import json
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 # Add parent directory to path for imports
 if __name__ == "__main__":
@@ -67,7 +69,7 @@ from tools.agents.benchmarks.workflow_pipeline import (
 # extract_workflow_data, save_workflow_phases_md  →  workflow_pipeline.py
 
 
-def run_benchmark(config: BenchmarkConfig) -> Dict[str, Any]:
+def run_benchmark(config: BenchmarkConfig) -> dict[str, Any]:
     """Execute benchmark with given configuration.
 
     Returns results dictionary.

@@ -438,7 +438,7 @@ Addresses: RC5 (CI checks coverage % not quality).
 ---
 
 ## 8. Immediate Remediation Plan
-
+ 
 ### Phase 0: Cleanup (~95 test removals)
 
 Execute the cleanup documented in [`docs/TEST_COVERAGE_ANALYSIS.md`](../TEST_COVERAGE_ANALYSIS.md), sections A1-A12:

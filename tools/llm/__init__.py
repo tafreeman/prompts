@@ -10,3 +10,5 @@ Key modules:
     local_models: Registry of local ONNX model paths.
     model_inventory: Inventory helpers for listing available models.
 """
+
+from __future__ import annotations

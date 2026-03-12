@@ -1,10 +1,11 @@
 """JSON-file-backed database for storing prompts, rubrics, and evaluations."""
 
+from __future__ import annotations
+
 import json
 import os
 import uuid
 from datetime import datetime
-from typing import Dict, List, Optional
 
 DB_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "db")
 PROMPTS_FILE = os.path.join(DB_DIR, "prompts.json")
@@ -30,14 +31,14 @@ class PromptDatabase:
                 with open(file_path, "w") as f:
                     json.dump([], f)
 
-    def _load_json(self, file_path: str) -> List[Dict]:
+    def _load_json(self, file_path: str) -> list[dict]:
         try:
             with open(file_path, "r") as f:
                 return json.load(f)
         except (json.JSONDecodeError, FileNotFoundError):
             return []
 
-    def _save_json(self, file_path: str, data: List[Dict]):
+    def _save_json(self, file_path: str, data: list[dict]):
         with open(file_path, "w") as f:
             json.dump(data, f, indent=2)
 
@@ -49,7 +50,7 @@ class PromptDatabase:
     # --- Prompts ---
 
     def add_prompt(
-        self, name: str, content: str, metadata: Optional[Dict] = None
+        self, name: str, content: str, metadata: dict | None = None
     ) -> str:
         """Add a new prompt or a new version of an existing prompt."""
         prompt_id = str(uuid.uuid4())
@@ -91,17 +92,17 @@ class PromptDatabase:
         self.save()
         return prompt_id
 
-    def get_prompt(self, prompt_id: str) -> Optional[Dict]:
+    def get_prompt(self, prompt_id: str) -> dict | None:
         """Return the prompt record matching *prompt_id*, or ``None``."""
         return next((p for p in self.prompts if p["id"] == prompt_id), None)
 
-    def get_prompt_by_name(self, name: str) -> Optional[Dict]:
+    def get_prompt_by_name(self, name: str) -> dict | None:
         """Return the prompt record matching *name*, or ``None``."""
         return next((p for p in self.prompts if p["name"] == name), None)
 
     # --- Rubrics ---
 
-    def add_rubric(self, rubric_data: Dict) -> str:
+    def add_rubric(self, rubric_data: dict) -> str:
         """Persist *rubric_data* and return its ID (auto-generated if
         absent)."""
         if "id" not in rubric_data:
@@ -110,13 +111,13 @@ class PromptDatabase:
         self.save()
         return rubric_data["id"]
 
-    def get_rubric(self, rubric_id: str) -> Optional[Dict]:
+    def get_rubric(self, rubric_id: str) -> dict | None:
         """Return the rubric matching *rubric_id*, or ``None``."""
         return next((r for r in self.rubrics if r["id"] == rubric_id), None)
 
     # --- Evaluations ---
 
-    def add_evaluation(self, evaluation_data: Dict) -> str:
+    def add_evaluation(self, evaluation_data: dict) -> str:
         """Persist *evaluation_data* and return its ID (auto-generated if
         absent)."""
         if "id" not in evaluation_data:
@@ -128,11 +129,11 @@ class PromptDatabase:
         self.save()
         return evaluation_data["id"]
 
-    def get_evaluations_for_prompt(self, prompt_id: str) -> List[Dict]:
+    def get_evaluations_for_prompt(self, prompt_id: str) -> list[dict]:
         """Return all evaluation records associated with *prompt_id*."""
         return [e for e in self.evaluations if e.get("prompt_id") == prompt_id]
 
-    def get_evaluations_by_model(self, model_name: str) -> List[Dict]:
+    def get_evaluations_by_model(self, model_name: str) -> list[dict]:
         """Return all evaluation records produced by *model_name*."""
         return [e for e in self.evaluations if e.get("model") == model_name]
 

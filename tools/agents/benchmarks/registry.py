@@ -9,10 +9,12 @@ Preset configurations (``quick-test``, ``swe-bench-eval``, etc.) are
 available via :func:`get_preset`.
 """
 
+from __future__ import annotations
+
 import json
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from .datasets import BENCHMARK_DEFINITIONS, BenchmarkDefinition, BenchmarkType
 
@@ -51,19 +53,19 @@ class BenchmarkConfig:
     benchmark_id: str = "custom-local"
 
     # Task filtering
-    limit: Optional[int] = None  # Max tasks to load
+    limit: int | None = None  # Max tasks to load
     offset: int = 0  # Starting offset
-    task_ids: List[str] = field(default_factory=list)  # Specific task IDs
-    difficulty: Optional[str] = None  # Filter by difficulty
-    tags: List[str] = field(default_factory=list)  # Filter by tags
+    task_ids: list[str] = field(default_factory=list)  # Specific task IDs
+    difficulty: str | None = None  # Filter by difficulty
+    tags: list[str] = field(default_factory=list)  # Filter by tags
 
     # Model configuration
     model: str = "gh:gpt-4o-mini"  # Default model
-    fallback_models: List[str] = field(default_factory=list)  # Fallback chain
+    fallback_models: list[str] = field(default_factory=list)  # Fallback chain
 
     # Agent workflow
     workflow: str = "multi-agent"  # Workflow type
-    agents: List[str] = field(
+    agents: list[str] = field(
         default_factory=lambda: ["analyst", "researcher", "strategist", "implementer"]
     )
 
@@ -74,7 +76,7 @@ class BenchmarkConfig:
     retry_count: int = 1  # Retries on failure
 
     # Output options
-    output_dir: Optional[str] = None  # Where to save results
+    output_dir: str | None = None  # Where to save results
     verbose: bool = False  # Verbose logging
     save_intermediate: bool = False  # Save intermediate agent outputs
 
@@ -82,12 +84,12 @@ class BenchmarkConfig:
     use_cache: bool = True  # Use cached benchmark data
     cache_ttl_hours: int = 24  # Cache expiry
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return asdict(self)
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "BenchmarkConfig":
+    def from_dict(cls, data: dict[str, Any]) -> "BenchmarkConfig":
         """Create from dictionary."""
         return cls(**{k: v for k, v in data.items() if k in cls.__dataclass_fields__})
 
@@ -117,10 +119,10 @@ class BenchmarkRegistry:
     @classmethod
     def list_benchmarks(
         cls,
-        benchmark_type: Optional[BenchmarkType] = None,
-        language: Optional[str] = None,
+        benchmark_type: BenchmarkType | None = None,
+        language: str | None = None,
         verbose: bool = False,
-    ) -> Dict[str, Dict[str, Any]]:
+    ) -> dict[str, dict[str, Any]]:
         """List all available benchmarks.
 
         Returns simplified dict for display (not full
@@ -154,7 +156,7 @@ class BenchmarkRegistry:
         return result
 
     @classmethod
-    def get_benchmark_info(cls, benchmark_id: str) -> Optional[BenchmarkDefinition]:
+    def get_benchmark_info(cls, benchmark_id: str) -> BenchmarkDefinition | None:
         """Get detailed info about a specific benchmark."""
         return BENCHMARK_DEFINITIONS.get(benchmark_id)
 
@@ -176,7 +178,7 @@ class BenchmarkRegistry:
         cls,
         benchmark_id: str,
         model: str = "gh:gpt-4o-mini",
-        limit: Optional[int] = None,
+        limit: int | None = None,
         **kwargs,
     ) -> BenchmarkConfig:
         """Create a new configuration."""
@@ -185,7 +187,7 @@ class BenchmarkRegistry:
         )
 
     @classmethod
-    def validate_config(cls, config: BenchmarkConfig) -> List[str]:
+    def validate_config(cls, config: BenchmarkConfig) -> list[str]:
         """Validate a configuration.
 
         Returns list of error messages (empty if valid).
@@ -215,7 +217,7 @@ class BenchmarkRegistry:
 # PRESET CONFIGURATIONS
 # =============================================================================
 
-PRESET_CONFIGS: Dict[str, BenchmarkConfig] = {
+PRESET_CONFIGS: dict[str, BenchmarkConfig] = {
     "quick-test": BenchmarkConfig(
         benchmark_id="humaneval",
         model="gh:gpt-4o-mini",
@@ -248,12 +250,12 @@ PRESET_CONFIGS: Dict[str, BenchmarkConfig] = {
 }
 
 
-def get_preset(name: str) -> Optional[BenchmarkConfig]:
+def get_preset(name: str) -> BenchmarkConfig | None:
     """Get a preset configuration by name."""
     return PRESET_CONFIGS.get(name)
 
 
-def list_presets() -> Dict[str, str]:
+def list_presets() -> dict[str, str]:
     """List available preset configurations."""
     return {
         name: f"{cfg.benchmark_id} with {cfg.model}"

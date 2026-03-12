@@ -9,11 +9,39 @@ Why Protocol over ABC:
 - **Structural subtyping** — conformance checked by shape, not lineage.
 - **No runtime cost** — erased at runtime; no ``super().__init__()`` needed.
 - **Gradual adoption** — opt-in ``runtime_checkable`` verification.
+
+Type-safety notes (Sprint C1):
+- ``ctx`` parameters are typed as ``Optional[ExecutionContext]`` — every
+  known implementation accepts this type.
+- ``ExecutionEngine.execute()`` returns ``WorkflowResult`` — verified
+  across DAGExecutor, PipelineExecutor, WorkflowExecutor, NativeEngine,
+  and LangChainEngine.
+- ``workflow`` remains ``Any`` because different engines accept different
+  representations (``DAG``, ``Pipeline``, ``str``, etc.).
+- ``AgentProtocol.run()`` keeps ``input_data: Any`` and return ``Any``
+  to preserve structural subtyping for duck-typed implementations.
+  Concrete agents use bounded ``TypeVar``\s (``TInput``, ``TOutput``)
+  defined in ``agents.base``.
+- Imports guarded by ``TYPE_CHECKING`` to prevent circular imports
+  (``core/`` <- ``engine/`` <- ``core/``).
 """
 
 from __future__ import annotations
 
-from typing import Any, Awaitable, Callable, Protocol, runtime_checkable
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    AsyncIterator,
+    Awaitable,
+    Callable,
+    Optional,
+    Protocol,
+    runtime_checkable,
+)
+
+if TYPE_CHECKING:
+    from ..contracts import WorkflowResult
+    from ..engine.context import ExecutionContext
 
 
 @runtime_checkable
@@ -40,15 +68,16 @@ class ExecutionEngine(Protocol):
     async def execute(
         self,
         workflow: Any,
-        ctx: Any = None,
-        on_update: Callable[[dict[str, Any]], Awaitable[None]] | None = None,
+        ctx: Optional[ExecutionContext] = None,
+        on_update: Optional[Callable[[dict[str, Any]], Awaitable[None]]] = None,
         **kwargs: Any,
-    ) -> Any:
+    ) -> WorkflowResult:
         """Execute a workflow and return results.
 
         Args:
             workflow: Engine-specific workflow definition (``DAG``, ``Pipeline``,
-                workflow name string, etc.).
+                workflow name string, etc.).  Typed as ``Any`` because each
+                engine accepts a different representation.
             ctx: Execution context with shared variables and services.
             on_update: Async callback fired on step start/end/error events.
             **kwargs: Engine-specific options (e.g., ``max_concurrency``).
@@ -67,9 +96,9 @@ class SupportsStreaming(Protocol):
     async def stream(
         self,
         workflow: Any,
-        ctx: Any = None,
+        ctx: Optional[ExecutionContext] = None,
         **kwargs: Any,
-    ) -> Any:
+    ) -> AsyncIterator[dict[str, Any]]:
         """Stream execution events as an async iterator."""
         ...
 
@@ -93,9 +122,9 @@ class SupportsCheckpointing(Protocol):
         workflow: Any,
         *,
         thread_id: str,
-        ctx: Any = None,
+        ctx: Optional[ExecutionContext] = None,
         **kwargs: Any,
-    ) -> Any:
+    ) -> WorkflowResult:
         """Resume execution from the last checkpoint."""
         ...
 
@@ -106,6 +135,11 @@ class AgentProtocol(Protocol):
 
     Agents process task inputs and produce task outputs, optionally
     maintaining state across invocations.
+
+    Note: ``input_data`` and the return type remain ``Any`` to preserve
+    structural subtyping compatibility.  Concrete agents should use the
+    bounded ``TypeVar``\s (``TInput`` / ``TOutput``) from
+    :mod:`agentic_v2.agents.base`.
     """
 
     @property
@@ -113,7 +147,9 @@ class AgentProtocol(Protocol):
         """Agent's unique name."""
         ...
 
-    async def run(self, input_data: Any, ctx: Any = None) -> Any:
+    async def run(
+        self, input_data: Any, ctx: Optional[ExecutionContext] = None
+    ) -> Any:
         """Execute the agent on the given input.
 
         Args:

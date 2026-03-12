@@ -8,7 +8,7 @@ import os
 import urllib.error
 import urllib.request
 from pathlib import Path
-from typing import Callable, Optional
+from typing import Callable
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 def call_ollama(
     model_name: str,
     prompt: str,
-    system_instruction: Optional[str],
+    system_instruction: str | None,
 ) -> str:
     """Call a local Ollama server using its REST API."""
     host = os.getenv("OLLAMA_HOST", "http://localhost:11434").rstrip("/")
@@ -55,14 +55,14 @@ def call_ollama(
 def call_azure_openai(
     model_name: str,
     prompt: str,
-    system_instruction: Optional[str],
+    system_instruction: str | None,
     temperature: float = 0.7,
     max_tokens: int = 4096,
 ) -> str:
     """Call Azure OpenAI Service via the OpenAI Python SDK."""
     parts = model_name.split(":")
-    slot: Optional[int] = None
-    deployment: Optional[str] = None
+    slot: int | None = None
+    deployment: str | None = None
 
     if len(parts) == 2:
         deployment = parts[1]
@@ -125,7 +125,7 @@ def resolve_local_model_path(
     model_key: str,
     *,
     local_models: dict[str, str],
-) -> Optional[Path]:
+) -> Path | None:
     """Resolve local model key to the best ONNX directory."""
     spec = local_models.get(model_key.lower())
     if not spec:
@@ -184,10 +184,10 @@ def resolve_local_model_path(
 def call_local(
     model_name: str,
     prompt: str,
-    system_instruction: Optional[str],
+    system_instruction: str | None,
     *,
     local_models: dict[str, str],
-    resolve_model_path: Callable[[str], Optional[Path]],
+    resolve_model_path: Callable[[str], Path | None],
     temperature: float = 0.7,
     max_tokens: int = 2000,
 ) -> str:
@@ -229,7 +229,7 @@ def call_local(
 
 def call_windows_ai(
     prompt: str,
-    system_instruction: Optional[str],
+    system_instruction: str | None,
     temperature: float = 0.7,
     max_tokens: int = 2000,
 ) -> str:
@@ -255,7 +255,7 @@ def call_windows_ai(
 def call_github_models(
     model_name: str,
     prompt: str,
-    system_instruction: Optional[str],
+    system_instruction: str | None,
 ) -> str:
     """Call GitHub Models via gh CLI with rate limit handling."""
     import subprocess
@@ -361,7 +361,7 @@ def call_github_models(
 def call_azure_foundry(
     model_name: str,
     prompt: str,
-    system_instruction: Optional[str],
+    system_instruction: str | None,
     temperature: float = 0.7,
     max_tokens: int = 4096,
 ) -> str:
@@ -417,7 +417,7 @@ def call_azure_foundry(
 def call_gemini(
     model_name: str,
     prompt: str,
-    system_instruction: Optional[str],
+    system_instruction: str | None,
 ) -> str:
     try:
         import google.generativeai as genai
@@ -446,7 +446,7 @@ def call_gemini(
 def call_claude(
     model_name: str,
     prompt: str,
-    system_instruction: Optional[str],
+    system_instruction: str | None,
 ) -> str:
     try:
         from anthropic import Anthropic
@@ -472,7 +472,7 @@ def call_claude(
 def call_openai(
     model_name: str,
     prompt: str,
-    system_instruction: Optional[str],
+    system_instruction: str | None,
     temperature: float = 0.7,
     max_tokens: int = 4096,
 ) -> str:

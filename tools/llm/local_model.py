@@ -20,12 +20,16 @@ Usage:
 Author: Prompts Library Team
 """
 
+from __future__ import annotations
+
 import argparse
 import json
 import logging
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
+
+logger = logging.getLogger(__name__)
 
 logger = logging.getLogger(__name__)
 
@@ -59,7 +63,7 @@ def _safe_float(value: Any, default: float = 0.0) -> float:
         return default
 
 
-def _find_onnx_model_dir(base: Path) -> Optional[Path]:
+def _find_onnx_model_dir(base: Path) -> Path | None:
     """Return the first directory under base that looks like an ONNX model
     folder."""
     if not base.exists() or not base.is_dir():
@@ -78,7 +82,7 @@ def _find_onnx_model_dir(base: Path) -> Optional[Path]:
     return None
 
 
-def _resolve_model_path(model_key: Optional[str]) -> Optional[Path]:
+def _resolve_model_path(model_key: str | None) -> Path | None:
     """Resolve a model key to a concrete ONNX folder path, if available."""
     if not _AI_GALLERY_ROOT.exists():
         return None
@@ -108,8 +112,8 @@ class LocalModel:
 
     def __init__(
         self,
-        model_path: Optional[str] = None,
-        model_key: Optional[str] = None,
+        model_path: str | None = None,
+        model_key: str | None = None,
         verbose: bool = False,
     ):
         self.verbose = verbose
@@ -163,7 +167,7 @@ class LocalModel:
         max_tokens: int = 1024,
         temperature: float = 0.7,
         top_p: float = 0.9,
-        system_prompt: Optional[str] = None,
+        system_prompt: str | None = None,
     ) -> str:
         """Generate text from the model.
 
@@ -217,7 +221,7 @@ class LocalModel:
                     break
         except KeyboardInterrupt:
             if self.verbose:
-                print("\n[Generation interrupted]")
+                logger.debug("[Generation interrupted]")
 
         # Get the full sequence and decode
         output_sequence = generator.get_sequence(0)
@@ -231,7 +235,7 @@ class LocalModel:
         del generator
         return response
 
-    def evaluate_prompt(self, prompt_content: str) -> Dict[str, Any]:
+    def evaluate_prompt(self, prompt_content: str) -> dict[str, Any]:
         """Evaluate a prompt using the local model.
 
         Returns a structured evaluation similar to the cloud-based
@@ -260,7 +264,7 @@ Return ONLY valid JSON in this exact format:
 
         return self._parse_evaluation_response(response)
 
-    def _parse_evaluation_response(self, response: str) -> Dict[str, Any]:
+    def _parse_evaluation_response(self, response: str) -> dict[str, Any]:
         """Parse evaluation response with multiple fallback strategies.
 
         Handles various JSON formatting issues from LLM output.
@@ -420,7 +424,7 @@ Return ONLY valid JSON in this exact format:
             "summary": "",
         }
 
-    def _try_parse_json(self, json_str: str) -> Optional[Dict[str, Any]]:
+    def _try_parse_json(self, json_str: str) -> dict[str, Any] | None:
         """Try to parse a JSON string with various cleanup attempts."""
         import re
 
@@ -456,7 +460,7 @@ Return ONLY valid JSON in this exact format:
 
         return None
 
-    def _parse_geval_criterion(self, response: str) -> Optional[Dict[str, Any]]:
+    def _parse_geval_criterion(self, response: str) -> dict[str, Any] | None:
         """Parse a G-Eval criterion response with fallback strategies.
 
         Expected format: {"reasoning": [...], "score": N, "summary": "..."}
@@ -532,8 +536,8 @@ Return ONLY valid JSON in this exact format:
         return None
 
     def evaluate_prompt_geval(
-        self, prompt_content: str, criteria: Optional[List[str]] = None
-    ) -> Dict[str, Any]:
+        self, prompt_content: str, criteria: list[str] | None = None
+    ) -> dict[str, Any]:
         """Evaluate a prompt using G-Eval with Chain-of-Thought reasoning.
 
         G-Eval (NeurIPS 2023) differs from evaluate_prompt() by:
@@ -673,7 +677,7 @@ Return ONLY valid JSON:
 
         return results
 
-    def evaluate_prompt_dual(self, prompt_content: str) -> Dict[str, Any]:
+    def evaluate_prompt_dual(self, prompt_content: str) -> dict[str, Any]:
         """Run BOTH evaluation methods and return combined results.
 
         This gives you the most robust evaluation by combining:
@@ -708,7 +712,7 @@ def check_model_available() -> bool:
     return _resolve_model_path(None) is not None
 
 
-def get_model_info() -> Dict[str, Any]:
+def get_model_info() -> dict[str, Any]:
     """Get information about available local models."""
     info = {
         "available": False,

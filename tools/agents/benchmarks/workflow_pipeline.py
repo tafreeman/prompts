@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 # ---------------------------------------------------------------------------
 # Optional dependency: LLM-based evaluator
@@ -26,7 +26,7 @@ except ImportError:
 # Agent expectations catalogue
 # ---------------------------------------------------------------------------
 
-_AGENT_EXPECTATIONS: Dict[str, Dict[str, str]] = {
+_AGENT_EXPECTATIONS: dict[str, dict[str, str]] = {
     "analyst": {
         "key_qualities": "Deep analysis, pattern recognition, evidence-based findings",
         "expected_sections": "KEY FINDINGS, PATTERNS IDENTIFIED, RECOMMENDATIONS",
@@ -54,14 +54,14 @@ _AGENT_EXPECTATIONS: Dict[str, Dict[str, str]] = {
     },
 }
 
-_DEFAULT_EXPECTATIONS: Dict[str, str] = {
+_DEFAULT_EXPECTATIONS: dict[str, str] = {
     "key_qualities": "Clear, relevant, actionable output",
     "expected_sections": "Structured response addressing the task",
     "success_criteria": "Addresses the task requirements effectively",
 }
 
 
-def get_agent_expectations(agent_type: str) -> Dict[str, str]:
+def get_agent_expectations(agent_type: str) -> dict[str, str]:
     """Return the expected-quality descriptor dict for *agent_type*.
 
     Falls back to generic expectations for unknown agent types.
@@ -79,7 +79,7 @@ def evaluate_agent_output(
     benchmark_id: str,
     evaluator_model: str = None,
     verbose: bool = False,
-) -> Optional[Dict[str, Any]]:
+) -> dict[str, Any] | None:
     """Evaluate a single agent's output using LLM-based evaluation.
 
     Returns a compact result dict, or ``None`` when the LLM evaluator is
@@ -143,14 +143,14 @@ def extract_workflow_data(
     benchmark_id: str = None,
     original_prompt: str = None,
     verbose: bool = False,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Extract full workflow data from an ``OrchestratorResult``.
 
     Captures all phases, agent outputs, and metadata for comprehensive
     logging. When *evaluate_phases* is ``True``, each agent output is scored
     via :func:`evaluate_agent_output`.
     """
-    workflow_data: Dict[str, Any] = {
+    workflow_data: dict[str, Any] = {
         "task_description": result.task_description,
         "total_duration_seconds": result.total_duration_seconds,
         "metadata": result.metadata,
@@ -162,7 +162,7 @@ def extract_workflow_data(
     # Extract plan phases
     if result.plan and result.plan.phases:
         for phase_idx, phase_tasks in enumerate(result.plan.phases):
-            phase_data: Dict[str, Any] = {"phase_number": phase_idx + 1, "tasks": []}
+            phase_data: dict[str, Any] = {"phase_number": phase_idx + 1, "tasks": []}
             for task in phase_tasks:
                 phase_data["tasks"].append(
                     {
@@ -202,7 +202,7 @@ def extract_workflow_data(
             )
             agent_output = task.result or ""
 
-            agent_data: Dict[str, Any] = {
+            agent_data: dict[str, Any] = {
                 "task_id": task.id,
                 "description": task.description,
                 "agent_type": agent_type,
@@ -250,7 +250,7 @@ def extract_workflow_data(
 
     # Phase summary scores
     if workflow_data["phase_evaluations"]:
-        scores: List[float] = [
+        scores: list[float] = [
             e.get("score", 0) for e in workflow_data["phase_evaluations"].values()
         ]
         workflow_data["phase_summary"] = {
@@ -268,7 +268,7 @@ def extract_workflow_data(
 
 
 def save_workflow_phases_md(
-    workflow_data: Dict[str, Any],
+    workflow_data: dict[str, Any],
     task_id: str,
     output_dir: Path,
 ) -> None:

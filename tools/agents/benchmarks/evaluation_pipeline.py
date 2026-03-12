@@ -8,7 +8,7 @@ runner.py.
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any
 
 from tools.agents.benchmarks.loader import BenchmarkTask
 
@@ -55,9 +55,9 @@ def evaluate_task_output_llm(
     model: str,
     benchmark_id: str,
     verbose: bool = False,
-    output_dir: Optional[Path] = None,
+    output_dir: Path | None = None,
     evaluator_model: str = None,
-) -> Optional[Dict[str, Any]]:
+) -> dict[str, Any] | None:
     """Evaluate task output using LLM-based evaluation.
 
     Uses structured rubric scoring (0.0-10.0) with detailed reasoning.
@@ -111,7 +111,7 @@ def evaluate_task_output_llm(
     return eval_result.to_dict()
 
 
-def get_gold_standard_for_task(task: BenchmarkTask) -> Optional[Dict[str, Any]]:
+def get_gold_standard_for_task(task: BenchmarkTask) -> dict[str, Any] | None:
     """Return the gold-standard data dict for *task*, or ``None`` if
     unavailable."""
     if not HAS_GOLD_STANDARD:
@@ -136,8 +136,8 @@ def evaluate_task_output_legacy(
     task: BenchmarkTask,
     output: str,
     verbose: bool = False,
-    output_dir: Optional[Path] = None,
-) -> Optional[Dict[str, Any]]:
+    output_dir: Path | None = None,
+) -> dict[str, Any] | None:
     """Legacy pattern-matching evaluation (fallback when LLM evaluator is
     absent)."""
     if not HAS_GOLD_STANDARD:
@@ -189,8 +189,8 @@ def evaluate_task_output_legacy(
 
 
 def print_mismatch_analysis(
-    eval_result: Dict[str, Any],
-    gold_data: Dict[str, Any],
+    eval_result: dict[str, Any],
+    gold_data: dict[str, Any],
     output: str,
 ) -> None:
     """Print a detailed analysis of why items did not match the gold
@@ -258,8 +258,8 @@ def print_mismatch_analysis(
 
 def save_evaluation_report_legacy(
     task_id: str,
-    eval_result: Dict[str, Any],
-    gold_data: Dict[str, Any],
+    eval_result: dict[str, Any],
+    gold_data: dict[str, Any],
     output: str,
     output_dir: Path,
 ) -> None:

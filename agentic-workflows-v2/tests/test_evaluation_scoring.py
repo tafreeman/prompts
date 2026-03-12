@@ -84,6 +84,7 @@ class TestHardGateResult:
             required_outputs_present=True,
             overall_status_success=True,
             no_critical_step_failures=True,
+            release_build_verified=True,
             schema_contract_valid=True,
             dataset_workflow_compatible=True,
         )
@@ -94,6 +95,7 @@ class TestHardGateResult:
             required_outputs_present=False,
             overall_status_success=True,
             no_critical_step_failures=True,
+            release_build_verified=True,
             schema_contract_valid=True,
             dataset_workflow_compatible=True,
         )
@@ -104,6 +106,7 @@ class TestHardGateResult:
             required_outputs_present=False,
             overall_status_success=False,
             no_critical_step_failures=True,
+            release_build_verified=True,
             schema_contract_valid=True,
             dataset_workflow_compatible=True,
         )
@@ -117,6 +120,7 @@ class TestHardGateResult:
             required_outputs_present=True,
             overall_status_success=True,
             no_critical_step_failures=True,
+            release_build_verified=True,
             schema_contract_valid=True,
             dataset_workflow_compatible=True,
         )

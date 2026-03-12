@@ -57,7 +57,7 @@ export default function EvaluationsPage() {
                       </div>
                     </td>
                     <td className="px-5 py-4">
-                      <span className="inline-flex items-center rounded-full bg-surface-hover px-2.5 py-0.5 text-xs font-medium text-gray-300 ring-1 ring-inset ring-white/10">
+                      <span className="inline-flex items-center rounded-full hover:bg-surface-2 px-2.5 py-0.5 text-xs font-medium text-gray-300 ring-1 ring-inset ring-white/10">
                         {run.evaluation_grade || "N/A"}
                       </span>
                     </td>

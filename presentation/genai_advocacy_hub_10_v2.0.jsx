@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, createContext, useContext } from "react";
+import PropTypes from "prop-types";
 
 const THEMES = [
   { id: "midnight-teal", name: "Midnight Teal", vibe: "Current Default", fontDisplay: "'Space Grotesk',sans-serif", fontBody: "'DM Sans',sans-serif", fontsUrl: "https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700&family=Space+Grotesk:wght@500;700&display=swap", bg: "#0B1426", bgCard: "#162240", bgDeep: "#111827", text: "#F0F4F8", textMuted: "#CBD5E1", textDim: "#64748B", accent: "#22D3EE", accentGlow: "rgba(8,145,178,0.3)", gradient: ["#22D3EE", "#10B981"] },
@@ -10,6 +11,94 @@ const THEMES = [
 ];
 
 const ThemeCtx = createContext(THEMES[0]);
+
+const positionPropType = PropTypes.shape({
+  x: PropTypes.number.isRequired,
+  y: PropTypes.number.isRequired,
+});
+
+const themePropType = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  vibe: PropTypes.string.isRequired,
+  fontDisplay: PropTypes.string.isRequired,
+  fontBody: PropTypes.string.isRequired,
+  fontsUrl: PropTypes.string.isRequired,
+  bg: PropTypes.string.isRequired,
+  bgCard: PropTypes.string.isRequired,
+  bgDeep: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+  textMuted: PropTypes.string.isRequired,
+  textDim: PropTypes.string.isRequired,
+  accent: PropTypes.string.isRequired,
+  accentGlow: PropTypes.string.isRequired,
+  gradient: PropTypes.arrayOf(PropTypes.string).isRequired,
+});
+
+const topicCardPropType = PropTypes.shape({
+  title: PropTypes.string.isRequired,
+  body: PropTypes.string,
+  challenge: PropTypes.string,
+  fix: PropTypes.string,
+  icon: PropTypes.string,
+  stat: PropTypes.string,
+  statLabel: PropTypes.string,
+});
+
+const topicFocusPanelPropType = PropTypes.shape({
+  label: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  body: PropTypes.string.isRequired,
+});
+
+const topicCapabilityPropType = PropTypes.shape({
+  title: PropTypes.string.isRequired,
+  body: PropTypes.string.isRequired,
+  icon: PropTypes.string.isRequired,
+});
+
+const topicLanePropType = PropTypes.shape({
+  title: PropTypes.string.isRequired,
+  subtitle: PropTypes.string.isRequired,
+  persona: PropTypes.string.isRequired,
+  accent: PropTypes.string.isRequired,
+  steps: PropTypes.arrayOf(PropTypes.string).isRequired,
+});
+
+const topicPropType = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  num: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  subtitle: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
+  colorLight: PropTypes.string.isRequired,
+  colorGlow: PropTypes.string.isRequired,
+  icon: PropTypes.string.isRequired,
+  optional: PropTypes.bool,
+  eyebrow: PropTypes.string,
+  summary: PropTypes.string,
+  heroPoints: PropTypes.arrayOf(PropTypes.string),
+  cards: PropTypes.arrayOf(topicCardPropType),
+  talkingPoints: PropTypes.arrayOf(PropTypes.string),
+  callout: PropTypes.string.isRequired,
+  focusPanels: PropTypes.arrayOf(topicFocusPanelPropType),
+  capabilities: PropTypes.arrayOf(topicCapabilityPropType),
+  lanes: PropTypes.arrayOf(topicLanePropType),
+});
+
+let fallbackEntropyCursor = 0;
+const FALLBACK_ENTROPY_DIVISOR = 997;
+
+function getRandomUnit() {
+  const cryptoApi = globalThis.crypto;
+
+  if (cryptoApi && typeof cryptoApi.getRandomValues === "function") {
+    return cryptoApi.getRandomValues(new Uint32Array(1))[0] / 0x100000000;
+  }
+
+  fallbackEntropyCursor = (fallbackEntropyCursor + 619) % FALLBACK_ENTROPY_DIVISOR;
+  return fallbackEntropyCursor / FALLBACK_ENTROPY_DIVISOR;
+}
 
 const topics = [
   {
@@ -162,24 +251,54 @@ function Particles({ color, type, active }) {
     let vx, vy, r;
     for (let i = 0; i < n; i++) {
       if (type === "hurdles") {
-        vx = (Math.random()-0.3)*3;
-        vy = -Math.random()*4-1;
-        r = Math.random()*3+1;
+        vx = (getRandomUnit() - 0.3) * 3;
+        vy = -getRandomUnit() * 4 - 1;
+        r = getRandomUnit() * 3 + 1;
       } else {
-        vx = (Math.random()-0.5)*0.5;
-        vy = (Math.random()-0.5)*0.5;
-        r = Math.random()*2+1;
+        vx = (getRandomUnit() - 0.5) * 0.5;
+        vy = (getRandomUnit() - 0.5) * 0.5;
+        r = getRandomUnit() * 2 + 1;
       }
-      pRef.current.push({ x: Math.random()*W, y: Math.random()*H, vx, vy, r, o: Math.random()*0.5+0.15, life: Math.random()*100 });
+      pRef.current.push({ x: getRandomUnit() * W, y: getRandomUnit() * H, vx, vy, r, o: getRandomUnit() * 0.5 + 0.15, life: getRandomUnit() * 100 });
     }
     function draw() {
       ctx.clearRect(0,0,W,H);
       pRef.current.forEach(p => {
         p.life++;
-        if(type==="hurdles"){p.x+=p.vx;p.y+=p.vy;p.vy-=0.02;if(p.y<-10||p.x<-10||p.x>W+10){p.x=Math.random()*W;p.y=H+10;p.vy=-Math.random()*4-1;p.vx=(Math.random()-0.3)*3;}}
+        if (type === "hurdles") {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy -= 0.02;
+          if (p.y < -10 || p.x < -10 || p.x > W + 10) {
+            p.x = getRandomUnit() * W;
+            p.y = H + 10;
+            p.vy = -getRandomUnit() * 4 - 1;
+            p.vx = (getRandomUnit() - 0.3) * 3;
+          }
+        }
         else if(type==="human"){p.x+=Math.sin(p.life*0.015)*0.3;p.y+=Math.cos(p.life*0.012)*0.3;}
-        else if(type==="sprint"){const cx=W/2,cy=H/2,a=Math.atan2(p.y-cy,p.x-cx);p.x+=Math.cos(a+Math.PI/2)*0.35;p.y+=Math.sin(a+Math.PI/2)*0.35;const d=Math.hypot(p.x-cx,p.y-cy);if(d>Math.max(W,H)*0.55){p.x=cx+(Math.random()-0.5)*W*0.4;p.y=cy+(Math.random()-0.5)*H*0.4;}}
-        else{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;}
+        else if (type === "sprint") {
+          const cx = W / 2;
+          const cy = H / 2;
+          const a = Math.atan2(p.y - cy, p.x - cx);
+          p.x += Math.cos(a + Math.PI / 2) * 0.35;
+          p.y += Math.sin(a + Math.PI / 2) * 0.35;
+          const d = Math.hypot(p.x - cx, p.y - cy);
+          if (d > Math.max(W, H) * 0.55) {
+            p.x = cx + (getRandomUnit() - 0.5) * W * 0.4;
+            p.y = cy + (getRandomUnit() - 0.5) * H * 0.4;
+          }
+        }
+        else {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < 0 || p.x > W) {
+            p.vx *= -1;
+          }
+          if (p.y < 0 || p.y > H) {
+            p.vy *= -1;
+          }
+        }
         ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=color+Math.round(p.o*255).toString(16).padStart(2,"0");ctx.fill();
       });
       if(type==="human"){const pts=pRef.current;for(let i=0;i<pts.length;i++){for(let j=i+1;j<pts.length;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.hypot(dx,dy);if(d<120){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=color+Math.round((1-d/120)*40).toString(16).padStart(2,"0");ctx.lineWidth=0.5;ctx.stroke();}}}}
@@ -190,6 +309,11 @@ function Particles({ color, type, active }) {
   }, [color, type, active]);
   return <canvas ref={canvasRef} style={{ position:"absolute",inset:0,width:"100%",height:"100%",pointerEvents:"none",opacity:active?1:0,transition:"opacity 0.8s" }}/>;
 }
+Particles.propTypes = {
+  color: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  active: PropTypes.bool.isRequired,
+};
 
 // ─── COMET TRANSITION ───
 function CometTransition({ from, color, active, onDone }) {
@@ -262,6 +386,12 @@ function CometTransition({ from, color, active, onDone }) {
     </div>
   );
 }
+CometTransition.propTypes = {
+  from: positionPropType,
+  color: PropTypes.string,
+  active: PropTypes.bool.isRequired,
+  onDone: PropTypes.func.isRequired,
+};
 
 // ─── LANDING TILE ───
 function LandingTile({ topic, onClick, hovered, onHover }) {
@@ -285,6 +415,12 @@ function LandingTile({ topic, onClick, hovered, onHover }) {
     </div>
   );
 }
+LandingTile.propTypes = {
+  topic: topicPropType.isRequired,
+  onClick: PropTypes.func.isRequired,
+  hovered: PropTypes.string,
+  onHover: PropTypes.func.isRequired,
+};
 
 function OptionalDeckLink({ topic, onClick, hovered, onHover }) {
   const T = useContext(ThemeCtx);
@@ -375,8 +511,15 @@ function OptionalDeckLink({ topic, onClick, hovered, onHover }) {
     </div>
   );
 }
+OptionalDeckLink.propTypes = {
+  topic: topicPropType.isRequired,
+  onClick: PropTypes.func.isRequired,
+  hovered: PropTypes.string,
+  onHover: PropTypes.func.isRequired,
+};
 
 // ─── THEMATIC INTRO (Continuous Galaxy → Solar → Star) ───
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function ThematicIntro({ onComplete }) {
   const canvasRef = useRef(null);
   const animRef = useRef(null);
@@ -403,6 +546,12 @@ function ThematicIntro({ onComplete }) {
       onCompleteRef.current();
     }, 850);
   }, [isProceeding, phase]);
+
+  const accentColor = T.accent || "#22D3EE";
+  const gradientStart = T.gradient ? T.gradient[0] : "#22D3EE";
+  const gradientEnd = T.gradient ? T.gradient[1] : "#10B981";
+  const buttonBorderColor = buttonHovered && !isProceeding ? accentColor : `${accentColor}55`;
+  const buttonBackground = `linear-gradient(135deg, ${(T.bgCard || "#162240")}EE, ${(T.bgDeep || T.bg || "#0B1426")}E0)`;
 
   useEffect(() => () => {
     if (proceedTimeoutRef.current) clearTimeout(proceedTimeoutRef.current);
@@ -475,55 +624,60 @@ function ThematicIntro({ onComplete }) {
       Math.round(lerp(a[1], b[1], n)),
       Math.round(lerp(a[2], b[2], n)),
     ];
+    const brightenRgb = (rgb, amount) => [
+      Math.min(255, rgb[0] + amount),
+      Math.min(255, rgb[1] + amount),
+      Math.min(255, rgb[2] + amount),
+    ];
 
     const warpStars = Array.from({ length: 520 }, () => ({
-      x: (Math.random() - 0.5) * 2400,
-      y: (Math.random() - 0.5) * 1600,
-      z: Math.random() * 2200 + 60,
-      size: Math.random() * 1.7 + 0.4,
-      tint: Math.random(),
+      x: (getRandomUnit() - 0.5) * 2400,
+      y: (getRandomUnit() - 0.5) * 1600,
+      z: getRandomUnit() * 2200 + 60,
+      size: getRandomUnit() * 1.7 + 0.4,
+      tint: getRandomUnit(),
     }));
 
     const galaxyArms = [];
     for (let arm = 0; arm < 4; arm++) {
       const offset = (arm / 4) * Math.PI * 2;
       for (let i = 0; i < 150; i++) {
-        const dist = Math.pow(Math.random(), 0.72) * 260 + 18;
-        const angle = offset + dist * 0.028 + (Math.random() - 0.5) * 0.36;
+        const dist = Math.pow(getRandomUnit(), 0.72) * 260 + 18;
+        const angle = offset + dist * 0.028 + (getRandomUnit() - 0.5) * 0.36;
         galaxyArms.push({
           dist,
           angle,
-          size: Math.random() * 1.8 + 0.4,
-          brightness: Math.random() * 0.65 + 0.25,
-          tint: Math.random(),
+          size: getRandomUnit() * 1.8 + 0.4,
+          brightness: getRandomUnit() * 0.65 + 0.25,
+          tint: getRandomUnit(),
         });
       }
     }
     for (let i = 0; i < 120; i++) {
       galaxyArms.push({
-        dist: Math.random() * 55,
-        angle: Math.random() * Math.PI * 2,
-        size: Math.random() * 2.6 + 0.7,
-        brightness: Math.random() * 0.4 + 0.5,
-        tint: Math.random() * 0.3,
+        dist: getRandomUnit() * 55,
+        angle: getRandomUnit() * Math.PI * 2,
+        size: getRandomUnit() * 2.6 + 0.7,
+        brightness: getRandomUnit() * 0.4 + 0.5,
+        tint: getRandomUnit() * 0.3,
       });
     }
 
     const dustBands = Array.from({ length: 18 }, (_, i) => ({
-      radius: 120 + i * 18 + Math.random() * 14,
-      width: 18 + Math.random() * 26,
-      angle: Math.random() * Math.PI * 2,
-      tilt: (Math.random() - 0.5) * 0.5,
-      alpha: 0.04 + Math.random() * 0.05,
-      speed: 0.03 + Math.random() * 0.05,
+      radius: 120 + i * 18 + getRandomUnit() * 14,
+      width: 18 + getRandomUnit() * 26,
+      angle: getRandomUnit() * Math.PI * 2,
+      tilt: (getRandomUnit() - 0.5) * 0.5,
+      alpha: 0.04 + getRandomUnit() * 0.05,
+      speed: 0.03 + getRandomUnit() * 0.05,
     }));
 
     const warpShells = Array.from({ length: 18 }, (_, i) => ({
       depth: i / 18,
-      radius: 0.14 + i * 0.055 + Math.random() * 0.02,
-      width: 0.6 + Math.random() * 1.4,
-      skew: (Math.random() - 0.5) * 0.08,
-      offset: Math.random(),
+      radius: 0.14 + i * 0.055 + getRandomUnit() * 0.02,
+      width: 0.6 + getRandomUnit() * 1.4,
+      skew: (getRandomUnit() - 0.5) * 0.08,
+      offset: getRandomUnit(),
     }));
 
     const solarBodies = [
@@ -535,20 +689,21 @@ function ThematicIntro({ onComplete }) {
     ];
 
     const breachDebris = Array.from({ length: 90 }, () => {
-      const a = Math.random() * Math.PI * 2;
-      const s = Math.random() * 9 + 3;
+      const a = getRandomUnit() * Math.PI * 2;
+      const s = getRandomUnit() * 9 + 3;
       return {
         angle: a,
         speed: s,
-        size: Math.random() * 3.2 + 0.8,
-        decay: Math.random() * 0.5 + 0.5,
-        tint: Math.random(),
+        size: getRandomUnit() * 3.2 + 0.8,
+        decay: getRandomUnit() * 0.5 + 0.5,
+        tint: getRandomUnit(),
       };
     });
 
     let startTime = performance.now();
     let prevFrame = startTime;
 
+    // eslint-disable-next-line sonarjs/cognitive-complexity
     function draw(now) {
       const dt = Math.min(40, now - prevFrame || 16);
       prevFrame = now;
@@ -722,9 +877,9 @@ function ThematicIntro({ onComplete }) {
         s.z -= velocity * (dt * 0.1);
         if (s.z < 1) {
           s.z = 2200;
-          s.x = (Math.random() - 0.5) * 2400;
-          s.y = (Math.random() - 0.5) * 1600;
-          s.tint = Math.random();
+          s.x = (getRandomUnit() - 0.5) * 2400;
+          s.y = (getRandomUnit() - 0.5) * 1600;
+          s.tint = getRandomUnit();
         }
         const scale = (980 / s.z) * cameraCompression;
         const sx = cx + shakeX + s.x * scale + Math.sin(bank) * (s.y * scale * 0.24);
@@ -772,6 +927,7 @@ function ThematicIntro({ onComplete }) {
         ctx.fillStyle = haze;
         ctx.fillRect(0, 0, W, H);
 
+        // Keeping the galaxy pass together makes the scene math easier to reason about.
         galaxyArms.forEach(star => {
           const a = star.angle + galaxyRot;
           const gx = coreX + Math.cos(a) * star.dist * galaxyScale;
@@ -914,7 +1070,7 @@ function ThematicIntro({ onComplete }) {
           }
 
           const bodyGrad = ctx.createRadialGradient(px - radius * 0.35, py - radius * 0.35, 0, px, py, radius);
-          bodyGrad.addColorStop(0, rgba(body.color.map(v => Math.min(255, v + 60)), 1));
+          bodyGrad.addColorStop(0, rgba(brightenRgb(body.color, 60), 1));
           bodyGrad.addColorStop(1, rgba(body.color, 0.92));
           ctx.beginPath();
           ctx.arc(px, py, radius, 0, Math.PI * 2);
@@ -1077,7 +1233,7 @@ function ThematicIntro({ onComplete }) {
         {/* Horizontal accent line */}
         <div style={{
           width: phase >= 6 ? 120 : 0, height: 2, borderRadius: 1,
-          background: `linear-gradient(90deg, transparent, ${T.accent || "#22D3EE"}, transparent)`,
+          background: `linear-gradient(90deg, transparent, ${accentColor}, transparent)`,
           marginBottom: 28, transition: "width 0.8s 0.2s cubic-bezier(0.22,1,0.36,1)",
         }} />
 
@@ -1108,7 +1264,7 @@ function ThematicIntro({ onComplete }) {
           textShadow: phase >= 6 ? "0 2px 16px rgba(0,0,0,0.55)" : "none",
         }}>
           <span style={{
-            background: `linear-gradient(90deg, ${T.gradient ? T.gradient[0] : "#22D3EE"}, ${T.gradient ? T.gradient[1] : "#10B981"})`,
+            background: `linear-gradient(90deg, ${gradientStart}, ${gradientEnd})`,
             WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
           }}>
             From prototype to production in 2 months
@@ -1141,7 +1297,7 @@ function ThematicIntro({ onComplete }) {
         {/* Bottom accent line */}
         <div style={{
           width: phase >= 7 ? 60 : 0, height: 2, borderRadius: 1,
-          background: `linear-gradient(90deg, transparent, ${T.gradient ? T.gradient[1] : "#10B981"}, transparent)`,
+          background: `linear-gradient(90deg, transparent, ${gradientEnd}, transparent)`,
           marginTop: 36, transition: "width 0.6s 0.3s ease",
         }} />
 
@@ -1162,17 +1318,17 @@ function ThematicIntro({ onComplete }) {
             disabled={isProceeding}
             style={{
               cursor: isProceeding ? "default" : "pointer",
-              border: `1px solid ${buttonHovered && !isProceeding ? (T.accent || "#22D3EE") : `${(T.accent || "#22D3EE")}55`}`,
+              border: `1px solid ${buttonBorderColor}`,
               borderRadius: 999,
               padding: "12px 22px",
-              background: `linear-gradient(135deg, ${(T.bgCard || "#162240")}EE, ${(T.bgDeep || T.bg || "#0B1426")}E0)`,
+              background: buttonBackground,
               color: T.text || "#F0F4F8",
               fontFamily: T.fontDisplay || "'Space Grotesk',sans-serif",
               fontSize: 13,
               fontWeight: 600,
               letterSpacing: 0.4,
               boxShadow: buttonHovered && !isProceeding
-                ? `0 14px 34px rgba(0,0,0,0.4), 0 0 28px ${(T.accent || "#22D3EE")}20, 0 0 0 1px rgba(255,255,255,0.05) inset`
+                ? `0 14px 34px rgba(0,0,0,0.4), 0 0 28px ${accentColor}20, 0 0 0 1px rgba(255,255,255,0.05) inset`
                 : `0 10px 28px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.04) inset`,
               minWidth: 220,
               opacity: isProceeding ? 0.6 : 1,
@@ -1196,6 +1352,7 @@ function ThematicIntro({ onComplete }) {
     </div>
   );
 }
+ThematicIntro.propTypes = { onComplete: PropTypes.func.isRequired };
 
 // ─── THEME SELECTOR (Start Page) ───
 function ThemeSelector({ onSelect }) {
@@ -1263,12 +1420,14 @@ function ThemeSelector({ onSelect }) {
     </div>
   );
 }
+ThemeSelector.propTypes = { onSelect: PropTypes.func.isRequired };
 
 // ─── BACK BUTTON ───
 function BackBtn({ onClick }) {
   const T = useContext(ThemeCtx);
   return <button onClick={onClick} style={{ background:"none",border:"none",color:T.textDim,fontSize:13,cursor:"pointer",fontFamily:T.fontDisplay,marginBottom:20,display:"flex",alignItems:"center",gap:6 }}><span>←</span> Back</button>;
 }
+BackBtn.propTypes = { onClick: PropTypes.func.isRequired };
 
 // ─── HUMAN SCREEN ───
 function HumanScreen({ topic, onBack }) {
@@ -1290,19 +1449,30 @@ function HumanScreen({ topic, onBack }) {
           <div><h3 style={{ fontFamily:"'Space Grotesk',sans-serif",fontSize:18,fontWeight:700,color:topic.colorLight,margin:"0 0 8px" }}>{c.title}</h3><p style={{ fontSize:14,color:"#CBD5E1",lineHeight:1.6,margin:0 }}>{c.body}</p></div>
         </div>))}
         <div style={{ textAlign:"center",marginTop:32,padding:"24px",borderTop:`1px solid ${topic.color}20`,borderBottom:`1px solid ${topic.color}20`,opacity:e?1:0,transition:"opacity 1s 0.9s" }}>
-          <p style={{ fontSize:16,color:"#CBD5E1",lineHeight:1.6,margin:0,maxWidth:600,marginLeft:"auto",marginRight:"auto" }}><span style={{ color:topic.colorLight,fontWeight:700 }}>"{topic.callout}"</span></p>
+          <p style={{ fontSize:16,color:"#CBD5E1",lineHeight:1.6,margin:0,maxWidth:600,marginLeft:"auto",marginRight:"auto" }}><span style={{ color:topic.colorLight,fontWeight:700 }}>&ldquo;{topic.callout}&rdquo;</span></p>
         </div>
       </div>
     </div>
   );
 }
+HumanScreen.propTypes = {
+  topic: topicPropType.isRequired,
+  onBack: PropTypes.func.isRequired,
+};
 
 // ─── HURDLES SCREEN ───
 function HurdlesScreen({ topic, onBack }) {
   const T = useContext(ThemeCtx);
   const [e,setE]=useState(false);const [vc,setVc]=useState(0);
   useEffect(()=>{const t=setTimeout(()=>setE(true),50);return()=>clearTimeout(t)},[]);
-  useEffect(()=>{if(!e)return;const iv=topic.cards.map((_,i)=>setTimeout(()=>setVc(i+1),400+i*250));return()=>iv.forEach(clearTimeout)},[e,topic.cards.length]);
+  useEffect(() => {
+    if (!e) {
+      return undefined;
+    }
+
+    const iv = topic.cards.map((_, i) => setTimeout(() => setVc(i + 1), 400 + i * 250));
+    return () => iv.forEach(clearTimeout);
+  }, [e, topic.cards]);
   return (
     <div style={{ position:"relative",minHeight:"100vh",background:T.bg,overflow:"hidden" }}>
       <Particles color={topic.color} type="hurdles" active={e}/>
@@ -1314,8 +1484,8 @@ function HurdlesScreen({ topic, onBack }) {
           <p style={{ fontSize:15,color:topic.colorLight,fontStyle:"italic",margin:0,paddingLeft:52 }}>{topic.subtitle}</p>
         </div>
         <div style={{ display:"grid",gridTemplateColumns:"1fr 1fr",gap:20,maxWidth:1100 }}>
-          {topic.cards.map((c,i)=>{const v=i<vc,fl=i%2===0;return(
-            <div key={i} style={{ background:"#162240",borderRadius:12,padding:"24px 28px",borderTop:`3px solid ${topic.color}`,position:"relative",overflow:"hidden",opacity:v?1:0,transform:v?"translateX(0) scale(1)":`translateX(${fl?"-60px":"60px"}) scale(0.92)`,transition:"all 0.45s cubic-bezier(0.34,1.56,0.64,1)" }}>
+          {topic.cards.map((c,i)=>{const v=i<vc,fl=i%2===0,hiddenCardTransform=`translateX(${fl?"-60px":"60px"}) scale(0.92)`;return(
+            <div key={i} style={{ background:"#162240",borderRadius:12,padding:"24px 28px",borderTop:`3px solid ${topic.color}`,position:"relative",overflow:"hidden",opacity:v?1:0,transform:v?"translateX(0) scale(1)":hiddenCardTransform,transition:"all 0.45s cubic-bezier(0.34,1.56,0.64,1)" }}>
               <div style={{ position:"absolute",inset:0,background:`radial-gradient(circle at ${fl?"left":"right"} center,${topic.color}15,transparent 60%)`,opacity:v?1:0,transition:"opacity 0.3s" }}/>
               <div style={{ position:"relative",zIndex:1 }}>
                 <div style={{ display:"flex",alignItems:"center",gap:10,marginBottom:14 }}><div style={{ width:28,height:28,borderRadius:6,background:topic.color+"20",display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,fontSize:13,color:topic.color }}>{i+1}</div><h3 style={{ fontFamily:"'Space Grotesk',sans-serif",fontSize:17,fontWeight:700,color:"#F0F4F8",margin:0 }}>{c.title}</h3></div>
@@ -1331,6 +1501,10 @@ function HurdlesScreen({ topic, onBack }) {
     </div>
   );
 }
+HurdlesScreen.propTypes = {
+  topic: topicPropType.isRequired,
+  onBack: PropTypes.func.isRequired,
+};
 
 // ─── FUTURE SCREEN ───
 function FutureScreen({ topic, onBack }) {
@@ -1355,6 +1529,10 @@ function FutureScreen({ topic, onBack }) {
     </div>
   );
 }
+FutureScreen.propTypes = {
+  topic: topicPropType.isRequired,
+  onBack: PropTypes.func.isRequired,
+};
 
 function PlatformMockFrame({ topic, entered, theme }) {
   return (
@@ -1405,6 +1583,11 @@ function PlatformMockFrame({ topic, entered, theme }) {
     </div>
   );
 }
+PlatformMockFrame.propTypes = {
+  topic: topicPropType.isRequired,
+  entered: PropTypes.bool.isRequired,
+  theme: themePropType.isRequired,
+};
 
 function PlatformLane({ lane, entered, index, theme }) {
   return (
@@ -1428,6 +1611,12 @@ function PlatformLane({ lane, entered, index, theme }) {
     </div>
   );
 }
+PlatformLane.propTypes = {
+  lane: topicLanePropType.isRequired,
+  entered: PropTypes.bool.isRequired,
+  index: PropTypes.number.isRequired,
+  theme: themePropType.isRequired,
+};
 
 function OverviewScreen({ topic, onBack }) {
   const T = useContext(ThemeCtx);
@@ -1487,7 +1676,7 @@ function OverviewScreen({ topic, onBack }) {
               <div style={{ background:T.bgCard,borderRadius:22,padding:"18px 18px 16px",border:`1px solid ${topic.color}18`,opacity:entered?1:0,transform:entered?"translateY(0)":"translateY(16px)",transition:"all 0.6s 0.14s cubic-bezier(0.22,1,0.36,1)" }}>
                 <div style={{ fontSize:10,textTransform:"uppercase",letterSpacing:2.5,color:topic.colorLight,fontWeight:800,fontFamily:T.fontDisplay,marginBottom:8 }}>Flow Through The Deck</div>
                 <div style={{ display:"grid",gap:10 }}>
-                  {storyTopics.map((story, i) => (
+                  {storyTopics.map((story) => (
                     <div key={story.id} style={{ display:"grid",gridTemplateColumns:"44px minmax(0,1fr)",gap:12,alignItems:"start",padding:"12px 12px 13px",borderRadius:16,background:T.bgDeep,border:`1px solid ${story.color}18`,boxShadow:`0 10px 26px ${story.colorGlow || "rgba(0,0,0,0.16)"}` }}>
                       <div style={{ width:44,height:44,borderRadius:14,display:"flex",alignItems:"center",justifyContent:"center",background:story.color+"14",color:story.colorLight,fontFamily:T.fontDisplay,fontSize:13,fontWeight:800 }}>{story.num}</div>
                       <div>
@@ -1547,6 +1736,10 @@ function OverviewScreen({ topic, onBack }) {
     </div>
   );
 }
+OverviewScreen.propTypes = {
+  topic: topicPropType.isRequired,
+  onBack: PropTypes.func.isRequired,
+};
 
 function PlatformScreen({ topic, onBack }) {
   const T = useContext(ThemeCtx);
@@ -1654,6 +1847,10 @@ function PlatformScreen({ topic, onBack }) {
     </div>
   );
 }
+PlatformScreen.propTypes = {
+  topic: topicPropType.isRequired,
+  onBack: PropTypes.func.isRequired,
+};
 
 // ═══════════════════════════════════════════
 // SPRINT CYCLE: FIGURE-8 (OPTION B)
@@ -1756,6 +1953,7 @@ function Figure8Cycle({ entered }) {
     </div>
   );
 }
+Figure8Cycle.propTypes = { entered: PropTypes.bool.isRequired };
 
 // ═══════════════════════════════════════════
 // SPRINT CYCLE: CIRCULAR RING (OPTION C)
@@ -1873,6 +2071,7 @@ function CircularRingCycle({ entered }) {
     </div>
   );
 }
+CircularRingCycle.propTypes = { entered: PropTypes.bool.isRequired };
 
 // ═══════════════════════════════════════════
 // SPRINT SCREEN (with B/C toggle)
@@ -1928,6 +2127,10 @@ function SprintScreen({ topic, onBack }) {
     </div>
   );
 }
+SprintScreen.propTypes = {
+  topic: topicPropType.isRequired,
+  onBack: PropTypes.func.isRequired,
+};
 
 // ═══════════════════════════════════════════
 // MAIN APP

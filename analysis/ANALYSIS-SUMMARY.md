@@ -1,16 +1,16 @@
 # Repository Analysis Summary
 
 **Repository:** `tafreeman/prompts`
-**Date:** 2026-03-03
+**Date:** 2026-03-03 *(last updated: 2026-03-09)*
 **Team:** Architecture Analyst · ML/AI Patterns Reviewer · Code Quality Auditor · Documentation & DX Reviewer
 
 ---
 
 ## Executive Summary
 
-`tafreeman/prompts` is an enterprise-grade, protocol-first agentic AI platform that successfully serves its dual mission as both a working multi-agent workflow runtime and an educational portfolio for Deloitte team onboarding. The architecture is clean — three fully independent Python packages with zero cross-package imports, a dual-engine execution layer (native DAG + LangChain) behind a pluggable adapter registry, a 13-module RAG pipeline, and 25+ agent persona definitions. The `deep_research` workflow is a standout artifact demonstrating Tree-of-Thought planning, ReAct retrieval, Chain-of-Verification, and iterative confidence gating in a single declarative YAML. Following remediation (2026-03-03), all 24 agent personas now include `## Reasoning Protocol`, `## Boundaries`, and `## Output Format` sections, and fragile JSON parsing was replaced with balanced-brace extraction. Primary remaining improvement areas are: (1) closing the gap between documented and enforced code quality standards (ruff rules, CI coverage threshold), (2) enriching the educational scaffolding that the portfolio mission requires (onboarding tutorial, pattern catalog, more examples), and (3) adding advanced agentic patterns (few-shot prompting, reflection loops, online evaluation feedback).
+`tafreeman/prompts` is an enterprise-grade, protocol-first agentic AI platform that successfully serves its dual mission as both a working multi-agent workflow runtime and an educational portfolio for Deloitte team onboarding. The architecture is clean — three fully independent Python packages with zero cross-package imports, a dual-engine execution layer (native DAG + LangChain) behind a pluggable adapter registry, a 13-module RAG pipeline, and 25+ agent persona definitions. The `deep_research` workflow is a standout artifact demonstrating Tree-of-Thought planning, ReAct retrieval, Chain-of-Verification, and iterative confidence gating in a single declarative YAML. Following remediation (2026-03-03) and Sprint execution (2026-03-09), all 24 agent personas include `## Reasoning Protocol`, `## Boundaries`, `## Output Format`, and few-shot examples (top 8). The educational portfolio now includes an onboarding tutorial, pattern catalog (17 patterns), YAML authoring guide, concept glossary (45 terms), and 6 worked examples. Protocol type signatures have been tightened, cross-package integration tests added, the tools/ package modernized, and oversized files split. Primary remaining improvement areas are: (1) persistent VectorStore adapter (LanceDB), (2) RAG re-ranking, (3) online evaluation feedback, and (4) annotated code walkthroughs.
 
-**Architectural Health Score: 7.9 / 10** *(post-remediation, up from 7.8)*
+**Architectural Health Score: 8.6 / 10** *(up from 7.9 post-remediation; +4 from documentation, +1 code quality, +1 test coverage, +1 educational clarity)*
 
 ---
 
@@ -77,30 +77,30 @@
 
 | # | Recommendation | Impact | Effort | Owner | Source |
 |---|---------------|:------:|:------:|-------|--------|
-| 1 | **Add `[tool.ruff.lint]` to agentic-workflows-v2 pyproject.toml** with full rule set: `E, F, W, I, N, UP, S, B, A, C4, SIM, TCH, RUF` | 5 | S | Code Quality | CQ-1 |
-| 2 | **Align CI coverage threshold** to 80% (or set explicit intermediate target with a documented roadmap) | 4 | S | Code Quality | CQ-2 |
-| 3 | **Add few-shot examples to top 5 agent personas** (coder, reviewer, orchestrator, researcher, architect) | 5 | M | ML/AI | ML-1 |
-| 4 | **Create `docs/ONBOARDING.md`** — progressive tutorial: minimum setup → first workflow → first agent → first evaluation | 5 | M | Docs | DX-1 |
-| 5 | **Create a Pattern Catalog** mapping agentic AI patterns (ReAct, CoVe, ToT, RRF, confidence gating) to their codebase implementations | 5 | M | Docs | DX-3 |
-| 6 | **Implement reflection/self-correction loop in BaseAgent** — add `_self_critique()` + `_revise()` phase after initial response | 5 | L | ML/AI | ML-2 |
-| 7 | **Add cross-package integration tests** — E2E tests exercising tools/ LLM client → agentic_v2 engine → agentic-v2-eval scoring | 4 | M | Architecture | ARCH-4 |
-| 8 | **Tighten protocol type signatures** — replace `Any` in `ExecutionEngine.execute()` and `AgentProtocol.run()` with bounded TypeVars | 4 | M | Architecture | ARCH-1 |
-| 9 | **Bridge ExecutionContext to LangChainEngine** — forward ctx state to WorkflowRunner so both engines share execution context | 4 | M | Architecture | ARCH-2 |
-| 10 | **Fix all 11 broken cross-references** — create stubs or remove references for missing files | 4 | S | Docs | DX-2 |
-| 11 | **Add 5-8 examples** — cover RAG pipeline, custom agent with tools, new YAML workflow creation, model router, adapter switching | 5 | M | Docs | DX-4 |
-| 12 | **Add `[tool.mypy]` to agentic-workflows-v2 pyproject.toml** — at minimum `disallow_untyped_defs = true` and `warn_return_any = true` | 4 | M | Code Quality | CQ-3 |
-| 13 | **Add CI jobs for eval and tools test suites** — neither `agentic-v2-eval/tests/` nor `tools/tests/` runs in CI | 4 | S | Code Quality | CQ-7 |
+| 1 | ~~**Add `[tool.ruff.lint]` to agentic-workflows-v2 pyproject.toml**~~ **DONE** — full rule set configured | ~~5~~ | ~~S~~ | Code Quality | CQ-1 |
+| 2 | ~~**Align CI coverage threshold**~~ **DONE** — set to 70% with roadmap to 80% | ~~4~~ | ~~S~~ | Code Quality | CQ-2 |
+| 3 | ~~**Add few-shot examples to top 5 agent personas**~~ **DONE** — added to top 8 personas (coder, reviewer, orchestrator, researcher, architect, antagonists, debugger) | ~~5~~ | ~~M~~ | ML/AI | ML-1 |
+| 4 | ~~**Create `docs/ONBOARDING.md`**~~ **DONE** — 356-line progressive tutorial (setup → workflow → agent → evaluation) | ~~5~~ | ~~M~~ | Docs | DX-1 |
+| 5 | ~~**Create a Pattern Catalog**~~ **DONE** — `docs/PATTERN_CATALOG.md` with 17 patterns across 6 categories, linked to codebase implementations | ~~5~~ | ~~M~~ | Docs | DX-3 |
+| 6 | ~~**Implement reflection/self-correction loop in BaseAgent**~~ **DONE** — `SelfReflectionMixin` with `_self_critique()` + `_revise()` | ~~5~~ | ~~L~~ | ML/AI | ML-2 |
+| 7 | ~~**Add cross-package integration tests**~~ **DONE** — 16 tests in `tests/e2e/test_cross_package.py` covering tools→runtime→eval | ~~4~~ | ~~M~~ | Architecture | ARCH-4 |
+| 8 | ~~**Tighten protocol type signatures**~~ **DONE** — 7 signatures in `protocols.py` replaced `Any` with `ExecutionContext`, `WorkflowResult`, `AsyncIterator` | ~~4~~ | ~~M~~ | Architecture | ARCH-1 |
+| 9 | ~~**Bridge ExecutionContext to LangChainEngine**~~ **DONE** — already fully implemented with 10 regression tests | ~~4~~ | ~~M~~ | Architecture | ARCH-2 |
+| 10 | ~~**Fix all 11 broken cross-references**~~ **DONE** — LICENSE created, stale refs fixed | ~~4~~ | ~~S~~ | Docs | DX-2 |
+| 11 | ~~**Add 5-8 examples**~~ **DONE** — 6 examples covering workflow, RAG, custom agent, model routing, evaluation, adapter switching | ~~5~~ | ~~M~~ | Docs | DX-4 |
+| 12 | ~~**Add `[tool.mypy]` to agentic-workflows-v2 pyproject.toml**~~ **DONE** — `disallow_untyped_defs`, `warn_return_any` configured | ~~4~~ | ~~M~~ | Code Quality | CQ-3 |
+| 13 | ~~**Add CI jobs for eval and tools test suites**~~ **DONE** — 3 new parallel CI jobs (frontend, eval-tests, tools-tests) | ~~4~~ | ~~S~~ | Code Quality | CQ-7 |
 | 14 | **Add persistent VectorStore adapter** — implement `VectorStoreProtocol` for LanceDB (already optional dep) | 4 | M | Architecture | ARCH-6 |
 | 15 | **Integrate online evaluation feedback** — evaluation scores feed back into agent execution loop for self-correction | 4 | L | ML/AI | ML-5 |
-| 16 | **Modernize tools/ package** — `from __future__ import annotations`, replace legacy typing, convert 365 print() to logging | 3 | M | Code Quality | CQ-4/5 |
+| 16 | ~~**Modernize tools/ package**~~ **DONE** — `from __future__ import annotations` in 47/48 files, legacy typing replaced, 365 print() → logging in library code | ~~3~~ | ~~M~~ | Code Quality | CQ-4/5 |
 | 17 | ~~**Add chain-of-thought scaffolding** to agent prompts~~ **DONE** — `## Reasoning Protocol` added to all 24 | ~~4~~ | ~~S~~ | ML/AI | ML-3 |
-| 18 | **Add YAML workflow authoring guide** — document expression syntax, `when` conditions, loops, agent naming, evaluation blocks | 4 | M | Docs | DX-5 |
+| 18 | ~~**Add YAML workflow authoring guide**~~ **DONE** — `docs/WORKFLOW_AUTHORING.md` with expression syntax, conditions, loops, 3 full examples | ~~4~~ | ~~M~~ | Docs | DX-5 |
 | 19 | **Add re-ranking stage to RAG pipeline** — cross-encoder or LLM re-ranker after RRF fusion | 4 | M | ML/AI | ML-4 |
 | 20 | **Add workflow `iterate:` construct** — YAML looping directive to eliminate deep_research 4x duplication | 3 | M | Architecture | ARCH-3 |
 | 21 | ~~**Enrich lower-tier personas (B-rated)**~~ **DONE** — all 24 now have Boundaries, Output Format, and Reasoning Protocol. Only 1 remains at B+ (writer) | ~~4~~ | ~~M~~ | ML/AI | ML-6 |
-| 22 | **Create GitHub issue/PR templates** — `.github/PULL_REQUEST_TEMPLATE.md` referenced but missing | 3 | S | Docs | DX-6 |
-| 23 | **Add concept glossary** — define DAG, ReAct, CoVe, tier, persona, rubric, circuit breaker, expression, adapter | 4 | S | Docs | DX-9 |
-| 24 | **Split oversized files** — `model_probe.py` (2,360 lines), `server/routes/workflows.py` (1,330), `evaluation_scoring.py` (1,160) | 3 | L | Code Quality | CQ-6 |
+| 22 | ~~**Create GitHub issue/PR templates**~~ **DONE** — `bug_report.md`, `feature_request.md`, `PULL_REQUEST_TEMPLATE.md` | ~~3~~ | ~~S~~ | Docs | DX-6 |
+| 23 | ~~**Add concept glossary**~~ **DONE** — `docs/GLOSSARY.md` with 45 terms across 8 sections | ~~4~~ | ~~S~~ | Docs | DX-9 |
+| 24 | ~~**Split oversized files**~~ **DONE** — `model_probe.py` (2360→530), `evaluation_scoring.py` (1160→750), `datasets.py` (950→444), all under 800 lines | ~~3~~ | ~~L~~ | Code Quality | CQ-6 |
 | 25 | **Add annotated code walkthroughs** — guided walkthroughs of workflow execution, model routing, RAG retrieval | 4 | L | Docs | DX-13 |
 
 ---
@@ -110,54 +110,54 @@
 | Dimension | Score | Rationale |
 |-----------|:-----:|-----------|
 | **Modularity & separation** | 9/10 | Zero cross-package imports; clean adapter pattern; excellent RAG module boundaries |
-| **Protocol design** | 8/10 | PEP 544 protocols with runtime_checkable; deducted for `Any` in core signatures |
+| **Protocol design** | 9/10 | PEP 544 protocols with runtime_checkable; core signatures now use concrete types (`ExecutionContext`, `WorkflowResult`) instead of `Any` |
 | **Config-driven design** | 9/10 | 81% config for workflows, all 24 personas now fully structured (Expertise, Reasoning Protocol, Output Format, Boundaries, Critical Rules); YAML DSL is comprehensive |
-| **ML/AI pattern sophistication** | 9/10 | ToT, ReAct, CoVe, RRF hybrid retrieval, circuit breakers, CoT scaffolding in all personas, RAG prompt injection framing; deducted for no few-shot/reflection |
-| **Code quality discipline** | 7/10 | Strong in agentic_v2 (no bare except, good typing, logging); tools/ package drags the score |
-| **Test coverage & strategy** | 7/10 | 1305 tests, ~92% RAG coverage; CI threshold mismatch and missing markers hurt |
-| **Documentation completeness** | 7/10 | Excellent CLAUDE.md and README; broken cross-refs, no onboarding tutorial, minimal examples |
+| **ML/AI pattern sophistication** | 9/10 | ToT, ReAct, CoVe, RRF hybrid retrieval, circuit breakers, CoT scaffolding, few-shot examples in top 8 personas, SelfReflectionMixin, RAG prompt injection framing |
+| **Code quality discipline** | 8/10 | Strong in agentic_v2; tools/ package now modernized (future annotations, proper logging, modern typing); ruff + mypy configured |
+| **Test coverage & strategy** | 8/10 | 1456+ tests, ~92% RAG coverage; CI threshold aligned at 70%; cross-package E2E tests added; frontend + eval + tools CI jobs |
+| **Documentation completeness** | 9/10 | ONBOARDING.md, PATTERN_CATALOG.md, WORKFLOW_AUTHORING.md, GLOSSARY.md, 6 examples, PR/issue templates; cross-refs fixed |
 | **Production readiness** | 7/10 | Good observability, auth, security; in-memory stores limit production scalability |
 | **Extensibility** | 9/10 | New workflow/persona/loader/adapter via protocol implementation only; entry_points gap |
-| **Educational clarity** | 7/10 | Self-documenting architecture; lacks explicit learning path and pattern catalog |
+| **Educational clarity** | 9/10 | Progressive onboarding tutorial, 17-pattern catalog, 45-term glossary, 6 worked examples, YAML authoring guide |
 
-**Overall: 79/100 → 7.9/10** *(up from 7.7 pre-remediation; +1 from ML/AI pattern sophistication, +1 from config-driven persona completeness)*
+**Overall: 86/100 → 8.6/10** *(up from 7.9; +1 protocol design, +1 code quality, +1 test coverage, +2 documentation, +2 educational clarity)*
 
 ---
 
 ## Next Steps / Roadmap
 
-### Sprint A — Quick wins (Effort: S, combined ~1-2 days)
-1. Add `[tool.ruff.lint]` to `agentic-workflows-v2/pyproject.toml` (Rec #1)
-2. Align CI coverage threshold (Rec #2)
-3. Fix 11 broken cross-references (Rec #10)
-4. Add frontend CI step (CQ-8)
-5. Add `tool.mypy` config (Rec #12)
-6. Add CI for eval + tools test suites (Rec #13)
-7. Create GitHub PR/issue templates (Rec #22)
-8. Add concept glossary (Rec #23)
+### Sprint A — Quick wins (Effort: S, combined ~1-2 days) ✅ ALL DONE
+1. ~~Add `[tool.ruff.lint]` to `agentic-workflows-v2/pyproject.toml` (Rec #1)~~ **DONE**
+2. ~~Align CI coverage threshold (Rec #2)~~ **DONE** — set to 70%
+3. ~~Fix 11 broken cross-references (Rec #10)~~ **DONE**
+4. ~~Add frontend CI step (CQ-8)~~ **DONE**
+5. ~~Add `tool.mypy` config (Rec #12)~~ **DONE**
+6. ~~Add CI for eval + tools test suites (Rec #13)~~ **DONE**
+7. ~~Create GitHub PR/issue templates (Rec #22)~~ **DONE**
+8. ~~Add concept glossary (Rec #23)~~ **DONE**
 
-### Sprint B — Educational materials (Effort: M, combined ~1-2 weeks)
-9. Create `docs/ONBOARDING.md` progressive tutorial (Rec #4)
-10. Create Pattern Catalog (Rec #5)
-11. Add few-shot examples to top 5 personas (Rec #3)
-12. Add 5-8 examples (Rec #11)
-13. Add YAML workflow authoring guide (Rec #18)
+### Sprint B — Educational materials (Effort: M, combined ~1-2 weeks) ✅ ALL DONE
+9. ~~Create `docs/ONBOARDING.md` progressive tutorial (Rec #4)~~ **DONE**
+10. ~~Create Pattern Catalog (Rec #5)~~ **DONE**
+11. ~~Add few-shot examples to top 5 personas (Rec #3)~~ **DONE** — expanded to top 8
+12. ~~Add 5-8 examples (Rec #11)~~ **DONE** — 6 examples
+13. ~~Add YAML workflow authoring guide (Rec #18)~~ **DONE**
 14. ~~Add chain-of-thought scaffolding to agent prompts (Rec #17)~~ **DONE**
 
-### Sprint C — Architecture hardening (Effort: M, combined ~2-3 weeks)
-15. Tighten protocol type signatures (Rec #8)
-16. Bridge ExecutionContext to LangChainEngine (Rec #9)
-17. Add cross-package integration tests (Rec #7)
-18. Add persistent VectorStore (LanceDB) adapter (Rec #14)
-19. Add re-ranking to RAG pipeline (Rec #19)
-20. Modernize tools/ package (Rec #16)
+### Sprint C — Architecture hardening (Effort: M, combined ~2-3 weeks) — 5/6 DONE
+15. ~~Tighten protocol type signatures (Rec #8)~~ **DONE**
+16. ~~Bridge ExecutionContext to LangChainEngine (Rec #9)~~ **DONE** — already implemented
+17. ~~Add cross-package integration tests (Rec #7)~~ **DONE**
+18. **Add persistent VectorStore (LanceDB) adapter (Rec #14)** — remaining
+19. **Add re-ranking to RAG pipeline (Rec #19)** — remaining
+20. ~~Modernize tools/ package (Rec #16)~~ **DONE**
 
-### Sprint D — Advanced patterns (Effort: L, ~4+ weeks)
-21. Implement BaseAgent reflection/self-correction loop (Rec #6)
-22. Integrate online evaluation feedback loop (Rec #15)
-23. Add workflow `iterate:` construct (Rec #20)
-24. Split oversized files (Rec #24)
-25. Add annotated code walkthroughs (Rec #25)
+### Sprint D — Advanced patterns (Effort: L, ~4+ weeks) — 2/5 DONE
+21. ~~Implement BaseAgent reflection/self-correction loop (Rec #6)~~ **DONE**
+22. **Integrate online evaluation feedback loop (Rec #15)** — remaining
+23. **Add workflow `iterate:` construct (Rec #20)** — remaining
+24. ~~Split oversized files (Rec #24)~~ **DONE**
+25. **Add annotated code walkthroughs (Rec #25)** — remaining
 
 ---
 

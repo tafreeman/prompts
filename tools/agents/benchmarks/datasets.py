@@ -8,9 +8,11 @@ The ``BENCHMARK_DEFINITIONS`` dict is the single source of truth for
 benchmark discovery across the repository.
 """
 
+from __future__ import annotations
+
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 
 class BenchmarkType(Enum):
@@ -68,31 +70,31 @@ class BenchmarkDefinition:
     # Data source configuration
     source: DataSource  # Where to fetch from
     source_url: str  # URL/path to dataset
-    source_config: Dict[str, Any] = field(
+    source_config: dict[str, Any] = field(
         default_factory=dict
     )  # Source-specific config
 
     # Evaluation info
-    metrics: List[str] = field(default_factory=list)  # How results are measured
+    metrics: list[str] = field(default_factory=list)  # How results are measured
     evaluation_method: str = "pass@1"  # Default evaluation approach
 
     # Metadata
-    paper_url: Optional[str] = None  # Research paper
-    leaderboard_url: Optional[str] = None  # Public leaderboard
+    paper_url: str | None = None  # Research paper
+    leaderboard_url: str | None = None  # Public leaderboard
     license: str = "unknown"  # Data license
-    citation: Optional[str] = None  # How to cite
+    citation: str | None = None  # How to cite
 
     # Filtering options
-    languages: List[str] = field(default_factory=lambda: ["python"])
-    difficulty_range: Optional[tuple] = None  # (min, max) if applicable
-    tags: List[str] = field(default_factory=list)
+    languages: list[str] = field(default_factory=lambda: ["python"])
+    difficulty_range: tuple | None = None  # (min, max) if applicable
+    tags: list[str] = field(default_factory=list)
 
 
 # =============================================================================
 # BENCHMARK DEFINITIONS
 # =============================================================================
 
-BENCHMARK_DEFINITIONS: Dict[str, BenchmarkDefinition] = {
+BENCHMARK_DEFINITIONS: dict[str, BenchmarkDefinition] = {
     # -------------------------------------------------------------------------
     # SWE-bench Family - Software Engineering
     # -------------------------------------------------------------------------
@@ -282,15 +284,15 @@ BENCHMARK_DEFINITIONS: Dict[str, BenchmarkDefinition] = {
 }
 
 
-def get_benchmark(benchmark_id: str) -> Optional[BenchmarkDefinition]:
+def get_benchmark(benchmark_id: str) -> BenchmarkDefinition | None:
     """Get a benchmark definition by ID."""
     return BENCHMARK_DEFINITIONS.get(benchmark_id)
 
 
 def list_benchmarks(
-    benchmark_type: Optional[BenchmarkType] = None,
-    language: Optional[str] = None,
-) -> Dict[str, BenchmarkDefinition]:
+    benchmark_type: BenchmarkType | None = None,
+    language: str | None = None,
+) -> dict[str, BenchmarkDefinition]:
     """List available benchmarks with optional filtering.
 
     Args:

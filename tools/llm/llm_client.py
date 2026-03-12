@@ -15,11 +15,12 @@ Raises:
     LLMClientError: On any provider failure (wraps the original exception).
 """
 
+from __future__ import annotations
+
 import logging
 import os
 import sys
 from pathlib import Path
-from typing import Optional
 
 from tools.llm import provider_adapters
 from tools.llm.local_models import LOCAL_MODELS
@@ -110,7 +111,7 @@ class LLMClient:
     def _pick_preferred_model(
         available: list[str],
         preferred: list[str],
-    ) -> Optional[str]:
+    ) -> str | None:
         """Pick the first model in preferred that is present in available.
 
         Matching is exact; callers should normalize names if needed.
@@ -189,7 +190,7 @@ class LLMClient:
     def generate_text(
         model_name: str,
         prompt: str,
-        system_instruction: Optional[str] = None,
+        system_instruction: str | None = None,
         temperature: float = 0.7,
         max_tokens: int = 4096,
     ) -> str:
@@ -352,7 +353,7 @@ class LLMClient:
 
     @staticmethod
     def _call_ollama(
-        model_name: str, prompt: str, system_instruction: Optional[str]
+        model_name: str, prompt: str, system_instruction: str | None
     ) -> str:
         """Call a local Ollama server using its REST API."""
         return provider_adapters.call_ollama(model_name, prompt, system_instruction)
@@ -361,7 +362,7 @@ class LLMClient:
     def _call_azure_openai(
         model_name: str,
         prompt: str,
-        system_instruction: Optional[str],
+        system_instruction: str | None,
         temperature: float = 0.7,
         max_tokens: int = 4096,
     ) -> str:
@@ -378,7 +379,7 @@ class LLMClient:
     def _call_local(
         model_name: str,
         prompt: str,
-        system_instruction: Optional[str],
+        system_instruction: str | None,
         temperature: float = 0.7,
         max_tokens: int = 2000,
     ) -> str:
@@ -397,7 +398,7 @@ class LLMClient:
             raise LLMClientError(model_name, str(exc), original_error=exc) from exc
 
     @staticmethod
-    def _resolve_local_model_path(model_key: str) -> Optional[Path]:
+    def _resolve_local_model_path(model_key: str) -> Path | None:
         """Resolve local model key to the best ONNX directory."""
         return provider_adapters.resolve_local_model_path(
             model_key,
@@ -408,7 +409,7 @@ class LLMClient:
     def _call_windows_ai(
         model_name: str,
         prompt: str,
-        system_instruction: Optional[str],
+        system_instruction: str | None,
         temperature: float = 0.7,
         max_tokens: int = 2000,
     ) -> str:
@@ -425,7 +426,7 @@ class LLMClient:
 
     @staticmethod
     def _call_github_models(
-        model_name: str, prompt: str, system_instruction: Optional[str]
+        model_name: str, prompt: str, system_instruction: str | None
     ) -> str:
         """Call GitHub Models via provider adapter."""
         return provider_adapters.call_github_models(
@@ -438,7 +439,7 @@ class LLMClient:
     def _call_azure_foundry(
         model_name: str,
         prompt: str,
-        system_instruction: Optional[str],
+        system_instruction: str | None,
         temperature: float = 0.7,
         max_tokens: int = 4096,
     ) -> str:
@@ -453,13 +454,13 @@ class LLMClient:
 
     @staticmethod
     def _call_gemini(
-        model_name: str, prompt: str, system_instruction: Optional[str]
+        model_name: str, prompt: str, system_instruction: str | None
     ) -> str:
         return provider_adapters.call_gemini(model_name, prompt, system_instruction)
 
     @staticmethod
     def _call_claude(
-        model_name: str, prompt: str, system_instruction: Optional[str]
+        model_name: str, prompt: str, system_instruction: str | None
     ) -> str:
         return provider_adapters.call_claude(model_name, prompt, system_instruction)
 
@@ -467,7 +468,7 @@ class LLMClient:
     def _call_openai(
         model_name: str,
         prompt: str,
-        system_instruction: Optional[str],
+        system_instruction: str | None,
         temperature: float = 0.7,
         max_tokens: int = 4096,
     ) -> str:

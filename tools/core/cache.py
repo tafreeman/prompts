@@ -28,8 +28,10 @@ NOTE: This module delegates to response_cache.ResponseCache for the actual
 implementation. Both modules now use the same underlying cache storage.
 """
 
+from __future__ import annotations
+
 import os
-from typing import Any, Dict, Optional
+from typing import Any
 
 # Import the canonical implementation
 from response_cache import DEFAULT_TTL_HOURS, ResponseCache, get_cache_dir
@@ -39,7 +41,7 @@ from response_cache import DEFAULT_TTL_HOURS, ResponseCache, get_cache_dir
 # =============================================================================
 
 # Lazily initialized global cache
-_cache: Optional[ResponseCache] = None
+_cache: ResponseCache | None = None
 
 
 def _get_cache() -> ResponseCache:
@@ -64,10 +66,10 @@ def _get_cache() -> ResponseCache:
 def get_cached_response(
     model: str,
     prompt: str,
-    system_instruction: Optional[str] = None,
+    system_instruction: str | None = None,
     max_age_hours: float = 24.0,
     **kwargs,
-) -> Optional[str]:
+) -> str | None:
     """Get a cached response if available and not expired.
 
     Args:
@@ -97,7 +99,7 @@ def cache_response(
     model: str,
     prompt: str,
     response: str,
-    system_instruction: Optional[str] = None,
+    system_instruction: str | None = None,
     **kwargs,
 ) -> None:
     """Cache an LLM response.
@@ -121,7 +123,7 @@ def cache_response(
     cache.set(cache_prompt, model, system_instruction or "", response)
 
 
-def clear_cache(max_age_hours: Optional[float] = None) -> int:
+def clear_cache(max_age_hours: float | None = None) -> int:
     """Clear cached responses.
 
     Args:
@@ -141,14 +143,14 @@ def clear_cache(max_age_hours: Optional[float] = None) -> int:
         return cache.clear()
 
 
-def get_cache_stats() -> Dict[str, Any]:
+def get_cache_stats() -> dict[str, Any]:
     """Get statistics about the cache."""
     cache = _get_cache()
     return cache.get_stats()
 
 
 def invalidate_cache(
-    model: str, prompt: str, system_instruction: Optional[str] = None, **kwargs
+    model: str, prompt: str, system_instruction: str | None = None, **kwargs
 ) -> bool:
     """Invalidate a specific cache entry.
 

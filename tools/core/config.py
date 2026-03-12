@@ -15,6 +15,8 @@ Example::
     print(default_config.models.generator_model)
 """
 
+from __future__ import annotations
+
 import os
 from dataclasses import dataclass
 

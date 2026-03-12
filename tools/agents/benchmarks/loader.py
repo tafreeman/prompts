@@ -10,16 +10,21 @@ Public API:
     clear_cache: Remove cached benchmark data.
 """
 
+from __future__ import annotations
+
 import hashlib
 import json
+import logging
 import urllib.request
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from .datasets import BENCHMARK_DEFINITIONS, BenchmarkDefinition, DataSource
 from .registry import BenchmarkConfig
+
+logger = logging.getLogger(__name__)
 
 # =============================================================================
 # TASK DATA STRUCTURE
@@ -62,26 +67,26 @@ class BenchmarkTask:
     instruction: str = ""  # Additional instructions
 
     # Context (for SWE-bench style)
-    repo: Optional[str] = None  # Repository name
-    base_commit: Optional[str] = None  # Starting commit
-    issue_text: Optional[str] = None  # GitHub issue text
-    hints: Optional[str] = None  # Any hints provided
+    repo: str | None = None  # Repository name
+    base_commit: str | None = None  # Starting commit
+    issue_text: str | None = None  # GitHub issue text
+    hints: str | None = None  # Any hints provided
 
     # Expected output
-    expected_output: Optional[str] = None  # Expected solution (if available)
-    test_cases: List[Dict[str, Any]] = field(default_factory=list)
-    golden_patch: Optional[str] = None  # Gold patch for SWE-bench
+    expected_output: str | None = None  # Expected solution (if available)
+    test_cases: list[dict[str, Any]] = field(default_factory=list)
+    golden_patch: str | None = None  # Gold patch for SWE-bench
 
     # Metadata
-    difficulty: Optional[str] = None
-    tags: List[str] = field(default_factory=list)
+    difficulty: str | None = None
+    tags: list[str] = field(default_factory=list)
     language: str = "python"
 
     # Evaluation
-    evaluation_script: Optional[str] = None  # Script to run for eval
-    pass_criteria: Dict[str, Any] = field(default_factory=dict)
+    evaluation_script: str | None = None  # Script to run for eval
+    pass_criteria: dict[str, Any] = field(default_factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for serialization."""
         return {
             "task_id": self.task_id,
@@ -108,13 +113,13 @@ class BenchmarkTask:
 CACHE_DIR = Path(__file__).parent / ".cache"
 
 
-def get_cache_key(benchmark_id: str, task_id: Optional[str] = None) -> str:
+def get_cache_key(benchmark_id: str, task_id: str | None = None) -> str:
     """Generate cache key for a benchmark or task."""
     key = f"{benchmark_id}:{task_id or 'all'}"
     return hashlib.sha256(key.encode()).hexdigest()[:16]
 
 
-def get_cache_path(benchmark_id: str, task_id: Optional[str] = None) -> Path:
+def get_cache_path(benchmark_id: str, task_id: str | None = None) -> Path:
     """Get cache file path."""
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
     return CACHE_DIR / f"{get_cache_key(benchmark_id, task_id)}.json"
@@ -129,7 +134,7 @@ def is_cache_valid(cache_path: Path, ttl_hours: int = 24) -> bool:
     return datetime.now() - mtime < timedelta(hours=ttl_hours)
 
 
-def save_to_cache(data: Any, benchmark_id: str, task_id: Optional[str] = None) -> None:
+def save_to_cache(data: Any, benchmark_id: str, task_id: str | None = None) -> None:
     """Save data to cache."""
     cache_path = get_cache_path(benchmark_id, task_id)
     with open(cache_path, "w", encoding="utf-8") as f:
@@ -145,7 +150,7 @@ def save_to_cache(data: Any, benchmark_id: str, task_id: Optional[str] = None) -
         )
 
 
-def load_from_cache(benchmark_id: str, task_id: Optional[str] = None) -> Optional[Any]:
+def load_from_cache(benchmark_id: str, task_id: str | None = None) -> Any | None:
     """Load data from cache."""
     cache_path = get_cache_path(benchmark_id, task_id)
     if not cache_path.exists():
@@ -176,21 +181,21 @@ def _check_huggingface_available() -> bool:
 
 def _load_from_huggingface(
     benchmark: BenchmarkDefinition,
-    limit: Optional[int] = None,
+    limit: int | None = None,
     offset: int = 0,
-) -> List[BenchmarkTask]:
+) -> list[BenchmarkTask]:
     """Load tasks from HuggingFace datasets.
 
     Requires: pip install datasets
     """
     if not _check_huggingface_available():
-        print("[!] HuggingFace datasets not installed. Install with:")
-        print("  pip install datasets")
+        logger.warning("HuggingFace datasets not installed. Install with:")
+        logger.warning("  pip install datasets")
         return []
 
     import datasets
 
-    print(f"  📥 Loading from HuggingFace: {benchmark.source_url}")
+    logger.info("Loading from HuggingFace: %s", benchmark.source_url)
 
     try:
         # Load dataset
@@ -215,15 +220,15 @@ def _load_from_huggingface(
         return tasks
 
     except Exception as e:
-        print(f"  [!] Failed to load from HuggingFace: {e}")
+        logger.error("Failed to load from HuggingFace: %s", e)
         return []
 
 
 def _transform_huggingface_item(
-    item: Dict[str, Any],
+    item: dict[str, Any],
     benchmark: BenchmarkDefinition,
     idx: int,
-) -> Optional[BenchmarkTask]:
+) -> BenchmarkTask | None:
     """Transform a HuggingFace dataset item to BenchmarkTask."""
 
     # SWE-bench format
@@ -290,9 +295,9 @@ def _transform_huggingface_item(
 
 def _load_from_github(
     benchmark: BenchmarkDefinition,
-    limit: Optional[int] = None,
+    limit: int | None = None,
     offset: int = 0,
-) -> List[BenchmarkTask]:
+) -> list[BenchmarkTask]:
     """Load tasks from a GitHub repository."""
     config = benchmark.source_config
     branch = config.get("branch", "main")
@@ -305,7 +310,7 @@ def _load_from_github(
     if branch != "main":
         api_url += f"?ref={branch}"
 
-    print(f"  📥 Loading from GitHub: {benchmark.source_url}")
+    logger.info("Loading from GitHub: %s", benchmark.source_url)
 
     try:
         req = urllib.request.Request(
@@ -348,11 +353,11 @@ def _load_from_github(
         return tasks
 
     except Exception as e:
-        print(f"  [!] Failed to load from GitHub: {e}")
+        logger.error("Failed to load from GitHub: %s", e)
         return []
 
 
-def _fetch_github_file(url: str) -> Optional[Dict[str, Any]]:
+def _fetch_github_file(url: str) -> dict[str, Any] | None:
     """Fetch a single file from GitHub."""
     try:
         req = urllib.request.Request(url, headers={"User-Agent": "prompts-library/1.0"})
@@ -364,9 +369,9 @@ def _fetch_github_file(url: str) -> Optional[Dict[str, Any]]:
 
 def _load_from_local(
     benchmark: BenchmarkDefinition,
-    limit: Optional[int] = None,
+    limit: int | None = None,
     offset: int = 0,
-) -> List[BenchmarkTask]:
+) -> list[BenchmarkTask]:
     """Load tasks from local JSON files."""
     config = benchmark.source_config
     pattern = config.get("pattern", "*.json")
@@ -374,10 +379,10 @@ def _load_from_local(
     # Resolve path relative to benchmarks directory
     base_path = Path(__file__).parent.parent / benchmark.source_url
 
-    print(f"  📥 Loading from local: {base_path}")
+    logger.info("Loading from local: %s", base_path)
 
     if not base_path.exists():
-        print(f"  [!] Path not found: {base_path}")
+        logger.error("Path not found: %s", base_path)
         return []
 
     # Find matching files
@@ -415,7 +420,7 @@ def _load_from_local(
             tasks.append(task)
 
         except Exception as e:
-            print(f"  [!] Error loading {file_path}: {e}")
+            logger.error("Error loading %s: %s", file_path, e)
 
     return tasks
 
@@ -427,12 +432,12 @@ def _load_from_local(
 
 def load_benchmark(
     benchmark_id: str,
-    limit: Optional[int] = None,
+    limit: int | None = None,
     offset: int = 0,
     use_cache: bool = True,
     cache_ttl_hours: int = 24,
-    config: Optional[BenchmarkConfig] = None,
-) -> List[BenchmarkTask]:
+    config: BenchmarkConfig | None = None,
+) -> list[BenchmarkTask]:
     """Load tasks from a benchmark.
 
     Args:
@@ -449,13 +454,13 @@ def load_benchmark(
     # Get benchmark definition
     benchmark = BENCHMARK_DEFINITIONS.get(benchmark_id)
     if not benchmark:
-        print(f"[!] Unknown benchmark: {benchmark_id}")
-        print(f"  Available: {list(BENCHMARK_DEFINITIONS.keys())}")
+        logger.error("Unknown benchmark: %s", benchmark_id)
+        logger.error("  Available: %s", list(BENCHMARK_DEFINITIONS.keys()))
         return []
 
-    print(f"\n[*] Loading benchmark: {benchmark.name}")
-    print(f"    Type: {benchmark.benchmark_type.value}")
-    print(f"    Size: ~{benchmark.size} tasks")
+    logger.info("Loading benchmark: %s", benchmark.name)
+    logger.info("    Type: %s", benchmark.benchmark_type.value)
+    logger.info("    Size: ~%d tasks", benchmark.size)
 
     # Check cache
     if use_cache:
@@ -463,7 +468,7 @@ def load_benchmark(
         if is_cache_valid(cache_path, cache_ttl_hours):
             cached_data = load_from_cache(benchmark_id)
             if cached_data:
-                print("    [+] Loaded from cache")
+                logger.info("    Loaded from cache")
                 tasks = [BenchmarkTask(**t) for t in cached_data]
                 # Apply limit/offset to cached data
                 tasks = tasks[offset:]
@@ -481,14 +486,14 @@ def load_benchmark(
     elif benchmark.source == DataSource.LOCAL:
         tasks = _load_from_local(benchmark, limit, offset)
     else:
-        print(f"  [!] Unsupported source: {benchmark.source}")
+        logger.error("Unsupported source: %s", benchmark.source)
 
     # Cache results
     if use_cache and tasks:
         save_to_cache([t.to_dict() for t in tasks], benchmark_id)
-        print(f"    [+] Cached {len(tasks)} tasks")
+        logger.info("    Cached %d tasks", len(tasks))
 
-    print(f"    [+] Loaded {len(tasks)} tasks")
+    logger.info("    Loaded %d tasks", len(tasks))
     return tasks
 
 
@@ -496,10 +501,8 @@ def fetch_task(
     benchmark_id: str,
     task_id: str,
     use_cache: bool = True,
-) -> Optional[BenchmarkTask]:
+) -> BenchmarkTask | None:
     """Fetch a single task by ID.
-
-    Args:
         benchmark_id: Which benchmark
         task_id: Task identifier
         use_cache: Whether to use cache
@@ -526,7 +529,7 @@ def fetch_task(
     return None
 
 
-def clear_cache(benchmark_id: Optional[str] = None) -> int:
+def clear_cache(benchmark_id: str | None = None) -> int:
     """Clear cached benchmark data.
 
     Args:
