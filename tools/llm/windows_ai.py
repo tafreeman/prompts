@@ -250,6 +250,14 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
+    # Configure logging for standalone script usage:
+    # - INFO by default so user-facing output is visible
+    # - DEBUG when --verbose is enabled for additional diagnostics
+    logging.basicConfig(
+        level=logging.DEBUG if args.verbose else logging.INFO,
+        format="%(levelname)s: %(message)s",
+    )
+
     if args.info:
         import json
 
