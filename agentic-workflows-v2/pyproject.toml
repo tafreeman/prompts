@@ -198,6 +198,10 @@ ignore = [
     #   Auto-fixable but produces semantically identical code; safe to defer.
     #   TODO Sprint C: run `ruff check --fix --select C420`.
     "C420",
+    # RUF022: unsorted `__all__` — the codebase intentionally groups __all__
+    #   entries by logical category (phases, feature domains) rather than
+    #   alphabetically; sorting would destroy semantic organization.
+    "RUF022",
 ]
 
 # ---------------------------------------------------------------------------

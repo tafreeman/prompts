@@ -185,4 +185,4 @@ class ToolProtocol(Protocol):
 
 # MemoryStore is deprecated — use MemoryStoreProtocol from core.memory instead.
 # Kept as an alias for backward compatibility with existing agent code.
-from .memory import MemoryStoreProtocol as MemoryStore  # noqa: E402
+from .memory import MemoryStoreProtocol as MemoryStore

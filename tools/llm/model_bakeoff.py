@@ -156,7 +156,7 @@ def _run_bakeoff(
                     temperature=temperature,
                     max_tokens=max_tokens,
                 )
-            except Exception as exc:  # noqa: BLE001
+            except Exception as exc:
                 error = str(exc)
             elapsed = time.perf_counter() - started
             scored = _score_task(task, response, elapsed, error)
@@ -211,19 +211,6 @@ def _run_bakeoff(
         reverse=True,
     )
     return model_results
-
-
-# Backward-compat re-exports
-from tools.llm.bakeoff_tasks import (  # noqa: F401, E402
-    TaskSpec,
-    TASKS,
-    _provider_of,
-    _dedupe_keep_order,
-    _is_local_openai_base,
-    _discover_openai_compatible_models,
-    _parse_json_from_text,
-)
-from tools.llm.bakeoff_reporting import _recommend_alignment, _write_reports  # noqa: F401, E402
 
 
 def main(argv: list[str]) -> int:

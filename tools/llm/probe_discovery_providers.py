@@ -85,7 +85,7 @@ logger = logging.getLogger(__name__)
 
 def _probe_local_onnx(verbose: bool = False) -> dict[str, Any]:
     """Probe local ONNX models from the AI Gallery cache."""
-    import shutil  # noqa: F401 — imported for consistency, may be used by callers
+    import shutil
 
     ai_gallery = Path.home() / CACHE_BASE_DIR / AI_GALLERY_CACHE_DIR
     local_models: list[str] = []

@@ -64,4 +64,5 @@ ignore = [
     "F401",   # Unused imports: some are re-exports
     "TC001",  # TYPE_CHECKING guards: deferred
     "C420",   # Dict comprehension simplification: deferred
+    "RUF022", # Unsorted __all__: intentional logical grouping by category
 ]

@@ -59,7 +59,7 @@ from tools.agents.benchmarks.workflow_pipeline import (
 # ---------------------------------------------------------------------------
 # Re-exports for backward compatibility
 # ---------------------------------------------------------------------------
-from tools.agents.benchmarks.runner_commands import (  # noqa: F401
+from tools.agents.benchmarks.runner_commands import (
     cmd_clear_cache,
     cmd_discover_models,
     cmd_info,
