@@ -22,82 +22,24 @@ Branch: `claude/laughing-einstein` | Started: 2026-03-11
 | C14a | `23ce09d0` | docs: fix stale test file count in CLAUDE.md (66 to 72) | 1 |
 | C14b | `37a08cbb` | docs: add .claude directory guide with commands, contexts, rules, and skills reference | 1 |
 | C15 | `5592bebd` | feat: add YAML workflow execution and custom tool implementation examples | 3 |
+| C16a | `b3bf74e9` | feat: add RerankerProtocol and RerankerConfig | 3 |
+| C16b | `7513de79` | feat: add reranking implementations (NoOp, CrossEncoder, LLM) | 2 |
+| C16c | `002971bc` | feat: wire optional reranker into HybridRetriever | 2 |
+| C17 | `a9d2cd52` | test: add protocol conformance tests for RAG, Agent, Tool, and Memory | 1 |
+| C19a | `0a645ddd` | refactor: split tools/llm oversized files into focused modules | 9 |
+| C19b | `b244d301` | refactor: split tools/agents/benchmarks oversized files | 7 |
+| C19c | `f2136619` | refactor: split tools/research/build_library.py into focused modules | 2 |
+| C19-cleanup | `46147dda` | refactor: remove duplicate constants and convert print to logging in tools/llm | 2 |
+| C18 | `6ac26971` | feat: add conditional branching and iterative review YAML workflow examples | 3 |
+| C20 | `1711be25` | ci: fix ruff violations and add integration-test CI job | 16 |
 
-**Total: 15 commits, ~105 files changed**
-
----
-
-## Remaining Work
-
-### C16 — RAG reranking module (new feature)
-**Priority:** Medium | **Effort:** Large | **Model:** opus
-
-Add `RerankerProtocol` to `core/protocols.py` and create `rag/reranking.py` with three implementations:
-- `CrossEncoderReranker` — uses cross-encoder models (sentence-transformers), guard import with try/except
-- `LLMReranker` — uses an LLM to score relevance
-- `NoOpReranker` — passthrough for testing/baseline
-
-Wire optional reranking into `HybridRetriever` in `rag/retrieval.py`. Add config fields to `rag/config.py`.
-
-**Tests:** Unit tests for each implementation + integration test with HybridRetriever. Target >= 80% coverage on new code.
-
-**Files to create/modify:**
-- `agentic_v2/core/protocols.py` — add `RerankerProtocol`
-- `agentic_v2/rag/reranking.py` — NEW (3 implementations)
-- `agentic_v2/rag/config.py` — add reranker config fields
-- `agentic_v2/rag/retrieval.py` — wire optional reranking into `HybridRetriever`
-- `tests/test_reranking.py` — NEW
+**Total: 25 commits, ~152 files changed** | PR #95 (C1–C15), PR #97 (CI fix), PR #98 (C16–C19), PR #99 (C18, C20)
 
 ---
 
-### C17 — Protocol conformance test suite
-**Priority:** Medium | **Effort:** Medium | **Model:** sonnet
+## All Backlog Items Complete
 
-Create `tests/test_protocol_conformance.py` asserting `isinstance(impl, Protocol)` for all known implementations of the 6 protocols in `core/protocols.py`:
-- `ExecutionEngine`
-- `AgentProtocol`
-- `ToolProtocol`
-- `MemoryStore`
-- `SupportsStreaming`
-- `SupportsCheckpointing`
-
-Fix protocol declarations on `ClaudeSDKAgent` and `LangChainEngine` if needed.
-
-**Files to create/modify:**
-- `tests/test_protocol_conformance.py` — NEW
-- Possibly `agents/implementations/claude_sdk_agent.py`, `langchain/engine.py` — protocol fixes
-
----
-
-### C18 — Conditional branching and iterative workflow YAML examples
-**Priority:** Low | **Effort:** Small | **Model:** haiku
-
-Create two example YAML workflow definitions:
-- `examples/conditional_branching.yaml` — demonstrates `when:` conditional gates
-- `examples/iterative_review.yaml` — demonstrates `loop_until:` iterative patterns
-
-Update `examples/README.md` to list these.
-
-**Files to create:**
-- `agentic_v2/workflows/definitions/conditional_branching.yaml` — NEW
-- `agentic_v2/workflows/definitions/iterative_review.yaml` — NEW
-- `examples/README.md` — update
-
----
-
-### C19 — Split oversized tools/ files (stretch)
-**Priority:** Low | **Effort:** Medium | **Model:** sonnet
-
-Split two oversized files:
-- `tools/llm/local_model.py` (851L) → core class + discovery module
-- `tools/agents/benchmarks/llm_evaluator.py` (780L) → rubric logic + orchestration
-
----
-
-### C20 — Remaining ruff violations + integration CI (stretch)
-**Priority:** Low | **Effort:** Small | **Model:** haiku
-
-Run `ruff check --fix` for remaining deferred rules. Add an integration-test job to `.github/workflows/ci.yml`.
+All planned improvement items (C1–C20) have been implemented and committed.
 
 ---
 
