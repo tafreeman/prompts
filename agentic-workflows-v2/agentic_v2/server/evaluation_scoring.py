@@ -152,7 +152,7 @@ def _scoring_weights() -> dict[str, float]:
     for key, value in raw.items():
         try:
             weights[str(key)] = float(value)
-        except Exception:
+        except (ValueError, TypeError):
             continue
     if not weights:
         return dict(_DEFAULT_WEIGHTS)
@@ -176,7 +176,7 @@ def pass_threshold() -> float:
     )
     try:
         return float(raw)
-    except Exception:
+    except (ValueError, TypeError):
         return _DEFAULT_PASS_THRESHOLD
 
 
@@ -593,7 +593,7 @@ def score_workflow_result_impl(
                     judge_item.normalized_score, 4
                 )
                 criterion_payload["judge_evidence"] = judge_item.evidence
-        except Exception as exc:
+        except (ValueError, RuntimeError, OSError, TypeError, KeyError) as exc:
             logger.warning("Judge evaluation skipped due to error: %s", exc)
 
     hybrid_score_0_1, active_hybrid_weights = _compose_hybrid_score(

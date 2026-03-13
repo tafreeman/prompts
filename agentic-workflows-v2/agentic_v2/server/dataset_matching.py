@@ -405,7 +405,7 @@ def _materialize_file_input(
                     return str(candidate)
             except ValueError:
                 candidate = None
-        except Exception:
+        except (OSError, ValueError):
             candidate = None
 
     suffix = ".py" if looks_python else ".txt"
@@ -556,7 +556,7 @@ def adapt_sample_to_workflow_inputs(
         elif definition.type in {"object", "array"} and isinstance(value, str):
             try:
                 value = json.loads(value)
-            except Exception:
+            except (json.JSONDecodeError, TypeError):
                 value = {"value": value}
 
         adapted[name] = value

@@ -88,7 +88,7 @@ def _output_text(result: WorkflowResult) -> str:
     final = getattr(result, "final_output", None) or getattr(result, "outputs", {})
     try:
         return json.dumps(final, default=str)
-    except Exception:
+    except (TypeError, ValueError, OverflowError):
         return str(final)
 
 

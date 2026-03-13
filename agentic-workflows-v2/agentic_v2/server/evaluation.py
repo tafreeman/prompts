@@ -18,6 +18,7 @@ backward compatibility with monkeypatch-based tests.
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 from typing import Any
 
@@ -164,7 +165,7 @@ def _materialize_file_input(
             except ValueError:
                 # candidate is outside artifacts_root; ignore and treat as content
                 candidate = None
-        except Exception:
+        except (OSError, ValueError):
             candidate = None
 
     # Fallback: treat value as content and write it to a new file.
@@ -272,7 +273,7 @@ def adapt_sample_to_workflow_inputs(
         elif definition.type in {"object", "array"} and isinstance(value, str):
             try:
                 value = json.loads(value)
-            except Exception:
+            except (ValueError, TypeError):
                 value = {"value": value}
 
         adapted[name] = value

@@ -114,7 +114,7 @@ def _load_eval_config() -> dict[str, Any]:
         with _EVAL_CONFIG_PATH.open("r", encoding="utf-8") as f:
             data = yaml.safe_load(f)
             return data if isinstance(data, dict) else {}
-    except Exception as exc:
+    except (OSError, yaml.YAMLError, ValueError) as exc:
         logger.warning("Failed to load evaluation config: %s", exc)
         return {}
 
@@ -152,7 +152,7 @@ def list_repository_datasets() -> list[dict[str, Any]]:
                 }
             )
         return sorted(options, key=lambda x: x["id"])
-    except Exception as exc:
+    except (ImportError, AttributeError, TypeError) as exc:
         logger.info("Repository benchmark definitions unavailable: %s", exc)
 
     fallback = _load_eval_config().get("evaluation", {}).get("datasets", {})
@@ -220,7 +220,7 @@ def _estimate_sample_count(path: Path) -> int | None:
                 if isinstance(value, list):
                     return len(value)
             return 1
-    except Exception:
+    except (OSError, ValueError):
         return None
     return None
 
@@ -437,7 +437,7 @@ def load_repository_dataset_sample(
             "benchmark_id": sample.get("benchmark_id", dataset_id),
         }
         return sample, meta
-    except Exception as exc:
+    except (ImportError, ValueError, KeyError, OSError, TypeError) as exc:
         raise ValueError(
             f"Unable to load repository dataset '{dataset_id}'. "
             "Choose a local JSON dataset or ensure benchmark dependencies are available."
