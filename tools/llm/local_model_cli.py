@@ -46,6 +46,11 @@ def main() -> None:
 
     args = parser.parse_args()
 
+    logging.basicConfig(
+        level=logging.DEBUG if args.verbose else logging.INFO,
+        format="%(message)s",
+    )
+
     # Check mode
     if args.check:
         info = get_model_info()
