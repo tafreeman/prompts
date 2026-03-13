@@ -78,6 +78,7 @@ from tools.llm.probe_config import (
     WINDOWS_AI_CLI_ARG_INFO,
     WINDOWS_AI_MODEL_ID,
 )
+from tools.llm.llm_client import LLMClient
 
 logger = logging.getLogger(__name__)
 
@@ -257,8 +258,6 @@ def _probe_openai() -> dict[str, Any]:
 
     if openai_configured:
         try:
-            from llm_client import LLMClient
-
             openai_models = [
                 f"{PREFIX_OPENAI}{m}" for m in LLMClient.list_openai_models()[:20]
             ]
