@@ -275,12 +275,12 @@ class HybridRetriever:
         Returns:
             Fused and ranked retrieval results.
         """
-        dense_results = await self.dense_only(query, top_k=top_k)
-        bm25_results = self._bm25.search(query, top_k=top_k)
-
         # Fetch more candidates when reranking so the reranker has a
         # richer pool to rescore before final top_k truncation.
         rrf_top_k = top_k * 3 if self._reranker is not None else top_k
+
+        dense_results = await self.dense_only(query, top_k=rrf_top_k)
+        bm25_results = self._bm25.search(query, top_k=rrf_top_k)
 
         results = reciprocal_rank_fusion(
             [dense_results, bm25_results],
