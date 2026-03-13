@@ -201,7 +201,7 @@ def call_local(
 
     model_key = model_name.split(":", 1)[1] if ":" in model_name else "phi4mini"
     if model_key.lower() not in local_models:
-        return f"Local model error: Unknown local model key: {model_key}"
+        raise RuntimeError(f"Unknown local model key: {model_key!r}")
 
     model_path_obj = resolve_model_path(model_key)
     model_path = str(model_path_obj) if model_path_obj else None
@@ -224,7 +224,7 @@ def call_local(
             full_prompt, max_tokens=max_tokens, temperature=temperature
         )
     except Exception as exc:
-        return f"Local model error: {exc}"
+        raise RuntimeError(f"Local model inference failed: {exc}") from exc
 
 
 def call_windows_ai(
