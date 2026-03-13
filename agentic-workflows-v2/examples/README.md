@@ -20,6 +20,17 @@ python examples/yaml_workflow.py
 python examples/custom_tool.py
 ```
 
+## YAML Workflow Pattern Reference
+
+The `workflows/definitions/` directory includes two educational workflow definitions that demonstrate advanced DAG features:
+
+| File | Pattern | Key Features |
+|------|---------|-------------|
+| `conditional_branching.yaml` | `when:` conditional gates | Equality checks, `in`/`not in` membership, compound `and`/`or` expressions, conditional fan-out, `coalesce()` fallbacks |
+| `iterative_review.yaml` | `loop_until:` bounded loops | Review-rework cycles, `loop_max:` bounds, self-referencing outputs across iterations, post-loop quality gates |
+
+These require LLM API keys to execute. For a no-API-key example, see `yaml_workflow.py`.
+
 ## Notes
 
 - `workflow_run.py` creates a temporary file named `dummy_code.py` when running `code_review`. The file is cleaned up automatically at the end of the run.
