@@ -1,7 +1,7 @@
 # Product Backlog — tafreeman/prompts
 
 **Repository:** `tafreeman/prompts`
-**Last Updated:** 2026-03-05
+**Last Updated:** 2026-03-12
 **Health Score:** 7.9 / 10 *(post-remediation, 2026-03-03)*
 **Analysis Team:** Architecture Analyst · ML/AI Patterns Reviewer · Code Quality Auditor · Documentation & DX Reviewer
 
@@ -47,7 +47,7 @@
 
 ---
 
-## Full Backlog (26 Items — 17 Done, 3 Partial, 6 Backlog)
+## Full Backlog (33 Items — 17 Done, 3 Partial, 13 Backlog)
 
 | # | ID | Status | Sprint | Recommendation | Impact | Effort | Owner | Source |
 |---|----|--------|--------|----------------|:------:|:------:|-------|--------|
@@ -77,6 +77,13 @@
 | 24 | CQ-6 | **PARTIAL** 🟡 | Sprint D | Split oversized files — C19 split 6 files in tools/; remaining: `model_probe.py` (2,360L), `server/routes/workflows.py` (1,330L), `evaluation_scoring.py` (1,160L) | 3 | L | Code Quality | CQ-6 |
 | 25 | DX-13 | BACKLOG | Sprint D | Add annotated code walkthroughs — guided walkthroughs of workflow execution, model routing, RAG retrieval | 4 | L | Docs | DX-13 |
 | 26 | ARCH-5 | **DONE** ✅ | — | ~~SupportsCheckpointing in NativeEngine~~ — SQLite CheckpointStore, full test suite (2026-03-05) | 4 | M | Architecture | ARCH-5 |
+| 27 | ARCH-7 | BACKLOG | Sprint E | Consolidate dual engine maintenance burden — native + LangChain engines share overlapping step-execution, error-handling, and context-forwarding logic | 5 | L | Architecture | ARCHITECTURE.md §8.1 |
+| 28 | ARCH-8 | BACKLOG | Sprint E | Fix immutability violations — mutable default arguments, in-place dict/list mutations in agent and engine code | 5 | M | Architecture | ARCHITECTURE.md §8.2 |
+| 29 | ARCH-9 | BACKLOG | Sprint E | Reduce global singleton proliferation — 3 singletons (context.py, registry.py, otel.py) should use dependency injection | 4 | M | Architecture | ARCHITECTURE.md §8.4 |
+| 30 | CQ-8 | BACKLOG | Sprint E | Eliminate silent exception swallowing in `tools/core/response_cache.py` — broad `except Exception` with no re-raise | 3 | S | Code Quality | ARCHITECTURE.md §8.5 |
+| 31 | ARCH-10 | BACKLOG | Sprint E | Remove or implement empty configuration module — placeholder with no config logic | 3 | S | Architecture | ARCHITECTURE.md §8.3 |
+| 32 | CQ-9 | BACKLOG | Sprint E | Deduplicate tier fallback data — model tier/capability data repeated across `smart_router.py`, `backends.py`, provider modules | 3 | M | Code Quality | ARCHITECTURE.md §8.7 |
+| 33 | ARCH-11 | BACKLOG | Sprint E | Add schema versioning strategy for contracts — no mechanism to version Pydantic models in `contracts/` | 3 | M | Architecture | ARCHITECTURE.md §8.8 |
 
 ---
 
@@ -176,6 +183,18 @@ All 4 items completed (2026-03-11 through 2026-03-12).
 | 22 | ARCH-3 | Add workflow `iterate:` construct | BACKLOG |
 | 23 | CQ-6 | Split oversized files | **PARTIAL** 🟡 |
 | 24 | DX-13 | Add annotated code walkthroughs | BACKLOG |
+
+### Sprint E — Architectural Debt (from ARCHITECTURE.md §8.x audit, 2026-03-12)
+
+| # | ID | Item | Status |
+|---|----|------|--------|
+| 27 | ARCH-7 | Consolidate dual engine overlap (native + LangChain shared logic) | BACKLOG |
+| 28 | ARCH-8 | Fix immutability violations (mutable defaults, in-place mutations) | BACKLOG |
+| 29 | ARCH-9 | Reduce global singleton proliferation → dependency injection | BACKLOG |
+| 30 | CQ-8 | Eliminate silent exception swallowing in `tools/core/response_cache.py` | BACKLOG |
+| 31 | ARCH-10 | Remove or implement empty configuration module | BACKLOG |
+| 32 | CQ-9 | Deduplicate tier fallback data across router/backend modules | BACKLOG |
+| 33 | ARCH-11 | Add schema versioning strategy for `contracts/` Pydantic models | BACKLOG |
 
 ---
 
