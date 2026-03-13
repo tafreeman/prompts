@@ -180,7 +180,7 @@ class DAGExecutor:
                 running.add(step_name)
                 # Move state to READY before spawning task
                 self._state_manager.transition(step_name, StepState.READY)
-                tasks.add(asyncio.create_task(run_step(step_name)))
+                tasks.add(asyncio.create_task(run_step(step_name), name=step_name))
 
             # 2. Deadlock detection
             # If no tasks are running but we aren't done, some steps are unreachable.
@@ -194,7 +194,32 @@ class DAGExecutor:
             done, tasks = await asyncio.wait(tasks, return_when=asyncio.FIRST_COMPLETED)
 
             for task in done:
-                step_name, step_result = task.result()
+                try:
+                    step_name, step_result = task.result()
+                except asyncio.CancelledError:
+                    raise
+                except Exception as exc:
+                    # Unhandled programming error inside run_step — retrieve the
+                    # step name from the task (set via name= in create_task).
+                    failed_name = task.get_name()
+                    logger.error(
+                        "Unhandled exception in DAG task for step %r: %s",
+                        failed_name,
+                        exc,
+                        exc_info=True,
+                    )
+                    running.discard(failed_name)
+                    step_result = StepResult(
+                        step_name=failed_name, status=StepStatus.FAILED
+                    )
+                    step_result.error = str(exc)
+                    step_result.end_time = datetime.now(timezone.utc)
+                    results[failed_name] = step_result
+                    result.add_step(step_result)
+                    completed.add(failed_name)
+                    result.overall_status = StepStatus.FAILED
+                    cascade_skip(failed_name, "unhandled exception")
+                    continue
                 running.discard(step_name)
                 results[step_name] = step_result
                 result.add_step(step_result)

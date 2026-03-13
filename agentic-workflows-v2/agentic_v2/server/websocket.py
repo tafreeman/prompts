@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
+from collections import deque
 from typing import Any
 
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
@@ -49,8 +50,7 @@ class ConnectionManager:
 
     Attributes:
         connections: Mapping of ``run_id`` to active WebSocket list.
-        event_buffers: Mapping of ``run_id`` to buffered event list.
-        _max_buffer_size: Maximum events retained per run (default 500).
+        event_buffers: Mapping of ``run_id`` to bounded deque of event dicts.
         _sse_listeners: Mapping of ``run_id`` to SSE queue list.
     """
 
@@ -59,13 +59,13 @@ class ConnectionManager:
 
         Args:
             max_buffer_size: Maximum number of events to retain in the
-                per-run replay buffer.  Oldest events are evicted when
-                the limit is exceeded.
+                per-run replay buffer.  Oldest events are evicted O(1)
+                via ``deque(maxlen=...)``.
         """
         # map run_id -> list of websockets
         self.connections: dict[str, list[WebSocket]] = {}
-        # Replay buffer: run_id -> list of events (for late-connecting clients)
-        self.event_buffers: dict[str, list[dict[str, Any]]] = {}
+        # Replay buffer: run_id -> deque of events (O(1) eviction via maxlen)
+        self.event_buffers: dict[str, deque[dict[str, Any]]] = {}
         self._max_buffer_size = max_buffer_size
         # SSE listeners: run_id -> list of asyncio.Queue
         self._sse_listeners: dict[str, list[asyncio.Queue[dict[str, Any]]]] = {}
@@ -105,7 +105,8 @@ class ConnectionManager:
         for event in self.event_buffers.get(run_id, []):
             try:
                 await websocket.send_json(event)
-            except Exception:
+            except (ConnectionError, RuntimeError) as exc:
+                logger.debug("Replay interrupted for run %s: %s", run_id, exc)
                 break
 
     async def broadcast(self, run_id: str, message: dict[str, Any]):
@@ -121,21 +122,26 @@ class ConnectionManager:
             run_id: Target workflow run identifier.
             message: JSON-serializable event dict to broadcast.
         """
-        # Buffer the event for late-connecting clients
+        # Buffer the event for late-connecting clients.
+        # deque(maxlen=...) evicts the oldest entry in O(1) automatically.
         if run_id not in self.event_buffers:
-            self.event_buffers[run_id] = []
-        buf = self.event_buffers[run_id]
-        buf.append(message)
-        if len(buf) > self._max_buffer_size:
-            buf.pop(0)
+            self.event_buffers[run_id] = deque(maxlen=self._max_buffer_size)
+        self.event_buffers[run_id].append(message)
 
-        # Push to WebSocket clients
-        if run_id in self.connections:
-            for connection in self.connections[run_id]:
-                try:
-                    await connection.send_json(message)
-                except Exception:
-                    pass  # disconnect handler will clean up
+        # Snapshot the connection list before iterating so that concurrent
+        # connect/disconnect calls cannot modify the list mid-loop.
+        dead: list[WebSocket] = []
+        for connection in list(self.connections.get(run_id, [])):
+            try:
+                await connection.send_json(message)
+            except Exception:
+                logger.debug(
+                    "Failed to send to WebSocket client for run %s; removing dead socket",
+                    run_id,
+                )
+                dead.append(connection)
+        for ws in dead:
+            self.disconnect(ws, run_id)
 
         # Push to SSE listeners
         for queue in self._sse_listeners.get(run_id, []):
