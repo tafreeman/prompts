@@ -112,6 +112,51 @@ jobs:
           cd agentic-workflows-v2
           python -m mypy agentic_v2/ --ignore-missing-imports
 
+  integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e "tools/"
+          pip install -e "agentic-workflows-v2/[dev]"
+      - name: Validate all YAML workflow definitions
+        run: |
+          python -c "
+          from pathlib import Path
+          from agentic_v2.workflows import WorkflowLoader
+
+          defs_dir = Path('agentic-workflows-v2/agentic_v2/workflows/definitions')
+          loader = WorkflowLoader(definitions_dir=defs_dir)
+          workflows = loader.list_workflows()
+          print(f'Discovered {len(workflows)} workflows')
+          for name in workflows:
+              wf = loader.load(name)
+              print(f'  ✓ {name}: {len(wf.dag.steps)} steps')
+          assert len(workflows) >= 10, f'Expected ≥10 workflows, found {len(workflows)}'
+          print('All workflow definitions validated successfully.')
+          "
+      - name: Run deterministic examples (no API keys)
+        run: |
+          cd agentic-workflows-v2
+          python examples/yaml_workflow.py
+          python examples/custom_tool.py
+      - name: Verify package imports
+        run: |
+          python -c "
+          from agentic_v2 import DAGExecutor, ExecutionContext, WorkflowLoader
+          from agentic_v2.core.protocols import AgentProtocol, ToolProtocol, ExecutionEngine
+          from agentic_v2.rag.protocols import RerankerProtocol
+          from agentic_v2.rag.config import RAGConfig, RerankerConfig
+          from agentic_v2.rag.reranking import NoOpReranker, CrossEncoderReranker, LLMReranker
+          print('All critical imports verified.')
+          "
+
   security:
     runs-on: ubuntu-latest
     steps:
