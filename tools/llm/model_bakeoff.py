@@ -15,212 +15,30 @@ Designed to run from Windows PowerShell outside WSL as requested.
 from __future__ import annotations
 
 import argparse
-import json
 import logging
 import os
-import re
 import statistics
 import sys
 import time
-import urllib.error
-import urllib.request
-from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from tools.llm.bakeoff_tasks import (
+    TASKS,
+    TaskSpec,
+    _dedupe_keep_order,
+    _discover_openai_compatible_models,
+    _ensure_import_path,
+    _is_local_openai_base,
+    _load_dotenv,
+    _parse_json_from_text,
+    _provider_of,
+    _repo_root,
+)
+from tools.llm.bakeoff_reporting import _recommend_alignment, _write_reports
+
 logger = logging.getLogger(__name__)
-
-
-@dataclass
-class TaskSpec:
-    task_id: str
-    title: str
-    prompt: str
-    expect_json: bool
-    required_keys: list[str]
-    required_terms: list[str]
-    weight: float
-
-
-TASKS: list[TaskSpec] = [
-    TaskSpec(
-        task_id="workflow_strategy",
-        title="Workflow Pattern Selection",
-        prompt=(
-            "You are advising engineers on agentic AI workflow design.\n"
-            "Choose among ToT, ReAct, CoVe, and iterative review loops for a deep "
-            "research system. Return JSON with keys:\n"
-            "recommended_workflow, when_to_use, when_not_to_use, quality_gates.\n"
-            "Keep it concise and practical."
-        ),
-        expect_json=True,
-        required_keys=[
-            "recommended_workflow",
-            "when_to_use",
-            "when_not_to_use",
-            "quality_gates",
-        ],
-        required_terms=["tot", "react", "cove", "confidence", "verification"],
-        weight=1.0,
-    ),
-    TaskSpec(
-        task_id="architecture",
-        title="Architecture Plan",
-        prompt=(
-            "Design an architecture for a multi-agent deep research platform used "
-            "by software engineers and architects. Include source governance, "
-            "verification, and RAG packaging. Return JSON with keys:\n"
-            "components, data_flow, observability, failure_modes, mitigations."
-        ),
-        expect_json=True,
-        required_keys=[
-            "components",
-            "data_flow",
-            "observability",
-            "failure_modes",
-            "mitigations",
-        ],
-        required_terms=["rag", "cit", "source", "policy", "guardrail"],
-        weight=1.1,
-    ),
-    TaskSpec(
-        task_id="implementation_plan",
-        title="Implementation Plan",
-        prompt=(
-            "Produce an implementation plan for the architecture. Include testing "
-            "strategy for unit, integration, and end-to-end. Return JSON with keys:\n"
-            "phases, tests, rollback, risks, owners."
-        ),
-        expect_json=True,
-        required_keys=["phases", "tests", "rollback", "risks", "owners"],
-        required_terms=["unit", "integration", "end-to-end", "rollback", "adr"],
-        weight=1.0,
-    ),
-    TaskSpec(
-        task_id="code_task",
-        title="Coding Practicality",
-        prompt=(
-            "Write Python code for a function `rank_sources(sources)` that sorts "
-            "research sources by trust score and recency. Include a minimal pytest "
-            "unit test snippet."
-        ),
-        expect_json=False,
-        required_keys=[],
-        required_terms=["def rank_sources", "pytest", "assert"],
-        weight=0.9,
-    ),
-]
-
-
-def _repo_root() -> Path:
-    # tools/llm/model_bakeoff.py -> repo root
-    return Path(__file__).resolve().parents[2]
-
-
-def _load_dotenv(path: Path) -> None:
-    if not path.exists():
-        return
-    for raw in path.read_text(encoding="utf-8", errors="ignore").splitlines():
-        line = raw.strip()
-        if not line or line.startswith("#"):
-            continue
-        if line.startswith("export "):
-            line = line[7:].strip()
-        if "=" not in line:
-            continue
-        key, value = line.split("=", 1)
-        key = key.strip()
-        value = value.strip()
-        if not key:
-            continue
-        if value and value[0] == value[-1] and value[0] in ("'", '"'):
-            value = value[1:-1]
-        os.environ.setdefault(key, value)
-
-
-def _ensure_import_path() -> None:
-    root = _repo_root()
-    if str(root) not in sys.path:
-        sys.path.insert(0, str(root))
-
-
-def _provider_of(model_id: str) -> str:
-    if ":" not in model_id:
-        return "ollama"
-    return model_id.split(":", 1)[0].lower()
-
-
-def _dedupe_keep_order(items: list[str]) -> list[str]:
-    seen: set[str] = set()
-    out: list[str] = []
-    for item in items:
-        if item in seen:
-            continue
-        seen.add(item)
-        out.append(item)
-    return out
-
-
-def _is_local_openai_base(base_url: str | None) -> bool:
-    if not base_url:
-        return False
-    text = base_url.lower()
-    return any(host in text for host in ["localhost", "127.0.0.1", "::1"])
-
-
-def _discover_openai_compatible_models(base_url: str) -> list[str]:
-    base = base_url.rstrip("/")
-    url = f"{base}/models" if base.endswith("/v1") else f"{base}/v1/models"
-    try:
-        req = urllib.request.Request(url, headers={"Accept": "application/json"})
-        with urllib.request.urlopen(req, timeout=5) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
-    except Exception:
-        return []
-
-    models: list[str] = []
-    if isinstance(data, dict):
-        for item in data.get("data", []):
-            if isinstance(item, dict):
-                model_id = str(item.get("id", "")).strip()
-                if model_id:
-                    models.append(f"openai:{model_id}")
-    return models
-
-
-def _parse_json_from_text(text: str) -> dict[str, Any] | None:
-    raw = text.strip()
-    if not raw:
-        return None
-
-    try:
-        parsed = json.loads(raw)
-        if isinstance(parsed, dict):
-            return parsed
-    except Exception:
-        pass
-
-    fenced = re.findall(r"```(?:json)?\s*(\{.*?\})\s*```", raw, re.DOTALL)
-    for candidate in fenced:
-        try:
-            parsed = json.loads(candidate)
-            if isinstance(parsed, dict):
-                return parsed
-        except Exception:
-            continue
-
-    start = raw.find("{")
-    end = raw.rfind("}")
-    if start != -1 and end != -1 and end > start:
-        try:
-            parsed = json.loads(raw[start : end + 1])
-            if isinstance(parsed, dict):
-                return parsed
-        except Exception:
-            pass
-
-    return None
 
 
 def _score_task(
@@ -338,7 +156,7 @@ def _run_bakeoff(
                     temperature=temperature,
                     max_tokens=max_tokens,
                 )
-            except Exception as exc:
+            except Exception as exc:  # noqa: BLE001
                 error = str(exc)
             elapsed = time.perf_counter() - started
             scored = _score_task(task, response, elapsed, error)
@@ -395,89 +213,17 @@ def _run_bakeoff(
     return model_results
 
 
-def _recommend_alignment(results: list[dict[str, Any]]) -> dict[str, str | None]:
-    if not results:
-        return {"small": None, "heavy": None}
-
-    heavy = results[0]["model"]
-
-    # Prefer fast + decent for small model.
-    small_ranked = sorted(
-        results,
-        key=lambda r: (
-            r["task_score"] - (r["avg_latency_s"] * 0.8),
-            r["success_rate"],
-        ),
-        reverse=True,
-    )
-    small = small_ranked[0]["model"] if small_ranked else heavy
-
-    return {"small": small, "heavy": heavy}
-
-
-def _write_reports(
-    out_dir: Path,
-    payload: dict[str, Any],
-    alignment: dict[str, str | None],
-    write_env: Path | None,
-) -> tuple[Path, Path]:
-    out_dir.mkdir(parents=True, exist_ok=True)
-    ts = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%SZ")
-
-    json_path = out_dir / f"model_bakeoff_{ts}.json"
-    md_path = out_dir / f"model_bakeoff_{ts}.md"
-    json_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
-
-    lines: list[str] = []
-    lines.append("# Model Bakeoff Report")
-    lines.append("")
-    lines.append(f"- Generated: `{payload['timestamp_utc']}`")
-    lines.append(f"- Models tested: `{payload['summary']['tested_models']}`")
-    lines.append(f"- Runnable models: `{payload['summary']['runnable_models']}`")
-    lines.append("")
-    lines.append("## Recommended Alignment")
-    lines.append("")
-    lines.append("```env")
-    lines.append(f"DEEP_RESEARCH_SMALL_MODEL={alignment.get('small') or ''}")
-    lines.append(f"DEEP_RESEARCH_HEAVY_MODEL={alignment.get('heavy') or ''}")
-    if alignment.get("small"):
-        lines.append(f"AGENTIC_MODEL_TIER_2={alignment['small']}")
-    if alignment.get("heavy"):
-        lines.append(f"AGENTIC_MODEL_TIER_3={alignment['heavy']}")
-        lines.append(f"AGENTIC_MODEL_TIER_4={alignment['heavy']}")
-    lines.append("```")
-    lines.append("")
-    lines.append("## Ranking")
-    lines.append("")
-    lines.append(
-        "| Rank | Model | Provider | Overall | Task Score | Success | Avg Latency (s) |"
-    )
-    lines.append("| --- | --- | --- | ---: | ---: | ---: | ---: |")
-    for idx, row in enumerate(payload["results"], start=1):
-        lines.append(
-            f"| {idx} | `{row['model']}` | `{row['provider']}` | "
-            f"{row['overall_score']:.2f} | {row['task_score']:.2f} | "
-            f"{row['success_rate']:.2%} | {row['avg_latency_s']:.3f} |"
-        )
-    lines.append("")
-    lines.append(f"- JSON details: `{json_path}`")
-    md_path.write_text("\n".join(lines), encoding="utf-8")
-
-    if write_env:
-        write_env.parent.mkdir(parents=True, exist_ok=True)
-        env_lines = [
-            f"# Generated by tools/llm/model_bakeoff.py at {payload['timestamp_utc']}",
-            f"DEEP_RESEARCH_SMALL_MODEL={alignment.get('small') or ''}",
-            f"DEEP_RESEARCH_HEAVY_MODEL={alignment.get('heavy') or ''}",
-        ]
-        if alignment.get("small"):
-            env_lines.append(f"AGENTIC_MODEL_TIER_2={alignment['small']}")
-        if alignment.get("heavy"):
-            env_lines.append(f"AGENTIC_MODEL_TIER_3={alignment['heavy']}")
-            env_lines.append(f"AGENTIC_MODEL_TIER_4={alignment['heavy']}")
-        write_env.write_text("\n".join(env_lines) + "\n", encoding="utf-8")
-
-    return json_path, md_path
+# Backward-compat re-exports
+from tools.llm.bakeoff_tasks import (  # noqa: F401, E402
+    TaskSpec,
+    TASKS,
+    _provider_of,
+    _dedupe_keep_order,
+    _is_local_openai_base,
+    _discover_openai_compatible_models,
+    _parse_json_from_text,
+)
+from tools.llm.bakeoff_reporting import _recommend_alignment, _write_reports  # noqa: F401, E402
 
 
 def main(argv: list[str]) -> int:
@@ -580,7 +326,7 @@ def main(argv: list[str]) -> int:
 
     runnable = runnable[: max(1, args.max_models)]
     if not runnable:
-        logger.error("No runnable models found for the selected discovery settings.")
+        logger.warning("No runnable models found for the selected discovery settings.")
         return 1
 
     if args.dry_run:
@@ -591,7 +337,7 @@ def main(argv: list[str]) -> int:
         logger.info("Runnable models:")
         for model in runnable:
             logger.info(f"- {model}")
-        logger.info("Preview alignment:")
+        logger.info("\nPreview alignment:")
         logger.info(json.dumps(preview_alignment, indent=2))
         return 0
 
@@ -641,12 +387,12 @@ def main(argv: list[str]) -> int:
         write_env=write_env_path,
     )
 
-    logger.info("Model bakeoff complete.")
-    logger.info(f"JSON report: {json_path}")
-    logger.info(f"Markdown report: {md_path}")
-    logger.info("Recommended alignment:")
-    logger.info(f"DEEP_RESEARCH_SMALL_MODEL={alignment.get('small') or ''}")
-    logger.info(f"DEEP_RESEARCH_HEAVY_MODEL={alignment.get('heavy') or ''}")
+    logger.info("\nModel bakeoff complete.")
+    logger.info(f"- JSON report: {json_path}")
+    logger.info(f"- Markdown report: {md_path}")
+    logger.info("- Recommended alignment:")
+    logger.info(f"  DEEP_RESEARCH_SMALL_MODEL={alignment.get('small') or ''}")
+    logger.info(f"  DEEP_RESEARCH_HEAVY_MODEL={alignment.get('heavy') or ''}")
     return 0
 
 
