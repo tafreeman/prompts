@@ -218,7 +218,7 @@ class TestPerStepModelOverride:
         assert config.steps[0].model_override == "gh:openai/gpt-4o-mini"
         assert config.steps[1].model_override == "gh:openai/gpt-4o"
 
-    def test_step_model_override_is_passed_to_agent_factory(self, monkeypatch):
+    async def test_step_model_override_is_passed_to_agent_factory(self, monkeypatch):
         from agentic_v2.langchain import graph as graph_module
         from langchain_core.messages import AIMessage
 
@@ -258,7 +258,7 @@ class TestPerStepModelOverride:
             "outputs": {},
             "current_step": "",
         }
-        result = node(state)
+        result = await node(state)
 
         assert captured["agent_name"] == "tier2_researcher"
         assert captured["model_override"] == "gh:openai/gpt-4o-mini"
@@ -1052,7 +1052,7 @@ class TestGraphResponseParsing:
         assert parsed["executive_summary"] == "s"
         assert parsed["references"] == ["a"]
 
-    def test_llm_step_maps_outputs_from_list_content(self, monkeypatch):
+    async def test_llm_step_maps_outputs_from_list_content(self, monkeypatch):
         from agentic_v2.langchain import graph as graph_module
         from langchain_core.messages import AIMessage
 
@@ -1087,11 +1087,11 @@ class TestGraphResponseParsing:
         state = initial_state(workflow_inputs={})
         state["context"]["inputs"] = {}
 
-        updated = node(state)
+        updated = await node(state)
         assert updated["context"]["scoped_goal"] == "mapped"
         assert updated["steps"]["intake_scope"]["outputs"]["scoped_goal"] == "mapped"
 
-    def test_llm_step_retries_with_fallback_model(self, monkeypatch):
+    async def test_llm_step_retries_with_fallback_model(self, monkeypatch):
         from agentic_v2.langchain import graph as graph_module
         from langchain_core.messages import AIMessage
 
@@ -1138,7 +1138,7 @@ class TestGraphResponseParsing:
 
         state = initial_state(workflow_inputs={})
         state["context"]["inputs"] = {}
-        updated = node(state)
+        updated = await node(state)
 
         assert created_models == ["gemini:primary", "gh:openai/gpt-4o-mini"]
         assert updated["context"]["report_ctx"] == "ok"
