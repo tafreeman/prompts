@@ -4,6 +4,7 @@ import { createServer } from "vite";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { createRequire } from "node:module";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
@@ -20,27 +21,21 @@ const TIMEOUTS = {
   backButton: 10_000,
 };
 
-export const SLIDES = [
-  { id: "intro", label: "Intro Splash" },
-  { id: "landing", label: "Navigation Hub" },
-  { id: "overview", label: "Case Study Overview" },
-  { id: "human", label: "Human in the Loop" },
-  { id: "hurdles", label: "Hurdles We Overcame" },
-  { id: "sprint", label: "AI Sprint Cycle" },
-  { id: "future", label: "Looking Ahead" },
-  { id: "platform", label: "Service Platform" },
-];
+// SLIDES and CAPTURE_ORDER are derived from the deck manifest so this script
+// stays in sync automatically when slides are added, removed, or reordered.
+const require = createRequire(import.meta.url);
+// Dynamic import used at runtime so Vite does not pre-bundle the content module.
+const { SLIDES: MANIFEST_SLIDES, contentSlides } = await import(
+  "../src/content/genai-advocacy/deck.js"
+);
 
-const TILE_TITLES = {
-  overview: "Case Study Overview",
-  human: "Human in the Loop",
-  hurdles: "Hurdles We Overcame",
-  sprint: "AI Sprint Cycle",
-  future: "Looking Ahead",
-  platform: "Service Platform",
-};
+export const SLIDES = MANIFEST_SLIDES;
 
-const CAPTURE_ORDER = ["overview", "human", "hurdles", "sprint", "future", "platform"];
+const TILE_TITLES = Object.fromEntries(
+  contentSlides.map(({ id, title }) => [id, title])
+);
+
+const CAPTURE_ORDER = contentSlides.map(({ id }) => id);
 
 async function startDevServer() {
   const server = await createServer({
