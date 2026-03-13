@@ -114,6 +114,8 @@ const topicLanePropType = PropTypes.shape({
 
 const topicPropType = PropTypes.shape({
   id: PropTypes.string.isRequired,
+  order: PropTypes.number.isRequired,
+  layout: PropTypes.string.isRequired,
   num: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   subtitle: PropTypes.string.isRequired,
@@ -143,7 +145,8 @@ const topicPropType = PropTypes.shape({
 // ─── TOPICS DATA ───
 const topics = [
   {
-    id: "overview", num: "01", title: "Case Study Overview",
+    id: "overview", order: 3, layout: "two-col",
+    num: "01", title: "Case Study Overview",
     subtitle: "How the AI-accelerated delivery story unfolds across governance, execution, and scale",
     color: "#67E8F9", colorLight: "#A5F3FC", colorGlow: "rgba(103,232,249,0.24)",
     eyebrow: "Deck Flow",
@@ -164,7 +167,8 @@ const topics = [
     callout: "Use this slide as the executive opener, then move into the proof pages.",
   },
   {
-    id: "platform", num: "Optional", title: "Service Platform",
+    id: "platform", order: 8, layout: "process-lanes",
+    num: "Optional", title: "Service Platform",
     subtitle: "One front door for IT demand, approvals, and procurement handoff",
     color: "#38BDF8", colorLight: "#7DD3FC", colorGlow: "rgba(56,189,248,0.28)",
     optional: true,
@@ -213,7 +217,8 @@ const topics = [
     callout: "This is not just a catalog. It is a governed path from need to procurement.",
   },
   {
-    id: "human", num: "02", title: "Human in the Loop",
+    id: "human", order: 4, layout: "stat-cards",
+    num: "02", title: "Human in the Loop",
     heroTitle: "Human-in-the-Loop Focused AI Development",
     kicker: "AI-Accelerated Delivery",
     subkicker: "Governance-First Delivery",
@@ -266,7 +271,8 @@ const topics = [
     callout: "AI generated code. Humans owned the decisions.",
   },
   {
-    id: "hurdles", num: "03", title: "Hurdles We Overcame",
+    id: "hurdles", order: 5, layout: "before-after",
+    num: "03", title: "Hurdles We Overcame",
     subtitle: "What changed from day one to delivery",
     color: "#F59E0B", colorLight: "#FBBF24", colorGlow: "rgba(245,158,11,0.3)",
     cards: [
@@ -278,13 +284,15 @@ const topics = [
     callout: "The early friction became the guardrails that let the team move fast later.",
   },
   {
-    id: "sprint", num: "04", title: "AI Sprint Cycle",
+    id: "sprint", order: 6, layout: "process-cycle",
+    num: "04", title: "AI Sprint Cycle",
     subtitle: "Human checkpoints at every stage of AI-assisted delivery",
     color: "#8B5CF6", colorLight: "#A78BFA", colorGlow: "rgba(139,92,246,0.3)",
     callout: "The sprint changed, but human checkpoints stayed embedded throughout delivery.",
   },
   {
-    id: "future", num: "05", title: "Looking Ahead",
+    id: "future", order: 7, layout: "h-strip",
+    num: "05", title: "Looking Ahead",
     subtitle: "Better steering -- not more automation -- is the next multiplier",
     color: "#10B981", colorLight: "#34D399", colorGlow: "rgba(16,185,129,0.3)",
     cards: [

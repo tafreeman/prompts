@@ -49,6 +49,8 @@ const topicLanePropType = PropTypes.shape({
 
 const topicPropType = PropTypes.shape({
   id: PropTypes.string.isRequired,
+  order: PropTypes.number.isRequired,
+  layout: PropTypes.string.isRequired,
   num: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   subtitle: PropTypes.string.isRequired,
@@ -84,7 +86,8 @@ function getRandomUnit() {
 
 const topics = [
   {
-    id: "hurdles", num: "02", title: "Hurdles We Overcame",
+    id: "hurdles", order: 5, layout: "before-after",
+    num: "02", title: "Hurdles We Overcame",
     subtitle: "What changed from day one to delivery",
     color: "#F59E0B", colorLight: "#FBBF24", colorGlow: "rgba(245,158,11,0.3)", icon: "⬡",
     cards: [
@@ -96,7 +99,8 @@ const topics = [
     callout: "Every hurdle became a guardrail. The friction we overcame early is the governance that keeps us fast now.",
   },
   {
-    id: "human", num: "01", title: "Human in the Loop",
+    id: "human", order: 4, layout: "stat-cards",
+    num: "01", title: "Human in the Loop",
     subtitle: "AI Accelerates. Humans Govern.",
     color: "#0891B2", colorLight: "#22D3EE", colorGlow: "rgba(8,145,178,0.3)", icon: "◉",
     cards: [
@@ -107,13 +111,15 @@ const topics = [
     callout: "AI generated the code. Humans owned every decision. That's not a limitation — it's the model.",
   },
   {
-    id: "sprint", num: "04", title: "AI Sprint Cycle",
+    id: "sprint", order: 6, layout: "process-cycle",
+    num: "04", title: "AI Sprint Cycle",
     subtitle: "Human checkpoints at every stage of AI-assisted delivery",
     color: "#8B5CF6", colorLight: "#A78BFA", colorGlow: "rgba(139,92,246,0.3)", icon: "⟳",
     callout: "The AI modified sprint cycle includes numerous human-in-the-loop checkpoints. Development included rapid iterations and adherence to Agile best practices.",
   },
   {
-    id: "future", num: "03", title: "Looking Ahead",
+    id: "future", order: 7, layout: "h-strip",
+    num: "03", title: "Looking Ahead",
     subtitle: "Better steering — not more automation — is the next multiplier",
     color: "#10B981", colorLight: "#34D399", colorGlow: "rgba(16,185,129,0.3)", icon: "△",
     cards: [
