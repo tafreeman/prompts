@@ -10,6 +10,7 @@ import * as studio from "./src/content/studio/deck.js";
 import { THEMES, THEMES_BY_ID, THEME_SELECTOR_FONTS_URL } from "./src/tokens/themes.js";
 import { resolveTopicColors, resolveIntroStatColors } from "./src/tokens/palette.js";
 import { STYLE_MODES, STYLE_MODES_BY_ID } from "./src/tokens/style-modes.js";
+import { UI } from "./src/tokens/ui-strings.js";
 
 const ThemeCtx = createContext(THEMES[0]);
 const ChromeCtx = createContext(STYLE_MODES_BY_ID["default"]);
@@ -1040,7 +1041,7 @@ function ManifestStatCardsScreen({ topic, onBack }) {
         </div>
 
         {topic.results?.length > 0 && (
-          <div style={{ display: "grid", gridTemplateColumns: `repeat(${topic.results.length}, minmax(0, 1fr))`, gap: 12, marginBottom: 18 }}>
+          <div style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min(topic.results.length, 4)}, minmax(0, 1fr))`, gap: 12, marginBottom: 18 }}>
             {topic.results.map((result, index) => (
               <div key={`${result.label}-${index}`} style={{ background: `linear-gradient(180deg, ${T.bgCard}, ${T.bgDeep})`, borderRadius: C.innerRadius, padding: "16px 18px", border: `${C.cardBorderWidth}px solid ${topic.color}18` }}>
                 <div style={{ fontFamily: T.fontDisplay, fontSize: 30, color: topic.colorLight, marginBottom: 4 }}>{result.value}</div>
@@ -1386,7 +1387,7 @@ function BadgeGridScreen({ topic, onBack }) {
             <span style={{ fontFamily: T.fontBody, fontSize: 13, color: T.bg }}>{topic.question}</span>
           </div>
         )}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 10, marginBottom: 24 }}>
+        <div style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min((topic.badges || []).length, 5)}, 1fr)`, gap: 10, marginBottom: 24 }}>
           {(topic.badges || []).map((badge, idx) => {
             const dark = badge.bgColor === "#000000";
             return (
@@ -1791,13 +1792,13 @@ function PillarsScreen({ topic, onBack }) {
       <div style={{ position: "relative", zIndex: 2, maxWidth: 1100, margin: "0 auto", padding: "36px 32px" }}>
         <BackBtn onClick={onBack} />
         <SectionHeader topic={topic} entered={entered} />
-        <div style={{ display: "grid", gridTemplateColumns: `repeat(${(topic.pillars || []).length}, 1fr)`, gap: 16, marginBottom: 20 }}>
+        <div style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min((topic.pillars || []).length, 5)}, 1fr)`, gap: 16, marginBottom: 20 }}>
           {(topic.pillars || []).map((p, i) => (
             <div key={i} style={{ background: T.bgCard, borderRadius: C.cardRadius, padding: "22px 20px", borderTop: `${C.accentBarHeight}px solid ${T.accent}`, opacity: entered ? 1 : 0, transform: entered ? "none" : "translateY(14px)", transition: `all 0.5s ${0.2 + i * 0.12}s ease` }}>
               <div style={{ fontSize: 24, marginBottom: 10 }}>{p.icon}</div>
               <h3 style={{ fontFamily: T.fontDisplay, fontSize: 14, fontWeight: C.headingWeight, color: T.accent, margin: "0 0 14px", textTransform: C.headingTransform, letterSpacing: C.labelTracking }}>{p.title}</h3>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                {p.items.map((item, j) => (
+                {(p.items || []).map((item, j) => (
                   <div key={j} style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
                     <div style={{ width: 5, height: 5, borderRadius: "50%", background: T.accent, marginTop: 5, flexShrink: 0 }} />
                     <p style={{ fontSize: 12, color: T.textMuted, lineHeight: 1.55, margin: 0 }}>{item}</p>
@@ -1840,7 +1841,7 @@ function CatalogScreen({ topic, onBack }) {
       <div style={{ position: "relative", zIndex: 2, maxWidth: 1100, margin: "0 auto", padding: "36px 32px" }}>
         <BackBtn onClick={onBack} />
         <SectionHeader topic={topic} entered={entered} />
-        <div style={{ display: "grid", gridTemplateColumns: `repeat(${(topic.categories || []).length}, 1fr)`, gap: 16 }}>
+        <div style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min((topic.categories || []).length, 4)}, 1fr)`, gap: 16 }}>
           {(topic.categories || []).map((cat, ci) => (
             <div key={ci} style={{ background: T.bgCard, borderRadius: C.cardRadius, padding: "20px 18px", borderTop: `${C.accentBarHeight}px solid ${cat.color}`, opacity: entered ? 1 : 0, transform: entered ? "none" : "translateY(16px)", transition: `all 0.5s ${0.15 + ci * 0.12}s ease` }}>
               <h3 style={{ fontFamily: T.fontDisplay, fontSize: 14, fontWeight: C.headingWeight, color: cat.color, margin: "0 0 16px" }}>{cat.title}</h3>
@@ -1970,8 +1971,8 @@ function OpBriefScreen({ topic, onBack }) {
           ))}
         </div>
 
-        {/* ── ROW 3: 4-col cards ── */}
-        <div style={{ ...fade(0.24), display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 10, marginBottom: 16 }}>
+        {/* ── ROW 3: adaptive-col cards ── */}
+        <div style={{ ...fade(0.24), display: "grid", gridTemplateColumns: `repeat(${Math.min(cardItems.length, 4)},1fr)`, gap: 10, marginBottom: 16 }}>
           {cardItems.map((c, i) => (
             <div key={i} style={{ background: T.bgCard, borderRadius: C.cardRadius, padding: "13px 15px", borderTop: `2px solid ${i === 0 ? topic.color : topic.color + "55"}` }}>
               <div style={{ marginBottom: 8 }}>
@@ -1987,7 +1988,7 @@ function OpBriefScreen({ topic, onBack }) {
         {/* ── ROW 4: Talking Points + Bottom Line ── */}
         <div style={{ ...fade(0.32), display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
           <div style={{ background: T.bgCard, borderRadius: C.cardRadius, padding: "14px 16px" }}>
-            <div style={{ fontSize: 8, fontFamily: T.fontDisplay, fontWeight: C.headingWeight, color: T.textDim, letterSpacing: 2.5, textTransform: "uppercase", marginBottom: 10 }}>Talking Points</div>
+            <div style={{ fontSize: 8, fontFamily: T.fontDisplay, fontWeight: C.headingWeight, color: T.textDim, letterSpacing: 2.5, textTransform: "uppercase", marginBottom: 10 }}>{UI.SECTION.talkingPoints}</div>
             <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
               {talkingPoints.map((pt, i) => (
                 <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
@@ -1998,7 +1999,7 @@ function OpBriefScreen({ topic, onBack }) {
             </div>
           </div>
           <div style={{ background: topic.color + "0F", borderRadius: C.cardRadius, padding: "14px 16px", border: `1px solid ${topic.color}22`, borderLeft: `3px solid ${topic.color}` }}>
-            <div style={{ fontSize: 8, fontFamily: T.fontDisplay, fontWeight: C.headingWeight, color: topic.color, letterSpacing: 2.5, textTransform: "uppercase", marginBottom: 9 }}>Bottom Line</div>
+            <div style={{ fontSize: 8, fontFamily: T.fontDisplay, fontWeight: C.headingWeight, color: topic.color, letterSpacing: 2.5, textTransform: "uppercase", marginBottom: 9 }}>{UI.SECTION.bottomLine}</div>
             <p style={{ fontSize: 13, color: T.text, lineHeight: 1.7, margin: 0, fontWeight: 500 }}>&ldquo;{topic.callout}&rdquo;</p>
           </div>
         </div>
@@ -2086,8 +2087,8 @@ function OpFlowScreen({ topic, onBack }) {
         {/* ── WORKFLOW: 2-row compact step grid ── */}
         {isWorkflow && (
           <>
-            <div style={{ ...fade(0.15), fontSize: 8, fontFamily: T.fontDisplay, fontWeight: C.headingWeight, color: T.textDim, letterSpacing: 2.5, textTransform: "uppercase", marginBottom: 8 }}>Process Flow &amp; Personas</div>
-            {[row1, row2].map((row, ri) => (
+            <div style={{ ...fade(0.15), fontSize: 8, fontFamily: T.fontDisplay, fontWeight: C.headingWeight, color: T.textDim, letterSpacing: 2.5, textTransform: "uppercase", marginBottom: 8 }}>{UI.SECTION.processFlow}</div>
+            {[row1, row2].filter(row => row.length > 0).map((row, ri) => (
               <div key={ri} style={{ ...fade(0.18 + ri * 0.08), display: "grid", gridTemplateColumns: `repeat(${row.length},1fr)`, gap: 8, marginBottom: 8 }}>
                 {row.map((step, i) => {
                   const isAI = step.type === "ai";
@@ -2095,7 +2096,7 @@ function OpFlowScreen({ topic, onBack }) {
                     <div key={i} style={{ background: T.bgCard, borderRadius: C.innerRadius, padding: "11px 13px", borderTop: `2px solid ${isAI ? topic.color : topic.color + "38"}` }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 5 }}>
                         <span style={{ fontFamily: T.fontDisplay, fontSize: 13, fontWeight: C.headingWeight, color: isAI ? topic.color : T.textDim }}>{step.num}</span>
-                        <span style={{ fontSize: 7.5, padding: "1px 6px", borderRadius: 3, background: isAI ? topic.color + "20" : "rgba(255,255,255,0.05)", color: isAI ? topic.color : T.textDim, fontFamily: T.fontDisplay, fontWeight: C.headingWeight, letterSpacing: 0.5 }}>{isAI ? "AI" : "Human"}</span>
+                        <span style={{ fontSize: 7.5, padding: "1px 6px", borderRadius: 3, background: isAI ? topic.color + "20" : "rgba(255,255,255,0.05)", color: isAI ? topic.color : T.textDim, fontFamily: T.fontDisplay, fontWeight: C.headingWeight, letterSpacing: 0.5 }}>{isAI ? UI.WORKFLOW.ai : UI.WORKFLOW.human}</span>
                       </div>
                       <h4 style={{ fontFamily: T.fontDisplay, fontSize: 11, fontWeight: C.headingWeight, color: T.text, margin: "0 0 4px" }}>{step.title}</h4>
                       <p style={{ fontSize: 10, color: T.textMuted, lineHeight: 1.5, margin: 0 }}>{step.body.length > 85 ? step.body.slice(0, 85) + "…" : step.body}</p>
@@ -2132,7 +2133,7 @@ function OpFlowScreen({ topic, onBack }) {
         {/* ── Talking Points + Bottom Line ── */}
         <div style={{ ...fade(0.34), display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
           <div style={{ background: T.bgCard, borderRadius: C.cardRadius, padding: "13px 16px" }}>
-            <div style={{ fontSize: 8, fontFamily: T.fontDisplay, fontWeight: C.headingWeight, color: T.textDim, letterSpacing: 2.5, textTransform: "uppercase", marginBottom: 10 }}>Talking Points</div>
+            <div style={{ fontSize: 8, fontFamily: T.fontDisplay, fontWeight: C.headingWeight, color: T.textDim, letterSpacing: 2.5, textTransform: "uppercase", marginBottom: 10 }}>{UI.SECTION.talkingPoints}</div>
             <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
               {talkingPoints.map((pt, i) => (
                 <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
@@ -2143,7 +2144,7 @@ function OpFlowScreen({ topic, onBack }) {
             </div>
           </div>
           <div style={{ background: topic.color + "0F", borderRadius: C.cardRadius, padding: "13px 16px", border: `1px solid ${topic.color}22`, borderLeft: `3px solid ${topic.color}` }}>
-            <div style={{ fontSize: 8, fontFamily: T.fontDisplay, fontWeight: C.headingWeight, color: topic.color, letterSpacing: 2.5, textTransform: "uppercase", marginBottom: 9 }}>Bottom Line</div>
+            <div style={{ fontSize: 8, fontFamily: T.fontDisplay, fontWeight: C.headingWeight, color: topic.color, letterSpacing: 2.5, textTransform: "uppercase", marginBottom: 9 }}>{UI.SECTION.bottomLine}</div>
             <p style={{ fontSize: 13, color: T.text, lineHeight: 1.7, margin: 0, fontWeight: 500 }}>&ldquo;{topic.callout}&rdquo;</p>
           </div>
         </div>
