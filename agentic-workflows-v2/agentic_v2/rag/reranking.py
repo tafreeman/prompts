@@ -78,7 +78,11 @@ class CrossEncoderReranker:
                 from sentence_transformers import CrossEncoder  # type: ignore[import-untyped]
 
                 model = CrossEncoder(model_name)
-                self._predict = model.predict  # type: ignore[assignment]
+
+                def _predict(pairs: list[tuple[str, str]]) -> Sequence[float]:
+                    return model.predict(pairs, batch_size=self._batch_size)
+
+                self._predict = _predict
             except ImportError as exc:
                 raise ImportError(
                     "sentence-transformers is required for CrossEncoderReranker. "
