@@ -22,7 +22,12 @@ repos:
     rev: v1.7.7
     hooks:
       - id: docformatter
-        args: ["--in-place", "--recursive", "--wrap-summaries", "79"]
+        args: ["--in-place", "--recursive", "--wrap-summaries", "88"]
+
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
 
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.19.1
