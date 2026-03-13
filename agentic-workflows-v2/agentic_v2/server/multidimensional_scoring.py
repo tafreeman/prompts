@@ -47,7 +47,7 @@ logger = logging.getLogger(__name__)
 
 #: Dimension names — single source of truth in ci_calculator; re-exported here
 #: for backward compatibility with existing imports from this module.
-from ..workflows.lib.ci_calculator import RESEARCH_DIMENSIONS  # noqa: E402
+from ..workflows.lib.ci_calculator import RESEARCH_DIMENSIONS
 
 #: CI tiebreaker weights — used ONLY inside ``coalesce()`` best-of-N ranking.
 #: Per ADR-007 §4.3 these are provisional; equal weights may be substituted.

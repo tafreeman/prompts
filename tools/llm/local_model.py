@@ -201,8 +201,6 @@ Return ONLY valid JSON in this exact format:
 
         Handles various JSON formatting issues from LLM output.
         """
-        import re
-
         original_response = response
 
         # Step 1: Clean up the response
@@ -358,8 +356,6 @@ Return ONLY valid JSON in this exact format:
 
     def _try_parse_json(self, json_str: str) -> dict[str, Any] | None:
         """Try to parse a JSON string with various cleanup attempts."""
-        import re
-
         # List of cleanup transformations to try
         cleanups = [
             lambda s: s,  # Try as-is first
@@ -397,8 +393,6 @@ Return ONLY valid JSON in this exact format:
 
         Expected format: {"reasoning": [...], "score": N, "summary": "..."}
         """
-        import re
-
         response = response.strip()
 
         # Remove markdown code blocks
@@ -640,8 +634,8 @@ Return ONLY valid JSON:
 
 
 # Backward-compat re-exports
-from tools.llm.local_model_discovery import check_model_available, get_model_info  # noqa: F401, E402
-from tools.llm.local_model_cli import main  # noqa: F401, E402
+from tools.llm.local_model_discovery import check_model_available, get_model_info
+from tools.llm.local_model_cli import main
 
 if __name__ == "__main__":
     main()

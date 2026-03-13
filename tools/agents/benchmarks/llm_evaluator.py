@@ -24,14 +24,14 @@ from typing import Any
 # ---------------------------------------------------------------------------
 # Re-exports for backward compatibility
 # ---------------------------------------------------------------------------
-from tools.agents.benchmarks.evaluator_models import (  # noqa: F401
+from tools.agents.benchmarks.evaluator_models import (
     EVALUATION_DIMENSIONS,
     SCORE_RUBRIC,
     BatchEvaluationSummary,
     DimensionScore,
     EvaluationResult,
 )
-from tools.agents.benchmarks.evaluator_reporting import (  # noqa: F401
+from tools.agents.benchmarks.evaluator_reporting import (
     print_evaluation_report,
     save_evaluation_report,
     summarize_batch_results,

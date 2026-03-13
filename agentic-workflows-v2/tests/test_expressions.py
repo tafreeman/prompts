@@ -450,7 +450,7 @@ class TestNullSafeAndCoalesce:
         from agentic_v2.engine.expressions import _NullSafe
 
         ns = _NullSafe()
-        assert ns == None  # noqa: E711
+        assert ns == None
         assert ns != "APPROVED"
         assert not ns  # bool is False
 

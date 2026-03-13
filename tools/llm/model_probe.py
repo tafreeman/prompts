@@ -39,7 +39,7 @@ from typing import Any
 logger = logging.getLogger(__name__)
 
 # Re-export everything callers used to import from this module
-from tools.core.errors import ErrorCode, classify_error  # noqa: F401
+from tools.core.errors import ErrorCode, classify_error
 from tools.llm.probe_config import (
     CACHE_VERSION,
     ProbeResult,
@@ -49,7 +49,7 @@ from tools.llm.probe_config import (
     save_cache,
     with_retry,
 )
-from tools.llm.probe_discovery import discover_all_models  # noqa: F401
+from tools.llm.probe_discovery import discover_all_models
 from tools.llm.probe_providers import get_provider, probe_model
 
 # Backward-compat: re-export public names so ``from tools.llm.model_probe import X`` still works
@@ -57,12 +57,12 @@ __all__ = [
     "ModelProbe",
     "ProbeResult",
     "discover_all_models",
-    "is_model_usable",
     "filter_usable_models",
     "get_model_error",
     "get_probe",
-    "with_retry",
+    "is_model_usable",
     "main",
+    "with_retry",
 ]
 
 

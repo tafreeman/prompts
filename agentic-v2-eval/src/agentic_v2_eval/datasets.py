@@ -203,7 +203,7 @@ def __getattr__(name: str) -> Any:
 __all__ = [
     # Types (lazy-loaded)
     "BENCHMARK_DEFINITIONS",
-    "PRESET_CONFIGS",  # noqa: F822 — lazy-loaded via __getattr__
+    "PRESET_CONFIGS",
     "BenchmarkConfig",
     "BenchmarkDefinition",
     "BenchmarkRegistry",

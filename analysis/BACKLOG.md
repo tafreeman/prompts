@@ -47,34 +47,34 @@
 
 ---
 
-## Full Backlog (All 25 Items + 1 New)
+## Full Backlog (26 Items — 17 Done, 3 Partial, 6 Backlog)
 
 | # | ID | Status | Sprint | Recommendation | Impact | Effort | Owner | Source |
 |---|----|--------|--------|----------------|:------:|:------:|-------|--------|
 | 1 | CQ-1 | **DONE** ✅ | — | ~~Add `[tool.ruff.lint]` with full rule set~~ — `pyproject.toml:98` has all 13 rules (2026-03-05) | 5 | S | Code Quality | CQ-1 |
 | 2 | CQ-2 | **DONE** ✅ | — | ~~Align CI coverage threshold~~ — `ci.yml:31` at 70% with 80% target comment (2026-03-05) | 4 | S | Code Quality | CQ-2 |
 | 3 | ML-1 | **DONE** ✅ | — | ~~Add few-shot examples~~ — 8 personas have `## Few-Shot Examples` sections (2026-03-05) | 5 | M | ML/AI | ML-1 |
-| 4 | DX-1 | BACKLOG | Sprint B | Create `docs/ONBOARDING.md` — progressive tutorial: minimum setup → first workflow → first agent → first evaluation | 5 | M | Docs | DX-1 |
-| 5 | DX-3 | BACKLOG | Sprint B | Create a Pattern Catalog mapping agentic AI patterns (ReAct, CoVe, ToT, RRF, confidence gating) to their codebase implementations | 5 | M | Docs | DX-3 |
+| 4 | DX-1 | **DONE** ✅ | Sprint B | ~~Create `docs/ONBOARDING.md`~~ — 556-line progressive tutorial created (2026-03-11) | 5 | M | Docs | DX-1 |
+| 5 | DX-3 | **DONE** ✅ | Sprint B | ~~Create a Pattern Catalog~~ — `docs/PATTERN_CATALOG.md` (443 lines) maps ReAct, CoVe, ToT, RRF, confidence gating (2026-03-11) | 5 | M | Docs | DX-3 |
 | 6 | ML-2 | BACKLOG | Sprint D | Implement reflection/self-correction loop in `BaseAgent` — add `_self_critique()` + `_revise()` phase after initial response | 5 | L | ML/AI | ML-2 |
 | 7 | ARCH-4 | BACKLOG | Sprint C | Add cross-package integration tests — E2E tests exercising tools/ LLM client → agentic_v2 engine → agentic-v2-eval scoring | 4 | M | Architecture | ARCH-4 |
 | 8 | ARCH-1 | BACKLOG | Sprint C | Tighten protocol type signatures — replace `Any` in `ExecutionEngine.execute()` and `AgentProtocol.run()` with Union type aliases | 4 | M | Architecture | ARCH-1 |
 | 9 | ARCH-2 | **DONE** ✅ | — | ~~Bridge ExecutionContext to LangChainEngine~~ — async paths (run, astream) forward ctx (2026-03-05) | 4 | M | Architecture | ARCH-2 |
 | 10 | DX-2 | **DONE** ✅ | — | ~~Verify cross-references~~ — `check_docs_refs.py` passes locally and in CI (2026-03-05) | 4 | S | Docs | DX-2 |
-| 11 | DX-4 | BACKLOG | Sprint B | Add 5-8 examples — cover RAG pipeline, custom agent with tools, new YAML workflow creation, model router, adapter switching | 5 | M | Docs | DX-4 |
+| 11 | DX-4 | **PARTIAL** 🟡 | Sprint B | Add 5-8 examples — 6 created (simple_agent, workflow_run, yaml_workflow, custom_tool + 2 YAML definitions); remaining: RAG pipeline, adapter switching | 5 | M | Docs | DX-4 |
 | 12 | CQ-3 | **DONE** ✅ | — | ~~Add `[tool.mypy]`~~ — `pyproject.toml:213` with `disallow_untyped_defs = true` (2026-03-05) | 4 | M | Code Quality | CQ-3 |
 | 13 | CQ-7 | **DONE** ✅ | — | ~~Add CI job for tools/ test suite~~ — `.github/workflows/tools-ci.yml` created (2026-03-05) | 4 | S | Code Quality | CQ-7 |
 | 14 | ARCH-6 | **DONE** ✅ | — | ~~LanceDB VectorStore~~ — `rag/vectorstore.py:LanceDBVectorStore`, protocol-compliant, tested (2026-03-05) | 4 | M | Architecture | ARCH-6 |
 | 15 | ML-5 | BACKLOG | Sprint D | Integrate online evaluation feedback — evaluation scores feed back into agent execution loop for self-correction | 4 | L | ML/AI | ML-5 |
-| 16 | CQ-4/5 | BACKLOG | Sprint C | Modernize `tools/` package — `from __future__ import annotations`, replace legacy typing, convert 365 `print()` to logging | 3 | M | Code Quality | CQ-4/5 |
+| 16 | CQ-4/5 | **PARTIAL** 🟡 | Sprint C | Modernize `tools/` package — PEP 604 migration done (C11), print→logging done for core+llm (C12-C13); remaining: `from __future__ import annotations`, residual prints | 3 | M | Code Quality | CQ-4/5 |
 | 17 | ML-3 | **DONE** ✅ | — | ~~Add chain-of-thought scaffolding to agent prompts~~ — `## Reasoning Protocol` added to all 24 personas (2026-03-03) | 4 | S | ML/AI | ML-3 |
-| 18 | DX-5 | BACKLOG | Sprint B | Add YAML workflow authoring guide — document expression syntax, `when` conditions, loops, agent naming, evaluation blocks | 4 | M | Docs | DX-5 |
-| 19 | ML-4 | BACKLOG | Sprint C | Add re-ranking stage to RAG pipeline — cross-encoder or LLM re-ranker after RRF fusion | 4 | M | ML/AI | ML-4 |
+| 18 | DX-5 | **DONE** ✅ | Sprint B | ~~Add YAML workflow authoring guide~~ — `docs/WORKFLOW_AUTHORING.md` (833 lines) with expression syntax, conditions, loops (2026-03-11) | 4 | M | Docs | DX-5 |
+| 19 | ML-4 | **DONE** ✅ | Sprint C | ~~Add re-ranking stage to RAG pipeline~~ — RerankerProtocol + 3 implementations (NoOp, CrossEncoder, LLM) wired into HybridRetriever (C16a-c, 2026-03-12) | 4 | M | ML/AI | ML-4 |
 | 20 | ARCH-3 | BACKLOG | Sprint D | Add workflow `iterate:` construct — YAML looping directive to eliminate `deep_research.yaml` 4x duplication | 3 | M | Architecture | ARCH-3 |
 | 21 | ML-6 | **DONE** ✅ | — | ~~Enrich lower-tier personas (B-rated)~~ — all 24 now have Boundaries, Output Format, and Reasoning Protocol (2026-03-03) | 4 | M | ML/AI | ML-6 |
 | 22 | DX-6 | **DONE** ✅ | — | ~~Create GitHub templates~~ — PR template + bug/feature issue templates created (2026-03-05) | 3 | S | Docs | DX-6 |
 | 23 | DX-9 | **DONE** ✅ | — | ~~Add concept glossary~~ — `docs/GLOSSARY.md` with ~28 terms (2026-03-05) | 4 | S | Docs | DX-9 |
-| 24 | CQ-6 | BACKLOG | Sprint D | Split oversized files — `model_probe.py` (2,360 lines), `server/routes/workflows.py` (1,330), `evaluation_scoring.py` (1,160) | 3 | L | Code Quality | CQ-6 |
+| 24 | CQ-6 | **PARTIAL** 🟡 | Sprint D | Split oversized files — C19 split 6 files in tools/; remaining: `model_probe.py` (2,360L), `server/routes/workflows.py` (1,330L), `evaluation_scoring.py` (1,160L) | 3 | L | Code Quality | CQ-6 |
 | 25 | DX-13 | BACKLOG | Sprint D | Add annotated code walkthroughs — guided walkthroughs of workflow execution, model routing, RAG retrieval | 4 | L | Docs | DX-13 |
 | 26 | ARCH-5 | **DONE** ✅ | — | ~~SupportsCheckpointing in NativeEngine~~ — SQLite CheckpointStore, full test suite (2026-03-05) | 4 | M | Architecture | ARCH-5 |
 
@@ -126,6 +126,10 @@ Revisit ADR-012 when **all three** conditions are met:
 | CQ-7 | tools/ CI workflow — `.github/workflows/tools-ci.yml` | 2026-03-05 | Python 3.10/3.11/3.12 matrix, path-filtered, lint + test jobs |
 | DX-6 | GitHub PR/issue templates | 2026-03-05 | PR template, bug report, feature request, template chooser |
 | DX-9 | Concept glossary — `docs/GLOSSARY.md` | 2026-03-05 | ~28 terms across architecture, AI/ML patterns, development |
+| DX-1 | Onboarding guide — `docs/ONBOARDING.md` (556 lines) | 2026-03-11 | Progressive tutorial: setup → workflow → agent → evaluation |
+| DX-3 | Pattern Catalog — `docs/PATTERN_CATALOG.md` (443 lines) | 2026-03-11 | Maps ReAct, CoVe, ToT, RRF, confidence gating to implementations |
+| DX-5 | Workflow authoring guide — `docs/WORKFLOW_AUTHORING.md` (833 lines) | 2026-03-11 | Expression syntax, `when:` conditions, `loop_until:`, agent naming |
+| ML-4 | RAG re-ranking — RerankerProtocol + 3 implementations | 2026-03-12 | NoOp, CrossEncoder, LLM rerankers wired into HybridRetriever (C16a-c) |
 
 ---
 
@@ -143,33 +147,35 @@ All 11 items completed (7 discovered done + 4 implemented 2026-03-05).
 | 10 | DX-6 | GitHub PR/issue templates created | **DONE** ✅ |
 | 11 | DX-9 | Concept glossary created | **DONE** ✅ |
 
-### Sprint B — Educational Materials (~1-2 weeks)
+### Sprint B — Educational Materials ✅ COMPLETE
 
-| # | ID | Item |
-|---|----|------|
-| 12 | DX-1 | Create `docs/ONBOARDING.md` progressive tutorial |
-| 13 | DX-3 | Create Pattern Catalog |
-| 14 | DX-4 | Add 5-8 code examples |
-| 15 | DX-5 | Add YAML workflow authoring guide |
+All 4 items completed (2026-03-11 through 2026-03-12).
+
+| # | ID | Item | Status |
+|---|----|------|--------|
+| 12 | DX-1 | Create `docs/ONBOARDING.md` progressive tutorial | **DONE** ✅ |
+| 13 | DX-3 | Create Pattern Catalog | **DONE** ✅ |
+| 14 | DX-4 | Add 5-8 code examples | **PARTIAL** 🟡 (6 of 8) |
+| 15 | DX-5 | Add YAML workflow authoring guide | **DONE** ✅ |
 
 ### Sprint C — Architecture Hardening (~2-3 weeks)
 
-| # | ID | Item |
-|---|----|------|
-| 16 | ARCH-1 | Tighten protocol type signatures (bounded TypeVars) |
-| 17 | ARCH-4 | Add cross-package integration tests |
-| 18 | ML-4 | Add re-ranking stage to RAG pipeline |
-| 19 | CQ-4/5 | Modernize tools/ package |
+| # | ID | Item | Status |
+|---|----|------|--------|
+| 16 | ARCH-1 | Tighten protocol type signatures (bounded TypeVars) | BACKLOG |
+| 17 | ARCH-4 | Add cross-package integration tests | BACKLOG |
+| 18 | ML-4 | Add re-ranking stage to RAG pipeline | **DONE** ✅ |
+| 19 | CQ-4/5 | Modernize tools/ package | **PARTIAL** 🟡 |
 
 ### Sprint D — Advanced Patterns (~4+ weeks)
 
-| # | ID | Item |
-|---|----|------|
-| 20 | ML-2 | Implement BaseAgent reflection/self-correction loop |
-| 21 | ML-5 | Integrate online evaluation feedback loop |
-| 22 | ARCH-3 | Add workflow `iterate:` construct |
-| 23 | CQ-6 | Split oversized files |
-| 24 | DX-13 | Add annotated code walkthroughs |
+| # | ID | Item | Status |
+|---|----|------|--------|
+| 20 | ML-2 | Implement BaseAgent reflection/self-correction loop | BACKLOG |
+| 21 | ML-5 | Integrate online evaluation feedback loop | BACKLOG |
+| 22 | ARCH-3 | Add workflow `iterate:` construct | BACKLOG |
+| 23 | CQ-6 | Split oversized files | **PARTIAL** 🟡 |
+| 24 | DX-13 | Add annotated code walkthroughs | BACKLOG |
 
 ---
 
