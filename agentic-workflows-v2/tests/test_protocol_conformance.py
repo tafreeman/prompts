@@ -16,8 +16,6 @@ Each section has:
 
 from __future__ import annotations
 
-import pytest
-
 # ---------------------------------------------------------------------------
 # TestRAGProtocolConformance
 # ---------------------------------------------------------------------------
