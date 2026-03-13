@@ -22,89 +22,21 @@ Author: Prompts Library Team
 
 from __future__ import annotations
 
-import argparse
 import json
 import logging
-import sys
+import re
 from pathlib import Path
 from typing import Any
 
-logger = logging.getLogger(__name__)
+from tools.llm.local_model_discovery import (
+    _AI_GALLERY_ROOT,
+    _MODEL_DIRS,
+    _find_onnx_model_dir,
+    _resolve_model_path,
+    _safe_float,
+)
 
 logger = logging.getLogger(__name__)
-
-# Default model locations.
-# Keep these portable: avoid hard-coded user paths.
-_AI_GALLERY_ROOT = Path.home() / ".cache" / "aigallery"
-
-# Known AI Gallery directories keyed by short model names.
-# NOTE: These are directory names, not the final ONNX compute subfolder.
-_MODEL_DIRS = {
-    "phi4": ["microsoft--Phi-4-mini-instruct-onnx"],
-    "phi4mini": ["microsoft--Phi-4-mini-instruct-onnx"],
-    "phi3": ["microsoft--Phi-3-mini-4k-instruct-onnx"],
-    "phi3.5": ["microsoft--Phi-3.5-mini-instruct-onnx"],
-    "mistral": ["microsoft--mistral-7b-instruct-v0.2-ONNX"],
-    "mistral-7b": ["microsoft--mistral-7b-instruct-v0.2-ONNX"],
-}
-
-
-def _safe_float(value: Any, default: float = 0.0) -> float:
-    """Best-effort float conversion.
-
-    Local model outputs occasionally include `null` / missing numeric fields.
-    Treat those as `default` instead of raising.
-    """
-    try:
-        if value is None:
-            return default
-        return float(value)
-    except (TypeError, ValueError):
-        return default
-
-
-def _find_onnx_model_dir(base: Path) -> Path | None:
-    """Return the first directory under base that looks like an ONNX model
-    folder."""
-    if not base.exists() or not base.is_dir():
-        return None
-
-    # Heuristic: prefer folders containing *.onnx; often nested under main/**/cpu_* or directml.
-    for d in base.rglob("*"):
-        if not d.is_dir():
-            continue
-        try:
-            if any(d.glob("*.onnx")):
-                return d
-        except OSError:
-            continue
-
-    return None
-
-
-def _resolve_model_path(model_key: str | None) -> Path | None:
-    """Resolve a model key to a concrete ONNX folder path, if available."""
-    if not _AI_GALLERY_ROOT.exists():
-        return None
-
-    if model_key:
-        key = model_key.strip().lower()
-        candidates = _MODEL_DIRS.get(key, [])
-        for dirname in candidates:
-            base = _AI_GALLERY_ROOT / dirname
-            p = _find_onnx_model_dir(base)
-            if p:
-                return p
-
-    # Fallback: first available known model (in a stable order)
-    for key in ["phi4mini", "phi3.5", "phi3", "mistral"]:
-        for dirname in _MODEL_DIRS.get(key, []):
-            base = _AI_GALLERY_ROOT / dirname
-            p = _find_onnx_model_dir(base)
-            if p:
-                return p
-
-    return None
 
 
 class LocalModel:
@@ -135,7 +67,7 @@ class LocalModel:
             )
 
         if self.verbose:
-            logger.info(f"Loading model from: {self.model_path}")
+            logger.debug("Loading model from: %s", self.model_path)
 
         self._load_model()
 
@@ -148,7 +80,7 @@ class LocalModel:
             self.tokenizer = og.Tokenizer(self.model)
 
             if self.verbose:
-                logger.info("Model loaded successfully!")
+                logger.debug("Model loaded successfully!")
 
         except ImportError:
             raise ImportError(
@@ -707,147 +639,9 @@ Return ONLY valid JSON:
         }
 
 
-def check_model_available() -> bool:
-    """Check if a local model is available."""
-    return _resolve_model_path(None) is not None
-
-
-def get_model_info() -> dict[str, Any]:
-    """Get information about available local models."""
-    info = {
-        "available": False,
-        "paths_checked": [str(_AI_GALLERY_ROOT)],
-        "found_path": None,
-        "onnxruntime_genai_installed": False,
-    }
-
-    # Check for onnxruntime-genai
-    try:
-        import onnxruntime_genai
-
-        info["onnxruntime_genai_installed"] = True
-        info["onnxruntime_genai_version"] = onnxruntime_genai.__version__
-    except ImportError:
-        pass
-
-    # Check for model
-    found = _resolve_model_path(None)
-    if found:
-        info["available"] = True
-        info["found_path"] = str(found)
-        try:
-            model_files = list(found.glob("*.onnx"))
-            info["model_files"] = [f.name for f in model_files]
-        except OSError:
-            info["model_files"] = []
-
-    return info
-
-
-def main():
-    parser = argparse.ArgumentParser(description="Run prompts through local ONNX model")
-    parser.add_argument("prompt", nargs="?", help="Prompt to send to the model")
-    parser.add_argument("--model-path", "-m", help="Path to ONNX model directory")
-    parser.add_argument(
-        "--max-tokens", "-t", type=int, default=1024, help="Maximum tokens to generate"
-    )
-    parser.add_argument(
-        "--temperature", type=float, default=0.7, help="Sampling temperature"
-    )
-    parser.add_argument(
-        "--check", action="store_true", help="Check if local model is available"
-    )
-    parser.add_argument(
-        "--evaluate", "-e", type=str, help="Path to prompt file to evaluate"
-    )
-    parser.add_argument(
-        "--batch-evaluate",
-        type=str,
-        help="Path to a JSON file containing a list of prompt file paths to evaluate in batch (loads model once)",
-    )
-    parser.add_argument("--verbose", "-v", action="store_true", help="Verbose output")
-
-    args = parser.parse_args()
-
-    # Check mode
-    if args.check:
-        info = get_model_info()
-        print(json.dumps(info, indent=2))
-        sys.exit(0 if info["available"] else 1)
-
-    # Evaluate mode
-    if args.evaluate:
-        prompt_path = Path(args.evaluate)
-        if not prompt_path.exists():
-            print(f"Error: File not found: {prompt_path}")
-            sys.exit(1)
-
-        try:
-            model = LocalModel(model_path=args.model_path, verbose=args.verbose)
-            content = prompt_path.read_text(encoding="utf-8")
-            result = model.evaluate_prompt(content)
-            print(json.dumps(result, indent=2))
-        except Exception as e:
-            print(f"Error: {e}")
-            sys.exit(1)
-
-        sys.exit(0)
-
-    # Batch evaluate mode: accepts a JSON file listing prompt file paths
-    if args.batch_evaluate:
-        batch_file = Path(args.batch_evaluate)
-        if not batch_file.exists():
-            print(f"Error: Batch file not found: {batch_file}")
-            sys.exit(1)
-
-        try:
-            paths = json.loads(batch_file.read_text(encoding="utf-8"))
-            if not isinstance(paths, list):
-                print("Error: batch file must contain a JSON array of file paths")
-                sys.exit(1)
-
-            model = LocalModel(model_path=args.model_path, verbose=args.verbose)
-            results = []
-            for p in paths:
-                try:
-                    prompt_path = Path(p)
-                    if not prompt_path.exists():
-                        results.append({"file": str(p), "error": "file not found"})
-                        continue
-                    content = prompt_path.read_text(encoding="utf-8")
-                    res = model.evaluate_prompt(content)
-                    # Normalize return
-                    out = {
-                        "file": str(prompt_path),
-                        "result": res,
-                    }
-                    results.append(out)
-                except Exception as e:
-                    results.append({"file": str(p), "error": str(e)})
-
-            print(json.dumps({"results": results}, indent=2))
-            sys.exit(0)
-        except Exception as e:
-            print(f"Error during batch evaluation: {e}")
-            sys.exit(1)
-
-    # Interactive mode
-    if not args.prompt:
-        parser.print_help()
-        sys.exit(1)
-
-    try:
-        model = LocalModel(args.model_path, verbose=args.verbose)
-        response = model.generate(
-            args.prompt,
-            max_tokens=args.max_tokens,
-            temperature=args.temperature,
-        )
-        print(response)
-    except Exception as e:
-        print(f"Error: {e}")
-        sys.exit(1)
-
+# Backward-compat re-exports
+from tools.llm.local_model_discovery import check_model_available, get_model_info  # noqa: F401, E402
+from tools.llm.local_model_cli import main  # noqa: F401, E402
 
 if __name__ == "__main__":
     main()

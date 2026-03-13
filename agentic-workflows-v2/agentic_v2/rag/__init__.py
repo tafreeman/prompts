@@ -14,7 +14,7 @@ Usage::
 """
 
 from .chunking import RecursiveChunker
-from .config import ChunkingConfig, EmbeddingConfig, RAGConfig
+from .config import ChunkingConfig, EmbeddingConfig, RAGConfig, RerankerConfig
 from .context_assembly import TokenBudgetAssembler
 from .contracts import Chunk, Document, RAGResponse, RetrievalResult
 from .embeddings import FallbackEmbedder, InMemoryEmbedder
@@ -33,6 +33,7 @@ from .protocols import (
     ChunkerProtocol,
     EmbeddingProtocol,
     LoaderProtocol,
+    RerankerProtocol,
     VectorStoreProtocol,
 )
 from .retrieval import BM25Index, HybridRetriever
@@ -50,6 +51,7 @@ __all__ = [
     "ChunkingConfig",
     "EmbeddingConfig",
     "RAGConfig",
+    "RerankerConfig",
     # Ingestion
     "IngestionPipeline",
     "RecursiveChunker",
@@ -76,6 +78,7 @@ __all__ = [
     "LoaderProtocol",
     "ChunkerProtocol",
     "EmbeddingProtocol",
+    "RerankerProtocol",
     "VectorStoreProtocol",
     # Errors
     "RAGError",

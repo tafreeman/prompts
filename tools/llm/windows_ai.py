@@ -38,8 +38,6 @@ from typing import Any
 
 logger = logging.getLogger(__name__)
 
-logger = logging.getLogger(__name__)
-
 
 class WindowsAIModel:
     """Wrapper for Windows AI APIs (Phi Silica SLM)."""
@@ -89,9 +87,9 @@ class WindowsAIModel:
                 full_prompt = f"{system_instruction}\n\n{prompt}"
 
             if self.verbose:
-                logger.info("Running Phi Silica (NPU)...")
-                logger.info(f"Temperature: {temperature}")
-                logger.info(f"Max tokens: {max_tokens}")
+                logger.debug("Running Phi Silica (NPU)...")
+                logger.debug("   Temperature: %s", temperature)
+                logger.debug("   Max tokens: %d", max_tokens)
 
             # Call Phi Silica
             response = self._call_phi_silica(
@@ -101,7 +99,7 @@ class WindowsAIModel:
             return response
 
         except Exception as e:
-            return f"[ERROR] Windows AI API error: {e!s}"
+            return f"[ERROR] Windows AI API error: {str(e)}"
 
     def _call_phi_silica(
         self, prompt: str, temperature: float = 0.7, max_tokens: int = 2000
@@ -252,22 +250,30 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
+    # Configure logging for standalone script usage:
+    # - INFO by default so user-facing output is visible
+    # - DEBUG when --verbose is enabled for additional diagnostics
+    logging.basicConfig(
+        level=logging.DEBUG if args.verbose else logging.INFO,
+        format="%(levelname)s: %(message)s",
+    )
+
     if args.info:
         import json
 
         info = get_model_info()
-        print(json.dumps(info, indent=2))
+        logger.info(json.dumps(info, indent=2))
         sys.exit(0)
 
     try:
         model = WindowsAIModel(verbose=args.verbose)
         response = model.generate(args.prompt)
-        print("\n" + "=" * 60)
-        print("RESPONSE FROM PHI SILICA (Windows AI)")
-        print("=" * 60)
-        print(response)
-        print("=" * 60)
+        logger.info("\n" + "=" * 60)
+        logger.info("RESPONSE FROM PHI SILICA (Windows AI)")
+        logger.info("=" * 60)
+        logger.info(response)
+        logger.info("=" * 60)
 
     except Exception as e:
-        print(f"[ERROR] Error: {e}")
+        logger.error(f"Error: {e}")
         sys.exit(1)

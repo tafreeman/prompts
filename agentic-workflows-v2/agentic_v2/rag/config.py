@@ -58,6 +58,25 @@ class EmbeddingConfig(BaseModel):
     max_concurrent: int = Field(default=5, gt=0)
 
 
+class RerankerConfig(BaseModel):
+    """Configuration for optional result reranking.
+
+    Attributes:
+        strategy: Reranking approach — ``"none"`` (passthrough),
+            ``"cross_encoder"`` (model-based), or ``"llm"`` (LLM judge).
+        model_name: Model identifier for cross-encoder or LLM reranker.
+        top_k: Number of results to keep after reranking.
+        batch_size: Batch size for cross-encoder inference.
+    """
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    strategy: Literal["none", "cross_encoder", "llm"] = "none"
+    model_name: str | None = None
+    top_k: int = Field(default=5, gt=0)
+    batch_size: int = Field(default=32, gt=0)
+
+
 class RAGConfig(BaseModel):
     """Top-level RAG pipeline configuration.
 
@@ -66,6 +85,7 @@ class RAGConfig(BaseModel):
     Attributes:
         chunking: Document chunking settings.
         embedding: Embedding generation settings.
+        reranker: Optional reranking settings.
         vectorstore_type: Vector store backend (``"memory"`` or ``"lancedb"``).
         db_path: Filesystem path for persistent stores (required when
             ``vectorstore_type`` is ``"lancedb"``).
@@ -78,6 +98,7 @@ class RAGConfig(BaseModel):
 
     chunking: ChunkingConfig = Field(default_factory=ChunkingConfig)
     embedding: EmbeddingConfig = Field(default_factory=EmbeddingConfig)
+    reranker: RerankerConfig = Field(default_factory=RerankerConfig)
     vectorstore_type: Literal["memory", "lancedb"] = "memory"
     db_path: str | None = None
     top_k: int = Field(default=5, gt=0)

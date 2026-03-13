@@ -115,3 +115,32 @@ class VectorStoreProtocol(Protocol):
             True if any chunks were deleted.
         """
         ...
+
+
+@runtime_checkable
+class RerankerProtocol(Protocol):
+    """Interface for result rerankers.
+
+    Rerankers rescore and reorder retrieval results using a more
+    expensive signal (cross-encoder model, LLM judge, etc.) to
+    improve precision after an initial cheap retrieval pass.
+    """
+
+    async def rerank(
+        self,
+        query: str,
+        results: list[RetrievalResult],
+        *,
+        top_k: int = 5,
+    ) -> list[RetrievalResult]:
+        """Rerank retrieval results for *query*.
+
+        Args:
+            query: The original search query.
+            results: Candidate results from initial retrieval.
+            top_k: Maximum number of results to return.
+
+        Returns:
+            Reranked list, ordered by descending relevance.
+        """
+        ...
