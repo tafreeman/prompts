@@ -21,9 +21,10 @@ Response models:
 
 from __future__ import annotations
 
+import re
 from typing import Any, Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 from ..contracts import StepStatus
 
@@ -69,6 +70,19 @@ class WorkflowRunRequest(BaseModel):
         default_factory=dict, description="Input variables"
     )
     run_id: str | None = Field(None, description="Unique run identifier")
+
+    @field_validator("run_id")
+    @classmethod
+    def _validate_run_id(cls, v: str | None) -> str | None:
+        if v is None:
+            return v
+        if not re.match(r"^[a-zA-Z0-9_-]{1,128}$", v):
+            raise ValueError(
+                "run_id must be 1-128 characters using only letters, digits, hyphens, and underscores"
+            )
+        return v
+
+
     adapter: str = Field(
         "langchain",
         description="Execution adapter: 'langchain' (default) or 'native'",
