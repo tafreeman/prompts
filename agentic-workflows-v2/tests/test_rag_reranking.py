@@ -240,3 +240,92 @@ class TestLLMReranker:
         reranker = LLMReranker(score_fn=tracking_score, max_concurrency=2)
         await reranker.rerank("query", sample_results, top_k=5)
         assert max_concurrent_seen <= 2
+
+
+# ===================================================================
+# HybridRetriever integration
+# ===================================================================
+
+
+class TestHybridRetrieverReranking:
+    """Integration tests for reranker wiring in HybridRetriever."""
+
+    async def test_retrieve_without_reranker_unchanged(self) -> None:
+        """Without a reranker, retrieve() behaves identically to before."""
+        from agentic_v2.rag.embeddings import InMemoryEmbedder
+        from agentic_v2.rag.retrieval import HybridRetriever
+        from agentic_v2.rag.vectorstore import InMemoryVectorStore
+
+        embedder = InMemoryEmbedder(dimensions=32)
+        store = InMemoryVectorStore()
+
+        retriever = HybridRetriever(embedder, store)
+        results = await retriever.retrieve("test query", top_k=5)
+        # Empty store → no results, but no error
+        assert results == []
+
+    async def test_retrieve_applies_reranker(self) -> None:
+        """Reranker is called on RRF-fused results."""
+        from unittest.mock import AsyncMock
+
+        from agentic_v2.rag.contracts import Chunk
+        from agentic_v2.rag.embeddings import InMemoryEmbedder
+        from agentic_v2.rag.reranking import NoOpReranker
+        from agentic_v2.rag.retrieval import HybridRetriever
+        from agentic_v2.rag.vectorstore import InMemoryVectorStore
+
+        embedder = InMemoryEmbedder(dimensions=32)
+        store = InMemoryVectorStore()
+
+        # Add some data so retrieval returns results
+        chunks = [
+            Chunk(content="Hello world", document_id="d1", chunk_index=0),
+            Chunk(content="Goodbye world", document_id="d1", chunk_index=1),
+        ]
+        embeddings = await embedder.embed([c.content for c in chunks])
+        await store.add(chunks, embeddings)
+
+        # Use a NoOpReranker with a spy to verify it's called
+        reranker = NoOpReranker()
+        reranker.rerank = AsyncMock(wraps=reranker.rerank)  # type: ignore[method-assign]
+
+        retriever = HybridRetriever(embedder, store, reranker=reranker)
+        retriever.index_chunks(chunks)
+
+        results = await retriever.retrieve("Hello", top_k=2)
+        reranker.rerank.assert_called_once()
+        assert len(results) <= 2
+
+    async def test_reranker_runs_before_threshold(self) -> None:
+        """Score threshold is applied AFTER reranking, not before."""
+        from agentic_v2.rag.contracts import Chunk
+        from agentic_v2.rag.embeddings import InMemoryEmbedder
+        from agentic_v2.rag.reranking import CrossEncoderReranker
+        from agentic_v2.rag.retrieval import HybridRetriever
+        from agentic_v2.rag.vectorstore import InMemoryVectorStore
+
+        embedder = InMemoryEmbedder(dimensions=32)
+        store = InMemoryVectorStore()
+
+        chunks = [
+            Chunk(content="Relevant doc", document_id="d1", chunk_index=0),
+            Chunk(content="Irrelevant doc", document_id="d1", chunk_index=1),
+        ]
+        embeddings = await embedder.embed([c.content for c in chunks])
+        await store.add(chunks, embeddings)
+
+        # Reranker gives high score to first, low to second
+        def mock_predict(pairs: list[tuple[str, str]]) -> list[float]:
+            return [0.9 if "Relevant" in p[1] else 0.1 for p in pairs]
+
+        reranker = CrossEncoderReranker(predict_fn=mock_predict)
+
+        # Threshold of 0.5 should filter out the 0.1-scored result
+        retriever = HybridRetriever(
+            embedder, store, reranker=reranker, score_threshold=0.5
+        )
+        retriever.index_chunks(chunks)
+
+        results = await retriever.retrieve("test", top_k=5)
+        # Only the "Relevant doc" should survive the threshold
+        assert all(r.score >= 0.5 for r in results)

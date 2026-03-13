@@ -18,7 +18,7 @@ from .contracts import RetrievalResult
 
 if TYPE_CHECKING:
     from .contracts import Chunk
-    from .protocols import EmbeddingProtocol, VectorStoreProtocol
+    from .protocols import EmbeddingProtocol, RerankerProtocol, VectorStoreProtocol
 
 logger = logging.getLogger(__name__)
 
@@ -229,6 +229,10 @@ class HybridRetriever:
         embedder: Embedding provider for dense retrieval.
         vectorstore: Vector store backend for nearest-neighbor search.
         rrf_k: RRF constant (default 60).
+        score_threshold: Minimum score filter applied after reranking.
+        reranker: Optional reranker applied after RRF fusion but before
+            score threshold filtering.  When present, RRF fetches 3×
+            ``top_k`` candidates to give the reranker a richer pool.
     """
 
     def __init__(
@@ -238,11 +242,13 @@ class HybridRetriever:
         *,
         rrf_k: int = 60,
         score_threshold: float = 0.0,
+        reranker: RerankerProtocol | None = None,
     ) -> None:
         self._embedder = embedder
         self._vectorstore = vectorstore
         self._rrf_k = rrf_k
         self._score_threshold = score_threshold
+        self._reranker = reranker
         self._bm25 = BM25Index()
 
     def index_chunks(self, chunks: list[Chunk]) -> None:
@@ -272,11 +278,18 @@ class HybridRetriever:
         dense_results = await self.dense_only(query, top_k=top_k)
         bm25_results = self._bm25.search(query, top_k=top_k)
 
+        # Fetch more candidates when reranking so the reranker has a
+        # richer pool to rescore before final top_k truncation.
+        rrf_top_k = top_k * 3 if self._reranker is not None else top_k
+
         results = reciprocal_rank_fusion(
             [dense_results, bm25_results],
             k=self._rrf_k,
-            top_k=top_k,
+            top_k=rrf_top_k,
         )
+
+        if self._reranker is not None:
+            results = await self._reranker.rerank(query, results, top_k=top_k)
 
         if self._score_threshold > 0.0:
             results = [r for r in results if r.score >= self._score_threshold]
