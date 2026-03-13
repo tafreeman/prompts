@@ -19,6 +19,8 @@
  */
 
 // ─── HERO IMAGE REFS ───
+export const themeId = "midnight-teal";
+
 export const HERO_IMGS = {
   carrierFleet:     "images/carrier-fleet.jpg",
   helicopterRappel: "images/helicopter-rappel.jpg",

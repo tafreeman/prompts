@@ -1,8 +1,28 @@
 // ─── THEMES ───
-// Source of truth for all theme tokens, extracted from genai_advocacy_hub_10.jsx.
-// v10 extended set includes success/danger/warning/surfaceElevated tokens missing from v13.
+// Shared theme token source for all presentation variants and reference decks.
+// Includes the original set plus image-derived themes extracted from deck.gallery references.
 
-export const THEMES = [
+// Per-theme Google Fonts URLs — used by runtime loaders and export scripts.
+export const THEME_FONT_URLS = {
+  "midnight-teal":    "https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700&family=Space+Grotesk:wght@500;700&display=swap",
+  "obsidian-ember":   "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap",
+  "arctic-steel":     "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Nunito+Sans:wght@400;500;600;700&display=swap",
+  "midnight-verdant": "https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Karla:wght@400;500;600;700&display=swap",
+  "neon-noir":        "https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap",
+  "paper-ink":        "https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Atkinson+Hyperlegible:wght@400;700&display=swap",
+  "atelier-sage":     "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap",
+  "signal-cobalt":    "https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Libre+Franklin:wght@400;500;600;700&display=swap",
+  "verge-orange":     "https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600;700;800;900&display=swap",
+  "verge-blue":       "https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600;700;800;900&display=swap",
+  "verge-pink":       "https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600;700;800;900&display=swap",
+  "verge-yellow":     "https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600;700;800;900&display=swap",
+};
+
+// Combined URL for the theme-switcher preview panel (display fonts only).
+export const THEME_SELECTOR_FONTS_URL =
+  "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Playfair+Display:wght@700&family=JetBrains+Mono:wght@700&family=Outfit:wght@700&family=Chakra+Petch:wght@700&family=DM+Serif+Display&family=Cormorant+Garamond:wght@600;700&family=Sora:wght@600;700;800&family=Space+Mono:wght@700&display=swap";
+
+const BASE_THEMES = [
   {
     id: "midnight-teal", name: "Midnight Teal", vibe: "Current Default",
     fontDisplay: "'Space Grotesk',sans-serif", fontBody: "'DM Sans',sans-serif",
@@ -51,20 +71,68 @@ export const THEMES = [
     accent: "#1E40AF", accentGlow: "rgba(30,64,175,0.12)", gradient: ["#1E40AF", "#7C3AED"],
     success: "#047857", danger: "#DC2626", warning: "#B45309", surfaceElevated: "#E8E5E0",
   },
+  {
+    // Inspired by airy editorial spreads with warm paper stock, sage typography,
+    // and restrained ochre / terracotta punctuation.
+    id: "atelier-sage", name: "Atelier Sage", vibe: "Airy Editorial / Process",
+    fontDisplay: "'Cormorant Garamond',serif", fontBody: "'Source Sans 3',sans-serif",
+    bg: "#F6F2EA", bgCard: "#FFFDF8", bgDeep: "#ECE5D8",
+    text: "#23312C", textMuted: "#556A61", textDim: "#8B9388",
+    accent: "#557868", accentGlow: "rgba(85,120,104,0.18)", gradient: ["#557868", "#D7AA58"],
+    success: "#6E8D79", danger: "#C87052", warning: "#D7AA58", surfaceElevated: "#E8E0D1",
+  },
+  {
+    // Inspired by Swiss / brutalist deck studies using black-and-white structure,
+    // cobalt interruption slides, and orange utility accents.
+    id: "signal-cobalt", name: "Signal Cobalt", vibe: "Swiss / Brutalist Systems",
+    fontDisplay: "'Sora',sans-serif", fontBody: "'Libre Franklin',sans-serif",
+    bg: "#F7F6F1", bgCard: "#FFFFFF", bgDeep: "#ECE9E1",
+    text: "#121212", textMuted: "#404040", textDim: "#818181",
+    accent: "#1328FF", accentGlow: "rgba(19,40,255,0.16)", gradient: ["#1328FF", "#FF6A13"],
+    success: "#1F8A53", danger: "#E94F1D", warning: "#FFB000", surfaceElevated: "#E6E2D8",
+  },
+  // ── Verge Pop themes ── vivid, flat, bold backgrounds inspired by editorial trend reports
+  {
+    id: "verge-orange", name: "Verge Orange", vibe: "Pop Art / Citrus",
+    fontDisplay: "'Space Mono',monospace", fontBody: "'Work Sans',sans-serif",
+    bg: "#FF6B00", bgCard: "#FFF3E0", bgDeep: "#E85D00",
+    text: "#000000", textMuted: "#3D1F00", textDim: "#7A4000",
+    accent: "#000000", accentGlow: "rgba(0,0,0,0.12)", gradient: ["#FF3366", "#00CC99"],
+    success: "#00CC66", danger: "#FF3366", warning: "#FFD600", surfaceElevated: "#CC5500",
+  },
+  {
+    id: "verge-blue", name: "Verge Blue", vibe: "Pop Art / Electric",
+    fontDisplay: "'Space Mono',monospace", fontBody: "'Work Sans',sans-serif",
+    bg: "#1A75FF", bgCard: "#E6F0FF", bgDeep: "#0052CC",
+    text: "#FFFFFF", textMuted: "#CCE0FF", textDim: "#80B3FF",
+    accent: "#FFD600", accentGlow: "rgba(255,214,0,0.2)", gradient: ["#FFD600", "#FF6633"],
+    success: "#00CC66", danger: "#FF3366", warning: "#FFD600", surfaceElevated: "#0047B3",
+  },
+  {
+    id: "verge-pink", name: "Verge Pink", vibe: "Pop Art / Magenta",
+    fontDisplay: "'Space Mono',monospace", fontBody: "'Work Sans',sans-serif",
+    bg: "#FF0099", bgCard: "#FFE6F5", bgDeep: "#CC007A",
+    text: "#000000", textMuted: "#33001F", textDim: "#660040",
+    accent: "#000000", accentGlow: "rgba(0,0,0,0.12)", gradient: ["#FFD600", "#00CC99"],
+    success: "#00CC66", danger: "#FF3333", warning: "#FFD600", surfaceElevated: "#B30070",
+  },
+  {
+    id: "verge-yellow", name: "Verge Yellow", vibe: "Pop Art / Sunshine",
+    fontDisplay: "'Space Mono',monospace", fontBody: "'Work Sans',sans-serif",
+    bg: "#FFD600", bgCard: "#FFFDE6", bgDeep: "#CCB000",
+    text: "#000000", textMuted: "#332B00", textDim: "#665500",
+    accent: "#FF3366", accentGlow: "rgba(255,51,102,0.15)", gradient: ["#FF3366", "#0066FF"],
+    success: "#00CC66", danger: "#FF3366", warning: "#FF9900", surfaceElevated: "#B39700",
+  },
 ];
 
-// Per-theme Google Fonts URLs — used by FontLoader and build-single-file.mjs
-export const THEME_FONT_URLS = {
-  "midnight-teal":    "https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700&family=Space+Grotesk:wght@500;700&display=swap",
-  "obsidian-ember":   "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap",
-  "arctic-steel":     "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Nunito+Sans:wght@400;500;600;700&display=swap",
-  "midnight-verdant": "https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Karla:wght@400;500;600;700&display=swap",
-  "neon-noir":        "https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap",
-  "paper-ink":        "https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Atkinson+Hyperlegible:wght@400;700&display=swap",
-};
+export const THEMES = BASE_THEMES.map((theme) => ({
+  ...theme,
+  fontsUrl: THEME_FONT_URLS[theme.id],
+}));
 
-// Combined URL for the theme-switcher preview panel (all display fonts in one request)
-export const THEME_SELECTOR_FONTS_URL =
-  "https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700&family=Space+Grotesk:wght@500;700&family=Playfair+Display:wght@700&family=JetBrains+Mono:wght@700&family=Outfit:wght@700&family=Chakra+Petch:wght@700&family=DM+Serif+Display&display=swap";
+// Convenience lookup for future deck manifests or settings panels that need an O(1)
+// theme lookup by id.
+export const THEMES_BY_ID = Object.fromEntries(THEMES.map((theme) => [theme.id, theme]));
 
 export default THEMES;
