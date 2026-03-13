@@ -16,11 +16,14 @@ export const THEME_FONT_URLS = {
   "verge-blue":       "https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600;700;800;900&display=swap",
   "verge-pink":       "https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600;700;800;900&display=swap",
   "verge-yellow":     "https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600;700;800;900&display=swap",
+  "gamma-dark":       "https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700&family=Space+Grotesk:wght@500;600;700&display=swap",
+  "studio-craft":     "https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap",
+  "linear":           "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap",
 };
 
 // Combined URL for the theme-switcher preview panel (display fonts only).
 export const THEME_SELECTOR_FONTS_URL =
-  "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Playfair+Display:wght@700&family=JetBrains+Mono:wght@700&family=Outfit:wght@700&family=Chakra+Petch:wght@700&family=DM+Serif+Display&family=Cormorant+Garamond:wght@600;700&family=Sora:wght@600;700;800&family=Space+Mono:wght@700&display=swap";
+  "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Playfair+Display:wght@700&family=JetBrains+Mono:wght@700&family=Outfit:wght@700&family=Chakra+Petch:wght@700&family=DM+Serif+Display&family=Cormorant+Garamond:wght@600;700&family=Sora:wght@600;700;800&family=Space+Mono:wght@700&family=Syne:wght@700;800&family=Inter:wght@600;700&display=swap";
 
 const BASE_THEMES = [
   {
@@ -123,6 +126,35 @@ const BASE_THEMES = [
     text: "#000000", textMuted: "#332B00", textDim: "#665500",
     accent: "#FF3366", accentGlow: "rgba(255,51,102,0.15)", gradient: ["#FF3366", "#0066FF"],
     success: "#00CC66", danger: "#FF3366", warning: "#FF9900", surfaceElevated: "#B39700",
+  },
+  // ── Gamma Dark theme ── cinematic dark with orange/amber accents
+  {
+    id: "gamma-dark", name: "Gamma Dark", vibe: "Cinematic / Ember",
+    fontDisplay: "'Space Grotesk',sans-serif", fontBody: "'DM Sans',sans-serif",
+    bg: "#060608", bgCard: "#111113", bgDeep: "#0C0C0E",
+    text: "#F5F0EB", textMuted: "#A8A099", textDim: "#6B6560",
+    accent: "#F97316", accentGlow: "rgba(249,115,22,0.25)", gradient: ["#F97316", "#FBBF24"],
+    success: "#22C55E", danger: "#EF4444", warning: "#FBBF24", surfaceElevated: "#050506",
+  },
+  {
+    // Inspired by editorial agency handbooks: cream paper, vivid yellow accent,
+    // stark black type, and a strong grotesque display font.
+    id: "studio-craft", name: "Studio Craft", vibe: "Agency Handbook / Editorial Yellow",
+    fontDisplay: "'Syne',sans-serif", fontBody: "'IBM Plex Sans',sans-serif",
+    bg: "#F8F6F0", bgCard: "#FFFFFF", bgDeep: "#EDEAE0",
+    text: "#0E0E0B", textMuted: "#4B4843", textDim: "#8C8885",
+    accent: "#F4E04D", accentGlow: "rgba(244,224,77,0.35)", gradient: ["#F4E04D", "#F2A614"],
+    success: "#2E6E3E", danger: "#C53B2F", warning: "#F2A614", surfaceElevated: "#EAE6DC",
+  },
+  {
+    // Inspired by Linear.app — ultra-clean product dark:
+    // near-black bg with cold blue-purple tint, indigo accent, Inter type system.
+    id: "linear", name: "Linear", vibe: "Product / Clean Dark",
+    fontDisplay: "'Inter',sans-serif", fontBody: "'Inter',sans-serif",
+    bg: "#0F1117", bgCard: "#161B27", bgDeep: "#0C0E18",
+    text: "#E2E4F0", textMuted: "#8F93A9", textDim: "#545870",
+    accent: "#5E6AD2", accentGlow: "rgba(94,106,210,0.22)", gradient: ["#5E6AD2", "#8B7CE8"],
+    success: "#4CC38A", danger: "#E5484D", warning: "#FFB224", surfaceElevated: "#080A12",
   },
 ];
 

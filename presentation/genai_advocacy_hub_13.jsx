@@ -4,6 +4,9 @@ import PropTypes from "prop-types";
 import { themeId as genaiThemeId, contentSlides as genaiContentSlides, sprintNodes as genaiSprintNodes } from "./src/content/genai-advocacy/deck.js";
 import { atelierSage, signalCobalt } from "./src/content/reference-decks/index.js";
 import * as vergePop from "./src/content/verge-pop/deck.js";
+import * as onboarding from "./src/content/onboarding/deck.js";
+import * as onboardingOp from "./src/content/onboarding-op/deck.js";
+import * as studio from "./src/content/studio/deck.js";
 import { THEMES, THEMES_BY_ID, THEME_SELECTOR_FONTS_URL } from "./src/tokens/themes.js";
 import { resolveTopicColors, resolveIntroStatColors } from "./src/tokens/palette.js";
 import { STYLE_MODES, STYLE_MODES_BY_ID } from "./src/tokens/style-modes.js";
@@ -169,6 +172,11 @@ const LAYOUT_ICONS = {
   "data-table": "📋",
   "bar-chart": "📈",
   "color-blocks": "🎨",
+  "info-cards": "📋",
+  "checklist": "🛡️",
+  "workflow": "⚙️",
+  "pillars": "🔬",
+  "catalog": "🔐",
 };
 
 const SPRINT_NODE_ICONS = {
@@ -362,12 +370,93 @@ const VERGE_POP_DECK = createDeckPreset({
   sprintNodes: vergePop.sprintNodes,
 });
 
+const STUDIO_DECK = createDeckPreset({
+  id: "studio",
+  themeId: studio.themeId,
+  brandLine: "AI Studio",
+  title: "Studio",
+  titleAccent: "Handbook",
+  tagline: "Six chapters. From who we are to your first day. Select a chapter to begin.",
+  introBrandLine: "AI Studio · Handbook",
+  introTitle: "The Studio Handbook",
+  introSubtitle: "How we work, what we build, what we believe.",
+  introStats: [
+    { val: "5",  lbl: "Practices",  color: "#F4E04D" },
+    { val: "8",  lbl: "Process Steps", color: "#F2A614" },
+    { val: "6+", lbl: "Client Archetypes", color: "#C53B2F" },
+    { val: "1",  lbl: "Manifesto",   color: "#0E0E0B" },
+  ],
+  stats: [
+    { val: "6",  lbl: "Chapters" },
+    { val: "5",  lbl: "Practice Areas" },
+    { val: "8",  lbl: "Process Steps" },
+    { val: "Yellow", lbl: "Accent" },
+  ],
+  topics: studio.contentSlides,
+  sprintNodes: studio.sprintNodes,
+});
+
+const ONBOARDING_OP_DECK = createDeckPreset({
+  id: "onboarding-op",
+  themeId: onboardingOp.themeId,
+  brandLine: "GenAI Delivery",
+  title: "Onboarding",
+  titleAccent: "One-Pagers",
+  tagline: "Seven modules as dense one-pager briefs. Select a topic.",
+  introBrandLine: "GenAI Delivery · One-Pagers",
+  introTitle: "AI-Assisted Development",
+  introSubtitle: "One-pager format — all key info on a single screen",
+  introStats: [
+    { val: "7", lbl: "Modules", color: "#F97316" },
+    { val: "Op", lbl: "One-Pager", color: "#FBBF24" },
+    { val: "Dense", lbl: "Format", color: "#A855F7" },
+    { val: "Fast", lbl: "Scan", color: "#22C55E" },
+  ],
+  stats: [
+    { val: "7", lbl: "Modules" },
+    { val: "2", lbl: "Layout Types" },
+    { val: "Dense", lbl: "One-Pager Format" },
+    { val: "Fast", lbl: "At-a-Glance" },
+  ],
+  topics: onboardingOp.contentSlides,
+  sprintNodes: onboardingOp.sprintNodes,
+});
+
+const ONBOARDING_DECK = createDeckPreset({
+  id: "onboarding",
+  themeId: onboarding.themeId,
+  brandLine: "GenAI Delivery",
+  title: "Onboarding",
+  titleAccent: "Guidebook",
+  tagline: "Seven modules. From expectations to execution. Select a topic to begin.",
+  introBrandLine: "GenAI Delivery · Onboarding",
+  introTitle: "AI-Assisted Development",
+  introSubtitle: "Team guidebook for AI-assisted delivery workflows",
+  introStats: [
+    { val: "7", lbl: "Modules", color: "#F97316" },
+    { val: "~99%", lbl: "AI-Assisted", color: "#FBBF24" },
+    { val: "0", lbl: "Critical Defects", color: "#22C55E" },
+    { val: "~95%", lbl: "Predictability", color: "#A855F7" },
+  ],
+  stats: [
+    { val: "7", lbl: "Modules" },
+    { val: "~99%", lbl: "AI-Assisted Code" },
+    { val: "0", lbl: "Critical Defects" },
+    { val: "~95%", lbl: "Sprint Predictability" },
+  ],
+  topics: onboarding.contentSlides,
+  sprintNodes: onboarding.sprintNodes,
+});
+
 const DECKS = {
   current: CURRENT_DECK,
   genai: GENAI_MANIFEST_DECK,
   "atelier-sage": ATELIER_SAGE_DECK,
   "signal-cobalt": SIGNAL_COBALT_DECK,
   "verge-pop": VERGE_POP_DECK,
+  onboarding: ONBOARDING_DECK,
+  "onboarding-op": ONBOARDING_OP_DECK,
+  studio: STUDIO_DECK,
 };
 
 // ─── PARTICLES ───
@@ -1527,6 +1616,544 @@ function ColorBlocksScreen({ topic, onBack }) {
 ColorBlocksScreen.propTypes = { topic: topicPropType.isRequired, onBack: PropTypes.func.isRequired };
 
 // ═══════════════════════════════════════════
+// SHARED: Section header for onboarding screens
+// ═══════════════════════════════════════════
+function SectionHeader({ topic, entered }) {
+  const T = useContext(ThemeCtx);
+  const C = useChrome();
+  return (
+    <div style={{ marginBottom: 28, opacity: entered ? 1 : 0, transform: entered ? "none" : "translateY(20px)", transition: "all 0.7s cubic-bezier(0.22,1,0.36,1)" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 6 }}>
+        <div style={{ fontSize: 32, filter: C.useGlow ? `drop-shadow(0 0 10px ${topic.colorGlow})` : "none" }}>{topic.icon}</div>
+        <div>
+          <div style={{ fontSize: 10, fontFamily: T.fontDisplay, fontWeight: C.headingWeight, color: T.textDim, letterSpacing: 2, textTransform: "uppercase" }}>Module {topic.order || ""}</div>
+          <h1 style={{ fontFamily: T.fontDisplay, fontSize: 32, fontWeight: C.headingWeight, color: T.text, margin: 0, textTransform: C.headingTransform }}>{topic.title}</h1>
+        </div>
+      </div>
+      {topic.subtitle && <p style={{ fontSize: 14, color: topic.colorLight || T.textMuted, fontStyle: "italic", margin: "0 0 4px", paddingLeft: 46 }}>{topic.subtitle}</p>}
+      <div style={{ width: 60, height: C.accentBarHeight, background: topic.color, marginTop: 12, borderRadius: 2 }} />
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════
+// SCREEN: INFO-CARDS (onboarding stat cards)
+// ═══════════════════════════════════════════
+function InfoCardsScreen({ topic, onBack }) {
+  const T = useContext(ThemeCtx);
+  const C = useChrome();
+  const [entered, setEntered] = useState(false);
+  useEffect(() => { const t = setTimeout(() => setEntered(true), 60); return () => clearTimeout(t); }, []);
+  return (
+    <div style={{ position: "relative", minHeight: "100vh", background: T.bg, overflow: "hidden" }}>
+      <Particles color={topic.color} active={entered} />
+      <div style={{ position: "absolute", top: 0, right: 0, width: "40%", height: "50%", background: `radial-gradient(ellipse at top right,${topic.color}10,transparent 70%)`, pointerEvents: "none" }} />
+      <div style={{ position: "relative", zIndex: 2, maxWidth: 900, margin: "0 auto", padding: "36px 32px" }}>
+        <BackBtn onClick={onBack} />
+        <div style={{ opacity: entered ? 1 : 0, transform: entered ? "none" : "translateY(28px)", transition: "all 0.8s cubic-bezier(0.22,1,0.36,1)" }}>
+          <SectionHeader topic={topic} entered={entered} />
+          {topic.banner && (
+            <div style={{ background: T.accent + "0C", border: `1px solid ${T.accent}22`, borderLeft: `${C.accentBarHeight}px solid ${T.accent}`, borderRadius: `0 ${C.innerRadius}px ${C.innerRadius}px 0`, padding: "14px 20px", marginBottom: 24 }}>
+              <p style={{ fontSize: 14, color: T.textMuted, lineHeight: 1.65, margin: 0 }}>{topic.banner}</p>
+            </div>
+          )}
+          {(topic.cards || []).map((c, i) => (
+            <div key={i} style={{ background: T.bgCard, borderRadius: C.cardRadius, padding: "22px 26px", marginBottom: 14, display: "flex", alignItems: "flex-start", gap: 20, borderLeft: `${C.accentBarHeight}px solid ${T.accent}`, opacity: entered ? 1 : 0, transform: entered ? "none" : "translateY(16px)", transition: `all 0.5s ${0.2 + i * 0.1}s cubic-bezier(0.22,1,0.36,1)` }}>
+              <div style={{ flexShrink: 0, textAlign: "center", minWidth: 60 }}>
+                {c.stat && <div style={{ fontFamily: T.fontDisplay, fontSize: 26, fontWeight: C.headingWeight, color: T.accent, lineHeight: 1 }}>{c.stat}</div>}
+                {c.statLabel && <div style={{ fontSize: 9, color: T.textDim, textTransform: "uppercase", letterSpacing: 1, marginTop: 3 }}>{c.statLabel}</div>}
+              </div>
+              <div>
+                <h3 style={{ fontFamily: T.fontDisplay, fontSize: 16, fontWeight: C.headingWeight, color: T.text, margin: "0 0 6px" }}>{c.title}</h3>
+                <p style={{ fontSize: 13.5, color: T.textMuted, lineHeight: 1.6, margin: 0 }}>{c.body}</p>
+              </div>
+            </div>
+          ))}
+          <div style={{ marginTop: 28, padding: "18px 22px", borderLeft: `${C.accentBarHeight}px solid ${T.accent}`, background: T.bgCard, borderRadius: `0 ${C.innerRadius}px ${C.innerRadius}px 0` }}>
+            <p style={{ fontSize: 14, color: T.text, lineHeight: 1.65, margin: 0, fontWeight: 600 }}>&ldquo;{topic.callout}&rdquo;</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+InfoCardsScreen.propTypes = { topic: topicPropType.isRequired, onBack: PropTypes.func.isRequired };
+
+// ═══════════════════════════════════════════
+// SCREEN: CHECKLIST (approved / prohibited)
+// ═══════════════════════════════════════════
+function ChecklistScreen({ topic, onBack }) {
+  const T = useContext(ThemeCtx);
+  const C = useChrome();
+  const [entered, setEntered] = useState(false);
+  useEffect(() => { const t = setTimeout(() => setEntered(true), 60); return () => clearTimeout(t); }, []);
+  const Item = ({ item, delay }) => (
+    <div style={{ display: "flex", gap: 10, padding: "10px 14px", borderRadius: C.innerRadius, background: T.bgDeep, marginBottom: 8, opacity: entered ? 1 : 0, transform: entered ? "none" : "translateX(-12px)", transition: `all 0.4s ${delay}s ease` }}>
+      <div style={{ fontSize: 16, flexShrink: 0, marginTop: 1 }}>{item.icon}</div>
+      <div>
+        <div style={{ fontFamily: T.fontDisplay, fontSize: 13, fontWeight: C.headingWeight, color: T.text, marginBottom: 3 }}>{item.title}</div>
+        <p style={{ fontSize: 12, color: T.textMuted, lineHeight: 1.5, margin: 0 }}>{item.desc}</p>
+      </div>
+    </div>
+  );
+  return (
+    <div style={{ position: "relative", minHeight: "100vh", background: T.bg, overflow: "hidden" }}>
+      <Particles color={topic.color} active={entered} />
+      <div style={{ position: "relative", zIndex: 2, maxWidth: 1100, margin: "0 auto", padding: "36px 32px" }}>
+        <BackBtn onClick={onBack} />
+        <SectionHeader topic={topic} entered={entered} />
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+          <div>
+            <div style={{ fontSize: 10, fontFamily: T.fontDisplay, fontWeight: C.headingWeight, color: T.success, letterSpacing: 2.5, textTransform: "uppercase", marginBottom: 12 }}>Approved</div>
+            {(topic.approved || []).map((item, i) => <Item key={i} item={item} delay={0.15 + i * 0.06} />)}
+            {topic.awareness && (
+              <>
+                <div style={{ fontSize: 10, fontFamily: T.fontDisplay, fontWeight: C.headingWeight, color: T.warning, letterSpacing: 2.5, textTransform: "uppercase", marginTop: 16, marginBottom: 12 }}>Awareness Only</div>
+                {topic.awareness.map((item, i) => <Item key={`a${i}`} item={item} delay={0.5 + i * 0.06} />)}
+              </>
+            )}
+          </div>
+          <div>
+            <div style={{ fontSize: 10, fontFamily: T.fontDisplay, fontWeight: C.headingWeight, color: T.danger, letterSpacing: 2.5, textTransform: "uppercase", marginBottom: 12 }}>Prohibited</div>
+            {(topic.forbidden || []).map((item, i) => <Item key={i} item={item} delay={0.2 + i * 0.06} />)}
+          </div>
+        </div>
+        <div style={{ marginTop: 28, padding: "18px 22px", borderLeft: `${C.accentBarHeight}px solid ${T.accent}`, background: T.bgCard, borderRadius: `0 ${C.innerRadius}px ${C.innerRadius}px 0` }}>
+          <p style={{ fontSize: 14, color: T.text, lineHeight: 1.65, margin: 0, fontWeight: 600 }}>&ldquo;{topic.callout}&rdquo;</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+ChecklistScreen.propTypes = { topic: topicPropType.isRequired, onBack: PropTypes.func.isRequired };
+
+// ═══════════════════════════════════════════
+// SCREEN: WORKFLOW (vertical timeline)
+// ═══════════════════════════════════════════
+function WorkflowScreen({ topic, onBack }) {
+  const T = useContext(ThemeCtx);
+  const C = useChrome();
+  const [entered, setEntered] = useState(false);
+  const [expanded, setExpanded] = useState(null);
+  useEffect(() => { const t = setTimeout(() => setEntered(true), 60); return () => clearTimeout(t); }, []);
+  return (
+    <div style={{ position: "relative", minHeight: "100vh", background: T.bg, overflow: "hidden" }}>
+      <Particles color={topic.color} active={entered} />
+      <div style={{ position: "relative", zIndex: 2, maxWidth: 960, margin: "0 auto", padding: "36px 32px" }}>
+        <BackBtn onClick={onBack} />
+        <SectionHeader topic={topic} entered={entered} />
+        <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+          {(topic.steps || []).map((step, i) => {
+            const isAI = step.type === "ai";
+            const isExp = expanded === i;
+            return (
+              <div key={i} onClick={() => setExpanded(isExp ? null : i)} style={{ cursor: "pointer" }}>
+                <div style={{ display: "flex", gap: 16, alignItems: "stretch", opacity: entered ? 1 : 0, transform: entered ? "none" : "translateX(-20px)", transition: `all 0.45s ${0.15 + i * 0.08}s ease` }}>
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: 44 }}>
+                    <div style={{ width: 36, height: 36, borderRadius: "50%", background: isAI ? T.accent + "20" : T.bgCard, border: `2px solid ${isAI ? T.accent : T.textDim}60`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: T.fontDisplay, fontSize: 12, fontWeight: C.headingWeight, color: isAI ? T.accent : T.textMuted, flexShrink: 0 }}>{step.num}</div>
+                    {i < topic.steps.length - 1 && <div style={{ width: 2, flex: 1, minHeight: 16, background: isAI ? T.accent + "30" : (T.border || "rgba(255,255,255,0.06)"), margin: "4px 0" }} />}
+                  </div>
+                  <div style={{ flex: 1, paddingBottom: 16 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+                      <h3 style={{ fontFamily: T.fontDisplay, fontSize: 16, fontWeight: C.headingWeight, color: T.text, margin: 0 }}>{step.title}</h3>
+                      <span style={{ fontSize: 9, fontWeight: C.headingWeight, padding: "2px 8px", borderRadius: C.pillRadius, background: isAI ? T.accent + "20" : "rgba(255,255,255,0.06)", color: isAI ? T.accent : T.textDim, fontFamily: T.fontDisplay, letterSpacing: 1, textTransform: "uppercase" }}>{isAI ? "AI" : "Human"}</span>
+                    </div>
+                    <p style={{ fontSize: 13, color: T.textMuted, lineHeight: 1.6, margin: 0 }}>{step.body}</p>
+                    {isExp && step.tip && (
+                      <div style={{ marginTop: 10, padding: "10px 14px", borderRadius: C.innerRadius, background: T.accent + "0A", borderLeft: `${C.accentBarHeight}px solid ${T.accent}40`, fontSize: 12, color: T.accent, lineHeight: 1.5 }}>💡 {step.tip}</div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <div style={{ marginTop: 28, padding: "18px 22px", borderLeft: `${C.accentBarHeight}px solid ${T.accent}`, background: T.bgCard, borderRadius: `0 ${C.innerRadius}px ${C.innerRadius}px 0` }}>
+          <p style={{ fontSize: 14, color: T.text, lineHeight: 1.65, margin: 0, fontWeight: 600 }}>&ldquo;{topic.callout}&rdquo;</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+WorkflowScreen.propTypes = { topic: topicPropType.isRequired, onBack: PropTypes.func.isRequired };
+
+// ═══════════════════════════════════════════
+// SCREEN: PILLARS (multi-column + results)
+// ═══════════════════════════════════════════
+function PillarsScreen({ topic, onBack }) {
+  const T = useContext(ThemeCtx);
+  const C = useChrome();
+  const [entered, setEntered] = useState(false);
+  useEffect(() => { const t = setTimeout(() => setEntered(true), 60); return () => clearTimeout(t); }, []);
+  return (
+    <div style={{ position: "relative", minHeight: "100vh", background: T.bg, overflow: "hidden" }}>
+      <Particles color={topic.color} active={entered} />
+      <div style={{ position: "relative", zIndex: 2, maxWidth: 1100, margin: "0 auto", padding: "36px 32px" }}>
+        <BackBtn onClick={onBack} />
+        <SectionHeader topic={topic} entered={entered} />
+        <div style={{ display: "grid", gridTemplateColumns: `repeat(${(topic.pillars || []).length}, 1fr)`, gap: 16, marginBottom: 20 }}>
+          {(topic.pillars || []).map((p, i) => (
+            <div key={i} style={{ background: T.bgCard, borderRadius: C.cardRadius, padding: "22px 20px", borderTop: `${C.accentBarHeight}px solid ${T.accent}`, opacity: entered ? 1 : 0, transform: entered ? "none" : "translateY(14px)", transition: `all 0.5s ${0.2 + i * 0.12}s ease` }}>
+              <div style={{ fontSize: 24, marginBottom: 10 }}>{p.icon}</div>
+              <h3 style={{ fontFamily: T.fontDisplay, fontSize: 14, fontWeight: C.headingWeight, color: T.accent, margin: "0 0 14px", textTransform: C.headingTransform, letterSpacing: C.labelTracking }}>{p.title}</h3>
+              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                {p.items.map((item, j) => (
+                  <div key={j} style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
+                    <div style={{ width: 5, height: 5, borderRadius: "50%", background: T.accent, marginTop: 5, flexShrink: 0 }} />
+                    <p style={{ fontSize: 12, color: T.textMuted, lineHeight: 1.55, margin: 0 }}>{item}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+        {topic.results && (
+          <div style={{ display: "flex", gap: 16, marginBottom: 20 }}>
+            {topic.results.map((r, i) => (
+              <div key={i} style={{ flex: 1, background: T.bgCard, borderRadius: C.cardRadius, padding: "16px 18px", borderLeft: `${C.accentBarHeight}px solid ${T.accent}`, opacity: entered ? 1 : 0, transition: `opacity 0.5s ${0.5 + i * 0.1}s ease` }}>
+                <div style={{ fontFamily: T.fontDisplay, fontSize: 22, fontWeight: C.headingWeight, color: T.accent, lineHeight: 1, marginBottom: 4 }}>{r.val}</div>
+                <p style={{ fontSize: 11, color: T.textMuted, margin: 0 }}>{r.label}</p>
+              </div>
+            ))}
+          </div>
+        )}
+        <div style={{ marginTop: 28, padding: "18px 22px", borderLeft: `${C.accentBarHeight}px solid ${T.accent}`, background: T.bgCard, borderRadius: `0 ${C.innerRadius}px ${C.innerRadius}px 0` }}>
+          <p style={{ fontSize: 14, color: T.text, lineHeight: 1.65, margin: 0, fontWeight: 600 }}>&ldquo;{topic.callout}&rdquo;</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+PillarsScreen.propTypes = { topic: topicPropType.isRequired, onBack: PropTypes.func.isRequired };
+
+// ═══════════════════════════════════════════
+// SCREEN: CATALOG (color-coded categories)
+// ═══════════════════════════════════════════
+function CatalogScreen({ topic, onBack }) {
+  const T = useContext(ThemeCtx);
+  const C = useChrome();
+  const [entered, setEntered] = useState(false);
+  useEffect(() => { const t = setTimeout(() => setEntered(true), 60); return () => clearTimeout(t); }, []);
+  return (
+    <div style={{ position: "relative", minHeight: "100vh", background: T.bg, overflow: "hidden" }}>
+      <Particles color={topic.color} active={entered} />
+      <div style={{ position: "relative", zIndex: 2, maxWidth: 1100, margin: "0 auto", padding: "36px 32px" }}>
+        <BackBtn onClick={onBack} />
+        <SectionHeader topic={topic} entered={entered} />
+        <div style={{ display: "grid", gridTemplateColumns: `repeat(${(topic.categories || []).length}, 1fr)`, gap: 16 }}>
+          {(topic.categories || []).map((cat, ci) => (
+            <div key={ci} style={{ background: T.bgCard, borderRadius: C.cardRadius, padding: "20px 18px", borderTop: `${C.accentBarHeight}px solid ${cat.color}`, opacity: entered ? 1 : 0, transform: entered ? "none" : "translateY(16px)", transition: `all 0.5s ${0.15 + ci * 0.12}s ease` }}>
+              <h3 style={{ fontFamily: T.fontDisplay, fontSize: 14, fontWeight: C.headingWeight, color: cat.color, margin: "0 0 16px" }}>{cat.title}</h3>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {cat.items.map((item, i) => (
+                  <div key={i} style={{ padding: "10px 12px", borderRadius: C.innerRadius, background: T.bgDeep, borderLeft: `${C.accentBarHeight}px solid ${cat.color}40` }}>
+                    <div style={{ fontFamily: T.fontDisplay, fontSize: 12, fontWeight: C.headingWeight, color: T.text, marginBottom: 3 }}>{item.label}</div>
+                    <p style={{ fontSize: 11.5, color: T.textMuted, lineHeight: 1.5, margin: 0 }}>{item.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div style={{ marginTop: 28, padding: "18px 22px", borderLeft: `${C.accentBarHeight}px solid ${T.accent}`, background: T.bgCard, borderRadius: `0 ${C.innerRadius}px ${C.innerRadius}px 0` }}>
+          <p style={{ fontSize: 14, color: T.text, lineHeight: 1.65, margin: 0, fontWeight: 600 }}>&ldquo;{topic.callout}&rdquo;</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+CatalogScreen.propTypes = { topic: topicPropType.isRequired, onBack: PropTypes.func.isRequired };
+
+// ═══════════════════════════════════════════
+// SCREEN: OP-BRIEF (one-pager — cards/checklist/pillars)
+// ═══════════════════════════════════════════
+function OpBriefScreen({ topic, onBack }) {
+  const T = useContext(ThemeCtx);
+  const C = useChrome();
+  const [entered, setEntered] = useState(false);
+  useEffect(() => { const t = setTimeout(() => setEntered(true), 60); return () => clearTimeout(t); }, []);
+
+  const fade = (delay) => ({
+    opacity: entered ? 1 : 0,
+    transform: entered ? "none" : "translateY(10px)",
+    transition: `all 0.5s ${delay}s cubic-bezier(0.22,1,0.36,1)`,
+  });
+
+  // Normalize cards from any content shape
+  const cardItems = topic.cards
+    ? topic.cards.slice(0, 4)
+    : topic.approved
+    ? topic.approved.slice(0, 4).map(a => ({ stat: a.icon, statLabel: "Approved", title: a.title, body: a.desc }))
+    : (topic.pillars || []).slice(0, 4).map(p => ({ stat: p.icon, statLabel: p.title, title: p.title, body: (p.items || [])[0] || "" }));
+
+  const tags = topic.cards
+    ? topic.cards.map(c => c.statLabel).filter(Boolean)
+    : topic.approved
+    ? topic.approved.slice(0, 4).map(a => a.title)
+    : (topic.pillars || []).map(p => p.title);
+
+  const snapshotStats = topic.cards
+    ? topic.cards.slice(0, 4).map(c => ({ val: c.stat, lbl: c.statLabel }))
+    : topic.approved
+    ? [
+        { val: String((topic.approved || []).length), lbl: "Approved" },
+        { val: String((topic.forbidden || []).length), lbl: "Restricted" },
+        { val: "Zero", lbl: "Tolerance" },
+        { val: "Day 1", lbl: "Required" },
+      ]
+    : topic.results
+    ? topic.results.slice(0, 4)
+    : (topic.pillars || []).slice(0, 4).map(p => ({ val: p.icon, lbl: p.title }));
+
+  const talkingPoints = cardItems.map(c => c.title);
+  const descText = topic.banner || topic.subheadline || topic.subtitle;
+
+  return (
+    <div style={{ position: "relative", minHeight: "100vh", background: T.bg, overflow: "hidden" }}>
+      {/* Accent top bar */}
+      <div style={{ height: 3, background: `linear-gradient(90deg,${topic.color},${topic.color}40,transparent)` }} />
+      <div style={{ position: "absolute", top: 0, right: 0, width: "45%", height: "55%", background: `radial-gradient(ellipse at top right,${topic.color}08,transparent 65%)`, pointerEvents: "none" }} />
+      <div style={{ position: "relative", zIndex: 2, maxWidth: 1200, margin: "0 auto", padding: "24px 32px" }}>
+        <BackBtn onClick={onBack} />
+
+        {/* ── ROW 1: Issue header + Snapshot ── */}
+        <div style={{ ...fade(0.05), display: "grid", gridTemplateColumns: "1fr 300px", gap: 24, marginBottom: 18 }}>
+          {/* Left */}
+          <div>
+            <div style={{ fontSize: 9, fontFamily: T.fontDisplay, fontWeight: C.headingWeight, color: topic.color, letterSpacing: 3, textTransform: "uppercase", marginBottom: 6 }}>
+              {topic.icon} Module {topic.order || "—"} &nbsp;·&nbsp; One-Pager
+            </div>
+            <h1 style={{ fontFamily: T.fontDisplay, fontSize: 40, fontWeight: C.headingWeight, color: T.text, lineHeight: 1.05, margin: "0 0 7px", letterSpacing: "-0.5px" }}>{topic.title}</h1>
+            <p style={{ fontFamily: T.fontDisplay, fontSize: 13.5, fontStyle: "italic", color: topic.color, margin: "0 0 11px" }}>{topic.subtitle}</p>
+            {descText && <p style={{ fontSize: 12, color: T.textMuted, lineHeight: 1.65, margin: "0 0 12px", maxWidth: 560 }}>{descText}</p>}
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
+              {tags.slice(0, 5).map((tg, i) => (
+                <span key={i} style={{ fontSize: 9, fontFamily: T.fontDisplay, fontWeight: C.headingWeight, padding: "3px 10px", borderRadius: C.pillRadius, background: topic.color + "18", color: topic.color, letterSpacing: 0.5, border: `1px solid ${topic.color}28` }}>{tg}</span>
+              ))}
+            </div>
+          </div>
+          {/* Right: snapshot */}
+          <div style={{ background: T.bgCard, borderRadius: C.cardRadius, border: `1px solid ${topic.color}22`, borderTop: `3px solid ${topic.color}`, padding: "16px 18px" }}>
+            <div style={{ fontSize: 8, fontFamily: T.fontDisplay, fontWeight: C.headingWeight, color: T.textDim, letterSpacing: 2.5, textTransform: "uppercase", marginBottom: 12 }}>Snapshot</div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 9 }}>
+              {snapshotStats.slice(0, 4).map((s, i) => (
+                <div key={i} style={{ padding: "9px 11px", background: T.bgDeep, borderRadius: C.innerRadius, borderLeft: `2px solid ${topic.color}40` }}>
+                  <div style={{ fontFamily: T.fontDisplay, fontSize: 17, fontWeight: C.headingWeight, color: topic.color, lineHeight: 1, marginBottom: 2 }}>{s.val}</div>
+                  <div style={{ fontSize: 8.5, color: T.textDim, textTransform: "uppercase", letterSpacing: 0.8 }}>{s.lbl}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* ── ROW 2: Context strip (3 col) ── */}
+        <div style={{ ...fade(0.15), display: "grid", gridTemplateColumns: "1fr 1fr 1fr", border: `1px solid ${T.bgCard}`, borderRadius: C.innerRadius, overflow: "hidden", marginBottom: 16 }}>
+          {[
+            { label: "Overview", body: topic.headline || topic.title },
+            { label: "What It Covers", items: talkingPoints },
+            { label: "Core Principle", body: topic.callout },
+          ].map((col, i) => (
+            <div key={i} style={{ padding: "13px 15px", background: i === 1 ? T.bgCard : T.bgDeep, borderLeft: i > 0 ? `1px solid ${T.bgCard}` : "none" }}>
+              <div style={{ fontSize: 8, fontFamily: T.fontDisplay, fontWeight: C.headingWeight, color: topic.color, letterSpacing: 2, textTransform: "uppercase", marginBottom: 7 }}>{col.label}</div>
+              {col.body && <p style={{ fontSize: 11, color: T.textMuted, lineHeight: 1.6, margin: 0 }}>{col.body}</p>}
+              {col.items && (
+                <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                  {col.items.map((it, j) => (
+                    <div key={j} style={{ display: "flex", gap: 6, alignItems: "flex-start" }}>
+                      <div style={{ width: 4, height: 4, borderRadius: "50%", background: topic.color, marginTop: 4, flexShrink: 0 }} />
+                      <span style={{ fontSize: 11, color: T.textMuted, lineHeight: 1.4 }}>{it}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* ── ROW 3: 4-col cards ── */}
+        <div style={{ ...fade(0.24), display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 10, marginBottom: 16 }}>
+          {cardItems.map((c, i) => (
+            <div key={i} style={{ background: T.bgCard, borderRadius: C.cardRadius, padding: "13px 15px", borderTop: `2px solid ${i === 0 ? topic.color : topic.color + "55"}` }}>
+              <div style={{ marginBottom: 8 }}>
+                <div style={{ fontFamily: T.fontDisplay, fontSize: 18, fontWeight: C.headingWeight, color: topic.color, lineHeight: 1 }}>{c.stat}</div>
+                <div style={{ fontSize: 8, color: T.textDim, textTransform: "uppercase", letterSpacing: 0.8, marginTop: 2 }}>{c.statLabel}</div>
+              </div>
+              <h4 style={{ fontFamily: T.fontDisplay, fontSize: 12, fontWeight: C.headingWeight, color: T.text, margin: "0 0 5px" }}>{c.title}</h4>
+              <p style={{ fontSize: 10.5, color: T.textMuted, lineHeight: 1.55, margin: 0 }}>{typeof c.body === "string" ? (c.body.length > 110 ? c.body.slice(0, 110) + "…" : c.body) : ""}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* ── ROW 4: Talking Points + Bottom Line ── */}
+        <div style={{ ...fade(0.32), display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+          <div style={{ background: T.bgCard, borderRadius: C.cardRadius, padding: "14px 16px" }}>
+            <div style={{ fontSize: 8, fontFamily: T.fontDisplay, fontWeight: C.headingWeight, color: T.textDim, letterSpacing: 2.5, textTransform: "uppercase", marginBottom: 10 }}>Talking Points</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
+              {talkingPoints.map((pt, i) => (
+                <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+                  <span style={{ fontFamily: T.fontDisplay, fontSize: 10.5, fontWeight: C.headingWeight, color: topic.color, flexShrink: 0, minWidth: 20 }}>0{i + 1}</span>
+                  <span style={{ fontSize: 12, color: T.text, lineHeight: 1.4 }}>{pt}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div style={{ background: topic.color + "0F", borderRadius: C.cardRadius, padding: "14px 16px", border: `1px solid ${topic.color}22`, borderLeft: `3px solid ${topic.color}` }}>
+            <div style={{ fontSize: 8, fontFamily: T.fontDisplay, fontWeight: C.headingWeight, color: topic.color, letterSpacing: 2.5, textTransform: "uppercase", marginBottom: 9 }}>Bottom Line</div>
+            <p style={{ fontSize: 13, color: T.text, lineHeight: 1.7, margin: 0, fontWeight: 500 }}>&ldquo;{topic.callout}&rdquo;</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+OpBriefScreen.propTypes = { topic: topicPropType.isRequired, onBack: PropTypes.func.isRequired };
+
+// ═══════════════════════════════════════════
+// SCREEN: OP-FLOW (one-pager — workflow/catalog)
+// ═══════════════════════════════════════════
+function OpFlowScreen({ topic, onBack }) {
+  const T = useContext(ThemeCtx);
+  const C = useChrome();
+  const [entered, setEntered] = useState(false);
+  useEffect(() => { const t = setTimeout(() => setEntered(true), 60); return () => clearTimeout(t); }, []);
+
+  const fade = (delay) => ({
+    opacity: entered ? 1 : 0,
+    transform: entered ? "none" : "translateY(10px)",
+    transition: `all 0.5s ${delay}s cubic-bezier(0.22,1,0.36,1)`,
+  });
+
+  const isWorkflow = Boolean(topic.steps && topic.steps.length);
+  const steps = topic.steps || [];
+  const half = Math.ceil(steps.length / 2);
+  const row1 = steps.slice(0, half);
+  const row2 = steps.slice(half);
+  const categories = topic.categories || [];
+
+  // Talking points derived from content
+  const talkingPoints = isWorkflow
+    ? steps.slice(0, 4).map(s => s.title)
+    : categories.flatMap(c => c.items).slice(0, 4).map(i => i.label);
+
+  return (
+    <div style={{ position: "relative", minHeight: "100vh", background: T.bg, overflow: "hidden" }}>
+      <div style={{ height: 3, background: `linear-gradient(90deg,${topic.color},${topic.color}40,transparent)` }} />
+      <div style={{ position: "absolute", top: 0, right: 0, width: "40%", height: "50%", background: `radial-gradient(ellipse at top right,${topic.color}08,transparent 65%)`, pointerEvents: "none" }} />
+      <div style={{ position: "relative", zIndex: 2, maxWidth: 1200, margin: "0 auto", padding: "24px 32px" }}>
+        <BackBtn onClick={onBack} />
+
+        {/* ── ROW 1: Header + Snapshot ── */}
+        <div style={{ ...fade(0.05), display: "grid", gridTemplateColumns: "1fr 300px", gap: 24, marginBottom: 18 }}>
+          <div>
+            <div style={{ fontSize: 9, fontFamily: T.fontDisplay, fontWeight: C.headingWeight, color: topic.color, letterSpacing: 3, textTransform: "uppercase", marginBottom: 6 }}>
+              {topic.icon} Module {topic.order || "—"} &nbsp;·&nbsp; One-Pager
+            </div>
+            <h1 style={{ fontFamily: T.fontDisplay, fontSize: 40, fontWeight: C.headingWeight, color: T.text, lineHeight: 1.05, margin: "0 0 7px", letterSpacing: "-0.5px" }}>{topic.title}</h1>
+            <p style={{ fontFamily: T.fontDisplay, fontSize: 13.5, fontStyle: "italic", color: topic.color, margin: "0 0 11px" }}>{topic.subtitle}</p>
+            <p style={{ fontSize: 12, color: T.textMuted, lineHeight: 1.65, margin: 0, maxWidth: 540 }}>{topic.subheadline || topic.headline || ""}</p>
+          </div>
+          {/* Snapshot */}
+          <div style={{ background: T.bgCard, borderRadius: C.cardRadius, border: `1px solid ${topic.color}22`, borderTop: `3px solid ${topic.color}`, padding: "16px 18px" }}>
+            <div style={{ fontSize: 8, fontFamily: T.fontDisplay, fontWeight: C.headingWeight, color: T.textDim, letterSpacing: 2.5, textTransform: "uppercase", marginBottom: 12 }}>Snapshot</div>
+            {isWorkflow ? (
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 9 }}>
+                {[
+                  { val: String(steps.length), lbl: "Total Steps" },
+                  { val: String(steps.filter(s => s.type === "ai").length), lbl: "AI Steps" },
+                  { val: String(steps.filter(s => s.type === "human").length), lbl: "Human Gates" },
+                  { val: "1 wk", lbl: "Sprint Cycle" },
+                ].map((s, i) => (
+                  <div key={i} style={{ padding: "9px 11px", background: T.bgDeep, borderRadius: C.innerRadius, borderLeft: `2px solid ${topic.color}40` }}>
+                    <div style={{ fontFamily: T.fontDisplay, fontSize: 17, fontWeight: C.headingWeight, color: topic.color, lineHeight: 1, marginBottom: 2 }}>{s.val}</div>
+                    <div style={{ fontSize: 8.5, color: T.textDim, textTransform: "uppercase", letterSpacing: 0.8 }}>{s.lbl}</div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
+                {categories.map((cat, i) => (
+                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, padding: "7px 10px", background: T.bgDeep, borderRadius: C.innerRadius, borderLeft: `2px solid ${cat.color}` }}>
+                    <div style={{ fontSize: 8, color: cat.color, fontWeight: 700 }}>●</div>
+                    <div style={{ fontSize: 11, color: T.textMuted, flex: 1 }}>{cat.title}</div>
+                    <div style={{ fontSize: 9, color: T.textDim }}>{cat.items.length}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* ── WORKFLOW: 2-row compact step grid ── */}
+        {isWorkflow && (
+          <>
+            <div style={{ ...fade(0.15), fontSize: 8, fontFamily: T.fontDisplay, fontWeight: C.headingWeight, color: T.textDim, letterSpacing: 2.5, textTransform: "uppercase", marginBottom: 8 }}>Process Flow &amp; Personas</div>
+            {[row1, row2].map((row, ri) => (
+              <div key={ri} style={{ ...fade(0.18 + ri * 0.08), display: "grid", gridTemplateColumns: `repeat(${row.length},1fr)`, gap: 8, marginBottom: 8 }}>
+                {row.map((step, i) => {
+                  const isAI = step.type === "ai";
+                  return (
+                    <div key={i} style={{ background: T.bgCard, borderRadius: C.innerRadius, padding: "11px 13px", borderTop: `2px solid ${isAI ? topic.color : topic.color + "38"}` }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 5 }}>
+                        <span style={{ fontFamily: T.fontDisplay, fontSize: 13, fontWeight: C.headingWeight, color: isAI ? topic.color : T.textDim }}>{step.num}</span>
+                        <span style={{ fontSize: 7.5, padding: "1px 6px", borderRadius: 3, background: isAI ? topic.color + "20" : "rgba(255,255,255,0.05)", color: isAI ? topic.color : T.textDim, fontFamily: T.fontDisplay, fontWeight: C.headingWeight, letterSpacing: 0.5 }}>{isAI ? "AI" : "Human"}</span>
+                      </div>
+                      <h4 style={{ fontFamily: T.fontDisplay, fontSize: 11, fontWeight: C.headingWeight, color: T.text, margin: "0 0 4px" }}>{step.title}</h4>
+                      <p style={{ fontSize: 10, color: T.textMuted, lineHeight: 1.5, margin: 0 }}>{step.body.length > 85 ? step.body.slice(0, 85) + "…" : step.body}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            ))}
+          </>
+        )}
+
+        {/* ── CATALOG: 3-col category cards ── */}
+        {!isWorkflow && (
+          <>
+            <div style={{ ...fade(0.15), fontSize: 8, fontFamily: T.fontDisplay, fontWeight: C.headingWeight, color: T.textDim, letterSpacing: 2.5, textTransform: "uppercase", marginBottom: 8 }}>Data Classification</div>
+            <div style={{ ...fade(0.2), display: "grid", gridTemplateColumns: `repeat(${categories.length},1fr)`, gap: 10, marginBottom: 16 }}>
+              {categories.map((cat, ci) => (
+                <div key={ci} style={{ background: T.bgCard, borderRadius: C.cardRadius, padding: "13px 15px", borderTop: `3px solid ${cat.color}` }}>
+                  <h4 style={{ fontFamily: T.fontDisplay, fontSize: 11.5, fontWeight: C.headingWeight, color: cat.color, margin: "0 0 10px" }}>{cat.title}</h4>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                    {cat.items.map((item, i) => (
+                      <div key={i} style={{ padding: "7px 9px", background: T.bgDeep, borderRadius: C.innerRadius, borderLeft: `2px solid ${cat.color}45` }}>
+                        <div style={{ fontFamily: T.fontDisplay, fontSize: 11, fontWeight: C.headingWeight, color: T.text, marginBottom: 2 }}>{item.label}</div>
+                        <p style={{ fontSize: 10, color: T.textMuted, lineHeight: 1.45, margin: 0 }}>{item.desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+        {/* ── Talking Points + Bottom Line ── */}
+        <div style={{ ...fade(0.34), display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+          <div style={{ background: T.bgCard, borderRadius: C.cardRadius, padding: "13px 16px" }}>
+            <div style={{ fontSize: 8, fontFamily: T.fontDisplay, fontWeight: C.headingWeight, color: T.textDim, letterSpacing: 2.5, textTransform: "uppercase", marginBottom: 10 }}>Talking Points</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
+              {talkingPoints.map((pt, i) => (
+                <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+                  <span style={{ fontFamily: T.fontDisplay, fontSize: 10.5, fontWeight: C.headingWeight, color: topic.color, flexShrink: 0, minWidth: 20 }}>0{i + 1}</span>
+                  <span style={{ fontSize: 12, color: T.text, lineHeight: 1.4 }}>{pt}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div style={{ background: topic.color + "0F", borderRadius: C.cardRadius, padding: "13px 16px", border: `1px solid ${topic.color}22`, borderLeft: `3px solid ${topic.color}` }}>
+            <div style={{ fontSize: 8, fontFamily: T.fontDisplay, fontWeight: C.headingWeight, color: topic.color, letterSpacing: 2.5, textTransform: "uppercase", marginBottom: 9 }}>Bottom Line</div>
+            <p style={{ fontSize: 13, color: T.text, lineHeight: 1.7, margin: 0, fontWeight: 500 }}>&ldquo;{topic.callout}&rdquo;</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+OpFlowScreen.propTypes = { topic: topicPropType.isRequired, onBack: PropTypes.func.isRequired };
+
+// ═══════════════════════════════════════════
 // SPRINT CYCLE: FIGURE-8 (OPTION B)
 // ═══════════════════════════════════════════
 function Figure8Cycle({ entered, nodes }) {
@@ -1826,6 +2453,412 @@ SprintScreen.propTypes = {
 };
 
 // ═══════════════════════════════════════════
+// SCREEN: HB-CHAPTER (handbook chapter intro — two-column)
+// ═══════════════════════════════════════════
+function HbChapterScreen({ topic, onBack }) {
+  const T = useContext(ThemeCtx);
+  const C = useChrome();
+  const [entered, setEntered] = useState(false);
+  useEffect(() => { const t = setTimeout(() => setEntered(true), 60); return () => clearTimeout(t); }, []);
+  return (
+    <div style={{ minHeight: "100vh", background: T.bg, display: "flex", flexDirection: "column" }}>
+      {/* Eyebrow bar */}
+      <div style={{ background: T.accent, padding: "8px 48px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: `2px solid ${T.text}` }}>
+        <span style={{ fontFamily: T.fontDisplay, fontSize: 11, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: T.text }}>{topic.eyebrow || "Chapter"}</span>
+        <span style={{ fontFamily: T.fontDisplay, fontSize: 11, fontWeight: 700, color: T.text }}>{topic.num}</span>
+      </div>
+      {/* Main two-column content */}
+      <div style={{ flex: 1, display: "grid", gridTemplateColumns: "1fr 1fr", minHeight: 0 }}>
+        {/* Left — headline + summary + bullets */}
+        <div style={{ padding: "40px 48px", borderRight: `2px solid ${T.text}20`, display: "flex", flexDirection: "column" }}>
+          <BackBtn onClick={onBack} />
+          <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", opacity: entered ? 1 : 0, transform: entered ? "none" : "translateY(20px)", transition: "all 0.7s cubic-bezier(0.22,1,0.36,1)" }}>
+            <h1 style={{ fontFamily: T.fontDisplay, fontSize: 52, fontWeight: 800, color: T.text, lineHeight: 1.05, margin: "0 0 12px", letterSpacing: -1 }}>{topic.title}</h1>
+            <p style={{ fontFamily: T.fontBody, fontSize: 13, color: T.textMuted, fontStyle: "italic", margin: "0 0 20px" }}>{topic.subtitle}</p>
+            <p style={{ fontFamily: T.fontBody, fontSize: 14.5, color: T.textMuted, lineHeight: 1.75, margin: "0 0 28px" }}>{topic.summary}</p>
+            {(topic.heroPoints || []).map((pt, i) => (
+              <div key={i} style={{ display: "flex", gap: 12, marginBottom: 10, opacity: entered ? 1 : 0, transform: entered ? "none" : "translateX(-10px)", transition: `all 0.4s ${0.25 + i * 0.07}s ease` }}>
+                <div style={{ width: 8, height: 8, background: T.accent, border: `2px solid ${T.text}`, borderRadius: "50%", marginTop: 7, flexShrink: 0 }} />
+                <span style={{ fontFamily: T.fontBody, fontSize: 13.5, color: T.text, lineHeight: 1.55 }}>{pt}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        {/* Right — chapter index / schedule table */}
+        <div style={{ padding: "40px 48px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+          <div style={{ fontSize: 10, fontFamily: T.fontDisplay, fontWeight: 700, letterSpacing: 2.5, textTransform: "uppercase", color: T.textDim, marginBottom: 24 }}>{topic.eyebrow || "Index"}</div>
+          {(topic.chapters || []).map((ch, i) => (
+            <div key={i} style={{ display: "flex", gap: 20, padding: "14px 0", borderBottom: `1px solid ${T.text}15`, alignItems: "flex-start", opacity: entered ? 1 : 0, transform: entered ? "none" : "translateY(8px)", transition: `all 0.4s ${0.15 + i * 0.08}s ease` }}>
+              <div style={{ fontFamily: T.fontDisplay, fontSize: 20, fontWeight: 800, color: T.text, minWidth: 54, flexShrink: 0, paddingBottom: 2, borderBottom: `3px solid ${T.accent}` }}>{ch.num}</div>
+              <div>
+                <div style={{ fontFamily: T.fontDisplay, fontSize: 14, fontWeight: 700, color: T.text, marginBottom: 2 }}>{ch.title}</div>
+                <div style={{ fontFamily: T.fontBody, fontSize: 12, color: T.textDim }}>{ch.sub}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      {/* Callout footer bar */}
+      <div style={{ background: T.text, padding: "16px 48px", borderTop: `2px solid ${T.text}` }}>
+        <p style={{ fontFamily: T.fontDisplay, fontSize: 14, fontWeight: 700, color: T.accent, margin: 0, fontStyle: "italic" }}>&ldquo;{topic.callout}&rdquo;</p>
+      </div>
+    </div>
+  );
+}
+HbChapterScreen.propTypes = { topic: topicPropType.isRequired, onBack: PropTypes.func.isRequired };
+
+// ═══════════════════════════════════════════
+// SCREEN: HB-PRACTICES (handbook practice grid)
+// ═══════════════════════════════════════════
+function HbPracticesScreen({ topic, onBack }) {
+  const T = useContext(ThemeCtx);
+  const C = useChrome();
+  const [entered, setEntered] = useState(false);
+  useEffect(() => { const t = setTimeout(() => setEntered(true), 60); return () => clearTimeout(t); }, []);
+  const practices = topic.practices || [];
+  return (
+    <div style={{ minHeight: "100vh", background: T.bg, display: "flex", flexDirection: "column" }}>
+      <div style={{ height: 6, background: T.accent }} />
+      <div style={{ flex: 1, padding: "36px 48px 0" }}>
+        <BackBtn onClick={onBack} />
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 10, opacity: entered ? 1 : 0, transition: "all 0.6s ease" }}>
+          <div>
+            <div style={{ fontSize: 10, fontFamily: T.fontDisplay, fontWeight: 700, letterSpacing: 2.5, textTransform: "uppercase", color: T.textDim, marginBottom: 6 }}>{topic.eyebrow || "Practice Areas"}</div>
+            <h1 style={{ fontFamily: T.fontDisplay, fontSize: 40, fontWeight: 800, color: T.text, margin: "0 0 6px", letterSpacing: -0.5, lineHeight: 1.1 }}>{topic.title}</h1>
+            <p style={{ fontFamily: T.fontBody, fontSize: 13, color: T.textMuted, fontStyle: "italic", margin: 0 }}>{topic.subtitle}</p>
+          </div>
+          <div style={{ fontFamily: T.fontDisplay, fontSize: 72, fontWeight: 800, color: `${T.text}10`, lineHeight: 1, paddingBottom: 4 }}>{topic.num}</div>
+        </div>
+        <p style={{ fontFamily: T.fontBody, fontSize: 14, color: T.textMuted, lineHeight: 1.7, maxWidth: 680, marginBottom: 28, opacity: entered ? 1 : 0, transition: "all 0.6s 0.1s ease" }}>{topic.summary}</p>
+        {/* Practice cards grid */}
+        <div style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min(practices.length, 3)}, 1fr)`, gap: 3 }}>
+          {practices.map((p, i) => {
+            const isDark = p.dark;
+            const isHighlight = p.highlight;
+            const bg = isHighlight ? T.danger : isDark ? T.text : T.bgCard;
+            const titleCol = isDark || isHighlight ? T.accent : T.text;
+            const bodyCol = isDark || isHighlight ? `${T.accent}B0` : T.textMuted;
+            const barCol = isDark ? T.accent : isHighlight ? T.accent : T.text;
+            return (
+              <div key={i} style={{ background: bg, padding: "28px 24px", opacity: entered ? 1 : 0, transform: entered ? "none" : "translateY(16px)", transition: `all 0.5s ${0.2 + i * 0.09}s cubic-bezier(0.22,1,0.36,1)` }}>
+                <div style={{ width: "100%", height: 4, background: barCol, marginBottom: 20 }} />
+                <div style={{ fontFamily: T.fontDisplay, fontSize: 11, fontWeight: 700, color: isDark || isHighlight ? `${T.accent}80` : T.textDim, letterSpacing: 2, textTransform: "uppercase", marginBottom: 10 }}>0{i + 1}</div>
+                <h3 style={{ fontFamily: T.fontDisplay, fontSize: 16, fontWeight: 800, color: titleCol, margin: "0 0 10px", lineHeight: 1.2 }}>{p.title}</h3>
+                <p style={{ fontFamily: T.fontBody, fontSize: 13, color: bodyCol, lineHeight: 1.65, margin: 0 }}>{p.body}</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      {/* Callout */}
+      <div style={{ margin: "24px 48px 0", padding: "14px 20px", borderLeft: `4px solid ${T.text}`, background: T.bgDeep, opacity: entered ? 1 : 0, transition: "opacity 0.6s 0.9s ease", marginBottom: 48 }}>
+        <p style={{ fontFamily: T.fontDisplay, fontSize: 14, fontWeight: 700, color: T.text, margin: 0 }}>&ldquo;{topic.callout}&rdquo;</p>
+      </div>
+    </div>
+  );
+}
+HbPracticesScreen.propTypes = { topic: topicPropType.isRequired, onBack: PropTypes.func.isRequired };
+
+// ═══════════════════════════════════════════
+// SCREEN: HB-PROCESS (handbook numbered process grid)
+// ═══════════════════════════════════════════
+function HbProcessScreen({ topic, onBack }) {
+  const T = useContext(ThemeCtx);
+  const C = useChrome();
+  const [entered, setEntered] = useState(false);
+  useEffect(() => { const t = setTimeout(() => setEntered(true), 60); return () => clearTimeout(t); }, []);
+  const steps = topic.steps || [];
+  const cols = steps.length <= 4 ? steps.length : 4;
+  return (
+    <div style={{ minHeight: "100vh", background: T.bg, display: "flex", flexDirection: "column" }}>
+      <div style={{ height: 6, background: T.accent }} />
+      <div style={{ flex: 1, padding: "36px 48px 0" }}>
+        <BackBtn onClick={onBack} />
+        <div style={{ marginBottom: 28, opacity: entered ? 1 : 0, transition: "all 0.6s ease" }}>
+          <div style={{ fontSize: 10, fontFamily: T.fontDisplay, fontWeight: 700, letterSpacing: 2.5, textTransform: "uppercase", color: T.textDim, marginBottom: 6 }}>{topic.eyebrow || "Process"}</div>
+          <h1 style={{ fontFamily: T.fontDisplay, fontSize: 40, fontWeight: 800, color: T.text, margin: "0 0 6px", letterSpacing: -0.5 }}>{topic.title}</h1>
+          <p style={{ fontFamily: T.fontBody, fontSize: 13, color: T.textMuted, fontStyle: "italic", margin: 0 }}>{topic.subtitle}</p>
+        </div>
+        {/* Steps grid — 4 per row */}
+        <div style={{ display: "grid", gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 3, marginBottom: 28 }}>
+          {steps.map((step, i) => {
+            const evenStep = i % 2 === 0;
+            return (
+              <div key={i} style={{ background: T.bgCard, padding: "24px 20px", borderTop: `5px solid ${evenStep ? T.accent : T.text}`, opacity: entered ? 1 : 0, transform: entered ? "none" : "translateY(14px)", transition: `all 0.45s ${0.15 + i * 0.07}s cubic-bezier(0.22,1,0.36,1)` }}>
+                <div style={{ fontFamily: T.fontDisplay, fontSize: 36, fontWeight: 800, color: T.text, lineHeight: 1, marginBottom: 14 }}>{step.num}</div>
+                <h3 style={{ fontFamily: T.fontDisplay, fontSize: 13, fontWeight: 800, color: T.text, margin: "0 0 8px", textTransform: "uppercase", letterSpacing: 0.5 }}>{step.title}</h3>
+                <p style={{ fontFamily: T.fontBody, fontSize: 12.5, color: T.textMuted, lineHeight: 1.6, margin: 0 }}>{step.body}</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      {/* Bold manifesto-style callout */}
+      <div style={{ background: T.text, padding: "24px 48px", textAlign: "center", opacity: entered ? 1 : 0, transition: "opacity 0.6s 1s ease" }}>
+        <p style={{ fontFamily: T.fontDisplay, fontSize: 20, fontWeight: 800, color: T.accent, margin: 0, letterSpacing: -0.25 }}>&ldquo;{topic.callout}&rdquo;</p>
+      </div>
+    </div>
+  );
+}
+HbProcessScreen.propTypes = { topic: topicPropType.isRequired, onBack: PropTypes.func.isRequired };
+
+// ═══════════════════════════════════════════
+// SCREEN: HB-MANIFESTO (full-bleed yellow manifesto)
+// ═══════════════════════════════════════════
+function HbManifestoScreen({ topic, onBack }) {
+  const T = useContext(ThemeCtx);
+  const C = useChrome();
+  const [entered, setEntered] = useState(false);
+  useEffect(() => { const t = setTimeout(() => setEntered(true), 60); return () => clearTimeout(t); }, []);
+  const lines = (topic.statement || "").split("\n");
+  return (
+    <div style={{ minHeight: "100vh", background: T.accent, display: "flex", flexDirection: "column" }}>
+      <div style={{ height: 6, background: T.text }} />
+      <div style={{ padding: "32px 48px 0", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <BackBtn onClick={onBack} />
+        <div style={{ fontSize: 10, fontFamily: T.fontDisplay, fontWeight: 700, letterSpacing: 2.5, textTransform: "uppercase", color: `${T.text}70` }}>{topic.eyebrow}</div>
+      </div>
+      {/* Main statement */}
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", padding: "0 48px 0", maxWidth: 960, margin: "0 auto", width: "100%" }}>
+        <h1 style={{ fontFamily: T.fontDisplay, fontSize: 68, fontWeight: 800, color: T.text, lineHeight: 1.08, margin: "0 0 48px", letterSpacing: -1.5, opacity: entered ? 1 : 0, transform: entered ? "none" : "translateY(24px)", transition: "all 0.8s cubic-bezier(0.22,1,0.36,1)" }}>
+          {lines.map((line, i) => <span key={i}>{line}{i < lines.length - 1 && <br />}</span>)}
+          <span style={{ fontFamily: T.fontDisplay, fontSize: 36, verticalAlign: "super" }}>*</span>
+        </h1>
+        {/* Beliefs */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "14px 56px" }}>
+          {(topic.beliefs || []).map((b, i) => (
+            <div key={i} style={{ display: "flex", gap: 14, alignItems: "flex-start", opacity: entered ? 1 : 0, transform: entered ? "none" : "translateX(-10px)", transition: `all 0.5s ${0.3 + i * 0.1}s ease` }}>
+              <span style={{ fontFamily: T.fontDisplay, fontSize: 18, fontWeight: 800, color: T.text, flexShrink: 0, marginTop: 1 }}>→</span>
+              <p style={{ fontFamily: T.fontBody, fontSize: 14.5, color: T.text, lineHeight: 1.6, margin: 0 }}>{b}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+      {/* Footer footnote */}
+      <div style={{ background: T.text, padding: "16px 48px", borderTop: `2px solid ${T.text}`, marginTop: 40 }}>
+        <p style={{ fontFamily: T.fontBody, fontSize: 12, color: T.accent, margin: 0, opacity: 0.9 }}>* {topic.callout}</p>
+      </div>
+    </div>
+  );
+}
+HbManifestoScreen.propTypes = { topic: topicPropType.isRequired, onBack: PropTypes.func.isRequired };
+
+// ═══════════════════════════════════════════
+// SCREEN: HB-INDEX (handbook category index)
+// ═══════════════════════════════════════════
+function HbIndexScreen({ topic, onBack }) {
+  const T = useContext(ThemeCtx);
+  const C = useChrome();
+  const [entered, setEntered] = useState(false);
+  useEffect(() => { const t = setTimeout(() => setEntered(true), 60); return () => clearTimeout(t); }, []);
+  const cats = topic.categories || [];
+  return (
+    <div style={{ minHeight: "100vh", background: T.bg, display: "flex", flexDirection: "column" }}>
+      <div style={{ height: 6, background: T.accent }} />
+      <div style={{ flex: 1, padding: "36px 48px 0" }}>
+        <BackBtn onClick={onBack} />
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 32, opacity: entered ? 1 : 0, transition: "all 0.6s ease" }}>
+          <div>
+            <div style={{ fontSize: 10, fontFamily: T.fontDisplay, fontWeight: 700, letterSpacing: 2.5, textTransform: "uppercase", color: T.textDim, marginBottom: 6 }}>{topic.eyebrow || "Index"}</div>
+            <h1 style={{ fontFamily: T.fontDisplay, fontSize: 40, fontWeight: 800, color: T.text, margin: "0 0 6px", letterSpacing: -0.5 }}>{topic.title}</h1>
+            <p style={{ fontFamily: T.fontBody, fontSize: 13, color: T.textMuted, fontStyle: "italic", margin: 0 }}>{topic.subtitle}</p>
+          </div>
+          <div style={{ fontFamily: T.fontDisplay, fontSize: 84, fontWeight: 800, color: T.text, lineHeight: 1, opacity: 0.07 }}>{topic.num}</div>
+        </div>
+        {/* Category two-column grid */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 3 }}>
+          {cats.map((cat, i) => (
+            <div key={i} style={{ padding: "22px 26px", background: T.bgCard, borderTop: `4px solid ${i % 3 === 0 ? T.accent : (i % 3 === 2 ? T.text : T.bgDeep)}`, opacity: entered ? 1 : 0, transform: entered ? "none" : "translateY(12px)", transition: `all 0.45s ${0.12 + i * 0.08}s cubic-bezier(0.22,1,0.36,1)` }}>
+              <div style={{ fontFamily: T.fontDisplay, fontSize: 11, fontWeight: 700, color: T.textDim, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 6 }}>0{i + 1}</div>
+              <h3 style={{ fontFamily: T.fontDisplay, fontSize: 15, fontWeight: 800, color: T.text, margin: "0 0 8px" }}>{cat.label}</h3>
+              <p style={{ fontFamily: T.fontBody, fontSize: 13, color: T.textMuted, lineHeight: 1.65, margin: 0 }}>{cat.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div style={{ background: T.text, padding: "16px 48px", marginTop: 32 }}>
+        <p style={{ fontFamily: T.fontDisplay, fontSize: 14, fontWeight: 700, color: T.accent, margin: 0, fontStyle: "italic" }}>&ldquo;{topic.callout}&rdquo;</p>
+      </div>
+    </div>
+  );
+}
+HbIndexScreen.propTypes = { topic: topicPropType.isRequired, onBack: PropTypes.func.isRequired };
+
+// ═══════════════════════════════════════════
+// LAYOUT TRANSCRIPTION — adapt content from one layout family to another
+// so any deck's text/data can render in any layout family's component set.
+// ═══════════════════════════════════════════
+
+const BASE_LAYOUTS = new Set(["two-col","stat-cards","before-after","process-cycle","h-strip","process-lanes"]);
+const VERGE_LAYOUTS = new Set(["stat-hero","quote-collage","badge-grid","data-table","bar-chart","color-blocks"]);
+const HANDBOOK_LAYOUTS = new Set(["hb-chapter","hb-practices","hb-process","hb-manifesto","hb-index"]);
+
+function transcribeToBase(topic) {
+  switch (topic.layout) {
+    case "info-cards": return {
+      ...topic, layout: "stat-cards",
+      kicker: `Module ${topic.order || ""}`,
+      thesis: topic.banner || undefined,
+      leadershipPoints: topic.cards.map(c => `${c.stat}${c.statLabel ? " "+c.statLabel : ""}: ${c.title}`),
+      cards: topic.cards.map(c => ({ title: c.title, step: c.stat, eyebrow: c.statLabel, body: c.body })),
+    };
+    case "checklist": return {
+      ...topic, layout: "two-col",
+      summary: `${(topic.approved||[]).length} approved tools · ${(topic.forbidden||[]).length} prohibited practices`,
+      heroPoints: (topic.approved||[]).map(i => i.title),
+      cards: (topic.approved||[]).map(i => ({ title: i.title, body: i.desc })),
+      talkingPoints: (topic.forbidden||[]).map(i => `${i.icon} ${i.title}: ${i.desc}`),
+    };
+    case "workflow": return {
+      ...topic, layout: "two-col",
+      summary: `${(topic.steps||[]).filter(s=>s.type==="human").length} human checkpoints · ${(topic.steps||[]).filter(s=>s.type==="ai").length} AI-assisted phases`,
+      heroPoints: (topic.steps||[]).map(s => `${s.num}. ${s.title}`),
+      cards: (topic.steps||[]).map(s => ({ title: `${s.num}. ${s.title}`, body: s.body })),
+      talkingPoints: (topic.steps||[]).filter(s => s.tip).map(s => `${s.title}: ${s.tip}`),
+    };
+    case "pillars": return {
+      ...topic, layout: "stat-cards",
+      kicker: `Module ${topic.order || ""}`,
+      thesis: topic.subtitle,
+      leadershipPoints: (topic.pillars||[]).flatMap(p => (p.items||[]).slice(0,2)),
+      cards: (topic.pillars||[]).map(p => ({ title: p.title, step: p.icon||"", body: (p.items||[]).join(" · ") })),
+      results: (topic.results||[]).map(r => ({ value: r.val, label: r.label })),
+    };
+    case "catalog": return {
+      ...topic, layout: "two-col",
+      summary: topic.subtitle,
+      heroPoints: (topic.categories||[]).map(c => c.title),
+      cards: (topic.categories||[]).map(c => ({ title: c.title, body: (c.items||[]).map(i=>i.label||i).join(" · ") })),
+      talkingPoints: (topic.categories||[]).flatMap(c => (c.items||[]).map(i => `${i.label||i}: ${i.desc||""}`.trim())),
+    };
+    case "hb-chapter": return {
+      ...topic, layout: "two-col",
+      summary: topic.summary,
+      heroPoints: (topic.chapters||[]).map(c => `${c.num}. ${c.title} — ${c.sub}`),
+      cards: (topic.chapters||[]).map(c => ({ title: c.title, body: c.sub })),
+      talkingPoints: topic.heroPoints || [],
+    };
+    case "hb-practices": return {
+      ...topic, layout: "stat-cards",
+      kicker: topic.eyebrow,
+      thesis: topic.summary,
+      cards: (topic.practices||[]).map((p, i) => ({ title: p.title, step: `0${i+1}`, body: p.body })),
+    };
+    case "hb-process": return {
+      ...topic, layout: "process-cycle",
+    };
+    case "hb-manifesto": return {
+      ...topic, layout: "h-strip",
+      heroPoints: topic.beliefs || [],
+      cards: (topic.beliefs||[]).map(b => ({ title: b, body: "" })),
+    };
+    case "hb-index": return {
+      ...topic, layout: "two-col",
+      summary: topic.subtitle,
+      heroPoints: (topic.categories||[]).map(c => c.label),
+      cards: (topic.categories||[]).map(c => ({ title: c.label, body: c.body })),
+      talkingPoints: [],
+    };
+    default: return topic;
+  }
+}
+
+function transcribeToVerge(topic) {
+  switch (topic.layout) {
+    case "info-cards": return {
+      ...topic, layout: "stat-hero",
+      heroTitle: topic.title,
+      statCards: topic.cards.map(c => ({ value: c.stat, label: c.statLabel, body: c.body })),
+    };
+    case "checklist": return {
+      ...topic, layout: "badge-grid",
+      badges: [
+        ...(topic.approved||[]).map(i => ({ icon: i.icon, label: i.title, meta: "Approved" })),
+        ...(topic.forbidden||[]).map(i => ({ icon: i.icon, label: i.title, meta: "Prohibited" })),
+      ],
+    };
+    case "workflow": return {
+      ...topic, layout: "color-blocks",
+      blocks: (topic.steps||[]).map(s => ({ label: `${s.num}. ${s.title}`, value: s.type.toUpperCase(), body: s.body })),
+    };
+    case "pillars": return {
+      ...topic, layout: "color-blocks",
+      blocks: (topic.pillars||[]).map(p => ({ label: p.title, value: p.icon||"", body: (p.items||[]).slice(0,2).join(" · ") })),
+    };
+    case "catalog": return {
+      ...topic, layout: "color-blocks",
+      blocks: (topic.categories||[]).map(c => ({ label: c.title, value: c.items?.length||0, body: (c.items||[]).slice(0,3).map(i=>i.label||i).join(" · ") })),
+    };
+    case "hb-chapter": return {
+      ...topic, layout: "color-blocks",
+      blocks: (topic.chapters||[]).map(c => ({ label: c.title, value: c.num, body: c.sub })),
+    };
+    case "hb-practices": return {
+      ...topic, layout: "color-blocks",
+      blocks: (topic.practices||[]).map((p, i) => ({ label: p.title, value: `0${i+1}`, body: p.body.slice(0, 80) })),
+    };
+    case "hb-process": return {
+      ...topic, layout: "color-blocks",
+      blocks: (topic.steps||[]).map(s => ({ label: s.title, value: s.num, body: s.body })),
+    };
+    case "hb-manifesto": return {
+      ...topic, layout: "quote-collage",
+      quotes: (topic.beliefs||[]).map(b => ({ text: b, attr: topic.eyebrow || "Studio" })),
+    };
+    case "hb-index": return {
+      ...topic, layout: "badge-grid",
+      badges: (topic.categories||[]).map((c, i) => ({ icon: `0${i+1}`, label: c.label, meta: c.body.split(" ").slice(0,5).join(" ") })),
+    };
+    default: return topic;
+  }
+}
+
+function transcribeToHandbook(topic) {
+  switch (topic.layout) {
+    case "two-col": return {
+      ...topic, layout: "hb-chapter",
+      eyebrow: topic.eyebrow || "Chapter",
+      summary: topic.summary || topic.subtitle,
+      heroPoints: topic.heroPoints || [],
+      chapters: (topic.cards||[]).map((c, i) => ({ num: `0${i+1}`, title: c.title, sub: c.body?.slice(0,60)||"" })),
+    };
+    case "stat-cards": return {
+      ...topic, layout: "hb-practices",
+      eyebrow: topic.kicker || "Practices",
+      summary: topic.thesis || topic.subtitle,
+      practices: (topic.cards||[]).map(c => ({ title: c.title, body: c.body || "", dark: false })),
+    };
+    case "process-cycle": return { ...topic, layout: "hb-process" };
+    case "h-strip": return {
+      ...topic, layout: "hb-manifesto",
+      eyebrow: "Manifesto",
+      statement: topic.title,
+      beliefs: topic.heroPoints || (topic.cards||[]).map(c => c.title),
+    };
+    case "before-after": return {
+      ...topic, layout: "hb-chapter",
+      eyebrow: "Before \u2192 After",
+      summary: topic.subtitle,
+      heroPoints: (topic.cards||[]).map(c => `${c.title}: ${c.fix||""}`).slice(0,5),
+      chapters: (topic.cards||[]).map((c, i) => ({ num: `0${i+1}`, title: c.title, sub: c.fix?.slice(0,50)||"" })),
+    };
+    case "process-lanes": return {
+      ...topic, layout: "hb-index",
+      eyebrow: "Platforms",
+      categories: (topic.lanes||[]).map(l => ({ label: l.title, body: l.subtitle || l.persona })),
+    };
+    default: return topic;
+  }
+}
+
+function transcribeTopic(topic, targetFamily) {
+  if (targetFamily === "base" && !BASE_LAYOUTS.has(topic.layout)) return transcribeToBase(topic);
+  if (targetFamily === "verge" && !VERGE_LAYOUTS.has(topic.layout)) return transcribeToVerge(topic);
+  if (targetFamily === "handbook" && !HANDBOOK_LAYOUTS.has(topic.layout)) return transcribeToHandbook(topic);
+  return topic;
+}
+
+// ═══════════════════════════════════════════
 // MAIN APP
 // ═══════════════════════════════════════════
 
@@ -1835,6 +2868,8 @@ export default function App() {
   const [deckKey, setDeckKey] = useState(getInitialDeckKey);
   const deck = DECKS[deckKey] || CURRENT_DECK;
   const [theme, setTheme] = useState(() => deck.id === "current" ? null : (THEMES_BY_ID[deck.themeId] || null));
+  const [themeManual, setThemeManual] = useState(false);
+  const [renderFamily, setRenderFamily] = useState("native");
   const [styleModeId, setStyleModeId] = useState("default");
   const chrome = STYLE_MODES_BY_ID[styleModeId];
   const [introDone, setIntroDone] = useState(false);
@@ -1843,10 +2878,20 @@ export default function App() {
   const [hovered, setHovered] = useState(null);
   const [comet, setComet] = useState({ active: false, from: null, color: null, targetId: null });
 
-  // ── Theme-adaptive color resolution ──
-  const deckTopics = useMemo(() =>
-    theme ? resolveTopicColors(deck.topics, theme) : deck.topics,
-    [deck.topics, theme],
+  // ── Theme-adaptive color resolution + optional layout transcription ──
+  const deckTopics = useMemo(() => {
+    const colorResolved = theme ? resolveTopicColors(deck.topics, theme) : deck.topics;
+    if (renderFamily === "native") return colorResolved;
+    return colorResolved.map(t => transcribeTopic(t, renderFamily));
+  }, [deck.topics, theme, renderFamily]);
+
+  const deckHasNonBaseLayouts = useMemo(() =>
+    deck.topics.some(t => !BASE_LAYOUTS.has(t.layout)),
+    [deck.topics],
+  );
+  const deckHasHandbookLayouts = useMemo(() =>
+    deck.topics.some(t => HANDBOOK_LAYOUTS.has(t.layout)),
+    [deck.topics],
   );
   const introStats = useMemo(() =>
     theme ? resolveIntroStatColors(deck.introStats, theme) : deck.introStats,
@@ -1858,8 +2903,16 @@ export default function App() {
     setDeckKey(key);
     setActive(null);
     setIntroDone(false);
-    const nextDeck = DECKS[key] || CURRENT_DECK;
-    const suggested = THEMES_BY_ID[nextDeck.themeId];
+    if (!themeManual) {
+      const nextDeck = DECKS[key] || CURRENT_DECK;
+      const suggested = THEMES_BY_ID[nextDeck.themeId];
+      if (suggested) setTheme(suggested);
+    }
+  };
+
+  const resetToDeckTheme = () => {
+    setThemeManual(false);
+    const suggested = THEMES_BY_ID[deck.themeId];
     if (suggested) setTheme(suggested);
   };
 
@@ -1911,6 +2964,30 @@ export default function App() {
         return <BarChartScreen topic={activeTopic} onBack={handleBack} />;
       case "color-blocks":
         return <ColorBlocksScreen topic={activeTopic} onBack={handleBack} />;
+      case "info-cards":
+        return <InfoCardsScreen topic={activeTopic} onBack={handleBack} />;
+      case "checklist":
+        return <ChecklistScreen topic={activeTopic} onBack={handleBack} />;
+      case "workflow":
+        return <WorkflowScreen topic={activeTopic} onBack={handleBack} />;
+      case "pillars":
+        return <PillarsScreen topic={activeTopic} onBack={handleBack} />;
+      case "catalog":
+        return <CatalogScreen topic={activeTopic} onBack={handleBack} />;
+      case "op-brief":
+        return <OpBriefScreen topic={activeTopic} onBack={handleBack} />;
+      case "op-flow":
+        return <OpFlowScreen topic={activeTopic} onBack={handleBack} />;
+      case "hb-chapter":
+        return <HbChapterScreen topic={activeTopic} onBack={handleBack} />;
+      case "hb-practices":
+        return <HbPracticesScreen topic={activeTopic} onBack={handleBack} />;
+      case "hb-process":
+        return <HbProcessScreen topic={activeTopic} onBack={handleBack} />;
+      case "hb-manifesto":
+        return <HbManifestoScreen topic={activeTopic} onBack={handleBack} />;
+      case "hb-index":
+        return <HbIndexScreen topic={activeTopic} onBack={handleBack} />;
       default:
         return <OverviewScreen topic={activeTopic} onBack={handleBack} />;
     }
@@ -1964,6 +3041,20 @@ export default function App() {
                   ))}
                 </div>
               )}
+              {/* Layout family transcription (shown when deck has non-base or handbook layouts) */}
+              {(deckHasNonBaseLayouts || deckHasHandbookLayouts) && (
+                <div style={{ display: "flex", gap: 4 }}>
+                  {[["native","Native"],["base","Base Style"],["verge","Verge Style"],["handbook","Handbook Style"]].map(([fam, label]) => (
+                    <button key={fam} onClick={() => setRenderFamily(fam)} style={{
+                      background: fam === renderFamily ? `${T.accent}20` : T.bgCard,
+                      border: `1px solid ${fam === renderFamily ? T.accent : T.textDim+"30"}`,
+                      borderRadius: chrome.pillRadius, padding: "5px 10px", fontSize: 10,
+                      color: fam === renderFamily ? T.accent : T.textDim, cursor: "pointer",
+                      fontFamily: T.fontBody, textTransform: "uppercase", letterSpacing: 0.8,
+                    }}>{label}</button>
+                  ))}
+                </div>
+              )}
               {/* Style mode picker */}
               <div style={{ display: "flex", gap: 4 }}>
                 {STYLE_MODES.map((m) => (
@@ -1977,7 +3068,12 @@ export default function App() {
                 ))}
               </div>
               {/* Theme switch */}
-              <button onClick={() => setTheme(null)} style={{ background: T.bgCard, border: `1px solid ${T.textDim}30`, borderRadius: chrome.pillRadius, padding: "5px 14px", fontSize: 11, color: T.textDim, cursor: "pointer", fontFamily: T.fontBody }}>{T.name} ✎</button>
+              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <button onClick={() => { setThemeManual(true); setTheme(null); }} style={{ background: T.bgCard, border: `1px solid ${themeManual ? T.accent+"60" : T.textDim+"30"}`, borderRadius: chrome.pillRadius, padding: "5px 14px", fontSize: 11, color: themeManual ? T.accent : T.textDim, cursor: "pointer", fontFamily: T.fontBody }}>{T.name} ✎</button>
+                {themeManual && (
+                  <button onClick={resetToDeckTheme} title="Reset to deck theme" style={{ background: "transparent", border: `1px solid ${T.textDim}30`, borderRadius: chrome.pillRadius, padding: "5px 8px", fontSize: 11, color: T.textDim, cursor: "pointer", fontFamily: T.fontBody }}>↺</button>
+                )}
+              </div>
             </div>
           </div>
         </div>
