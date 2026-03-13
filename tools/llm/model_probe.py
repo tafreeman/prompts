@@ -360,6 +360,11 @@ def main(argv: list[str]) -> int:
 
     args = parser.parse_args(argv)
 
+    logging.basicConfig(
+        level=logging.DEBUG if args.verbose else logging.INFO,
+        format="%(message)s",
+    )
+
     probe = ModelProbe(verbose=args.verbose)
 
     if args.clear_cache:
