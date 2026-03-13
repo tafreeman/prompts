@@ -243,7 +243,7 @@ class LocalSubprocessSandbox(Sandbox):
         try:
             file_path.resolve().relative_to(self._root.resolve())
         except ValueError:
-            raise ValueError(f"Path escapes sandbox: {path}")
+            raise ValueError(f"Path escapes sandbox: {path}") from None
 
         file_path.parent.mkdir(parents=True, exist_ok=True)
         file_path.write_text(content, encoding="utf-8")
@@ -267,7 +267,7 @@ class LocalSubprocessSandbox(Sandbox):
         try:
             file_path.resolve().relative_to(self._root.resolve())
         except ValueError:
-            raise ValueError(f"Path escapes sandbox: {path}")
+            raise ValueError(f"Path escapes sandbox: {path}") from None
 
         return file_path.read_text(encoding="utf-8")
 

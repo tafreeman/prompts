@@ -201,19 +201,19 @@ def __getattr__(name: str) -> Any:
 
 
 __all__ = [
-    # Functions
-    "get_benchmark_definitions",
-    "get_benchmark_definition",
-    "list_benchmarks",
-    "load_benchmark",
-    "get_registry",
     # Types (lazy-loaded)
     "BENCHMARK_DEFINITIONS",
+    "PRESET_CONFIGS",  # noqa: F822 — lazy-loaded via __getattr__
+    "BenchmarkConfig",
     "BenchmarkDefinition",
+    "BenchmarkRegistry",
+    "BenchmarkTask",
     "BenchmarkType",
     "DataSource",
-    "BenchmarkTask",
-    "BenchmarkConfig",
-    "BenchmarkRegistry",
-    "PRESET_CONFIGS",
+    "get_benchmark_definition",
+    # Functions
+    "get_benchmark_definitions",
+    "get_registry",
+    "list_benchmarks",
+    "load_benchmark",
 ]

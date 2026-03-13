@@ -19,10 +19,10 @@ __all__ = [
     "calculate_precision_recall",
     # Quality metrics
     "code_quality_score",
-    "lint_score",
     "complexity_score",
     # Performance metrics
     "execution_time_score",
+    "lint_score",
     "memory_usage_score",
     "throughput_score",
 ]

@@ -13,9 +13,11 @@ from __future__ import annotations
 import asyncio
 import inspect
 import logging
-from collections.abc import AsyncIterator, Awaitable, Callable, Iterator
 from dataclasses import dataclass
-from typing import Generic, TypeVar
+from typing import Generic, TypeVar, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from collections.abc import AsyncIterator, Awaitable, Callable, Iterator
 
 logger = logging.getLogger(__name__)
 

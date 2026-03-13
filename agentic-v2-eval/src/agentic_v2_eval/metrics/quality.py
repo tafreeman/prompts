@@ -208,9 +208,7 @@ def _calculate_python_complexity(code: str) -> int:
 
     for node in ast.walk(tree):
         # Each decision point adds 1 to complexity
-        if isinstance(node, (ast.If, ast.While, ast.For)) or isinstance(
-            node, ast.ExceptHandler
-        ):
+        if isinstance(node, (ast.If, ast.While, ast.For, ast.ExceptHandler)):
             complexity += 1
         elif isinstance(node, ast.BoolOp):
             # and/or add complexity

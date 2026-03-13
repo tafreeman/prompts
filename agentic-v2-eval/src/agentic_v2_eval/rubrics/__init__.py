@@ -87,13 +87,13 @@ def get_rubric_path(name: str) -> Path:
 
 
 __all__ = [
-    "load_rubric",
-    "list_rubrics",
-    "get_rubric_path",
-    "RUBRICS_DIR",
-    # Constants
-    "DEFAULT",
     "AGENT",
     "CODE",
+    # Constants
+    "DEFAULT",
     "PATTERN",
+    "RUBRICS_DIR",
+    "get_rubric_path",
+    "list_rubrics",
+    "load_rubric",
 ]

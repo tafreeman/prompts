@@ -24,25 +24,25 @@ from .quality import (
 from .standard import StandardEvaluator, StandardScore
 
 __all__ = [
+    "COHERENCE",
+    "FLUENCY",
+    "GROUNDEDNESS",
+    "RELEVANCE",
+    "SIMILARITY",
+    "STANDARD_CHOICES",
+    "Choice",
     # Base
     "Evaluator",
     "EvaluatorRegistry",
     # LLM
     "LLMClientProtocol",
     "LLMEvaluator",
-    "Choice",
-    "STANDARD_CHOICES",
+    "LLMEvaluatorDefinition",
     # Pattern
     "PatternEvaluator",
     "PatternScore",
     # Quality
     "QualityEvaluator",
-    "LLMEvaluatorDefinition",
-    "COHERENCE",
-    "FLUENCY",
-    "RELEVANCE",
-    "GROUNDEDNESS",
-    "SIMILARITY",
     # Standard
     "StandardEvaluator",
     "StandardScore",
