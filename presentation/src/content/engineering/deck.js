@@ -1,0 +1,106 @@
+// ─── Engineering Deck ───
+// System architecture, pipelines, tech evolution, and roadmap.
+// Arctic Steel theme — industrial/technical aesthetic.
+export const themeId = "arctic-steel";
+
+export const sprintNodes = [
+  { abbr: "AD", label: "Architecture", t: 0 },
+  { abbr: "CO", label: "Code", t: 0.2 },
+  { abbr: "QA", label: "Test", t: 0.4 },
+  { abbr: "RV", label: "Review", t: 0.6 },
+  { abbr: "DP", label: "Deploy", t: 0.8 },
+];
+
+export const contentSlides = [
+  {
+    id: "system-architecture",
+    order: 1,
+    layout: "eng-architecture",
+    title: "System Architecture",
+    subtitle: "Four-layer design system with registry-based rendering.",
+    color: "#60A5FA",
+    colorLight: "#93C5FD",
+    colorGlow: "rgba(96,165,250,0.3)",
+    icon: "\u{1F3D7}\uFE0F",
+    headline: "Layered Architecture",
+    subheadline: "Tokens \u2192 Components \u2192 Layouts \u2192 Patterns",
+    cards: [
+      { title: "Design Tokens", body: "Palette, spacing, typography, timing, shadows, and borders. The atomic constants that every layer above consumes. Zero runtime logic \u2014 pure configuration." },
+      { title: "Components", body: "Reusable UI primitives: cards, badges, buttons, context providers. Each is theme-aware via useTheme/useChrome hooks. Single responsibility, composable." },
+      { title: "Layouts", body: "26 registered slide renderers across 6 families. O(1) registry lookup by layout ID. Each layout receives a topic data contract and renders autonomously." },
+      { title: "Patterns", body: "Deck schemas, transcription functions, and composition rules. Patterns orchestrate how layouts combine into coherent presentation decks." },
+    ],
+  },
+  {
+    id: "data-pipeline",
+    order: 2,
+    layout: "eng-code-flow",
+    title: "Rendering Pipeline",
+    subtitle: "From URL parameter to painted pixels \u2014 the full data flow.",
+    color: "#34D399",
+    colorLight: "#6EE7B7",
+    colorGlow: "rgba(52,211,153,0.3)",
+    icon: "\u{1F517}",
+    headline: "Data Flow Pipeline",
+    subheadline: "Each stage transforms, never mutates.",
+    cards: [
+      { title: "URL Params", body: "?app=v14&deck=engineering selects the registry-based renderer and deck key." },
+      { title: "Deck Factory", body: "createDeckPreset() normalizes slides: assigns icons from LAYOUT_ICONS, resolves colors, fills default arrays." },
+      { title: "Theme Resolution", body: "resolveTopicColors() maps each slide's palette through the active theme. Immutable \u2014 returns new objects." },
+      { title: "Layout Lookup", body: "LayoutRenderer calls layoutRegistry.get(layout) \u2014 O(1) Map lookup. Passes topic={slide} as props." },
+      { title: "Paint", body: "Layout component renders with useTheme/useChrome context. Entrance animations stagger via CSS transitions." },
+    ],
+  },
+  {
+    id: "tech-evolution",
+    order: 3,
+    layout: "eng-tech-stack",
+    title: "Technology Evolution",
+    subtitle: "How the platform evolved from monolith to modular design system.",
+    color: "#A78BFA",
+    colorLight: "#C4B5FD",
+    colorGlow: "rgba(167,139,250,0.3)",
+    icon: "\u2699\uFE0F",
+    headline: "Platform Evolution Timeline",
+    cards: [
+      { title: "v10 \u2014 Monolith", body: "Single 3,087-line JSX file. 25-case switch statement for rendering. Inline styles, no shared tokens." },
+      { title: "v11 \u2014 Content Extraction", body: "Deck manifests moved to content/ modules. Data separated from rendering logic." },
+      { title: "v12 \u2014 Theme System", body: "Centralized palette and typography tokens. ThemeContext introduced. Style modes added." },
+      { title: "v13 \u2014 Layout Families", body: "Verge Pop, onboarding, handbook families created. Still wired via monolith switch." },
+      { title: "v14 \u2014 Registry Architecture", body: "Layout registry with O(1) lookup. Strangler Fig migration. 26 layouts, 6 families, 768-line App shell." },
+    ],
+    results: [
+      { label: "Lines Reduced", value: "3,087 \u2192 768" },
+      { label: "Layout Families", value: "6" },
+      { label: "Registered Layouts", value: "26" },
+      { label: "Build Time", value: "~1s" },
+    ],
+  },
+  {
+    id: "implementation-roadmap",
+    order: 4,
+    layout: "eng-roadmap",
+    title: "Implementation Roadmap",
+    subtitle: "Seven-phase Strangler Fig migration from monolith to design system.",
+    color: "#F59E0B",
+    colorLight: "#FCD34D",
+    colorGlow: "rgba(245,158,11,0.3)",
+    icon: "\u{1F5FA}\uFE0F",
+    headline: "Migration Roadmap",
+    cards: [
+      { title: "Phase 1: Tokens", body: "Extract palette, spacing, typography, timing, shadows, borders into src/tokens/. Add TypeScript config.", status: "complete" },
+      { title: "Phase 2: Components", body: "Extract 15 reusable components into 6 category directories. Create context providers and hooks.", status: "complete" },
+      { title: "Phase 3: Base Layouts", body: "Build LayoutRenderer + registry. Register base (6) and verge-pop (6) layout families.", status: "complete" },
+      { title: "Phase 4: Extended Layouts", body: "Register sprint (1), onboarding (7), and handbook (5) layout families.", status: "complete" },
+      { title: "Phase 5: App Shell", body: "Create App.v14.jsx \u2014 768-line registry-based renderer replacing 25-case switch.", status: "complete" },
+      { title: "Phase 6: Engineering", body: "4 new engineering-specific layouts: architecture, code-flow, tech-stack, roadmap.", status: "complete" },
+      { title: "Phase 7: Integration", body: "Engineering deck manifest, TypeScript validation, build verification, ADR documentation.", status: "active" },
+    ],
+    talkingPoints: [
+      "Strangler Fig pattern: new system runs alongside monolith, selected via ?app=v14",
+      "Zero regressions: existing decks continue to work on all prior app versions",
+      "Side-effect registration: import register-all.js populates the entire layout registry",
+      "Each phase was independently committable and buildable",
+    ],
+  },
+];

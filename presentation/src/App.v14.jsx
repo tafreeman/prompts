@@ -21,6 +21,7 @@ import * as vergePop from "./content/verge-pop/deck.js";
 import * as onboarding from "./content/onboarding/deck.js";
 import * as onboardingOp from "./content/onboarding-op/deck.js";
 import * as studio from "./content/studio/deck.js";
+import * as engineering from "./content/engineering/deck.js";
 
 // ── Token imports ─────────────────────────────────────────────────────────
 import { THEMES, THEMES_BY_ID } from "./tokens/themes.js";
@@ -420,6 +421,32 @@ const ONBOARDING_DECK = createDeckPreset({
   sprintNodes: onboarding.sprintNodes,
 });
 
+const ENGINEERING_DECK = createDeckPreset({
+  id: "engineering",
+  themeId: engineering.themeId,
+  brandLine: "Design System",
+  title: "Engineering",
+  titleAccent: "Deep Dive",
+  tagline: "Four modules. Architecture to roadmap. Select a topic to explore.",
+  introBrandLine: "Design System · Engineering",
+  introTitle: "Platform Architecture",
+  introSubtitle: "From monolith to modular design system",
+  introStats: [
+    { val: "26", lbl: "Layouts", color: "#60A5FA" },
+    { val: "6", lbl: "Families", color: "#34D399" },
+    { val: "768", lbl: "Lines", color: "#A78BFA" },
+    { val: "~1s", lbl: "Build", color: "#F59E0B" },
+  ],
+  stats: [
+    { val: "26", lbl: "Registered Layouts" },
+    { val: "6", lbl: "Layout Families" },
+    { val: "4", lbl: "Architecture Layers" },
+    { val: "7", lbl: "Migration Phases" },
+  ],
+  topics: engineering.contentSlides,
+  sprintNodes: engineering.sprintNodes,
+});
+
 const DECKS = {
   current: CURRENT_DECK,
   genai: GENAI_MANIFEST_DECK,
@@ -429,6 +456,7 @@ const DECKS = {
   onboarding: ONBOARDING_DECK,
   "onboarding-op": ONBOARDING_OP_DECK,
   studio: STUDIO_DECK,
+  engineering: ENGINEERING_DECK,
 };
 
 // ═════════════════════════════════════════════════════════════════════
