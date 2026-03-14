@@ -1,0 +1,13 @@
+/**
+ * ThemeContext — provides the active theme's token values to all descendants.
+ *
+ * Mirrors the ThemeCtx from genai_advocacy_hub_13.jsx line 15.
+ * The monolith passes the full theme object (from THEMES array).
+ */
+
+import { createContext } from "react";
+import { THEMES } from "../../tokens/themes.js";
+
+export const ThemeContext = createContext(THEMES[0]);
+
+export default ThemeContext;
