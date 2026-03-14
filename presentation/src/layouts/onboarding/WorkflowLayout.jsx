@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useTheme } from "../../components/hooks/useTheme.js";
 import { useChrome } from "../../components/hooks/useChrome.js";
+import { usePresentationViewport } from "../../components/hooks/usePresentationViewport.js";
 import BackBtn from "../../components/navigation/BackBtn.jsx";
 import SectionHeader from "../../components/compound/SectionHeader.jsx";
 import Particles from "../../components/animations/Particles.jsx";
@@ -15,13 +16,14 @@ import Particles from "../../components/animations/Particles.jsx";
 export function WorkflowLayout({ topic, onBack }) {
   const T = useTheme();
   const C = useChrome();
+  const viewport = usePresentationViewport();
   const [entered, setEntered] = useState(false);
   const [expanded, setExpanded] = useState(null);
   useEffect(() => { const t = setTimeout(() => setEntered(true), 60); return () => clearTimeout(t); }, []);
   return (
-    <div style={{ position: "relative", minHeight: "100vh", background: T.bg, overflow: "hidden" }}>
+    <div style={{ position: "relative", minHeight: "100dvh", background: T.bg, overflowX: "hidden", overflowY: viewport.overlayScroll }}>
       <Particles color={topic.color} active={entered} />
-      <div style={{ position: "relative", zIndex: 2, maxWidth: 960, margin: "0 auto", padding: "36px 32px" }}>
+      <div style={{ position: "relative", zIndex: 2, maxWidth: 960, margin: "0 auto", padding: `${viewport.pagePaddingTop}px ${viewport.pagePaddingX}px ${viewport.pagePaddingBottom}px` }}>
         <BackBtn onClick={onBack} />
         <SectionHeader topic={topic} entered={entered} />
         <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
@@ -30,8 +32,8 @@ export function WorkflowLayout({ topic, onBack }) {
             const isExp = expanded === i;
             return (
               <div key={i} onClick={() => setExpanded(isExp ? null : i)} style={{ cursor: "pointer" }}>
-                <div style={{ display: "flex", gap: 16, alignItems: "stretch", opacity: entered ? 1 : 0, transform: entered ? "none" : "translateX(-20px)", transition: `all 0.45s ${0.15 + i * 0.08}s ease` }}>
-                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: 44 }}>
+                <div style={{ display: "flex", gap: viewport.isPhone ? 12 : 16, alignItems: "stretch", opacity: entered ? 1 : 0, transform: entered ? "none" : "translateX(-20px)", transition: `all 0.45s ${0.15 + i * 0.08}s ease` }}>
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: viewport.isPhone ? 36 : 44 }}>
                     <div style={{ width: 36, height: 36, borderRadius: "50%", background: isAI ? T.accent + "20" : T.bgCard, border: `2px solid ${isAI ? T.accent : T.textDim}60`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: T.fontDisplay, fontSize: 12, fontWeight: C.headingWeight, color: isAI ? T.accent : T.textMuted, flexShrink: 0 }}>{step.num}</div>
                     {i < topic.steps.length - 1 && <div style={{ width: 2, flex: 1, minHeight: 16, background: isAI ? T.accent + "30" : (T.border || "rgba(255,255,255,0.06)"), margin: "4px 0" }} />}
                   </div>

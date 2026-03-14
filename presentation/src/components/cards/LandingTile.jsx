@@ -24,6 +24,7 @@ import PropTypes from "prop-types";
 
 import { useTheme } from "../hooks/useTheme.js";
 import { useChrome } from "../hooks/useChrome.js";
+import { usePresentationViewport } from "../hooks/usePresentationViewport.js";
 
 /**
  * @param {object} props
@@ -52,6 +53,7 @@ function LandingTile({
 }) {
   const T = useTheme();
   const C = useChrome();
+  const viewport = usePresentationViewport();
 
   const h = hovered;
   const glowShadow = C.useGlow
@@ -75,11 +77,11 @@ function LandingTile({
         cursor: "pointer",
         overflow: "hidden",
         borderRadius: C.tileRadius,
-        padding: "32px 28px",
+        padding: viewport.isPhone ? "24px 20px" : viewport.isCompact ? "28px 22px" : "32px 28px",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        minHeight: 300,
+        minHeight: viewport.tileMinHeight,
         background: T.bgDeep,
         border: `${C.cardBorderWidth}px solid ${
           h ? color + "60" : "rgba(255,255,255,0.06)"
@@ -111,8 +113,8 @@ function LandingTile({
         {/* Icon */}
         <div
           style={{
-            fontSize: 36,
-            marginBottom: 10,
+            fontSize: viewport.isPhone ? 30 : 36,
+            marginBottom: viewport.isPhone ? 8 : 10,
             lineHeight: 1,
             filter:
               h && C.useGlow
@@ -128,7 +130,7 @@ function LandingTile({
         <h2
           style={{
             fontFamily: T.fontDisplay,
-            fontSize: 22,
+            fontSize: viewport.isPhone ? 18 : viewport.isCompact ? 20 : 22,
             fontWeight: C.headingWeight,
             color: T.text,
             lineHeight: 1.15,
@@ -140,7 +142,7 @@ function LandingTile({
         </h2>
 
         {/* Subtitle */}
-        <p style={{ fontSize: 13, color: T.textDim, lineHeight: 1.5, margin: 0 }}>
+        <p style={{ fontSize: viewport.isPhone ? 12 : 13, color: T.textDim, lineHeight: 1.5, margin: 0 }}>
           {subtitle}
         </p>
       </div>
@@ -151,9 +153,9 @@ function LandingTile({
           display: "flex",
           alignItems: "center",
           gap: 8,
-          marginTop: 20,
+          marginTop: viewport.isPhone ? 16 : 20,
           color,
-          fontSize: 12,
+          fontSize: viewport.isPhone ? 11 : 12,
           fontWeight: 600,
           fontFamily: T.fontDisplay,
           transform: h ? "translateX(6px)" : "translateX(0)",

@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useTheme } from "../../components/hooks/useTheme.js";
 import { useChrome } from "../../components/hooks/useChrome.js";
+import { usePresentationViewport } from "../../components/hooks/usePresentationViewport.js";
 import BackBtn from "../../components/navigation/BackBtn.jsx";
 import SectionHeader from "../../components/compound/SectionHeader.jsx";
 import Particles from "../../components/animations/Particles.jsx";
@@ -15,13 +16,14 @@ import Particles from "../../components/animations/Particles.jsx";
 export function InfoCardsLayout({ topic, onBack }) {
   const T = useTheme();
   const C = useChrome();
+  const viewport = usePresentationViewport();
   const [entered, setEntered] = useState(false);
   useEffect(() => { const t = setTimeout(() => setEntered(true), 60); return () => clearTimeout(t); }, []);
   return (
-    <div style={{ position: "relative", minHeight: "100vh", background: T.bg, overflow: "hidden" }}>
+    <div style={{ position: "relative", minHeight: "100dvh", background: T.bg, overflowX: "hidden", overflowY: viewport.overlayScroll }}>
       <Particles color={topic.color} active={entered} />
       <div style={{ position: "absolute", top: 0, right: 0, width: "40%", height: "50%", background: `radial-gradient(ellipse at top right,${topic.color}10,transparent 70%)`, pointerEvents: "none" }} />
-      <div style={{ position: "relative", zIndex: 2, maxWidth: 900, margin: "0 auto", padding: "36px 32px" }}>
+      <div style={{ position: "relative", zIndex: 2, maxWidth: 900, margin: "0 auto", padding: `${viewport.pagePaddingTop}px ${viewport.pagePaddingX}px ${viewport.pagePaddingBottom}px` }}>
         <BackBtn onClick={onBack} />
         <div style={{ opacity: entered ? 1 : 0, transform: entered ? "none" : "translateY(28px)", transition: "all 0.8s cubic-bezier(0.22,1,0.36,1)" }}>
           <SectionHeader topic={topic} entered={entered} />
@@ -31,14 +33,14 @@ export function InfoCardsLayout({ topic, onBack }) {
             </div>
           )}
           {(topic.cards || []).map((c, i) => (
-            <div key={i} style={{ background: T.bgCard, borderRadius: C.cardRadius, padding: "22px 26px", marginBottom: 14, display: "flex", alignItems: "flex-start", gap: 20, borderLeft: `${C.accentBarHeight}px solid ${T.accent}`, opacity: entered ? 1 : 0, transform: entered ? "none" : "translateY(16px)", transition: `all 0.5s ${0.2 + i * 0.1}s cubic-bezier(0.22,1,0.36,1)` }}>
+            <div key={i} style={{ background: T.bgCard, borderRadius: C.cardRadius, padding: viewport.isPhone ? "18px 18px" : "22px 26px", marginBottom: 14, display: "flex", flexDirection: viewport.isPhone ? "column" : "row", alignItems: viewport.isPhone ? "stretch" : "flex-start", gap: viewport.isPhone ? 12 : 20, borderLeft: `${C.accentBarHeight}px solid ${T.accent}`, opacity: entered ? 1 : 0, transform: entered ? "none" : "translateY(16px)", transition: `all 0.5s ${0.2 + i * 0.1}s cubic-bezier(0.22,1,0.36,1)` }}>
               <div style={{ flexShrink: 0, textAlign: "center", minWidth: 60 }}>
                 {c.stat && <div style={{ fontFamily: T.fontDisplay, fontSize: 26, fontWeight: C.headingWeight, color: T.accent, lineHeight: 1 }}>{c.stat}</div>}
                 {c.statLabel && <div style={{ fontSize: 9, color: T.textDim, textTransform: "uppercase", letterSpacing: 1, marginTop: 3 }}>{c.statLabel}</div>}
               </div>
               <div>
                 <h3 style={{ fontFamily: T.fontDisplay, fontSize: 16, fontWeight: C.headingWeight, color: T.text, margin: "0 0 6px" }}>{c.title}</h3>
-                <p style={{ fontSize: 13.5, color: T.textMuted, lineHeight: 1.6, margin: 0 }}>{c.body}</p>
+                <p style={{ fontSize: viewport.isPhone ? 12.5 : 13.5, color: T.textMuted, lineHeight: 1.6, margin: 0 }}>{c.body}</p>
               </div>
             </div>
           ))}

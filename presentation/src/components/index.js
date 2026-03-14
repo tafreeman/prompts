@@ -3,6 +3,7 @@ export { ThemeContext } from "./context/index.js";
 export { ChromeContext } from "./context/index.js";
 export { useTheme } from "./hooks/index.js";
 export { useChrome } from "./hooks/index.js";
+export { usePresentationViewport } from "./hooks/index.js";
 export { Eyebrow, StatValue, CalloutBox, QuoteBlock, BadgePill, IconButton } from "./micro/index.js";
 export { StatCard, TopicCard, LandingTile, BeforeAfterPair } from "./cards/index.js";
 export { ThemeSelector, DeckPicker, BackBtn } from "./navigation/index.js";

@@ -12,10 +12,12 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { THEMES, THEME_SELECTOR_FONTS_URL } from "../../tokens/themes.js";
+import { usePresentationViewport } from "../hooks/usePresentationViewport.js";
 
 export function ThemeSelector({ onSelect }) {
   const [hovered, setHovered] = useState(null);
   const [entered, setEntered] = useState(false);
+  const viewport = usePresentationViewport();
 
   useEffect(() => {
     const t = setTimeout(() => setEntered(true), 50);
@@ -23,16 +25,16 @@ export function ThemeSelector({ onSelect }) {
   }, []);
 
   return (
-    <div style={{ minHeight: "100vh", background: "#08101C", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: "40px 48px" }}>
+    <div style={{ minHeight: "100dvh", background: "#08101C", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: viewport.isPhone ? "24px 16px 32px" : viewport.isCompact ? "32px 24px" : "40px 48px", overflowY: viewport.overlayScroll }}>
       <link href={THEME_SELECTOR_FONTS_URL} rel="stylesheet" />
 
       <div style={{ textAlign: "center", marginBottom: 40, opacity: entered ? 1 : 0, transform: entered ? "translateY(0)" : "translateY(20px)", transition: "all 0.6s ease" }}>
         <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 4, color: "#64748B", fontFamily: "'Space Grotesk',sans-serif", fontWeight: 500, marginBottom: 12 }}>GenAI Transformation</div>
-        <h1 style={{ fontFamily: "'Space Grotesk',sans-serif", fontSize: 40, fontWeight: 700, color: "#F0F4F8", margin: "0 0 10px", letterSpacing: -1 }}>Choose Your Theme</h1>
-        <p style={{ fontSize: 14, color: "#94A3B8", margin: 0 }}>Select a visual style for the advocacy deck</p>
+        <h1 style={{ fontFamily: "'Space Grotesk',sans-serif", fontSize: viewport.isPhone ? 30 : viewport.isCompact ? 34 : 40, fontWeight: 700, color: "#F0F4F8", margin: "0 0 10px", letterSpacing: -1 }}>Choose Your Theme</h1>
+        <p style={{ fontSize: viewport.isPhone ? 13 : 14, color: "#94A3B8", margin: 0 }}>Select a visual style for the advocacy deck</p>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16, maxWidth: 900, width: "100%" }}>
+      <div style={{ display: "grid", gridTemplateColumns: viewport.isPhone ? "1fr" : viewport.isCompact ? "1fr 1fr" : "1fr 1fr 1fr", gap: viewport.isPhone ? 12 : 16, maxWidth: 900, width: "100%" }}>
         {THEMES.map((t, i) => {
           const isH = hovered === t.id;
           return (
@@ -50,14 +52,14 @@ export function ThemeSelector({ onSelect }) {
                 transitionDelay: `${0.1 + i * 0.06}s`,
               }}>
               {/* Preview header */}
-              <div style={{ background: t.bg, padding: "20px 18px 14px", position: "relative" }}>
+              <div style={{ background: t.bg, padding: viewport.isPhone ? "18px 16px 12px" : "20px 18px 14px", position: "relative" }}>
                 {/* Accent bar */}
                 <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: `linear-gradient(90deg, ${t.gradient[0]}, ${t.gradient[1]})` }} />
-                <div style={{ fontFamily: t.fontDisplay, fontSize: 18, fontWeight: 700, color: t.text, marginBottom: 4 }}>{t.name}</div>
+                <div style={{ fontFamily: t.fontDisplay, fontSize: viewport.isPhone ? 16 : 18, fontWeight: 700, color: t.text, marginBottom: 4 }}>{t.name}</div>
                 <div style={{ fontSize: 10, color: t.textDim, textTransform: "uppercase", letterSpacing: 1 }}>{t.vibe}</div>
               </div>
               {/* Preview body */}
-              <div style={{ background: t.bgCard, padding: "14px 18px 16px" }}>
+              <div style={{ background: t.bgCard, padding: viewport.isPhone ? "12px 16px 14px" : "14px 18px 16px" }}>
                 {/* Mini card previews */}
                 <div style={{ display: "flex", gap: 6, marginBottom: 10 }}>
                   {[t.accent, t.gradient[1], t.textDim].map((c, j) => (

@@ -10,12 +10,14 @@ import PropTypes from "prop-types";
 
 import { useTheme } from "../../components/hooks/useTheme.js";
 import { useChrome } from "../../components/hooks/useChrome.js";
+import { usePresentationViewport } from "../../components/hooks/usePresentationViewport.js";
 import BackBtn from "../../components/navigation/BackBtn.jsx";
 import Particles from "../../components/animations/Particles.jsx";
 
 function TwoColLayout({ topic, onBack }) {
   const T = useTheme();
   const C = useChrome();
+  const viewport = usePresentationViewport();
   const [entered, setEntered] = useState(false);
 
   useEffect(() => {
@@ -24,16 +26,16 @@ function TwoColLayout({ topic, onBack }) {
   }, []);
 
   return (
-    <div style={{ position: "relative", minHeight: "100vh", background: T.bg, overflow: "hidden" }}>
+    <div style={{ position: "relative", minHeight: "100dvh", background: T.bg, overflowX: "hidden", overflowY: viewport.overlayScroll }}>
       <Particles color={topic.color} type="future" active={entered} />
-      <div style={{ position: "relative", zIndex: 2, maxWidth: 1180, margin: "0 auto", padding: "36px 48px 48px" }}>
+      <div style={{ position: "relative", zIndex: 2, maxWidth: 1180, margin: "0 auto", padding: `${viewport.pagePaddingTop}px ${viewport.pagePaddingX}px ${viewport.pagePaddingBottom}px` }}>
         <BackBtn onClick={onBack} />
-        <div style={{ display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: 28, alignItems: "start" }}>
+        <div style={{ display: "grid", gridTemplateColumns: viewport.isCompact ? "1fr" : "1.1fr 0.9fr", gap: viewport.isPhone ? 18 : 28, alignItems: "start" }}>
           <div style={{ opacity: entered ? 1 : 0, transform: entered ? "translateY(0)" : "translateY(20px)", transition: "all 0.6s ease" }}>
             <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 3, color: topic.colorLight, fontFamily: T.fontDisplay, marginBottom: 10 }}>{topic.eyebrow || "Overview"}</div>
-            <h1 style={{ fontFamily: T.fontDisplay, fontSize: 42, color: T.text, margin: "0 0 10px", lineHeight: 1.05 }}>{topic.title}</h1>
-            <p style={{ fontSize: 16, color: topic.colorLight, fontStyle: "italic", lineHeight: 1.5, margin: "0 0 14px" }}>{topic.subtitle}</p>
-            {topic.summary && <p style={{ fontSize: 15, color: T.textMuted, lineHeight: 1.7, margin: "0 0 18px", maxWidth: 620 }}>{topic.summary}</p>}
+            <h1 style={{ fontFamily: T.fontDisplay, fontSize: viewport.titleSize, color: T.text, margin: "0 0 10px", lineHeight: 1.05 }}>{topic.title}</h1>
+            <p style={{ fontSize: viewport.subtitleSize, color: topic.colorLight, fontStyle: "italic", lineHeight: 1.5, margin: "0 0 14px" }}>{topic.subtitle}</p>
+            {topic.summary && <p style={{ fontSize: viewport.bodySize, color: T.textMuted, lineHeight: 1.7, margin: "0 0 18px", maxWidth: viewport.isCompact ? "100%" : 620 }}>{topic.summary}</p>}
             {topic.heroPoints?.length > 0 && (
               <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 18 }}>
                 {topic.heroPoints.map((point) => (
@@ -43,9 +45,9 @@ function TwoColLayout({ topic, onBack }) {
             )}
             <div style={{ display: "grid", gap: 12 }}>
               {topic.cards.map((card, index) => (
-                <div key={`${card.title}-${index}`} style={{ background: T.bgCard, borderRadius: C.innerRadius, padding: "16px 18px", borderLeft: `${C.accentBarHeight}px solid ${topic.color}`, opacity: entered ? 1 : 0, transform: entered ? "translateX(0)" : "translateX(-14px)", transition: `all 0.45s ${0.18 + index * 0.08}s ease` }}>
+                <div key={`${card.title}-${index}`} style={{ background: T.bgCard, borderRadius: C.innerRadius, padding: viewport.isPhone ? "14px 16px" : "16px 18px", borderLeft: `${C.accentBarHeight}px solid ${topic.color}`, opacity: entered ? 1 : 0, transform: entered ? "translateX(0)" : "translateX(-14px)", transition: `all 0.45s ${0.18 + index * 0.08}s ease` }}>
                   <div style={{ fontFamily: T.fontDisplay, fontSize: 17, color: T.text, marginBottom: 6 }}>{card.title}</div>
-                  <p style={{ fontSize: 13.5, color: T.textMuted, lineHeight: 1.6, margin: 0 }}>{card.body}</p>
+                  <p style={{ fontSize: viewport.isPhone ? 12.5 : 13.5, color: T.textMuted, lineHeight: 1.6, margin: 0 }}>{card.body}</p>
                 </div>
               ))}
             </div>

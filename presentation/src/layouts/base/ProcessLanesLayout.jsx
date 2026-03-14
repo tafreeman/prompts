@@ -11,12 +11,14 @@ import PropTypes from "prop-types";
 
 import { useTheme } from "../../components/hooks/useTheme.js";
 import { useChrome } from "../../components/hooks/useChrome.js";
+import { usePresentationViewport } from "../../components/hooks/usePresentationViewport.js";
 import BackBtn from "../../components/navigation/BackBtn.jsx";
 import Particles from "../../components/animations/Particles.jsx";
 
 function ProcessLanesLayout({ topic, onBack }) {
   const T = useTheme();
   const C = useChrome();
+  const viewport = usePresentationViewport();
   const [entered, setEntered] = useState(false);
   const [activePanel, setActivePanel] = useState(0);
 
@@ -26,22 +28,22 @@ function ProcessLanesLayout({ topic, onBack }) {
   }, []);
 
   return (
-    <div style={{ position: "relative", minHeight: "100vh", background: T.bg, overflow: "hidden" }}>
+    <div style={{ position: "relative", minHeight: "100dvh", background: T.bg, overflowX: "hidden", overflowY: viewport.overlayScroll }}>
       <Particles color={topic.color} type="future" active={entered} />
-      <div style={{ position: "relative", zIndex: 2, maxWidth: 1240, margin: "0 auto", padding: "36px 48px 48px" }}>
+      <div style={{ position: "relative", zIndex: 2, maxWidth: 1240, margin: "0 auto", padding: `${viewport.pagePaddingTop}px ${viewport.pagePaddingX}px ${viewport.pagePaddingBottom}px` }}>
         <BackBtn onClick={onBack} />
-        <div style={{ display: "grid", gridTemplateColumns: "1.05fr 0.95fr", gap: 24, marginBottom: 18 }}>
+        <div style={{ display: "grid", gridTemplateColumns: viewport.isCompact ? "1fr" : "1.05fr 0.95fr", gap: viewport.cardGap, marginBottom: 18 }}>
           <div style={{ opacity: entered ? 1 : 0, transform: entered ? "translateY(0)" : "translateY(20px)", transition: "all 0.6s ease" }}>
             <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 3, color: topic.colorLight, fontFamily: T.fontDisplay, marginBottom: 8 }}>{topic.eyebrow || "Service Platform"}</div>
-            <h1 style={{ fontFamily: T.fontDisplay, fontSize: 42, color: T.text, margin: "0 0 10px", lineHeight: 1.06 }}>{topic.title}</h1>
-            <p style={{ fontSize: 16, color: topic.colorLight, fontStyle: "italic", lineHeight: 1.5, margin: "0 0 14px" }}>{topic.subtitle}</p>
-            {topic.summary && <p style={{ fontSize: 15, color: T.textMuted, lineHeight: 1.7, margin: "0 0 18px" }}>{topic.summary}</p>}
+            <h1 style={{ fontFamily: T.fontDisplay, fontSize: viewport.titleSize, color: T.text, margin: "0 0 10px", lineHeight: 1.06 }}>{topic.title}</h1>
+            <p style={{ fontSize: viewport.subtitleSize, color: topic.colorLight, fontStyle: "italic", lineHeight: 1.5, margin: "0 0 14px" }}>{topic.subtitle}</p>
+            {topic.summary && <p style={{ fontSize: viewport.bodySize, color: T.textMuted, lineHeight: 1.7, margin: "0 0 18px" }}>{topic.summary}</p>}
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 18 }}>
               {topic.heroPoints.map((point) => (
                 <span key={point} style={{ padding: "7px 12px", borderRadius: C.pillRadius, background: `${topic.color}12`, border: `1px solid ${topic.color}24`, fontSize: 12, color: T.text }}>{point}</span>
               ))}
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 12 }}>
+            <div style={{ display: "grid", gridTemplateColumns: viewport.isPhone ? "1fr" : "repeat(2, minmax(0, 1fr))", gap: 12 }}>
               {topic.capabilities.map((capability, index) => (
                 <div key={`${capability.title}-${index}`} style={{ background: T.bgCard, borderRadius: C.innerRadius, padding: "14px 16px", borderLeft: `${C.accentBarHeight}px solid ${topic.color}`, opacity: entered ? 1 : 0, transform: entered ? "translateX(0)" : "translateX(-14px)", transition: `all 0.45s ${0.18 + index * 0.08}s ease` }}>
                   <div style={{ fontFamily: T.fontDisplay, fontSize: 17, color: T.text, marginBottom: 6 }}>{capability.title}</div>
@@ -80,9 +82,9 @@ function ProcessLanesLayout({ topic, onBack }) {
           </div>
         </div>
         {topic.talkingPoints?.length > 0 && (
-          <div style={{ background: T.bgCard, borderRadius: 14, padding: "16px 18px", borderLeft: `4px solid ${topic.color}`, marginBottom: 14 }}>
+          <div style={{ background: T.bgCard, borderRadius: 14, padding: viewport.isPhone ? "14px 14px" : "16px 18px", borderLeft: `4px solid ${topic.color}`, marginBottom: 14 }}>
             <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 2.5, color: topic.colorLight, fontFamily: T.fontDisplay, marginBottom: 8 }}>Talking Points</div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 10 }}>
+            <div style={{ display: "grid", gridTemplateColumns: viewport.isPhone ? "1fr" : "repeat(2, minmax(0, 1fr))", gap: 10 }}>
               {topic.talkingPoints.map((point, index) => (
                 <div key={`${point}-${index}`} style={{ fontSize: 13, color: T.textMuted, lineHeight: 1.6 }}>{point}</div>
               ))}

@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useTheme } from "../../components/hooks/useTheme.js";
 import { useChrome } from "../../components/hooks/useChrome.js";
+import { usePresentationViewport } from "../../components/hooks/usePresentationViewport.js";
 import BackBtn from "../../components/navigation/BackBtn.jsx";
 import SectionHeader from "../../components/compound/SectionHeader.jsx";
 import Particles from "../../components/animations/Particles.jsx";
@@ -15,6 +16,7 @@ import Particles from "../../components/animations/Particles.jsx";
 export function ChecklistLayout({ topic, onBack }) {
   const T = useTheme();
   const C = useChrome();
+  const viewport = usePresentationViewport();
   const [entered, setEntered] = useState(false);
   useEffect(() => { const t = setTimeout(() => setEntered(true), 60); return () => clearTimeout(t); }, []);
   const Item = ({ item, delay }) => (
@@ -27,12 +29,12 @@ export function ChecklistLayout({ topic, onBack }) {
     </div>
   );
   return (
-    <div style={{ position: "relative", minHeight: "100vh", background: T.bg, overflow: "hidden" }}>
+    <div style={{ position: "relative", minHeight: "100dvh", background: T.bg, overflowX: "hidden", overflowY: viewport.overlayScroll }}>
       <Particles color={topic.color} active={entered} />
-      <div style={{ position: "relative", zIndex: 2, maxWidth: 1100, margin: "0 auto", padding: "36px 32px" }}>
+      <div style={{ position: "relative", zIndex: 2, maxWidth: 1100, margin: "0 auto", padding: `${viewport.pagePaddingTop}px ${viewport.pagePaddingX}px ${viewport.pagePaddingBottom}px` }}>
         <BackBtn onClick={onBack} />
         <SectionHeader topic={topic} entered={entered} />
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+        <div style={{ display: "grid", gridTemplateColumns: viewport.isCompact ? "1fr" : "1fr 1fr", gap: viewport.cardGap }}>
           <div>
             <div style={{ fontSize: 10, fontFamily: T.fontDisplay, fontWeight: C.headingWeight, color: T.success, letterSpacing: 2.5, textTransform: "uppercase", marginBottom: 12 }}>Approved</div>
             {(topic.approved || []).map((item, i) => <Item key={i} item={item} delay={0.15 + i * 0.06} />)}

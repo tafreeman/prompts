@@ -9,15 +9,17 @@ import PropTypes from "prop-types";
 
 import { useTheme } from "../hooks/useTheme.js";
 import { useChrome } from "../hooks/useChrome.js";
+import { usePresentationViewport } from "../hooks/usePresentationViewport.js";
 
 function SectionHeader({ topic, entered }) {
   const T = useTheme();
   const C = useChrome();
+  const viewport = usePresentationViewport();
 
   return (
     <div
       style={{
-        marginBottom: 28,
+        marginBottom: viewport.isPhone ? 22 : 28,
         opacity: entered ? 1 : 0,
         transform: entered ? "none" : "translateY(20px)",
         transition: "all 0.7s cubic-bezier(0.22,1,0.36,1)",
@@ -26,14 +28,14 @@ function SectionHeader({ topic, entered }) {
       <div
         style={{
           display: "flex",
-          alignItems: "center",
-          gap: 14,
+          alignItems: viewport.isPhone ? "flex-start" : "center",
+          gap: viewport.isPhone ? 10 : 14,
           marginBottom: 6,
         }}
       >
         <div
           style={{
-            fontSize: 32,
+            fontSize: viewport.isPhone ? 26 : 32,
             filter: C.useGlow
               ? `drop-shadow(0 0 10px ${topic.colorGlow})`
               : "none",
@@ -57,7 +59,7 @@ function SectionHeader({ topic, entered }) {
           <h1
             style={{
               fontFamily: T.fontDisplay,
-              fontSize: 32,
+              fontSize: viewport.sectionTitleSize,
               fontWeight: C.headingWeight,
               color: T.text,
               margin: 0,
@@ -71,11 +73,11 @@ function SectionHeader({ topic, entered }) {
       {topic.subtitle && (
         <p
           style={{
-            fontSize: 14,
+            fontSize: viewport.isPhone ? 13 : 14,
             color: topic.colorLight || T.textMuted,
             fontStyle: "italic",
             margin: "0 0 4px",
-            paddingLeft: 46,
+            paddingLeft: viewport.isPhone ? 0 : 46,
           }}
         >
           {topic.subtitle}

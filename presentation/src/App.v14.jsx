@@ -29,6 +29,7 @@ import { STYLE_MODES, STYLE_MODES_BY_ID } from "./tokens/style-modes.js";
 
 // ── Design-system context (extracted) ─────────────────────────────────────
 import { ThemeContext, ChromeContext } from "./components/context/index.js";
+import { usePresentationViewport } from "./components/hooks/index.js";
 
 // ── Extracted components ──────────────────────────────────────────────────
 import { CometTransition, ThematicIntro } from "./components/animations/index.js";
@@ -608,6 +609,7 @@ function transcribeTopic(topic, targetFamily) {
 // ═════════════════════════════════════════════════════════════════════
 
 export default function App() {
+  const viewport = usePresentationViewport();
   const [deckKey, setDeckKey] = useState(getInitialDeckKey);
   const deck = DECKS[deckKey] || CURRENT_DECK;
   const [theme, setTheme] = useState(() => deck.id === "current" ? null : (THEMES_BY_ID[deck.themeId] || null));
@@ -683,31 +685,45 @@ export default function App() {
   return (
     <ThemeContext.Provider value={T}>
     <ChromeContext.Provider value={chrome}>
-    <div style={{ fontFamily: T.fontBody, minHeight: "100vh", background: T.bg, opacity: (transitioning && !comet.active) ? 0 : 1, transition: "opacity 0.35s ease" }}>
+    <div style={{ fontFamily: T.fontBody, minHeight: "100dvh", background: T.bg, opacity: (transitioning && !comet.active) ? 0 : 1, transition: "opacity 0.35s ease", overflowY: viewport.overlayScroll }}>
       <link href={T.fontsUrl} rel="stylesheet" />
       <CometTransition from={comet.from} color={comet.color} active={comet.active} onDone={handleCometDone} />
       {!introDone && <ThematicIntro deck={introDeck} onComplete={() => setIntroDone(true)} />}
       {!active && introDone && (
-        <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "40px 48px", opacity: comet.active ? 0 : 1, transition: "opacity 0.4s ease" }}>
-          <div style={{ marginBottom: 32 }}>
+        <div style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", padding: `${viewport.pagePaddingTop}px ${viewport.pagePaddingX}px ${viewport.pagePaddingBottom}px`, opacity: comet.active ? 0 : 1, transition: "opacity 0.4s ease" }}>
+          <div style={{ marginBottom: viewport.isPhone ? 24 : 32 }}>
             <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 3, color: T.textDim, fontFamily: T.fontDisplay, fontWeight: 500, marginBottom: 10 }}>{deck.brandLine}</div>
-            <h1 style={{ fontFamily: T.fontDisplay, fontSize: 44, fontWeight: chrome.headingWeight, color: T.text, margin: "0 0 10px", letterSpacing: -1, lineHeight: 1.05, textTransform: chrome.headingTransform }}>
+            <h1 style={{ fontFamily: T.fontDisplay, fontSize: viewport.heroTitleSize, fontWeight: chrome.headingWeight, color: T.text, margin: "0 0 10px", letterSpacing: -1, lineHeight: 1.05, textTransform: chrome.headingTransform }}>
               {deck.title}<br /><span style={{ background: `linear-gradient(90deg,${T.gradient[0]},${T.gradient[1]})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>{deck.titleAccent}</span>
             </h1>
-            <p style={{ fontSize: 15, color: T.textDim, margin: 0, maxWidth: 600 }}>{deck.tagline}</p>
+            <p style={{ fontSize: viewport.bodySize, color: T.textDim, margin: 0, maxWidth: viewport.isPhone ? "100%" : 600 }}>{deck.tagline}</p>
           </div>
-          <div style={{ display: "flex", gap: 18, flexWrap: "wrap" }}>
-            {deckTopics.map((t) => <LandingTile key={t.id} topic={t} onClick={handleSelect} hovered={hovered} onHover={setHovered} />)}
+          <div style={{ display: "grid", gridTemplateColumns: viewport.isPhone ? "1fr" : viewport.isCompact ? "1fr 1fr" : "repeat(4, minmax(0, 1fr))", gap: viewport.cardGap }}>
+            {deckTopics.map((t) => (
+              <LandingTile
+                key={t.id}
+                title={t.title}
+                subtitle={t.subtitle}
+                icon={t.icon}
+                num={t.num}
+                color={t.color}
+                colorLight={t.colorLight}
+                colorGlow={t.colorGlow}
+                onClick={(pos) => handleSelect(t.id, pos)}
+                hovered={hovered === t.id}
+                onHover={(isHovered) => setHovered(isHovered ? t.id : null)}
+              />
+            ))}
           </div>
 
           {/* ── Footer: stats + pickers ── */}
-          <div style={{ display: "flex", gap: 24, marginTop: 32, paddingTop: 20, borderTop: `1px solid ${T.border || "rgba(255,255,255,0.06)"}`, flexWrap: "wrap", justifyContent: "space-between", alignItems: "center" }}>
-            <div style={{ display: "flex", gap: 36, flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: viewport.isPhone ? 16 : 24, marginTop: viewport.isPhone ? 24 : 32, paddingTop: 20, borderTop: `1px solid ${T.border || "rgba(255,255,255,0.06)"}`, flexWrap: "wrap", justifyContent: "space-between", alignItems: "center" }}>
+            <div style={{ display: "grid", gridTemplateColumns: viewport.isPhone ? "1fr 1fr" : "repeat(3, minmax(0, max-content))", gap: viewport.isPhone ? 12 : 36, width: viewport.isPhone ? "100%" : "auto" }}>
               {deck.stats.map((s) => (
                 <div key={`${s.lbl}-${s.val}`}><div style={{ fontFamily: T.fontDisplay, fontSize: 22, fontWeight: 700, color: T.accent }}>{s.val}</div><div style={{ fontSize: 10, color: T.textDim, textTransform: "uppercase", letterSpacing: 0.8 }}>{s.lbl}</div></div>
               ))}
             </div>
-            <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+            <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", width: viewport.isPhone ? "100%" : "auto" }}>
               {/* Deck picker */}
               {Object.keys(DECKS).length > 1 && (
                 <div style={{ display: "flex", gap: 4 }}>
@@ -776,4 +792,3 @@ export default function App() {
 }
 
 App.displayName = "AppV14";
-
