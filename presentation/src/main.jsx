@@ -6,6 +6,7 @@ const VARIANTS = {
   v10:   { label: 'v10 — Original',   load: () => import('../genai_advocacy_hub_10.jsx') },
   v10_2: { label: 'v10.2 — Enhanced',  load: () => import('../genai_advocacy_hub_10_v2.0.jsx') },
   v13:   { label: 'v13 — Latest',     load: () => import('../genai_advocacy_hub_13.jsx') },
+  v14:   { label: 'v14 — Registry',   load: () => import('./App.v14.jsx') },
 };
 
 const DEFAULT_KEY = 'v13';
