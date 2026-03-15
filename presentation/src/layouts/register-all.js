@@ -22,3 +22,5 @@ import "./sprint/register.js";
 import "./onboarding/register.js";
 import "./handbook/register.js";
 import "./engineering/register.js";
+import "./advocacy/register.js";
+import "./advocacy-dense/register.js";

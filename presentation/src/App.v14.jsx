@@ -11,7 +11,7 @@
  * verbatim from the monolith — they are data/logic, not renderers.
  */
 
-import React, { useState, useMemo, useCallback, useRef } from "react";
+import React, { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import PropTypes from "prop-types";
 
 // ── Content imports ────────────────────────────────────────────────────────
@@ -35,7 +35,7 @@ import { usePresentationViewport } from "./components/hooks/index.js";
 // ── Extracted components ──────────────────────────────────────────────────
 import { CometTransition, ThematicIntro } from "./components/animations/index.js";
 import { LandingTile } from "./components/cards/index.js";
-import { ThemeSelector } from "./components/navigation/index.js";
+import { ControlPanel, OptionalDeckLink } from "./components/navigation/index.js";
 
 // ── Layout registry: side-effect import registers all 26 layouts ───────────
 import "./layouts/register-all.js";
@@ -180,7 +180,7 @@ const SPRINT_NODE_ICONS = {
 
 function getInitialDeckKey() {
   const param = new URLSearchParams(globalThis.window?.location?.search ?? "").get("deck");
-  return param || "current";
+  return param || "onboarding";
 }
 
 function padTopicNumber(index) {
@@ -466,6 +466,13 @@ const DECKS = {
 const BASE_LAYOUTS = new Set(["two-col","stat-cards","before-after","process-cycle","h-strip","process-lanes"]);
 const VERGE_LAYOUTS = new Set(["stat-hero","quote-collage","badge-grid","data-table","bar-chart","color-blocks"]);
 const HANDBOOK_LAYOUTS = new Set(["hb-chapter","hb-practices","hb-process","hb-manifesto","hb-index"]);
+const ADV_LAYOUTS = new Set(["adv-overview","adv-stats","adv-hurdles","adv-future","adv-platform"]);
+const ADVD_LAYOUTS = new Set(["advd-overview","advd-stats","advd-hurdles","advd-future","advd-platform"]);
+
+const HERO_IMAGE_DEFAULT = new URL(
+  "./content/img/capabilities-deck-from-studio-freight (Large).png",
+  import.meta.url,
+).href;
 
 function transcribeToBase(topic) {
   switch (topic.layout) {
@@ -625,10 +632,60 @@ function transcribeToHandbook(topic) {
   }
 }
 
+function transcribeToAdvocacy(topic) {
+  switch (topic.layout) {
+    case "info-cards": return {
+      ...topic, layout: "adv-stats",
+      thesis: topic.banner,
+      cards: topic.cards.map(c => ({
+        title: c.title, body: c.body,
+        step: c.stat, eyebrow: c.statLabel,
+        marker: c.icon || "○",
+      })),
+    };
+    case "checklist": return {
+      ...topic, layout: "adv-overview",
+      heroPoints: (topic.approved || []).map(i => i.title),
+      cards: (topic.approved || []).map(i => ({ title: i.title, body: i.desc })),
+      talkingPoints: (topic.forbidden || []).map(i => `${i.icon} ${i.title}`),
+    };
+    case "workflow": return {
+      ...topic, layout: "adv-hurdles",
+      cards: (topic.steps || []).map(s => ({
+        title: s.title,
+        challenge: s.body,
+        fix: s.tip || (s.type === "ai" ? "AI-assisted" : "Human review"),
+      })),
+    };
+    case "pillars": return {
+      ...topic, layout: "adv-platform",
+      capabilities: (topic.pillars || []).flatMap(p => (p.items || []).map(i => ({
+        icon: p.icon || "●", title: i, body: "",
+      }))),
+      focusPanels: (topic.results || []).map(r => ({ label: r.val, title: r.label, body: "" })),
+    };
+    case "catalog": return {
+      ...topic, layout: "adv-future",
+      cards: (topic.categories || []).slice(0, 4).map(c => ({
+        title: c.title,
+        body: (c.items || []).slice(0, 3).map(i => i.label || i).join(" · "),
+      })),
+    };
+    default: return topic;
+  }
+}
+
+function transcribeToAdvocacyDense(topic) {
+  const base = transcribeToAdvocacy(topic);
+  return { ...base, layout: base.layout.replace("adv-", "advd-") };
+}
+
 function transcribeTopic(topic, targetFamily) {
   if (targetFamily === "base" && !BASE_LAYOUTS.has(topic.layout)) return transcribeToBase(topic);
   if (targetFamily === "verge" && !VERGE_LAYOUTS.has(topic.layout)) return transcribeToVerge(topic);
   if (targetFamily === "handbook" && !HANDBOOK_LAYOUTS.has(topic.layout)) return transcribeToHandbook(topic);
+  if (targetFamily === "advocacy" && !ADV_LAYOUTS.has(topic.layout)) return transcribeToAdvocacy(topic);
+  if (targetFamily === "advocacy-dense" && !ADVD_LAYOUTS.has(topic.layout)) return transcribeToAdvocacyDense(topic);
   return topic;
 }
 
@@ -640,16 +697,26 @@ export default function App() {
   const viewport = usePresentationViewport();
   const [deckKey, setDeckKey] = useState(getInitialDeckKey);
   const deck = DECKS[deckKey] || CURRENT_DECK;
-  const [theme, setTheme] = useState(() => deck.id === "current" ? null : (THEMES_BY_ID[deck.themeId] || null));
+  const [theme, setTheme] = useState(() => THEMES_BY_ID[deck.themeId] || THEMES[0]);
   const [themeManual, setThemeManual] = useState(false);
   const [renderFamily, setRenderFamily] = useState("native");
   const [styleModeId, setStyleModeId] = useState("default");
   const chrome = STYLE_MODES_BY_ID[styleModeId];
-  const [introDone, setIntroDone] = useState(false);
+  const [animOptions, setAnimOptions] = useState({ intro: false, comet: false });
+  const [heroImage, setHeroImage] = useState(HERO_IMAGE_DEFAULT);
+  const [heroImageEnabled, setHeroImageEnabled] = useState(true);
+  const [slideViewMode, setSlideViewMode] = useState("native");
+  const [introDone, setIntroDone] = useState(true);
   const [active, setActive] = useState(null);
   const [transitioning, setTransitioning] = useState(false);
   const [hovered, setHovered] = useState(null);
   const [comet, setComet] = useState({ active: false, from: null, color: null, targetId: null });
+
+  // Gate intro animation — skip when disabled, re-queue when enabled
+  useEffect(() => {
+    if (!animOptions.intro) setIntroDone(true);
+    else setIntroDone(false);
+  }, [animOptions.intro]);
 
   // ── Theme-adaptive color resolution + optional layout transcription ──
   const deckTopics = useMemo(() => {
@@ -675,7 +742,8 @@ export default function App() {
   const switchDeck = (key) => {
     setDeckKey(key);
     setActive(null);
-    setIntroDone(false);
+    setSlideViewMode("native");
+    setIntroDone(!animOptions.intro);
     if (!themeManual) {
       const nextDeck = DECKS[key] || CURRENT_DECK;
       const suggested = THEMES_BY_ID[nextDeck.themeId];
@@ -691,6 +759,11 @@ export default function App() {
 
   const handleSelect = (id, pos) => {
     const topic = deckTopics.find((t) => t.id === id);
+    setSlideViewMode("native");
+    if (!animOptions.comet) {
+      setActive(id);
+      return;
+    }
     setTransitioning(true);
     setComet({ active: true, from: pos, color: topic.color, targetId: id });
   };
@@ -701,11 +774,16 @@ export default function App() {
     setComet({ active: false, from: null, color: null, targetId: null });
     setTransitioning(false);
   }, []);
-  const handleBack = () => { setTransitioning(true); setTimeout(() => { setActive(null); setTransitioning(false); }, 350); };
+  const handleBack = () => { setSlideViewMode("native"); setTransitioning(true); setTimeout(() => { setActive(null); setTransitioning(false); }, 350); };
   const activeTopic = deckTopics.find((t) => t.id === active);
 
-  // Theme selector gate
-  if (!theme) return <ThemeSelector onSelect={(t) => setTheme(t)} />;
+  // Per-slide one-pager toggle: transcribe active topic when in onepager mode
+  const effectiveTopic = useMemo(() => {
+    if (!activeTopic || slideViewMode === "native") return activeTopic;
+    return transcribeTopic(activeTopic, "onboarding");
+  }, [activeTopic, slideViewMode]);
+
+  const hasOnepagerView = activeTopic && !["op-brief", "op-flow"].includes(activeTopic.layout);
 
   const T = theme;
   const introDeck = { ...deck, introStats };
@@ -716,103 +794,110 @@ export default function App() {
     <div style={{ fontFamily: T.fontBody, minHeight: "100dvh", background: T.bg, opacity: (transitioning && !comet.active) ? 0 : 1, transition: "opacity 0.35s ease", overflowY: viewport.overlayScroll }}>
       <link href={T.fontsUrl} rel="stylesheet" />
       <CometTransition from={comet.from} color={comet.color} active={comet.active} onDone={handleCometDone} />
-      {!introDone && <ThematicIntro deck={introDeck} onComplete={() => setIntroDone(true)} />}
+      {!introDone && animOptions.intro && <ThematicIntro deck={introDeck} onComplete={() => setIntroDone(true)} />}
       {!active && introDone && (
-        <div style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", padding: `${viewport.pagePaddingTop}px ${viewport.pagePaddingX}px ${viewport.pagePaddingBottom}px`, opacity: comet.active ? 0 : 1, transition: "opacity 0.4s ease" }}>
-          <div style={{ marginBottom: viewport.isPhone ? 24 : 32 }}>
-            <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 3, color: T.textDim, fontFamily: T.fontDisplay, fontWeight: 500, marginBottom: 10 }}>{deck.brandLine}</div>
-            <h1 style={{ fontFamily: T.fontDisplay, fontSize: viewport.heroTitleSize, fontWeight: chrome.headingWeight, color: T.text, margin: "0 0 10px", letterSpacing: -1, lineHeight: 1.05, textTransform: chrome.headingTransform }}>
-              {deck.title}<br /><span style={{ background: `linear-gradient(90deg,${T.gradient[0]},${T.gradient[1]})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>{deck.titleAccent}</span>
-            </h1>
-            <p style={{ fontSize: viewport.bodySize, color: T.textDim, margin: 0, maxWidth: viewport.isPhone ? "100%" : 600 }}>{deck.tagline}</p>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: viewport.isPhone ? "1fr" : viewport.isCompact ? "1fr 1fr" : "repeat(4, minmax(0, 1fr))", gap: viewport.cardGap }}>
-            {deckTopics.map((t) => (
-              <LandingTile
-                key={t.id}
-                title={t.title}
-                subtitle={t.subtitle}
-                icon={t.icon}
-                num={t.num}
-                color={t.color}
-                colorLight={t.colorLight}
-                colorGlow={t.colorGlow}
-                onClick={(pos) => handleSelect(t.id, pos)}
-                hovered={hovered === t.id}
-                onHover={(isHovered) => setHovered(isHovered ? t.id : null)}
-              />
-            ))}
-          </div>
-
-          {/* ── Footer: stats + pickers ── */}
-          <div style={{ display: "flex", gap: viewport.isPhone ? 16 : 24, marginTop: viewport.isPhone ? 24 : 32, paddingTop: 20, borderTop: `1px solid ${T.border || "rgba(255,255,255,0.06)"}`, flexWrap: "wrap", justifyContent: "space-between", alignItems: "center" }}>
-            <div style={{ display: "grid", gridTemplateColumns: viewport.isPhone ? "1fr 1fr" : "repeat(3, minmax(0, max-content))", gap: viewport.isPhone ? 12 : 36, width: viewport.isPhone ? "100%" : "auto" }}>
-              {deck.stats.map((s) => (
-                <div key={`${s.lbl}-${s.val}`}><div style={{ fontFamily: T.fontDisplay, fontSize: 22, fontWeight: 700, color: T.accent }}>{s.val}</div><div style={{ fontSize: 10, color: T.textDim, textTransform: "uppercase", letterSpacing: 0.8 }}>{s.lbl}</div></div>
+        <div style={{ position: "relative", minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", padding: `${viewport.pagePaddingTop}px ${viewport.pagePaddingX}px ${viewport.pagePaddingBottom}px`, opacity: comet.active ? 0 : 1, transition: "opacity 0.4s ease" }}>
+          {/* Hero background image layer */}
+          {heroImageEnabled && heroImage && (
+            <div style={{ position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none", backgroundImage: `url("${heroImage}")`, backgroundSize: "cover", backgroundPosition: "center", backgroundAttachment: "fixed", opacity: 0.22, borderRadius: "inherit" }} />
+          )}
+          <div style={{ position: "relative", zIndex: 1 }}>
+            <div style={{ marginBottom: viewport.isPhone ? 24 : 32 }}>
+              <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 3, color: T.textDim, fontFamily: T.fontDisplay, fontWeight: 500, marginBottom: 10 }}>{deck.brandLine}</div>
+              <h1 style={{ fontFamily: T.fontDisplay, fontSize: viewport.heroTitleSize, fontWeight: chrome.headingWeight, color: T.text, margin: "0 0 10px", letterSpacing: -1, lineHeight: 1.05, textTransform: chrome.headingTransform }}>
+                {deck.title}<br /><span style={{ background: `linear-gradient(90deg,${T.gradient[0]},${T.gradient[1]})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>{deck.titleAccent}</span>
+              </h1>
+              <p style={{ fontSize: viewport.bodySize, color: T.textDim, margin: 0, maxWidth: viewport.isPhone ? "100%" : 600 }}>{deck.tagline}</p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: viewport.isPhone ? "1fr" : viewport.isCompact ? "1fr 1fr" : "repeat(4, minmax(0, 1fr))", gap: viewport.cardGap }}>
+              {deckTopics.map((t) => (
+                <LandingTile
+                  key={t.id}
+                  title={t.title}
+                  subtitle={t.subtitle}
+                  icon={t.icon}
+                  num={t.num}
+                  color={t.color}
+                  colorLight={t.colorLight}
+                  colorGlow={t.colorGlow}
+                  onClick={(pos) => handleSelect(t.id, pos)}
+                  hovered={hovered === t.id}
+                  onHover={(isHovered) => setHovered(isHovered ? t.id : null)}
+                />
               ))}
             </div>
-            <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", width: viewport.isPhone ? "100%" : "auto" }}>
-              {/* Deck picker */}
-              {Object.keys(DECKS).length > 1 && (
-                <div style={{ display: "flex", gap: 4 }}>
-                  {Object.entries(DECKS).map(([key, d]) => (
-                    <button key={key} onClick={() => switchDeck(key)} style={{
-                      background: key === deckKey ? `${T.accent}20` : T.bgCard,
-                      border: `1px solid ${key === deckKey ? T.accent : T.textDim + "30"}`,
-                      borderRadius: chrome.pillRadius, padding: "5px 12px", fontSize: 10,
-                      color: key === deckKey ? T.accent : T.textDim, cursor: "pointer",
-                      fontFamily: T.fontBody, textTransform: "uppercase", letterSpacing: 0.8,
-                    }}>{d.title} {d.titleAccent}</button>
-                  ))}
-                </div>
-              )}
-              {/* Layout family transcription (shown when deck has non-base or handbook layouts) */}
-              {(deckHasNonBaseLayouts || deckHasHandbookLayouts) && (
-                <div style={{ display: "flex", gap: 4 }}>
-                  {[["native","Native"],["base","Base Style"],["verge","Verge Style"],["handbook","Handbook Style"]].map(([fam, label]) => (
-                    <button key={fam} onClick={() => setRenderFamily(fam)} style={{
-                      background: fam === renderFamily ? `${T.accent}20` : T.bgCard,
-                      border: `1px solid ${fam === renderFamily ? T.accent : T.textDim+"30"}`,
-                      borderRadius: chrome.pillRadius, padding: "5px 10px", fontSize: 10,
-                      color: fam === renderFamily ? T.accent : T.textDim, cursor: "pointer",
-                      fontFamily: T.fontBody, textTransform: "uppercase", letterSpacing: 0.8,
-                    }}>{label}</button>
-                  ))}
-                </div>
-              )}
-              {/* Style mode picker */}
-              <div style={{ display: "flex", gap: 4 }}>
-                {STYLE_MODES.map((m) => (
-                  <button key={m.id} onClick={() => setStyleModeId(m.id)} style={{
-                    background: m.id === styleModeId ? `${T.accent}20` : T.bgCard,
-                    border: `1px solid ${m.id === styleModeId ? T.accent : T.textDim + "30"}`,
-                    borderRadius: chrome.pillRadius, padding: "5px 10px", fontSize: 10,
-                    color: m.id === styleModeId ? T.accent : T.textDim, cursor: "pointer",
-                    fontFamily: T.fontBody, textTransform: "uppercase", letterSpacing: 1,
-                  }}>{m.name}</button>
+            {/* Optional one-pager links */}
+            {deckTopics.filter(t => t.optional).map(t => (
+              <OptionalDeckLink
+                key={`opt-${t.id}`}
+                topic={t}
+                theme={T}
+                chrome={chrome}
+                onNavigate={(id, pos) => handleSelect(id, pos)}
+              />
+            ))}
+            {/* ── Footer: stats ── */}
+            <div style={{ marginTop: viewport.isPhone ? 24 : 32, paddingTop: 20, borderTop: `1px solid ${T.border || "rgba(255,255,255,0.06)"}` }}>
+              <div style={{ display: "grid", gridTemplateColumns: viewport.isPhone ? "1fr 1fr" : "repeat(3, minmax(0, max-content))", gap: viewport.isPhone ? 12 : 36 }}>
+                {deck.stats.map((s) => (
+                  <div key={`${s.lbl}-${s.val}`}><div style={{ fontFamily: T.fontDisplay, fontSize: 22, fontWeight: 700, color: T.accent }}>{s.val}</div><div style={{ fontSize: 10, color: T.textDim, textTransform: "uppercase", letterSpacing: 0.8 }}>{s.lbl}</div></div>
                 ))}
-              </div>
-              {/* Theme switch */}
-              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <button onClick={() => { setThemeManual(true); setTheme(null); }} style={{ background: T.bgCard, border: `1px solid ${themeManual ? T.accent+"60" : T.textDim+"30"}`, borderRadius: chrome.pillRadius, padding: "5px 14px", fontSize: 11, color: themeManual ? T.accent : T.textDim, cursor: "pointer", fontFamily: T.fontBody }}>{T.name} ✎</button>
-                {themeManual && (
-                  <button onClick={resetToDeckTheme} title="Reset to deck theme" style={{ background: "transparent", border: `1px solid ${T.textDim}30`, borderRadius: chrome.pillRadius, padding: "5px 8px", fontSize: 11, color: T.textDim, cursor: "pointer", fontFamily: T.fontBody }}>↺</button>
-                )}
               </div>
             </div>
           </div>
         </div>
       )}
+      {/* Per-slide one-pager toggle */}
+      {activeTopic && hasOnepagerView && (
+        <button
+          onClick={() => setSlideViewMode(v => v === "native" ? "onepager" : "native")}
+          style={{
+            position: "fixed", top: 16, right: 60, zIndex: 200,
+            background: slideViewMode === "onepager" ? `${T.accent}20` : T.bgCard,
+            border: `1px solid ${slideViewMode === "onepager" ? T.accent + "60" : T.textDim + "30"}`,
+            borderRadius: 999, padding: "5px 14px", fontSize: 10,
+            color: slideViewMode === "onepager" ? T.accent : T.textDim,
+            cursor: "pointer", fontFamily: T.fontBody, letterSpacing: 0.8,
+            textTransform: "uppercase",
+          }}
+        >
+          {slideViewMode === "onepager" ? "◉ One-Pager" : "◎ Slide"}
+        </button>
+      )}
       {/* Active slide — registry-dispatched (replaces 25-case switch) */}
-      {activeTopic && (
+      {effectiveTopic && (
         <LayoutRenderer
-          layout={activeTopic.layout}
-          slide={activeTopic}
+          layout={effectiveTopic.layout}
+          slide={effectiveTopic}
           themeId={deck.themeId}
           onBack={handleBack}
           nodes={deck.sprintNodes}
         />
       )}
+      {/* Floating design control panel */}
+      <ControlPanel
+        decks={DECKS}
+        deckKey={deckKey}
+        onDeckChange={switchDeck}
+        themes={THEMES}
+        theme={T}
+        onThemeChange={(t) => { setThemeManual(true); setTheme(t); }}
+        onThemeReset={resetToDeckTheme}
+        themeManual={themeManual}
+        deckThemeId={deck.themeId}
+        styleModes={STYLE_MODES}
+        styleModeId={styleModeId}
+        onStyleModeChange={setStyleModeId}
+        renderFamily={renderFamily}
+        onRenderFamilyChange={setRenderFamily}
+        showLayoutFamilies={deckHasNonBaseLayouts || deckHasHandbookLayouts}
+        animOptions={animOptions}
+        onAnimOptionsChange={setAnimOptions}
+        heroImage={heroImage}
+        heroImageEnabled={heroImageEnabled}
+        onHeroImageToggle={setHeroImageEnabled}
+        onHeroImageChange={setHeroImage}
+      />
     </div>
     </ChromeContext.Provider>
     </ThemeContext.Provider>
