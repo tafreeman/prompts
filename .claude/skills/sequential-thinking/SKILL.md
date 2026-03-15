@@ -80,9 +80,7 @@ The MCP tool `mcp__reasoning__sequentialthinking` accepts these parameters:
 
 ## Advanced Features
 
-For revision patterns, branching strategies, and complex workflows, see:
-- [Advanced Usage](references/advanced.md) - Revision and branching patterns
-- [Examples](references/examples.md) - Real-world use cases
+Revision patterns, branching strategies, and scope adjustments are built into the sequential thinking process. Use revision when assumptions prove incorrect, and branch when multiple approaches seem viable.
 
 ## Tips
 

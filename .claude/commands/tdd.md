@@ -49,208 +49,54 @@ REPEAT:   Next feature/scenario
 ## Example Usage
 
 ```
-User: /tdd I need a function to calculate market liquidity score
+User: /tdd I need a confidence index calculator for the research scoring engine
 
 Agent (tdd-guide):
-# TDD Session: Market Liquidity Score Calculator
+# TDD Session: Confidence Index Calculator
 
 ## Step 1: Define Interface (SCAFFOLD)
 
-```typescript
-// lib/liquidity.ts
-export interface MarketData {
-  totalVolume: number
-  bidAskSpread: number
-  activeTraders: number
-  lastTradeTime: Date
-}
+# rag/ci_calculator.py
+@dataclass(frozen=True)
+class DimensionScores:
+    coverage: float
+    source_quality: float
+    agreement: float
+    verification: float
+    recency: float
 
-export function calculateLiquidityScore(market: MarketData): number {
-  // TODO: Implementation
-  throw new Error('Not implemented')
-}
-```
+def compute_ci(scores: DimensionScores, weights: dict[str, float]) -> float:
+    raise NotImplementedError
 
 ## Step 2: Write Failing Test (RED)
 
-```typescript
-// lib/liquidity.test.ts
-import { calculateLiquidityScore } from './liquidity'
+# tests/test_ci_calculator.py
+def test_nominal_scores_pass_threshold():
+    scores = DimensionScores(0.90, 0.85, 0.80, 0.85, 0.80)
+    ci = compute_ci(scores, DEFAULT_WEIGHTS)
+    assert ci >= 0.80
 
-describe('calculateLiquidityScore', () => {
-  it('should return high score for liquid market', () => {
-    const market = {
-      totalVolume: 100000,
-      bidAskSpread: 0.01,
-      activeTraders: 500,
-      lastTradeTime: new Date()
-    }
+def test_zero_verification_fails():
+    scores = DimensionScores(0.95, 0.95, 0.90, 0.0, 0.95)
+    ci = compute_ci(scores, DEFAULT_WEIGHTS)
+    assert ci < 0.80  # must not compensate
 
-    const score = calculateLiquidityScore(market)
-
-    expect(score).toBeGreaterThan(80)
-    expect(score).toBeLessThanOrEqual(100)
-  })
-
-  it('should return low score for illiquid market', () => {
-    const market = {
-      totalVolume: 100,
-      bidAskSpread: 0.5,
-      activeTraders: 2,
-      lastTradeTime: new Date(Date.now() - 86400000) // 1 day ago
-    }
-
-    const score = calculateLiquidityScore(market)
-
-    expect(score).toBeLessThan(30)
-    expect(score).toBeGreaterThanOrEqual(0)
-  })
-
-  it('should handle edge case: zero volume', () => {
-    const market = {
-      totalVolume: 0,
-      bidAskSpread: 0,
-      activeTraders: 0,
-      lastTradeTime: new Date()
-    }
-
-    const score = calculateLiquidityScore(market)
-
-    expect(score).toBe(0)
-  })
-})
-```
+def test_all_zeros():
+    scores = DimensionScores(0.0, 0.0, 0.0, 0.0, 0.0)
+    assert compute_ci(scores, DEFAULT_WEIGHTS) == 0.0
 
 ## Step 3: Run Tests - Verify FAIL
 
-```bash
-npm test lib/liquidity.test.ts
+python -m pytest tests/test_ci_calculator.py -v
+FAILED - NotImplementedError
+3 failed, 0 passed
 
-FAIL lib/liquidity.test.ts
-  ✕ should return high score for liquid market (2 ms)
-    Error: Not implemented
+## Step 4: Implement (GREEN) → Step 5: Verify PASS → Step 6: Refactor
 
-1 test failed, 0 passed
-```
+## Step 7: Check Coverage
 
-✅ Tests fail as expected. Ready to implement.
-
-## Step 4: Implement Minimal Code (GREEN)
-
-```typescript
-// lib/liquidity.ts
-export function calculateLiquidityScore(market: MarketData): number {
-  // Handle zero volume edge case
-  if (market.totalVolume === 0) {
-    return 0
-  }
-
-  // Calculate component scores (0-100 scale)
-  const volumeScore = Math.min(market.totalVolume / 1000, 100)
-  const spreadScore = Math.max(100 - (market.bidAskSpread * 1000), 0)
-  const traderScore = Math.min(market.activeTraders / 10, 100)
-
-  // Recent activity bonus
-  const hoursSinceLastTrade = (Date.now() - market.lastTradeTime.getTime()) / (1000 * 60 * 60)
-  const recencyScore = Math.max(100 - (hoursSinceLastTrade * 10), 0)
-
-  // Weighted average
-  const score = (
-    volumeScore * 0.4 +
-    spreadScore * 0.3 +
-    traderScore * 0.2 +
-    recencyScore * 0.1
-  )
-
-  return Math.min(Math.max(score, 0), 100) // Clamp to 0-100
-}
-```
-
-## Step 5: Run Tests - Verify PASS
-
-```bash
-npm test lib/liquidity.test.ts
-
-PASS lib/liquidity.test.ts
-  ✓ should return high score for liquid market (3 ms)
-  ✓ should return low score for illiquid market (2 ms)
-  ✓ should handle edge case: zero volume (1 ms)
-
-3 tests passed
-```
-
-✅ All tests passing!
-
-## Step 6: Refactor (IMPROVE)
-
-```typescript
-// lib/liquidity.ts - Refactored with constants and better readability
-const WEIGHTS = {
-  VOLUME: 0.4,
-  SPREAD: 0.3,
-  TRADERS: 0.2,
-  RECENCY: 0.1,
-} as const
-
-const SCALE_FACTORS = {
-  VOLUME: 1000,
-  SPREAD: 1000,
-  TRADERS: 10,
-  RECENCY_PENALTY: 10,
-} as const
-
-function clamp(value: number, min: number, max: number): number {
-  return Math.min(Math.max(value, min), max)
-}
-
-export function calculateLiquidityScore(market: MarketData): number {
-  if (market.totalVolume === 0) return 0
-
-  const volumeScore = Math.min(market.totalVolume / SCALE_FACTORS.VOLUME, 100)
-  const spreadScore = clamp(100 - (market.bidAskSpread * SCALE_FACTORS.SPREAD), 0, 100)
-  const traderScore = Math.min(market.activeTraders / SCALE_FACTORS.TRADERS, 100)
-
-  const hoursSinceLastTrade = (Date.now() - market.lastTradeTime.getTime()) / (1000 * 60 * 60)
-  const recencyScore = clamp(100 - (hoursSinceLastTrade * SCALE_FACTORS.RECENCY_PENALTY), 0, 100)
-
-  const weightedScore =
-    volumeScore * WEIGHTS.VOLUME +
-    spreadScore * WEIGHTS.SPREAD +
-    traderScore * WEIGHTS.TRADERS +
-    recencyScore * WEIGHTS.RECENCY
-
-  return clamp(weightedScore, 0, 100)
-}
-```
-
-## Step 7: Verify Tests Still Pass
-
-```bash
-npm test lib/liquidity.test.ts
-
-PASS lib/liquidity.test.ts
-  ✓ should return high score for liquid market (3 ms)
-  ✓ should return low score for illiquid market (2 ms)
-  ✓ should handle edge case: zero volume (1 ms)
-
-3 tests passed
-```
-
-✅ Refactoring complete, tests still passing!
-
-## Step 8: Check Coverage
-
-```bash
-npm test -- --coverage lib/liquidity.test.ts
-
-File           | % Stmts | % Branch | % Funcs | % Lines
----------------|---------|----------|---------|--------
-liquidity.ts   |   100   |   100    |   100   |   100
-
-Coverage: 100% ✅ (Target: 80%)
-```
-
-✅ TDD session complete!
+python -m pytest tests/test_ci_calculator.py --cov=rag.ci_calculator
+Coverage: 100%
 ```
 
 ## TDD Best Practices
@@ -280,10 +126,9 @@ Coverage: 100% ✅ (Target: 80%)
 - Boundary values
 
 **Integration Tests** (Component-level):
-- API endpoints
-- Database operations
-- External service calls
-- React components with hooks
+- API endpoints (FastAPI routes)
+- Pipeline stages (RAG ingest → retrieve → assemble)
+- External service calls (LLM providers)
 
 **E2E Tests** (use `/e2e` command):
 - Critical user flows

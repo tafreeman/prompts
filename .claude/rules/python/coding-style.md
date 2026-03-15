@@ -37,6 +37,3 @@ class Point(NamedTuple):
 - **isort** for import sorting
 - **ruff** for linting
 
-## Reference
-
-See skill: `python-patterns` for comprehensive Python idioms and patterns.

@@ -32,19 +32,19 @@ Context engineering curates the smallest high-signal token set for LLM tasks. Th
 4. **Isolation prevents degradation** - Partition work across sub-agents
 5. **Measure before optimizing** - Know your baseline
 
-## Quick Reference
+## Topic Areas
 
-| Topic | When to Use | Reference |
-|-------|-------------|-----------|
-| **Fundamentals** | Understanding context anatomy, attention mechanics | [context-fundamentals.md](./references/context-fundamentals.md) |
-| **Degradation** | Debugging failures, lost-in-middle, poisoning | [context-degradation.md](./references/context-degradation.md) |
-| **Optimization** | Compaction, masking, caching, partitioning | [context-optimization.md](./references/context-optimization.md) |
-| **Compression** | Long sessions, summarization strategies | [context-compression.md](./references/context-compression.md) |
-| **Memory** | Cross-session persistence, knowledge graphs | [memory-systems.md](./references/memory-systems.md) |
-| **Multi-Agent** | Coordination patterns, context isolation | [multi-agent-patterns.md](./references/multi-agent-patterns.md) |
-| **Evaluation** | Testing agents, LLM-as-Judge, metrics | [evaluation.md](./references/evaluation.md) |
-| **Tool Design** | Tool consolidation, description engineering | [tool-design.md](./references/tool-design.md) |
-| **Pipelines** | Project development, batch processing | [project-development.md](./references/project-development.md) |
+| Topic | When to Use |
+|-------|-------------|
+| **Fundamentals** | Understanding context anatomy, attention mechanics |
+| **Degradation** | Debugging failures, lost-in-middle, poisoning |
+| **Optimization** | Compaction, masking, caching, partitioning |
+| **Compression** | Long sessions, summarization strategies |
+| **Memory** | Cross-session persistence, knowledge graphs |
+| **Multi-Agent** | Coordination patterns, context isolation |
+| **Evaluation** | Testing agents, LLM-as-Judge, metrics |
+| **Tool Design** | Tool consolidation, description engineering |
+| **Pipelines** | Project development, batch processing |
 
 ## Key Metrics
 
@@ -80,7 +80,3 @@ Context engineering curates the smallest high-signal token set for LLM tasks. Th
 7. Monitor KV-cache hit rates in production
 8. Start minimal, add complexity only when proven necessary
 
-## Scripts
-
-- [context_analyzer.py](./scripts/context_analyzer.py) - Context health analysis, degradation detection
-- [compression_evaluator.py](./scripts/compression_evaluator.py) - Compression quality evaluation

@@ -1,9 +1,12 @@
 # ADR Compiled Registry — agentic-workflows-v2
 
-> **Document type:** Canonical compiled ADR registry  
-> **Repo:** `tafreeman/prompts → agentic-workflows-v2`  
-> **Last validated:** 2026-02-22  
-> **ADR authors:** Opus (Claude) — ADR-001 through ADR-003  
+> **DEPRECATED (2026-03-15):** This file is stale — missing ADRs 009, 010, 011, 012.
+> Use **[ADR-INDEX.md](ADR-INDEX.md)** as the canonical ADR reference instead.
+
+> **Document type:** Compiled ADR registry (deprecated)
+> **Repo:** `tafreeman/prompts → agentic-workflows-v2`
+> **Last validated:** 2026-02-22
+> **ADR authors:** Opus (Claude) — ADR-001 through ADR-003
 > **Planned ADR program:** ADR-0004 through ADR-0023 (iteration-04 governance spec)
 > **Status:** ADR-001, ADR-002, ADR-003 — Accepted · ADR-007 — Proposed · ADR-008 — Proposed · ADR-0004 through ADR-0023 — Proposed (awaiting authoring)
 

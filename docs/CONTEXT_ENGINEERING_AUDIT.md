@@ -474,3 +474,30 @@ changelog-generator, code-review, context-engineering, debugging, langsmith-fetc
 ### Contexts (3)
 
 dev, research, review
+
+---
+
+## Remediation Log
+
+| Date | Issue | Action Taken | Status |
+|------|-------|-------------|--------|
+| 2026-03-15 | C-1: Worktree duplication | Deleted 3 worktrees + branches via `git worktree remove` + `git branch -D`. Git references pruned. 2 orphaned directories locked by other processes — require manual cleanup after closing sessions. | Done (git clean, dirs pending) |
+| 2026-03-15 | C-2: Broken skill references | Removed 9 missing `references/` links + 2 missing `scripts/` links from context-engineering SKILL.md. Removed 3 missing `references/` links from code-review SKILL.md. | Done |
+| 2026-03-15 | C-3: Stale ADR registry | Created `docs/adr/ADR-INDEX.md` with all 9 ADRs, lineage chains, implementation status. Added deprecation header to `ADR_COMPILED.md`. | Done |
+| 2026-03-15 | C-4: Overlapping instructions | Added Loading Hierarchy to `.claude/README.md`. Slimmed `/code-review` command to delegation-only. | Done |
+| 2026-03-15 | H-3: Bloated settings.local.json | Reduced from 87 to 31 pattern-based permissions. Removed PID-specific, path-specific, and stale MCP entries. | Done |
+| 2026-03-15 | H-4: Python rules broken refs | Removed `skill: python-patterns`, `skill: python-testing`, `skill: django-security` references. Fixed `hooks.md` extends reference. | Done |
+| 2026-03-15 | M-5: Command tech-stack mismatch | Replaced TypeScript/Node.js examples in `/plan` and `/tdd` with Python/pytest examples matching this project. | Done |
+| 2026-03-15 | Cherry-picks | Cherry-picked `1711be25` (CI integration job) and `07ecb4fb` (7 arch debt backlog items) from backlog-phase-3. Skipped `6ac26971` (already on main via PR #99). | Done |
+
+### Remaining Items (Phase 3 — deferred)
+
+| Issue | Status | Notes |
+|-------|--------|-------|
+| H-1: `.github/agents/` parallel system | Deferred | Requires decision on GitHub Copilot vs Claude Code agent strategy |
+| H-2: Worktree CLAUDE.md duplicate | Resolved | Worktrees deleted — no longer applies |
+| H-5: ADR numbering inconsistency | Deferred | Low impact — documented gap (004-006) in ADR-INDEX.md |
+| M-1: Research library orphaned content | Deferred | Needs research library audit |
+| M-2: Thin contexts | Deferred | Consider merging into presets in future |
+| M-3: MEMORY.md stale port note | Deferred | Auto-memory — will self-correct |
+| M-4: ADR supersession chain | Resolved | Documented in ADR-INDEX.md lineage chains |

@@ -25,6 +25,3 @@ api_key = os.environ["OPENAI_API_KEY"]  # Raises KeyError if missing
   bandit -r src/
   ```
 
-## Reference
-
-See skill: `django-security` for Django-specific security guidelines (if applicable).

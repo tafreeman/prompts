@@ -36,57 +36,45 @@ The planner agent will:
 ## Example Usage
 
 ```
-User: /plan I need to add real-time notifications when markets resolve
+User: /plan I need to add a BM25 keyword index to the RAG retrieval pipeline
 
 Agent (planner):
-# Implementation Plan: Real-Time Market Resolution Notifications
+# Implementation Plan: BM25 Keyword Index for RAG Pipeline
 
 ## Requirements Restatement
-- Send notifications to users when markets they're watching resolve
-- Support multiple notification channels (in-app, email, webhook)
-- Ensure notifications are delivered reliably
-- Include market outcome and user's position result
+- Add BM25-based keyword retrieval alongside existing vector search
+- Implement Reciprocal Rank Fusion (RRF) to merge results
+- Maintain backward compatibility with existing RAG tools
 
 ## Implementation Phases
 
-### Phase 1: Database Schema
-- Add notifications table with columns: id, user_id, market_id, type, status, created_at
-- Add user_notification_preferences table for channel preferences
-- Create indexes on user_id and market_id for performance
+### Phase 1: BM25 Index Protocol
+- Define `KeywordIndex(Protocol)` in `rag/protocols.py`
+- Implement `BM25Index` in `rag/keyword_index.py` with `add()` and `search()`
+- Add tokenization with stopword removal
 
-### Phase 2: Notification Service
-- Create notification service in lib/notifications.ts
-- Implement notification queue using BullMQ/Redis
-- Add retry logic for failed deliveries
-- Create notification templates
+### Phase 2: Hybrid Retriever
+- Create `HybridRetriever` in `rag/retrieval.py`
+- Implement RRF fusion: `score = sum(1 / (k + rank))` across both indexes
+- Accept configurable weights for vector vs. keyword
 
-### Phase 3: Integration Points
-- Hook into market resolution logic (when status changes to "resolved")
-- Query all users with positions in market
-- Enqueue notifications for each user
-
-### Phase 4: Frontend Components
-- Create NotificationBell component in header
-- Add NotificationList modal
-- Implement real-time updates via Supabase subscriptions
-- Add notification preferences page
+### Phase 3: Integration
+- Wire `BM25Index` into `RAGIngestTool` pipeline
+- Update `RAGSearchTool` to use `HybridRetriever`
+- Add configuration to `evaluation.yaml`
 
 ## Dependencies
-- Redis (for queue)
-- Email service (SendGrid/Resend)
-- Supabase real-time subscriptions
+- No new external packages (pure Python BM25)
+- Existing: `rag/protocols.py`, `rag/vectorstore.py`
 
 ## Risks
-- HIGH: Email deliverability (SPF/DKIM required)
-- MEDIUM: Performance with 1000+ users per market
-- MEDIUM: Notification spam if markets resolve frequently
-- LOW: Real-time subscription overhead
+- MEDIUM: BM25 rebuild on each ingest (accumulated docs vs. fresh index)
+- LOW: Token budget increase from dual-source retrieval
 
 ## Estimated Complexity: MEDIUM
-- Backend: 4-6 hours
-- Frontend: 3-4 hours
-- Testing: 2-3 hours
-- Total: 9-13 hours
+- Implementation: 4-5 hours
+- Testing: 3-4 hours (50+ tests)
+- Total: 7-9 hours
 
 **WAITING FOR CONFIRMATION**: Proceed with this plan? (yes/no/modify)
 ```

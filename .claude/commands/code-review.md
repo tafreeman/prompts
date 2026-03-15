@@ -1,40 +1,20 @@
 # Code Review
 
-Comprehensive security and quality review of uncommitted changes:
+Review uncommitted changes for security, quality, and correctness.
 
-1. Get changed files: git diff --name-only HEAD
+## Steps
 
-2. For each changed file, check for:
+1. Get changed files: `git diff --name-only HEAD`
+2. Dispatch the **code-reviewer** agent to analyze each file
+3. If Python files changed, also dispatch **security-reviewer** agent
+4. Report findings grouped by file, severity first (CRITICAL > HIGH > MEDIUM > LOW)
+5. Block commit if CRITICAL or HIGH issues found
 
-**Security Issues (CRITICAL):**
-- Hardcoded credentials, API keys, tokens
-- SQL injection vulnerabilities
-- XSS vulnerabilities  
-- Missing input validation
-- Insecure dependencies
-- Path traversal risks
+## Severity Rules
 
-**Code Quality (HIGH):**
-- Functions > 50 lines
-- Files > 800 lines
-- Nesting depth > 4 levels
-- Missing error handling
-- console.log statements
-- TODO/FIXME comments
-- Missing JSDoc for public APIs
+- **CRITICAL**: Security vulnerabilities (secrets, injection, auth bypass) — must fix
+- **HIGH**: Logic errors, missing error handling, >50-line functions — must fix
+- **MEDIUM**: Mutation patterns, missing tests, style issues — fix when possible
+- **LOW**: Minor suggestions — optional
 
-**Best Practices (MEDIUM):**
-- Mutation patterns (use immutable instead)
-- Emoji usage in code/comments
-- Missing tests for new code
-- Accessibility issues (a11y)
-
-3. Generate report with:
-   - Severity: CRITICAL, HIGH, MEDIUM, LOW
-   - File location and line numbers
-   - Issue description
-   - Suggested fix
-
-4. Block commit if CRITICAL or HIGH issues found
-
-Never approve code with security vulnerabilities!
+Detailed review criteria are defined in `rules/common/security.md` and `rules/common/coding-style.md`.

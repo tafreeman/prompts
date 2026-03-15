@@ -88,7 +88,6 @@ READ → UNDERSTAND → VERIFY → EVALUATE → RESPOND → IMPLEMENT
 - **Human partner:** Trusted - implement after understanding, no performative agreement
 - **External reviewers:** Verify technically correct, check for breakage, push back if wrong
 
-**Full protocol:** `references/code-review-reception.md`
 
 ## Requesting Review Protocol
 
@@ -102,7 +101,6 @@ READ → UNDERSTAND → VERIFY → EVALUATE → RESPOND → IMPLEMENT
 2. Dispatch code-reviewer subagent via Task tool with: WHAT_WAS_IMPLEMENTED, PLAN_OR_REQUIREMENTS, BASE_SHA, HEAD_SHA, DESCRIPTION
 3. Act on feedback: Fix Critical immediately, Important before proceeding, note Minor for later
 
-**Full protocol:** `references/requesting-code-review.md`
 
 ## Verification Gates Protocol
 
@@ -123,7 +121,6 @@ Skip any step = lying, not verifying
 ### Red Flags - STOP
 Using "should"/"probably"/"seems to", expressing satisfaction before verification, committing without verification, trusting agent reports, ANY wording implying success without running verification
 
-**Full protocol:** `references/verification-before-completion.md`
 
 ## Integration with Workflows
 
