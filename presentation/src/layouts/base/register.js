@@ -7,13 +7,13 @@
 
 import { layoutRegistry } from "../registry.ts";
 
-import TwoColLayout from "./TwoColLayout.jsx";
+import TwoColLayout from "./TwoColLayout.tsx";
 import StatCardsLayout, {
   ManifestStatCardsLayout,
-} from "./StatCardsLayout.jsx";
-import BeforeAfterLayout from "./BeforeAfterLayout.jsx";
-import HStripLayout from "./HStripLayout.jsx";
-import ProcessLanesLayout from "./ProcessLanesLayout.jsx";
+} from "./StatCardsLayout.tsx";
+import BeforeAfterLayout from "./BeforeAfterLayout.tsx";
+import HStripLayout from "./HStripLayout.tsx";
+import ProcessLanesLayout from "./ProcessLanesLayout.tsx";
 
 layoutRegistry.register("two-col", TwoColLayout);
 layoutRegistry.register("stat-cards", StatCardsLayout);

@@ -1,7 +1,7 @@
 import React from "react";
 import { OptionalDeckLink } from "../components/navigation/OptionalDeckLink.jsx";
-import { THEMES } from "../tokens/themes.js";
-import { STYLE_MODES_BY_ID } from "../tokens/style-modes.js";
+import { THEMES } from "../tokens/themes.ts";
+import { STYLE_MODES_BY_ID } from "../tokens/style-modes.ts";
 
 export default {
   title: "Navigation/OptionalDeckLink",

@@ -6,7 +6,7 @@
  */
 
 import { createContext } from "react";
-import { THEMES } from "../../tokens/themes.js";
+import { THEMES } from "../../tokens/themes.ts";
 
 export const ThemeContext = createContext(THEMES[0]);
 

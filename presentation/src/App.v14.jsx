@@ -24,9 +24,9 @@ import * as studio from "./content/studio/deck.js";
 import * as engineering from "./content/engineering/deck.js";
 
 // ── Token imports ─────────────────────────────────────────────────────────
-import { THEMES, THEMES_BY_ID } from "./tokens/themes.js";
-import { resolveTopicColors, resolveIntroStatColors } from "./tokens/palette.js";
-import { STYLE_MODES, STYLE_MODES_BY_ID } from "./tokens/style-modes.js";
+import { THEMES, THEMES_BY_ID } from "./tokens/themes.ts";
+import { resolveTopicColors, resolveIntroStatColors } from "./tokens/palette.ts";
+import { STYLE_MODES, STYLE_MODES_BY_ID } from "./tokens/style-modes.ts";
 
 // ── Design-system context (extracted) ─────────────────────────────────────
 import { ThemeContext, ChromeContext } from "./components/context/index.js";
@@ -39,7 +39,7 @@ import { ControlPanel, OptionalDeckLink } from "./components/navigation/index.js
 
 // ── Layout registry: side-effect import registers all 26 layouts ───────────
 import "./layouts/register-all.js";
-import { LayoutRenderer } from "./layouts/LayoutRenderer.jsx";
+import { LayoutRenderer } from "./layouts/LayoutRenderer.tsx";
 
 // ═════════════════════════════════════════════════════════════════════
 // STATIC DATA

@@ -1,6 +1,6 @@
 import React from "react";
 import { ThemeSelector } from "../../../components/navigation/ThemeSelector.jsx";
-import { action } from "@storybook/addon-actions";
+const action = (name) => (...args) => console.log(`[action] ${name}`, ...args);
 
 export default {
   title: "Navigation/ThemeSelector",

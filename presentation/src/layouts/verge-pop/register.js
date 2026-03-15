@@ -6,12 +6,12 @@
  */
 
 import { layoutRegistry } from "../registry.ts";
-import StatHeroLayout from "./StatHeroLayout.jsx";
-import QuoteCollageLayout from "./QuoteCollageLayout.jsx";
-import BadgeGridLayout from "./BadgeGridLayout.jsx";
-import DataTableLayout from "./DataTableLayout.jsx";
-import BarChartLayout from "./BarChartLayout.jsx";
-import ColorBlocksLayout from "./ColorBlocksLayout.jsx";
+import StatHeroLayout from "./StatHeroLayout.tsx";
+import QuoteCollageLayout from "./QuoteCollageLayout.tsx";
+import BadgeGridLayout from "./BadgeGridLayout.tsx";
+import DataTableLayout from "./DataTableLayout.tsx";
+import BarChartLayout from "./BarChartLayout.tsx";
+import ColorBlocksLayout from "./ColorBlocksLayout.tsx";
 
 layoutRegistry.register("stat-hero", StatHeroLayout);
 layoutRegistry.register("quote-collage", QuoteCollageLayout);

@@ -6,13 +6,13 @@
  */
 
 import { layoutRegistry } from "../registry.ts";
-import InfoCardsLayout from "./InfoCardsLayout.jsx";
-import ChecklistLayout from "./ChecklistLayout.jsx";
-import WorkflowLayout from "./WorkflowLayout.jsx";
-import PillarsLayout from "./PillarsLayout.jsx";
-import CatalogLayout from "./CatalogLayout.jsx";
-import OpBriefLayout from "./OpBriefLayout.jsx";
-import OpFlowLayout from "./OpFlowLayout.jsx";
+import InfoCardsLayout from "./InfoCardsLayout.tsx";
+import ChecklistLayout from "./ChecklistLayout.tsx";
+import WorkflowLayout from "./WorkflowLayout.tsx";
+import PillarsLayout from "./PillarsLayout.tsx";
+import CatalogLayout from "./CatalogLayout.tsx";
+import OpBriefLayout from "./OpBriefLayout.tsx";
+import OpFlowLayout from "./OpFlowLayout.tsx";
 
 layoutRegistry.register("info-cards", InfoCardsLayout);
 layoutRegistry.register("checklist", ChecklistLayout);

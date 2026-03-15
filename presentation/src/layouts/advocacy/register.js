@@ -6,11 +6,11 @@
  */
 
 import { layoutRegistry } from "../registry.ts";
-import { AdvOverviewLayout } from "./AdvOverviewLayout.jsx";
-import { AdvStatsLayout } from "./AdvStatsLayout.jsx";
-import { AdvHurdlesLayout } from "./AdvHurdlesLayout.jsx";
-import { AdvFutureLayout } from "./AdvFutureLayout.jsx";
-import { AdvPlatformLayout } from "./AdvPlatformLayout.jsx";
+import { AdvOverviewLayout } from "./AdvOverviewLayout.tsx";
+import { AdvStatsLayout } from "./AdvStatsLayout.tsx";
+import { AdvHurdlesLayout } from "./AdvHurdlesLayout.tsx";
+import { AdvFutureLayout } from "./AdvFutureLayout.tsx";
+import { AdvPlatformLayout } from "./AdvPlatformLayout.tsx";
 
 layoutRegistry.register("adv-overview", AdvOverviewLayout);
 layoutRegistry.register("adv-stats", AdvStatsLayout);

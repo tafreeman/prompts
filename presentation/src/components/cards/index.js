@@ -1,4 +1,4 @@
-export { default as StatCard } from "./StatCard.jsx";
-export { default as TopicCard } from "./TopicCard.jsx";
-export { default as LandingTile } from "./LandingTile.jsx";
-export { default as BeforeAfterPair } from "./BeforeAfterPair.jsx";
+export { default as StatCard } from "./StatCard.tsx";
+export { default as TopicCard } from "./TopicCard.tsx";
+export { default as LandingTile } from "./LandingTile.tsx";
+export { default as BeforeAfterPair } from "./BeforeAfterPair.tsx";

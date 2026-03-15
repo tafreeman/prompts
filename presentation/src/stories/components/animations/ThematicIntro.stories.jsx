@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ThematicIntro from "../../../components/animations/ThematicIntro.jsx";
-import { action } from "@storybook/addon-actions";
+const action = (name) => (...args) => console.log(`[action] ${name}`, ...args);
 
 export default {
   title: "Animations/ThematicIntro",

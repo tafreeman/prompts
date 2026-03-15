@@ -1,9 +1,9 @@
 import { layoutRegistry } from "../registry.ts";
-import { AdvdOverviewLayout } from "./AdvdOverviewLayout.jsx";
-import { AdvdStatsLayout } from "./AdvdStatsLayout.jsx";
-import { AdvdHurdlesLayout } from "./AdvdHurdlesLayout.jsx";
-import { AdvdFutureLayout } from "./AdvdFutureLayout.jsx";
-import { AdvdPlatformLayout } from "./AdvdPlatformLayout.jsx";
+import { AdvdOverviewLayout } from "./AdvdOverviewLayout.tsx";
+import { AdvdStatsLayout } from "./AdvdStatsLayout.tsx";
+import { AdvdHurdlesLayout } from "./AdvdHurdlesLayout.tsx";
+import { AdvdFutureLayout } from "./AdvdFutureLayout.tsx";
+import { AdvdPlatformLayout } from "./AdvdPlatformLayout.tsx";
 
 layoutRegistry.register("advd-overview", AdvdOverviewLayout);
 layoutRegistry.register("advd-stats", AdvdStatsLayout);

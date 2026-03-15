@@ -4,10 +4,10 @@
 
 import { layoutRegistry } from "../registry.ts";
 
-import ArchitectureSlide from "./ArchitectureSlide.jsx";
-import CodeFlowDiagram from "./CodeFlowDiagram.jsx";
-import TechStackTimeline from "./TechStackTimeline.jsx";
-import RoadmapMilestones from "./RoadmapMilestones.jsx";
+import ArchitectureSlide from "./ArchitectureSlide.tsx";
+import CodeFlowDiagram from "./CodeFlowDiagram.tsx";
+import TechStackTimeline from "./TechStackTimeline.tsx";
+import RoadmapMilestones from "./RoadmapMilestones.tsx";
 
 layoutRegistry.register("eng-architecture", ArchitectureSlide);
 layoutRegistry.register("eng-code-flow", CodeFlowDiagram);

@@ -7,10 +7,10 @@ import * as vergePop from "./src/content/verge-pop/deck.js";
 import * as onboarding from "./src/content/onboarding/deck.js";
 import * as onboardingOp from "./src/content/onboarding-op/deck.js";
 import * as studio from "./src/content/studio/deck.js";
-import { THEMES, THEMES_BY_ID, THEME_SELECTOR_FONTS_URL } from "./src/tokens/themes.js";
-import { resolveTopicColors, resolveIntroStatColors } from "./src/tokens/palette.js";
-import { STYLE_MODES, STYLE_MODES_BY_ID } from "./src/tokens/style-modes.js";
-import { UI } from "./src/tokens/ui-strings.js";
+import { THEMES, THEMES_BY_ID, THEME_SELECTOR_FONTS_URL } from "./src/tokens/themes.ts";
+import { resolveTopicColors, resolveIntroStatColors } from "./src/tokens/palette.ts";
+import { STYLE_MODES, STYLE_MODES_BY_ID } from "./src/tokens/style-modes.ts";
+import { UI } from "./src/tokens/ui-strings.ts";
 
 const ThemeCtx = createContext(THEMES[0]);
 const ChromeCtx = createContext(STYLE_MODES_BY_ID["default"]);

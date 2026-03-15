@@ -1,14 +1,15 @@
 import React from "react";
 import { ThemeContext } from "../src/components/context/index.js";
 import { ChromeContext } from "../src/components/context/index.js";
-import { THEMES } from "../src/tokens/themes.js";
-import { STYLE_MODES, STYLE_MODES_BY_ID } from "../src/tokens/style-modes.js";
+import { THEMES } from "../src/tokens/themes.ts";
+import { STYLE_MODES, STYLE_MODES_BY_ID } from "../src/tokens/style-modes.ts";
 
 const defaultTheme = THEMES[0]; // midnight-teal
 const defaultChrome = STYLE_MODES_BY_ID["default"];
 
 /** @type {import('@storybook/react-vite').Preview} */
 const preview = {
+  tags: ["autodocs"],
   parameters: {
     controls: {
       matchers: {
