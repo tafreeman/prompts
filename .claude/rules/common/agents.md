@@ -2,7 +2,7 @@
 
 ## Available Agents
 
-Located in `~/.claude/agents/`:
+Located in `.claude/agents/`:
 
 | Agent | Purpose | When to Use |
 |-------|---------|-------------|

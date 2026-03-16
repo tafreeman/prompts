@@ -1,0 +1,43 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python:*)",
+      "Bash(python3:*)",
+      "Bash(python -m pytest:*)",
+      "Bash(python -m agentic_v2.cli.main:*)",
+      "Bash(pip install:*)",
+      "Bash(pip show:*)",
+      "Bash(pre-commit run:*)",
+      "Bash(ruff:*)",
+      "Bash(mypy:*)",
+      "Bash(npm:*)",
+      "Bash(npx:*)",
+      "Bash(node:*)",
+      "Bash(git:*)",
+      "Bash(gh api:*)",
+      "Bash(uv:*)",
+      "Bash(ls:*)",
+      "Bash(find:*)",
+      "Bash(sort:*)",
+      "Bash(grep:*)",
+      "Bash(curl:*)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "command": "bash -c 'FILE=\"$CLAUDE_FILE_PATH\"; [[ \"$FILE\" == *.py ]] && ruff check --fix -q \"$FILE\" 2>/dev/null && ruff format -q \"$FILE\" 2>/dev/null; exit 0'"
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "command": "bash -c 'FILE=\"$CLAUDE_FILE_PATH\"; if [[ \"$FILE\" == *.env ]] || [[ \"$FILE\" == *.env.* ]]; then echo \"BLOCKED: Cannot edit .env files directly. Use environment variables or a secret manager.\"; exit 1; fi; exit 0'"
+      }
+    ]
+  }
+}
