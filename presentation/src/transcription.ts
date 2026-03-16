@@ -218,6 +218,80 @@ function transcribeToVerge(topic: Topic): Topic {
       ...topic, layout: "badge-grid",
       badges: ((topic.categories as any[])||[]).map((c: any, i: number) => ({ icon: `0${i+1}`, label: c.label, meta: c.body.split(" ").slice(0,5).join(" ") })),
     };
+    // -- Base -> Verge
+    case "two-col": return { ...topic, layout: "color-blocks",
+      blocks: ((topic.cards as any[])||[]).map((c: any) => ({ label: c.title, body: c.body||"", value: "" })),
+    };
+    case "stat-cards": return { ...topic, layout: "stat-hero",
+      heroTitle: topic.title,
+      statCards: ((topic.cards as any[])||[]).map((c: any) => ({ value: c.stat||"", label: c.statLabel||"", body: c.body||"" })),
+    };
+    case "before-after": return { ...topic, layout: "color-blocks",
+      blocks: ((topic.cards as any[])||[]).map((c: any) => ({ label: c.title, body: (c.challenge||"")+" -> "+(c.fix||""), value: "" })),
+    };
+    case "process-cycle": return { ...topic, layout: "color-blocks", blocks: [] };
+    case "h-strip": return { ...topic, layout: "quote-collage",
+      quotes: ((topic.cards as any[])||[]).map((c: any) => ({ text: c.title, attr: c.body||"" })),
+    };
+    case "process-lanes": return { ...topic, layout: "color-blocks",
+      blocks: ((topic.lanes as any[])||[]).map((l: any) => ({ label: l.title, value: l.persona||"", body: l.subtitle||"" })),
+    };
+    // -- Engineering -> Verge
+    case "eng-architecture": return { ...topic, layout: "stat-hero",
+      heroTitle: topic.title,
+      statCards: ((topic.cards as any[])||[]).map((c: any) => ({ value: c.stat||"", label: c.title, body: c.body||"" })),
+    };
+    case "eng-code-flow": return { ...topic, layout: "badge-grid",
+      badges: ((topic.cards as any[])||[]).map((c: any) => ({ icon: c.icon||"->", label: c.title, meta: (c.body as string)?.slice(0,40)||"" })),
+    };
+    case "eng-tech-stack": return { ...topic, layout: "color-blocks",
+      blocks: ((topic.cards as any[])||[]).map((c: any) => ({ label: c.title, value: c.stat||"", body: c.body||"" })),
+    };
+    case "eng-roadmap": return { ...topic, layout: "color-blocks",
+      blocks: ((topic.cards as any[])||[]).map((c: any) => ({ label: c.title, value: c.stat||"", body: c.body||"" })),
+    };
+    // -- Ops -> Verge
+    case "op-brief": return { ...topic, layout: "stat-hero",
+      heroTitle: topic.title,
+      statCards: ((topic.cards as any[])||[]).map((c: any) => ({ value: c.stat||"", label: c.statLabel||"", body: c.body||"" })),
+    };
+    case "op-flow": return { ...topic, layout: "color-blocks",
+      blocks: ((topic.steps as any[]||topic.cards as any[])||[]).map((s: any) => ({ label: s.title||"", value: s.type||"", body: s.body||"" })),
+    };
+    // -- Advocacy -> Verge
+    case "adv-overview": return { ...topic, layout: "badge-grid",
+      badges: [...((topic.heroPoints as any[])||[]).map((p: any) => ({ icon: "O", label: p, meta: "" })), ...((topic.cards as any[])||[]).map((c: any) => ({ icon: ".", label: c.title, meta: (c.body as string)?.slice(0,30)||"" }))],
+    };
+    case "adv-stats": return { ...topic, layout: "stat-hero",
+      heroTitle: topic.title,
+      statCards: ((topic.cards as any[])||[]).map((c: any) => ({ value: (c.step||c.stat)||"", label: (c.eyebrow||c.statLabel)||"", body: c.body||"" })),
+    };
+    case "adv-hurdles": return { ...topic, layout: "color-blocks",
+      blocks: ((topic.cards as any[])||[]).map((c: any) => ({ label: c.title, body: c.challenge||"", value: "" })),
+    };
+    case "adv-future": return { ...topic, layout: "quote-collage",
+      quotes: [{ text: (topic.callout as string)||"", attr: topic.title }, ...((topic.cards as any[])||[]).map((c: any) => ({ text: c.title, attr: c.body||"" }))],
+    };
+    case "adv-platform": return { ...topic, layout: "color-blocks",
+      blocks: ((topic.capabilities as any[])||[]).map((c: any) => ({ label: c.title, value: c.icon||"", body: c.body||"" })),
+    };
+    // -- Advocacy Dense -> Verge
+    case "advd-overview": return { ...topic, layout: "badge-grid",
+      badges: [...((topic.heroPoints as any[])||[]).map((p: any) => ({ icon: "O", label: p, meta: "" })), ...((topic.cards as any[])||[]).map((c: any) => ({ icon: ".", label: c.title, meta: (c.body as string)?.slice(0,30)||"" }))],
+    };
+    case "advd-stats": return { ...topic, layout: "stat-hero",
+      heroTitle: topic.title,
+      statCards: ((topic.cards as any[])||[]).map((c: any) => ({ value: (c.step||c.stat)||"", label: (c.eyebrow||c.statLabel)||"", body: c.body||"" })),
+    };
+    case "advd-hurdles": return { ...topic, layout: "color-blocks",
+      blocks: ((topic.cards as any[])||[]).map((c: any) => ({ label: c.title, body: c.challenge||"", value: "" })),
+    };
+    case "advd-future": return { ...topic, layout: "quote-collage",
+      quotes: [{ text: (topic.callout as string)||"", attr: topic.title }, ...((topic.cards as any[])||[]).map((c: any) => ({ text: c.title, attr: c.body||"" }))],
+    };
+    case "advd-platform": return { ...topic, layout: "color-blocks",
+      blocks: ((topic.capabilities as any[])||[]).map((c: any) => ({ label: c.title, value: c.icon||"", body: c.body||"" })),
+    };
     default: return topic;
   }
 }

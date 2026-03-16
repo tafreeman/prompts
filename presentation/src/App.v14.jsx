@@ -37,12 +37,13 @@ import { CometTransition, ThematicIntro } from "./components/animations/index.js
 import { LandingTile } from "./components/cards/index.js";
 import { ControlPanel, OptionalDeckLink } from "./components/navigation/index.js";
 
-// ── Layout registry: side-effect import registers all 26 layouts ───────────
+// ── Layout registry: side-effect import registers all 34 layouts ───────────
 import "./layouts/register-all.js";
+import { layoutRegistry } from "./layouts/registry.ts";
 import { LayoutRenderer } from "./layouts/LayoutRenderer.tsx";
 
 // ── Transcription (cross-family layout normalisation) ─────────────────────
-import { transcribeTopic, BASE_LAYOUTS, HANDBOOK_LAYOUTS } from "./transcription.ts";
+import { transcribeTopic } from "./transcription.ts";
 
 // ═════════════════════════════════════════════════════════════════════
 // STATIC DATA
@@ -508,14 +509,6 @@ export default function App() {
     return colorResolved.map(t => transcribeTopic(t, renderFamily));
   }, [deck.topics, theme, renderFamily]);
 
-  const deckHasNonBaseLayouts = useMemo(() =>
-    deck.topics.some(t => !BASE_LAYOUTS.has(t.layout)),
-    [deck.topics],
-  );
-  const deckHasHandbookLayouts = useMemo(() =>
-    deck.topics.some(t => HANDBOOK_LAYOUTS.has(t.layout)),
-    [deck.topics],
-  );
   const introStats = useMemo(() =>
     theme ? resolveIntroStatColors(deck.introStats, theme) : deck.introStats,
     [deck.introStats, theme],
@@ -567,6 +560,12 @@ export default function App() {
   }, [activeTopic, slideViewMode]);
 
   const hasOnepagerView = activeTopic && !["op-brief", "op-flow"].includes(activeTopic.layout);
+
+  // Resolve ControlPanel feature manifest from the active slide's layout
+  const activeLayoutFeatures = useMemo(() => {
+    if (!activeTopic) return undefined; // landing grid — show deck-level defaults
+    return layoutRegistry.getFeatures(activeTopic.layout);
+  }, [activeTopic]);
 
   const T = theme;
   const introDeck = { ...deck, introStats };
@@ -673,7 +672,7 @@ export default function App() {
         onStyleModeChange={setStyleModeId}
         renderFamily={renderFamily}
         onRenderFamilyChange={setRenderFamily}
-        showLayoutFamilies={deckHasNonBaseLayouts || deckHasHandbookLayouts}
+        layoutFeatures={activeLayoutFeatures}
         animOptions={animOptions}
         onAnimOptionsChange={setAnimOptions}
         heroImage={heroImage}
