@@ -1,5 +1,5 @@
 import React from "react";
-import ArchitectureSlide from "../../layouts/engineering/ArchitectureSlide.jsx";
+import ArchitectureSlide from "../../layouts/engineering/ArchitectureSlide.tsx";
 
 export default {
   title: "Layouts/Engineering/ArchitectureSlide",

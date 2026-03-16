@@ -1,5 +1,5 @@
 import React from "react";
-import { SprintLayout } from "../../layouts/sprint/SprintLayout.jsx";
+import { SprintLayout } from "../../layouts/sprint/SprintLayout.tsx";
 
 export default {
   title: "Layouts/Sprint/SprintLayout",

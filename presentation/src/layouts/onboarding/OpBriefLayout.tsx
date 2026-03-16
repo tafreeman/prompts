@@ -7,7 +7,7 @@
 import { useState, useEffect } from "react";
 import { useTheme } from "../../components/hooks/useTheme.js";
 import { useChrome } from "../../components/hooks/useChrome.js";
-import BackBtn from "../../components/navigation/BackBtn.jsx";
+import BackBtn from "../../components/navigation/BackBtn.tsx";
 import { UI } from "../../tokens/ui-strings.ts";
 import type { Theme } from "../../tokens/themes.ts";
 import type { StyleMode } from "../../tokens/style-modes.ts";

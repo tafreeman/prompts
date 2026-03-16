@@ -1,5 +1,5 @@
 import React from "react";
-import { OptionalDeckLink } from "../components/navigation/OptionalDeckLink.jsx";
+import { OptionalDeckLink } from "../components/navigation/OptionalDeckLink.tsx";
 import { THEMES } from "../tokens/themes.ts";
 import { STYLE_MODES_BY_ID } from "../tokens/style-modes.ts";
 

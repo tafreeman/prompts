@@ -1,5 +1,5 @@
 import React from "react";
-import { BadgeGridLayout } from "../../layouts/verge-pop/BadgeGridLayout.jsx";
+import { BadgeGridLayout } from "../../layouts/verge-pop/BadgeGridLayout.tsx";
 
 export default {
   title: "Layouts/Verge Pop/BadgeGridLayout",

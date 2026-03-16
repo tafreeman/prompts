@@ -1,5 +1,5 @@
 import React from "react";
-import { AdvdFutureLayout } from "../../layouts/advocacy-dense/AdvdFutureLayout.jsx";
+import { AdvdFutureLayout } from "../../layouts/advocacy-dense/AdvdFutureLayout.tsx";
 
 export default {
   title: "Layouts/Advocacy Dense/AdvdFutureLayout",

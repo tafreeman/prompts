@@ -5,18 +5,18 @@
  *   import { TwoColLayout, StatCardsLayout } from '../layouts/base';
  */
 
-export { default as TwoColLayout, TwoColLayout } from "./TwoColLayout.jsx";
+export { default as TwoColLayout, TwoColLayout } from "./TwoColLayout.tsx";
 export {
   default as StatCardsLayout,
   StatCardsLayout,
   ManifestStatCardsLayout,
-} from "./StatCardsLayout.jsx";
+} from "./StatCardsLayout.tsx";
 export {
   default as BeforeAfterLayout,
   BeforeAfterLayout,
-} from "./BeforeAfterLayout.jsx";
-export { default as HStripLayout, HStripLayout } from "./HStripLayout.jsx";
+} from "./BeforeAfterLayout.tsx";
+export { default as HStripLayout, HStripLayout } from "./HStripLayout.tsx";
 export {
   default as ProcessLanesLayout,
   ProcessLanesLayout,
-} from "./ProcessLanesLayout.jsx";
+} from "./ProcessLanesLayout.tsx";

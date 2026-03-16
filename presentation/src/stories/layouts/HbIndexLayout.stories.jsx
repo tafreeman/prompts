@@ -1,5 +1,5 @@
 import React from "react";
-import { HbIndexLayout } from "../../layouts/handbook/HbIndexLayout.jsx";
+import { HbIndexLayout } from "../../layouts/handbook/HbIndexLayout.tsx";
 
 export default {
   title: "Layouts/Handbook/HbIndexLayout",

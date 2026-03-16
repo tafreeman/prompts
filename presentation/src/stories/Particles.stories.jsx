@@ -1,5 +1,5 @@
 import React from "react";
-import Particles from "../components/animations/Particles.jsx";
+import Particles from "../components/animations/Particles.tsx";
 
 export default {
   title: "Animations/Particles",

@@ -1,5 +1,5 @@
 import React from "react";
-import TechStackTimeline from "../../layouts/engineering/TechStackTimeline.jsx";
+import TechStackTimeline from "../../layouts/engineering/TechStackTimeline.tsx";
 
 export default {
   title: "Layouts/Engineering/TechStackTimeline",

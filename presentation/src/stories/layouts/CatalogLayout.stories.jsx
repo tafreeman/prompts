@@ -1,5 +1,5 @@
 import React from "react";
-import { CatalogLayout } from "../../layouts/onboarding/CatalogLayout.jsx";
+import { CatalogLayout } from "../../layouts/onboarding/CatalogLayout.tsx";
 
 export default {
   title: "Layouts/Onboarding/CatalogLayout",

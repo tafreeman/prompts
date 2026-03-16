@@ -1,5 +1,5 @@
 import React from "react";
-import { QuoteCollageLayout } from "../../layouts/verge-pop/QuoteCollageLayout.jsx";
+import { QuoteCollageLayout } from "../../layouts/verge-pop/QuoteCollageLayout.tsx";
 
 export default {
   title: "Layouts/Verge Pop/QuoteCollageLayout",

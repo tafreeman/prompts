@@ -1,5 +1,5 @@
 import React from "react";
-import { ThemeSelector } from "../../../components/navigation/ThemeSelector.jsx";
+import { ThemeSelector } from "../../../components/navigation/ThemeSelector.tsx";
 const action = (name) => (...args) => console.log(`[action] ${name}`, ...args);
 
 export default {

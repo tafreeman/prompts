@@ -1,5 +1,5 @@
 import React from "react";
-import { DataTableLayout } from "../../layouts/verge-pop/DataTableLayout.jsx";
+import { DataTableLayout } from "../../layouts/verge-pop/DataTableLayout.tsx";
 
 export default {
   title: "Layouts/Verge Pop/DataTableLayout",

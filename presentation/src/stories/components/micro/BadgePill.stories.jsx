@@ -1,5 +1,5 @@
 import React from "react";
-import { BadgePill } from "../../../components/micro/BadgePill.jsx";
+import { BadgePill } from "../../../components/micro/BadgePill.tsx";
 
 export default {
   title: "Micro/BadgePill",

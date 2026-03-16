@@ -1,5 +1,5 @@
 import React from "react";
-import { BarChartLayout } from "../../layouts/verge-pop/BarChartLayout.jsx";
+import { BarChartLayout } from "../../layouts/verge-pop/BarChartLayout.tsx";
 
 export default {
   title: "Layouts/Verge Pop/BarChartLayout",

@@ -1,5 +1,5 @@
 import React from "react";
-import { HbPracticesLayout } from "../../layouts/handbook/HbPracticesLayout.jsx";
+import { HbPracticesLayout } from "../../layouts/handbook/HbPracticesLayout.tsx";
 
 export default {
   title: "Layouts/Handbook/HbPracticesLayout",

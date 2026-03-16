@@ -1,5 +1,5 @@
 import React from "react";
-import { ProcessLanesLayout } from "../../layouts/base/ProcessLanesLayout.jsx";
+import { ProcessLanesLayout } from "../../layouts/base/ProcessLanesLayout.tsx";
 
 export default {
   title: "Layouts/Base/ProcessLanesLayout",

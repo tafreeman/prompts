@@ -1,5 +1,5 @@
-export { HbChapterLayout } from "./HbChapterLayout.jsx";
-export { HbPracticesLayout } from "./HbPracticesLayout.jsx";
-export { HbProcessLayout } from "./HbProcessLayout.jsx";
-export { HbManifestoLayout } from "./HbManifestoLayout.jsx";
-export { HbIndexLayout } from "./HbIndexLayout.jsx";
+export { HbChapterLayout } from "./HbChapterLayout.tsx";
+export { HbPracticesLayout } from "./HbPracticesLayout.tsx";
+export { HbProcessLayout } from "./HbProcessLayout.tsx";
+export { HbManifestoLayout } from "./HbManifestoLayout.tsx";
+export { HbIndexLayout } from "./HbIndexLayout.tsx";

@@ -1,5 +1,5 @@
-export { AdvdOverviewLayout } from "./AdvdOverviewLayout.jsx";
-export { AdvdStatsLayout } from "./AdvdStatsLayout.jsx";
-export { AdvdHurdlesLayout } from "./AdvdHurdlesLayout.jsx";
-export { AdvdFutureLayout } from "./AdvdFutureLayout.jsx";
-export { AdvdPlatformLayout } from "./AdvdPlatformLayout.jsx";
+export { AdvdOverviewLayout } from "./AdvdOverviewLayout.tsx";
+export { AdvdStatsLayout } from "./AdvdStatsLayout.tsx";
+export { AdvdHurdlesLayout } from "./AdvdHurdlesLayout.tsx";
+export { AdvdFutureLayout } from "./AdvdFutureLayout.tsx";
+export { AdvdPlatformLayout } from "./AdvdPlatformLayout.tsx";

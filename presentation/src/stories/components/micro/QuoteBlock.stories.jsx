@@ -1,5 +1,5 @@
 import React from "react";
-import { QuoteBlock } from "../../../components/micro/QuoteBlock.jsx";
+import { QuoteBlock } from "../../../components/micro/QuoteBlock.tsx";
 
 export default {
   title: "Micro/QuoteBlock",

@@ -1,5 +1,5 @@
 import React from "react";
-import CodeFlowDiagram from "../../layouts/engineering/CodeFlowDiagram.jsx";
+import CodeFlowDiagram from "../../layouts/engineering/CodeFlowDiagram.tsx";
 
 export default {
   title: "Layouts/Engineering/CodeFlowDiagram",

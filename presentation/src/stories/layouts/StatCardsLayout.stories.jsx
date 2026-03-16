@@ -1,5 +1,5 @@
 import React from "react";
-import { StatCardsLayout } from "../../layouts/base/StatCardsLayout.jsx";
+import { StatCardsLayout } from "../../layouts/base/StatCardsLayout.tsx";
 
 export default {
   title: "Layouts/Base/StatCardsLayout",

@@ -1,5 +1,5 @@
 import React from "react";
-import StatCard from "../../../components/cards/StatCard.jsx";
+import StatCard from "../../../components/cards/StatCard.tsx";
 
 export default {
   title: "Cards/StatCard",

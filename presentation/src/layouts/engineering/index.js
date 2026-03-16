@@ -1,4 +1,4 @@
-export { ArchitectureSlide } from "./ArchitectureSlide.jsx";
-export { CodeFlowDiagram } from "./CodeFlowDiagram.jsx";
-export { TechStackTimeline } from "./TechStackTimeline.jsx";
-export { RoadmapMilestones } from "./RoadmapMilestones.jsx";
+export { ArchitectureSlide } from "./ArchitectureSlide.tsx";
+export { CodeFlowDiagram } from "./CodeFlowDiagram.tsx";
+export { TechStackTimeline } from "./TechStackTimeline.tsx";
+export { RoadmapMilestones } from "./RoadmapMilestones.tsx";

@@ -1,5 +1,5 @@
 import React from "react";
-import { CalloutBox } from "../../../components/micro/CalloutBox.jsx";
+import { CalloutBox } from "../../../components/micro/CalloutBox.tsx";
 
 export default {
   title: "Micro/CalloutBox",

@@ -1,5 +1,5 @@
 import React from "react";
-import { Eyebrow } from "../../../components/micro/Eyebrow.jsx";
+import { Eyebrow } from "../../../components/micro/Eyebrow.tsx";
 
 export default {
   title: "Micro/Eyebrow",

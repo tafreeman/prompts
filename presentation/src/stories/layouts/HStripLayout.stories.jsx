@@ -1,5 +1,5 @@
 import React from "react";
-import { HStripLayout } from "../../layouts/base/HStripLayout.jsx";
+import { HStripLayout } from "../../layouts/base/HStripLayout.tsx";
 
 export default {
   title: "Layouts/Base/HStripLayout",

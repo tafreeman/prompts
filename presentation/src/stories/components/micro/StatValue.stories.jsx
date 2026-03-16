@@ -1,5 +1,5 @@
 import React from "react";
-import { StatValue } from "../../../components/micro/StatValue.jsx";
+import { StatValue } from "../../../components/micro/StatValue.tsx";
 
 export default {
   title: "Micro/StatValue",

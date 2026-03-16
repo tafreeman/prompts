@@ -1,5 +1,5 @@
 import React from "react";
-import { HbChapterLayout } from "../../layouts/handbook/HbChapterLayout.jsx";
+import { HbChapterLayout } from "../../layouts/handbook/HbChapterLayout.tsx";
 
 export default {
   title: "Layouts/Handbook/HbChapterLayout",

@@ -1,5 +1,5 @@
 import React from "react";
-import { WorkflowLayout } from "../../layouts/onboarding/WorkflowLayout.jsx";
+import { WorkflowLayout } from "../../layouts/onboarding/WorkflowLayout.tsx";
 
 export default {
   title: "Layouts/Onboarding/WorkflowLayout",

@@ -8,8 +8,8 @@ import { useState, useEffect } from "react";
 import { useTheme } from "../../components/hooks/useTheme.js";
 import { useChrome } from "../../components/hooks/useChrome.js";
 import { usePresentationViewport } from "../../components/hooks/usePresentationViewport.js";
-import BackBtn from "../../components/navigation/BackBtn.jsx";
-import Particles from "../../components/animations/Particles.jsx";
+import BackBtn from "../../components/navigation/BackBtn.tsx";
+import Particles from "../../components/animations/Particles.tsx";
 
 interface Topic {
   id: string;

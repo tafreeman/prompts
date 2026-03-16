@@ -1,5 +1,5 @@
 import React from "react";
-import { AdvdPlatformLayout } from "../../layouts/advocacy-dense/AdvdPlatformLayout.jsx";
+import { AdvdPlatformLayout } from "../../layouts/advocacy-dense/AdvdPlatformLayout.tsx";
 
 export default {
   title: "Layouts/Advocacy Dense/AdvdPlatformLayout",

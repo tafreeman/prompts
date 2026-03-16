@@ -1,5 +1,5 @@
 import React from "react";
-import { IconButton } from "../../../components/micro/IconButton.jsx";
+import { IconButton } from "../../../components/micro/IconButton.tsx";
 
 export default {
   title: "Micro/IconButton",

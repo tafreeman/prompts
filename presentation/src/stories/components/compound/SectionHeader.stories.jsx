@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import SectionHeader from "../../../components/compound/SectionHeader.jsx";
+import SectionHeader from "../../../components/compound/SectionHeader.tsx";
 
 export default {
   title: "Compound/SectionHeader",

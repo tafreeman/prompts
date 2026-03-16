@@ -7,9 +7,9 @@
 import { useState, useEffect } from "react";
 import { useTheme } from "../../components/hooks/useTheme.js";
 import { useChrome } from "../../components/hooks/useChrome.js";
-import BackBtn from "../../components/navigation/BackBtn.jsx";
-import SectionHeader from "../../components/compound/SectionHeader.jsx";
-import Particles from "../../components/animations/Particles.jsx";
+import BackBtn from "../../components/navigation/BackBtn.tsx";
+import SectionHeader from "../../components/compound/SectionHeader.tsx";
+import Particles from "../../components/animations/Particles.tsx";
 import type { Theme } from "../../tokens/themes.ts";
 import type { StyleMode } from "../../tokens/style-modes.ts";
 

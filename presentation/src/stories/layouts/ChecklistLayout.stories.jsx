@@ -1,5 +1,5 @@
 import React from "react";
-import { ChecklistLayout } from "../../layouts/onboarding/ChecklistLayout.jsx";
+import { ChecklistLayout } from "../../layouts/onboarding/ChecklistLayout.tsx";
 
 export default {
   title: "Layouts/Onboarding/ChecklistLayout",

@@ -1,5 +1,5 @@
 import React from "react";
-import BeforeAfterPair from "../../../components/cards/BeforeAfterPair.jsx";
+import BeforeAfterPair from "../../../components/cards/BeforeAfterPair.tsx";
 
 export default {
   title: "Cards/BeforeAfterPair",

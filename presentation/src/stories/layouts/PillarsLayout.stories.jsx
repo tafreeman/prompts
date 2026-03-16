@@ -1,5 +1,5 @@
 import React from "react";
-import { PillarsLayout } from "../../layouts/onboarding/PillarsLayout.jsx";
+import { PillarsLayout } from "../../layouts/onboarding/PillarsLayout.tsx";
 
 export default {
   title: "Layouts/Onboarding/PillarsLayout",

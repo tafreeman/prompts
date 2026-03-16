@@ -1,5 +1,5 @@
 import React from "react";
-import { ProcessNode } from "../../../components/compound/ProcessNode.jsx";
+import { ProcessNode } from "../../../components/compound/ProcessNode.tsx";
 
 export default {
   title: "Compound/ProcessNode",

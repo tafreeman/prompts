@@ -1,5 +1,5 @@
 import React from "react";
-import { TwoColLayout } from "../../layouts/base/TwoColLayout.jsx";
+import { TwoColLayout } from "../../layouts/base/TwoColLayout.tsx";
 
 export default {
   title: "Layouts/Base/TwoColLayout",

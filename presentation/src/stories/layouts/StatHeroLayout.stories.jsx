@@ -1,5 +1,5 @@
 import React from "react";
-import { StatHeroLayout } from "../../layouts/verge-pop/StatHeroLayout.jsx";
+import { StatHeroLayout } from "../../layouts/verge-pop/StatHeroLayout.tsx";
 
 export default {
   title: "Layouts/Verge Pop/StatHeroLayout",

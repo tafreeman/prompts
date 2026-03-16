@@ -1,5 +1,5 @@
 import React from "react";
-import { BeforeAfterLayout } from "../../layouts/base/BeforeAfterLayout.jsx";
+import { BeforeAfterLayout } from "../../layouts/base/BeforeAfterLayout.tsx";
 
 export default {
   title: "Layouts/Base/BeforeAfterLayout",

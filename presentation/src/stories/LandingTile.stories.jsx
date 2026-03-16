@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import LandingTile from "../components/cards/LandingTile.jsx";
+import LandingTile from "../components/cards/LandingTile.tsx";
 
 export default {
   title: "Cards/LandingTile",

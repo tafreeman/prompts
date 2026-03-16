@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ThematicIntro from "../../../components/animations/ThematicIntro.jsx";
+import ThematicIntro from "../../../components/animations/ThematicIntro.tsx";
 const action = (name) => (...args) => console.log(`[action] ${name}`, ...args);
 
 export default {

@@ -1,5 +1,5 @@
 import React from "react";
-import { HbProcessLayout } from "../../layouts/handbook/HbProcessLayout.jsx";
+import { HbProcessLayout } from "../../layouts/handbook/HbProcessLayout.tsx";
 
 export default {
   title: "Layouts/Handbook/HbProcessLayout",

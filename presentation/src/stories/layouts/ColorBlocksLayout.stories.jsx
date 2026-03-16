@@ -1,5 +1,5 @@
 import React from "react";
-import { ColorBlocksLayout } from "../../layouts/verge-pop/ColorBlocksLayout.jsx";
+import { ColorBlocksLayout } from "../../layouts/verge-pop/ColorBlocksLayout.tsx";
 
 export default {
   title: "Layouts/Verge Pop/ColorBlocksLayout",

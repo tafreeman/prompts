@@ -1,5 +1,5 @@
 import React from "react";
-import { AdvStatsLayout } from "../../layouts/advocacy/AdvStatsLayout.jsx";
+import { AdvStatsLayout } from "../../layouts/advocacy/AdvStatsLayout.tsx";
 
 export default {
   title: "Layouts/AdvStatsLayout",

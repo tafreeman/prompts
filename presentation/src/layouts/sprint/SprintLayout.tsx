@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useTheme } from "../../components/hooks/useTheme.js";
 import { usePresentationViewport } from "../../components/hooks/usePresentationViewport.js";
-import BackBtn from "../../components/navigation/BackBtn.jsx";
-import Particles from "../../components/animations/Particles.jsx";
+import BackBtn from "../../components/navigation/BackBtn.tsx";
+import Particles from "../../components/animations/Particles.tsx";
 import { Figure8Cycle } from "./Figure8Cycle.tsx";
 import { CircularRingCycle } from "./CircularRingCycle.tsx";
 import type { Theme } from "../../tokens/themes.ts";

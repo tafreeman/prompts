@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { DeckPicker } from "../../../components/navigation/DeckPicker.jsx";
+import { DeckPicker } from "../../../components/navigation/DeckPicker.tsx";
 
 export default {
   title: "Navigation/DeckPicker",

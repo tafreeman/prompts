@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useTheme } from "../../components/hooks/useTheme.js";
 import { useChrome } from "../../components/hooks/useChrome.js";
-import BackBtn from "../../components/navigation/BackBtn.jsx";
+import BackBtn from "../../components/navigation/BackBtn.tsx";
 
 interface Topic {
   id: string;

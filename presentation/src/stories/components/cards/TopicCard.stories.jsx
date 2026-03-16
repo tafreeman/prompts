@@ -1,5 +1,5 @@
 import React from "react";
-import TopicCard from "../../../components/cards/TopicCard.jsx";
+import TopicCard from "../../../components/cards/TopicCard.tsx";
 
 export default {
   title: "Cards/TopicCard",

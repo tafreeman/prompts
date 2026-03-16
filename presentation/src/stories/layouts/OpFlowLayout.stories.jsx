@@ -1,5 +1,5 @@
 import React from "react";
-import { OpFlowLayout } from "../../layouts/onboarding/OpFlowLayout.jsx";
+import { OpFlowLayout } from "../../layouts/onboarding/OpFlowLayout.tsx";
 
 export default {
   title: "Layouts/Onboarding/OpFlowLayout",

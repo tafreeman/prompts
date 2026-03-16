@@ -2,9 +2,9 @@
  * Verge Pop layout barrel — re-exports all Verge-style layouts.
  */
 
-export { StatHeroLayout } from "./StatHeroLayout.jsx";
-export { QuoteCollageLayout } from "./QuoteCollageLayout.jsx";
-export { BadgeGridLayout } from "./BadgeGridLayout.jsx";
-export { DataTableLayout } from "./DataTableLayout.jsx";
-export { BarChartLayout } from "./BarChartLayout.jsx";
-export { ColorBlocksLayout } from "./ColorBlocksLayout.jsx";
+export { StatHeroLayout } from "./StatHeroLayout.tsx";
+export { QuoteCollageLayout } from "./QuoteCollageLayout.tsx";
+export { BadgeGridLayout } from "./BadgeGridLayout.tsx";
+export { DataTableLayout } from "./DataTableLayout.tsx";
+export { BarChartLayout } from "./BarChartLayout.tsx";
+export { ColorBlocksLayout } from "./ColorBlocksLayout.tsx";
