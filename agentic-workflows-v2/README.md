@@ -89,17 +89,13 @@ Vite serves `http://127.0.0.1:5173` and proxies `/api` and `/ws` to backend.
 
 ## Built-In Workflows
 
-Current built-in definitions include:
-- `code_review`
+Current built-in definitions (in `workflows/definitions/`):
 - `bug_resolution`
-- `deep_research`
+- `code_review`
+- `conditional_branching`
 - `fullstack_generation`
-- `fullstack_generation_bounded_rereview`
-- `multi_agent_codegen_e2e`
-- `multi_agent_codegen_e2e_single_loop`
-- `tdd_codegen_e2e`
+- `iterative_review`
 - `test_deterministic`
-- `plan_implementation` (experimental and legacy-structured)
 
 See `docs/WORKFLOWS.md` for inputs/outputs and guidance.
 

@@ -32,7 +32,7 @@ REVIEW_SYSTEM_PROMPT = """You are an expert code reviewer with deep knowledge of
 
 When reviewing code, analyze:
 1. **Correctness**: Logic errors, edge cases, potential bugs
-2. **Security**: Vulnerabilities, injection risks, unsafe practices  
+2. **Security**: Vulnerabilities, injection risks, unsafe practices
 3. **Performance**: Inefficiencies, unnecessary allocations, complexity
 4. **Style**: Naming, formatting, documentation, readability
 5. **Maintainability**: Code organization, duplication, coupling

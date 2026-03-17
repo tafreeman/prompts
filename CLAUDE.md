@@ -34,7 +34,7 @@ A monorepo for multi-agent workflow runtime, evaluation framework, and shared LL
 ```
 ./
 ├── agentic-workflows-v2/        # Main runtime
-│   ├── agentic_v2/              # Source (~30,600 lines)
+│   ├── agentic_v2/              # Source (~36,300 lines)
 │   │   ├── agents/              # BaseAgent, Coder, Architect, Reviewer, Orchestrator + implementations/
 │   │   ├── adapters/            # Pluggable engine backends (native, langchain)
 │   │   ├── core/                # Protocols, memory, context, contracts, errors
@@ -43,18 +43,18 @@ A monorepo for multi-agent workflow runtime, evaluation framework, and shared LL
 │   │   ├── models/              # LLM tier routing (8+ providers)
 │   │   ├── rag/                 # Full RAG pipeline (chunking, embedding, retrieval, assembly)
 │   │   ├── contracts/           # Pydantic I/O models (additive-only)
-│   │   ├── prompts/             # 24 agent persona definitions (.md)
+│   │   ├── prompts/             # 12 agent persona definitions (.md)
 │   │   ├── server/              # FastAPI + WebSocket/SSE streaming
 │   │   ├── tools/builtin/       # 11 built-in tool modules
-│   │   └── workflows/definitions/ # 12 YAML workflow definitions
-│   ├── tests/                   # 74 files, ~1456 tests (pytest-asyncio)
+│   │   └── workflows/definitions/ # 6 YAML workflow definitions
+│   ├── tests/                   # 71 files, ~1456 tests (pytest-asyncio)
 │   └── ui/                      # React 19 + @xyflow/react 12 + TanStack Query + Tailwind
 ├── agentic-v2-eval/             # Evaluation: rubrics, evaluators, runners, reporters
 ├── tools/                       # Shared: LLM client, benchmarks, caching, errors
 ├── presentation/                # React 19 presentation system (Vite 5, Storybook)
 ├── research/                    # Research library, subagent reports
 ├── docs/                        # ARCHITECTURE.md, CODING_STANDARDS.md, ADRs (docs/adr/)
-└── .claude/                     # Commands (11), contexts (3), rules (12), skills (8)
+└── .claude/                     # Commands (11), rules (12), skills (14)
 ```
 
 ### Key Architectural Points

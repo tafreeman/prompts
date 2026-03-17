@@ -43,7 +43,7 @@
 This roadmap was subjected to **two parallel adversarial reviews** with orthogonal specializations, run in isolation (neither reviewer saw the other's output). Findings were synthesized by a judge agent.
 
 ### Reviewer A — Implementation Failure Analyst (Murder Board / FMEA)
-**Persona:** [antagonist_implementation.md](../agentic-workflows-v2/agentic_v2/prompts/antagonist_implementation.md)
+**Persona:** antagonist_implementation (removed — see `.claude/agents/` for current agent definitions)
 **Charter:** "This plan will fail due to its own internal implementation dynamics."
 **Key findings:**
 - **CF-1 (FATAL):** Dual `WorkflowResult` types — `contracts/messages.py` (Pydantic) vs `langchain/runner.py` (plain dataclass) are incompatible. Protocol cannot work until unified.
@@ -56,7 +56,7 @@ This roadmap was subjected to **two parallel adversarial reviews** with orthogon
 - **HD-2:** Four global singletons (`_current_context`, `_global_registry`, etc.) create implicit coupling across modules.
 
 ### Reviewer B — Systemic Risk Analyst (Pre-Mortem / Klein)
-**Persona:** [antagonist_systemic.md](../agentic-workflows-v2/agentic_v2/prompts/antagonist_systemic.md)
+**Persona:** antagonist_systemic (removed — see `.claude/agents/` for current agent definitions)
 **Charter:** "This plan will fail due to external forces and second-order systemic effects."
 **Key findings:**
 - **URGENT:** `langchain-core` and `langgraph` are **core dependencies** (pyproject.toml lines 22-23), not optional. The entire abstraction layer goal is undermined at the packaging level. Must move to `[langchain]` extras BEFORE Sprint 1.
