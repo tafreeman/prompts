@@ -59,38 +59,37 @@ def get_prompt_path(name: str) -> Path | None:
     return prompt_path if prompt_path.exists() else None
 
 
-# Pre-defined prompt names for type hints and autocompletion
-ANALYST = "analyst"
+# Pre-defined prompt names matching actual .md files on disk.
+# Kept in sync with prompts/*.md — run `list_prompts()` to verify.
+ANALYZER = "analyzer"
 ARCHITECT = "architect"
+ASSEMBLER = "assembler"
 CODER = "coder"
-DEBUGGER = "debugger"
-JUDGE = "judge"
+DEVELOPER = "developer"
+LINTER = "linter"
+ORCHESTRATOR = "orchestrator"
 PLANNER = "planner"
-REASONER = "reasoner"
-RESEARCHER = "researcher"
 REVIEWER = "reviewer"
+SUMMARIZER = "summarizer"
 TESTER = "tester"
 VALIDATOR = "validator"
-VISION = "vision"
-WRITER = "writer"
 
 __all__ = [
     "load_prompt",
     "list_prompts",
     "get_prompt_path",
     "PROMPTS_DIR",
-    # Prompt name constants
-    "ANALYST",
+    # Prompt name constants (alphabetical, matches prompts/*.md)
+    "ANALYZER",
     "ARCHITECT",
+    "ASSEMBLER",
     "CODER",
-    "DEBUGGER",
-    "JUDGE",
+    "DEVELOPER",
+    "LINTER",
+    "ORCHESTRATOR",
     "PLANNER",
-    "REASONER",
-    "RESEARCHER",
     "REVIEWER",
+    "SUMMARIZER",
     "TESTER",
     "VALIDATOR",
-    "VISION",
-    "WRITER",
 ]
