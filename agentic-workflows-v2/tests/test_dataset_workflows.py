@@ -20,7 +20,6 @@ from tests.fixtures.datasets import (
     load_react_code_instructions,
     load_swe_bench_lite,
     load_swe_bench_verified,
-    plan_implementation_inputs,
 )
 
 # ---------------------------------------------------------------------------
@@ -128,32 +127,6 @@ class TestFullstackGenerationAdapter:
         for inp in fullstack_generation_inputs(limit=3):
             assert len(inp["feature_spec"]) > 0
 
-
-class TestPlanImplementationAdapter:
-    """plan_implementation_inputs() maps SWE-bench → plan_implementation.yaml
-    schema."""
-
-    def test_returns_expected_keys(self):
-        inputs = plan_implementation_inputs(limit=2)
-        assert len(inputs) > 0
-        for inp in inputs:
-            assert "plan_document" in inp
-            assert "target_directory" in inp
-            assert "acceptance_criteria" in inp
-
-    def test_meta_tracks_source(self):
-        inputs = plan_implementation_inputs(limit=2)
-        sources = {inp["_meta"]["source"] for inp in inputs}
-        assert "princeton-nlp/SWE-bench_Lite" in sources
-        assert "princeton-nlp/SWE-bench_Verified" in sources
-
-    def test_swe_bench_has_instance_ids(self):
-        for inp in plan_implementation_inputs(limit=3):
-            assert inp["_meta"]["instance_id"] is not None
-
-    def test_plan_document_not_empty(self):
-        for inp in plan_implementation_inputs(limit=3):
-            assert len(inp["plan_document"]) > 0
 
 
 # ---------------------------------------------------------------------------

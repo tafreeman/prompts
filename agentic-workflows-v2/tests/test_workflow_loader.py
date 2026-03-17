@@ -48,27 +48,6 @@ class TestWorkflowLoaderBasic:
         assert workflow.name == "fullstack_generation"
         assert len(workflow.dag.steps) > 0
 
-    def test_load_fullstack_generation_bounded_rereview_workflow(self):
-        """Load bounded re-review fullstack workflow with second review
-        path."""
-        loader = WorkflowLoader()
-        workflow = loader.load("fullstack_generation_bounded_rereview")
-
-        assert workflow.name == "fullstack_generation_bounded_rereview"
-        assert "review_code" in workflow.dag.steps
-        assert "review_code_round2" in workflow.dag.steps
-        assert "developer_rework_round1" in workflow.dag.steps
-
-    def test_load_multi_agent_single_loop_workflow(self):
-        """Load the single-loop E2E workflow variant."""
-        loader = WorkflowLoader()
-        workflow = loader.load("multi_agent_codegen_e2e_single_loop")
-
-        assert workflow.name == "multi_agent_codegen_e2e_single_loop"
-        assert "qa_rework_loop" in workflow.dag.steps
-        assert "build_verify_pretest" in workflow.dag.steps
-        assert "final_quality_gate" in workflow.dag.steps
-
     def test_load_nonexistent_workflow_raises(self):
         """Loading nonexistent workflow raises WorkflowLoadError."""
         loader = WorkflowLoader()
@@ -80,20 +59,8 @@ class TestWorkflowLoaderBasic:
         """Experimental workflows are hidden from default list."""
         loader = WorkflowLoader()
         workflows = loader.list_workflows()
-        assert "plan_implementation" not in workflows
-
-    def test_list_workflows_includes_experimental_flag(self):
-        """include_experimental=True surfaces experimental workflows."""
-        loader = WorkflowLoader()
-        workflows = loader.list_workflows(include_experimental=True)
-        assert "plan_implementation" in workflows
-
-    def test_load_experimental_workflow_still_works(self):
-        """Experimental workflow remains loadable by explicit name."""
-        loader = WorkflowLoader()
-        workflow = loader.load("plan_implementation")
-        assert workflow.experimental is True
-        assert len(workflow.dag.steps) > 0
+        # No experimental workflows currently defined
+        assert isinstance(workflows, list)
 
 
 class TestWorkflowLoaderDAG:
@@ -173,36 +140,6 @@ steps:
             step = workflow.dag.steps["inspect"]
             assert step.metadata["tools"] == ["file_read", "search"]
 
-    def test_single_loop_workflow_has_bounded_loop_contract(self):
-        """Single-loop workflow keeps one bounded QA loop with explicit
-        condition."""
-        loader = WorkflowLoader()
-        workflow = loader.load("multi_agent_codegen_e2e_single_loop")
-
-        qa_loop = workflow.dag.steps["qa_rework_loop"]
-        assert qa_loop.loop_max == 2
-        assert qa_loop.loop_until is not None
-        assert "APPROVED" in qa_loop.loop_until
-        assert "overall_test_status" in qa_loop.loop_until
-
-    def test_single_loop_workflow_prompt_overrides_present(self):
-        """Step-level prompt_file overrides are retained for agent
-        specialization."""
-        loader = WorkflowLoader()
-        workflow = loader.load("multi_agent_codegen_e2e_single_loop")
-
-        assert (
-            workflow.dag.steps["decompose_problem"].metadata["prompt_file"]
-            == "planner.md"
-        )
-        assert (
-            workflow.dag.steps["integration_rework_pretest"].metadata["prompt_file"]
-            == "developer.md"
-        )
-        assert (
-            workflow.dag.steps["final_quality_gate"].metadata["prompt_file"]
-            == "validator.md"
-        )
 
 
 class TestWorkflowLoaderInputs:

@@ -2,7 +2,7 @@
 
 Provides adapters that map Hugging Face dataset samples to the input
 schemas expected by each built-in workflow (code_review,
-fullstack_generation, plan_implementation).
+fullstack_generation).
 """
 
 from __future__ import annotations
@@ -261,55 +261,6 @@ def python_fullstack_inputs(limit: int = 5) -> list[dict[str, Any]]:
     return results
 
 
-def plan_implementation_inputs(limit: int = 5) -> list[dict[str, Any]]:
-    """Adapt SWE-bench datasets → plan_implementation.yaml inputs.
-
-    Returns dicts with keys matching the plan_implementation workflow:
-    plan_document, target_directory, acceptance_criteria, _meta
-    """
-    results = []
-
-    # SWE-bench Lite
-    for rec in load_swe_bench_lite()[:limit]:
-        results.append(
-            {
-                "plan_document": rec.get("problem_statement", ""),
-                "target_directory": "agentic-workflows-v2",
-                "acceptance_criteria": (
-                    f"Fix issue in {rec.get('repo', 'unknown')}. "
-                    f"Tests that must pass: {rec.get('FAIL_TO_PASS', '[]')}"
-                ),
-                "_meta": {
-                    "source": "princeton-nlp/SWE-bench_Lite",
-                    "instance_id": rec.get("instance_id"),
-                    "repo": rec.get("repo"),
-                    "has_patch": bool(rec.get("patch")),
-                    "has_test_patch": bool(rec.get("test_patch")),
-                },
-            }
-        )
-
-    # SWE-bench Verified
-    for rec in load_swe_bench_verified()[:limit]:
-        results.append(
-            {
-                "plan_document": rec.get("problem_statement", ""),
-                "target_directory": "agentic-workflows-v2",
-                "acceptance_criteria": (
-                    f"Fix issue in {rec.get('repo', 'unknown')}. "
-                    f"Difficulty: {rec.get('difficulty', 'unknown')}. "
-                    f"Tests: {rec.get('FAIL_TO_PASS', '[]')}"
-                ),
-                "_meta": {
-                    "source": "princeton-nlp/SWE-bench_Verified",
-                    "instance_id": rec.get("instance_id"),
-                    "repo": rec.get("repo"),
-                    "difficulty": rec.get("difficulty"),
-                },
-            }
-        )
-
-    return results
 
 
 # ---------------------------------------------------------------------------
@@ -342,12 +293,12 @@ def dataset_summary() -> dict[str, dict[str, Any]]:
         },
         "swe_bench_lite": {
             "hf_id": "princeton-nlp/SWE-bench_Lite",
-            "workflow": "plan_implementation",
+            "workflow": "bug_resolution",
             "loader": "load_swe_bench_lite",
         },
         "swe_bench_verified": {
             "hf_id": "princeton-nlp/SWE-bench_Verified",
-            "workflow": "plan_implementation",
+            "workflow": "bug_resolution",
             "loader": "load_swe_bench_verified",
         },
         "mbpp": {

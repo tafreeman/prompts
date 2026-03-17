@@ -136,13 +136,13 @@ class TestLangChainEngineExecute:
 
         engine = LangChainEngine(runner=mock_runner)
         result = await engine.execute(
-            "deep_research",
+            "code_review",
             ctx=None,
-            topic="LLM routing",
+            code_file="example.py",
         )
 
         mock_runner.run.assert_awaited_once_with(
-            "deep_research", ctx=None, topic="LLM routing"
+            "code_review", ctx=None, code_file="example.py"
         )
         assert result is expected
 

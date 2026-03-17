@@ -74,55 +74,10 @@ class TestConfigLoader:
         assert "correctness_rubric" in criteria_names
         assert "code_quality" in criteria_names
 
-    def test_load_deep_research(self):
-        config = load_workflow_config("deep_research")
-        assert config.name == "deep_research"
-        assert config.version == "1.0"
-        assert len(config.steps) > 10
-        assert "topic" in config.inputs
-        assert "goal" in config.inputs
-        assert config.inputs["topic"].required is False
-        assert config.inputs["goal"].required is False
-        assert "min_ci" in config.inputs
-        assert "max_rounds" in config.inputs
-        assert "confidence_report" in config.outputs
-
-    def test_deep_research_goal_falls_back_to_topic(self):
-        config = load_workflow_config("deep_research")
-        intake_scope = next(s for s in config.steps if s.name == "intake_scope")
-        assert intake_scope.inputs["goal"] == "${coalesce(inputs.goal, inputs.topic)}"
-
-    def test_deep_research_round2_is_conditional(self):
-        config = load_workflow_config("deep_research")
-        step = next(s for s in config.steps if s.name == "hypothesis_tree_tot_round2")
-        assert step.when is not None
-        assert "inputs.max_rounds" in step.when
-        assert ">= 2" in step.when
-        assert "steps.coverage_confidence_audit_round1.outputs.ci_score" in step.when
-
-    def test_deep_research_outputs_include_rag(self):
-        config = load_workflow_config("deep_research")
-        assert "rag_manifest" in config.outputs
-        assert "rag_chunks" in config.outputs
-        assert "claim_graph" in config.outputs
-
-    def test_deep_research_step_model_overrides(self):
-        config = load_workflow_config("deep_research")
-        source_policy = next(s for s in config.steps if s.name == "source_policy")
-        final_synthesis = next(s for s in config.steps if s.name == "final_synthesis")
-        assert (
-            source_policy.model_override
-            == "env:DEEP_RESEARCH_SMALL_MODEL|gemini:gemini-2.0-flash-lite"
-        )
-        assert (
-            final_synthesis.model_override
-            == "env:DEEP_RESEARCH_HEAVY_MODEL|gemini:gemini-2.5-flash"
-        )
-
     def test_compile_validate_only_all_runnable_workflows(self):
         """All runnable workflow definitions should compile in validate_only
         mode."""
-        workflows = [name for name in list_workflows() if name != "plan_implementation"]
+        workflows = list_workflows()
         assert workflows, "Expected at least one runnable workflow definition"
 
         for name in workflows:
@@ -706,14 +661,6 @@ class TestConfigParserNonStringInputs:
         assert "composite" in config.steps[0].inputs
         assert isinstance(config.steps[0].inputs["composite"], dict)
 
-    def test_loads_fullstack_bounded_rereview(self):
-        """fullstack_generation_bounded_rereview.yaml uses coalesce() in inputs
-        — should load cleanly."""
-        try:
-            config = load_workflow_config("fullstack_generation_bounded_rereview")
-            assert len(config.steps) > 0
-        except FileNotFoundError:
-            pytest.skip("fullstack_generation_bounded_rereview.yaml not available")
 
 
 class TestLoopIterationCounter:
