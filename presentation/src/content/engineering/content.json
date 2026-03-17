@@ -22,6 +22,8 @@
   },
   "slides": {
     "system-architecture": {
+      "role": "overview",
+      "sourceLayout": "eng-architecture",
       "title": "System Architecture",
       "subtitle": "Four-layer design system with registry-based rendering.",
       "headline": "Layered Architecture",
@@ -34,6 +36,8 @@
       ]
     },
     "data-pipeline": {
+      "role": "process",
+      "sourceLayout": "eng-code-flow",
       "title": "Rendering Pipeline",
       "subtitle": "From URL parameter to painted pixels \u2014 the full data flow.",
       "headline": "Data Flow Pipeline",
@@ -47,6 +51,8 @@
       ]
     },
     "tech-evolution": {
+      "role": "evidence",
+      "sourceLayout": "eng-tech-stack",
       "title": "Technology Evolution",
       "subtitle": "How the platform evolved from monolith to modular design system.",
       "headline": "Platform Evolution Timeline",
@@ -65,6 +71,8 @@
       ]
     },
     "implementation-roadmap": {
+      "role": "vision",
+      "sourceLayout": "eng-roadmap",
       "title": "Implementation Roadmap",
       "subtitle": "Seven-phase Strangler Fig migration from monolith to design system.",
       "headline": "Migration Roadmap",

@@ -44,6 +44,8 @@
       "callout": "Use this slide as the executive opener, then move into the proof pages."
     },
     "human": {
+      "role": "evidence",
+      "sourceLayout": "stat-cards",
       "title": "Human in the Loop",
       "heroTitle": "Human-in-the-Loop Focused AI Development",
       "kicker": "AI-Accelerated Delivery",
@@ -102,6 +104,8 @@
       "callout": "AI generated code. Humans owned the decisions."
     },
     "hurdles": {
+      "role": "challenges",
+      "sourceLayout": "before-after",
       "title": "Hurdles We Overcame",
       "subtitle": "What changed from day one to delivery",
       "cards": [
@@ -113,11 +117,15 @@
       "callout": "The early friction became the guardrails that let the team move fast later."
     },
     "sprint": {
+      "role": "process",
+      "sourceLayout": "process-cycle",
       "title": "AI Sprint Cycle",
       "subtitle": "Human checkpoints at every stage of AI-assisted delivery",
       "callout": "The sprint changed, but human checkpoints stayed embedded throughout delivery."
     },
     "future": {
+      "role": "vision",
+      "sourceLayout": "h-strip",
       "title": "Looking Ahead",
       "subtitle": "Better steering — not more automation — is the next multiplier",
       "cards": [
@@ -129,6 +137,8 @@
       "callout": "The playbook is proven. The next gain comes from better steering, not less governance."
     },
     "platform": {
+      "role": "tools",
+      "sourceLayout": "process-lanes",
       "title": "Service Platform",
       "subtitle": "One front door for IT demand, approvals, and procurement handoff",
       "eyebrow": "Issue to Impact",

@@ -22,6 +22,8 @@
   },
   "slides": {
     "introduction": {
+      "role": "overview",
+      "sourceLayout": "two-col",
       "title": "Introduction",
       "subtitle": "A modernist system with stark contrast, electric color blocks, and disciplined grid rules",
       "eyebrow": "Reference Story",
@@ -42,6 +44,8 @@
       "callout": "The deck works because the system is stricter than the content."
     },
     "color-system": {
+      "role": "evidence",
+      "sourceLayout": "stat-cards",
       "title": "Color",
       "subtitle": "Primary palette notes for the Swiss-modern reference",
       "cards": [
@@ -52,6 +56,8 @@
       "callout": "If every slide is loud, none of them are. Save cobalt for impact."
     },
     "type-rules": {
+      "role": "challenges",
+      "sourceLayout": "before-after",
       "title": "Type Rules",
       "subtitle": "Before/after guidance for keeping the visual language crisp",
       "cards": [
@@ -63,11 +69,15 @@
       "callout": "This style is less about flair and more about compositional law."
     },
     "system-flow": {
+      "role": "process",
+      "sourceLayout": "process-cycle",
       "title": "System Flow",
       "subtitle": "A compact process sample for charts, maps, and diagram-driven pages",
       "callout": "Charts should feel like parts of the operating system, not pasted-in widgets."
     },
     "data-story": {
+      "role": "vision",
+      "sourceLayout": "h-strip",
       "title": "Data Story",
       "subtitle": "Sample narrative blocks for turning metrics into a gallery-style systems deck",
       "cards": [

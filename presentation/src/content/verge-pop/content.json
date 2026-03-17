@@ -56,6 +56,8 @@
       "callout": "Small, interactive, and content-driven groups are the dominant community pattern."
     },
     "niche": {
+      "role": "people",
+      "sourceLayout": "quote-collage",
       "title": "NICHE over scale = meaning",
       "subtitle": "We asked people about their most important online group. Some led with the platform, while others focused on what unites them.",
       "centerLabel": "COMMUNITIES AROUND SHARED INTERESTS",
@@ -73,6 +75,8 @@
       "callout": "The platform matters less than the shared interest that binds the community."
     },
     "platforms": {
+      "role": "data",
+      "sourceLayout": "badge-grid",
       "title": "As we splinter, small platforms become \"digital homes\"",
       "subtitle": "",
       "question": "Which of the following online spaces do you feel connected..?",
@@ -100,6 +104,8 @@
       "callout": "Platform fragmentation is accelerating — people are spreading across more spaces than ever."
     },
     "search": {
+      "role": "evidence",
+      "sourceLayout": "stat-hero",
       "title": "A real challenger to Google",
       "subtitle": "",
       "statItems": [
@@ -120,6 +126,8 @@
       "callout": "AI tools are becoming the new front door for information discovery."
     },
     "creativity": {
+      "role": "principles",
+      "sourceLayout": "color-blocks",
       "title": "Creating vs. Being Creative",
       "subtitle": "",
       "blocks": [
@@ -150,6 +158,8 @@
       "callout": "People draw a clear line between artistic expression and functional creation."
     },
     "brands": {
+      "role": "challenges",
+      "sourceLayout": "data-table",
       "title": "Ultimately, brands are expected to join communities",
       "subtitle": "",
       "tableTitle": "Brand Engagements",
@@ -165,6 +175,8 @@
       "callout": "Brands are expected to participate, not just advertise."
     },
     "media": {
+      "role": "tools",
+      "sourceLayout": "bar-chart",
       "title": "Major media brands are places of community",
       "subtitle": "",
       "barGroups": [
@@ -195,6 +207,8 @@
       "callout": "Media brands compete with social platforms as community hubs."
     },
     "belonging": {
+      "role": "vision",
+      "sourceLayout": "stat-hero",
       "title": "While community needs belonging, content is critical",
       "subtitle": "",
       "question": "What are the top criteria for what makes a great community?",

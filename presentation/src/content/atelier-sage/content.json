@@ -51,6 +51,8 @@
       "callout": "This cycle should read like an editorial spread first and an operating model second."
     },
     "works": {
+      "role": "evidence",
+      "sourceLayout": "stat-cards",
       "title": "How This Works",
       "subtitle": "A sample content slide with one large image block and three compact proof cards",
       "cards": [
@@ -61,6 +63,8 @@
       "callout": "The image should feel placed, not decorated — it is the counterweight to the typography."
     },
     "language": {
+      "role": "principles",
+      "sourceLayout": "h-strip",
       "title": "Language Bank",
       "subtitle": "Suggested phrases to keep the deck in the same editorial register",
       "cards": [

@@ -22,6 +22,8 @@
   },
   "slides": {
     "who-we-are": {
+      "role": "overview",
+      "sourceLayout": "hb-chapter",
       "title": "Who We Are",
       "subtitle": "Big ideas, human taste, AI velocity.",
       "eyebrow": "The Studio",
@@ -43,6 +45,8 @@
       "callout": "We don\u2019t use AI to go faster. We use AI to go further."
     },
     "what-we-build": {
+      "role": "principles",
+      "sourceLayout": "hb-practices",
       "title": "What We Build",
       "subtitle": "Five practice areas. One integrated team.",
       "eyebrow": "Practice Areas",
@@ -78,6 +82,8 @@
       "callout": "Practices are lenses, not silos. Most briefs require three or more to answer properly."
     },
     "our-process": {
+      "role": "process",
+      "sourceLayout": "hb-process",
       "title": "Our Process",
       "subtitle": "Eight steps from brief to delivery.",
       "eyebrow": "How This Works",
@@ -94,6 +100,8 @@
       "callout": "The first step of the process is to trust the process."
     },
     "we-believe": {
+      "role": "vision",
+      "sourceLayout": "hb-manifesto",
       "title": "We Believe",
       "subtitle": "The ideas we hold regardless of brief.",
       "eyebrow": "Studio Manifesto",
@@ -108,6 +116,8 @@
       "callout": "We measure by the quality of our output, not the hours we logged."
     },
     "our-clients": {
+      "role": "people",
+      "sourceLayout": "hb-index",
       "title": "Who We Work With",
       "subtitle": "The types of clients we do our best work for.",
       "eyebrow": "Client Index",
@@ -122,6 +132,8 @@
       "callout": "The best client relationships begin with mutual respect for the brief \u2014 and for each other."
     },
     "first-day": {
+      "role": "tools",
+      "sourceLayout": "hb-chapter",
       "title": "Your First Day",
       "subtitle": "What you need to know before week one is over.",
       "eyebrow": "Getting Started",

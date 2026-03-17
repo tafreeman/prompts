@@ -22,6 +22,8 @@
   },
   "slides": {
     "expectations": {
+      "role": "overview",
+      "sourceLayout": "info-cards",
       "title": "Expectations & Standards",
       "subtitle": "What every team member must know on day one.",
       "headline": "Team Expectations",
@@ -36,6 +38,8 @@
       "callout": "Speed without governance is recklessness. Governance without speed is irrelevance. We do both."
     },
     "tools": {
+      "role": "tools",
+      "sourceLayout": "checklist",
       "title": "Tools & Guardrails",
       "subtitle": "What's approved, what's restricted, and where the lines are.",
       "headline": "Approved Tools & Boundaries",
@@ -56,6 +60,8 @@
       "callout": "The tools are powerful. The guardrails are non-negotiable. Internalize both."
     },
     "devworkflow": {
+      "role": "process",
+      "sourceLayout": "workflow",
       "title": "Developer Workflow",
       "subtitle": "From ticket to merge request — the full AI-assisted loop.",
       "headline": "The AI-Assisted Development Loop",
@@ -72,6 +78,8 @@
       "callout": "The loop is tight by design. Every AI output passes through a human gate before it touches the codebase."
     },
     "disciplines": {
+      "role": "principles",
+      "sourceLayout": "pillars",
       "title": "Engineering Disciplines",
       "subtitle": "Context engineering, prompt craft, tooling, and documentation.",
       "headline": "Core Engineering Disciplines",
@@ -89,6 +97,8 @@
       "callout": "AI can draft ADR, ICD, IMS, SDD, SIP, changelogs, and onboarding guides — but a human must validate accuracy before any doc is baselined."
     },
     "qa": {
+      "role": "evidence",
+      "sourceLayout": "info-cards",
       "title": "QA & Testing",
       "subtitle": "How front-end QA testers leverage AI for testing at speed.",
       "headline": "QA Testers & AI",
@@ -103,6 +113,8 @@
       "callout": "QA doesn't need to become engineering. But QA that speaks the language of automation multiplies the whole team's velocity."
     },
     "functional": {
+      "role": "people",
+      "sourceLayout": "checklist",
       "title": "Functional Team",
       "subtitle": "RTM, use cases, roadmaps, and documentation — AI's role and limits.",
       "headline": "Functional Team AI Use Cases",
@@ -122,6 +134,8 @@
       "callout": "AI is your drafting assistant, not your analyst. It structures information — you validate meaning."
     },
     "compliance": {
+      "role": "compliance",
+      "sourceLayout": "catalog",
       "title": "Data & Compliance",
       "subtitle": "CUI, PII, and the non-negotiable rules of data handling.",
       "headline": "Data Classification & AI Boundaries",
