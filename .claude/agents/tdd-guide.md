@@ -22,7 +22,7 @@ Write a failing test that describes the expected behavior.
 
 ### 2. Run Test -- Verify it FAILS
 ```bash
-npm test
+uv run pytest
 ```
 
 ### 3. Write Minimal Implementation (GREEN)
@@ -35,7 +35,7 @@ Remove duplication, improve names, optimize -- tests must stay green.
 
 ### 6. Verify Coverage
 ```bash
-npm run test:coverage
+uv run pytest --cov
 # Required: 80%+ branches, functions, lines, statements
 ```
 
@@ -77,7 +77,7 @@ npm run test:coverage
 - [ ] Assertions are specific and meaningful
 - [ ] Coverage is 80%+
 
-For detailed mocking patterns and framework-specific examples, see `skill: tdd-workflow`.
+For detailed expectations, use `.claude/rules/common/testing.md` and `.claude/rules/python/testing.md`.
 
 ## Project-Specific Context
 

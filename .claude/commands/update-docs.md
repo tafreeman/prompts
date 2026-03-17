@@ -6,7 +6,7 @@ Sync documentation with the codebase, generating from source-of-truth files.
 
 | Source | Generates |
 |--------|-----------|
-| `package.json` scripts | Available commands reference |
+| `pyproject.toml`, `Makefile`, or `package.json` commands | Available commands reference |
 | `.env.example` | Environment variable documentation |
 | `openapi.yaml` / route files | API endpoint reference |
 | Source code exports | Public API documentation |
@@ -21,9 +21,9 @@ Sync documentation with the codebase, generating from source-of-truth files.
 ```markdown
 | Command | Description |
 |---------|-------------|
-| `npm run dev` | Start development server with hot reload |
-| `npm run build` | Production build with type checking |
-| `npm test` | Run test suite with coverage |
+| `python -m pytest` | Run the Python test suite |
+| `python -m build` | Build package distributions |
+| `npm run dev` | Start the frontend development server |
 ```
 
 ## Step 3: Generate Environment Documentation

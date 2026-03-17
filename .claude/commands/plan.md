@@ -36,45 +36,42 @@ The planner agent will:
 ## Example Usage
 
 ```
-User: /plan I need to add a BM25 keyword index to the RAG retrieval pipeline
+User: /plan I need to add domain-adaptive recency windows to the deep research scoring pipeline
 
 Agent (planner):
-# Implementation Plan: BM25 Keyword Index for RAG Pipeline
+# Implementation Plan: Domain-Adaptive Recency Windows
 
 ## Requirements Restatement
-- Add BM25-based keyword retrieval alongside existing vector search
-- Implement Reciprocal Rank Fusion (RRF) to merge results
-- Maintain backward compatibility with existing RAG tools
+- Replace the hard-coded recency window in `agentic_v2/server/multidimensional_scoring.py`
+- Load per-profile defaults from `agentic_v2/config/defaults/evaluation.yaml`
+- Preserve today's scoring behavior when no override is configured
 
 ## Implementation Phases
 
-### Phase 1: BM25 Index Protocol
-- Define `KeywordIndex(Protocol)` in `rag/protocols.py`
-- Implement `BM25Index` in `rag/keyword_index.py` with `add()` and `search()`
-- Add tokenization with stopword removal
+### Phase 1: Config Contract
+- Add recency-window entries to `agentic_v2/config/defaults/evaluation.yaml`
+- Define parsing and validation helpers in `agentic_v2/server/scoring_profiles.py`
 
-### Phase 2: Hybrid Retriever
-- Create `HybridRetriever` in `rag/retrieval.py`
-- Implement RRF fusion: `score = sum(1 / (k + rank))` across both indexes
-- Accept configurable weights for vector vs. keyword
+### Phase 2: Scoring Integration
+- Thread the selected window into `agentic_v2/server/multidimensional_scoring.py`
+- Keep `183` days as the fallback when a profile does not opt in
 
-### Phase 3: Integration
-- Wire `BM25Index` into `RAGIngestTool` pipeline
-- Update `RAGSearchTool` to use `HybridRetriever`
-- Add configuration to `evaluation.yaml`
+### Phase 3: Verification
+- Add pytest coverage for default, override, and invalid-window cases
+- Re-run the multidimensional scoring tests to confirm no regression
 
 ## Dependencies
-- No new external packages (pure Python BM25)
-- Existing: `rag/protocols.py`, `rag/vectorstore.py`
+- No new dependencies
+- Existing: `agentic_v2/server/scoring_profiles.py`, `agentic_v2/config/defaults/evaluation.yaml`
 
 ## Risks
-- MEDIUM: BM25 rebuild on each ingest (accumulated docs vs. fresh index)
-- LOW: Token budget increase from dual-source retrieval
+- MEDIUM: Profile config drift between defaults and runtime loader
+- LOW: Behavior change for profiles with partial overrides
 
 ## Estimated Complexity: MEDIUM
-- Implementation: 4-5 hours
-- Testing: 3-4 hours (50+ tests)
-- Total: 7-9 hours
+- Implementation: 2-4 hours
+- Testing: 1-2 hours
+- Total: 3-6 hours
 
 **WAITING FOR CONFIRMATION**: Proceed with this plan? (yes/no/modify)
 ```
@@ -98,4 +95,4 @@ After planning:
 ## Related Agents
 
 This command invokes the `planner` agent located at:
-`~/.claude/agents/planner.md`
+`.claude/agents/planner.md`

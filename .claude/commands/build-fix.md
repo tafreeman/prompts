@@ -9,7 +9,7 @@ Identify the project's build tool and run the build:
 | Indicator | Build Command |
 |-----------|---------------|
 | `package.json` with `build` script | `npm run build` or `pnpm build` |
-| `tsconfig.json` (TypeScript only) | `npx tsc --noEmit` |
+| `tsconfig.json` (JS/TS type-check config) | `npx tsc --noEmit` |
 | `Cargo.toml` | `cargo build 2>&1` |
 | `pom.xml` | `mvn compile` |
 | `build.gradle` | `./gradlew compileJava` |

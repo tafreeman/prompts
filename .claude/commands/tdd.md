@@ -49,45 +49,33 @@ REPEAT:   Next feature/scenario
 ## Example Usage
 
 ```
-User: /tdd I need a confidence index calculator for the research scoring engine
+User: /tdd I need a profile-specific recency window helper for deep research scoring
 
 Agent (tdd-guide):
-# TDD Session: Confidence Index Calculator
+# TDD Session: Profile-Specific Recency Window
 
 ## Step 1: Define Interface (SCAFFOLD)
 
-# rag/ci_calculator.py
-@dataclass(frozen=True)
-class DimensionScores:
-    coverage: float
-    source_quality: float
-    agreement: float
-    verification: float
-    recency: float
-
-def compute_ci(scores: DimensionScores, weights: dict[str, float]) -> float:
+# agentic_v2/server/scoring_profiles.py
+def resolve_recency_window(profile_name: str, overrides: dict[str, int] | None = None) -> int:
     raise NotImplementedError
 
 ## Step 2: Write Failing Test (RED)
 
-# tests/test_ci_calculator.py
-def test_nominal_scores_pass_threshold():
-    scores = DimensionScores(0.90, 0.85, 0.80, 0.85, 0.80)
-    ci = compute_ci(scores, DEFAULT_WEIGHTS)
-    assert ci >= 0.80
+# tests/test_multidimensional_scoring.py
+def test_uses_profile_specific_window_when_present():
+    assert resolve_recency_window("tax_law", {"tax_law": 183}) == 183
 
-def test_zero_verification_fails():
-    scores = DimensionScores(0.95, 0.95, 0.90, 0.0, 0.95)
-    ci = compute_ci(scores, DEFAULT_WEIGHTS)
-    assert ci < 0.80  # must not compensate
+def test_falls_back_to_default_window():
+    assert resolve_recency_window("general", None) == DEFAULT_RECENCY_WINDOW_DAYS
 
-def test_all_zeros():
-    scores = DimensionScores(0.0, 0.0, 0.0, 0.0, 0.0)
-    assert compute_ci(scores, DEFAULT_WEIGHTS) == 0.0
+def test_rejects_non_positive_window():
+    with pytest.raises(ValueError):
+        resolve_recency_window("tax_law", {"tax_law": 0})
 
 ## Step 3: Run Tests - Verify FAIL
 
-python -m pytest tests/test_ci_calculator.py -v
+python -m pytest tests/test_multidimensional_scoring.py -k recency_window -v
 FAILED - NotImplementedError
 3 failed, 0 passed
 
@@ -95,7 +83,7 @@ FAILED - NotImplementedError
 
 ## Step 7: Check Coverage
 
-python -m pytest tests/test_ci_calculator.py --cov=rag.ci_calculator
+python -m pytest tests/test_multidimensional_scoring.py -k recency_window --cov=agentic_v2.server.scoring_profiles
 Coverage: 100%
 ```
 
@@ -130,7 +118,7 @@ Coverage: 100%
 - Pipeline stages (RAG ingest → retrieve → assemble)
 - External service calls (LLM providers)
 
-**E2E Tests** (use `/e2e` command):
+**E2E Tests** (use the `e2e-runner` agent or the project's browser test tooling):
 - Critical user flows
 - Multi-step processes
 - Full stack integration
@@ -165,7 +153,8 @@ Never skip the RED phase. Never write code before tests.
 ## Related Agents
 
 This command invokes the `tdd-guide` agent located at:
-`~/.claude/agents/tdd-guide.md`
+`.claude/agents/tdd-guide.md`
 
-And can reference the `tdd-workflow` skill at:
-`~/.claude/skills/tdd-workflow/`
+Canonical testing expectations live in:
+- `.claude/rules/common/testing.md`
+- `.claude/rules/python/testing.md`

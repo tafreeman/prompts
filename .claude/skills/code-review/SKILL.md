@@ -15,7 +15,7 @@ Code review requires three distinct practices:
 2. **Requesting reviews** - Systematic review via code-reviewer subagent
 3. **Verification gates** - Evidence before any completion claims
 
-Each practice has specific triggers and protocols detailed in reference files.
+Each practice has specific triggers and protocols captured below.
 
 ## Core Principle
 
@@ -31,7 +31,7 @@ Trigger when:
 - External reviewer lacks full context
 - Suggestion conflicts with existing decisions
 
-**Reference:** `references/code-review-reception.md`
+Use the receiving feedback protocol below.
 
 ### Requesting Review
 Trigger when:
@@ -41,7 +41,7 @@ Trigger when:
 - Stuck and need fresh perspective
 - After fixing complex bugs
 
-**Reference:** `references/requesting-code-review.md`
+Use the requesting review protocol below.
 
 ### Verification Gates
 Trigger when:
@@ -51,7 +51,7 @@ Trigger when:
 - Any statement suggesting success/completion
 - Expressing satisfaction with work
 
-**Reference:** `references/verification-before-completion.md`
+Use the verification gates protocol below.
 
 ## Quick Decision Tree
 

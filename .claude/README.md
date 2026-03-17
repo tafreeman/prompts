@@ -1,19 +1,19 @@
 # `.claude/` Directory Guide
 
-Configuration and extensions for Claude Code in this repository.
+Canonical Claude/Codex workflow configuration for this repository.
 
 ## Structure
 
 ```
 .claude/
+├── agents/         # Canonical Claude/Codex execution specialists
 ├── commands/       # Slash commands (invoked via /command-name)
-├── contexts/       # Context files loaded with @context-name
 ├── rules/          # Auto-loaded rules organized by language/topic
 │   ├── common/     # Language-agnostic (agents, git, security, testing, patterns)
 │   └── python/     # Python-specific rules
-├── skills/         # Multi-step skill definitions (invoked via /skill-name)
+├── skills/         # On-demand multi-step protocols
 ├── launch.json     # Dev server configurations for Claude Preview
-└── settings.local.json  # Local overrides (not committed)
+└── settings.local.json  # Local permission overrides
 ```
 
 ## Commands (11)
@@ -34,16 +34,6 @@ Slash commands for common workflows. Invoked with `/command-name`.
 | `test-coverage` | Analyze and improve test coverage |
 | `update-docs` | Update documentation and codemaps |
 
-## Contexts (3)
-
-Loaded into conversation via `@context-name` for domain-specific knowledge.
-
-| Context | When to use |
-|---------|-------------|
-| `dev` | Day-to-day development tasks |
-| `research` | Research and deep analysis work |
-| `review` | Code review and quality checks |
-
 ## Rules
 
 Auto-loaded rules that guide behavior. Organized by scope:
@@ -58,14 +48,20 @@ When content overlaps between layers, this precedence applies:
 1. **Rules** (`rules/`) — Auto-loaded behavioral constraints. **Authoritative source of truth.**
 2. **Commands** (`commands/`) — Slash-command entry points. Delegate to agents; should not duplicate rule content.
 3. **Skills** (`skills/`) — Multi-step protocols. Loaded on-demand via `/skill-name`.
-4. **Agents** (subagent_type) — Execution specialists. Invoked by commands/skills; follow rules automatically.
+4. **Agents** (`agents/`) — Execution specialists. Invoked by commands or skills and constrained by rules.
 
-## Skills (9)
+## Agent Surfaces
+
+- **`.claude/agents/`** is the authoritative agent layer for Claude/Codex workflows in this repo.
+- **`.github/agents/`** is an optional GitHub Copilot integration surface. Update `.claude/` first, then sync `.github/agents/` only when Copilot support is intentionally being maintained.
+
+## Skills (11)
 
 Multi-step skill definitions with structured workflows.
 
 | Skill | Purpose |
 |-------|---------|
+| `build-all` | Build and verify all packages in the monorepo |
 | `changelog-generator` | Generate changelogs from git history |
 | `code-review` | Structured code review workflow |
 | `context-engineering` | AI context design patterns |
@@ -73,5 +69,10 @@ Multi-step skill definitions with structured workflows.
 | `langsmith-fetch` | Fetch LangSmith execution traces |
 | `mcp-builder` | Create MCP servers |
 | `problem-solving` | Creative problem-solving techniques |
+| `run-ci-local` | Mirror the CI pipeline locally |
 | `sequential-thinking` | Step-by-step reasoning with revision |
 | `webapp-testing` | Web application testing with Playwright |
+
+## Retired Surfaces
+
+The repo no longer ships `.claude/contexts/*.md` entrypoints such as `@dev`, `@research`, or `@review`. Their guidance was too thin and duplicated the active rules, commands, and skills above.

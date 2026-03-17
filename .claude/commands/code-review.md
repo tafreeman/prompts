@@ -1,20 +1,17 @@
 # Code Review
 
-Review uncommitted changes for security, quality, and correctness.
+Review uncommitted changes with the canonical code-review workflow.
 
-## Steps
+## Flow
 
 1. Get changed files: `git diff --name-only HEAD`
-2. Dispatch the **code-reviewer** agent to analyze each file
-3. If Python files changed, also dispatch **security-reviewer** agent
-4. Report findings grouped by file, severity first (CRITICAL > HIGH > MEDIUM > LOW)
-5. Block commit if CRITICAL or HIGH issues found
+2. Dispatch the **code-reviewer** agent to analyze the diff
+3. If changes touch Python, auth, secrets, or external integrations, also dispatch **security-reviewer**
+4. Report findings grouped by file, severity first
+5. Stop before commit or merge if any CRITICAL or HIGH issues remain
 
-## Severity Rules
+## Canonical Guidance
 
-- **CRITICAL**: Security vulnerabilities (secrets, injection, auth bypass) — must fix
-- **HIGH**: Logic errors, missing error handling, >50-line functions — must fix
-- **MEDIUM**: Mutation patterns, missing tests, style issues — fix when possible
-- **LOW**: Minor suggestions — optional
-
-Detailed review criteria are defined in `rules/common/security.md` and `rules/common/coding-style.md`.
+- Use `.claude/skills/code-review/SKILL.md` for feedback handling, review requests, and verification gates.
+- Use `.claude/rules/common/security.md` and `.claude/rules/common/testing.md` for review criteria.
+- Use `.claude/rules/common/agents.md` for agent selection and orchestration.
