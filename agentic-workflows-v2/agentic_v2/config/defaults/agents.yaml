@@ -59,9 +59,7 @@ agents:
     tools: ["test_runner", "diff_comparator", "schema_validator"]
     prompt_file: "prompts/validator.md"
     
-  # --- Agents below reference prompt files that don't exist yet ---
-  # Uncomment when corresponding prompts/*.md files are created.
-  #
+  # --- DEPRECATED: prompt files removed in d921ba0f ---
   # researcher:
   #   name: Researcher Agent
   #   prompt_file: "prompts/researcher.md"
