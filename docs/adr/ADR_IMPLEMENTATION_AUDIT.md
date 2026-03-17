@@ -4,12 +4,13 @@
 > **Auditor:** Claude Opus 4.6
 > **Scope:** 7 ADR documents + RAG Blueprint vs. codebase implementation
 > **Last validated against:** commit 94818282 (main)
+> **Status note (2026-03-16):** This is a historical implementation audit snapshot. Use `ADR-INDEX.md` as the canonical current ADR registry. References to `ADR-0001` through `ADR-0003` below are retained as historical package-structure notes from an older numbering scheme, not active entries in the current registry.
 
 ---
 
 ## Executive Summary
 
-Analyzed **7 ADR documents** (ADR-001 through ADR-003, ADR-007, ADR-0001 through ADR-0003, plus the RAG Pipeline Blueprint) against actual codebase implementation. Package-level decisions (0001-0003) are fully implemented. Core system-level ADRs (001-003, 007) are largely unimplemented, with ADR-003/007 being the notable partial exception.
+Analyzed **7 design documents** (ADR-001 through ADR-003, ADR-007, three historical package-structure notes numbered ADR-0001 through ADR-0003, plus the RAG Pipeline Blueprint) against actual codebase implementation. The canonical current ADR registry lives in `ADR-INDEX.md`. The historical package notes remain here for implementation context only; the active 3-digit ADR series is the source of truth for current governance.
 
 ---
 
@@ -17,9 +18,9 @@ Analyzed **7 ADR documents** (ADR-001 through ADR-003, ADR-007, ADR-0001 through
 
 | ADR | Title | Status | Implementation % |
 |-----|-------|--------|-----------------|
-| **ADR-0001** | Package Structure (co-location) | FULLY IMPLEMENTED | ~100% |
-| **ADR-0002** | Evaluation as Separate Package | FULLY IMPLEMENTED | ~100% |
-| **ADR-0003** | Server as Optional Install | FULLY IMPLEMENTED | ~100% |
+| **ADR-0001** | Historical package structure note | HISTORICAL | ~100% |
+| **ADR-0002** | Historical evaluation package note | HISTORICAL | ~100% |
+| **ADR-0003** | Historical optional server install note | HISTORICAL | ~100% |
 | **ADR-001** | Dual Execution Engine Protocol | PARTIALLY IMPLEMENTED | ~40% |
 | **ADR-002** | SmartModelRouter Circuit-Breaker Hardening | FULLY IMPLEMENTED | ~100% |
 | **ADR-003** | Deep Research Supervisor / CI Gating | PARTIALLY IMPLEMENTED | ~55% |
@@ -28,7 +29,9 @@ Analyzed **7 ADR documents** (ADR-001 through ADR-003, ADR-007, ADR-0001 through
 
 ---
 
-## 1. ADR-0001, 0002, 0003 — Package Structure Decisions
+## 1. Historical Package-Structure Notes (ADR-0001, ADR-0002, ADR-0003)
+
+These 4-digit items come from an older governance stream and are retained here as historical implementation context only. They are not part of the current canonical ADR registry, which is maintained in `ADR-INDEX.md`.
 
 ### Verdict: ALL PASS
 
@@ -141,7 +144,7 @@ ADR decided on **Option D: Common `ExecutionEngine` interface** as transitional 
 
 - ADR-003: Two-tier gating (floors + composite CI >= 0.80)
 - ADR-007: Abandons CI as primary gate; DORA-style conjunction only; CI demoted to tiebreaker
-- Implementation follows ADR-007 (correct), but ADR-003 never formally superseded
+- Current lineage: ADR-003 is formally superseded by ADR-007, and ADR-009 extends ADR-007
 
 ---
 
@@ -165,9 +168,9 @@ The blueprint document is a detailed specification. **None of it exists in code:
 ### Issues
 
 1. **ADR numbering inconsistent:** `0001-0003` vs `001-003` vs `007` vs planned `0004-0023`
-2. **Duplicate content:** `ADR-001-002-003-architecture-decisions.md` and `ADR_COMPILED.md` overlap
-3. **No supersession chain:** ADR-007 evolves ADR-003 but no formal `Superseded-By` link
-4. **ADRs 0004-0023 all still Proposed:** No governance process authored
+2. **Duplicate content:** `ADR-001-002-003-architecture-decisions.md` and the old compiled registry overlapped; `ADR_COMPILED.md` is now deprecated in favor of `ADR-INDEX.md`
+3. **Lineage can be missed if read out of order:** current research lineage is `ADR-003 -> ADR-007 -> ADR-009`
+4. **Legacy planned ADR program should stay retired:** do not treat the deprecated `ADR-0004` through `ADR-0023` list as an active governance backlog
 
 ---
 
@@ -224,7 +227,7 @@ The blueprint document is a detailed specification. **None of it exists in code:
 | # | Action | ADR | Effort |
 |---|--------|-----|--------|
 | 12 | Implement RAG pipeline module | Blueprint | 2-4 weeks |
-| 13 | Author ADRs 0004-0023 | Governance | Ongoing |
+| 13 | Author any future governance ADRs in the current 3-digit series | Governance | Ongoing |
 | 14 | Shadow execution CI for dual-engine conformance | ADR-001 | 1 week |
 
 ---

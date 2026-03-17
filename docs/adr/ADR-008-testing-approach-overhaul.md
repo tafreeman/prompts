@@ -10,7 +10,7 @@
 | **System**   | All packages — agentic-workflows-v2, tools/, agentic-v2-eval, UI |
 | **Authors**  | Platform Engineering |
 | **Reviewers** | Backend Lead, QA |
-| **Supersedes** | ADR-0023 (planned, never authored: "Unit-test strategy and deterministic fixtures") |
+| **Supersedes** | Deprecated planned unit-test strategy entry from the retired compiled registry (never authored) |
 
 ---
 
