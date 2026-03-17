@@ -46,16 +46,12 @@ This file is a human-maintained inventory of major repository areas and their pu
 
 ## Workflow Definitions
 
-Located in `agentic_v2/workflows/definitions/`:
+Located in `agentic_v2/workflows/definitions/` (6 definitions):
 - `bug_resolution.yaml`
 - `code_review.yaml`
-- `deep_research.yaml`
+- `conditional_branching.yaml`
 - `fullstack_generation.yaml`
-- `fullstack_generation_bounded_rereview.yaml`
-- `multi_agent_codegen_e2e.yaml`
-- `multi_agent_codegen_e2e_single_loop.yaml`
-- `plan_implementation.yaml`
-- `tdd_codegen_e2e.yaml`
+- `iterative_review.yaml`
 - `test_deterministic.yaml`
 
 ## Reference Links

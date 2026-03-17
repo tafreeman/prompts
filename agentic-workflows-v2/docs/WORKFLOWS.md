@@ -6,16 +6,12 @@ This document describes built-in workflow definitions in `agentic_v2/workflows/d
 
 | Workflow | Purpose | Typical inputs |
 | --- | --- | --- |
-| `code_review` | Automated multi-step code review | `code_file`, `review_depth` |
 | `bug_resolution` | Triage, root-cause, fix, and verification | `bug_report`, `code_file`, `resolution_depth` |
-| `deep_research` | Iterative research with confidence gating | `topic`, `goal`, `max_rounds`, `min_ci` |
+| `code_review` | Automated multi-step code review | `code_file`, `review_depth` |
+| `conditional_branching` | Conditional step execution with `when:` gates | `input_text`, `category` |
 | `fullstack_generation` | Parallel feature generation across backend/frontend | `feature_spec`, `tech_stack` |
-| `fullstack_generation_bounded_rereview` | Fullstack generation with bounded re-review loop | `feature_spec`, `tech_stack` |
-| `multi_agent_codegen_e2e` | End-to-end multi-agent generation with quality gates | `feature_spec`, `repo_context`, `constraints` |
-| `multi_agent_codegen_e2e_single_loop` | Single bounded QA loop variant | `feature_spec`, `repo_context`, `constraints` |
-| `tdd_codegen_e2e` | Test-first generation and gated implementation | `feature_spec`, `repo_context`, `constraints` |
+| `iterative_review` | Bounded review-rework cycles with `loop_until:`/`loop_max:` | `code_file`, `review_depth` |
 | `test_deterministic` | Deterministic no-LLM smoke workflow | `input_text` |
-| `plan_implementation` | Legacy experimental iterative orchestration spec | plan and architecture docs |
 
 ## Workflow Structure
 
