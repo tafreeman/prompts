@@ -6,6 +6,12 @@ description: Comprehensive guide to creating and using GitHub Copilot custom age
 
 A comprehensive guide to creating, deploying, and using custom agents with GitHub Copilot for effective AI-assisted development.
 
+## Canonical Source Note
+
+- This directory is a GitHub Copilot integration surface, not the canonical Claude/Codex workflow source for the repo.
+- Shared workflow guidance belongs in `.claude/agents/`, `.claude/commands/`, `.claude/rules/`, and `.claude/skills/`.
+- Maintenance rule: update `.claude/` first, then sync `.github/agents/` only when Copilot support is intentionally being maintained.
+
 ---
 
 ## 📋 Table of Contents
@@ -44,6 +50,8 @@ Custom agents are specialized AI personas that extend GitHub Copilot's capabilit
 ### 1. Choose an Agent
 
 Browse our [pre-built agents](./README.md) or create your own from the [template](./agent-template.md).
+
+If the behavior is shared across tooling, update `.claude/` first and treat the Copilot agent as a secondary projection of the canonical guidance.
 
 ### 2. Copy to Your Repository
 

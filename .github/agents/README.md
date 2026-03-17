@@ -2,6 +2,12 @@
 
 This directory contains specialized GitHub Copilot custom agents designed for common development tasks. These agents are optimized for use with GitHub Copilot's coding agent feature.
 
+## Canonical Source Note
+
+- `.github/agents/` is for GitHub Copilot custom agents only.
+- `.claude/` is the canonical workflow layer for Claude/Codex in this repository.
+- Update `.claude/` first. Sync `.github/agents/` only when Copilot support is intentionally being maintained.
+
 ## 📖 Overview
 
 Custom agents are specialized AI personas that can be invoked to handle specific types of tasks. Each agent has:
@@ -158,10 +164,11 @@ tools: ["read", "write", "search"]
 
 To add a new agent:
 
-1. Copy `agent-template.md` to a new file
-2. Fill in all required sections
-3. Test locally with Copilot CLI
-4. Submit a pull request
+1. Update shared workflow guidance under `.claude/` first if the behavior is meant to be canonical across agent surfaces
+2. Copy `agent-template.md` to a new file
+3. Fill in all required sections
+4. Test locally with Copilot CLI
+5. Submit a pull request
 
 See [CONTRIBUTING.md](../CONTRIBUTING.md) for detailed guidelines.
 
