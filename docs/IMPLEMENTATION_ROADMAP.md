@@ -217,8 +217,8 @@ Independent tasks run simultaneously via the Agent tool with `subagent_type` par
 > **Orchestration:** Run two parallel antagonistic agents
 >
 > ```
-> Agent(subagent_type="general-purpose", prompt="<antagonist_implementation persona> Review Sprint 0.5 + 1 outputs...")
-> Agent(subagent_type="general-purpose", prompt="<antagonist_systemic persona> Review Sprint 0.5 + 1 outputs...")
+> Agent(subagent_type="general-purpose", prompt="<antagonist_implementation persona> Review Sprint 0.5 + 1 outputs...")  # persona removed — see git history at d921ba0f
+> Agent(subagent_type="general-purpose", prompt="<antagonist_systemic persona> Review Sprint 0.5 + 1 outputs...")  # persona removed — see git history at d921ba0f
 > ```
 >
 > **Gate criteria:**
@@ -541,7 +541,7 @@ Independent tasks run simultaneously via the Agent tool with `subagent_type` par
 
 - **Agent workflow:** Single agent — `tdd-guide`
 - **Action:** Connect `multidimensional_scoring.py` to actual workflow YAML execution
-- **Modified:** `deep_research.yaml` step conditions
+- **Modified:** `deep_research.yaml` *(removed)* step conditions
 
 ### Task 9.3: YAML Template Macros for R1-R4
 
@@ -860,8 +860,8 @@ Every sprint must pass before proceeding:
 
 # Antagonistic checkpoints (run at each CP)
 # Launch TWO agents in parallel:
-#   Agent(subagent_type="general-purpose", prompt="<antagonist_implementation persona> Review Sprint X outputs...")
-#   Agent(subagent_type="general-purpose", prompt="<antagonist_systemic persona> Review Sprint X outputs...")
+#   Agent(subagent_type="general-purpose", prompt="<antagonist_implementation persona> Review Sprint X outputs...")  # persona removed — see git history at d921ba0f
+#   Agent(subagent_type="general-purpose", prompt="<antagonist_systemic persona> Review Sprint X outputs...")  # persona removed — see git history at d921ba0f
 ```
 
 ---

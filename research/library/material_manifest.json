@@ -297,7 +297,8 @@
       "destination_path": "research/library/artifacts/agentic-workflows-v2/agentic_v2/prompts/researcher.md",
       "size_bytes": 1601,
       "sha256": "b2aa25daed9cf13d2a99c3a9e95b27d2b1cbcb118e96cac4c541f168f8b5056b",
-      "reason": "research document consolidated"
+      "reason": "research document consolidated",
+      "status": "removed"
     },
     {
       "source_path": "agentic-workflows-v2/agentic_v2/prompts/reviewer.md",
@@ -324,7 +325,8 @@
       "destination_path": "research/library/artifacts/agentic-workflows-v2/agentic_v2/workflows/definitions/deep_research.yaml",
       "size_bytes": 28092,
       "sha256": "5473abea89fdc70e0016f98b0345bec3bcdff0df178ee280bfb98c21d165d5c3",
-      "reason": "research document consolidated"
+      "reason": "research document consolidated",
+      "status": "removed"
     },
     {
       "source_path": "agentic-workflows-v2/agentic_v2/workflows/definitions/fullstack_generation_bounded_rereview.yaml",
@@ -333,7 +335,8 @@
       "destination_path": "research/library/artifacts/agentic-workflows-v2/agentic_v2/workflows/definitions/fullstack_generation_bounded_rereview.yaml",
       "size_bytes": 8332,
       "sha256": "9f18982d1c4e479cb2b425f15c2a077b20590d7d63f25161dde033a0ee2e82fe",
-      "reason": "research document consolidated"
+      "reason": "research document consolidated",
+      "status": "removed"
     },
     {
       "source_path": "agentic-workflows-v2/docs/API_REFERENCE.md",

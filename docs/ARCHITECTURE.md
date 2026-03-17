@@ -161,16 +161,12 @@ Independent DAG executor not wired to CLI/API. Available as a library.
 
 ### YAML Definition Language
 
-10 workflow definitions under `workflows/definitions/`:
+6 workflow definitions under `workflows/definitions/`:
 - `bug_resolution.yaml`
 - `code_review.yaml`
-- `deep_research.yaml`
+- `conditional_branching.yaml`
 - `fullstack_generation.yaml`
-- `fullstack_generation_bounded_rereview.yaml`
-- `multi_agent_codegen_e2e.yaml`
-- `multi_agent_codegen_e2e_single_loop.yaml`
-- `plan_implementation.yaml`
-- `tdd_codegen_e2e.yaml`
+- `iterative_review.yaml`
 - `test_deterministic.yaml`
 
 Each step declares: `name`, `agent`, `description`, `depends_on`, `inputs`, `outputs`, `when`, `loop_until`, `loop_max`, `tools`, `model_override`.

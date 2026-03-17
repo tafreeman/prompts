@@ -130,9 +130,9 @@ while len(completed) < len(dag.steps):
 ### 5. Bounded Iteration
 
 **Category:** Orchestration
-**Implementation:** `agentic-workflows-v2/agentic_v2/workflows/loader.py` -- `loop_max` parsing (line 513); `agentic-workflows-v2/agentic_v2/workflows/definitions/tdd_codegen_e2e.yaml` -- `loop_max: 2` (line 500); `agentic-workflows-v2/agentic_v2/workflows/definitions/fullstack_generation_bounded_rereview.yaml` -- conditional `when:` guards
+**Implementation:** `agentic-workflows-v2/agentic_v2/workflows/loader.py` -- `loop_max` parsing (line 513); `agentic-workflows-v2/agentic_v2/workflows/definitions/tdd_codegen_e2e.yaml` *(removed)* -- `loop_max: 2` (line 500); `agentic-workflows-v2/agentic_v2/workflows/definitions/fullstack_generation_bounded_rereview.yaml` *(removed)* -- conditional `when:` guards
 **How It Works:** Workflow steps can declare a `loop_until` expression and a `loop_max` integer. The workflow loader (line 513) parses `loop_max` (default 3, minimum 1) and attaches it to the `StepDefinition`. At runtime, the step re-executes until the `loop_until` condition is satisfied or `loop_max` iterations are reached, preventing infinite agent loops. The bounded rereview workflow demonstrates a different approach: explicit conditional steps (`when:` guards) that cap review-rework cycles at 2 passes maximum.
-**Code Reference:** `agentic-workflows-v2/agentic_v2/workflows/loader.py:513` (loop_max parsing); `agentic-workflows-v2/agentic_v2/workflows/definitions/tdd_codegen_e2e.yaml:500` (loop_max usage)
+**Code Reference:** `agentic-workflows-v2/agentic_v2/workflows/loader.py:513` (loop_max parsing); `agentic-workflows-v2/agentic_v2/workflows/definitions/tdd_codegen_e2e.yaml:500` *(removed)* (loop_max usage)
 **Example:**
 ```yaml
 # tdd_codegen_e2e.yaml -- bounded QA loop
@@ -152,7 +152,7 @@ while len(completed) < len(dag.steps):
 **Category:** Prompting
 **Implementation:** All 24 persona files in `agentic-workflows-v2/agentic_v2/prompts/*.md` -- `## Reasoning Protocol` sections
 **How It Works:** Every agent persona includes a `## Reasoning Protocol` section with a domain-specific 5-step cognitive workflow that instructs the LLM to reason through the task before generating output. These are not generic "think step-by-step" prompts -- each is tailored to the persona's function. For example, the coder persona uses stack-identification-first reasoning, the debugger uses trace-backward root-cause analysis, the antagonist_implementation uses FMEA failure-mode enumeration, and the task_planner uses WBS decomposition.
-**Code Reference:** `agentic-workflows-v2/agentic_v2/prompts/coder.md:15` (Reasoning Protocol); `agentic-workflows-v2/agentic_v2/prompts/reasoner.md:11` (Reasoning Protocol)
+**Code Reference:** `agentic-workflows-v2/agentic_v2/prompts/coder.md:15` (Reasoning Protocol); `agentic-workflows-v2/agentic_v2/prompts/reasoner.md:11` *(removed)* (Reasoning Protocol)
 **Example:**
 ```markdown
 ## Reasoning Protocol  (from coder.md)
@@ -170,9 +170,9 @@ Before generating your response:
 ### 7. Tree-of-Thought
 
 **Category:** Prompting
-**Implementation:** `agentic-workflows-v2/agentic_v2/workflows/definitions/deep_research.yaml` -- `hypothesis_tree_tot_roundN` steps (lines 138, 237, 336, 436)
+**Implementation:** `agentic-workflows-v2/agentic_v2/workflows/definitions/deep_research.yaml` *(removed)* -- `hypothesis_tree_tot_roundN` steps (lines 138, 237, 336, 436)
 **How It Works:** In each research round, a `hypothesis_tree_tot` step instructs a `tier3_reasoner` agent to build a search plan organized as a tree of hypotheses with disconfirming paths. The agent receives the scoped research goal, prior search plans (from previous rounds), and unresolved questions, then outputs a structured `search_plan` with branching hypotheses. Each hypothesis includes both confirming and disconfirming evidence paths, forcing the LLM to explore multiple reasoning branches rather than committing to the first plausible answer. YAML anchors (`&hypothesis_step`) provide DRY template reuse across all 4 rounds.
-**Code Reference:** `agentic-workflows-v2/agentic_v2/workflows/definitions/deep_research.yaml:138` (round 1), `:237` (round 2), `:336` (round 3), `:436` (round 4)
+**Code Reference:** `agentic-workflows-v2/agentic_v2/workflows/definitions/deep_research.yaml:138` *(removed)* (round 1), `:237` (round 2), `:336` (round 3), `:436` (round 4)
 **Example:**
 ```yaml
 - <<: *hypothesis_step
@@ -194,9 +194,9 @@ Before generating your response:
 ### 8. ReAct
 
 **Category:** Prompting
-**Implementation:** `agentic-workflows-v2/agentic_v2/workflows/definitions/deep_research.yaml` -- `retrieval_react_roundN` steps (lines 151, 251, 351, 451)
+**Implementation:** `agentic-workflows-v2/agentic_v2/workflows/definitions/deep_research.yaml` *(removed)* -- `retrieval_react_roundN` steps (lines 151, 251, 351, 451)
 **How It Works:** Each `retrieval_react` step assigns a `tier2_researcher` agent with tool access (`web_search`, `http_get`, `context_store`) to execute a Reason+Act retrieval loop. The agent receives the search plan from the Tree-of-Thought step and iteratively reasons about what evidence to gather next, acts by invoking search tools, observes the results, and decides whether to search further or stop. This implements the classic ReAct (Reason + Act) prompting pattern where the LLM alternates between thinking and tool use within a single step execution.
-**Code Reference:** `agentic-workflows-v2/agentic_v2/workflows/definitions/deep_research.yaml:151` (round 1), `:251` (round 2)
+**Code Reference:** `agentic-workflows-v2/agentic_v2/workflows/definitions/deep_research.yaml:151` *(removed)* (round 1), `:251` (round 2)
 **Example:**
 ```yaml
 - <<: *retrieval_step
@@ -218,9 +218,9 @@ Before generating your response:
 ### 9. Chain-of-Verification
 
 **Category:** Prompting
-**Implementation:** `agentic-workflows-v2/agentic_v2/workflows/definitions/deep_research.yaml` -- `cove_verify_roundN` steps (lines 190, 290, 390, 490)
+**Implementation:** `agentic-workflows-v2/agentic_v2/workflows/definitions/deep_research.yaml` *(removed)* -- `cove_verify_roundN` steps (lines 190, 290, 390, 490)
 **How It Works:** After parallel AI and SWE specialist analyses in each round, a `cove_verify` step assigns a `tier3_reviewer` agent (with `web_search`, `http_get`, `context_store` tools) to independently verify claims from both analyses against fresh evidence. The step receives the AI analysis, SWE analysis, and evidence bundle, then cross-checks factual claims, identifies contradictions, produces a verification score, and surfaces unresolved questions that feed into the next round's hypothesis tree. This implements Chain-of-Verification (CoVe) by requiring independent re-verification of LLM-generated claims.
-**Code Reference:** `agentic-workflows-v2/agentic_v2/workflows/definitions/deep_research.yaml:190` (round 1), `:290` (round 2)
+**Code Reference:** `agentic-workflows-v2/agentic_v2/workflows/definitions/deep_research.yaml:190` *(removed)* (round 1), `:290` (round 2)
 **Example:**
 ```yaml
 - <<: *cove_verify_step
@@ -243,9 +243,9 @@ Before generating your response:
 ### 10. Adversarial Review
 
 **Category:** Prompting
-**Implementation:** `agentic-workflows-v2/agentic_v2/prompts/antagonist_implementation.md` (87 lines); `agentic-workflows-v2/agentic_v2/prompts/antagonist_systemic.md` (115 lines)
+**Implementation:** `agentic-workflows-v2/agentic_v2/prompts/antagonist_implementation.md` *(removed)* (87 lines); `agentic-workflows-v2/agentic_v2/prompts/antagonist_systemic.md` *(removed)* (115 lines)
 **How It Works:** Two orthogonal antagonist personas attack plans from non-overlapping angles. The **Implementation Failure Analyst** (`antagonist_implementation.md`) applies NASA Standing Review Board / FMEA methodology -- enumerating concrete failure modes, tracing cascade chains, and calculating risk priority (Likelihood x Severity x Detection difficulty). Its boundaries strictly limit it to internal mechanical feasibility. The **Systemic Risk Analyst** (`antagonist_systemic.md`) applies Gary Klein's Pre-Mortem technique -- assuming the project has already failed 12 months from now and working backward to identify fragile assumptions, YAGNI risk, irreversibility, and second-order effects. Its boundaries strictly exclude internal code quality. Together they provide comprehensive adversarial coverage without overlap.
-**Code Reference:** `agentic-workflows-v2/agentic_v2/prompts/antagonist_implementation.md:1` (FMEA persona); `agentic-workflows-v2/agentic_v2/prompts/antagonist_systemic.md:1` (Pre-Mortem persona)
+**Code Reference:** `agentic-workflows-v2/agentic_v2/prompts/antagonist_implementation.md:1` *(removed)* (FMEA persona); `agentic-workflows-v2/agentic_v2/prompts/antagonist_systemic.md:1` *(removed)* (Pre-Mortem persona)
 **Example:**
 ```markdown
 ## Reasoning Protocol  (from antagonist_implementation.md)
@@ -326,9 +326,9 @@ def record_failure(self, error_type: str = "unknown") -> None:
 ### 14. Confidence Gating
 
 **Category:** Evaluation
-**Implementation:** `agentic-workflows-v2/agentic_v2/workflows/definitions/deep_research.yaml` -- `coverage_confidence_audit_roundN` steps (lines 207, 307, 407, 507); conditional `when:` expressions on subsequent rounds
+**Implementation:** `agentic-workflows-v2/agentic_v2/workflows/definitions/deep_research.yaml` *(removed)* -- `coverage_confidence_audit_roundN` steps (lines 207, 307, 407, 507); conditional `when:` expressions on subsequent rounds
 **How It Works:** At the end of each research round, a `coverage_confidence_audit` step computes a multi-dimensional confidence index (CI) from five dimensions: `coverage_score`, `source_quality_score`, `agreement_score`, `verification_score`, and `recency_score`. The step outputs a `gate_passed` boolean indicating whether the CI meets the `min_ci` threshold (default 0.8). Subsequent rounds are gated by `when: not ${steps.coverage_confidence_audit_roundN.outputs.gate_passed}` -- they only execute if the gate has not been passed. This prevents unnecessary computation when confidence is already sufficient and bounds the maximum research depth to 4 rounds.
-**Code Reference:** `agentic-workflows-v2/agentic_v2/workflows/definitions/deep_research.yaml:207` (audit round 1), `:240` (gate condition on round 2)
+**Code Reference:** `agentic-workflows-v2/agentic_v2/workflows/definitions/deep_research.yaml:207` *(removed)* (audit round 1), `:240` (gate condition on round 2)
 **Example:**
 ```yaml
 # Conditional execution gated on confidence score
@@ -371,9 +371,9 @@ async def reflect(self, output: str, criteria: str = "correctness") -> dict[str,
 ### 16. Domain-Adaptive Recency
 
 **Category:** Evaluation
-**Implementation:** `agentic-workflows-v2/agentic_v2/workflows/definitions/deep_research.yaml` -- `inputs.domain` (line 72), `inputs.recency_window_days` (line 88), propagation through `retrieval_react` steps
+**Implementation:** `agentic-workflows-v2/agentic_v2/workflows/definitions/deep_research.yaml` *(removed)* -- `inputs.domain` (line 72), `inputs.recency_window_days` (line 88), propagation through `retrieval_react` steps
 **How It Works:** The `deep_research` workflow accepts a `domain` input with an enum of research domains (`ai_ml`, `cloud_infrastructure`, `programming_languages`, `academic_research`, `default`, `ai_software`). Each domain maps to a different implicit recency window that determines how old a source can be and still count as "recent." The `recency_window_days` input (default 183 days / ~6 months) can override the domain default. This value propagates to every `retrieval_react` step as an input, and the `coverage_confidence_audit` steps count `recent_source_count` against a `min_recent_sources` threshold. The recency score contributes to the multi-dimensional CI, ensuring fast-moving domains like AI/ML require more recent evidence than stable academic domains.
-**Code Reference:** `agentic-workflows-v2/agentic_v2/workflows/definitions/deep_research.yaml:72` (domain enum), `:88` (recency_window_days), `:161` (recency propagation to retrieval)
+**Code Reference:** `agentic-workflows-v2/agentic_v2/workflows/definitions/deep_research.yaml:72` *(removed)* (domain enum), `:88` (recency_window_days), `:161` (recency propagation to retrieval)
 **Example:**
 ```yaml
 inputs:
@@ -428,16 +428,16 @@ if self._frame_results:
 | Multi-Agent Coordination | `agents/orchestrator.py`, `engine/dag_executor.py` | 518, 399; 49 |
 | Bounded Iteration | `workflows/loader.py`, YAML definitions | 513; yaml:500 |
 | Chain-of-Thought Scaffolding | `prompts/*.md` (all 24) | Reasoning Protocol sections |
-| Tree-of-Thought | `workflows/definitions/deep_research.yaml` | 138, 237, 336, 436 |
-| ReAct | `workflows/definitions/deep_research.yaml` | 151, 251, 351, 451 |
-| Chain-of-Verification | `workflows/definitions/deep_research.yaml` | 190, 290, 390, 490 |
-| Adversarial Review | `prompts/antagonist_implementation.md`, `prompts/antagonist_systemic.md` | full files |
+| Tree-of-Thought | `workflows/definitions/deep_research.yaml` *(removed)* | 138, 237, 336, 436 |
+| ReAct | `workflows/definitions/deep_research.yaml` *(removed)* | 151, 251, 351, 451 |
+| Chain-of-Verification | `workflows/definitions/deep_research.yaml` *(removed)* | 190, 290, 390, 490 |
+| Adversarial Review | `prompts/antagonist_implementation.md` *(removed)*, `prompts/antagonist_systemic.md` *(removed)* | full files |
 | Hybrid Retrieval | `rag/retrieval.py` | 31, 169, 227, 266 |
 | Conversational Memory | `agents/base.py` | 131, 274, 189 |
 | Circuit Breaker | `models/model_stats.py`, `models/smart_router.py` | 19, 49, 280; 63, 528 |
-| Confidence Gating | `workflows/definitions/deep_research.yaml` | 207, 240 |
+| Confidence Gating | `workflows/definitions/deep_research.yaml` *(removed)* | 207, 240 |
 | Self-Reflection | `agents/capabilities.py`, `agents/coder.py` | 296; 50, 273 |
-| Domain-Adaptive Recency | `workflows/definitions/deep_research.yaml` | 72, 88, 161 |
+| Domain-Adaptive Recency | `workflows/definitions/deep_research.yaml` *(removed)* | 72, 88, 161 |
 | Prompt Injection Defense | `rag/context_assembly.py` | 29, 39, 66, 138 |
 
 All file paths above are relative to `agentic-workflows-v2/agentic_v2/`.

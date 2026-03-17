@@ -201,7 +201,7 @@ See `agentic_v2/engine/step.py`.
 **StepState** -- The lifecycle state of an individual step during execution: `PENDING -> READY -> RUNNING -> SUCCESS | FAILED | SKIPPED`. Managed by `StepStateManager`, which enforces valid state transitions and emits events for observability.
 See `agentic_v2/engine/step_state.py`.
 
-**Workflow** -- A declarative YAML definition of a multi-step, multi-agent execution plan. Each workflow specifies a name, description, version, input/output schemas, and an ordered list of steps. Each step declares its agent, tools, dependencies (`depends_on`), input/output mappings using expression language, and optional conditions. The codebase includes 10 workflow definitions covering code review, deep research, TDD codegen, bug resolution, and fullstack generation.
+**Workflow** -- A declarative YAML definition of a multi-step, multi-agent execution plan. Each workflow specifies a name, description, version, input/output schemas, and an ordered list of steps. Each step declares its agent, tools, dependencies (`depends_on`), input/output mappings using expression language, and optional conditions. The codebase includes 6 workflow definitions covering code review, bug resolution, fullstack generation, iterative review, and conditional branching.
 See `agentic_v2/workflows/definitions/`.
 
 ---
