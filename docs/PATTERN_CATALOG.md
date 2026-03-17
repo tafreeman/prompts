@@ -4,7 +4,7 @@
 
 This document is a navigational guide. For each pattern, it identifies the specific files, classes, and line numbers where the pattern is implemented. Use it to locate how a pattern works without reading the full codebase.
 
-**Source:** `analysis/ml-ai-patterns-review.md` Section 8 (Agentic Patterns Inventory)
+**Source:** `docs/analysis/ml-ai-patterns-review.md` Section 8 (Agentic Patterns Inventory)
 **Last updated:** 2026-03-09
 
 ---

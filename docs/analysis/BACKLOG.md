@@ -8,11 +8,11 @@
 **Source documents:**
 | File | Summary |
 |------|---------|
-| [`analysis/architecture-review.md`](architecture-review.md) | A- — Protocol-first adapter registry, dual engine, DAG superiority over Microsoft candidates; ctx forwarding bug in LangChainEngine, no checkpointing implementation |
-| [`analysis/ml-ai-patterns-review.md`](ml-ai-patterns-review.md) | A- — 24 personas fully structured post-remediation; CoT, Boundaries, Output Format, domain-specific Reasoning Protocols; gap is zero-shot only (no few-shot, no reflection loops) |
-| [`analysis/code-quality-report.md`](code-quality-report.md) | B+ — Strong agentic_v2 quality; ruff.lint not configured (E+F only), CI coverage gate 60% vs 80% target, tools/ package needs modernization |
-| [`analysis/documentation-review.md`](documentation-review.md) | B+ — Excellent CLAUDE.md and README; 11 broken cross-references, no onboarding tutorial, minimal examples |
-| [`analysis/ANALYSIS-SUMMARY.md`](ANALYSIS-SUMMARY.md) | Synthesized findings — 25 prioritized recommendations, 4-sprint roadmap, 7.9/10 health score |
+| [`docs/analysis/architecture-review.md`](architecture-review.md) | A- — Protocol-first adapter registry, dual engine, DAG superiority over Microsoft candidates; ctx forwarding bug in LangChainEngine, no checkpointing implementation |
+| [`docs/analysis/ml-ai-patterns-review.md`](ml-ai-patterns-review.md) | A- — 24 personas fully structured post-remediation; CoT, Boundaries, Output Format, domain-specific Reasoning Protocols; gap is zero-shot only (no few-shot, no reflection loops) |
+| [`docs/analysis/code-quality-report.md`](code-quality-report.md) | B+ — Strong agentic_v2 quality; ruff.lint not configured (E+F only), CI coverage gate 60% vs 80% target, tools/ package needs modernization |
+| [`docs/analysis/documentation-review.md`](documentation-review.md) | B+ — Excellent CLAUDE.md and README; 11 broken cross-references, no onboarding tutorial, minimal examples |
+| [`docs/analysis/ANALYSIS-SUMMARY.md`](ANALYSIS-SUMMARY.md) | Synthesized findings — 25 prioritized recommendations, 4-sprint roadmap, 7.9/10 health score |
 
 ---
 

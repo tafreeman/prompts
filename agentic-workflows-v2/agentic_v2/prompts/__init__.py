@@ -61,16 +61,11 @@ def get_prompt_path(name: str) -> Path | None:
 
 # Pre-defined prompt names matching actual .md files on disk.
 # Kept in sync with prompts/*.md — run `list_prompts()` to verify.
-ANALYZER = "analyzer"
 ARCHITECT = "architect"
-ASSEMBLER = "assembler"
 CODER = "coder"
-DEVELOPER = "developer"
-LINTER = "linter"
 ORCHESTRATOR = "orchestrator"
 PLANNER = "planner"
 REVIEWER = "reviewer"
-SUMMARIZER = "summarizer"
 TESTER = "tester"
 VALIDATOR = "validator"
 
@@ -80,16 +75,11 @@ __all__ = [
     "get_prompt_path",
     "PROMPTS_DIR",
     # Prompt name constants (alphabetical, matches prompts/*.md)
-    "ANALYZER",
     "ARCHITECT",
-    "ASSEMBLER",
     "CODER",
-    "DEVELOPER",
-    "LINTER",
     "ORCHESTRATOR",
     "PLANNER",
     "REVIEWER",
-    "SUMMARIZER",
     "TESTER",
     "VALIDATOR",
 ]

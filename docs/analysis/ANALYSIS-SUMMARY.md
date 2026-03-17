@@ -165,8 +165,8 @@
 
 | File | Reviewer | Grade |
 |------|----------|-------|
-| `analysis/architecture-review.md` | Architecture Analyst | A- |
-| `analysis/ml-ai-patterns-review.md` | ML/AI Patterns Reviewer | A- |
-| `analysis/code-quality-report.md` | Code Quality Auditor | B+ |
-| `analysis/documentation-review.md` | Documentation & DX Reviewer | B+ |
-| `analysis/ANALYSIS-SUMMARY.md` | All (synthesized by team lead) | — |
+| `docs/analysis/architecture-review.md` | Architecture Analyst | A- |
+| `docs/analysis/ml-ai-patterns-review.md` | ML/AI Patterns Reviewer | A- |
+| `docs/analysis/code-quality-report.md` | Code Quality Auditor | B+ |
+| `docs/analysis/documentation-review.md` | Documentation & DX Reviewer | B+ |
+| `docs/analysis/ANALYSIS-SUMMARY.md` | All (synthesized by team lead) | — |
