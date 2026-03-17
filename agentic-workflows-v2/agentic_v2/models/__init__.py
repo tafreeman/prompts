@@ -43,6 +43,7 @@ from .router import (
 )
 from .smart_router import (
     CooldownConfig,
+    ModelSelection,
     SmartModelRouter,
     get_smart_router,
     reset_smart_router,
@@ -67,6 +68,7 @@ __all__ = [
     "TokenBucket",
     # Smart router
     "CooldownConfig",
+    "ModelSelection",
     "SmartModelRouter",
     "get_smart_router",
     "reset_smart_router",

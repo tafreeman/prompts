@@ -10,6 +10,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
 
+from filelock import FileLock
+
 from .model_stats import CircuitState, ModelStats
 from .rate_limit_tracker import RateLimitTracker, _extract_provider
 from .router import ModelRouter, ModelTier
@@ -23,6 +25,21 @@ _DEFAULT_BULKHEAD_LIMITS: dict[str, int] = {
     "gh": 30,
     "azure": 50,
 }
+
+
+@dataclass(frozen=True)
+class ModelSelection:
+    """Result of a model selection decision.
+
+    Captures whether the returned model came from the requested tier
+    (normal) or a different tier (degraded fallback). Callers can
+    inspect ``is_degraded`` to log, meter, or adjust behavior.
+    """
+
+    model_name: str
+    requested_tier: str
+    actual_tier: str
+    is_degraded: bool = False
 
 
 @dataclass
@@ -76,6 +93,19 @@ class SmartModelRouter(ModelRouter):
 
     # ADR-002D: Per-provider probe locks (half-open serialization)
     _probe_locks: dict[str, asyncio.Lock] = field(default_factory=dict, repr=False)
+
+    # Last model selection result (for degraded-mode inspection)
+    _last_selection: ModelSelection | None = field(default=None, repr=False)
+
+    @property
+    def last_selection(self) -> ModelSelection | None:
+        """The most recent model selection result.
+
+        Inspect ``last_selection.is_degraded`` after calling
+        ``get_model_for_tier()`` to determine if cross-tier fallback
+        was used.
+        """
+        return self._last_selection
 
     def __post_init__(self) -> None:
         if self.stats_file:
@@ -174,8 +204,13 @@ class SmartModelRouter(ModelRouter):
         self,
         original_tier: ModelTier,
         max_cost: float | None = None,
-    ) -> list[tuple[str, ModelStats]]:
-        """Search adjacent tiers for available models."""
+    ) -> tuple[list[tuple[str, ModelStats]], ModelTier | None]:
+        """Search adjacent tiers for available models.
+
+        Returns:
+            A tuple of (candidates, actual_tier). actual_tier is the tier
+            that provided the candidates, or None if no candidates found.
+        """
         all_tiers = sorted(ModelTier, key=lambda t: t.value)
         eligible = [
             t for t in all_tiers if t != original_tier and t != ModelTier.TIER_0
@@ -192,9 +227,9 @@ class SmartModelRouter(ModelRouter):
         for tier in eligible:
             candidates = self._find_candidates_in_tier(tier, max_cost)
             if candidates:
-                return candidates
+                return candidates, tier
 
-        return []
+        return [], None
 
     def _find_candidates_in_tier(
         self,
@@ -228,16 +263,34 @@ class SmartModelRouter(ModelRouter):
         max_cost: float | None = None,
         allow_cross_tier: bool = True,
     ) -> str | None:
-        """Get best available model for a tier with cross-tier degradation."""
+        """Get best available model for a tier with cross-tier degradation.
+
+        After calling this method, inspect ``last_selection`` to determine
+        whether cross-tier fallback was used (``is_degraded=True``).
+        """
         candidates = self._find_candidates_in_tier(tier, max_cost)
+        actual_tier = tier
+        is_degraded = False
+
         if not candidates and allow_cross_tier:
-            candidates = self._cross_tier_search(tier, max_cost)
+            candidates, cross_tier = self._cross_tier_search(tier, max_cost)
+            if cross_tier is not None:
+                actual_tier = cross_tier
+                is_degraded = True
 
         if not candidates:
+            self._last_selection = None
             return None
 
         if not prefer_healthy or len(candidates) == 1:
-            return candidates[0][0]
+            selected = candidates[0][0]
+            self._last_selection = ModelSelection(
+                model_name=selected,
+                requested_tier=tier.name,
+                actual_tier=actual_tier.name,
+                is_degraded=is_degraded,
+            )
+            return selected
 
         # Score candidates by health
         def score(model_stats: tuple[str, ModelStats]) -> float:
@@ -258,7 +311,14 @@ class SmartModelRouter(ModelRouter):
             return success_score + latency_score + recency_score
 
         candidates.sort(key=score, reverse=True)
-        return candidates[0][0]
+        selected = candidates[0][0]
+        self._last_selection = ModelSelection(
+            model_name=selected,
+            requested_tier=tier.name,
+            actual_tier=actual_tier.name,
+            is_degraded=is_degraded,
+        )
+        return selected
 
     def get_fallback_chain_with_health(
         self, tier: ModelTier
@@ -338,7 +398,7 @@ class SmartModelRouter(ModelRouter):
         }
 
     def _save_stats(self) -> None:
-        """Save stats to file atomically."""
+        """Save stats to file atomically with cross-process file locking."""
         if not self.stats_file:
             return
 
@@ -350,18 +410,22 @@ class SmartModelRouter(ModelRouter):
             },
         }
 
-        # Atomic write: write to temp file, then rename
-        temp_file = self.stats_file.with_suffix(".tmp")
-        temp_file.write_text(json.dumps(data, indent=2))
-        temp_file.replace(self.stats_file)
+        lock = FileLock(str(self.stats_file) + ".lock")
+        with lock:
+            # Atomic write: write to temp file, then rename
+            temp_file = self.stats_file.with_suffix(".tmp")
+            temp_file.write_text(json.dumps(data, indent=2))
+            temp_file.replace(self.stats_file)
 
     def _load_stats(self) -> None:
-        """Load stats from file."""
+        """Load stats from file with cross-process file locking."""
         if not self.stats_file or not self.stats_file.exists():
             return
 
+        lock = FileLock(str(self.stats_file) + ".lock")
         try:
-            data = json.loads(self.stats_file.read_text())
+            with lock:
+                data = json.loads(self.stats_file.read_text())
             for model, stats_dict in data.get("stats", {}).items():
                 self.model_stats[model] = ModelStats.from_dict(stats_dict)
         except (json.JSONDecodeError, KeyError):

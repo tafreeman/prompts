@@ -2,8 +2,12 @@
 smart_router.py."""
 
 import asyncio
+import json
+import threading
 import time
-from unittest.mock import AsyncMock
+from datetime import datetime, timedelta, timezone
+from pathlib import Path
+from unittest.mock import AsyncMock, patch
 
 import pytest
 from agentic_v2.models.model_stats import CircuitState, ModelStats
@@ -15,7 +19,7 @@ from agentic_v2.models.rate_limit_tracker import (
     _safe_int,
 )
 from agentic_v2.models.router import FallbackChain, ModelTier
-from agentic_v2.models.smart_router import SmartModelRouter
+from agentic_v2.models.smart_router import ModelSelection, SmartModelRouter
 
 # ── TokenBucket tests ────────────────────────────────────────────────────────
 
@@ -512,3 +516,220 @@ class TestMonotonicClockIntegration:
         restored = ModelStats.from_dict(data)
         assert restored._cooldown_until_mono is None
         assert restored.is_in_cooldown is False
+
+
+# ── Task 2.1: Concurrent stats persistence tests ─────────────────────────────
+
+
+class TestConcurrentStatsPersistence:
+    """Verify filelock prevents corruption under concurrent save/load."""
+
+    def test_concurrent_save_load_no_corruption(self, tmp_path: Path) -> None:
+        """Multiple threads saving/loading stats should not corrupt data."""
+        stats_file = tmp_path / "stats.json"
+        errors: list[Exception] = []
+
+        def save_and_load(thread_id: int) -> None:
+            try:
+                router = SmartModelRouter(stats_file=stats_file)
+                model = f"openai:model-{thread_id}"
+                router.record_success(model, latency_ms=100.0 + thread_id)
+                # Force a load in a separate router instance
+                reader = SmartModelRouter(stats_file=stats_file)
+                # Verify data is valid JSON
+                assert isinstance(reader.model_stats, dict)
+            except Exception as exc:
+                errors.append(exc)
+
+        threads = [
+            threading.Thread(target=save_and_load, args=(i,)) for i in range(10)
+        ]
+        for t in threads:
+            t.start()
+        for t in threads:
+            t.join()
+
+        assert errors == [], f"Concurrent save/load errors: {errors}"
+
+        # Final read should yield valid stats
+        final_router = SmartModelRouter(stats_file=stats_file)
+        assert isinstance(final_router.model_stats, dict)
+        assert len(final_router.model_stats) > 0
+
+    def test_stats_file_written(self, tmp_path: Path) -> None:
+        """Saving stats should produce a valid JSON file."""
+        stats_file = tmp_path / "stats.json"
+        router = SmartModelRouter(stats_file=stats_file)
+        router.record_success("openai:gpt-4o", latency_ms=50.0)
+        assert stats_file.exists()
+        data = json.loads(stats_file.read_text())
+        assert "stats" in data
+        assert "openai:gpt-4o" in data["stats"]
+
+
+# ── Task 2.2: HTTP-date Retry-After tests ────────────────────────────────────
+
+
+class TestRetryAfterHTTPDate:
+    """Tests for HTTP-date format in Retry-After header parsing."""
+
+    def test_parse_retry_after_http_date(self) -> None:
+        """HTTP-date Retry-After should parse to seconds delta."""
+        tracker = RateLimitTracker()
+        # Use a date 60 seconds in the future
+        future = datetime.now(timezone.utc) + timedelta(seconds=60)
+        date_str = future.strftime("%a, %d %b %Y %H:%M:%S GMT")
+        result = tracker.parse_retry_after({"Retry-After": date_str})
+        assert result is not None
+        assert 55 <= result <= 65
+
+    def test_parse_retry_after_http_date_past(self) -> None:
+        """HTTP-date in the past should return None (0 seconds)."""
+        tracker = RateLimitTracker()
+        past = datetime(2020, 1, 1, tzinfo=timezone.utc)
+        date_str = past.strftime("%a, %d %b %Y %H:%M:%S GMT")
+        result = tracker.parse_retry_after({"Retry-After": date_str})
+        assert result is None  # 0 seconds fails the > 0 check
+
+    def test_parse_retry_after_invalid_string(self) -> None:
+        """Non-numeric, non-date string should return None."""
+        tracker = RateLimitTracker()
+        result = tracker.parse_retry_after({"Retry-After": "not-a-date-or-number"})
+        assert result is None
+
+    def test_parse_retry_after_http_date_far_future(self) -> None:
+        """HTTP-date > 3600 seconds in the future should be rejected."""
+        tracker = RateLimitTracker()
+        far = datetime.now(timezone.utc) + timedelta(hours=2)
+        date_str = far.strftime("%a, %d %b %Y %H:%M:%S GMT")
+        result = tracker.parse_retry_after({"Retry-After": date_str})
+        assert result is None  # > 3600 rejected
+
+
+# ── Task 2.3: ModelSelection / degraded-mode tests ──────────────────────────
+
+
+class TestModelSelectionDegradedMode:
+    """Tests for the ModelSelection dataclass and is_degraded flag."""
+
+    def _make_multi_tier_router(self) -> SmartModelRouter:
+        """Create a router with chains for multiple tiers."""
+        router = SmartModelRouter()
+        router.register_chain(
+            ModelTier.TIER_1,
+            FallbackChain(("openai:gpt-4o-mini",), "tier1"),
+        )
+        router.register_chain(
+            ModelTier.TIER_2,
+            FallbackChain(("openai:gpt-4o", "gh:gpt-4o-mini"), "tier2"),
+        )
+        router.register_chain(
+            ModelTier.TIER_3,
+            FallbackChain(("anthropic:claude-3-sonnet",), "tier3"),
+        )
+        return router
+
+    def test_model_selection_dataclass_frozen(self) -> None:
+        """ModelSelection should be immutable."""
+        sel = ModelSelection(
+            model_name="openai:gpt-4o",
+            requested_tier="TIER_2",
+            actual_tier="TIER_2",
+        )
+        with pytest.raises(AttributeError):
+            sel.model_name = "changed"  # type: ignore[misc]
+
+    def test_same_tier_not_degraded(self) -> None:
+        """Normal routing within the same tier sets is_degraded=False."""
+        router = self._make_multi_tier_router()
+        model = router.get_model_for_tier(ModelTier.TIER_2)
+        assert model is not None
+        sel = router.last_selection
+        assert sel is not None
+        assert sel.is_degraded is False
+        assert sel.requested_tier == "TIER_2"
+        assert sel.actual_tier == "TIER_2"
+
+    def test_cross_tier_is_degraded(self) -> None:
+        """Cross-tier fallback sets is_degraded=True."""
+        router = self._make_multi_tier_router()
+        # Exhaust TIER_3
+        stats = router._get_stats("anthropic:claude-3-sonnet")
+        for _ in range(5):
+            stats.record_failure("test")
+
+        model = router.get_model_for_tier(ModelTier.TIER_3)
+        assert model is not None
+        sel = router.last_selection
+        assert sel is not None
+        assert sel.is_degraded is True
+        assert sel.requested_tier == "TIER_3"
+        assert sel.actual_tier != "TIER_3"
+
+    def test_no_candidates_sets_none(self) -> None:
+        """When no model is available, last_selection is None."""
+        router = SmartModelRouter()
+        router.register_chain(ModelTier.TIER_1, FallbackChain(("m:a",), "t"))
+        stats = router._get_stats("m:a")
+        for _ in range(5):
+            stats.record_failure("test")
+
+        model = router.get_model_for_tier(ModelTier.TIER_1, allow_cross_tier=False)
+        assert model is None
+        assert router.last_selection is None
+
+
+# ── Task 2.4: Adaptive throttle factor tests ─────────────────────────────────
+
+
+class TestAdaptiveThrottleFactor:
+    """Tests for compute_throttle_factor based on error rate."""
+
+    def test_insufficient_data_returns_zero(self) -> None:
+        """< 10 total requests should return 0.0 (no throttling)."""
+        tracker = RateLimitTracker()
+        for _ in range(5):
+            tracker.record_request("openai:gpt-4o")
+        assert tracker.compute_throttle_factor("openai:gpt-4o") == 0.0
+
+    def test_no_errors_returns_zero(self) -> None:
+        """With zero errors, throttle factor should be 0.0."""
+        tracker = RateLimitTracker()
+        for _ in range(20):
+            tracker.record_request("openai:gpt-4o")
+        assert tracker.compute_throttle_factor("openai:gpt-4o") == 0.0
+
+    def test_low_error_rate(self) -> None:
+        """2/20 errors = 10% error rate * 2 = 0.2 throttle."""
+        tracker = RateLimitTracker()
+        for _ in range(20):
+            tracker.record_request("openai:gpt-4o")
+        for _ in range(2):
+            tracker.record_error("openai:gpt-4o")
+        factor = tracker.compute_throttle_factor("openai:gpt-4o")
+        assert factor == pytest.approx(0.2, abs=0.01)
+
+    def test_high_error_rate_caps_at_one(self) -> None:
+        """10/20 errors = 50% error rate * 2 = 1.0 (capped)."""
+        tracker = RateLimitTracker()
+        for _ in range(20):
+            tracker.record_request("openai:gpt-4o")
+        for _ in range(10):
+            tracker.record_error("openai:gpt-4o")
+        factor = tracker.compute_throttle_factor("openai:gpt-4o")
+        assert factor == pytest.approx(1.0, abs=0.01)
+
+    def test_unknown_provider_returns_zero(self) -> None:
+        """Provider with no recorded requests returns 0.0."""
+        tracker = RateLimitTracker()
+        assert tracker.compute_throttle_factor("unknown:model") == 0.0
+
+    def test_moderate_error_rate(self) -> None:
+        """5/20 errors = 25% error rate * 2 = 0.5 throttle."""
+        tracker = RateLimitTracker()
+        for _ in range(20):
+            tracker.record_request("gh:gpt-4o-mini")
+        for _ in range(5):
+            tracker.record_error("gh:gpt-4o-mini")
+        factor = tracker.compute_throttle_factor("gh:gpt-4o-mini")
+        assert factor == pytest.approx(0.5, abs=0.01)

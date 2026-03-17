@@ -14,6 +14,8 @@ Key design decisions:
 import random
 import time
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from email.utils import parsedate_to_datetime
 
 
 @dataclass
@@ -89,6 +91,8 @@ class ProviderRateLimits:
     rpm_bucket: TokenBucket  # Requests per minute
     tpm_bucket: TokenBucket | None = None  # Tokens per minute (if tracked)
     last_retry_after: float | None = None  # Last Retry-After value seen
+    total_requests: int = 0  # Total requests for throttle computation
+    recent_errors: int = 0  # Recent errors for throttle computation
 
 
 # Default rate limits per provider (conservative estimates)
@@ -165,7 +169,16 @@ class RateLimitTracker:
         except ValueError:
             pass
 
-        # Could be HTTP-date format — for simplicity, fall back to None
+        # Try HTTP-date format (RFC 7231 Section 7.1.3)
+        try:
+            dt = parsedate_to_datetime(retry_after)
+            delta = (dt - datetime.now(timezone.utc)).total_seconds()
+            seconds = int(max(0, delta))
+            if 0 < seconds <= 3600:
+                return seconds
+        except (ValueError, TypeError):
+            pass
+
         return None
 
     def update_from_headers(self, model: str, headers: dict[str, str]) -> int | None:
@@ -232,6 +245,44 @@ class RateLimitTracker:
         # Add 10-25% jitter to prevent thundering herd
         jitter = random.uniform(0.1, 0.25)
         return int(base * (1 + jitter))
+
+    def record_request(self, model: str) -> None:
+        """Record a request for throttle factor computation.
+
+        Args:
+            model: Model identifier (provider extracted automatically)
+        """
+        state = self.get_provider(model)
+        state.total_requests += 1
+
+    def record_error(self, model: str) -> None:
+        """Record an error for throttle factor computation.
+
+        Args:
+            model: Model identifier (provider extracted automatically)
+        """
+        state = self.get_provider(model)
+        state.recent_errors += 1
+
+    def compute_throttle_factor(self, model: str) -> float:
+        """Return 0.0-1.0 throttle factor based on recent error rate.
+
+        A throttle factor of 0.0 means no throttling; 1.0 means maximum
+        throttling. The factor scales linearly at 2x the error rate,
+        capped at 1.0.
+
+        Args:
+            model: Model identifier (provider extracted automatically)
+
+        Returns:
+            Throttle factor between 0.0 and 1.0
+        """
+        provider = _extract_provider(model)
+        state = self._providers.get(provider)
+        if not state or state.total_requests < 10:
+            return 0.0  # Not enough data
+        error_rate = state.recent_errors / state.total_requests
+        return min(1.0, error_rate * 2)
 
     def _parse_openai_headers(
         self, state: ProviderRateLimits, headers: dict[str, str]
