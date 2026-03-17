@@ -5,6 +5,9 @@
 - Primary development is on **Windows using PowerShell**.
 - Bash helpers exist (e.g., `agentic-workflows-v2/dev.sh`) for Unix-like shells.
 - When writing Windows automation, prefer PowerShell (`Stop-Process`, `Get-NetTCPConnection`) over Bash-specific commands.
+- Use `npm` instead of `npx` for running scripts — `npx` is unreliable on the Windows PATH.
+- Always check for venv existence before running Python apps: verify `.venv\Scripts\activate` exists first.
+- Use forward slashes or `pathlib.Path` in Python code for cross-platform paths.
 
 ---
 
@@ -168,6 +171,15 @@ Test markers: `integration`, `slow`, `security`. Skip with `pytest -m 'not integ
 Pre-commit: black, isort, ruff, docformatter, mypy, pydocstyle, detect-secrets. Run: `pre-commit run --all-files`
 
 See `.claude/rules/` for comprehensive guidelines (immutability, Black, isort, ruff, mypy --strict, PEP 8 naming, 80% test coverage, TDD workflow). Rules are auto-loaded by context.
+
+---
+
+## Conventions
+
+- **Working directory:** Always confirm the current working directory matches the target repository before starting work. Run `pwd` and `ls` to verify repo structure before any analysis or edits.
+- **Code output:** Always save generated code to files, never just render/display it. When creating visualizations or art, write source files to disk so they can be committed.
+- **Approach confirmation:** When a task could be done multiple ways (script vs manual, worktree vs main branch), confirm the approach with the user BEFORE starting. If the user says "write a script", write a script — don't start doing it manually.
+- **Icon/asset replacement:** When replacing icons or visual elements, do a comprehensive pass — check ALL files in a single sweep rather than requiring a second round. After replacement, grep the codebase for any remaining old patterns.
 
 ---
 

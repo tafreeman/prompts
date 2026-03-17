@@ -27,6 +27,11 @@
     ]
   },
   "hooks": {
+    "SessionStart": [
+      {
+        "command": "bash -c 'echo \"── Environment Check ──\"; echo \"cwd: $(pwd)\"; if [ -d .venv ]; then echo \"venv: ✅ .venv found\"; else echo \"venv: ⚠️ .venv not found — run: python -m venv .venv && pip install -e .[dev]\"; fi; if command -v node >/dev/null 2>&1; then echo \"node: ✅ $(node --version)\"; else echo \"node: ⚠️ not on PATH\"; fi; if command -v npm >/dev/null 2>&1; then echo \"npm: ✅ $(npm --version)\"; else echo \"npm: ⚠️ not on PATH\"; fi; echo \"──────────────────────\"; exit 0'"
+      }
+    ],
     "PostToolUse": [
       {
         "matcher": "Edit|Write",
