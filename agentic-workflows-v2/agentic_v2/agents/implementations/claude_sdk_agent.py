@@ -25,12 +25,15 @@ Example::
         cwd="/path/to/project",
     )
     result = await agent.run("Find all TODO comments in the codebase")
-    print(result)
+    logger.info("Claude SDK agent result: %s", result)
 """
 
 from __future__ import annotations
 
+import logging
 from typing import Any
+
+logger = logging.getLogger(__name__)
 
 try:
     from claude_agent_sdk import AgentDefinition, ClaudeAgentOptions, query

@@ -1,3 +1,7 @@
+---
+description: Review uncommitted changes for code quality
+---
+
 # Code Review
 
 Review uncommitted changes with the canonical code-review workflow.

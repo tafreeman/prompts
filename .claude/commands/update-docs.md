@@ -1,3 +1,7 @@
+---
+description: Sync documentation with codebase changes
+---
+
 # Update Documentation
 
 Sync documentation with the codebase, generating from source-of-truth files.

@@ -1,3 +1,7 @@
+---
+description: Run sequential multi-agent workflows
+---
+
 # Orchestrate Command
 
 Sequential agent workflow for complex tasks.
