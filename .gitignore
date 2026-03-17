@@ -352,7 +352,15 @@ agentic-workflows-v2/.run-logs/
 # Deep research reports (generated output)
 reports/deep-research/
 
+# Presentation build artifacts and temp files
+presentation/storybook-static/
+presentation/*.pptx
+presentation/onb_b64*.txt
+presentation/transfer-test.txt
+presentation/gen-*.cjs
+
 # Claude temp dirs
+tmpclaude-*
 
 multiagent-workflows/dashboard_data/run_architecture_evolution_20260127_013620.json
 multiagent-workflows/dashboard_data/run_architecture_evolution_20260127_030621.json
