@@ -5,8 +5,11 @@ import { AdvdHurdlesLayout } from "./AdvdHurdlesLayout.tsx";
 import { AdvdFutureLayout } from "./AdvdFutureLayout.tsx";
 import { AdvdPlatformLayout } from "./AdvdPlatformLayout.tsx";
 
-layoutRegistry.register("advd-overview", AdvdOverviewLayout);
-layoutRegistry.register("advd-stats", AdvdStatsLayout);
-layoutRegistry.register("advd-hurdles", AdvdHurdlesLayout);
-layoutRegistry.register("advd-future", AdvdFutureLayout);
-layoutRegistry.register("advd-platform", AdvdPlatformLayout);
+/** Advocacy-dense: transcription target — effects only. */
+const ADVD_FEATURES = { effects: true };
+
+layoutRegistry.register("advd-overview", AdvdOverviewLayout, ADVD_FEATURES);
+layoutRegistry.register("advd-stats", AdvdStatsLayout, ADVD_FEATURES);
+layoutRegistry.register("advd-hurdles", AdvdHurdlesLayout, ADVD_FEATURES);
+layoutRegistry.register("advd-future", AdvdFutureLayout, ADVD_FEATURES);
+layoutRegistry.register("advd-platform", AdvdPlatformLayout, ADVD_FEATURES);

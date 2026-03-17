@@ -14,10 +14,13 @@ import CatalogLayout from "./CatalogLayout.tsx";
 import OpBriefLayout from "./OpBriefLayout.tsx";
 import OpFlowLayout from "./OpFlowLayout.tsx";
 
-layoutRegistry.register("info-cards", InfoCardsLayout);
-layoutRegistry.register("checklist", ChecklistLayout);
-layoutRegistry.register("workflow", WorkflowLayout);
-layoutRegistry.register("pillars", PillarsLayout);
-layoutRegistry.register("catalog", CatalogLayout);
-layoutRegistry.register("op-brief", OpBriefLayout);
-layoutRegistry.register("op-flow", OpFlowLayout);
+/** Onboarding: transcription target — effects only. */
+const ONBOARD_FEATURES = { effects: true };
+
+layoutRegistry.register("info-cards", InfoCardsLayout, ONBOARD_FEATURES);
+layoutRegistry.register("checklist", ChecklistLayout, ONBOARD_FEATURES);
+layoutRegistry.register("workflow", WorkflowLayout, ONBOARD_FEATURES);
+layoutRegistry.register("pillars", PillarsLayout, ONBOARD_FEATURES);
+layoutRegistry.register("catalog", CatalogLayout, ONBOARD_FEATURES);
+layoutRegistry.register("op-brief", OpBriefLayout, ONBOARD_FEATURES);
+layoutRegistry.register("op-flow", OpFlowLayout, ONBOARD_FEATURES);

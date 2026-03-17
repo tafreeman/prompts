@@ -1,5 +1,5 @@
 /**
- * Verge Pop — Deck Manifest (content-layer integration)
+ * Signal Cobalt — Deck Manifest (content-layer integration)
  *
  * Merges structure (layout skeleton) with swappable text content.
  * Swap the content import to reuse these layouts with different text.
@@ -18,9 +18,6 @@ export const slides = merged.slides;
 export const contentSlides = merged.contentSlides;
 export const deckMeta = merged.deckMeta;
 
-export const SLIDES = merged.slides
-  .slice()
-  .sort((a, b) => a.order - b.order)
-  .map(({ id, label }) => ({ id, label }));
+export const SLIDES = merged.slides.map(({ id, label }) => ({ id, label }));
 
 export default slides;

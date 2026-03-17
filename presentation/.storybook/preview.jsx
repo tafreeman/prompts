@@ -1,6 +1,5 @@
 import React from "react";
-import { ThemeContext } from "../src/components/context/index.js";
-import { ChromeContext } from "../src/components/context/index.js";
+import { ThemeContext, ChromeContext } from "../src/components/context/index.js";
 import { THEMES } from "../src/tokens/themes.ts";
 import { STYLE_MODES, STYLE_MODES_BY_ID } from "../src/tokens/style-modes.ts";
 
@@ -22,11 +21,15 @@ const preview = {
     },
   },
 
+  initialGlobals: {
+    theme: "midnight-teal",
+    chrome: "default",
+  },
+
   globalTypes: {
     theme: {
       name: "Theme",
       description: "Presentation color theme",
-      defaultValue: "midnight-teal",
       toolbar: {
         icon: "paintbrush",
         items: THEMES.map((t) => ({ value: t.id, title: t.name })),
@@ -36,7 +39,6 @@ const preview = {
     chrome: {
       name: "Chrome",
       description: "Style mode (card shape, glow, borders)",
-      defaultValue: "default",
       toolbar: {
         icon: "grid",
         items: STYLE_MODES.map((m) => ({ value: m.id, title: m.name })),

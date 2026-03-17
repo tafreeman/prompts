@@ -15,6 +15,7 @@ import React, { useState, useEffect, useMemo, useCallback, useRef } from "react"
 import PropTypes from "prop-types";
 
 // ── Content imports ────────────────────────────────────────────────────────
+import * as current from "./content/current/deck.js";
 import { themeId as genaiThemeId, contentSlides as genaiContentSlides, sprintNodes as genaiSprintNodes } from "./content/genai-advocacy/deck.js";
 import { atelierSage, signalCobalt } from "./content/reference-decks/index.js";
 import * as vergePop from "./content/verge-pop/deck.js";
@@ -45,81 +46,19 @@ import { LayoutRenderer } from "./layouts/LayoutRenderer.tsx";
 // ── Transcription (cross-family layout normalisation) ─────────────────────
 import { transcribeTopic } from "./transcription.ts";
 
+// ── Content registry (runtime content swapping) ──────────────────────────
+import {
+  isContentSwappable,
+  getAvailableContent,
+  getDefaultContentId,
+  buildDeckFromContent,
+} from "./content/content-registry.ts";
+
 // ═════════════════════════════════════════════════════════════════════
 // STATIC DATA
 // ═════════════════════════════════════════════════════════════════════
 
-const topics = [
-  {
-    id: "hurdles", order: 5, layout: "before-after",
-    num: "02", title: "Hurdles We Overcame",
-    subtitle: "What changed from day one to delivery",
-    color: "#F59E0B", colorLight: "#FBBF24", colorGlow: "rgba(245,158,11,0.3)", icon: "⬡",
-    cards: [
-      { title: "Prompt Standardization", challenge: "Developers used ad-hoc, inconsistent prompts — variable quality and constant refactoring.", fix: "Established versioned prompt templates with embedded architecture context and coding standards." },
-      { title: "Process Realignment", challenge: "Traditional review workflows didn't account for AI-generated code patterns and volume.", fix: "Introduced AI-specific gated review checklists — convention adherence, test validation on every PR." },
-      { title: "Governance Clearance", challenge: "Federal context required legal and policy approval before any AI-assisted code could reach production.", fix: "Proactively engaged internal risk, internal legal, and client legal to establish approval frameworks." },
-      { title: "Team Enablement", challenge: "Team had varying levels of comfort and fluency with AI-assisted development tooling.", fix: "Internal hackathon built hands-on proficiency with tools and guardrails before delivery began." },
-    ],
-    callout: "Every hurdle became a guardrail. The friction we overcame early is the governance that keeps us fast now.",
-  },
-  {
-    id: "human", order: 4, layout: "stat-cards",
-    num: "01", title: "Human in the Loop",
-    subtitle: "AI Accelerates. Humans Govern.",
-    color: "#0891B2", colorLight: "#22D3EE", colorGlow: "rgba(8,145,178,0.3)", icon: "◉",
-    cards: [
-      { title: "Gated Review Process", body: "Every line of AI-assisted code passed through structured pull request reviews with project-specific checklists before reaching production.", stat: "100%", statLabel: "Human-Reviewed" },
-      { title: "Context-Rich Prompts", body: "Standardized prompt templates embedded with architecture documentation, data models, and coding standards kept AI output anchored to the actual system.", stat: "~90%", statLabel: "AI-Assisted Code" },
-      { title: "Zero Critical Defects", body: "Disciplined human governance produced zero critical defects at production release — proving speed doesn't sacrifice quality.", stat: "0", statLabel: "Critical Defects" },
-    ],
-    callout: "AI generated the code. Humans owned every decision. That's not a limitation — it's the model.",
-  },
-  {
-    id: "sprint", order: 6, layout: "process-cycle",
-    num: "04", title: "AI Sprint Cycle",
-    subtitle: "Human checkpoints at every stage of AI-assisted delivery",
-    color: "#8B5CF6", colorLight: "#A78BFA", colorGlow: "rgba(139,92,246,0.3)", icon: "⟳",
-    callout: "The AI modified sprint cycle includes numerous human-in-the-loop checkpoints. Development included rapid iterations and adherence to Agile best practices.",
-  },
-  {
-    id: "future", order: 7, layout: "h-strip",
-    num: "03", title: "Looking Ahead",
-    subtitle: "Better steering — not more automation — is the next multiplier",
-    color: "#10B981", colorLight: "#34D399", colorGlow: "rgba(16,185,129,0.3)", icon: "△",
-    cards: [
-      { title: "Model Steering & Planning", body: "System prompts, prefills, and tool configs encode architecture standards and compliance guardrails before developers write a single prompt." },
-      { title: "Evolved Prompt Library", body: "Templates evolve from standalone instructions to modular components operating within a steered context — version-controlled, regression-tested." },
-      { title: "Human-Governed Pipeline", body: "Automated static analysis and security scanning assist at every commit, but humans make the merge and deploy decisions." },
-      { title: "Team Enablement Kit", body: "Onboarding now covers model steering techniques alongside prompt writing — adoption in days, not months." },
-    ],
-    callout: "The playbook is proven. The automated pipeline turns one project win into a practice-wide competitive advantage.",
-  },
-];
-
-const sprintNodes = [
-  { icon: "📋", label: "Requirements", type: "human" },
-  { icon: "🖥️", label: "UI Mockup", type: "human" },
-  { icon: "🤖", label: "AI Converts AC", type: "ai" },
-  { icon: "✅", label: "AC Refinement", type: "human" },
-  { icon: "👥", label: "Human Review", type: "human" },
-  { icon: "⚙️", label: "AI Gen Code", type: "ai" },
-  { icon: "💻", label: "Code Output", type: "ai" },
-  { icon: "👥", label: "Code Review", type: "human" },
-  { icon: "🧪", label: "Testing", type: "human" },
-  { icon: "🐛", label: "Defect Fix", type: "human" },
-  { icon: "🚀", label: "Deploy", type: "human" },
-  { icon: "📊", label: "Client Review", type: "human" },
-];
-
-const DEFAULT_LANDING_STATS = [
-  { val: "~40%", lbl: "Productivity Uplift" },
-  { val: "2 mo", lbl: "Prototype → Production" },
-  { val: "0", lbl: "Critical Defects" },
-  { val: "~90%", lbl: "AI-Assisted Code" },
-  { val: "~95%", lbl: "Sprint Predictability" },
-  { val: "1 wk", lbl: "Sprint Cadence" },
-];
+// Current deck data now lives in ./content/current/ (structure.js + content.json)
 
 const LAYOUT_ICONS = {
   "two-col": "◌",
@@ -224,23 +163,10 @@ function createDeckPreset(config) {
 
 const CURRENT_DECK = createDeckPreset({
   id: "current",
-  themeId: "midnight-teal",
-  brandLine: "AI-Assisted Delivery",
-  title: "GenAI",
-  titleAccent: "Advocacy Deck",
-  tagline: "Four narratives. One story. Select a topic to explore.",
-  introBrandLine: "AI-Assisted Delivery",
-  introTitle: "GenAI Transformation",
-  introSubtitle: "From prototype to production in 2 months",
-  introStats: [
-    { val: "~40%", lbl: "Uplift", color: "#22D3EE" },
-    { val: "2 mo", lbl: "Delivery", color: "#34D399" },
-    { val: "0", lbl: "Defects", color: "#10B981" },
-    { val: "~90%", lbl: "AI Code", color: "#A78BFA" },
-  ],
-  stats: DEFAULT_LANDING_STATS,
-  topics,
-  sprintNodes,
+  themeId: current.themeId,
+  ...current.deckMeta,
+  topics: current.contentSlides,
+  sprintNodes: current.sprintNodes,
 });
 
 const GENAI_MANIFEST_DECK = createDeckPreset({
@@ -480,7 +406,34 @@ const HERO_IMAGE_DEFAULT = new URL(
 export default function App() {
   const viewport = usePresentationViewport();
   const [deckKey, setDeckKey] = useState(getInitialDeckKey);
-  const deck = DECKS[deckKey] || CURRENT_DECK;
+  const [contentKey, setContentKey] = useState(null); // null = use deck's default content
+  const baseDeck = DECKS[deckKey] || CURRENT_DECK;
+
+  // Compute effective deck: if content is swapped, rebuild from structure + content
+  const deck = useMemo(() => {
+    const defaultId = getDefaultContentId(deckKey);
+    const activeContentId = contentKey ?? defaultId;
+    // Only rebuild when content is actually swapped on a migrated deck
+    if (!activeContentId || !isContentSwappable(deckKey) || activeContentId === defaultId) {
+      return baseDeck;
+    }
+    const merged = buildDeckFromContent(deckKey, activeContentId);
+    if (!merged) return baseDeck;
+    // Reshape merged result to match createDeckPreset output shape
+    return {
+      ...baseDeck,
+      brandLine: merged.deckMeta.brandLine,
+      title: merged.deckMeta.title,
+      titleAccent: merged.deckMeta.titleAccent,
+      tagline: merged.deckMeta.tagline,
+      introTitle: merged.deckMeta.introTitle,
+      introSubtitle: merged.deckMeta.introSubtitle,
+      introStats: merged.deckMeta.introStats,
+      stats: merged.deckMeta.stats,
+      topics: merged.contentSlides,
+      sprintNodes: merged.sprintNodes,
+    };
+  }, [deckKey, contentKey, baseDeck]);
   const [theme, setTheme] = useState(() => THEMES_BY_ID[deck.themeId] || THEMES[0]);
   const [themeManual, setThemeManual] = useState(false);
   const [renderFamily, setRenderFamily] = useState("native");
@@ -490,6 +443,7 @@ export default function App() {
   const [heroImage, setHeroImage] = useState(HERO_IMAGE_DEFAULT);
   const [heroImageEnabled, setHeroImageEnabled] = useState(true);
   const [slideViewMode, setSlideViewMode] = useState("native");
+  const [layoutOverrides, setLayoutOverrides] = useState({}); // { slideId: layoutId }
   const [introDone, setIntroDone] = useState(true);
   const [active, setActive] = useState(null);
   const [transitioning, setTransitioning] = useState(false);
@@ -517,6 +471,8 @@ export default function App() {
   // Reset state when switching decks
   const switchDeck = (key) => {
     setDeckKey(key);
+    setContentKey(null); // reset to deck's default content
+    setLayoutOverrides({}); // reset all per-slide layout overrides
     setActive(null);
     setSlideViewMode("native");
     setIntroDone(!animOptions.intro);
@@ -560,6 +516,31 @@ export default function App() {
   }, [activeTopic, slideViewMode]);
 
   const hasOnepagerView = activeTopic && !["op-brief", "op-flow"].includes(activeTopic.layout);
+
+  // ── Per-slide layout cycling ──
+  const allLayouts = useMemo(() => layoutRegistry.list(), []);
+  const activeSlideLayout = activeTopic
+    ? (layoutOverrides[activeTopic.id] ?? activeTopic.layout)
+    : null;
+  const activeLayoutIndex = activeSlideLayout ? allLayouts.indexOf(activeSlideLayout) : -1;
+
+  const cycleLayout = useCallback((dir) => {
+    if (!activeTopic) return;
+    const currentIdx = allLayouts.indexOf(
+      layoutOverrides[activeTopic.id] ?? activeTopic.layout
+    );
+    const nextIdx = (currentIdx + dir + allLayouts.length) % allLayouts.length;
+    setLayoutOverrides(prev => ({ ...prev, [activeTopic.id]: allLayouts[nextIdx] }));
+  }, [activeTopic, allLayouts, layoutOverrides]);
+
+  const resetLayout = useCallback(() => {
+    if (!activeTopic) return;
+    setLayoutOverrides(prev => {
+      const next = { ...prev };
+      delete next[activeTopic.id];
+      return next;
+    });
+  }, [activeTopic]);
 
   // Resolve ControlPanel feature manifest from the active slide's layout
   const activeLayoutFeatures = useMemo(() => {
@@ -646,10 +627,62 @@ export default function App() {
           {slideViewMode === "onepager" ? "◉ One-Pager" : "◎ Slide"}
         </button>
       )}
+      {/* ── Per-slide layout cycler ── */}
+      {activeTopic && (
+        <div style={{
+          position: "fixed", bottom: 20, left: "50%", transform: "translateX(-50%)",
+          zIndex: 200, display: "flex", alignItems: "center", gap: 8,
+          background: "rgba(8,10,24,0.92)", backdropFilter: "blur(12px)",
+          border: `1px solid ${activeSlideLayout !== activeTopic.layout ? T.accent + "50" : "rgba(255,255,255,0.1)"}`,
+          borderRadius: 999, padding: "6px 8px",
+        }}>
+          <button
+            onClick={() => cycleLayout(-1)}
+            style={{
+              background: "none", border: "none", cursor: "pointer",
+              color: "rgba(255,255,255,0.5)", fontSize: 14, padding: "2px 6px",
+              fontFamily: "monospace",
+            }}
+          >◂</button>
+          <span style={{
+            fontSize: 10, fontFamily: "'Space Grotesk',sans-serif",
+            color: activeSlideLayout !== activeTopic.layout ? T.accent : "rgba(255,255,255,0.5)",
+            letterSpacing: 0.5, minWidth: 100, textAlign: "center",
+            fontWeight: activeSlideLayout !== activeTopic.layout ? 600 : 400,
+          }}>
+            {activeSlideLayout}
+          </span>
+          <button
+            onClick={() => cycleLayout(1)}
+            style={{
+              background: "none", border: "none", cursor: "pointer",
+              color: "rgba(255,255,255,0.5)", fontSize: 14, padding: "2px 6px",
+              fontFamily: "monospace",
+            }}
+          >▸</button>
+          {activeSlideLayout !== activeTopic.layout && (
+            <button
+              onClick={resetLayout}
+              title="Reset to default layout"
+              style={{
+                background: "none", border: "none", cursor: "pointer",
+                fontSize: 10, color: "rgba(255,255,255,0.35)", padding: "2px 6px",
+                fontFamily: "'Space Grotesk',sans-serif",
+              }}
+            >↺</button>
+          )}
+          <span style={{
+            fontSize: 9, color: "rgba(255,255,255,0.2)",
+            fontFamily: "monospace",
+          }}>
+            {activeLayoutIndex + 1}/{allLayouts.length}
+          </span>
+        </div>
+      )}
       {/* Active slide — registry-dispatched (replaces 25-case switch) */}
       {effectiveTopic && (
         <LayoutRenderer
-          layout={effectiveTopic.layout}
+          layout={activeSlideLayout ?? effectiveTopic.layout}
           slide={effectiveTopic}
           themeId={deck.themeId}
           onBack={handleBack}
@@ -679,6 +712,10 @@ export default function App() {
         heroImageEnabled={heroImageEnabled}
         onHeroImageToggle={setHeroImageEnabled}
         onHeroImageChange={setHeroImage}
+        contentSwappable={isContentSwappable(deckKey)}
+        availableContent={isContentSwappable(deckKey) ? getAvailableContent(deckKey) : []}
+        contentKey={contentKey ?? getDefaultContentId(deckKey)}
+        onContentChange={(key) => { setContentKey(key); setActive(null); }}
       />
     </div>
     </ChromeContext.Provider>

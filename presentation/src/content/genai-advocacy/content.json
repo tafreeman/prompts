@@ -1,0 +1,177 @@
+{
+  "deck": {
+    "brandLine": "AI-Assisted Delivery",
+    "title": "GenAI",
+    "titleAccent": "Case Study",
+    "tagline": "Governance, execution, and scale — rendered from the shared deck manifest.",
+    "introBrandLine": "AI-Assisted Delivery",
+    "introTitle": "GenAI Transformation",
+    "introSubtitle": "Manifest-driven deck rendering for the full case-study story",
+    "introStats": [
+      { "val": "6", "lbl": "Content Slides" },
+      { "val": "1", "lbl": "Optional Path" },
+      { "val": "0", "lbl": "Hardcoded Lists" },
+      { "val": "1", "lbl": "Shared Manifest" }
+    ],
+    "stats": [
+      { "val": "6", "lbl": "Core Slides" },
+      { "val": "1", "lbl": "Optional Platform" },
+      { "val": "1", "lbl": "Shared Theme" },
+      { "val": "100%", "lbl": "Manifest Driven" }
+    ]
+  },
+  "slides": {
+    "overview": {
+      "role": "overview",
+      "sourceLayout": "two-col",
+      "title": "Case Study Overview",
+      "subtitle": "How the AI-accelerated delivery story unfolds across governance, execution, and scale",
+      "eyebrow": "Deck Flow",
+      "summary": "This opener gives the audience the full story in one pass: the mission need, the platform model, the governance proof points, and the path to scale.",
+      "heroPoints": ["Mission need", "Platform model", "Delivery guardrails", "Scale path"],
+      "cards": [
+        { "title": "Mission Need", "body": "The agency needed one front door for fragmented IT demand." },
+        { "title": "Operating Model", "body": "The platform links discovery, approval, and procurement handoff." },
+        { "title": "Human Governance", "body": "Speed stayed credible because humans still owned review and release." },
+        { "title": "What Follows", "body": "The next pages prove governance, execution, and scale in detail." }
+      ],
+      "talkingPoints": [
+        "Lead with the mission problem before the technology.",
+        "Frame the platform as an operating model, not a catalog screen.",
+        "Use the rest of the deck as proof of governance and execution.",
+        "Keep the throughline on readiness, speed, and controlled handoff."
+      ],
+      "callout": "Use this slide as the executive opener, then move into the proof pages."
+    },
+    "human": {
+      "title": "Human in the Loop",
+      "heroTitle": "Human-in-the-Loop Focused AI Development",
+      "kicker": "AI-Accelerated Delivery",
+      "subkicker": "Governance-First Delivery",
+      "subtitle": "AI accelerates delivery. Human judgment governs quality.",
+      "thesis": "Accelerated by AI. Governed by human expertise.",
+      "cards": [
+        {
+          "title": "Governance First",
+          "step": "01",
+          "marker": "GF",
+          "eyebrow": "Approvals before acceleration",
+          "highlight": "Approvals and legal clearance came before acceleration.",
+          "details": [
+            "Risk, legal, and compliance teams approved AI use before production release.",
+            "Contract updates included explicit AI language and operating guardrails."
+          ]
+        },
+        {
+          "title": "Quality Gates",
+          "step": "02",
+          "marker": "QG",
+          "eyebrow": "Human review at every gate",
+          "highlight": "Every AI-assisted line was reviewed before merge.",
+          "details": [
+            "More time was invested in review discipline, not less.",
+            "Unit and integration testing validated output before release.",
+            "No merge moved forward until all gates passed."
+          ]
+        },
+        {
+          "title": "Context Engineering",
+          "step": "03",
+          "marker": "PC",
+          "eyebrow": "Manage context, lower variance",
+          "highlight": "Standardized prompts, process learning sessions, and developer expertise provided the system the full context.",
+          "details": [
+            "Architecture docs, data models, and coding standards were embedded in prompts.",
+            "Variance dropped because outputs stayed anchored to the real system."
+          ]
+        }
+      ],
+      "leadershipPoints": [
+        "Governance sat inside the workflow, not after the fact.",
+        "Humans kept release authority even when AI authored most of the implementation.",
+        "Review rigor made speed credible to leadership."
+      ],
+      "results": [
+        { "value": "50%", "label": "Reduction in development time", "detail": "through incorporation of AI tools in development processes" },
+        { "value": "90%", "label": "Of production code developed via AI" },
+        { "value": "2", "label": "Months from idea to production" },
+        { "value": "0", "label": "Critical defects discovered post deployment" }
+      ],
+      "enablementTitle": "Enablement + Outcome",
+      "enablement": "An internal hackathon built team fluency and confidence, turning experimentation into a repeatable delivery habit.",
+      "callout": "AI generated code. Humans owned the decisions."
+    },
+    "hurdles": {
+      "title": "Hurdles We Overcame",
+      "subtitle": "What changed from day one to delivery",
+      "cards": [
+        { "title": "Prompt Standardization", "challenge": "Ad-hoc prompts created uneven quality and rework.", "fix": "Versioned prompt templates added consistent architecture context." },
+        { "title": "Process Realignment", "challenge": "Traditional reviews were not built for AI-assisted output.", "fix": "AI-specific review checklists made quality gates explicit." },
+        { "title": "Governance Clearance", "challenge": "Policy approval was required before production use.", "fix": "Risk and legal teams were engaged early to set guardrails." },
+        { "title": "Team Enablement", "challenge": "Skill levels with AI tools were uneven across the team.", "fix": "A hands-on hackathon built shared confidence before delivery." }
+      ],
+      "callout": "The early friction became the guardrails that let the team move fast later."
+    },
+    "sprint": {
+      "title": "AI Sprint Cycle",
+      "subtitle": "Human checkpoints at every stage of AI-assisted delivery",
+      "callout": "The sprint changed, but human checkpoints stayed embedded throughout delivery."
+    },
+    "future": {
+      "title": "Looking Ahead",
+      "subtitle": "Better steering — not more automation — is the next multiplier",
+      "cards": [
+        { "title": "Model Steering & Planning", "body": "Guardrails move upstream into prompts, tools, and workflow defaults." },
+        { "title": "Evolved Prompt Library", "body": "Prompt assets become reusable, modular, and versioned." },
+        { "title": "Human-Governed Pipeline", "body": "Automation helps at every step, but humans still decide to merge and deploy." },
+        { "title": "Team Enablement Kit", "body": "New team members can learn the playbook in days, not months." }
+      ],
+      "callout": "The playbook is proven. The next gain comes from better steering, not less governance."
+    },
+    "platform": {
+      "title": "Service Platform",
+      "subtitle": "One front door for IT demand, approvals, and procurement handoff",
+      "eyebrow": "Issue to Impact",
+      "summary": "The platform creates one governed front door for IT demand, approvals, and procurement continuation, helping users get the right tools faster.",
+      "heroPoints": ["Unified IT catalogs", "Role-based approvals", "Procurement handoff", "Mission readiness"],
+      "focusPanels": [
+        { "label": "Overview", "title": "One governed entry point", "body": "Discovery, request intake, approvals, and procurement continuation all sit in one flow." },
+        { "label": "Capability Zoom", "title": "What users can do", "body": "Users can browse, research, track, and route requests without jumping tools." },
+        { "label": "Process Zoom", "title": "How requests move", "body": "Users request. Approvers review. Admins complete procurement in the right tool." }
+      ],
+      "capabilities": [
+        { "title": "Browse IT Goods", "body": "See hardware and software options in one place.", "marker": "BG" },
+        { "title": "Research Solutions", "body": "Explore available IT services before submitting demand.", "marker": "RS" },
+        { "title": "Track Requests", "body": "Users and admins can see request status clearly.", "marker": "TR" },
+        { "title": "Continue Procurement", "body": "Approved demand flows into the right downstream tool.", "marker": "CP" }
+      ],
+      "lanes": [
+        {
+          "title": "Review & Request Tool",
+          "subtitle": "Service Platform",
+          "persona": "User: Any authorized personnel with agency credentials",
+          "steps": [
+            "Browse orderable goods and services.",
+            "Submit a request form routed to the right approver.",
+            "Approve or deny the queued request."
+          ]
+        },
+        {
+          "title": "Procurement Tool",
+          "subtitle": "e.g. Legacy Procurement",
+          "persona": "User: Admin with procurement permissions",
+          "steps": [
+            "Approved requests continue in the relevant procurement tool."
+          ]
+        }
+      ],
+      "talkingPoints": [
+        "Fast-changing IT demand needs one clear front door.",
+        "The platform simplifies discovery without weakening control.",
+        "Role-based routing keeps the right people in the loop.",
+        "The real payoff is faster access and stronger readiness."
+      ],
+      "callout": "This is not just a catalog. It is a governed path from need to procurement."
+    }
+  }
+}

@@ -12,8 +12,11 @@ import { AdvHurdlesLayout } from "./AdvHurdlesLayout.tsx";
 import { AdvFutureLayout } from "./AdvFutureLayout.tsx";
 import { AdvPlatformLayout } from "./AdvPlatformLayout.tsx";
 
-layoutRegistry.register("adv-overview", AdvOverviewLayout);
-layoutRegistry.register("adv-stats", AdvStatsLayout);
-layoutRegistry.register("adv-hurdles", AdvHurdlesLayout);
-layoutRegistry.register("adv-future", AdvFutureLayout);
-layoutRegistry.register("adv-platform", AdvPlatformLayout);
+/** Advocacy: transcription target — effects only. */
+const ADV_FEATURES = { effects: true };
+
+layoutRegistry.register("adv-overview", AdvOverviewLayout, ADV_FEATURES);
+layoutRegistry.register("adv-stats", AdvStatsLayout, ADV_FEATURES);
+layoutRegistry.register("adv-hurdles", AdvHurdlesLayout, ADV_FEATURES);
+layoutRegistry.register("adv-future", AdvFutureLayout, ADV_FEATURES);
+layoutRegistry.register("adv-platform", AdvPlatformLayout, ADV_FEATURES);

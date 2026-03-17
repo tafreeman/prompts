@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import type { Theme } from "../../tokens/themes.ts";
 import type { StyleMode } from "../../tokens/style-modes.ts";
+import type { LayoutFeatures } from "../../layouts/registry.ts";
+import { DEFAULT_FEATURES } from "../../layouts/registry.ts";
 
 const STYLE_SIGNATURES: Record<string, { borderRadius: string; borderWidth: string; label: string; symbol: string }> = {
   default:   { borderRadius: "10px", borderWidth: "1px", label: "Default",   symbol: "◎" },
@@ -97,23 +99,31 @@ export interface ControlPanelProps {
   onStyleModeChange: (id: string) => void;
   renderFamily: string;
   onRenderFamilyChange: (family: string) => void;
-  showLayoutFamilies: boolean;
+  /** Feature manifest for the active layout — drives conditional sections. */
+  layoutFeatures?: LayoutFeatures;
   animOptions?: AnimOptions | null;
   onAnimOptionsChange?: ((opts: AnimOptions) => void) | null;
   heroImage?: string | null;
   heroImageEnabled?: boolean;
   onHeroImageToggle?: ((enabled: boolean) => void) | null;
   onHeroImageChange?: ((url: string) => void) | null;
+  /** Content swapping — only shown for migrated decks */
+  contentSwappable?: boolean;
+  availableContent?: readonly { id: string; label: string; matchCount: number; totalSlides: number }[];
+  contentKey?: string | null;
+  onContentChange?: ((key: string) => void) | null;
 }
 
 export function ControlPanel({
   decks, deckKey, onDeckChange,
   themes, theme, onThemeChange, onThemeReset, themeManual, deckThemeId,
   styleModes, styleModeId, onStyleModeChange,
-  renderFamily, onRenderFamilyChange, showLayoutFamilies,
+  renderFamily, onRenderFamilyChange, layoutFeatures,
   animOptions, onAnimOptionsChange,
   heroImage, heroImageEnabled, onHeroImageToggle, onHeroImageChange,
+  contentSwappable, availableContent, contentKey, onContentChange,
 }: ControlPanelProps) {
+  const features = layoutFeatures ?? DEFAULT_FEATURES;
   const [open, setOpen] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -138,7 +148,8 @@ export function ControlPanel({
     return () => document.removeEventListener("keydown", handleKey);
   }, []);
 
-  const hasCustomSettings = themeManual || styleModeId !== "default" || renderFamily !== "native" || (animOptions && (animOptions.intro || animOptions.comet)) || heroImageEnabled === false;
+  const contentIsSwapped = contentSwappable && contentKey && availableContent?.some((p) => p.id === contentKey && p.matchCount < p.totalSlides);
+  const hasCustomSettings = themeManual || styleModeId !== "default" || renderFamily !== "native" || (animOptions && (animOptions.intro || animOptions.comet)) || heroImageEnabled === false || !!contentIsSwapped;
   const accentColor = theme?.accent ?? "#22D3EE";
 
   return (
@@ -233,6 +244,56 @@ export function ControlPanel({
             </div>
           </PanelSection>
 
+          {/* ── CONTENT (only for migrated decks) ── */}
+          {contentSwappable && availableContent && availableContent.length > 1 && onContentChange && (
+            <PanelSection label="Content">
+              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                {availableContent.map((pack) => {
+                  const isActive = pack.id === contentKey;
+                  const isPartial = pack.matchCount < pack.totalSlides;
+                  return (
+                    <button
+                      key={pack.id}
+                      onClick={() => onContentChange(pack.id)}
+                      style={{
+                        background: isActive ? `${accentColor}12` : "rgba(255,255,255,0.02)",
+                        border: `1px solid ${isActive ? `${accentColor}45` : "rgba(255,255,255,0.07)"}`,
+                        borderRadius: 8,
+                        padding: "7px 10px",
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 9,
+                        textAlign: "left",
+                        transition: "background 0.15s ease",
+                      }}
+                    >
+                      <div style={{
+                        width: 8, height: 8, borderRadius: "50%",
+                        background: isActive ? accentColor : "rgba(255,255,255,0.2)",
+                        flexShrink: 0,
+                        boxShadow: isActive ? `0 0 6px ${accentColor}80` : "none",
+                      }} />
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{
+                          fontSize: 11, fontFamily: "'Space Grotesk',sans-serif",
+                          color: isActive ? accentColor : "rgba(255,255,255,0.65)",
+                          fontWeight: isActive ? 600 : 400,
+                          lineHeight: 1,
+                        }}>{pack.label}</div>
+                        <div style={{ fontSize: 9, color: "rgba(255,255,255,0.28)", marginTop: 2 }}>
+                          {isPartial
+                            ? `${pack.matchCount}/${pack.totalSlides} slides matched`
+                            : `${pack.totalSlides} slides`}
+                        </div>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </PanelSection>
+          )}
+
           {/* ── THEME ── */}
           <PanelSection
             label="Theme"
@@ -324,8 +385,8 @@ export function ControlPanel({
             </div>
           </PanelSection>
 
-          {/* ── RENDER AS (conditional) ── */}
-          {showLayoutFamilies && (
+          {/* ── RENDER AS (conditional on layout feature) ── */}
+          {features.renderAs && (
             <PanelSection label="Render As">
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 5 }}>
                 {RENDER_FAMILIES.map(([fam, label]) => {
@@ -356,8 +417,8 @@ export function ControlPanel({
             </PanelSection>
           )}
 
-          {/* ── EFFECTS ── */}
-          {animOptions && onAnimOptionsChange && (
+          {/* ── EFFECTS (conditional on layout feature) ── */}
+          {features.effects && animOptions && onAnimOptionsChange && (
             <PanelSection label="Effects">
               {[
                 { key: "intro", label: "Intro Sequence", sub: "Cinematic deck opener" },
@@ -392,8 +453,8 @@ export function ControlPanel({
             </PanelSection>
           )}
 
-          {/* ── BACKGROUND ── */}
-          {onHeroImageToggle && (
+          {/* ── BACKGROUND (conditional on layout feature) ── */}
+          {features.background && onHeroImageToggle && (
             <PanelSection label="Background">
               <button
                 onClick={() => onHeroImageToggle(!heroImageEnabled)}

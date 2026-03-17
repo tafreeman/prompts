@@ -6,8 +6,9 @@
  *
  * Usage:
  *   import { layoutRegistry } from './registry';
- *   layoutRegistry.register('cover', Cover);
+ *   layoutRegistry.register('cover', Cover, { effects: true, background: true });
  *   const Component = layoutRegistry.get('cover');
+ *   const features = layoutRegistry.getFeatures('cover');
  */
 
 import type { ComponentType } from 'react';
@@ -24,27 +25,59 @@ export interface LayoutProps {
 
 export type LayoutComponent = ComponentType<LayoutProps>;
 
+/**
+ * Feature manifest — declares what ControlPanel sections a layout supports.
+ *
+ * Each boolean flag controls whether the corresponding ControlPanel section
+ * is shown when a slide using this layout is active.  Defaults (when a layout
+ * is registered without features) are defined by DEFAULT_FEATURES.
+ */
+export interface LayoutFeatures {
+  /** Show the "Render As" family picker (transcription to other families). */
+  renderAs: boolean;
+  /** Show the "Effects" section (intro sequence, comet transitions). */
+  effects: boolean;
+  /** Show the "Background" section (hero image toggle + URL). */
+  background: boolean;
+}
+
+/** Sensible defaults — everything off until explicitly opted-in. */
+export const DEFAULT_FEATURES: Readonly<LayoutFeatures> = Object.freeze({
+  renderAs: false,
+  effects: false,
+  background: false,
+});
+
 class LayoutRegistry {
   private registry = new Map<string, LayoutComponent>();
+  private features = new Map<string, LayoutFeatures>();
 
   /**
-   * Register a single layout component.
+   * Register a single layout component with optional feature metadata.
    * Warns on overwrite to catch accidental collisions.
    */
-  register(layoutId: string, Component: LayoutComponent): void {
+  register(
+    layoutId: string,
+    Component: LayoutComponent,
+    featureOverrides?: Partial<LayoutFeatures>,
+  ): void {
     if (this.registry.has(layoutId)) {
       console.warn(`[LayoutRegistry] Layout "${layoutId}" already registered; overwriting.`);
     }
     this.registry.set(layoutId, Component);
+    this.features.set(layoutId, { ...DEFAULT_FEATURES, ...featureOverrides });
   }
 
   /**
-   * Register multiple layouts at once.
-   * @example registry.registerBatch({ cover: Cover, 'nav-hub': NavHub });
+   * Register multiple layouts at once, all sharing the same features.
+   * @example registry.registerBatch({ cover: Cover, 'nav-hub': NavHub }, { effects: true });
    */
-  registerBatch(layouts: Record<string, LayoutComponent>): void {
+  registerBatch(
+    layouts: Record<string, LayoutComponent>,
+    featureOverrides?: Partial<LayoutFeatures>,
+  ): void {
     Object.entries(layouts).forEach(([id, Component]) => {
-      this.register(id, Component);
+      this.register(id, Component, featureOverrides);
     });
   }
 
@@ -61,6 +94,14 @@ class LayoutRegistry {
       );
     }
     return Component;
+  }
+
+  /**
+   * Get the feature manifest for a layout.
+   * Returns DEFAULT_FEATURES for unknown layout IDs (safe fallback).
+   */
+  getFeatures(layoutId: string): LayoutFeatures {
+    return this.features.get(layoutId) ?? { ...DEFAULT_FEATURES };
   }
 
   /** Check whether a layout is registered. */

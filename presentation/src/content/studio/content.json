@@ -1,0 +1,147 @@
+{
+  "deck": {
+    "brandLine": "AI Studio",
+    "title": "Studio",
+    "titleAccent": "Handbook",
+    "tagline": "Six chapters. From who we are to your first day. Select a chapter to begin.",
+    "introBrandLine": "AI Studio \u00b7 Handbook",
+    "introTitle": "The Studio Handbook",
+    "introSubtitle": "How we work, what we build, what we believe.",
+    "introStats": [
+      { "val": "5",  "lbl": "Practices" },
+      { "val": "8",  "lbl": "Process Steps" },
+      { "val": "6+", "lbl": "Client Archetypes" },
+      { "val": "1",  "lbl": "Manifesto" }
+    ],
+    "stats": [
+      { "val": "6",  "lbl": "Chapters" },
+      { "val": "5",  "lbl": "Practice Areas" },
+      { "val": "8",  "lbl": "Process Steps" },
+      { "val": "Yellow", "lbl": "Accent" }
+    ]
+  },
+  "slides": {
+    "who-we-are": {
+      "title": "Who We Are",
+      "subtitle": "Big ideas, human taste, AI velocity.",
+      "eyebrow": "The Studio",
+      "summary": "We are a creative studio that builds with intelligence. Not a software shop with a design layer, not a design shop that dabbles in code \u2014 we are a team that uses AI to expand what is possible at every stage of the process.",
+      "heroPoints": [
+        "AI-native from day one",
+        "Creative direction stays human",
+        "Output quality is non-negotiable",
+        "Craft and speed are not opposites"
+      ],
+      "chapters": [
+        { "num": "01", "title": "Who We Are",    "sub": "Big ideas, AI-powered"  },
+        { "num": "02", "title": "What We Build", "sub": "Practice areas"         },
+        { "num": "03", "title": "Our Process",   "sub": "Brief to delivery"      },
+        { "num": "04", "title": "We Believe",    "sub": "Studio manifesto"       },
+        { "num": "05", "title": "Our Clients",   "sub": "Who we work with"       },
+        { "num": "06", "title": "Your First Day","sub": "What to expect"         }
+      ],
+      "callout": "We don\u2019t use AI to go faster. We use AI to go further."
+    },
+    "what-we-build": {
+      "title": "What We Build",
+      "subtitle": "Five practice areas. One integrated team.",
+      "eyebrow": "Practice Areas",
+      "summary": "Every engagement touches more than one practice. The best work lives at the intersection of rigorous research, strategic clarity, and craft execution.",
+      "practices": [
+        {
+          "title": "Research Practice",
+          "body": "Primary and secondary research, user studies, market analysis, and behavioral synthesis. We find the insight others miss.",
+          "dark": false
+        },
+        {
+          "title": "Strategy Practice",
+          "body": "Brand positioning, audience architecture, messaging frameworks, and go-to-market planning. Direction before execution.",
+          "dark": true
+        },
+        {
+          "title": "Innovation Practice",
+          "body": "AI-assisted ideation, rapid prototyping, concept sprints, and emerging technology integration. What\u2019s next, now.",
+          "dark": false
+        },
+        {
+          "title": "Branding Practice",
+          "body": "Visual identity, design systems, typographic standards, and brand governance. The look and feel of an idea.",
+          "dark": true
+        },
+        {
+          "title": "Creative AI Practice",
+          "body": "Model-assisted creative direction, prompt engineering for production, AI output curation, and human-AI workflow design.",
+          "dark": false,
+          "highlight": true
+        }
+      ],
+      "callout": "Practices are lenses, not silos. Most briefs require three or more to answer properly."
+    },
+    "our-process": {
+      "title": "Our Process",
+      "subtitle": "Eight steps from brief to delivery.",
+      "eyebrow": "How This Works",
+      "steps": [
+        { "num": "01", "title": "Intake",     "body": "Define the brief, set success criteria, align on timeline and budget." },
+        { "num": "02", "title": "Research",   "body": "Understand the context, audience, competitors, and constraints." },
+        { "num": "03", "title": "Strategy",   "body": "Frame the problem, define the solution space, establish direction." },
+        { "num": "04", "title": "Concepting", "body": "AI-assisted ideation phase \u2014 generate, filter, select, elevate." },
+        { "num": "05", "title": "Design",     "body": "Translate selected concepts into refined, presentable artifacts." },
+        { "num": "06", "title": "Execution",  "body": "Build at production quality with AI tooling and human oversight." },
+        { "num": "07", "title": "Review",     "body": "Cross-functional review, client presentation, and feedback integration." },
+        { "num": "08", "title": "Delivery",   "body": "Final handoff, documentation, and retrospective." }
+      ],
+      "callout": "The first step of the process is to trust the process."
+    },
+    "we-believe": {
+      "title": "We Believe",
+      "subtitle": "The ideas we hold regardless of brief.",
+      "eyebrow": "Studio Manifesto",
+      "statement": "Fulfill a Need.\nCreate a Feeling.",
+      "beliefs": [
+        "Good work starts with a good question.",
+        "Speed without taste is noise.",
+        "Humans set the direction. AI closes the distance.",
+        "Constraints are the brief inside the brief.",
+        "The best idea should win \u2014 regardless of where it came from."
+      ],
+      "callout": "We measure by the quality of our output, not the hours we logged."
+    },
+    "our-clients": {
+      "title": "Who We Work With",
+      "subtitle": "The types of clients we do our best work for.",
+      "eyebrow": "Client Index",
+      "categories": [
+        { "label": "Challenger Brands",   "body": "Brands that are right but not yet noticed \u2014 we help them become unavoidable." },
+        { "label": "Enterprise at Pivot", "body": "Large organizations navigating transformation \u2014 we give them clarity and velocity." },
+        { "label": "Category Creators",   "body": "Clients who are defining something new \u2014 we help them name, frame, and own the space." },
+        { "label": "Mission-Driven Orgs", "body": "Government, non-profit, and civic entities \u2014 we amplify impact without diluting rigor." },
+        { "label": "AI-Native Ventures",  "body": "Teams building with AI at the core \u2014 we bring creative craft to technical ambition." },
+        { "label": "Platform Companies",  "body": "Networks and platforms scaling their community \u2014 we design for belonging, not just use." }
+      ],
+      "callout": "The best client relationships begin with mutual respect for the brief \u2014 and for each other."
+    },
+    "first-day": {
+      "title": "Your First Day",
+      "subtitle": "What you need to know before week one is over.",
+      "eyebrow": "Getting Started",
+      "summary": "First week at the studio sets the tone for everything. We move fast, but not carelessly. We have high expectations, but we also have context, support, and a genuine interest in your success here.",
+      "heroPoints": [
+        "Read the handbook before asking \u2014 it\u2019s written for you",
+        "Brief is law \u2014 if it\u2019s unclear, ask before you assume",
+        "AI output is your output \u2014 own what you produce",
+        "Show work early and often \u2014 we critique, not dismiss",
+        "Lunch is sacred \u2014 we eat together on Tuesdays"
+      ],
+      "chapters": [
+        { "num": "9:00",  "title": "Studio Tour",       "sub": "Tools, spaces, rituals"     },
+        { "num": "10:00", "title": "Team Intros",        "sub": "Who does what"              },
+        { "num": "11:00", "title": "Active Projects",    "sub": "What we\u2019re working on" },
+        { "num": "13:00", "title": "First Brief",        "sub": "Jump in immediately"        },
+        { "num": "15:00", "title": "AI Tooling",         "sub": "Setup and standards"        },
+        { "num": "17:00", "title": "Day One Retro",      "sub": "What worked today"          }
+      ],
+      "callout": "Nobody expects you to know everything on day one. We do expect you to ask."
+    }
+  }
+}

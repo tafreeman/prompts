@@ -13,9 +13,12 @@ import DataTableLayout from "./DataTableLayout.tsx";
 import BarChartLayout from "./BarChartLayout.tsx";
 import ColorBlocksLayout from "./ColorBlocksLayout.tsx";
 
-layoutRegistry.register("stat-hero", StatHeroLayout);
-layoutRegistry.register("quote-collage", QuoteCollageLayout);
-layoutRegistry.register("badge-grid", BadgeGridLayout);
-layoutRegistry.register("data-table", DataTableLayout);
-layoutRegistry.register("bar-chart", BarChartLayout);
-layoutRegistry.register("color-blocks", ColorBlocksLayout);
+/** Verge-pop: transcription target — effects only, no render-as or background. */
+const VERGE_FEATURES = { effects: true };
+
+layoutRegistry.register("stat-hero", StatHeroLayout, VERGE_FEATURES);
+layoutRegistry.register("quote-collage", QuoteCollageLayout, VERGE_FEATURES);
+layoutRegistry.register("badge-grid", BadgeGridLayout, VERGE_FEATURES);
+layoutRegistry.register("data-table", DataTableLayout, VERGE_FEATURES);
+layoutRegistry.register("bar-chart", BarChartLayout, VERGE_FEATURES);
+layoutRegistry.register("color-blocks", ColorBlocksLayout, VERGE_FEATURES);

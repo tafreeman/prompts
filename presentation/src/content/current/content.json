@@ -1,0 +1,72 @@
+{
+  "deck": {
+    "brandLine": "AI-Assisted Delivery",
+    "title": "GenAI",
+    "titleAccent": "Advocacy Deck",
+    "tagline": "Four narratives. One story. Select a topic to explore.",
+    "introBrandLine": "AI-Assisted Delivery",
+    "introTitle": "GenAI Transformation",
+    "introSubtitle": "From prototype to production in 2 months",
+    "introStats": [
+      { "val": "~40%", "lbl": "Uplift" },
+      { "val": "2 mo", "lbl": "Delivery" },
+      { "val": "0", "lbl": "Defects" },
+      { "val": "~90%", "lbl": "AI Code" }
+    ],
+    "stats": [
+      { "val": "~40%", "lbl": "Productivity Uplift" },
+      { "val": "2 mo", "lbl": "Prototype \u2192 Production" },
+      { "val": "0", "lbl": "Critical Defects" },
+      { "val": "~90%", "lbl": "AI-Assisted Code" },
+      { "val": "~95%", "lbl": "Sprint Predictability" },
+      { "val": "1 wk", "lbl": "Sprint Cadence" }
+    ]
+  },
+  "slides": {
+    "human": {
+      "role": "evidence",
+      "sourceLayout": "stat-cards",
+      "title": "Human in the Loop",
+      "subtitle": "AI Accelerates. Humans Govern.",
+      "cards": [
+        { "title": "Gated Review Process", "body": "Every line of AI-assisted code passed through structured pull request reviews with project-specific checklists before reaching production.", "stat": "100%", "statLabel": "Human-Reviewed" },
+        { "title": "Context-Rich Prompts", "body": "Standardized prompt templates embedded with architecture documentation, data models, and coding standards kept AI output anchored to the actual system.", "stat": "~90%", "statLabel": "AI-Assisted Code" },
+        { "title": "Zero Critical Defects", "body": "Disciplined human governance produced zero critical defects at production release \u2014 proving speed doesn\u2019t sacrifice quality.", "stat": "0", "statLabel": "Critical Defects" }
+      ],
+      "callout": "AI generated the code. Humans owned every decision. That\u2019s not a limitation \u2014 it\u2019s the model."
+    },
+    "hurdles": {
+      "role": "challenges",
+      "sourceLayout": "before-after",
+      "title": "Hurdles We Overcame",
+      "subtitle": "What changed from day one to delivery",
+      "cards": [
+        { "title": "Prompt Standardization", "challenge": "Developers used ad-hoc, inconsistent prompts \u2014 variable quality and constant refactoring.", "fix": "Established versioned prompt templates with embedded architecture context and coding standards." },
+        { "title": "Process Realignment", "challenge": "Traditional review workflows didn\u2019t account for AI-generated code patterns and volume.", "fix": "Introduced AI-specific gated review checklists \u2014 convention adherence, test validation on every PR." },
+        { "title": "Governance Clearance", "challenge": "Federal context required legal and policy approval before any AI-assisted code could reach production.", "fix": "Proactively engaged internal risk, internal legal, and client legal to establish approval frameworks." },
+        { "title": "Team Enablement", "challenge": "Team had varying levels of comfort and fluency with AI-assisted development tooling.", "fix": "Internal hackathon built hands-on proficiency with tools and guardrails before delivery began." }
+      ],
+      "callout": "Every hurdle became a guardrail. The friction we overcame early is the governance that keeps us fast now."
+    },
+    "sprint": {
+      "role": "process",
+      "sourceLayout": "process-cycle",
+      "title": "AI Sprint Cycle",
+      "subtitle": "Human checkpoints at every stage of AI-assisted delivery",
+      "callout": "The AI modified sprint cycle includes numerous human-in-the-loop checkpoints. Development included rapid iterations and adherence to Agile best practices."
+    },
+    "future": {
+      "role": "vision",
+      "sourceLayout": "h-strip",
+      "title": "Looking Ahead",
+      "subtitle": "Better steering \u2014 not more automation \u2014 is the next multiplier",
+      "cards": [
+        { "title": "Model Steering & Planning", "body": "System prompts, prefills, and tool configs encode architecture standards and compliance guardrails before developers write a single prompt." },
+        { "title": "Evolved Prompt Library", "body": "Templates evolve from standalone instructions to modular components operating within a steered context \u2014 version-controlled, regression-tested." },
+        { "title": "Human-Governed Pipeline", "body": "Automated static analysis and security scanning assist at every commit, but humans make the merge and deploy decisions." },
+        { "title": "Team Enablement Kit", "body": "Onboarding now covers model steering techniques alongside prompt writing \u2014 adoption in days, not months." }
+      ],
+      "callout": "The playbook is proven. The automated pipeline turns one project win into a practice-wide competitive advantage."
+    }
+  }
+}

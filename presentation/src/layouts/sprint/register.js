@@ -1,4 +1,5 @@
 import { layoutRegistry } from "../registry.ts";
 import { SprintLayout } from "./SprintLayout.tsx";
 
-layoutRegistry.register("process-cycle", SprintLayout);
+/** Sprint: specialized process view — effects only. */
+layoutRegistry.register("process-cycle", SprintLayout, { effects: true });
