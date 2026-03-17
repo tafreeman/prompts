@@ -54,3 +54,9 @@ MANDATORY workflow:
 ## Agent Support
 
 - **tdd-guide** - Use PROACTIVELY for new features, enforces write-tests-first
+
+## Test Value Taxonomy (ADR-008)
+- **Tier 1 (High Value):** Tests that catch real bugs — edge cases, error paths, integration boundaries
+- **Tier 2 (Medium Value):** Happy-path tests covering core business logic
+- **Tier 3 (Low Value):** Constructor tests, enum tests, trivial getter/setter tests — remove or consolidate
+- **Tier 4 (Negative Value):** Tests that never fail, duplicate other tests, or test mocks — delete immediately
