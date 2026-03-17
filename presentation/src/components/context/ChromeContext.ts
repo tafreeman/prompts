@@ -6,8 +6,9 @@
  */
 
 import { createContext } from "react";
+import type { StyleMode } from "../../tokens/style-modes.ts";
 import { STYLE_MODES_BY_ID } from "../../tokens/style-modes.ts";
 
-export const ChromeContext = createContext(STYLE_MODES_BY_ID["default"]);
+export const ChromeContext = createContext<StyleMode>(STYLE_MODES_BY_ID["default"]);
 
 export default ChromeContext;

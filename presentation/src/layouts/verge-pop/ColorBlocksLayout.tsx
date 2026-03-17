@@ -4,8 +4,8 @@
  */
 
 import React, { useState, useEffect } from "react";
-import { useTheme } from "../../components/hooks/useTheme.js";
-import { useChrome } from "../../components/hooks/useChrome.js";
+import { useTheme } from "../../components/hooks/useTheme.ts";
+import { useChrome } from "../../components/hooks/useChrome.ts";
 import BackBtn from "../../components/navigation/BackBtn.tsx";
 
 interface Topic {

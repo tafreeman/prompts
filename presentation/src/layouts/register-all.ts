@@ -1,5 +1,5 @@
 /**
- * register-all.js — import this once at app startup to register all layout families.
+ * register-all.ts — import this once at app startup to register all layout families.
  *
  * Each sub-module calls layoutRegistry.register(...) as a side effect.
  * Import order does not matter — registry uses a Map internally.
@@ -13,14 +13,14 @@
  *   Engineering: eng-architecture, eng-code-flow, eng-tech-stack, eng-roadmap
  *
  * Usage in main.jsx or App entry:
- *   import "../layouts/register-all.js";
+ *   import "../layouts/register-all.ts";
  */
 
-import "./base/register.js";
-import "./verge-pop/register.js";
-import "./sprint/register.js";
-import "./onboarding/register.js";
-import "./handbook/register.js";
-import "./engineering/register.js";
-import "./advocacy/register.js";
-import "./advocacy-dense/register.js";
+import "./base/register.ts";
+import "./verge-pop/register.ts";
+import "./sprint/register.ts";
+import "./onboarding/register.ts";
+import "./handbook/register.ts";
+import "./engineering/register.ts";
+import "./advocacy/register.ts";
+import "./advocacy-dense/register.ts";

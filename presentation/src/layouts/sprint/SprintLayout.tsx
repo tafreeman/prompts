@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useTheme } from "../../components/hooks/useTheme.js";
-import { usePresentationViewport } from "../../components/hooks/usePresentationViewport.js";
+import { useTheme } from "../../components/hooks/useTheme.ts";
+import { usePresentationViewport } from "../../components/hooks/usePresentationViewport.ts";
 import BackBtn from "../../components/navigation/BackBtn.tsx";
 import Particles from "../../components/animations/Particles.tsx";
 import { Figure8Cycle } from "./Figure8Cycle.tsx";

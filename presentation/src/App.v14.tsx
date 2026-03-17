@@ -3,7 +3,7 @@
  *
  * Key changes from v13 monolith:
  *   - Imports ThemeContext + ChromeContext from extracted context modules
- *   - Imports register-all.js as a side-effect (populates layout registry)
+ *   - Imports register-all.ts as a side-effect (populates layout registry)
  *   - Replaces 25-case renderActiveTopic() switch with <LayoutRenderer>
  *   - Imports CometTransition, ThematicIntro, LandingTile from extracted components
  *
@@ -12,7 +12,6 @@
  */
 
 import React, { useState, useEffect, useMemo, useCallback, useRef } from "react";
-import PropTypes from "prop-types";
 
 // ── Content imports ────────────────────────────────────────────────────────
 import * as current from "./content/current/deck.js";
@@ -30,16 +29,16 @@ import { resolveTopicColors, resolveIntroStatColors } from "./tokens/palette.ts"
 import { STYLE_MODES, STYLE_MODES_BY_ID } from "./tokens/style-modes.ts";
 
 // ── Design-system context (extracted) ─────────────────────────────────────
-import { ThemeContext, ChromeContext } from "./components/context/index.js";
-import { usePresentationViewport } from "./components/hooks/index.js";
+import { ThemeContext, ChromeContext } from "./components/context/index.ts";
+import { usePresentationViewport } from "./components/hooks/index.ts";
 
 // ── Extracted components ──────────────────────────────────────────────────
-import { CometTransition, ThematicIntro } from "./components/animations/index.js";
-import { LandingTile } from "./components/cards/index.js";
-import { ControlPanel, OptionalDeckLink } from "./components/navigation/index.js";
+import { CometTransition, ThematicIntro } from "./components/animations/index.ts";
+import { LandingTile } from "./components/cards/index.ts";
+import { ControlPanel, OptionalDeckLink } from "./components/navigation/index.ts";
 
 // ── Layout registry: side-effect import registers all 34 layouts ───────────
-import "./layouts/register-all.js";
+import "./layouts/register-all.ts";
 import { layoutRegistry } from "./layouts/registry.ts";
 import { LayoutRenderer } from "./layouts/LayoutRenderer.tsx";
 

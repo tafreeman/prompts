@@ -1,6 +1,24 @@
 import { useEffect, useState } from "react";
 
-function readViewport() {
+export interface PresentationViewport {
+  readonly width: number;
+  readonly height: number;
+  readonly isPhone: boolean;
+  readonly isCompact: boolean;
+  readonly pagePaddingX: number;
+  readonly pagePaddingTop: number;
+  readonly pagePaddingBottom: number;
+  readonly titleSize: number;
+  readonly heroTitleSize: number;
+  readonly sectionTitleSize: number;
+  readonly bodySize: number;
+  readonly subtitleSize: number;
+  readonly cardGap: number;
+  readonly tileMinHeight: number;
+  readonly overlayScroll: "auto" | "hidden";
+}
+
+function readViewport(): PresentationViewport {
   if (typeof window === "undefined") {
     return {
       width: 1440,
@@ -45,11 +63,11 @@ function readViewport() {
   };
 }
 
-export function usePresentationViewport() {
-  const [viewport, setViewport] = useState(readViewport);
+export function usePresentationViewport(): PresentationViewport {
+  const [viewport, setViewport] = useState<PresentationViewport>(readViewport);
 
   useEffect(() => {
-    let frame = null;
+    let frame: number | null = null;
 
     const handleResize = () => {
       if (frame != null) {
