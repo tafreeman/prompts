@@ -470,12 +470,12 @@ class OrchestratorAgent(
                 step.depends_on = subtask_data.get("dependencies", [])
                 dag.add(step)
 
-        # Execute DAG with max parallelism via injected engine (or default DAGExecutor)
+        # Execute DAG with max parallelism via injected engine (or registry default)
         engine = self._execution_engine
         if engine is None:
-            from ..engine.dag_executor import DAGExecutor
+            from ..adapters.registry import get_registry
 
-            engine = DAGExecutor()
+            engine = get_registry().get_adapter("native")
         return await engine.execute(dag, ctx, max_concurrency=task.max_parallel)
 
 

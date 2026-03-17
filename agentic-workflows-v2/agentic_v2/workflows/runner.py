@@ -64,6 +64,7 @@ class WorkflowRunner:
         trace_adapter: TraceAdapter | None = None,
         extract_artifacts: bool = True,
         artifacts_dir: Path | None = None,
+        adapter_name: str = "native",
     ):
         """Initialize the workflow runner.
 
@@ -76,9 +77,12 @@ class WorkflowRunner:
             trace_adapter: Observability adapter; a no-op adapter is used if omitted.
             extract_artifacts: Whether to extract artifacts from the final state.
             artifacts_dir: Directory where artifacts are written.
+            adapter_name: Registered adapter name for engine selection (default ``"native"``).
+                Used only when *step_executor* is ``None``; see ``_execute_definition``.
         """
         self._loader = WorkflowLoader(definitions_dir=definitions_dir)
         self._step_executor = step_executor
+        self._adapter_name = adapter_name
         self._max_concurrency = max_concurrency
         self._execution_profile = dict(execution_profile or {})
         # run_logger=True → auto-create with default dir; False/None → disabled
@@ -296,7 +300,18 @@ class WorkflowRunner:
             if on_update:
                 await on_update(event)
 
-        executor = DAGExecutor(step_executor=self._step_executor)
+        # TODO(ADR-001): When a custom step_executor is provided we must
+        # construct DAGExecutor directly because NativeEngine does not
+        # accept a step_executor parameter and the registry returns a
+        # shared singleton.  Full unification requires NativeEngine to
+        # support per-call step_executor injection or a factory pattern.
+        if self._step_executor is not None:
+            executor = DAGExecutor(step_executor=self._step_executor)
+        else:
+            from ..adapters.registry import get_registry
+
+            executor = get_registry().get_adapter(self._adapter_name)
+
         runtime_artifacts: dict[str, Any] = {}
         try:
             result = await executor.execute(

@@ -194,7 +194,14 @@ def run(
         ) as progress:
             task = progress.add_task(f"Executing {workflow_def.name}...", total=None)
             if adapter == "langchain":
-                # LangChain path: use the existing WorkflowRunner
+                # TODO(ADR-001): The LangChain path uses a separate
+                # WorkflowRunner (from ..langchain) that compiles workflows
+                # into LangGraph state machines via compile_workflow().  It
+                # relies on load_workflow_config() (not the native YAML
+                # loader) and produces a different result shape.  Unifying
+                # both paths through the AdapterRegistry requires the
+                # LangChain adapter to accept the same workflow-loading
+                # interface as the native path — tracked for Phase 2.
                 runner = WorkflowRunner(definitions_dir=definitions_dir)
                 result = asyncio.run(runner.run(workflow_name, **input_data))
             else:
