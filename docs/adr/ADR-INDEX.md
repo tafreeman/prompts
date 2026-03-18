@@ -55,7 +55,7 @@ Evaluation Domain:
 | 002 | Yes | ~80% | Extensive router/rate-limit tests | 2026-03-17 |
 | 003 | Superseded | Legacy fragments only | Legacy scoring tests | 2026-03-17 |
 | 007 | Yes | ~50% | Unit + wiring tests | 2026-03-17 |
-| 008 | Yes | ~35% | Meta / partial cleanup only | 2026-03-17 |
+| 008 | Yes | ~90% | Phase 0-3 complete: cleanup (-23), +539 new tests | 2026-03-17 |
 | 009 | Yes | ~85% | CI + multidimensional scoring tests | 2026-03-17 |
 | 010 | Proposed | ~10% (primitives only) | Reused primitives only | 2026-03-17 |
 | 011 | Proposed | ~15% (partial eval infra) | Adjacent route/UI helpers only | 2026-03-17 |
