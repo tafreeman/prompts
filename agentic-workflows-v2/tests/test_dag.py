@@ -1,4 +1,5 @@
 """Tests for DAG workflow execution."""
+# ADR-008 cleanup: removed 3 duplicate tests (see docs/adr/ADR-008-testing-approach-overhaul.md)
 
 import asyncio
 
@@ -9,7 +10,6 @@ from agentic_v2.engine import (
     CycleDetectedError,
     DAGExecutor,
     ExecutionContext,
-    ExpressionEvaluator,
     MissingDependencyError,
     StepDefinition,
 )
@@ -103,33 +103,6 @@ def test_missing_dependency_error():
 
 
 @pytest.mark.asyncio
-async def test_max_concurrency_respected():
-    """DAGExecutor respects max_concurrency."""
-    running = 0
-    max_running = 0
-    lock = asyncio.Lock()
-
-    async def slow_step(ctx):
-        nonlocal running, max_running
-        async with lock:
-            running += 1
-            max_running = max(max_running, running)
-        await asyncio.sleep(0.05)
-        async with lock:
-            running -= 1
-        return {}
-
-    dag = DAG("concurrency")
-    for i in range(6):
-        dag.add(StepDefinition(name=f"s{i}", func=slow_step))
-
-    executor = DAGExecutor()
-    await executor.execute(dag, max_concurrency=2)
-
-    assert max_running <= 2
-
-
-@pytest.mark.asyncio
 async def test_conditional_execution_in_dag():
     """Conditional step is skipped when condition is false."""
 
@@ -154,40 +127,3 @@ async def test_conditional_execution_in_dag():
 
     step_status = {step.step_name: step.status for step in result.steps}
     assert step_status["conditional"] == StepStatus.SKIPPED
-
-
-@pytest.mark.asyncio
-async def test_step_failure_stops_dependents():
-    """Dependent steps are skipped when prerequisite fails."""
-
-    async def failing_step(ctx):
-        raise ValueError("boom")
-
-    async def dependent_step(ctx):
-        return {"value": 1}
-
-    dag = DAG("failure")
-    dag.add(StepDefinition(name="fail", func=failing_step))
-    dag.add(
-        StepDefinition(name="dependent", func=dependent_step).with_dependency("fail")
-    )
-
-    executor = DAGExecutor()
-    result = await executor.execute(dag)
-
-    statuses = {step.step_name: step.status for step in result.steps}
-    assert statuses["fail"] == StepStatus.FAILED
-    assert statuses["dependent"] == StepStatus.SKIPPED
-    assert result.overall_status == StepStatus.FAILED
-
-
-def test_expression_evaluator_with_step_results():
-    """ExpressionEvaluator can read ctx and step results."""
-    ctx = ExecutionContext()
-    ctx.set_sync("enabled", True)
-
-    step_result = StepDefinition(name="step1").metadata
-    results = {"step1": StepDefinition(name="dummy").metadata}
-
-    evaluator = ExpressionEvaluator(ctx, {})
-    assert evaluator.evaluate("${ctx.enabled}") is True

@@ -1,4 +1,5 @@
 """Tests for agent components."""
+# ADR-008 cleanup: removed 3 duplicate tests (see docs/adr/ADR-008-testing-approach-overhaul.md)
 
 import pytest
 from agentic_v2.agents import AgentConfig  # Base; Capabilities; Agents
@@ -13,7 +14,6 @@ from agentic_v2.agents import (
     OrchestratorAgent,
     OrchestratorInput,
     ReviewerAgent,
-    agent_to_step,
     get_agent_capabilities,
 )
 from agentic_v2.contracts import (
@@ -354,17 +354,6 @@ class TestOrchestratorAgent:
     """Tests for OrchestratorAgent."""
 
     @pytest.mark.asyncio
-    async def test_register_agents(self):
-        """Test registering agents."""
-        orchestrator = OrchestratorAgent()
-        coder = CoderAgent()
-
-        orchestrator.register_agent("coder", coder)
-
-        assert "coder" in orchestrator._agents
-        assert "coder" in orchestrator._agent_capabilities
-
-    @pytest.mark.asyncio
     async def test_run_orchestration(self):
         """Test running orchestration."""
         orchestrator = OrchestratorAgent()
@@ -410,37 +399,6 @@ class TestOrchestratorAgent:
 
 class TestAgentIntegration:
     """Integration tests for agents."""
-
-    @pytest.mark.asyncio
-    async def test_agent_to_step_conversion(self):
-        """Test converting agent to step."""
-        coder = CoderAgent()
-
-        step = agent_to_step(coder, "code_gen")
-
-        assert step.name == "code_gen"
-        assert step.tier == ModelTier.TIER_2
-
-    @pytest.mark.asyncio
-    async def test_multi_agent_workflow(self):
-        """Test workflow with multiple agents."""
-        orchestrator = OrchestratorAgent()
-        coder = CoderAgent()
-        reviewer = ReviewerAgent()
-
-        orchestrator.register_agent("coder", coder)
-        orchestrator.register_agent("reviewer", reviewer)
-
-        task = OrchestratorInput(
-            task="Generate a utility function and review it",
-            max_parallel=1,
-            require_review=True,
-        )
-
-        result = await orchestrator.run(task)
-
-        assert result.success
-        assert len(result.subtasks) >= 1
 
     @pytest.mark.asyncio
     async def test_agent_cleanup(self):

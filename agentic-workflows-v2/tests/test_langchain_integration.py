@@ -1,6 +1,8 @@
 """Integration tests for LangChain/LangGraph workflow engine.
 
 Tests end-to-end execution, checkpointing, and streaming behavior.
+
+# ADR-008 cleanup: removed 5 duplicate tests (see docs/adr/ADR-008-testing-approach-overhaul.md)
 """
 
 import os
@@ -58,24 +60,6 @@ class TestEndToEndExecution:
         except FileNotFoundError:
             # Workflow doesn't exist in test environment, that's ok
             pytest.skip("code_review workflow not found")
-
-    def test_workflow_result_metadata(self):
-        """Verify WorkflowResult includes execution metadata."""
-        runner = WorkflowRunner()
-        try:
-            result = runner.invoke(
-                "code_review", code_file="x = 1", review_depth="quick"
-            )
-
-            # run_id should be set
-            assert result.run_id
-            # token_counts and models_used should be dicts (may be empty if no LLM calls)
-            assert isinstance(result.token_counts, dict)
-            assert isinstance(result.models_used, dict)
-        except ValueError as e:
-            if "GOOGLE_API_KEY" in str(e) or "API" in str(e):
-                pytest.skip(f"Requires API credentials: {e}")
-            raise
 
 
 class TestCheckpointing:
@@ -162,16 +146,6 @@ class TestStreamingEvents:
         for event in events:
             assert isinstance(event, dict)
 
-    def test_stream_node_updates(self):
-        """Verify streaming events contain step updates."""
-        runner = WorkflowRunner()
-        events = list(
-            runner.stream("code_review", code_file="a = 5", review_depth="quick")
-        )
-
-        # At minimum, should have events for graph nodes
-        assert any(isinstance(e, dict) for e in events)
-
 
 class TestGraphCompilation:
     """Graph compilation and validation tests."""
@@ -199,53 +173,3 @@ class TestGraphCompilation:
         result = graph.invoke(state)
         assert isinstance(result, dict)
         assert "steps" in result or "errors" in result
-
-    @pytest.mark.asyncio
-    async def test_compiled_graph_async_execution(self):
-        """Execute a compiled graph asynchronously."""
-        config = load_workflow_config("code_review")
-        graph = compile_workflow(config)
-
-        state = initial_state(
-            workflow_inputs={"code_file": "test", "review_depth": "quick"}
-        )
-        state["context"]["inputs"] = {"code_file": "test", "review_depth": "quick"}
-
-        result = await graph.ainvoke(state)
-        assert isinstance(result, dict)
-
-
-class TestWorkflowVariations:
-    """Test various workflow configurations."""
-
-    def test_workflow_list(self):
-        """List available workflows."""
-        # Just verify we can list workflows without API credentials
-        try:
-            from agentic_v2.langchain import list_workflows
-
-            workflows = list_workflows()
-            assert isinstance(workflows, list)
-            # Verify list is valid (may be empty if definitions dir doesn't exist)
-            if workflows:
-                # If we have workflows, check that known ones exist
-                assert "code_review" in workflows or "test_deterministic" in workflows
-        except FileNotFoundError:
-            # Workflows directory doesn't exist in this environment
-            pytest.skip("Workflows directory not found")
-
-    def test_load_different_workflows(self):
-        """Load and verify workflow configs can be parsed."""
-        found_any = False
-        for workflow_name in ["code_review", "test_deterministic"]:
-            try:
-                config = load_workflow_config(workflow_name)
-                assert config.name == workflow_name
-                assert isinstance(config.steps, list)
-                assert isinstance(config.inputs, dict)
-                found_any = True
-            except FileNotFoundError:
-                # If workflow doesn't exist, try the next one
-                pass
-        if not found_any:
-            pytest.skip("No test workflows found")

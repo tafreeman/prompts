@@ -2,6 +2,8 @@
 
 Tests config loading, expression evaluation, and graph compilation
 without requiring any API keys (tier-0 only).
+
+# ADR-008 cleanup: removed 5 duplicate tests (see docs/adr/ADR-008-testing-approach-overhaul.md)
 """
 
 import json
@@ -908,62 +910,12 @@ class TestModelRegistry:
         assert model is not None
         assert model._llm_type == "local-onnx"
 
-    def test_tier_env_var_override(self, monkeypatch):
-        monkeypatch.setenv("AGENTIC_MODEL_TIER_2", "ollama:phi4")
-        import importlib
-
-        from agentic_v2.langchain import models as models_mod
-
-        importlib.reload(models_mod)  # pick up env var in module scope
-        try:
-            model = models_mod.get_model_for_tier(2)
-            assert model is not None
-        except ImportError:
-            pytest.skip("langchain-ollama not installed")
-        finally:
-            importlib.reload(models_mod)
-
-    def test_env_model_override_with_fallback(self, monkeypatch):
-        monkeypatch.delenv("DEEP_RESEARCH_SMALL_MODEL", raising=False)
-        from agentic_v2.langchain.models import _resolve_model_override
-
-        resolved = _resolve_model_override(
-            "env:DEEP_RESEARCH_SMALL_MODEL|gh:openai/gpt-4o-mini"
-        )
-        assert resolved == "gh:openai/gpt-4o-mini"
-
-    def test_env_model_override_uses_env_value(self, monkeypatch):
-        monkeypatch.setenv("DEEP_RESEARCH_HEAVY_MODEL", "ollama:deepseek-r1")
-        from agentic_v2.langchain.models import _resolve_model_override
-
-        resolved = _resolve_model_override(
-            "env:DEEP_RESEARCH_HEAVY_MODEL|gh:openai/gpt-4o"
-        )
-        assert resolved == "ollama:deepseek-r1"
-
-    def test_model_candidates_keep_explicit_override(self, monkeypatch):
-        monkeypatch.delenv("GITHUB_TOKEN", raising=False)
-        from agentic_v2.langchain.models import get_model_candidates_for_tier
-
-        candidates = get_model_candidates_for_tier(
-            2,
-            model_override="gh:openai/gpt-4o-mini",
-        )
-        assert candidates[0] == "gh:openai/gpt-4o-mini"
-        assert any(m.startswith("ollama:") for m in candidates)
-
     def test_model_candidates_include_gh_backup_with_token(self, monkeypatch):
         monkeypatch.setenv("GITHUB_TOKEN", "fake-token")
         from agentic_v2.langchain.models import get_model_candidates_for_tier
 
         candidates = get_model_candidates_for_tier(3)
         assert "gh:openai/gpt-4o-mini" in candidates
-
-    def test_retryable_model_error_detects_rate_limits(self):
-        from agentic_v2.langchain.models import is_retryable_model_error
-
-        err = Exception("429 Too Many Requests: rate limit exceeded")
-        assert is_retryable_model_error(err) is True
 
 
 class TestGraphResponseParsing:

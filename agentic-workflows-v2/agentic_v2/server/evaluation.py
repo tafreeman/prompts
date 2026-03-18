@@ -105,28 +105,6 @@ def score_workflow_result(
     )
 
 
-def _pick_first(sample: dict[str, Any], keys: list[str]) -> Any:
-    nested_inputs = sample.get("inputs")
-    nested_input = sample.get("input")
-    for key in keys:
-        if key in sample and sample[key] not in (None, ""):
-            return sample[key]
-        if (
-            isinstance(nested_inputs, dict)
-            and key in nested_inputs
-            and nested_inputs[key] not in (None, "")
-        ):
-            return nested_inputs[key]
-        if (
-            isinstance(nested_input, dict)
-            and key in nested_input
-            and nested_input[key] not in (None, "")
-        ):
-            return nested_input[key]
-        if key == "input" and isinstance(nested_input, str) and nested_input.strip():
-            return nested_input
-    return None
-
 
 def _materialize_file_input(
     value: Any,

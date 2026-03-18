@@ -1,4 +1,7 @@
-"""Tests for server-side evaluation helpers."""
+"""Tests for server-side evaluation helpers.
+
+# ADR-008 cleanup: removed 7 duplicate tests (see docs/adr/ADR-008-testing-approach-overhaul.md)
+"""
 
 from __future__ import annotations
 
@@ -13,7 +16,6 @@ from agentic_v2.server import execution as execution_mod
 from agentic_v2.server import result_normalization
 from agentic_v2.server.evaluation import (
     adapt_sample_to_workflow_inputs,
-    compute_hard_gates,
     list_local_datasets,
     load_local_dataset_sample,
     match_workflow_dataset,
@@ -147,113 +149,6 @@ def test_criterion_result_stores_both_scores():
     assert "normalized_score" in first
 
 
-def test_hard_gate_null_output_fails():
-    result = _build_result(StepStatus.SUCCESS)
-    result.final_output = {}
-    workflow_def = _build_workflow_definition()
-    evaluation = score_workflow_result(
-        result,
-        dataset_meta={"source": "local"},
-        dataset_sample={"code_file": "x.py"},
-        workflow_definition=workflow_def,
-    )
-    assert evaluation["passed"] is False
-    assert "required_outputs_present" in evaluation["hard_gate_failures"]
-
-
-def test_hard_gate_failed_status_fails():
-    result = _build_result(StepStatus.FAILED)
-    workflow_def = _build_workflow_definition()
-    evaluation = score_workflow_result(
-        result,
-        dataset_meta={"source": "local"},
-        dataset_sample={"code_file": "x.py"},
-        workflow_definition=workflow_def,
-    )
-    assert evaluation["passed"] is False
-    assert "overall_status_success" in evaluation["hard_gate_failures"]
-
-
-def test_hard_gate_critical_step_failure():
-    result = _build_result(StepStatus.SUCCESS)
-    result.steps[0].status = StepStatus.FAILED
-    workflow_def = _build_workflow_definition()
-    evaluation = score_workflow_result(
-        result,
-        dataset_meta={"source": "local"},
-        dataset_sample={"code_file": "x.py"},
-        workflow_definition=workflow_def,
-    )
-    assert evaluation["passed"] is False
-    assert "no_critical_step_failures" in evaluation["hard_gate_failures"]
-
-
-def test_hard_gate_schema_contract_invalid():
-    result = _build_result(StepStatus.SUCCESS)
-    gates = compute_hard_gates(
-        result,
-        workflow_outputs=_build_workflow_definition().outputs,
-        eval_payload={"rubric_id": "only_one_field"},
-    )
-    assert gates.schema_contract_valid is False
-    assert "schema_contract_valid" in gates.failures
-
-
-def test_hard_gate_dataset_incompatible():
-    result = _build_result(StepStatus.SUCCESS)
-    gates = compute_hard_gates(
-        result,
-        workflow_outputs=_build_workflow_definition().outputs,
-        eval_payload={
-            "rubric_id": "r",
-            "rubric_version": "1",
-            "criteria": [],
-            "overall_score": 50.0,
-            "weighted_score": 50.0,
-            "grade": "F",
-            "passed": False,
-            "pass_threshold": 70.0,
-            "step_scores": [],
-        },
-        dataset_workflow_compatible=False,
-    )
-    assert gates.dataset_workflow_compatible is False
-    assert "dataset_workflow_compatible" in gates.failures
-
-
-def test_hard_gate_release_build_verification_failed():
-    result = _build_result(StepStatus.SUCCESS)
-    now = datetime.now(timezone.utc)
-    result.add_step(
-        StepResult(
-            step_name="build_verify_release",
-            status=StepStatus.SUCCESS,
-            input_data={},
-            output_data={"ready_for_release": False},
-            start_time=now,
-            end_time=now + timedelta(milliseconds=20),
-        )
-    )
-
-    gates = compute_hard_gates(
-        result,
-        workflow_outputs=_build_workflow_definition().outputs,
-        eval_payload={
-            "rubric_id": "r",
-            "rubric_version": "1",
-            "criteria": [],
-            "overall_score": 50.0,
-            "weighted_score": 50.0,
-            "grade": "F",
-            "passed": False,
-            "pass_threshold": 70.0,
-            "step_scores": [],
-        },
-    )
-    assert gates.release_build_verified is False
-    assert "release_build_verified" in gates.failures
-
-
 def test_hard_gate_all_pass_with_score():
     result = _build_result(StepStatus.SUCCESS)
     workflow_def = _build_workflow_definition()
@@ -266,26 +161,6 @@ def test_hard_gate_all_pass_with_score():
     assert evaluation["hard_gate_failures"] == []
     assert evaluation["weighted_score"] >= evaluation["pass_threshold"]
     assert evaluation["passed"] is True
-
-
-def test_score_result_contains_gate_fields():
-    """Verify the evaluation dict contains all required gate and floor
-    fields."""
-    result = _build_result(StepStatus.SUCCESS)
-    evaluation = score_workflow_result(
-        result,
-        dataset_meta={"source": "local"},
-        dataset_sample={"code_file": "x.py"},
-        workflow_definition=_build_workflow_definition(),
-    )
-    assert "hard_gates" in evaluation
-    assert "hard_gate_failures" in evaluation
-    assert "floor_violations" in evaluation
-    assert "grade_capped" in evaluation
-    assert isinstance(evaluation["hard_gates"], dict)
-    assert isinstance(evaluation["hard_gate_failures"], list)
-    assert isinstance(evaluation["floor_violations"], list)
-    assert isinstance(evaluation["grade_capped"], bool)
 
 
 def test_hard_gate_all_pass_low_score(monkeypatch):
