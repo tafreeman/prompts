@@ -12,7 +12,7 @@
 
 import { mergeDeckContent } from "../merge-deck-content.ts";
 import { structure, HERO_IMGS as _HERO_IMGS } from "./structure.js";
-import content from "./content.json";
+import content from "./content.json" with { type: "json" };
 
 // ── Merge structure + content ───────────────────────────────────────────
 const merged = mergeDeckContent(structure, content);

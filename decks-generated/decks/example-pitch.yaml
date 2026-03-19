@@ -1,0 +1,196 @@
+title: "Acme Cloud Platform — Series A"
+subtitle: Investor Pitch Deck
+author: Founding Team
+date: "2025-10"
+theme: midnight-teal
+style: clean
+framework: pitch-deck
+
+slides:
+  - id: cover
+    layout: cover
+    title: "Acme Cloud Platform — The Future of Edge Computing"
+    subtitle: "Series A — $8M raise at $40M pre-money"
+    tagline: "Compute at the edge, scale at the core"
+    kpis:
+      - value: "$2.4M"
+        label: ARR
+      - value: "340%"
+        label: YoY Growth
+      - value: "42"
+        label: Enterprise Customers
+
+  - id: problem-section
+    layout: section
+    title: "The Problem"
+    sectionNumber: 1
+
+  - id: problem
+    layout: text
+    title: "Edge Computing Is Broken — Latency Kills Revenue"
+    body: "Every 100ms of latency costs e-commerce companies 1% in revenue. Current cloud architectures force round-trips to centralized data centers, adding 50-200ms to every request."
+    bullets:
+      - "Average API latency: 180ms (industry)"
+      - "Customer tolerance threshold: 100ms"
+      - "Revenue impact: $4.2M/year for mid-market retailers"
+    source: "Akamai State of Online Retail Performance, 2025"
+
+  - id: before-after
+    layout: compare
+    title: "Acme Eliminates the Latency Gap"
+    left:
+      title: "Before Acme"
+      bullets:
+        - "180ms average API latency"
+        - "Centralized compute in 3 regions"
+        - "Manual scaling and failover"
+        - "Complex multi-CDN configuration"
+    right:
+      title: "After Acme"
+      bullets:
+        - "18ms average API latency"
+        - "Edge compute in 200+ locations"
+        - "Auto-scaling with zero config"
+        - "Unified API, single deployment"
+    callout: "10x latency improvement, 90% less ops overhead"
+    source: "Customer benchmark data, Q3 2025"
+
+  - id: solution
+    layout: cards
+    title: "Acme Deploys Compute Within 20ms of Every User"
+    cards:
+      - title: Edge Runtime
+        stat: "<20ms"
+        label: p99 Latency
+        body: "V8 isolates at 200+ edge locations worldwide"
+      - title: Smart Routing
+        stat: "99.99%"
+        label: Uptime
+        body: "Automatic failover with zero-downtime deployments"
+      - title: Unified API
+        stat: "1 line"
+        label: Migration
+        body: "Drop-in replacement for existing cloud functions"
+    callout: "3x faster than nearest competitor"
+
+  - id: market-size
+    layout: number
+    title: "Edge Computing Is a $61B Market by 2028"
+    stat: "$61B"
+    statLabel: Total Addressable Market
+    context: "Growing 37% CAGR from $15B in 2024. Acme targets the developer-facing compute segment ($8.2B SAM)."
+    source: "Gartner Edge Computing Forecast, 2025"
+
+  - id: how-it-works
+    layout: steps
+    title: "Three Steps to Edge Deployment"
+    steps:
+      - label: Write
+        description: "Standard Node.js or Python — no proprietary APIs"
+      - label: Deploy
+        description: "One CLI command pushes to 200+ locations"
+      - label: Scale
+        description: "Auto-scales from 0 to millions of requests"
+    callout: "Average deploy time: 4.2 seconds globally"
+
+  - id: competitive
+    layout: table
+    title: "Acme Outperforms on Every Key Metric"
+    columns:
+      - Metric
+      - Acme
+      - Competitor A
+      - Competitor B
+    rows:
+      - Metric: p99 Latency
+        Acme: "18ms"
+        Competitor A: "65ms"
+        Competitor B: "120ms"
+      - Metric: Edge Locations
+        Acme: "200+"
+        Competitor A: "35"
+        Competitor B: "12"
+      - Metric: Cold Start
+        Acme: "< 5ms"
+        Competitor A: "150ms"
+        Competitor B: "800ms"
+      - Metric: Pricing
+        Acme: "$0.15/M req"
+        Competitor A: "$0.40/M req"
+        Competitor B: "$0.60/M req"
+    highlight: Acme
+    source: "Independent benchmarks, September 2025"
+
+  - id: traction
+    layout: scorecard
+    title: "Traction Proves Product-Market Fit"
+    kpis:
+      - value: "$2.4M"
+        label: ARR
+        trend: up
+        detail: "From $0 to $2.4M in 14 months"
+      - value: "42"
+        label: Enterprise Customers
+        trend: up
+        detail: "Including 3 Fortune 500"
+      - value: "118%"
+        label: Net Revenue Retention
+        trend: up
+        detail: "Expansion-driven growth"
+      - value: "< 2%"
+        label: Monthly Churn
+        trend: down
+        detail: "Down from 5% at launch"
+    source: "Internal metrics, September 2025"
+
+  - id: platform
+    layout: grid
+    title: "A Complete Edge Platform"
+    columns: 3
+    cells:
+      - title: Compute
+        stat: "200+"
+        body: "V8 isolates, WASM support"
+        size: md
+      - title: Storage
+        stat: "10ms"
+        body: "Distributed KV and object store"
+        size: md
+      - title: Networking
+        stat: "Anycast"
+        body: "Global load balancing, DDoS protection"
+        size: md
+      - title: Observability
+        body: "Real-time logs, traces, and metrics at the edge"
+        size: lg
+      - title: Security
+        body: "mTLS, WAF, and bot management built in"
+        size: md
+
+  - id: roadmap
+    layout: timeline
+    title: "Clear Path to $10M ARR by Q4 2026"
+    events:
+      - date: "Q1 2025"
+        title: Launch
+        description: "GA release, first 10 customers"
+      - date: "Q3 2025"
+        title: Enterprise
+        description: "SOC 2, SSO, dedicated support tier"
+      - date: "Q1 2026"
+        title: Platform
+        description: "Marketplace, partner integrations"
+      - date: "Q4 2026"
+        title: Scale
+        description: "$10M ARR target, Series B readiness"
+
+  - id: ask
+    layout: closing
+    title: "Raising $8M to Capture the Edge Computing Market"
+    subtitle: "Series A at $40M pre-money valuation"
+    nextSteps:
+      - "Expand engineering team (8 → 20)"
+      - "Launch APAC and EU edge regions"
+      - "Build enterprise sales team (3 AEs)"
+      - "Achieve SOC 2 Type II certification"
+    contact: founders@acmecloud.io

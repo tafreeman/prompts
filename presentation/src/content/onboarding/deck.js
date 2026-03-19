@@ -7,7 +7,7 @@
 
 import { mergeDeckContent } from "../merge-deck-content.ts";
 import { structure } from "./structure.js";
-import content from "./content.json";
+import content from "./content.json" with { type: "json" };
 
 const merged = mergeDeckContent(structure, content);
 

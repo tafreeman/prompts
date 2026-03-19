@@ -1,0 +1,329 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presentation Design - Comprehensive Reference Guide</title>
+<style>
+  :root {
+    --bg: #0B0F1A; --surface: #131929; --surface2: #1A2035; --surface3: #222940;
+    --border: #2A3352; --text: #E2E8F0; --muted: #8892B0; --accent: #64FFDA;
+    --accent2: #7C3AED; --amber: #F59E0B; --red: #EF4444; --green: #22C55E;
+    --blue: #3B82F6; --indigo: #818CF8; --pink: #EC4899;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+  .nav { position: sticky; top: 0; z-index: 100; background: rgba(11,15,26,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 12px 24px; }
+  .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .nav a { color: var(--muted); text-decoration: none; font-size: 12px; padding: 4px 10px; border-radius: 4px; transition: all 0.2s; font-weight: 500; letter-spacing: 0.3px; }
+  .nav a:hover { color: var(--accent); background: rgba(100,255,218,0.08); }
+  .nav .brand { color: var(--accent); font-weight: 700; font-size: 13px; margin-right: 16px; letter-spacing: 1px; }
+  .hero { padding: 80px 0 48px; text-align: center; border-bottom: 1px solid var(--border); }
+  .hero h1 { font-size: 42px; font-weight: 800; background: linear-gradient(135deg, var(--accent), var(--indigo)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 12px; }
+  .hero .sub { color: var(--muted); font-size: 16px; max-width: 700px; margin: 0 auto; }
+  .hero .meta { margin-top: 16px; font-size: 12px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+  section { padding: 48px 0; border-bottom: 1px solid var(--border); }
+  section h2 { font-size: 28px; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+  section h2 .num { color: var(--accent); font-family: 'Consolas', monospace; font-size: 14px; display: block; margin-bottom: 4px; letter-spacing: 2px; }
+  section h3 { font-size: 18px; font-weight: 600; margin: 28px 0 12px; color: var(--text); border-left: 3px solid var(--accent); padding-left: 12px; }
+  section h4 { font-size: 14px; font-weight: 600; margin: 16px 0 8px; color: var(--indigo); text-transform: uppercase; letter-spacing: 1px; }
+  section p { color: var(--muted); margin-bottom: 12px; font-size: 14.5px; }
+  section .lead { font-size: 15px; color: var(--text); margin-bottom: 20px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin: 16px 0; }
+  .grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 16px 0; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
+  .card .tag { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; margin-bottom: 8px; }
+  .card h5 { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .card p { font-size: 13px; color: var(--muted); margin-bottom: 0; }
+  .card.accent { border-left: 3px solid var(--accent); }
+  .card.amber { border-left: 3px solid var(--amber); }
+  .card.red { border-left: 3px solid var(--red); }
+  .card.green { border-left: 3px solid var(--green); }
+  .card.blue { border-left: 3px solid var(--blue); }
+  .card.indigo { border-left: 3px solid var(--indigo); }
+  .card.pink { border-left: 3px solid var(--pink); }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
+  th { background: var(--surface2); color: var(--accent); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; padding: 10px 14px; text-align: left; border-bottom: 2px solid var(--border); font-weight: 600; }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--muted); vertical-align: top; }
+  tr:hover td { background: rgba(100,255,218,0.03); }
+  .callout { background: var(--surface2); border-left: 3px solid var(--accent); padding: 16px 20px; border-radius: 0 6px 6px 0; margin: 16px 0; }
+  .callout.warn { border-color: var(--amber); }
+  .callout.danger { border-color: var(--red); }
+  .callout .label { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+  .callout.warn .label { color: var(--amber); }
+  .callout.danger .label { color: var(--red); }
+  .callout p { margin: 0; font-size: 13.5px; }
+  .example { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin: 16px 0; }
+  .example .header { background: var(--surface2); padding: 8px 16px; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--border); }
+  .example .body { padding: 24px; }
+  .mini-slide { background: #0F1629; border-radius: 6px; padding: 20px; aspect-ratio: 16/9; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; }
+  .mini-slide .bar-top { position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--amber); }
+  .badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 3px; font-weight: 600; letter-spacing: 0.5px; }
+  .badge.do { background: rgba(34,197,94,0.15); color: var(--green); }
+  .badge.dont { background: rgba(239,68,68,0.15); color: var(--red); }
+  .badge.tip { background: rgba(100,255,218,0.1); color: var(--accent); }
+  .badge.src { background: rgba(129,140,248,0.1); color: var(--indigo); }
+  .rule-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin: 8px 0; display: flex; gap: 16px; align-items: flex-start; }
+  .rule-card .icon { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .rule-card .content { flex: 1; }
+  .rule-card .content strong { color: var(--text); font-size: 14px; }
+  .rule-card .content p { font-size: 13px; margin: 4px 0 0; }
+  .sources { font-size: 11px; color: var(--muted); margin-top: 12px; font-style: italic; }
+  .sources strong { color: var(--indigo); font-style: normal; }
+  @media (max-width: 768px) { .grid2, .grid3, .grid4 { grid-template-columns: 1fr; } .hero h1 { font-size: 28px; } }
+</style>
+</head>
+<body>
+<div class="nav"><div class="nav-inner">
+  <span class="brand">DESIGN GUIDE</span>
+  <a href="#principles">Principles</a><a href="#typography">Typography</a><a href="#color">Color</a><a href="#layout">Layout</a><a href="#architecture">Slide Architecture</a><a href="#data">Data Visualization</a><a href="#patterns">Slide Patterns</a><a href="#frameworks">Deck Frameworks</a><a href="#trends">2024-2026 Trends</a><a href="#antipatterns">Anti-Patterns</a><a href="#codegen">Code Generation</a>
+</div></div>
+<div class="container">
+<div class="hero">
+  <h1>Presentation Design<br>Comprehensive Reference</h1>
+  <p class="sub">Research-backed design principles, data visualization patterns, deck frameworks, and code generation best practices compiled from Tufte, Duarte, Reynolds, Knaflic, McKinsey, and 40+ sources.</p>
+  <p class="meta">March 2026 &bull; Multi-Agent Deep Research &bull; 4 Parallel Research Streams</p>
+</div>
+<!-- 1. VISUAL HIERARCHY -->
+<section id="principles">
+  <h2><span class="num">01</span>Visual Hierarchy &amp; Core Principles</h2>
+  <p class="lead">Visual hierarchy organizes elements to guide audience attention using size, color, contrast, and placement. The goal: audiences grasp the message within 3 seconds.</p>
+  <div class="grid3">
+    <div class="card accent"><div class="tag" style="color:var(--accent)">The 60-30-10 Rule</div><h5>Color Distribution</h5><p>60% primary/background, 30% supporting elements, 10% accent for emphasis. Prevents visual chaos while maintaining hierarchy.</p></div>
+    <div class="card blue"><div class="tag" style="color:var(--blue)">Scanning Patterns</div><h5>Z-Pattern &amp; F-Pattern</h5><p><strong>Z-Pattern:</strong> Simple layouts. <strong>F-Pattern:</strong> Text-heavy slides - across top, down left, across again.</p></div>
+    <div class="card indigo"><div class="tag" style="color:var(--indigo)">Signal-to-Noise</div><h5>Tufte's Data-Ink Ratio</h5><p>Maximize information density, minimize decorative elements. Every pixel should carry information. "Above all else, show data."</p></div>
+  </div>
+  <h3>White Space Is Not Wasted Space</h3>
+  <p>McKinsey, BCG, and Bain treat white space as a strategic design element. Consulting decks use generous margins and padding to signal professionalism and clarity. Tech decks use asymmetrical white space - bunching content on one side with dramatic empty space on the other for visual drama.</p>
+  <div class="callout"><div class="label">Key Insight</div><p>Garr Reynolds (Presentation Zen): "The highest possible signal-to-noise ratio produces the most effective slides." Every element on a slide must earn its place.</p></div>
+  <div class="sources"><strong>Sources:</strong> Beautiful.AI Blog, IxDF Visual Hierarchy (2026), Ramotion, Garr Reynolds, Edward Tufte</div>
+</section>
+
+<!-- 2. TYPOGRAPHY -->
+<section id="typography">
+  <h2><span class="num">02</span>Typography</h2>
+  <p class="lead">Maximum 2-3 typefaces per deck. Sans-serif dominates modern presentations. Size contrast creates hierarchy more effectively than multiple font families.</p>
+  <table>
+    <tr><th>Element</th><th>Size Range</th><th>Weight</th><th>Usage</th></tr>
+    <tr><td>Slide Title</td><td>28-42pt</td><td>Bold</td><td>One assertion per slide - states the conclusion</td></tr>
+    <tr><td>Subtitle / Section</td><td>18-24pt</td><td>Semibold</td><td>Supporting context, category labels</td></tr>
+    <tr><td>Body Text</td><td>14-18pt</td><td>Regular</td><td>Minimum 14pt; 16-20pt for remote presentations</td></tr>
+    <tr><td>Mono / Code</td><td>10-12pt</td><td>Regular</td><td>Data labels, source lines, technical references</td></tr>
+    <tr><td>Captions / Footnotes</td><td>8-10pt</td><td>Light</td><td>Source citations, supplementary notes</td></tr>
+  </table>
+  <h3>Proven Font Pairings</h3>
+  <div class="grid4">
+    <div class="card"><h5>McKinsey</h5><p>Arial (body) + Georgia (titles)</p></div>
+    <div class="card"><h5>BCG</h5><p>Trebuchet MS (all elements)</p></div>
+    <div class="card"><h5>Modern Tech</h5><p>Montserrat + Lato</p></div>
+    <div class="card"><h5>Clean Pro</h5><p>Avenir + Open Sans</p></div>
+  </div>
+  <div class="callout warn"><div class="label">Avoid</div><p>More than 3 typefaces, inconsistent sizes across slides, body text below 14pt, serif fonts for body text on projected slides, tight kerning/leading that reduces legibility.</p></div>
+  <div class="sources"><strong>Sources:</strong> SlideModel Font Guide (2025), Design Shack Typography Sizing, Canva Font Pairing Guide, Garr Reynolds</div>
+</section>
+
+<!-- 3. COLOR -->
+<section id="color">
+  <h2><span class="num">03</span>Color Theory</h2>
+  <h3>Data Color Palettes</h3>
+  <div class="grid3">
+    <div class="card green"><div class="tag" style="color:var(--green)">Sequential</div><h5>Ordered Data</h5><p>Light to dark transitions for magnitude (revenue, density, temperature). Single hue, varying lightness.</p></div>
+    <div class="card amber"><div class="tag" style="color:var(--amber)">Diverging</div><h5>Central Value Data</h5><p>Two hues diverging from neutral center. Blue to White to Red for profit/loss, sentiment, variance from baseline.</p></div>
+    <div class="card blue"><div class="tag" style="color:var(--blue)">Categorical</div><h5>Distinct Groups</h5><p>Visually distinct colors for unordered categories. Maximum 10 unique colors before confusion. No inherent order.</p></div>
+  </div>
+  <h3>Accessibility Requirements</h3>
+  <p>Color blindness affects ~8% of men and ~0.5% of women. WCAG standards require: 4.5:1 contrast ratio for standard text, 3:1 for large text/icons. Never rely solely on color to convey information - always pair with shape, pattern, or label.</p>
+  <table>
+    <tr><th>Theme</th><th>Best For</th><th>Considerations</th></tr>
+    <tr><td><strong>Light</strong> (McKinsey/BCG standard)</td><td>Consulting, formal, long presentations</td><td>More readable, accessible, reduces eye strain</td></tr>
+    <tr><td><strong>Dark</strong> (growing in tech)</td><td>Tech, keynotes, dark auditoriums</td><td>Dramatic impact, requires higher contrast ratios</td></tr>
+  </table>
+  <div class="sources"><strong>Sources:</strong> Vision Australia Accessible Palettes, Atlassian Color Guide, Depict Data Studio, WCAG 2.1</div>
+</section>
+<!-- 4. LAYOUT -->
+<section id="layout">
+  <h2><span class="num">04</span>Layout &amp; Grid Systems</h2>
+  <div class="grid2">
+    <div class="card accent"><h5>8px Grid System</h5><p>Industry standard. All spacing as multiples of 8 (8, 16, 24, 32, 40, 48px). Highly divisible, aligns with device pixel ratios. Used by Google, Microsoft, Apple design systems.</p></div>
+    <div class="card indigo"><h5>12-Column Grid</h5><p>Most common for slide layouts. Divides into halves, thirds, fourths, sixths for flexible composition. Column grids for standard slides; modular grids for complex information.</p></div>
+  </div>
+  <h3>Spacing Rules</h3>
+  <div class="rule-card"><div class="icon" style="background:rgba(100,255,218,0.1)">&#x1F4CF;</div><div class="content"><strong>External &gt;= Internal</strong><p>Margins (space between elements) must be greater than or equal to padding (space inside elements) to maintain clear visual separation.</p></div></div>
+  <div class="rule-card"><div class="icon" style="background:rgba(129,140,248,0.1)">&#x1F4D0;</div><div class="content"><strong>Consistent Alignment</strong><p>Left-align text-heavy slides. Center-align title/focal slides. Right-align rarely. Consistent alignment ties design together and establishes order.</p></div></div>
+  <div class="sources"><strong>Sources:</strong> Microsoft Layout Guide, UXDesign Spacing Article, Figma Layout Grids, Design Systems (Space, Grids, Layouts)</div>
+</section>
+
+<!-- 5. SLIDE ARCHITECTURE -->
+<section id="architecture">
+  <h2><span class="num">05</span>Slide Architecture</h2>
+  <p class="lead">The Assertion-Evidence model (Stanford research-backed) outperforms bullet-point slides on comprehension, engagement, and persuasion.</p>
+  <div class="grid2">
+    <div class="example"><div class="header"><span class="badge dont">Don't</span> Descriptive Title + Bullets</div><div class="body"><div class="mini-slide"><div style="font-size:16px;font-weight:700;color:#94A3B8;margin-bottom:12px">Sales Performance</div><div style="font-size:12px;color:#64748B;line-height:2">&#x2022; Revenue increased in Q3<br>&#x2022; New customers grew 12%<br>&#x2022; Churn decreased slightly<br>&#x2022; ARPU remained stable<br>&#x2022; Expansion revenue up<br>&#x2022; Pipeline is healthy</div></div></div></div>
+    <div class="example"><div class="header"><span class="badge do">Do</span> Assertion Title + Visual Evidence</div><div class="body"><div class="mini-slide"><div class="bar-top"></div><div style="font-size:10px;color:#64748B;letter-spacing:2px;margin-bottom:4px">Q3 RESULTS</div><div style="font-size:16px;font-weight:700;color:#F1F5F9;margin-bottom:16px">Revenue Exceeded Target by 15%, Driven by Expansion</div><div style="display:flex;gap:12px;align-items:flex-end;height:60px;margin-top:8px"><div style="flex:1;background:rgba(100,255,218,0.15);height:40%;border-radius:3px 3px 0 0"></div><div style="flex:1;background:rgba(100,255,218,0.2);height:55%;border-radius:3px 3px 0 0"></div><div style="flex:1;background:rgba(100,255,218,0.3);height:70%;border-radius:3px 3px 0 0"></div><div style="flex:1;background:var(--accent);height:90%;border-radius:3px 3px 0 0;position:relative"><div style="position:absolute;top:-16px;left:0;right:0;text-align:center;font-size:10px;color:var(--accent);font-weight:700">+15%</div></div></div><div style="display:flex;justify-content:space-between;font-size:9px;color:#64748B;margin-top:4px"><span>Q4'25</span><span>Q1'26</span><span>Q2'26</span><span>Q3'26</span></div></div></div></div>
+  </div>
+  <h3>The Pyramid Principle (McKinsey Standard)</h3>
+  <p>Developed by Barbara Minto (first female MBA hire at McKinsey). Start with the conclusion, then layer supporting evidence hierarchically. Each section supports one message. Combined with MECE (Mutually Exclusive, Collectively Exhaustive) thinking for logical argument structure.</p>
+  <h3>Key Architecture Rules</h3>
+  <div class="grid3">
+    <div class="rule-card" style="flex-direction:column"><strong style="color:var(--accent)">One Idea Per Slide</strong><p style="font-size:13px;color:var(--muted);margin-top:4px">Each slide conveys one singular assertion supported by one piece of visual evidence. Maximum 3-5 bullets if text is necessary.</p></div>
+    <div class="rule-card" style="flex-direction:column"><strong style="color:var(--amber)">Action Titles</strong><p style="font-size:13px;color:var(--muted);margin-top:4px">"Q3 Revenue Down 8% YoY" not "Quarterly Results." Title states the conclusion; body provides evidence.</p></div>
+    <div class="rule-card" style="flex-direction:column"><strong style="color:var(--indigo)">Progressive Disclosure</strong><p style="font-size:13px;color:var(--muted);margin-top:4px">Reveal information step-by-step. Allows audience to digest before next concept. Critical for live delivery.</p></div>
+  </div>
+  <div class="sources"><strong>Sources:</strong> Assertion-Evidence.com, Harvard Catalyst, SlideGenius, McKinsey Presentation Structure (SlideModel), InkNarrates</div>
+</section>
+<!-- 6. DATA VISUALIZATION -->
+<section id="data">
+  <h2><span class="num">06</span>Data Visualization</h2>
+  <p class="lead">Chart selection drives comprehension. Per Cole Nussbaumer Knaflic: "Simple beats sexy - clarity matters more than beauty."</p>
+  <h3>Chart Type Selection Matrix</h3>
+  <table>
+    <tr><th>Chart Type</th><th>Use When</th><th>Avoid When</th><th>Source</th></tr>
+    <tr><td><strong>Bar / Column</strong></td><td>Comparing values across categories, rankings</td><td>Time-series with many periods</td><td>Tufte, Knaflic</td></tr>
+    <tr><td><strong>Line</strong></td><td>Trends over continuous time periods</td><td>Categorical comparisons</td><td>Tufte</td></tr>
+    <tr><td><strong>Pie / Donut</strong></td><td>Simple 2-3 segment part-to-whole</td><td>More than 3 segments, any comparison</td><td>Knaflic: "Avoid in most cases"</td></tr>
+    <tr><td><strong>Waterfall</strong></td><td>Sequential cumulative changes (revenue to net income)</td><td>Non-sequential data</td><td>McKinsey (invented it)</td></tr>
+    <tr><td><strong>Marimekko</strong></td><td>Market maps: size + composition simultaneously</td><td>More than 7 categories, negative values</td><td>BCG, think-cell</td></tr>
+    <tr><td><strong>Scatter</strong></td><td>Correlation between two numeric variables, clusters</td><td>Categorical data, small datasets</td><td>Tufte, Cairo</td></tr>
+    <tr><td><strong>Heatmap</strong></td><td>Patterns in matrix data, density, correlation</td><td>Few data points</td><td>Kirk</td></tr>
+    <tr><td><strong>Sankey / Flow</strong></td><td>Value flows between categories, user journeys</td><td>Simple comparisons</td><td>Flourish</td></tr>
+    <tr><td><strong>Bullet</strong></td><td>Performance vs target, KPI tracking</td><td>Trend data, composition</td><td>Few (Stephen)</td></tr>
+    <tr><td><strong>Small Multiples</strong></td><td>Comparing 5+ trends on same scale</td><td>Single trend, few categories</td><td>Tufte, Datawrapper</td></tr>
+  </table>
+  <h3>The "So What?" Pattern (Consulting Standard)</h3>
+  <p>Every data slide must answer: "What should the audience take away?" BCG/McKinsey structure: <strong>Action Title</strong> (states what data means) then <strong>Single Chart</strong> (primary visual) then <strong>Callout Box</strong> (highlights key number) then <strong>Source Line</strong> (data citation).</p>
+  <div class="example"><div class="header">Example - "So What?" Data Slide Pattern</div><div class="body"><div class="mini-slide" style="padding:16px"><div class="bar-top"></div><div style="display:flex;justify-content:space-between;align-items:flex-start"><div><div style="font-size:8px;color:#64748B;letter-spacing:2px">08</div><div style="font-size:14px;font-weight:700;color:#F1F5F9;margin:4px 0">Expansion Revenue Drove 73% of Q3 Growth</div><div style="font-size:10px;color:#64748B">New logos contributed less than expected; upsell motion is working.</div></div><div style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);border-radius:6px;padding:8px 12px;text-align:center;flex-shrink:0;margin-left:16px"><div style="font-size:20px;font-weight:800;color:var(--amber)">73%</div><div style="font-size:8px;color:var(--amber);letter-spacing:1px">EXPANSION</div></div></div><div style="display:flex;gap:4px;align-items:flex-end;height:50px;margin-top:12px"><div style="flex:1;display:flex;flex-direction:column;gap:1px"><div style="background:rgba(100,255,218,0.25);height:15px;border-radius:2px 2px 0 0"></div><div style="background:var(--amber);height:20px;border-radius:0 0 2px 2px"></div></div><div style="flex:1;display:flex;flex-direction:column;gap:1px"><div style="background:rgba(100,255,218,0.25);height:12px;border-radius:2px 2px 0 0"></div><div style="background:var(--amber);height:28px;border-radius:0 0 2px 2px"></div></div><div style="flex:1;display:flex;flex-direction:column;gap:1px"><div style="background:rgba(100,255,218,0.25);height:10px;border-radius:2px 2px 0 0"></div><div style="background:var(--amber);height:36px;border-radius:0 0 2px 2px"></div></div></div><div style="display:flex;gap:12px;margin-top:8px"><div style="font-size:8px;color:#64748B"><span style="display:inline-block;width:8px;height:8px;background:var(--amber);border-radius:2px;margin-right:4px"></span>Expansion</div><div style="font-size:8px;color:#64748B"><span style="display:inline-block;width:8px;height:8px;background:rgba(100,255,218,0.25);border-radius:2px;margin-right:4px"></span>New Logos</div></div><div style="font-size:7px;color:#475569;margin-top:8px;font-style:italic">Source: Internal CRM data, Sep 2026</div></div></div></div>
+  <h3>Tufte's Core Rules</h3>
+  <div class="grid2">
+    <div class="rule-card"><div class="icon" style="background:rgba(100,255,218,0.1)">&#x1F4CA;</div><div class="content"><strong>Maximize Data-Ink Ratio</strong><p>Proportion of ink presenting actual data vs. total ink. Remove all non-essential decoration.</p></div></div>
+    <div class="rule-card"><div class="icon" style="background:rgba(239,68,68,0.1)">&#x1F5D1;</div><div class="content"><strong>Eliminate Chart Junk</strong><p>No decorative graphics, 3D effects, excessive gridlines, ornamental backgrounds. Every pixel contributes to understanding.</p></div></div>
+    <div class="rule-card"><div class="icon" style="background:rgba(245,158,11,0.1)">&#x1F3F7;</div><div class="content"><strong>Direct Labels &gt; Legends</strong><p>Label data directly on chart elements. Legend lookups create cognitive friction. Redesign layout to accommodate direct labels.</p></div></div>
+    <div class="rule-card"><div class="icon" style="background:rgba(129,140,248,0.1)">&#x1F4DD;</div><div class="content"><strong>Annotate the Insight</strong><p>Data alone doesn't tell the story. Highlight the key number, add an arrow, state the insight in plain language.</p></div></div>
+  </div>
+  <div class="sources"><strong>Sources:</strong> Edward Tufte, Cole Nussbaumer Knaflic (Storytelling with Data), Andy Kirk, Alberto Cairo, McKinsey/BCG/Bain standards</div>
+</section>
+<!-- 7. SLIDE PATTERNS -->
+<section id="patterns">
+  <h2><span class="num">07</span>Reusable Slide Patterns</h2>
+  <p class="lead">A taxonomy of proven slide layouts used across consulting, tech, and corporate presentations.</p>
+  <div class="grid3">
+    <div class="card accent"><div class="tag" style="color:var(--accent)">Layout</div><h5>Card Grid (2/3/4 Column)</h5><p>Rounded-rectangle panels with numbered labels, headlines, descriptions. Subtle shadows for depth. Best for: comparisons, features, services, KPIs.</p></div>
+    <div class="card amber"><div class="tag" style="color:var(--amber)">Data</div><h5>KPI Scorecard</h5><p>4-6 key metrics with visual indicators (bars, sparklines, gauges). Color-coded RAG status. Rule: if a number doesn't drive decisions, it doesn't belong.</p></div>
+    <div class="card blue"><div class="tag" style="color:var(--blue)">Flow</div><h5>Process Steps</h5><p>Horizontal connected shapes (hexagons, circles, arrows) showing sequential progression. Limit to 5-7 steps. Shade colors to denote movement.</p></div>
+    <div class="card green"><div class="tag" style="color:var(--green)">Compare</div><h5>Before / After</h5><p>Split-screen with contrasting colors (red "before" / blue "after"). Central connector. Best for: transformations, case studies, process improvements.</p></div>
+    <div class="card indigo"><div class="tag" style="color:var(--indigo)">Impact</div><h5>Big Number Callout</h5><p>Oversized statistic (60-80pt) with supporting context below. BCG standard: callout box with key metric proving the action title.</p></div>
+    <div class="card pink"><div class="tag" style="color:var(--pink)">Matrix</div><h5>Harvey Balls / Comparison</h5><p>Grid with filled circles showing capability levels. Rows = items, columns = criteria. Standard in McKinsey, BCG, Bain feature comparisons.</p></div>
+    <div class="card accent"><div class="tag" style="color:var(--accent)">Time</div><h5>Timeline / Gantt</h5><p>Horizontal bars showing duration, milestones, dependencies. Icons for key events. Best for: roadmaps, project plans.</p></div>
+    <div class="card amber"><div class="tag" style="color:var(--amber)">Funnel</div><h5>Conversion Funnel</h5><p>5-level progression (Inquiry to MQL to SAL to SQL to Won). Visualizes drop-off at each stage. Best for: sales pipeline, conversion tracking.</p></div>
+    <div class="card blue"><div class="tag" style="color:var(--blue)">Dashboard</div><h5>4-Quadrant Layout</h5><p>Slide divided into 4 equal sections (SWOT, BCG Matrix, Ansoff). Each quadrant contains different metric or analysis dimension.</p></div>
+  </div>
+</section>
+
+<!-- 8. DECK FRAMEWORKS -->
+<section id="frameworks">
+  <h2><span class="num">08</span>Deck Frameworks &amp; Structures</h2>
+  <table>
+    <tr><th>Framework</th><th>Audience</th><th>Slides</th><th>Core Structure</th><th>Design Focus</th></tr>
+    <tr><td><strong>Executive / Board</strong></td><td>C-suite</td><td>8-12</td><td>Lead with conclusion, then evidence, then ask</td><td>Minimal, 1-2 colors</td></tr>
+    <tr><td><strong>SCR Strategy</strong></td><td>Leadership</td><td>10-15</td><td>Situation, Complication, Resolution</td><td>Logical flow, evidence</td></tr>
+    <tr><td><strong>Sequoia Pitch</strong></td><td>Investors</td><td>10-15</td><td>Purpose, Problem, Solution, Market, Team, Ask</td><td>Clear, visually simple</td></tr>
+    <tr><td><strong>10/20/30 (Kawasaki)</strong></td><td>Any high-stakes</td><td>10</td><td>10 slides, 20 minutes, 30pt font minimum</td><td>Focus, digestibility</td></tr>
+    <tr><td><strong>YC Seed Deck</strong></td><td>Early-stage VCs</td><td>10-12</td><td>Problem, Solution, Traction, Team, Ask</td><td>"Visually boring is fine"</td></tr>
+    <tr><td><strong>Amazon 6-Pager</strong></td><td>Decision-makers</td><td>Narrative</td><td>Goals, Tenets, State, Lessons, Priorities</td><td>Prose, not bullets</td></tr>
+    <tr><td><strong>C4 Architecture</strong></td><td>Engineers</td><td>4</td><td>Context, Container, Component, Code</td><td>Layered diagrams</td></tr>
+    <tr><td><strong>Pyramid + SCQA</strong></td><td>Clients</td><td>20-30</td><td>Conclusion first, then MECE evidence hierarchy</td><td>Data-driven, rigorous</td></tr>
+    <tr><td><strong>RAG Status</strong></td><td>Stakeholders</td><td>8-15</td><td>Red / Amber / Green traffic light system</td><td>Visual indicators</td></tr>
+  </table>
+  <h3>Industry Conventions</h3>
+  <div class="grid2">
+    <div class="card green"><h5>Tech / SaaS</h5><p>Product-led, metric-heavy. Key metrics: MRR, churn, LTV/CAC, cohort trends. Support storytelling with authentic metrics.</p></div>
+    <div class="card indigo"><h5>Consulting</h5><p>Insight-led, rigorously structured. Pyramid Principle + SCQA + MECE. Black/white/blue accent. Every slide leads with conclusion. Action titles mandatory.</p></div>
+    <div class="card amber"><h5>Government / Federal</h5><p>Section 508 compliant. Proper reading order for screen readers, alt text, keyboard navigation, high contrast.</p></div>
+    <div class="card red"><h5>Healthcare</h5><p>Evidence-based, FDA/CDC regulatory standards. Balanced risk/benefit presentation. MLR review process. Real-World Evidence (RWE) increasingly accepted.</p></div>
+  </div>
+  <div class="sources"><strong>Sources:</strong> Sequoia Capital, Guy Kawasaki, Y Combinator Library, McKinsey/BCG/Bain, Amazon, C4Model.com, Section508.gov</div>
+</section>
+<!-- 9. TRENDS -->
+<section id="trends">
+  <h2><span class="num">09</span>2024-2026 Design Trends</h2>
+  <div class="grid3">
+    <div class="card accent"><h5>Dark Mode + Neon</h5><p>High contrast neon-on-dark palettes. Reduces eye strain, dramatic impact for keynotes and tech presentations.</p></div>
+    <div class="card indigo"><h5>Glassmorphism</h5><p>Frosted-glass effect using transparency and blur. Creates depth and hierarchy. Applied to text boxes, backgrounds, layered content.</p></div>
+    <div class="card amber"><h5>Gradient Layering</h5><p>Soft aurora-style gradients replacing solid blocks. Floating panels with subtle shadows create structure without visual noise.</p></div>
+    <div class="card blue"><h5>Asymmetric Layout</h5><p>Text overlapping images, angled sections, visuals breaking grid frames. Creates editorial, premium feel while maintaining alignment.</p></div>
+    <div class="card green"><h5>Oversized Typography</h5><p>Large fonts as primary design element. Hierarchy via size contrast, not multiple font families. Supports mobile-first/vertical slides.</p></div>
+    <div class="card pink"><h5>Bento Grid</h5><p>Inspired by Apple. Modular rectangular boxes (Japanese bento aesthetic). Replaces single-title-with-list. More organized, information-dense.</p></div>
+    <div class="card accent"><h5>Isometric 3D</h5><p>Dimensional illustrations maintaining 2D simplicity. Perfect for complex systems, process flows. Used by Slack, Dropbox.</p></div>
+    <div class="card indigo"><h5>Motion Design</h5><p>Purposeful micro-animations: fades, morphing, staggered reveals. Consistent easing and timing. Based on Disney's 12 Principles of Animation.</p></div>
+    <div class="card amber"><h5>Vertical / 9:16</h5><p>Fastest-growing format in 2026. Mobile-first design. Larger fonts, less text. Responsive design thinking applied to presentations.</p></div>
+  </div>
+  <div class="sources"><strong>Sources:</strong> SlideEgg 2026 Trends, Sketchbubble 2026 Guide, Slidesgo 2026, Visible.vc 2026, 24Slides 2024, PitchWorx 2025</div>
+</section>
+
+<!-- 10. ANTI-PATTERNS -->
+<section id="antipatterns">
+  <h2><span class="num">10</span>Anti-Patterns - What to Avoid</h2>
+  <div class="grid2">
+    <div class="card red"><h5>Wall of Text</h5><p>Slides are "glance media" (Reynolds) - audiences grasp in 3 seconds or tune out. Maximum 5 lines of text. Slides support the speaker, not replace them.</p></div>
+    <div class="card red"><h5>Chart Without Insight</h5><p>Showing data without explaining why it matters makes the audience do the work. Always annotate with the "so what?" - highlight the key number and state the conclusion.</p></div>
+    <div class="card red"><h5>Bullet Point Overload</h5><p>Lists of 10+ bullets overwhelm. Audience can't read and listen simultaneously. Convert to visuals. Use Assertion-Evidence model instead.</p></div>
+    <div class="card red"><h5>Inconsistent Formatting</h5><p>Varied fonts, colors, layouts across slides signal lack of preparation. Stick to defined design system: 2-3 fonts, 5-7 colors, consistent spacing.</p></div>
+    <div class="card red"><h5>Stock Photo Cliches</h5><p>Generic handshake photos, light bulb "innovation" images. Use small, well-taken shots with consistent style and lots of white space.</p></div>
+    <div class="card red"><h5>Decorative 3D Charts</h5><p>3D effects distort data representation and reduce accuracy. Flat charts are always more honest. "Show data variation, not design variation" - Tufte.</p></div>
+  </div>
+</section>
+
+<!-- 11. CODE GENERATION -->
+<section id="codegen">
+  <h2><span class="num">11</span>Programmatic Slide Generation</h2>
+  <p class="lead">Best practices for achieving "designed" look from PptxGenJS and python-pptx.</p>
+  <h3>PptxGenJS Patterns</h3>
+  <table>
+    <tr><th>Pattern</th><th>Implementation</th><th>Use For</th></tr>
+    <tr><td><strong>Card Layout</strong></td><td>RECTANGLE shape with fill + shadow, text overlaid with offsets</td><td>Feature grids, comparisons, KPI panels</td></tr>
+    <tr><td><strong>Icon Badge</strong></td><td>OVAL shape with fill + Unicode symbol text centered</td><td>Status indicators, checkmarks, step numbers</td></tr>
+    <tr><td><strong>Accent Bar</strong></td><td>Thin RECTANGLE (h:0.05) at slide top or card edge</td><td>Visual hierarchy, section identity</td></tr>
+    <tr><td><strong>Quote Block</strong></td><td>RECTANGLE with navyMid fill + thin left border RECTANGLE</td><td>Testimonials, callouts, key insights</td></tr>
+    <tr><td><strong>KPI Tile</strong></td><td>RECTANGLE card + large number text + small label text below</td><td>Scorecards, metrics, performance indicators</td></tr>
+    <tr><td><strong>Shadow Depth</strong></td><td><code>shadow: { type:"outer", blur:4, offset:2, opacity:0.2 }</code></td><td>Card elevation, visual layering</td></tr>
+  </table>
+  <h3>Design System for Code-Gen</h3>
+  <div class="grid3">
+    <div class="card accent"><h5>Color Palette</h5><p>Define 5-7 named colors upfront: background, surface, text, textMuted, accent, red, green. Reference by name throughout. 60/30/10 distribution.</p></div>
+    <div class="card blue"><h5>Font Stack</h5><p>3 fonts max: title (Georgia/Montserrat), body (Calibri/Segoe UI), mono (Consolas/Fira Code). Define as constants, never inline strings.</p></div>
+    <div class="card green"><h5>Spacing System</h5><p>Base unit of 0.15" in PptxGenJS coordinates. Standard margins: 0.8" left, 0.3" top for slide number area. Card padding: 0.15-0.2" internal.</p></div>
+  </div>
+  <div class="callout"><div class="label">Key Insight for Code-Generated Slides</div><p>Start with templates, not blank slides. Shape-based patterns (rectangles as cards, ovals as badges) with consistent shadow/fill create professional depth. Automate spacing, alignment, and hierarchy programmatically. The small details - consistent margins, subtle shadows, accent bar widths - separate professional from amateur output.</p></div>
+  <div class="sources"><strong>Sources:</strong> PptxGenJS (npm/GitHub), python-pptx docs, Beautiful.AI Smart Slides methodology, ClearPeaks PptxGenJS guide</div>
+</section>
+<!-- ICONIC DECKS -->
+<section>
+  <h2><span class="num">12</span>Iconic Decks - What Worked</h2>
+  <table>
+    <tr><th>Deck</th><th>Design Choice</th><th>Why It Worked</th></tr>
+    <tr><td><strong>Airbnb Pitch</strong></td><td>Minimal text, problem-led storytelling</td><td>3 bullet points on problem slide let investors nod, not overload</td></tr>
+    <tr><td><strong>LinkedIn Series B</strong></td><td>Data-driven, every viz tied to narrative</td><td>Straightforward facts logically defined the platform's worth</td></tr>
+    <tr><td><strong>Netflix Culture</strong></td><td>125 bold text-only slides, zero images</td><td>Defined by what they're NOT - made positives more powerful</td></tr>
+    <tr><td><strong>Buffer Culture</strong></td><td>Radical transparency, open salaries</td><td>Authentic values expression breeds trust (5M+ views)</td></tr>
+    <tr><td><strong>Steve Jobs Keynotes</strong></td><td>Single image per slide, no bullets</td><td>3 weeks rehearsal; slides echoed speech, never competed with it</td></tr>
+    <tr><td><strong>McKinsey Deliverables</strong></td><td>Pyramid Principle, MECE, action titles</td><td>Conclusion first, MECE evidence hierarchy - maximum clarity</td></tr>
+  </table>
+  <div class="sources"><strong>Sources:</strong> Storydoc, Slidebean, Reid Hoffman, SlideShare, Inc.com, Presentation Zen, McKinsey/SlideModel</div>
+</section>
+
+<!-- ESSENTIAL READING -->
+<section>
+  <h2><span class="num">REF</span>Essential Reading</h2>
+  <div class="grid2">
+    <div class="card"><h5>Data Visualization</h5><p><strong>Edward Tufte</strong> - The Visual Display of Quantitative Information (1983)<br><strong>Cole Nussbaumer Knaflic</strong> - Storytelling with Data (2015)<br><strong>Andy Kirk</strong> - Data Visualisation: A Handbook (2016)<br><strong>Alberto Cairo</strong> - The Art of Insight (2023)</p></div>
+    <div class="card"><h5>Presentation Design</h5><p><strong>Nancy Duarte</strong> - Slide:ology, Resonate<br><strong>Garr Reynolds</strong> - Presentation Zen, Presentation Zen Design<br><strong>Barbara Minto</strong> - The Pyramid Principle<br><strong>Presentation Guild</strong> - 375+ industry standards across 9 categories</p></div>
+  </div>
+</section>
+
+</div><!-- container -->
+<div style="text-align:center;padding:40px;color:var(--muted);font-size:11px;border-top:1px solid var(--border)">
+  Multi-Agent Research Compilation &bull; 4 Parallel Streams &bull; 40+ Sources &bull; March 2026
+</div>
+</body>
+</html>

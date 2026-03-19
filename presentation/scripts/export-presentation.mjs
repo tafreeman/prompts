@@ -1,41 +1,50 @@
 import { chromium } from "playwright";
 import { PDFDocument } from "pdf-lib";
 import { createServer } from "vite";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, writeFile, readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { createRequire } from "node:module";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
 
 export const outputDir = path.join(rootDir, "single-file");
 export const slideImagesDir = path.join(outputDir, "slide-images");
-export const outputPdf = path.join(outputDir, "GenAI-Advocacy-Deck.pdf");
 
 export const viewport = { width: 1920, height: 1080 };
 
 const TIMEOUTS = {
-  themeButton: 10_000,
   selector: 15_000,
   backButton: 10_000,
 };
 
-// SLIDES and CAPTURE_ORDER are derived from the deck manifest so this script
-// stays in sync automatically when slides are added, removed, or reordered.
-const require = createRequire(import.meta.url);
-// Dynamic import used at runtime so Vite does not pre-bundle the content module.
-const { SLIDES: MANIFEST_SLIDES, contentSlides } = await import(
-  "../src/content/genai-advocacy/deck.js"
+// ── Deck manifest ────────────────────────────────────────────────────
+// Resolve deck from CLI arg or default to onboarding.
+const deckArg = process.argv[2] || "onboarding";
+const contentDir = path.join(rootDir, "src", "content", deckArg);
+
+// Read content.json directly (no TypeScript dependency chain)
+const contentJson = JSON.parse(
+  await readFile(path.join(contentDir, "content.json"), "utf-8")
 );
 
-export const SLIDES = MANIFEST_SLIDES;
-
+const slideIds = Object.keys(contentJson.slides);
 const TILE_TITLES = Object.fromEntries(
-  contentSlides.map(({ id, title }) => [id, title])
+  slideIds.map((id) => [id, contentJson.slides[id].title])
 );
 
-const CAPTURE_ORDER = contentSlides.map(({ id }) => id);
+export const outputPdf = path.join(
+  outputDir,
+  `${contentJson.deck?.title || deckArg}-Deck.pdf`
+);
+
+// SLIDES list: landing + each content slide
+export const SLIDES = [
+  { id: "landing", label: "Navigation Hub" },
+  ...slideIds.map((id) => ({ id, label: TILE_TITLES[id] })),
+];
+
+// ── Helpers ──────────────────────────────────────────────────────────
 
 async function startDevServer() {
   const server = await createServer({
@@ -58,11 +67,6 @@ async function startDevServer() {
   return { server, url: localUrl ?? `http://127.0.0.1:${port}` };
 }
 
-async function waitForLanding(page) {
-  await page.waitForSelector("h2", { timeout: TIMEOUTS.selector });
-  await waitForStableRender(page);
-}
-
 async function waitForStableRender(page) {
   await page.waitForLoadState("networkidle").catch(() => {});
   await page.evaluate(async () => {
@@ -76,42 +80,78 @@ async function waitForStableRender(page) {
   });
 }
 
-async function selectTheme(page) {
-  const themeButton = page.locator("button").filter({ hasText: "Midnight Teal" }).first();
-  await themeButton.waitFor({ state: "visible", timeout: TIMEOUTS.themeButton });
-  await themeButton.click();
-}
-
-async function dismissIntroToLanding(page) {
-  await page.mouse.click(viewport.width / 2, viewport.height / 2);
-  await waitForLanding(page);
-}
-
-async function restoreLanding(page, url) {
-  await page.goto(url, { waitUntil: "networkidle" });
-  await selectTheme(page);
-  await dismissIntroToLanding(page);
+async function waitForLanding(page) {
+  // Wait for any visible text content to appear on the landing page
+  await page.locator("h2, h3, [class*='title']").first().waitFor({
+    state: "visible",
+    timeout: TIMEOUTS.selector,
+  });
+  await waitForStableRender(page);
 }
 
 async function clickTile(page, title) {
-  const h2 = page.locator("h2").filter({ hasText: title });
-  const altTile = page.locator("div[style*='cursor: pointer']").filter({ hasText: title });
-  const tile = (await h2.first().isVisible().catch(() => false)) ? h2.first() : altTile.first();
+  // Nav hub tiles have visible title text — click it directly
+  const byText = page.getByText(title, { exact: true }).first();
+  const byPartial = page.getByText(title, { exact: false }).first();
 
-  await tile.waitFor({ state: "visible", timeout: TIMEOUTS.selector });
-  await tile.click();
+  const target = (await byText.isVisible().catch(() => false))
+    ? byText
+    : byPartial;
+
+  await target.waitFor({ state: "visible", timeout: TIMEOUTS.selector });
+  await target.click({ force: true });
 }
 
 async function goBack(page) {
   const backButton = page.locator("button").filter({ hasText: "Back" }).first();
   await backButton.waitFor({ state: "visible", timeout: TIMEOUTS.backButton });
-  await backButton.click();
+  await backButton.click({ force: true });
   await waitForLanding(page);
+}
+
+// CSS injected to hide all UI chrome so slides fill the full viewport
+const HIDE_CHROME_CSS = `
+  [style*="position: fixed"][style*="z-index: 1000"],
+  [style*="position: fixed"][style*="z-index: 200"],
+  [style*="position: fixed"][style*="zIndex: 1000"],
+  [style*="position: fixed"][style*="zIndex: 200"],
+  button:has(> span) { }
+`;
+
+async function hideChrome(page) {
+  await page.evaluate(() => {
+    // Hide ControlPanel (fixed, right:0, z-index:1000)
+    // Hide layout cycle toolbar (fixed, bottom:20, z-index:200)
+    // Hide one-pager toggle (fixed, top:16, right:60, z-index:200)
+    document.querySelectorAll('[style]').forEach(el => {
+      const s = el.getAttribute('style') || '';
+      if (
+        (s.includes('position: fixed') || s.includes('position:fixed')) &&
+        (s.includes('z-index: 1000') || s.includes('z-index:1000') ||
+         s.includes('z-index: 200') || s.includes('z-index:200') ||
+         s.includes('zIndex') )
+      ) {
+        el.dataset.exportHidden = el.style.display;
+        el.style.display = 'none';
+      }
+    });
+  });
+}
+
+async function showChrome(page) {
+  await page.evaluate(() => {
+    document.querySelectorAll('[data-export-hidden]').forEach(el => {
+      el.style.display = el.dataset.exportHidden || '';
+      delete el.dataset.exportHidden;
+    });
+  });
 }
 
 async function capture(page, label) {
   await waitForStableRender(page);
+  await hideChrome(page);
   const png = await page.screenshot({ type: "png" });
+  await showChrome(page);
   console.log(`  ✓ ${label}`);
   return png;
 }
@@ -124,12 +164,16 @@ function assertAllSlidesCaptured(screenshots) {
   }
 }
 
+// ── Main capture flow ────────────────────────────────────────────────
+
 export async function capturePresentationScreens() {
   await mkdir(outputDir, { recursive: true });
 
+  console.log(`Exporting deck: ${deckArg}`);
   console.log("Starting Vite dev server...");
   const { server, url } = await startDevServer();
-  console.log(`  → ${url}\n`);
+  const deckUrl = `${url}?deck=${deckArg}`;
+  console.log(`  → ${deckUrl}\n`);
 
   const browser = await chromium.launch({ headless: true });
   const page = await browser.newPage({ viewport });
@@ -137,27 +181,33 @@ export async function capturePresentationScreens() {
   const failures = [];
 
   try {
-    await page.goto(url, { waitUntil: "networkidle" });
+    await page.goto(deckUrl, { waitUntil: "networkidle" });
 
-    console.log("Selecting theme...");
-    await selectTheme(page);
+    // Dismiss any intro splash by clicking center of viewport
+    await page.mouse.click(viewport.width / 2, viewport.height / 2);
+    await waitForLanding(page);
 
     console.log("Capturing slides...");
-    screenshots.set("intro", await capture(page, "Intro Splash"));
-
-    await dismissIntroToLanding(page);
     screenshots.set("landing", await capture(page, "Navigation Hub"));
 
-    for (const id of CAPTURE_ORDER) {
+    for (const id of slideIds) {
       try {
         await clickTile(page, TILE_TITLES[id]);
+
+        // Wait for slide content to render
+        await waitForStableRender(page);
+        await new Promise((resolve) => setTimeout(resolve, 500));
+
         screenshots.set(id, await capture(page, TILE_TITLES[id]));
         await goBack(page);
       } catch (error) {
         const reason = error instanceof Error ? error.message : String(error);
         failures.push(`${TILE_TITLES[id]} (${reason})`);
         console.warn(`  ⚠ Failed to capture ${TILE_TITLES[id]}: ${reason}`);
-        await restoreLanding(page, url);
+        // Recover by navigating back to landing
+        await page.goto(deckUrl, { waitUntil: "networkidle" });
+        await page.mouse.click(viewport.width / 2, viewport.height / 2);
+        await waitForLanding(page);
       }
     }
 
@@ -174,6 +224,8 @@ export async function capturePresentationScreens() {
     await server.close();
   }
 }
+
+// ── Image export ─────────────────────────────────────────────────────
 
 export async function saveSlideImages(screenshots) {
   assertAllSlidesCaptured(screenshots);
@@ -199,6 +251,8 @@ export async function saveSlideImages(screenshots) {
 
   return files;
 }
+
+// ── PDF export ───────────────────────────────────────────────────────
 
 export async function savePdfDeck(screenshots) {
   assertAllSlidesCaptured(screenshots);
