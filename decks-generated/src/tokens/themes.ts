@@ -44,7 +44,11 @@ export type ThemeId =
   | "linear"
   | "paper-ink"
   | "signal-cobalt"
-  | "studio-craft";
+  | "studio-craft"
+  | "electric-cyan"
+  | "hot-neon"
+  | "sunset-fire"
+  | "glass-dark";
 
 // ---------------------------------------------------------------------------
 // Theme definitions
@@ -182,11 +186,99 @@ const studioCraft: Theme = {
   warning: "#F2A614",
 } as const;
 
+const electricCyan: Theme = {
+  id: "electric-cyan",
+  name: "Electric Cyan",
+  vibe: "Bold data journalism",
+  fontDisplay: "Outfit",
+  fontBody: "Outfit",
+  fontsUrl:
+    "https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap",
+  bg: "#00C8E0",
+  surface: "#FFFFFF",
+  surfaceDeep: "#00B0C8",
+  accent: "#FFE600",
+  accentGlow: "rgba(255,230,0,0.35)",
+  gradient: ["#FFE600", "#FF6B00"] as const,
+  text: "#000000",
+  textMuted: "#1A3A40",
+  textDim: "#3D6068",
+  success: "#00C853",
+  danger: "#FF1744",
+  warning: "#FF6D00",
+} as const;
+
+const hotNeon: Theme = {
+  id: "hot-neon",
+  name: "Hot Neon",
+  vibe: "Maximalist pop",
+  fontDisplay: "Unbounded",
+  fontBody: "Work Sans",
+  fontsUrl:
+    "https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Work+Sans:wght@400;500;600&display=swap",
+  bg: "#000000",
+  surface: "#1A1A1A",
+  surfaceDeep: "#0D0D0D",
+  accent: "#FF1493",
+  accentGlow: "rgba(255,20,147,0.3)",
+  gradient: ["#FF1493", "#AAFF00"] as const,
+  text: "#FFFFFF",
+  textMuted: "#B0B0B0",
+  textDim: "#666666",
+  success: "#AAFF00",
+  danger: "#FF4444",
+  warning: "#FFE600",
+} as const;
+
+const sunsetFire: Theme = {
+  id: "sunset-fire",
+  name: "Sunset Fire",
+  vibe: "Warm maximalist",
+  fontDisplay: "Archivo Black",
+  fontBody: "Source Sans 3",
+  fontsUrl:
+    "https://fonts.googleapis.com/css2?family=Archivo+Black&family=Source+Sans+3:wght@400;500;600;700&display=swap",
+  bg: "#FF6A13",
+  surface: "#FFF0E0",
+  surfaceDeep: "#E85D10",
+  accent: "#FFE600",
+  accentGlow: "rgba(255,230,0,0.4)",
+  gradient: ["#FFE600", "#FF1493"] as const,
+  text: "#000000",
+  textMuted: "#3D1800",
+  textDim: "#6B3A15",
+  success: "#00C853",
+  danger: "#D50000",
+  warning: "#FFB300",
+} as const;
+
+const glassDark: Theme = {
+  id: "glass-dark",
+  name: "Glass Dark",
+  vibe: "Premium SaaS",
+  fontDisplay: "Plus Jakarta Sans",
+  fontBody: "Plus Jakarta Sans",
+  fontsUrl:
+    "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap",
+  bg: "#0C0F1A",
+  surface: "#151929",
+  surfaceDeep: "#0A0D15",
+  accent: "#8B7CF6",
+  accentGlow: "rgba(139,124,246,0.2)",
+  gradient: ["#8B7CF6", "#6366F1"] as const,
+  text: "#E8EAF6",
+  textMuted: "#9CA3BF",
+  textDim: "#5A6178",
+  success: "#34D399",
+  danger: "#F87171",
+  warning: "#FBBF24",
+} as const;
+
 // ---------------------------------------------------------------------------
 // Exports
 // ---------------------------------------------------------------------------
 
-/** All 6 curated themes. */
+/** All 10 curated themes. */
 export const THEMES: readonly Theme[] = [
   midnightTeal,
   neonNoir,
@@ -194,6 +286,10 @@ export const THEMES: readonly Theme[] = [
   paperInk,
   signalCobalt,
   studioCraft,
+  electricCyan,
+  hotNeon,
+  sunsetFire,
+  glassDark,
 ] as const;
 
 /** Lookup a theme by its ID. */
@@ -204,6 +300,10 @@ export const THEMES_BY_ID: Record<ThemeId, Theme> = {
   "paper-ink": paperInk,
   "signal-cobalt": signalCobalt,
   "studio-craft": studioCraft,
+  "electric-cyan": electricCyan,
+  "hot-neon": hotNeon,
+  "sunset-fire": sunsetFire,
+  "glass-dark": glassDark,
 } as const;
 
 /** Google Fonts CSS URLs keyed by theme ID. */
@@ -220,4 +320,12 @@ export const THEME_FONT_URLS: Record<ThemeId, string> = {
     "https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Libre+Franklin:wght@400;500;600;700&display=swap",
   "studio-craft":
     "https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap",
+  "electric-cyan":
+    "https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap",
+  "hot-neon":
+    "https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Work+Sans:wght@400;500;600&display=swap",
+  "sunset-fire":
+    "https://fonts.googleapis.com/css2?family=Archivo+Black&family=Source+Sans+3:wght@400;500;600;700&display=swap",
+  "glass-dark":
+    "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap",
 } as const;

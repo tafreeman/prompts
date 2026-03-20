@@ -68,6 +68,9 @@ export function SlideContainer({ children, bgOverride }: SlideContainerProps) {
         style={{
           width: LOGICAL_W,
           height: LOGICAL_H,
+          minWidth: LOGICAL_W,
+          minHeight: LOGICAL_H,
+          flexShrink: 0,
           transform: `scale(${scale})`,
           transformOrigin: 'center center',
           background: bg,
@@ -76,6 +79,7 @@ export function SlideContainer({ children, bgOverride }: SlideContainerProps) {
           overflow: 'hidden',
           fontFamily: `"${theme.fontBody}", system-ui, sans-serif`,
           color: theme.text,
+          boxSizing: 'border-box',
         }}
       >
         {children}

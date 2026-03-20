@@ -158,18 +158,19 @@ slides:
 });
 
 // ---------------------------------------------------------------------------
-// 7. All 12 layout IDs exist
+// 7. All 17 layout IDs exist
 // ---------------------------------------------------------------------------
 
 describe('Layout registry', () => {
-  it('has exactly 12 layout IDs', () => {
-    expect(LAYOUT_IDS.length).toBe(12);
+  it('has exactly 17 layout IDs', () => {
+    expect(LAYOUT_IDS.length).toBe(17);
   });
 
   it('contains the expected IDs', () => {
     const expected = [
       'cover', 'section', 'text', 'cards', 'number', 'compare',
       'steps', 'table', 'scorecard', 'timeline', 'grid', 'closing',
+      'chart', 'hub', 'workflow', 'cycle', 'quote',
     ];
     for (const id of expected) {
       expect(LAYOUT_IDS).toContain(id);
@@ -182,8 +183,8 @@ describe('Layout registry', () => {
 // ---------------------------------------------------------------------------
 
 describe('Themes', () => {
-  it('has exactly 6 themes', () => {
-    expect(THEMES.length).toBe(6);
+  it('has exactly 10 themes', () => {
+    expect(THEMES.length).toBe(10);
   });
 
   it('each theme has required fields', () => {
@@ -205,8 +206,8 @@ describe('Themes', () => {
 // ---------------------------------------------------------------------------
 
 describe('Style modes', () => {
-  it('has exactly 3 style modes', () => {
-    expect(STYLE_MODES.length).toBe(3);
+  it('has exactly 6 style modes', () => {
+    expect(STYLE_MODES.length).toBe(6);
   });
 });
 

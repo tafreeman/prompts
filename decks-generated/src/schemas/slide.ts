@@ -3,6 +3,52 @@ import { ActionTitleSchema, BulletListSchema, SourceSchema } from './guards.js';
 
 // -- Reusable content schemas --------------------------------------------------
 
+const BarSchema = z.object({
+  label: z.string(),
+  value: z.number(),
+  highlight: z.boolean().optional(),   // Highlighted bar (background band)
+  accent: z.boolean().optional(),      // Darker accent treatment
+});
+
+const BarGroupSchema = z.object({
+  id: z.string(),
+  label: z.string().optional(),
+  bars: z.array(BarSchema).min(1).max(20),
+});
+
+const AnnotationItemSchema = z.object({
+  label: z.string(),
+  value: z.string(),
+});
+
+const AnnotationSchema = z.object({
+  label: z.string(),
+  items: z.array(AnnotationItemSchema).optional(),
+});
+
+const SpokeSchema = z.object({
+  position: z.enum(["top", "bottom", "left", "right"]),
+  label: z.string(),
+  eyebrow: z.string().optional(),
+});
+
+const HubCenterSchema = z.object({
+  label: z.string(),
+  sublabel: z.string().optional(),
+});
+
+const WorkflowStageSchema = z.object({
+  label: z.string(),
+  description: z.string().optional(),
+  meta: z.string().optional(),
+  highlight: z.boolean().optional(),
+});
+
+const CycleNodeSchema = z.object({
+  label: z.string(),
+  body: z.string().optional(),
+});
+
 const CardSchema = z.object({
   title: z.string(),
   body: z.string().optional(),
@@ -146,6 +192,51 @@ export const ClosingSlide = SlideBase.extend({
   contact: z.string().optional(),
 });
 
+// -- 5 New Layout Schemas ------------------------------------------------------
+
+/** Horizontal (or vertical) bar chart with grouped data series. */
+export const ChartSlide = SlideBase.extend({
+  layout: z.literal("chart"),
+  chartType: z.enum(["bar-h", "bar-v"]).default("bar-h"),
+  unit: z.string().optional(),          // e.g. "%" or "$M"
+  groups: z.array(BarGroupSchema).min(1).max(4),
+  annotations: z.array(AnnotationSchema).optional(),
+  source: SourceSchema.optional(),
+});
+
+/** Hub-and-spoke diagram — center concept with labeled spoke endpoints. */
+export const HubSlide = SlideBase.extend({
+  layout: z.literal("hub"),
+  center: HubCenterSchema,
+  spokes: z.array(SpokeSchema).min(2).max(8),
+  body: z.string().optional(),
+});
+
+/** Three-column process/workflow table — stage | description | meta. */
+export const WorkflowSlide = SlideBase.extend({
+  layout: z.literal("workflow"),
+  columnLabels: z.tuple([z.string(), z.string(), z.string()]).optional(),
+  stages: z.array(WorkflowStageSchema).min(2).max(12),
+});
+
+/** Circle/arc diagram — input node feeds center, outputs branch right. */
+export const CycleSlide = SlideBase.extend({
+  layout: z.literal("cycle"),
+  centerLabel: z.string().optional(),
+  input: CycleNodeSchema.optional(),
+  outputs: z.array(CycleNodeSchema).min(1).max(6),
+  source: SourceSchema.optional(),
+});
+
+/** Large pull-quote with attribution — editorial emphasis. */
+export const QuoteSlide = SlideBase.extend({
+  layout: z.literal("quote"),
+  quote: z.string().max(500),
+  attribution: z.string().optional(),
+  role: z.string().optional(),
+  logo: z.string().optional(),          // company logo URL
+});
+
 // -- Discriminated Union -------------------------------------------------------
 
 export const SlideSchema = z.discriminatedUnion("layout", [
@@ -161,6 +252,11 @@ export const SlideSchema = z.discriminatedUnion("layout", [
   TimelineSlide,
   GridSlide,
   ClosingSlide,
+  ChartSlide,
+  HubSlide,
+  WorkflowSlide,
+  CycleSlide,
+  QuoteSlide,
 ]);
 
 export type Slide = z.infer<typeof SlideSchema>;
@@ -170,6 +266,7 @@ export type Slide = z.infer<typeof SlideSchema>;
 export const LAYOUT_IDS = [
   "cover", "section", "text", "cards", "number", "compare",
   "steps", "table", "scorecard", "timeline", "grid", "closing",
+  "chart", "hub", "workflow", "cycle", "quote",
 ] as const;
 
 export type LayoutId = typeof LAYOUT_IDS[number];

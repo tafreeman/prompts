@@ -27,7 +27,7 @@ export interface StyleMode {
   readonly labelTracking: number;    // letter-spacing for labels (px)
 }
 
-export type StyleModeId = "clean" | "bold" | "editorial";
+export type StyleModeId = "clean" | "bold" | "editorial" | "brutalist" | "playful" | "dense";
 
 // ---------------------------------------------------------------------------
 // Style mode definitions
@@ -84,15 +84,69 @@ const editorial: StyleMode = {
   labelTracking: 5,
 } as const;
 
+/** Neo Brutalism -- raw, chunky, high-contrast. */
+const brutalist: StyleMode = {
+  id: "brutalist",
+  name: "Brutalist",
+  vibe: "Neo Brutalism",
+  cardRadius: 0,
+  innerRadius: 0,
+  cardBorderWidth: 4,
+  accentBarHeight: 8,
+  sectionGap: 16,
+  useGlow: false,
+  useSoftShadow: false,
+  headingWeight: 900,
+  headingTransform: "uppercase",
+  labelTracking: 2,
+} as const;
+
+/** Rounded Pop -- oversized radius, thick friendly borders, pill shapes. */
+const playful: StyleMode = {
+  id: "playful",
+  name: "Playful",
+  vibe: "Rounded Pop",
+  cardRadius: 24,
+  innerRadius: 20,
+  cardBorderWidth: 3,
+  accentBarHeight: 4,
+  sectionGap: 24,
+  useGlow: true,
+  useSoftShadow: true,
+  headingWeight: 800,
+  headingTransform: "none",
+  labelTracking: 2,
+} as const;
+
+/** Data Packed -- compact density, thin borders, tight spacing. */
+const dense: StyleMode = {
+  id: "dense",
+  name: "Dense",
+  vibe: "Data Packed",
+  cardRadius: 8,
+  innerRadius: 6,
+  cardBorderWidth: 1,
+  accentBarHeight: 2,
+  sectionGap: 12,
+  useGlow: false,
+  useSoftShadow: false,
+  headingWeight: 700,
+  headingTransform: "none",
+  labelTracking: 3,
+} as const;
+
 // ---------------------------------------------------------------------------
 // Exports
 // ---------------------------------------------------------------------------
 
-/** All 3 style modes. */
+/** All 6 style modes. */
 export const STYLE_MODES: readonly StyleMode[] = [
   clean,
   bold,
   editorial,
+  brutalist,
+  playful,
+  dense,
 ] as const;
 
 /** Lookup a style mode by its ID. */
@@ -100,4 +154,7 @@ export const STYLE_MODES_BY_ID: Record<StyleModeId, StyleMode> = {
   clean,
   bold,
   editorial,
+  brutalist,
+  playful,
+  dense,
 } as const;

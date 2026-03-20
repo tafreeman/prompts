@@ -7,9 +7,10 @@ import { SLIDE_COUNT_MIN, SLIDE_COUNT_MAX } from './guards.js';
 export const ThemeIdSchema = z.enum([
   "midnight-teal", "neon-noir", "linear",
   "paper-ink", "signal-cobalt", "studio-craft",
+  "electric-cyan", "hot-neon", "sunset-fire", "glass-dark",
 ]);
 
-export const StyleModeIdSchema = z.enum(["clean", "bold", "editorial"]);
+export const StyleModeIdSchema = z.enum(["clean", "bold", "editorial", "brutalist", "playful", "dense"]);
 
 // -- Root Manifest -------------------------------------------------------------
 

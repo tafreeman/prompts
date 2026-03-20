@@ -134,7 +134,7 @@ When an AI creates a deck from scratch, follow this protocol:
 
 ### Layout Catalog
 
-View all 12 layouts with sample data at `?view=catalog` (append to dev server URL).
+View all 17 layouts with sample data at `?view=catalog` (append to dev server URL).
 
 ## Complete Layout Reference
 
@@ -292,6 +292,71 @@ Final call-to-action slide.
 | layout | `"closing"` | yes | |
 | nextSteps | string[] | no | Max 7 action items |
 | contact | string | no | Email or URL |
+
+### chart
+
+Grouped horizontal (or vertical) bar chart with optional comparison annotations panel.
+
+| Field | Type | Required | Notes |
+|-------|------|----------|-------|
+| layout | `"chart"` | yes | |
+| chartType | `"bar-h"` or `"bar-v"` | no | Default `"bar-h"` |
+| unit | string | no | e.g. `"%"` or `"$M"` |
+| groups | Group[] | yes | 1-4 groups |
+| annotations | Annotation[] | no | Right-side comparison panel |
+| source | string | no | Data source citation |
+
+Group: `{id, label?, bars[]}` — Bar: `{label, value, highlight?, accent?}` (highlight=pill band, accent=darker color)
+Annotation: `{label, items?: [{label, value}]}`
+
+### hub
+
+Hub-and-spoke diagram — center concept with up to 8 labeled spoke endpoints and diagonal connector lines.
+
+| Field | Type | Required | Notes |
+|-------|------|----------|-------|
+| layout | `"hub"` | yes | |
+| center | Center | yes | `{label, sublabel?}` |
+| spokes | Spoke[] | yes | 2-8 items |
+| body | string | no | Supporting text (bottom-right) |
+
+Spoke: `{position: "top"|"bottom"|"left"|"right", label, eyebrow?}`
+
+### workflow
+
+Three-column process table — stage label | description | meta/time. No cell backgrounds, only horizontal dividers.
+
+| Field | Type | Required | Notes |
+|-------|------|----------|-------|
+| layout | `"workflow"` | yes | |
+| columnLabels | [string, string, string] | no | Column header labels |
+| stages | Stage[] | yes | 2-12 items |
+
+Stage: `{label, description?, meta?, highlight?}` (highlight row shows full-opacity bold text)
+
+### cycle
+
+Circle/arc diagram — input node feeds into center arc, output items branch from the right.
+
+| Field | Type | Required | Notes |
+|-------|------|----------|-------|
+| layout | `"cycle"` | yes | |
+| centerLabel | string | no | Text inside the circle |
+| input | Node | no | Left input: `{label, body?}` |
+| outputs | Node[] | yes | 1-6 right-side outputs: `{label, body?}` |
+| source | string | no | Data source citation |
+
+### quote
+
+Large editorial pull-quote with decorative opening mark and attribution.
+
+| Field | Type | Required | Notes |
+|-------|------|----------|-------|
+| layout | `"quote"` | yes | |
+| quote | string | yes | Max 500 chars |
+| attribution | string | no | Speaker name |
+| role | string | no | Title and company |
+| logo | string | no | Company logo URL |
 
 ## Themes
 
