@@ -8,11 +8,82 @@ LangChain agent or ``ToolNode``.
 from __future__ import annotations
 
 import ast
+import ipaddress
 import json
+import shlex
 import subprocess
 from pathlib import Path
+from urllib.parse import urlparse
 
 from langchain_core.tools import tool
+
+from ..utils.path_safety import ensure_within_base
+
+# ---------------------------------------------------------------------------
+# Security helpers
+# ---------------------------------------------------------------------------
+
+# Commands blocked from shell execution (case-insensitive substring match).
+_SHELL_BLOCKLIST = frozenset(
+    {
+        "rm -rf /",
+        "rm -r -f /",
+        ":(){ :|:& };:",
+        "mkfs",
+        "dd if=",
+        "> /dev/sda",
+        "chmod -r 777 /",
+        "wget",
+        "curl",
+    }
+)
+
+# Allowed URL schemes for HTTP tools.
+_ALLOWED_URL_SCHEMES = frozenset({"http", "https"})
+
+
+def _is_dangerous_command(command: str) -> bool:
+    """Return True if *command* matches any entry in the shell blocklist."""
+    cmd_lower = command.lower()
+    return any(pattern in cmd_lower for pattern in _SHELL_BLOCKLIST)
+
+
+def _is_private_ip(hostname: str) -> bool:
+    """Return True if *hostname* resolves to a private/reserved IP address."""
+    try:
+        addr = ipaddress.ip_address(hostname)
+        return (
+            addr.is_private
+            or addr.is_loopback
+            or addr.is_link_local
+            or addr.is_reserved
+        )
+    except ValueError:
+        return False
+
+
+def _validate_url(url: str) -> str | None:
+    """Validate a URL for SSRF safety. Returns error string or None."""
+    try:
+        parsed = urlparse(url)
+    except Exception:
+        return "Invalid URL"
+
+    if parsed.scheme not in _ALLOWED_URL_SCHEMES:
+        return f"URL scheme '{parsed.scheme}' not allowed. Only http/https permitted."
+
+    hostname = parsed.hostname or ""
+
+    # Block cloud metadata endpoints and private IPs
+    if _is_private_ip(hostname):
+        return f"Access to private/reserved IP address '{hostname}' is blocked."
+
+    # Block well-known metadata hostnames
+    metadata_hosts = {"metadata.google.internal", "metadata", "169.254.169.254"}
+    if hostname.lower() in metadata_hosts:
+        return f"Access to metadata endpoint '{hostname}' is blocked."
+
+    return None
 
 # ---------------------------------------------------------------------------
 # File operations
@@ -26,6 +97,10 @@ def file_read(path: str) -> str:
     Args:
         path: Absolute or relative path to the file.
     """
+    try:
+        ensure_within_base(path, Path.cwd())
+    except ValueError as e:
+        return f"ERROR: {e}"
     p = Path(path)
     if not p.exists():
         return f"ERROR: File not found: {path}"
@@ -43,6 +118,10 @@ def file_write(path: str, content: str) -> str:
         path: Destination file path.
         content: Text content to write.
     """
+    try:
+        ensure_within_base(path, Path.cwd())
+    except ValueError as e:
+        return f"ERROR: {e}"
     try:
         p = Path(path)
         p.parent.mkdir(parents=True, exist_ok=True)
@@ -131,10 +210,12 @@ def shell_run(command: str, cwd: str | None = None, timeout: int = 30) -> str:
         cwd: Working directory (optional).
         timeout: Max seconds to wait (default 30).
     """
+    if _is_dangerous_command(command):
+        return "ERROR: Command blocked by security policy."
     try:
         result = subprocess.run(
-            command,
-            shell=True,  # nosec B602 — shell tool requires shell execution; input validated upstream
+            shlex.split(command),
+            shell=False,
             capture_output=True,
             text=True,
             cwd=cwd,
@@ -233,8 +314,11 @@ def http_get(url: str) -> str:
     """Fetch content from a URL via HTTP GET.
 
     Args:
-        url: The URL to fetch.
+        url: The URL to fetch (http/https only, no private IPs).
     """
+    url_error = _validate_url(url)
+    if url_error:
+        return f"ERROR: {url_error}"
     try:
         import httpx
 

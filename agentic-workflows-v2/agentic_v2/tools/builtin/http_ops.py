@@ -2,11 +2,49 @@
 
 from __future__ import annotations
 
+import ipaddress
 from typing import Any
+from urllib.parse import urlparse
 
 import aiohttp
 
 from ..base import BaseTool, ToolResult
+
+# ---------------------------------------------------------------------------
+# URL validation for SSRF prevention
+# ---------------------------------------------------------------------------
+
+_ALLOWED_URL_SCHEMES = frozenset({"http", "https"})
+_METADATA_HOSTS = frozenset(
+    {"metadata.google.internal", "metadata", "169.254.169.254"}
+)
+
+
+def _validate_url(url: str) -> str | None:
+    """Validate a URL for SSRF safety. Returns error string or None."""
+    try:
+        parsed = urlparse(url)
+    except Exception:
+        return "Invalid URL"
+
+    if parsed.scheme not in _ALLOWED_URL_SCHEMES:
+        return f"URL scheme '{parsed.scheme}' not allowed. Only http/https permitted."
+
+    hostname = parsed.hostname or ""
+
+    # Block well-known metadata hostnames
+    if hostname.lower() in _METADATA_HOSTS:
+        return f"Access to metadata endpoint '{hostname}' is blocked."
+
+    # Block private/reserved IP addresses
+    try:
+        addr = ipaddress.ip_address(hostname)
+        if addr.is_private or addr.is_loopback or addr.is_link_local or addr.is_reserved:
+            return f"Access to private/reserved IP address '{hostname}' is blocked."
+    except ValueError:
+        pass  # hostname is not an IP literal — allowed
+
+    return None
 
 
 class HttpTool(BaseTool):
@@ -79,6 +117,11 @@ class HttpTool(BaseTool):
     ) -> ToolResult:
         """Execute HTTP request."""
         try:
+            # Validate URL for SSRF
+            url_error = _validate_url(url)
+            if url_error:
+                return ToolResult(success=False, error=url_error)
+
             # Validate method
             allowed_methods = {
                 "GET",

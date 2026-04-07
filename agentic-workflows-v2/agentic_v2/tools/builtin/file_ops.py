@@ -8,7 +8,20 @@ from typing import Any
 
 import aiofiles
 
+from ...utils.path_safety import ensure_within_base
 from ..base import BaseTool, ToolResult
+
+# Default base directory for path validation (process working directory).
+_BASE_DIR = Path.cwd()
+
+
+def _validate_path(path: str) -> Path:
+    """Resolve and validate that *path* is within the base directory.
+
+    Raises:
+        ValueError: If the path escapes the base directory.
+    """
+    return ensure_within_base(path, _BASE_DIR)
 
 
 class FileCopyTool(BaseTool):
@@ -48,6 +61,12 @@ class FileCopyTool(BaseTool):
     ) -> ToolResult:
         """Execute file copy."""
         try:
+            try:
+                _validate_path(source)
+                _validate_path(destination)
+            except ValueError as e:
+                return ToolResult(success=False, error=str(e))
+
             src_path = Path(source)
             dst_path = Path(destination)
 
@@ -114,6 +133,12 @@ class FileMoveTool(BaseTool):
     ) -> ToolResult:
         """Execute file move."""
         try:
+            try:
+                _validate_path(source)
+                _validate_path(destination)
+            except ValueError as e:
+                return ToolResult(success=False, error=str(e))
+
             src_path = Path(source)
             dst_path = Path(destination)
 
@@ -171,6 +196,11 @@ class FileDeleteTool(BaseTool):
     async def execute(self, path: str, missing_ok: bool = False) -> ToolResult:
         """Execute file deletion."""
         try:
+            try:
+                _validate_path(path)
+            except ValueError as e:
+                return ToolResult(success=False, error=str(e))
+
             file_path = Path(path)
 
             if not file_path.exists():
@@ -219,6 +249,11 @@ class DirectoryCreateTool(BaseTool):
     async def execute(self, path: str, exist_ok: bool = True) -> ToolResult:
         """Execute directory creation."""
         try:
+            try:
+                _validate_path(path)
+            except ValueError as e:
+                return ToolResult(success=False, error=str(e))
+
             dir_path = Path(path)
             dir_path.mkdir(parents=True, exist_ok=exist_ok)
 
@@ -259,6 +294,11 @@ class FileReadTool(BaseTool):
     async def execute(self, path: str, encoding: str = "utf-8") -> ToolResult:
         """Execute file read."""
         try:
+            try:
+                _validate_path(path)
+            except ValueError as e:
+                return ToolResult(success=False, error=str(e))
+
             file_path = Path(path)
 
             if not file_path.exists():
@@ -322,6 +362,11 @@ class FileWriteTool(BaseTool):
     ) -> ToolResult:
         """Execute file write."""
         try:
+            try:
+                _validate_path(path)
+            except ValueError as e:
+                return ToolResult(success=False, error=str(e))
+
             file_path = Path(path)
 
             if file_path.exists() and not overwrite:

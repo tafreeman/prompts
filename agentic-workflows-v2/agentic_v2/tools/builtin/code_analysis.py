@@ -6,6 +6,7 @@ import ast
 from pathlib import Path
 from typing import Any
 
+from ...utils.path_safety import ensure_within_base
 from ..base import BaseTool, ToolResult
 
 
@@ -64,6 +65,10 @@ class CodeAnalysisTool(BaseTool):
             # Get source code
             if from_file:
                 file_path = Path(source)
+                try:
+                    ensure_within_base(file_path, Path.cwd())
+                except ValueError as e:
+                    return ToolResult(success=False, error=str(e))
                 if not file_path.exists():
                     return ToolResult(
                         success=False, error=f"File does not exist: {source}"

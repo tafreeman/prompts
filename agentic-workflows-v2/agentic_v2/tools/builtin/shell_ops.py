@@ -69,11 +69,32 @@ class ShellTool(BaseTool):
     ) -> ToolResult:
         """Execute shell command."""
         try:
-            # Basic security checks
-            if any(
-                dangerous in command.lower()
-                for dangerous in ["rm -rf /", ":(){ :|:& };:", "mkfs", "dd if="]
-            ):
+            # Expanded security checks — block dangerous patterns
+            dangerous_patterns = [
+                "rm -rf /",
+                "rm -r -f /",
+                "rm -rf /*",
+                ":(){ :|:& };:",
+                "mkfs",
+                "dd if=",
+                "> /dev/sd",
+                "chmod -r 777 /",
+                "curl ",
+                "wget ",
+                "nc -l",
+                "ncat ",
+                "/dev/tcp/",
+                "python -c",
+                "python3 -c",
+                "perl -e",
+                "ruby -e",
+                "base64 -d",
+                "eval ",
+                "bash -i",
+                "sh -i",
+            ]
+            cmd_lower = command.lower()
+            if any(pattern in cmd_lower for pattern in dangerous_patterns):
                 return ToolResult(
                     success=False,
                     error="Command contains potentially dangerous operations and was blocked",

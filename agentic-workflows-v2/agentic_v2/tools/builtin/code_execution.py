@@ -175,7 +175,18 @@ class CodeExecutionTool(BaseTool):
             _result = None
             _error = None
             try:
-                _globals = {{"__builtins__": __builtins__}}
+                # Restrict __builtins__ — remove dangerous functions
+                import builtins as _builtins_mod
+                _safe_builtins = {{
+                    k: v for k, v in vars(_builtins_mod).items()
+                    if k not in {{
+                        "exec", "eval", "compile", "__import__",
+                        "breakpoint", "exit", "quit", "open",
+                        "globals", "locals", "getattr", "setattr",
+                        "delattr", "memoryview",
+                    }}
+                }}
+                _globals = {{"__builtins__": _safe_builtins}}
                 _code = {code!r}
                 exec(_code, _globals)
                 # Try to capture a variable named 'result'

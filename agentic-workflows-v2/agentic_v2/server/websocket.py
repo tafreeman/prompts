@@ -26,6 +26,8 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import os
+import secrets
 from collections import deque
 from typing import Any
 
@@ -197,10 +199,24 @@ async def websocket_endpoint(websocket: WebSocket, run_id: str):
     """WebSocket endpoint for real-time execution streaming.
 
     On connect:
-    1. Accept the connection and replay buffered events
-    2. Keep alive — execution events are pushed via broadcast()
-    3. Client can send ping/commands; server ignores content
+    1. Validate token from query parameter (if auth is enabled)
+    2. Accept the connection and replay buffered events
+    3. Keep alive — execution events are pushed via broadcast()
+    4. Client can send ping/commands; server ignores content
     """
+    # Authenticate WebSocket connections when API key auth is enabled
+    api_key = os.environ.get("AGENTIC_API_KEY") or None
+    if api_key is not None:
+        token = websocket.query_params.get("token", "")
+        if not token or not secrets.compare_digest(token, api_key):
+            await websocket.close(code=4001, reason="Invalid or missing token")
+            logger.warning(
+                "WebSocket auth failed for run %s from %s",
+                run_id,
+                websocket.client.host if websocket.client else "unknown",
+            )
+            return
+
     await manager.connect(websocket, run_id)
     try:
         # Replay buffered events for late joiners
