@@ -35,13 +35,6 @@ logger = logging.getLogger(__name__)
 # Paths that bypass authentication
 _PUBLIC_PREFIXES = ("/api/health", "/docs", "/openapi.json", "/redoc")
 
-# Log a warning at import time if auth is not configured
-if not os.environ.get("AGENTIC_API_KEY"):
-    logger.warning(
-        "AGENTIC_API_KEY is not set — all API routes are publicly accessible. "
-        "Set this env var to enable authentication."
-    )
-
 
 def _get_api_key() -> str | None:
     """Read the API key from the environment on each call.

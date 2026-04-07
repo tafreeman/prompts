@@ -79,6 +79,7 @@ class ShellTool(BaseTool):
                 "dd if=",
                 "> /dev/sd",
                 "chmod -r 777 /",
+                "chmod -R 777 /",
                 "curl ",
                 "wget ",
                 "nc -l",

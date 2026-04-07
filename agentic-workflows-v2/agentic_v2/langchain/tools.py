@@ -34,8 +34,7 @@ _SHELL_BLOCKLIST = frozenset(
         "dd if=",
         "> /dev/sda",
         "chmod -r 777 /",
-        "wget",
-        "curl",
+        "chmod -R 777 /",
     }
 )
 

@@ -156,7 +156,16 @@ class SearchTool(BaseTool):
         """Perform regex search."""
         # Guard against ReDoS — reject overly complex patterns
         if len(pattern) > 500:
-            return []
+            return [
+                {
+                    "file": str(file_path),
+                    "line": 0,
+                    "column": 0,
+                    "text": "",
+                    "match": "",
+                    "error": "Pattern too long (>500 chars); rejected for safety.",
+                }
+            ]
         try:
             regex = re.compile(pattern, re.MULTILINE | re.IGNORECASE)
             matches = []

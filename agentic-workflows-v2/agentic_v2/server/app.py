@@ -79,6 +79,13 @@ async def lifespan(app: FastAPI):
     """
     logger.info("Starting Agentic Workflows V2 Server")
 
+    # Warn if API key auth is not configured
+    if not os.environ.get("AGENTIC_API_KEY"):
+        logger.warning(
+            "AGENTIC_API_KEY is not set — all API routes are publicly accessible. "
+            "Set this env var to enable authentication."
+        )
+
     # Probe available LLM providers and update tier defaults for both engines
     try:
         from ..langchain.models import probe_and_update_tier_defaults
