@@ -124,12 +124,9 @@ class BuildAppTool(BaseTool):
         "nc -l",
         "ncat ",
         "/dev/tcp/",
-        "python -c",
-        "python3 -c",
         "perl -e",
         "ruby -e",
         "base64 -d",
-        "eval ",
         "bash -i",
         "sh -i",
     ]

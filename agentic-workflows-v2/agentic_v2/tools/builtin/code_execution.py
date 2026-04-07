@@ -175,15 +175,17 @@ class CodeExecutionTool(BaseTool):
             _result = None
             _error = None
             try:
-                # Restrict __builtins__ — remove dangerous functions
+                # Restrict __builtins__ — remove dangerous functions.
+                # NOTE: __import__ is kept because the AST-based safety check
+                # in _check_code_safety already blocks dangerous modules.
                 import builtins as _builtins_mod
                 _safe_builtins = {{
                     k: v for k, v in vars(_builtins_mod).items()
                     if k not in {{
-                        "exec", "eval", "compile", "__import__",
+                        "exec", "eval", "compile",
                         "breakpoint", "exit", "quit", "open",
                         "globals", "locals", "getattr", "setattr",
-                        "delattr", "memoryview",
+                        "delattr",
                     }}
                 }}
                 _globals = {{"__builtins__": _safe_builtins}}

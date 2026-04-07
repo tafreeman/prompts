@@ -24,7 +24,6 @@ from __future__ import annotations
 
 import logging
 import os
-import sys
 from pathlib import Path
 from typing import Any
 
@@ -45,19 +44,11 @@ def _import_repo_llm_client() -> Any:
         from tools.llm.llm_client import LLMClient
 
         return LLMClient
-    except ImportError:
-        repo_root = Path(__file__).resolve().parents[3]
-        if str(repo_root) not in sys.path:
-            sys.path.insert(0, str(repo_root))
-        try:
-            from tools.llm.llm_client import LLMClient
-
-            return LLMClient
-        except ImportError as exc:
-            raise ImportError(
-                "Local ONNX provider requires importing tools.llm.llm_client. "
-                "Run from repo root or add the workspace root to PYTHONPATH."
-            ) from exc
+    except ImportError as exc:
+        raise ImportError(
+            "Local ONNX provider requires importing tools.llm.llm_client. "
+            "Run from repo root or install the prompts-tools package."
+        ) from exc
 
 
 def _resolve_notebooklm_model_name(model_name: str) -> str:

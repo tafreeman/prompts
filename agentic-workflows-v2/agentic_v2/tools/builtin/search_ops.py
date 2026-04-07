@@ -154,6 +154,9 @@ class SearchTool(BaseTool):
 
     def _regex_search(self, pattern: str, content: str, file_path: Path) -> list[dict]:
         """Perform regex search."""
+        # Guard against ReDoS — reject overly complex patterns
+        if len(pattern) > 500:
+            return []
         try:
             regex = re.compile(pattern, re.MULTILINE | re.IGNORECASE)
             matches = []

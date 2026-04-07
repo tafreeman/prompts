@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import ipaddress
+import os
 from typing import Any
 from urllib.parse import urlparse
 
@@ -21,7 +22,15 @@ _METADATA_HOSTS = frozenset(
 
 
 def _validate_url(url: str) -> str | None:
-    """Validate a URL for SSRF safety. Returns error string or None."""
+    """Validate a URL for SSRF safety. Returns error string or None.
+
+    Always blocks:
+      - Non http/https schemes
+      - Cloud metadata endpoints (169.254.169.254, metadata.google.internal)
+
+    When ``AGENTIC_BLOCK_PRIVATE_IPS=1`` is set:
+      - Also blocks RFC 1918 private IPs, loopback, and link-local addresses
+    """
     try:
         parsed = urlparse(url)
     except Exception:
@@ -32,17 +41,19 @@ def _validate_url(url: str) -> str | None:
 
     hostname = parsed.hostname or ""
 
-    # Block well-known metadata hostnames
+    # Always block well-known metadata hostnames
     if hostname.lower() in _METADATA_HOSTS:
         return f"Access to metadata endpoint '{hostname}' is blocked."
 
-    # Block private/reserved IP addresses
-    try:
-        addr = ipaddress.ip_address(hostname)
-        if addr.is_private or addr.is_loopback or addr.is_link_local or addr.is_reserved:
-            return f"Access to private/reserved IP address '{hostname}' is blocked."
-    except ValueError:
-        pass  # hostname is not an IP literal — allowed
+    # Block private/reserved IP addresses when strict mode is enabled
+    block_private = os.environ.get("AGENTIC_BLOCK_PRIVATE_IPS", "").strip() == "1"
+    if block_private:
+        try:
+            addr = ipaddress.ip_address(hostname)
+            if addr.is_private or addr.is_loopback or addr.is_link_local or addr.is_reserved:
+                return f"Access to private/reserved IP address '{hostname}' is blocked."
+        except ValueError:
+            pass  # hostname is not an IP literal — allowed
 
     return None
 

@@ -121,8 +121,8 @@ def create_app() -> FastAPI:
         CORSMiddleware,
         allow_origins=CORS_ORIGINS,
         allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
+        allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        allow_headers=["Authorization", "X-API-Key", "Content-Type", "Accept"],
     )
 
     # API key authentication (opt-in via AGENTIC_API_KEY env var)

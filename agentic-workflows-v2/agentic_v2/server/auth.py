@@ -19,6 +19,7 @@ Authentication behavior:
 
 from __future__ import annotations
 
+import logging
 import os
 import secrets
 
@@ -29,10 +30,25 @@ from starlette.middleware.base import (
     RequestResponseEndpoint,
 )
 
-_API_KEY: str | None = os.environ.get("AGENTIC_API_KEY") or None
+logger = logging.getLogger(__name__)
 
 # Paths that bypass authentication
 _PUBLIC_PREFIXES = ("/api/health", "/docs", "/openapi.json", "/redoc")
+
+# Log a warning at import time if auth is not configured
+if not os.environ.get("AGENTIC_API_KEY"):
+    logger.warning(
+        "AGENTIC_API_KEY is not set — all API routes are publicly accessible. "
+        "Set this env var to enable authentication."
+    )
+
+
+def _get_api_key() -> str | None:
+    """Read the API key from the environment on each call.
+
+    This allows key rotation without a full server restart.
+    """
+    return os.environ.get("AGENTIC_API_KEY") or None
 
 
 class APIKeyMiddleware(BaseHTTPMiddleware):
@@ -49,7 +65,8 @@ class APIKeyMiddleware(BaseHTTPMiddleware):
     """
 
     async def dispatch(self, request: Request, call_next: RequestResponseEndpoint):
-        if _API_KEY is None:
+        api_key = _get_api_key()
+        if api_key is None:
             return await call_next(request)
 
         path = request.url.path
@@ -63,7 +80,11 @@ class APIKeyMiddleware(BaseHTTPMiddleware):
 
         # Check for API key in headers
         token = _extract_token(request)
-        if token is None or not secrets.compare_digest(token, _API_KEY):
+        if token is None or not secrets.compare_digest(token, api_key):
+            client_host = request.client.host if request.client else "unknown"
+            logger.warning(
+                "Authentication failed for %s from %s", path, client_host
+            )
             return JSONResponse(
                 status_code=401,
                 content={"detail": "Invalid or missing API key"},

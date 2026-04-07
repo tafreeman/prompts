@@ -439,7 +439,7 @@ class SmartModelRouter(ModelRouter):
             if self._get_probe_lock(model).locked():
                 return False
         semaphore = self._get_semaphore(model)
-        if semaphore._value <= 0:
+        if semaphore.locked():
             return False
 
         return True

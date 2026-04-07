@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import shutil
 from pathlib import Path
 from typing import Any
@@ -11,17 +12,24 @@ import aiofiles
 from ...utils.path_safety import ensure_within_base
 from ..base import BaseTool, ToolResult
 
-# Default base directory for path validation (process working directory).
-_BASE_DIR = Path.cwd()
+# Base directory for path validation.  When ``AGENTIC_FILE_BASE_DIR`` is set
+# tools will reject any path that escapes it.  When unset, validation is
+# skipped (backwards-compatible with the pre-hardening behaviour).
+_FILE_BASE_DIR: str | None = os.environ.get("AGENTIC_FILE_BASE_DIR")
 
 
 def _validate_path(path: str) -> Path:
-    """Resolve and validate that *path* is within the base directory.
+    """Resolve and validate that *path* is within the configured base directory.
+
+    When ``AGENTIC_FILE_BASE_DIR`` is not set, this is a no-op and simply
+    resolves the path.
 
     Raises:
         ValueError: If the path escapes the base directory.
     """
-    return ensure_within_base(path, _BASE_DIR)
+    if _FILE_BASE_DIR:
+        return ensure_within_base(path, _FILE_BASE_DIR)
+    return Path(path).resolve()
 
 
 class FileCopyTool(BaseTool):

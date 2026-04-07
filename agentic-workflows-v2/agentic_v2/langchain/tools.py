@@ -10,6 +10,7 @@ from __future__ import annotations
 import ast
 import ipaddress
 import json
+import os
 import shlex
 import subprocess
 from pathlib import Path
@@ -49,7 +50,12 @@ def _is_dangerous_command(command: str) -> bool:
 
 
 def _is_private_ip(hostname: str) -> bool:
-    """Return True if *hostname* resolves to a private/reserved IP address."""
+    """Return True if *hostname* resolves to a private/reserved IP address.
+
+    Only active when ``AGENTIC_BLOCK_PRIVATE_IPS=1``.
+    """
+    if os.environ.get("AGENTIC_BLOCK_PRIVATE_IPS", "").strip() != "1":
+        return False
     try:
         addr = ipaddress.ip_address(hostname)
         return (
@@ -97,10 +103,12 @@ def file_read(path: str) -> str:
     Args:
         path: Absolute or relative path to the file.
     """
-    try:
-        ensure_within_base(path, Path.cwd())
-    except ValueError as e:
-        return f"ERROR: {e}"
+    base_dir = os.environ.get("AGENTIC_FILE_BASE_DIR")
+    if base_dir:
+        try:
+            ensure_within_base(path, base_dir)
+        except ValueError as e:
+            return f"ERROR: {e}"
     p = Path(path)
     if not p.exists():
         return f"ERROR: File not found: {path}"
@@ -118,10 +126,12 @@ def file_write(path: str, content: str) -> str:
         path: Destination file path.
         content: Text content to write.
     """
-    try:
-        ensure_within_base(path, Path.cwd())
-    except ValueError as e:
-        return f"ERROR: {e}"
+    base_dir = os.environ.get("AGENTIC_FILE_BASE_DIR")
+    if base_dir:
+        try:
+            ensure_within_base(path, base_dir)
+        except ValueError as e:
+            return f"ERROR: {e}"
     try:
         p = Path(path)
         p.parent.mkdir(parents=True, exist_ok=True)

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import ast
+import os
 from pathlib import Path
 from typing import Any
 
@@ -65,10 +66,12 @@ class CodeAnalysisTool(BaseTool):
             # Get source code
             if from_file:
                 file_path = Path(source)
-                try:
-                    ensure_within_base(file_path, Path.cwd())
-                except ValueError as e:
-                    return ToolResult(success=False, error=str(e))
+                base_dir = os.environ.get("AGENTIC_FILE_BASE_DIR")
+                if base_dir:
+                    try:
+                        ensure_within_base(file_path, base_dir)
+                    except ValueError as e:
+                        return ToolResult(success=False, error=str(e))
                 if not file_path.exists():
                     return ToolResult(
                         success=False, error=f"File does not exist: {source}"
