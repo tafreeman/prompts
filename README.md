@@ -127,7 +127,7 @@ The engine ships with **6 production workflow definitions**, each solving a dist
 | `conditional_branching` | Conditional DAG | Steps execute or skip based on runtime condition evaluation |
 | `test_deterministic` | Tier-0 only | Deterministic step for testing the engine without LLM calls |
 
-### Example: Deep Research Workflow (DSL Showcase)
+### Example: Multi-Agent Workflow DSL
 
 The following illustrates the full power of the workflow DSL — iterative research with bounded rounds, conditional execution, parallel specialist analysis, and confidence-gated termination:
 
