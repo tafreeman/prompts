@@ -98,7 +98,7 @@ class TestAPIKeyMiddlewareNoKey:
         self, monkeypatch: pytest.MonkeyPatch
     ) -> None:
         """When AGENTIC_API_KEY is unset, all requests pass through."""
-        monkeypatch.setattr(auth_module, "_API_KEY", None)
+        monkeypatch.delenv("AGENTIC_API_KEY", raising=False)
         app = _make_app(api_key=None)
         client = TestClient(app)
 
@@ -113,7 +113,7 @@ class TestAPIKeyMiddlewareWithKey:
     @pytest.fixture(autouse=True)
     def _set_api_key(self, monkeypatch: pytest.MonkeyPatch) -> None:
         """Configure a test API key for all tests in this class."""
-        monkeypatch.setattr(auth_module, "_API_KEY", "test-secret-key")
+        monkeypatch.setenv("AGENTIC_API_KEY", "test-secret-key")
 
     def test_valid_bearer_token_passes(self) -> None:
         """Valid Bearer token returns 200 for /api/run."""

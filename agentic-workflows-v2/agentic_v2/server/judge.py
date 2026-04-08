@@ -340,6 +340,7 @@ def _run_coro_sync(coro: Any) -> Any:
     except RuntimeError:
         return asyncio.run(coro)
 
+    result_event = threading.Event()
     box: dict[str, Any] = {}
 
     def _runner() -> None:
@@ -347,10 +348,12 @@ def _run_coro_sync(coro: Any) -> Any:
             box["value"] = asyncio.run(coro)
         except Exception as exc:  # pragma: no cover - thread error path
             box["error"] = exc
+        finally:
+            result_event.set()
 
     thread = threading.Thread(target=_runner, daemon=True)
     thread.start()
-    thread.join()
+    result_event.wait()
     if "error" in box:
         raise box["error"]
     return box.get("value")
