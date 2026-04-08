@@ -2,13 +2,34 @@
 
 from __future__ import annotations
 
+import os
 import shutil
 from pathlib import Path
 from typing import Any
 
 import aiofiles
 
+from ...utils.path_safety import ensure_within_base
 from ..base import BaseTool, ToolResult
+
+# Base directory for path validation.  When ``AGENTIC_FILE_BASE_DIR`` is set
+# tools will reject any path that escapes it.  When unset, validation is
+# skipped (backwards-compatible with the pre-hardening behaviour).
+_FILE_BASE_DIR: str | None = os.environ.get("AGENTIC_FILE_BASE_DIR")
+
+
+def _validate_path(path: str) -> Path:
+    """Resolve and validate that *path* is within the configured base directory.
+
+    When ``AGENTIC_FILE_BASE_DIR`` is not set, this is a no-op and simply
+    resolves the path.
+
+    Raises:
+        ValueError: If the path escapes the base directory.
+    """
+    if _FILE_BASE_DIR:
+        return ensure_within_base(path, _FILE_BASE_DIR)
+    return Path(path).resolve()
 
 
 class FileCopyTool(BaseTool):
@@ -48,6 +69,12 @@ class FileCopyTool(BaseTool):
     ) -> ToolResult:
         """Execute file copy."""
         try:
+            try:
+                _validate_path(source)
+                _validate_path(destination)
+            except ValueError as e:
+                return ToolResult(success=False, error=str(e))
+
             src_path = Path(source)
             dst_path = Path(destination)
 
@@ -114,6 +141,12 @@ class FileMoveTool(BaseTool):
     ) -> ToolResult:
         """Execute file move."""
         try:
+            try:
+                _validate_path(source)
+                _validate_path(destination)
+            except ValueError as e:
+                return ToolResult(success=False, error=str(e))
+
             src_path = Path(source)
             dst_path = Path(destination)
 
@@ -171,6 +204,11 @@ class FileDeleteTool(BaseTool):
     async def execute(self, path: str, missing_ok: bool = False) -> ToolResult:
         """Execute file deletion."""
         try:
+            try:
+                _validate_path(path)
+            except ValueError as e:
+                return ToolResult(success=False, error=str(e))
+
             file_path = Path(path)
 
             if not file_path.exists():
@@ -219,6 +257,11 @@ class DirectoryCreateTool(BaseTool):
     async def execute(self, path: str, exist_ok: bool = True) -> ToolResult:
         """Execute directory creation."""
         try:
+            try:
+                _validate_path(path)
+            except ValueError as e:
+                return ToolResult(success=False, error=str(e))
+
             dir_path = Path(path)
             dir_path.mkdir(parents=True, exist_ok=exist_ok)
 
@@ -259,6 +302,11 @@ class FileReadTool(BaseTool):
     async def execute(self, path: str, encoding: str = "utf-8") -> ToolResult:
         """Execute file read."""
         try:
+            try:
+                _validate_path(path)
+            except ValueError as e:
+                return ToolResult(success=False, error=str(e))
+
             file_path = Path(path)
 
             if not file_path.exists():
@@ -322,6 +370,11 @@ class FileWriteTool(BaseTool):
     ) -> ToolResult:
         """Execute file write."""
         try:
+            try:
+                _validate_path(path)
+            except ValueError as e:
+                return ToolResult(success=False, error=str(e))
+
             file_path = Path(path)
 
             if file_path.exists() and not overwrite:

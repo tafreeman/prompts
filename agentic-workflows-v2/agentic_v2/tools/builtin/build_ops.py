@@ -111,9 +111,48 @@ class BuildAppTool(BaseTool):
     # Shell metacharacters that require shell=True to work correctly
     _SHELL_METACHARS = re.compile(r"[&|;<>(){}\$`]")
 
+    # Commands blocked from build execution (case-insensitive substring match).
+    _BLOCKED_CMD_PATTERNS = [
+        "rm -rf /",
+        "rm -r -f /",
+        ":(){ :|:& };:",
+        "mkfs",
+        "dd if=",
+        "> /dev/sd",
+        "curl ",
+        "wget ",
+        "nc -l",
+        "ncat ",
+        "/dev/tcp/",
+        "perl -e",
+        "ruby -e",
+        "base64 -d",
+        "bash -i",
+        "sh -i",
+    ]
+
+    def _validate_build_command(self, command: str) -> str | None:
+        """Return error string if command is blocked, else None."""
+        cmd_lower = command.lower()
+        for pattern in self._BLOCKED_CMD_PATTERNS:
+            if pattern in cmd_lower:
+                return f"Command blocked by security policy: matches '{pattern}'"
+        return None
+
     async def _run_shell(
         self, command: str, cwd: Path, timeout: float
     ) -> dict[str, Any]:
+        # Validate command before execution
+        block_error = self._validate_build_command(command)
+        if block_error:
+            return {
+                "command": command,
+                "success": False,
+                "exit_code": -1,
+                "stdout": "",
+                "stderr": block_error,
+                "duration_ms": 0.0,
+            }
         started = time.perf_counter()
         needs_shell = bool(self._SHELL_METACHARS.search(command))
         if needs_shell:
