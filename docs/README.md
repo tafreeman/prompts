@@ -56,7 +56,7 @@ See `docs/subagents.yml` for examples and canonical fields.
 Use the full checklist at `docs/pr-checklists/docs-pr-checklist.md` before requesting review.
 
 ## Previewing docs (Windows / PowerShell)
-tested: false
+
 ```powershell
 # Install a light markdown server (one-time)
 npm install -g markserv
@@ -64,7 +64,7 @@ npm install -g markserv
 # Run preview from repo root (serves README.md at http://localhost:3000)
 markserv docs --port 3000
 ```
-tested: false
+
 ```powershell
 # Alternatively, open a single file in the default Windows markdown previewer:
 Start-Process docs\README.md
