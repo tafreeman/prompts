@@ -55,7 +55,7 @@ When content overlaps between layers, this precedence applies:
 - **`.claude/agents/`** is the authoritative agent layer for Claude/Codex workflows in this repo.
 - **`.github/agents/`** is an optional GitHub Copilot integration surface. Update `.claude/` first, then sync `.github/agents/` only when Copilot support is intentionally being maintained.
 
-## Skills (11)
+## Skills (14)
 
 Multi-step skill definitions with structured workflows.
 
@@ -64,6 +64,7 @@ Multi-step skill definitions with structured workflows.
 | `build-all` | Build and verify all packages in the monorepo |
 | `changelog-generator` | Generate changelogs from git history |
 | `code-review` | Structured code review workflow |
+| `codebase-audit` | Parallel agent audit across deps, quality, security |
 | `context-engineering` | AI context design patterns |
 | `debugging` | Systematic debugging frameworks |
 | `langsmith-fetch` | Fetch LangSmith execution traces |
@@ -71,6 +72,8 @@ Multi-step skill definitions with structured workflows.
 | `problem-solving` | Creative problem-solving techniques |
 | `run-ci-local` | Mirror the CI pipeline locally |
 | `sequential-thinking` | Step-by-step reasoning with revision |
+| `session-plan` | Plan focused sessions with scoped goals |
+| `test-fix` | Autonomous test-and-fix loop (max 3 attempts) |
 | `webapp-testing` | Web application testing with Playwright |
 
 ## Retired Surfaces

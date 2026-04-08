@@ -116,22 +116,20 @@ LLM outputs resist binary pass/fail evaluation. The scoring system uses YAML-def
 
 ## Workflow Definitions
 
-The engine ships with **10 production workflow definitions**, each solving a distinct orchestration pattern:
+The engine ships with **6 production workflow definitions**, each solving a distinct orchestration pattern:
 
-| Workflow | Steps | Pattern | Description |
-|----------|-------|---------|-------------|
-| `deep_research` | 28 | Iterative DAG with conditional rounds | ToT planning → ReAct retrieval → dual-specialist analysis → CoVe verification → confidence gating → up to 4 iterative rounds → final synthesis + RAG packaging |
-| `code_review` | 5 | Fan-out / fan-in | Parse code → parallel architecture + quality reviews → synthesis |
-| `bug_resolution` | 6 | Sequential with verification | Reproduce → root cause analysis → fix → test → verify |
-| `tdd_codegen_e2e` | 27 | Multi-loop with bounded iteration | Spec → test scaffolding → implementation → iterative test/fix cycles |
-| `multi_agent_codegen_e2e` | 32 | Full pipeline with review loops | Plan → architect → implement → review → iterate until quality gates pass |
-| `fullstack_generation` | 7 | Sequential with parallel sub-steps | Requirements → API design → frontend + backend in parallel → integration |
-| `plan_implementation` | 24 | Complex DAG with checkpoints | Breakdown → dependency analysis → phased implementation → validation |
-| `test_deterministic` | 1 | Tier-0 only | Deterministic step for testing the engine without LLM calls |
+| Workflow | Pattern | Description |
+|----------|---------|-------------|
+| `code_review` | Fan-out / fan-in | Parse code → parallel architecture + quality reviews → synthesis |
+| `bug_resolution` | Sequential with verification | Reproduce → root cause analysis → fix → test → verify |
+| `fullstack_generation` | Sequential with parallel sub-steps | Requirements → API design → frontend + backend in parallel → integration |
+| `iterative_review` | Multi-loop with bounded iteration | Review → feedback → revise → re-review until quality gates pass |
+| `conditional_branching` | Conditional DAG | Steps execute or skip based on runtime condition evaluation |
+| `test_deterministic` | Tier-0 only | Deterministic step for testing the engine without LLM calls |
 
-### Example: Deep Research Workflow
+### Example: Multi-Agent Workflow DSL
 
-The `deep_research.yaml` workflow demonstrates the full power of the DSL — iterative research with bounded rounds, conditional execution, parallel specialist analysis, and confidence-gated termination:
+The following illustrates the full power of the workflow DSL — iterative research with bounded rounds, conditional execution, parallel specialist analysis, and confidence-gated termination:
 
 ```yaml
 steps:
@@ -216,7 +214,7 @@ agentic-workflows/
 │   │   │   ├── coder.py           # Code generation agent
 │   │   │   └── reviewer.py        # Code review agent
 │   │   ├── workflows/             # Workflow runtime
-│   │   │   ├── definitions/       # 10 YAML workflow definitions
+│   │   │   ├── definitions/       # 6 YAML workflow definitions
 │   │   │   ├── loader.py          # YAML → WorkflowConfig parser
 │   │   │   └── runner.py          # Workflow execution orchestrator
 │   │   ├── langchain/             # LangGraph integration
@@ -232,7 +230,7 @@ agentic-workflows/
 │   │   ├── tools/                 # Built-in agent tools
 │   │   └── cli/                   # `agentic` CLI entry point
 │   ├── ui/                        # React dashboard (Vite + TypeScript)
-│   ├── tests/                     # 36 test files
+│   ├── tests/                     # 78+ test files
 │   └── pyproject.toml             # hatchling build, optional dep groups
 │
 ├── agentic-v2-eval/               # Evaluation framework package
@@ -346,7 +344,7 @@ npm install && npm run dev
 ### Running Tests
 
 ```bash
-# Runtime tests (36 test files)
+# Runtime tests (78+ test files)
 cd agentic-workflows-v2
 pytest tests/ -v --cov=agentic_v2
 
