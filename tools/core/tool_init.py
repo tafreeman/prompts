@@ -126,7 +126,7 @@ class LogEntry:
         """Log successful completion."""
         self._log(ErrorCode.SUCCESS, None, data)
 
-    def error(self, error: str, code: str = None, **data):
+    def error(self, error: str, code: str | None = None, **data):
         """Log an error."""
         if code is None:
             code, _ = classify_error(error)
@@ -244,9 +244,9 @@ class ToolInit:
 
     def check_all(
         self,
-        required_env: list[str] = None,
-        required_models: list[str] = None,
-        required_paths: list[Path] = None,
+        required_env: list[str] | None = None,
+        required_models: list[str] | None = None,
+        required_paths: list[Path] | None = None,
     ) -> bool:
         """Check all prerequisites. Exits with code 1 if any fail.
 
@@ -376,11 +376,11 @@ class ToolInit:
 
 def init_tool(
     name: str,
-    required_models: list[str] = None,
-    required_env: list[str] = None,
-    required_paths: list[Path] = None,
+    required_models: list[str] | None = None,
+    required_env: list[str] | None = None,
+    required_paths: list[Path] | None = None,
     verbose: bool = False,
-    log_file: Path = None,
+    log_file: Path | None = None,
 ) -> ToolInit:
     """Initialize a tool with prerequisite checking.
 

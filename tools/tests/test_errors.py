@@ -171,11 +171,11 @@ class TestClassifyError:
         assert retry is False
 
     def test_empty_message(self):
-        code, retry = classify_error("")
+        code, _retry = classify_error("")
         assert code == ErrorCode.INTERNAL_ERROR
 
     def test_none_message(self):
-        code, retry = classify_error(None)  # type: ignore[arg-type]
+        code, _retry = classify_error(None)  # type: ignore[arg-type]
         assert code == ErrorCode.INTERNAL_ERROR
 
     def test_case_insensitive(self):
@@ -184,7 +184,7 @@ class TestClassifyError:
 
     def test_return_code_param_accepted(self):
         """return_code is accepted but not used; ensure no error raised."""
-        code, retry = classify_error("timeout", return_code=124)
+        code, _retry = classify_error("timeout", return_code=124)
         assert code == ErrorCode.TIMEOUT
 
 

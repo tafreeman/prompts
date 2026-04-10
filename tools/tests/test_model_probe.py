@@ -156,7 +156,7 @@ class TestModelProbe:
     def test_init_with_cache(self, mock_load):
         """ModelProbe loads persistent cache when use_cache=True."""
         mock_load.return_value = {"version": CACHE_VERSION, "probes": {"k": {}}}
-        probe = ModelProbe(use_cache=True)
+        ModelProbe(use_cache=True)
         mock_load.assert_called_once()
 
     def test_cache_key_delegates(self):

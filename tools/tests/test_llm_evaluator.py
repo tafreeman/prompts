@@ -430,7 +430,7 @@ class TestScoreRubric:
 
     def test_rubric_entries_are_strings(self):
         """All rubric descriptions are non-empty strings."""
-        for score, desc in SCORE_RUBRIC.items():
+        for _score, desc in SCORE_RUBRIC.items():
             assert isinstance(desc, str)
             assert len(desc) > 0
 

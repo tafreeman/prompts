@@ -384,10 +384,10 @@ def main():
 Examples:
   # Generate an image
   python local_media.py image "A beautiful sunset over mountains" -o sunset.png
-  
+
   # Transcribe audio
   python local_media.py transcribe recording.wav -o transcript.txt
-  
+
   # Upscale an image
   python local_media.py upscale low_res.png -o high_res.png
 """,

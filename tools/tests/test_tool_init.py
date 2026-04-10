@@ -139,9 +139,8 @@ class TestLogEntry:
         """Unhandled exception in context logs error."""
         init = self._make_init(tmp_path)
         entry = LogEntry(init=init, item="exc")
-        with pytest.raises(ValueError):
-            with entry:
-                raise ValueError("boom")
+        with pytest.raises(ValueError), entry:
+            raise ValueError("boom")
         assert init._failed_count == 1
         assert "boom" in init._failed_items[0]["error"]
 

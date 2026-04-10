@@ -56,7 +56,7 @@ def evaluate_task_output_llm(
     benchmark_id: str,
     verbose: bool = False,
     output_dir: Path | None = None,
-    evaluator_model: str = None,
+    evaluator_model: str | None = None,
 ) -> dict[str, Any] | None:
     """Evaluate task output using LLM-based evaluation.
 

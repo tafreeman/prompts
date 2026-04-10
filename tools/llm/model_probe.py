@@ -226,7 +226,7 @@ class ModelProbe:
             "details": results,
         }
 
-    def clear_cache(self, model: str = None) -> None:
+    def clear_cache(self, model: str | None = None) -> None:
         """Clear probe cache.
 
         Args:

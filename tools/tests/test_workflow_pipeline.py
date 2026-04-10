@@ -514,7 +514,7 @@ class TestExtractWorkflowData:
         with patch(
             "tools.agents.benchmarks.workflow_pipeline.evaluate_agent_output",
         ) as mock_fn:
-            data = extract_workflow_data(
+            extract_workflow_data(
                 result,
                 evaluate_phases=True,
                 model="gpt-4o",

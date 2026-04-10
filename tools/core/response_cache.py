@@ -36,6 +36,7 @@ from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
+import contextlib
 
 logger = logging.getLogger(__name__)
 
@@ -298,10 +299,8 @@ class ResponseCache:
         # Remove file
         entry_file = _get_entry_file(key)
         if entry_file.exists():
-            try:
+            with contextlib.suppress(Exception):
                 entry_file.unlink()
-            except Exception:
-                pass
 
         return True
 
@@ -350,10 +349,8 @@ class ResponseCache:
         for key in expired_keys:
             entry_file = _get_entry_file(key)
             if entry_file.exists():
-                try:
+                with contextlib.suppress(Exception):
                     entry_file.unlink()
-                except Exception:
-                    pass
 
             with _cache_lock:
                 if key in self._index:

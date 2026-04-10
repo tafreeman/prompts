@@ -77,7 +77,7 @@ def evaluate_agent_output(
     original_prompt: str,
     model: str,
     benchmark_id: str,
-    evaluator_model: str = None,
+    evaluator_model: str | None = None,
     verbose: bool = False,
 ) -> dict[str, Any] | None:
     """Evaluate a single agent's output using LLM-based evaluation.
@@ -139,9 +139,9 @@ def evaluate_agent_output(
 def extract_workflow_data(
     result: Any,
     evaluate_phases: bool = False,
-    model: str = None,
-    benchmark_id: str = None,
-    original_prompt: str = None,
+    model: str | None = None,
+    benchmark_id: str | None = None,
+    original_prompt: str | None = None,
     verbose: bool = False,
 ) -> dict[str, Any]:
     """Extract full workflow data from an ``OrchestratorResult``.
