@@ -4,7 +4,9 @@ Generated 2026-04-08 during documentation audit. Updated with current findings.
 
 ## Open Drift
 
-None currently tracked. Re-run audit after structural changes.
+- Root `README.md` mermaid workflow diagram still references deleted workflows `deep_research` and `tdd_codegen`.
+- Several docs under `docs/` still mention removed workflow files such as `deep_research.yaml` and `tdd_codegen_e2e.yaml`.
+- Re-run `scripts/find-dangling-references.py` after cleanup and update this report with the resulting inventory.
 
 ## Resolved Since Prior Audit
 

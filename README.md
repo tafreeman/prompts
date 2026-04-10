@@ -322,8 +322,11 @@ cp ../.env.example ../.env
 # List available workflows
 agentic list workflows
 
+# Create a JSON input file for the workflow
+printf '%s\n' '{"input_text": "agentic AI"}' > test-input.json
+
 # Run a deterministic smoke test workflow
-agentic run test_deterministic --input input_text="agentic AI"
+agentic run test_deterministic --input test-input.json
 
 # Run with dry-run (validates DAG without executing)
 agentic run code_review --dry-run
