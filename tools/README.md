@@ -4,8 +4,10 @@ Shared utilities for the `agentic-workflows-v2` runtime, `agentic-v2-eval` evalu
 
 ## Installation
 
+The `prompts-tools` package is defined by the **repo-root** `pyproject.toml` (not inside `tools/`). Install from the repository root:
+
 ```bash
-cd tools
+# From the repo root
 pip install -e .
 ```
 
