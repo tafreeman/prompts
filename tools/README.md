@@ -9,7 +9,7 @@ cd tools
 pip install -e .
 ```
 
-Imported by the main agentic packages as `from tools.llm import LLMClient`, `from tools.core import ...`, etc.
+Imported by the main agentic packages as `from tools.llm.llm_client import LLMClient`, `from tools.core import ...`, etc.
 
 ## Modules
 
