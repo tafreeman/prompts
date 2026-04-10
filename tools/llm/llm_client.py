@@ -20,10 +20,13 @@ from __future__ import annotations
 import logging
 import os
 import sys
-from pathlib import Path
 
 from tools.llm import provider_adapters
 from tools.llm.local_models import LOCAL_MODELS
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
@@ -269,12 +272,11 @@ class LLMClient:
                 or ("gpt" in lower)
                 or ("gemini" in lower)
                 or ("claude" in lower)
-            ):
-                if not _remote_allowed():
-                    raise RuntimeError(
-                        f"Remote provider disabled by default: '{model_name}'. "
-                        "Set PROMPTEVAL_ALLOW_REMOTE=1 to enable remote providers."
-                    )
+            ) and not _remote_allowed():
+                raise RuntimeError(
+                    f"Remote provider disabled by default: '{model_name}'. "
+                    "Set PROMPTEVAL_ALLOW_REMOTE=1 to enable remote providers."
+                )
 
         logger.debug(f"[{model_name}] Processing request...")
 

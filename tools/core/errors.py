@@ -18,10 +18,10 @@ Usage::
 
 from __future__ import annotations
 
-from enum import Enum
+from enum import Enum, StrEnum
 
 
-class ErrorCode(str, Enum):
+class ErrorCode(StrEnum):
     """Standardized error codes aligned with EVALUATION_SCHEMA.md.
 
     Each member doubles as a plain ``str`` so it can be serialized

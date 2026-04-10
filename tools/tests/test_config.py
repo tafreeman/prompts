@@ -2,9 +2,12 @@
 
 from __future__ import annotations
 
-import pytest
 
 from tools.core.config import Config, ModelConfig, PathConfig
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import pytest
 
 
 class TestModelConfig:

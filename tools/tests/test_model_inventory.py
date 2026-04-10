@@ -18,8 +18,7 @@ from __future__ import annotations
 import json
 import os
 import urllib.error
-from pathlib import Path
-from typing import Any
+from typing import Any, TYPE_CHECKING
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -36,6 +35,9 @@ from tools.llm.model_inventory import (
     format_inventory_summary,
     main,
 )
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 # ---------------------------------------------------------------------------
@@ -245,7 +247,7 @@ class TestProbeHttpJson:
     def test_connection_error(self, mock_urlopen):
         """Connection error returns (False, None, error_str)."""
         mock_urlopen.side_effect = ConnectionRefusedError("refused")
-        ok, data, err = _probe_http_json("http://localhost/api")
+        ok, _data, err = _probe_http_json("http://localhost/api")
         assert ok is False
         assert "refused" in err
 
@@ -340,15 +342,14 @@ class TestBuildInventory:
         self, mock_which, mock_dns, mock_dotenv
     ):
         """When llm_client cannot be imported, inventory reports failure."""
-        with patch.dict("sys.modules", {"llm_client": None}):
-            with patch(
-                "builtins.__import__",
-                side_effect=ImportError("no module"),
-            ):
-                result = build_inventory(active_probes=False)
-                # If llm_client import fails, ok=False
-                if not result.get("ok"):
-                    assert "error" in result
+        with patch.dict("sys.modules", {"llm_client": None}), patch(
+            "builtins.__import__",
+            side_effect=ImportError("no module"),
+        ):
+            result = build_inventory(active_probes=False)
+            # If llm_client import fails, ok=False
+            if not result.get("ok"):
+                assert "error" in result
 
     @patch("tools.llm.model_inventory._load_dotenv")
     @patch("tools.llm.model_inventory._dns_resolves", return_value=False)

@@ -15,7 +15,6 @@ from __future__ import annotations
 
 import json
 import time
-from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -31,6 +30,10 @@ from tools.core.tool_init import (
     safe_str,
     with_retry,
 )
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 # ---------------------------------------------------------------------------
@@ -139,9 +142,8 @@ class TestLogEntry:
         """Unhandled exception in context logs error."""
         init = self._make_init(tmp_path)
         entry = LogEntry(init=init, item="exc")
-        with pytest.raises(ValueError):
-            with entry:
-                raise ValueError("boom")
+        with pytest.raises(ValueError), entry:
+            raise ValueError("boom")
         assert init._failed_count == 1
         assert "boom" in init._failed_items[0]["error"]
 

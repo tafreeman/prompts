@@ -60,12 +60,12 @@ def print_header(text: str, char: str = "=") -> None:
 
 def print_table(headers: list[str], rows: list[list[str]], widths: list[int]) -> None:
     """Print a formatted table."""
-    header_line = " | ".join(h.ljust(w) for h, w in zip(headers, widths))
+    header_line = " | ".join(h.ljust(w) for h, w in zip(headers, widths, strict=False))
     print(header_line)
     print("-" * len(header_line))
 
     for row in rows:
-        print(" | ".join(str(c).ljust(w)[:w] for c, w in zip(row, widths)))
+        print(" | ".join(str(c).ljust(w)[:w] for c, w in zip(row, widths, strict=False)))
 
 
 def colorize(text: str, color: str) -> str:

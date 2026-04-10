@@ -17,8 +17,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass, field
-from pathlib import Path
-from typing import Any
+from typing import Any, TYPE_CHECKING
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -31,6 +30,9 @@ from tools.agents.benchmarks.workflow_pipeline import (
     get_agent_expectations,
     save_workflow_phases_md,
 )
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 # ---------------------------------------------------------------------------
@@ -514,7 +516,7 @@ class TestExtractWorkflowData:
         with patch(
             "tools.agents.benchmarks.workflow_pipeline.evaluate_agent_output",
         ) as mock_fn:
-            data = extract_workflow_data(
+            extract_workflow_data(
                 result,
                 evaluate_phases=True,
                 model="gpt-4o",

@@ -6,7 +6,6 @@ Each ``cmd_*`` function maps to a CLI subcommand dispatched from
 
 from __future__ import annotations
 
-import argparse
 import json
 from pathlib import Path
 
@@ -22,6 +21,10 @@ from tools.agents.benchmarks.runner_ui import (
     print_header,
     print_table,
 )
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import argparse
 
 
 def cmd_list_benchmarks(args: argparse.Namespace) -> None:

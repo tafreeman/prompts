@@ -7,10 +7,12 @@ runner.py.
 
 from __future__ import annotations
 
-from pathlib import Path
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 from tools.agents.benchmarks.loader import BenchmarkTask
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 # ---------------------------------------------------------------------------
 # Optional dependency: legacy gold-standard evaluator
@@ -56,7 +58,7 @@ def evaluate_task_output_llm(
     benchmark_id: str,
     verbose: bool = False,
     output_dir: Path | None = None,
-    evaluator_model: str = None,
+    evaluator_model: str | None = None,
 ) -> dict[str, Any] | None:
     """Evaluate task output using LLM-based evaluation.
 

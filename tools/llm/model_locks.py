@@ -24,6 +24,7 @@ import logging
 import sys
 from datetime import datetime
 from pathlib import Path
+import contextlib
 
 logger = logging.getLogger(__name__)
 
@@ -72,7 +73,7 @@ def create_model_lock(model_name: str) -> Path:
     return lock_file
 
 
-def get_models_in_use(available: dict[str, Path] = None) -> dict[str, str]:
+def get_models_in_use(available: dict[str, Path] | None = None) -> dict[str, str]:
     """Check which models are currently in use by checking lock files.
     Validates PIDs are still running and cleans up stale locks.
 
@@ -113,10 +114,8 @@ def get_models_in_use(available: dict[str, Path] = None) -> dict[str, str]:
 
         except (OSError, json.JSONDecodeError):
             # Corrupted lock file - remove it
-            try:
+            with contextlib.suppress(Exception):
                 lock_file.unlink()
-            except Exception:
-                pass
 
     return in_use
 
@@ -129,10 +128,8 @@ def clear_all_locks():
     lock_dir = get_lock_dir()
     if lock_dir.exists():
         for lock_file in lock_dir.glob("*.lock"):
-            try:
+            with contextlib.suppress(Exception):
                 lock_file.unlink()
-            except Exception:
-                pass
 
 
 if __name__ == "__main__":
