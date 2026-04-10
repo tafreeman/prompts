@@ -92,7 +92,7 @@ graph TD
 
 ### Why DAG over Pipeline?
 
-Multi-agent workflows rarely execute linearly. Consider the **deep research** workflow: after an initial planning step, _two specialist analysts_ (AI-focused and SWE-focused) run in parallel over the same evidence bundle. Their outputs merge into a Chain-of-Verification (CoVe) step, which conditionally triggers another research round based on confidence scoring. A pipeline would serialize the analysts unnecessarily; a DAG with `asyncio.wait(FIRST_COMPLETED)` maximizes throughput.
+Multi-agent workflows rarely execute linearly. Consider a research-style workflow (patterned after the internal deep research graph): after an initial planning step, _two specialist analysts_ (AI-focused and SWE-focused) run in parallel over the same evidence bundle. Their outputs merge into a Chain-of-Verification (CoVe) step, which conditionally triggers another research round based on confidence scoring. A pipeline would serialize the analysts unnecessarily; a DAG with `asyncio.wait(FIRST_COMPLETED)` maximizes throughput.
 
 ### Why YAML Workflow Definitions?
 
@@ -322,8 +322,11 @@ cp ../.env.example ../.env
 # List available workflows
 agentic list workflows
 
-# Run the deep research workflow
-agentic run deep_research --input topic="agentic AI architectures"
+# Create a JSON input file for the workflow
+printf '%s\n' '{"input_text": "agentic AI"}' > test-input.json
+
+# Run a deterministic smoke test workflow
+agentic run test_deterministic --input test-input.json
 
 # Run with dry-run (validates DAG without executing)
 agentic run code_review --dry-run
@@ -396,6 +399,13 @@ langchain = ["langchain", "langchain-openai", "langchain-anthropic", "langchain-
 tracing   = ["opentelemetry-sdk", "opentelemetry-exporter-otlp-proto-grpc"]
 claude    = ["anthropic", "claude-agent-sdk"]
 ```
+
+---
+
+## Agent Guidance
+
+- Start with `AGENTS.md` for a map of human-facing agent surfaces and how they relate to the `.claude/` configuration.
+- Machine-loaded behavioral rules live in `.claude/rules/`; keep repo-wide standards there and link to them from subproject docs as needed.
 
 ---
 
