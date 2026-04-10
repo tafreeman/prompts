@@ -3,11 +3,9 @@
 from __future__ import annotations
 
 
-from tools.core.config import Config, ModelConfig, PathConfig
-from typing import TYPE_CHECKING
+import pytest
 
-if TYPE_CHECKING:
-    import pytest
+from tools.core.config import Config, ModelConfig, PathConfig
 
 
 class TestModelConfig:

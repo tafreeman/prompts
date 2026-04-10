@@ -15,16 +15,14 @@ from tools.agents.benchmarks.registry import (
     BenchmarkConfig,
     BenchmarkRegistry,
 )
+import argparse
+
 from tools.agents.benchmarks.runner_ui import (
     colorize,
     get_available_models_by_provider,
     print_header,
     print_table,
 )
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    import argparse
 
 
 def cmd_list_benchmarks(args: argparse.Namespace) -> None:

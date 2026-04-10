@@ -20,6 +20,8 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from tools.core.errors import ErrorCode
+from pathlib import Path
+
 from tools.core.tool_init import (
     LogEntry,
     ToolInit,
@@ -30,10 +32,6 @@ from tools.core.tool_init import (
     safe_str,
     with_retry,
 )
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from pathlib import Path
 
 
 # ---------------------------------------------------------------------------

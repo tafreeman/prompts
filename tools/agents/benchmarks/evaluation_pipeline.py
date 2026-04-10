@@ -7,12 +7,10 @@ runner.py.
 
 from __future__ import annotations
 
-from typing import Any, TYPE_CHECKING
+from pathlib import Path
+from typing import Any
 
 from tools.agents.benchmarks.loader import BenchmarkTask
-
-if TYPE_CHECKING:
-    from pathlib import Path
 
 # ---------------------------------------------------------------------------
 # Optional dependency: legacy gold-standard evaluator

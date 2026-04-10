@@ -8,10 +8,8 @@ Extracted from runner.py.
 from __future__ import annotations
 
 import json
-from typing import Any, TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from pathlib import Path
+from pathlib import Path
+from typing import Any
 
 # ---------------------------------------------------------------------------
 # Optional dependency: LLM-based evaluator

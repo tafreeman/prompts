@@ -18,7 +18,8 @@ from __future__ import annotations
 import json
 import os
 import urllib.error
-from typing import Any, TYPE_CHECKING
+from pathlib import Path
+from typing import Any
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -35,9 +36,6 @@ from tools.llm.model_inventory import (
     format_inventory_summary,
     main,
 )
-
-if TYPE_CHECKING:
-    from pathlib import Path
 
 
 # ---------------------------------------------------------------------------

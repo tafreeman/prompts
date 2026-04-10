@@ -9,15 +9,12 @@ from __future__ import annotations
 import json
 from collections import Counter
 from datetime import datetime
+from pathlib import Path
 
 from tools.agents.benchmarks.evaluator_models import (
     BatchEvaluationSummary,
     EvaluationResult,
 )
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from pathlib import Path
 
 # =============================================================================
 # CONSOLE REPORTING
