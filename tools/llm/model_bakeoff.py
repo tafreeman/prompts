@@ -15,6 +15,7 @@ Designed to run from Windows PowerShell outside WSL as requested.
 from __future__ import annotations
 
 import argparse
+import json
 import logging
 import os
 import statistics
