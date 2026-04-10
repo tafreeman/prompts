@@ -1,7 +1,7 @@
 # Product Backlog — tafreeman/prompts
 
 **Repository:** `tafreeman/prompts`
-**Last Updated:** 2026-03-12
+**Last Updated:** 2026-04-10
 **Health Score:** 7.9 / 10 *(post-remediation, 2026-03-03)*
 **Analysis Team:** Architecture Analyst · ML/AI Patterns Reviewer · Code Quality Auditor · Documentation & DX Reviewer
 
@@ -47,7 +47,7 @@
 
 ---
 
-## Full Backlog (33 Items — 17 Done, 3 Partial, 13 Backlog)
+## Full Backlog (44 Items — 17 Done, 3 Partial, 24 Backlog)
 
 | # | ID | Status | Sprint | Recommendation | Impact | Effort | Owner | Source |
 |---|----|--------|--------|----------------|:------:|:------:|-------|--------|
@@ -84,6 +84,17 @@
 | 31 | ARCH-10 | BACKLOG | Sprint E | Remove or implement empty configuration module — placeholder with no config logic | 3 | S | Architecture | ARCHITECTURE.md §8.3 |
 | 32 | CQ-9 | BACKLOG | Sprint E | Deduplicate tier fallback data — model tier/capability data repeated across `smart_router.py`, `backends.py`, provider modules | 3 | M | Code Quality | ARCHITECTURE.md §8.7 |
 | 33 | ARCH-11 | BACKLOG | Sprint E | Add schema versioning strategy for contracts — no mechanism to version Pydantic models in `contracts/` | 3 | M | Architecture | ARCHITECTURE.md §8.8 |
+| 34 | GOV-1 | BACKLOG | Sprint F | Refresh governance docs — rerun GitHub + context audits, align `IMPLEMENTATION_ROADMAP.md` with deferred Sprint 12 status, update `ARCHITECTURE.md` for adapter optionality, and regenerate `ADR_COMPILED.md` to include ADR-009–012 | 4 | M | Docs | Audit + roadmap alignment |
+| 35 | OPS-1 | BACKLOG | Sprint F | Stabilize failing tests referencing missing `agentic_v2.workflows.lib` — restore module or mark tests skip/xfail with documented remediation path | 5 | S | Ops | Known failing tests |
+| 36 | CQ-10 | BACKLOG | Sprint F | Complete duplicate-test cleanup from `docs/TEST_COVERAGE_ANALYSIS.md` — migrate unique cases, delete redundant files, and update the analysis doc status | 4 | M | Code Quality | TEST_COVERAGE_ANALYSIS.md |
+| 37 | CQ-11 | BACKLOG | Sprint F | Raise `tools/` package coverage to ≥60% — add focused unit tests for LLM adapters, benchmarks, and response cache while keeping 80% gate for new code | 4 | M | Code Quality | Coverage gap |
+| 38 | CI-1 | BACKLOG | Sprint F | Add CI install matrix for optional extras (base, +langchain, +rag) and fail fast on dependency conflicts or missing extras | 3 | S | Ops | Packaging/CI |
+| 39 | ARCH-12 | BACKLOG | Sprint G | Deliver deferred resilience stack — end-to-end grading loop plus backpressure/retry policies surfaced through engine/router with tests | 5 | L | Architecture | Deferred Sprint 12 |
+| 40 | OBS-1 | BACKLOG | Sprint G | Add observability: structured metrics (latency/success/token), OTEL tracing, Prometheus endpoint, and adapter visibility in run metadata | 4 | M | Ops | Observability gap |
+| 41 | DX-14 | BACKLOG | Sprint H | Expand workflow library and docs — add RAG pipeline example, adapter-switch walkthrough, and loop/condition authoring examples | 4 | M | Docs | Documentation gap |
+| 42 | BENCH-1 | BACKLOG | Sprint H | Benchmark native vs LangChain adapters — publish latency/cost/throughput results and adapter selection guidance | 3 | M | Architecture | Performance clarity |
+| 43 | SEC-1 | BACKLOG | Sprint H | Harden tool wrappers — review shell/file/http blocklists, add tests for blocked patterns, and enforce env guards | 4 | M | Security | Security posture |
+| 44 | REL-1 | BACKLOG | Sprint H | Release hygiene — create v0.1.0 tag + changelog, add release checklist, and populate GitHub repo description/topics/website | 3 | S | Ops | Release readiness |
 
 ---
 
@@ -195,6 +206,32 @@ All 4 items completed (2026-03-11 through 2026-03-12).
 | 31 | ARCH-10 | Remove or implement empty configuration module | BACKLOG |
 | 32 | CQ-9 | Deduplicate tier fallback data across router/backend modules | BACKLOG |
 | 33 | ARCH-11 | Add schema versioning strategy for `contracts/` Pydantic models | BACKLOG |
+
+### Sprint F — Hygiene & Stability
+
+| # | ID | Item | Status |
+|---|----|------|--------|
+| 34 | GOV-1 | Refresh governance docs and audits (roadmap, ADR_COMPILED, architecture optionality) | BACKLOG |
+| 35 | OPS-1 | Stabilize failing tests referencing missing `agentic_v2.workflows.lib` module | BACKLOG |
+| 36 | CQ-10 | Complete duplicate-test cleanup per `docs/TEST_COVERAGE_ANALYSIS.md` | BACKLOG |
+| 37 | CQ-11 | Raise `tools/` coverage to ≥60% with focused unit tests | BACKLOG |
+| 38 | CI-1 | Add optional-extras CI install matrix and fail-fast dependency checks | BACKLOG |
+
+### Sprint G — Resilience & Observability
+
+| # | ID | Item | Status |
+|---|----|------|--------|
+| 39 | ARCH-12 | Deliver deferred resilience/grade-loop stack from Sprint 12 | BACKLOG |
+| 40 | OBS-1 | Add metrics + tracing + adapter visibility in run metadata | BACKLOG |
+
+### Sprint H — UX & Release Readiness
+
+| # | ID | Item | Status |
+|---|----|------|--------|
+| 41 | DX-14 | Expand workflow library (RAG example, adapter-switch walkthrough) | BACKLOG |
+| 42 | BENCH-1 | Benchmark native vs LangChain adapters and publish guidance | BACKLOG |
+| 43 | SEC-1 | Harden tool wrappers and blocklists with targeted tests | BACKLOG |
+| 44 | REL-1 | Release hygiene (v0.1.0 tag, changelog, repo metadata) | BACKLOG |
 
 ---
 
