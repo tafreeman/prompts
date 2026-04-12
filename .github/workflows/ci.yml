@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
       - name: Install deps
@@ -56,17 +56,17 @@ jobs:
         run: |
           cd agentic-workflows-v2/ui
           npm run build
-      - name: Run tests
+      - name: Run tests with coverage
         run: |
           cd agentic-workflows-v2/ui
-          npm run test
+          npm run test:coverage
 
   eval-tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
       - name: Install deps
@@ -84,7 +84,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
       - name: Install deps
@@ -101,7 +101,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
       - name: Install deps
@@ -120,7 +120,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
       - name: Install deps
@@ -160,15 +160,42 @@ jobs:
           print('All critical imports verified.')
           "
 
+  cross-package-e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install workspace packages
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e "."
+          pip install -e "agentic-workflows-v2/[dev,server,langchain]"
+          pip install -e "agentic-v2-eval/[dev]"
+      - name: Run root cross-package e2e suite
+        run: |
+          python -m pytest tests/e2e/test_cross_package.py -q -m e2e
+
   security:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Install bandit
-        run: pip install bandit
-      - name: Run security scan
-        run: bandit -r agentic-workflows-v2/agentic_v2/ -ll -q
+      - name: Install security tooling
+        run: |
+          python -m pip install --upgrade pip
+          pip install bandit pip-audit
+          pip install -e "."
+          pip install -e "agentic-workflows-v2/[dev,server,langchain]"
+          pip install -e "agentic-v2-eval/[dev]"
+      - name: Run static security scan (bandit)
+        run: |
+          bandit -r agentic-workflows-v2/agentic_v2/ agentic-v2-eval/src/agentic_v2_eval/ tools/ -ll -q
+      - name: Run dependency vulnerability audit (pip-audit)
+        run: |
+          pip-audit --progress-spinner off --desc
