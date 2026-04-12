@@ -127,6 +127,10 @@ def create_app() -> FastAPI:
     # API key authentication (opt-in via AGENTIC_API_KEY env var)
     app.add_middleware(APIKeyMiddleware)
 
+    # Sanitization middleware (wraps app.state.sanitization set in lifespan)
+    from .middleware import SanitizationASGIMiddleware
+    app.add_middleware(SanitizationASGIMiddleware)
+
     # Include routes
     app.include_router(health.router, prefix="/api")
     app.include_router(agents.router, prefix="/api")
