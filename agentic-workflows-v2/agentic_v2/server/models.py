@@ -24,7 +24,15 @@ from __future__ import annotations
 import re
 from typing import Any, Literal
 
-from pydantic import BaseModel, Field, field_validator
+import yaml
+from pydantic import (
+    AliasChoices,
+    BaseModel,
+    ConfigDict,
+    Field,
+    field_validator,
+    model_validator,
+)
 
 from ..contracts import StepStatus
 
@@ -213,6 +221,55 @@ class DAGResponse(BaseModel):
     description: str = ""
     nodes: list[DAGNodeModel]
     edges: list[DAGEdgeModel]
+
+
+class WorkflowEditorRequest(BaseModel):
+    """Request body for workflow editor validate/save operations."""
+
+    model_config = ConfigDict(populate_by_name=True)
+
+    document: dict[str, Any] | None = Field(
+        default=None,
+        description="Raw YAML workflow document expressed as JSON.",
+    )
+    yaml_text: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices("yaml_text", "source"),
+        description="Raw YAML workflow document as text.",
+    )
+
+    @model_validator(mode="after")
+    def _normalize_document(self) -> "WorkflowEditorRequest":
+        if self.document is not None:
+            return self
+
+        if not self.yaml_text or not self.yaml_text.strip():
+            raise ValueError("Workflow editor request must include document or yaml_text.")
+
+        parsed = yaml.safe_load(self.yaml_text)
+        if not isinstance(parsed, dict):
+            raise ValueError("Workflow YAML must deserialize to a mapping.")
+        self.document = parsed
+        return self
+
+
+class WorkflowEditorResponse(BaseModel):
+    """Workflow editor payload with raw YAML and parsed metadata."""
+
+    name: str
+    path: str
+    yaml_text: str
+    document: dict[str, Any] = Field(default_factory=dict)
+    step_count: int = 0
+
+
+class WorkflowValidationResponse(BaseModel):
+    """Validation result for a workflow document."""
+
+    valid: bool = True
+    name: str
+    step_count: int = 0
+    yaml_text: str
 
 
 class RunSummaryModel(BaseModel):

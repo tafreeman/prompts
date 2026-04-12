@@ -1,10 +1,16 @@
 import type {
   AgentInfo,
   DAGResponse,
+  DAGEdge,
+  DAGNode,
   EvaluationDatasetsResponse,
   RunDetail,
   RunSummary,
   RunsSummary,
+  WorkflowEditorDocument,
+  WorkflowEditorMutationRequest,
+  WorkflowEditorSaveResponse,
+  WorkflowEditorValidateResponse,
   WorkflowRunRequest,
   WorkflowRunResponse,
 } from "./types";
@@ -12,12 +18,95 @@ import type {
 const BASE = "/api";
 
 async function fetchJSON<T>(url: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(url, init);
+  const requestUrl =
+    typeof window !== "undefined" && url.startsWith("/")
+      ? new URL(url, window.location.origin).toString()
+      : url;
+
+  const res = await fetch(requestUrl, init);
   if (!res.ok) {
     const text = await res.text().catch(() => res.statusText);
     throw new Error(`API ${res.status}: ${text}`);
   }
   return res.json() as Promise<T>;
+}
+
+type WorkflowEditorApiResponse = {
+  name: string;
+  path: string;
+  yaml_text: string;
+  document: Record<string, unknown>;
+  step_count: number;
+};
+
+type WorkflowValidationApiResponse = {
+  valid: boolean;
+  name: string;
+  step_count: number;
+  yaml_text: string;
+};
+
+function toWorkflowEditorDocument(
+  response: WorkflowEditorApiResponse
+): WorkflowEditorDocument {
+  const document = response.document ?? {};
+  const rawSteps = Array.isArray(document.steps)
+    ? document.steps.filter(
+        (step): step is Record<string, unknown> =>
+          typeof step === "object" && step !== null
+      )
+    : [];
+
+  const nodes: DAGNode[] = rawSteps.map((step) => ({
+    id: String(step.name ?? ""),
+    agent: typeof step.agent === "string" ? step.agent : null,
+    description: typeof step.description === "string" ? step.description : "",
+    depends_on: Array.isArray(step.depends_on)
+      ? step.depends_on.filter((value): value is string => typeof value === "string")
+      : [],
+    tier: typeof step.tier === "string" ? step.tier : null,
+  }));
+
+  const edges: DAGEdge[] = nodes.flatMap((node) =>
+    node.depends_on.map((source) => ({ source, target: node.id }))
+  );
+
+  const steps = rawSteps.map((step) => ({
+    name: String(step.name ?? ""),
+    agent: typeof step.agent === "string" ? step.agent : null,
+    description: typeof step.description === "string" ? step.description : null,
+    tier: typeof step.tier === "string" ? step.tier : null,
+    depends_on: Array.isArray(step.depends_on)
+      ? step.depends_on.filter((value): value is string => typeof value === "string")
+      : [],
+    when: typeof step.when === "string" ? step.when : null,
+    loop_until: typeof step.loop_until === "string" ? step.loop_until : null,
+    loop_max: typeof step.loop_max === "number" ? step.loop_max : null,
+    tools: Array.isArray(step.tools)
+      ? step.tools.filter((value): value is string => typeof value === "string")
+      : [],
+    prompt_file: typeof step.prompt_file === "string" ? step.prompt_file : null,
+    metadata:
+      typeof step.metadata === "object" && step.metadata !== null
+        ? (step.metadata as Record<string, unknown>)
+        : null,
+  }));
+
+  return {
+    name: response.name,
+    description:
+      typeof document.description === "string" ? document.description : "",
+    source: response.yaml_text,
+    nodes,
+    edges,
+    steps,
+    metadata:
+      typeof document.metadata === "object" && document.metadata !== null
+        ? (document.metadata as Record<string, unknown>)
+        : null,
+    read_only: false,
+    updated_at: null,
+  };
 }
 
 /** List available workflow names. */
@@ -28,6 +117,57 @@ export function listWorkflows(): Promise<{ workflows: string[] }> {
 /** Get DAG structure for a workflow. */
 export function getWorkflowDAG(name: string): Promise<DAGResponse> {
   return fetchJSON(`${BASE}/workflows/${encodeURIComponent(name)}/dag`);
+}
+
+/** Load editable workflow state for the builder UI. */
+export function getWorkflowEditor(name: string): Promise<WorkflowEditorDocument> {
+  return fetchJSON<WorkflowEditorApiResponse>(
+    `${BASE}/workflows/${encodeURIComponent(name)}/editor`
+  ).then(toWorkflowEditorDocument);
+}
+
+/** Save edited workflow source. */
+export function saveWorkflowEditor(
+  name: string,
+  request: WorkflowEditorMutationRequest
+): Promise<WorkflowEditorSaveResponse> {
+  return fetchJSON<WorkflowEditorApiResponse>(`${BASE}/workflows/${encodeURIComponent(name)}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ yaml_text: request.source }),
+  }).then((workflow) => ({
+    saved: true,
+    workflow: {
+      ...toWorkflowEditorDocument(workflow),
+      updated_at: new Date().toISOString(),
+    },
+  }));
+}
+
+/** Validate edited workflow source without saving. */
+export function validateWorkflowEditor(
+  name: string,
+  request: WorkflowEditorMutationRequest
+): Promise<WorkflowEditorValidateResponse> {
+  return fetchJSON<WorkflowValidationApiResponse>(`${BASE}/workflows/validate`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ source: request.source, name }),
+  }).then((response) => ({
+    valid: response.valid,
+    issues: [],
+    workflow: {
+      name: response.name,
+      description: "",
+      source: response.yaml_text,
+      nodes: [],
+      edges: [],
+      steps: [],
+      metadata: null,
+      read_only: false,
+      updated_at: null,
+    },
+  }));
 }
 
 /** List past runs. */

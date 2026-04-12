@@ -194,6 +194,9 @@ Agents follow `tier{N}_{role}` — e.g., `tier0_parser`, `tier1_linter`, `tier2_
 | POST | `/api/run` | Execute workflow (background task) |
 | GET | `/api/workflows` | List available workflows |
 | GET | `/api/workflows/{name}/dag` | DAG for visualization |
+| GET | `/api/workflows/{name}/editor` | Load editable workflow YAML and parsed document |
+| PUT | `/api/workflows/{name}` | Validate and persist a workflow document |
+| POST | `/api/workflows/validate` | Validate workflow YAML without saving |
 | GET | `/api/runs` | List past runs |
 | GET | `/api/runs/{run_id}/stream` | SSE event stream |
 | WS | `/ws/execution/{run_id}` | WebSocket live events |
@@ -203,6 +206,8 @@ Agents follow `tier{N}_{role}` — e.g., `tier0_parser`, `tier1_linter`, `tier2_
 2. Background task streams via `ConnectionManager` (WebSocket + SSE)
 3. Replay buffer (500 events) for late-connecting clients
 4. If evaluation enabled: scores result, emits `evaluation_complete` event
+
+**Auth and secrets:** API key auth is opt-in via `AGENTIC_API_KEY`. Protected `/api/*` routes accept `Authorization: Bearer <key>` or `X-API-Key: <key>`, WebSocket handshakes use the same header-based token path, and browser origin checks use `AGENTIC_CORS_ORIGINS`. Runtime secrets should flow through `agentic_v2.models.secrets.get_secret()` / `get_first_secret()` rather than direct environment reads.
 
 ---
 

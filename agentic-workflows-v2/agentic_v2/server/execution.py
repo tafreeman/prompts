@@ -25,30 +25,34 @@ import logging
 import os
 import time
 from datetime import datetime, timezone
-from typing import Any, Mapping
+from types import SimpleNamespace
+from typing import Any, Awaitable, Callable, Mapping
 
 from ..contracts import StepStatus, WorkflowResult
+from ..langchain.config import load_workflow_config
+from ..langchain.dependencies import (
+    is_missing_langchain_dependency_error,
+    to_missing_langchain_dependency_error,
+)
 
 # LangChain imports — optional.
 try:
     from ..langchain import WorkflowRunner as LangChainRunner
-    from ..langchain import load_workflow_config
 
     _LANGCHAIN_AVAILABLE = True
-except ImportError:
+    _LANGCHAIN_IMPORT_ERROR: ImportError | None = None
+except ImportError as exc:
+    if not is_missing_langchain_dependency_error(exc):
+        raise
     _LANGCHAIN_AVAILABLE = False
+    _LANGCHAIN_IMPORT_ERROR = to_missing_langchain_dependency_error(exc)
 
 from ..integrations.otel import create_trace_adapter
 from ..workflows.run_logger import RunLogger
 from . import websocket
 from .evaluation import score_workflow_result
 from .judge import LLMJudge
-from .result_normalization import (
-    as_dict,
-    build_step_results,
-    extract_tokens,
-    normalize_workflow_result,
-)
+from .result_normalization import as_dict, extract_tokens, normalize_workflow_result
 
 logger = logging.getLogger(__name__)
 
@@ -63,9 +67,14 @@ def _get_lc_runner():
     if not _LANGCHAIN_AVAILABLE:
         from fastapi import HTTPException
 
+        detail = (
+            str(_LANGCHAIN_IMPORT_ERROR)
+            if _LANGCHAIN_IMPORT_ERROR is not None
+            else "LangChain extras not installed. Install with: pip install -e '.[langchain]'"
+        )
         raise HTTPException(
             status_code=501,
-            detail="LangChain extras not installed. Install with: pip install -e '.[langchain]'",
+            detail=detail,
         )
     if _lc_runner is None:
         _lc_runner = LangChainRunner(trace_adapter=create_trace_adapter())
@@ -138,6 +147,7 @@ async def _run_via_native_adapter(
     workflow_name: str,
     run_id: str,
     workflow_inputs: dict[str, Any],
+    on_update: Callable[[dict[str, Any]], Awaitable[None]] | None = None,
 ) -> WorkflowResult:
     """Execute a workflow through a non-LangChain adapter and return a
     normalised :class:`WorkflowResult`.
@@ -161,7 +171,12 @@ async def _run_via_native_adapter(
     ctx = ExecutionContext(variables=dict(workflow_inputs))
 
     engine = get_registry().get_adapter(adapter_name)
-    raw = await engine.execute(dag, ctx)
+    raw = await engine.execute(
+        dag,
+        ctx,
+        on_update=on_update,
+        thread_id=run_id,
+    )
 
     return normalize_workflow_result(raw, workflow_name=workflow_name, run_id=run_id)
 
@@ -190,11 +205,17 @@ async def _stream_and_run(
         The completed :class:`WorkflowResult`.
     """
     if adapter_name != "langchain":
+        async def _broadcast_native_update(event: dict[str, Any]) -> None:
+            await websocket.manager.broadcast(run_id, event)
+
         return await _run_via_native_adapter(
-            adapter_name, workflow_name, run_id, workflow_inputs
+            adapter_name,
+            workflow_name,
+            run_id,
+            workflow_inputs,
+            on_update=_broadcast_native_update,
         )
 
-    started_at = datetime.now(timezone.utc)
     started_perf = time.perf_counter()
     step_start_times: dict[str, float] = {}
     last_status_by_step: dict[str, str] = {}
@@ -268,7 +289,7 @@ async def _stream_and_run(
                                 st = datetime.fromisoformat(start_ts_str)
                                 et = datetime.fromisoformat(end_ts_str)
                                 calc_duration = int((et - st).total_seconds() * 1000)
-                            except Exception:
+                            except ValueError:
                                 pass
 
                         if calc_duration <= 0:
@@ -316,32 +337,30 @@ async def _stream_and_run(
             resolved_outputs = as_dict(aggregated_state.get("outputs"))
 
         token_counts, models_used = _get_lc_runner().extract_metadata(aggregated_state)
-        step_results = build_step_results(
-            aggregated_state.get("steps", {}),
-            token_counts=token_counts,
-            models_used=models_used,
-        )
         errors = [str(err) for err in aggregated_state.get("errors", []) if err]
 
         overall_status = StepStatus.SUCCESS
-        if errors or any(step.status == StepStatus.FAILED for step in step_results):
+        step_state = aggregated_state.get("steps", {})
+        if errors or any(
+            isinstance(step_data, Mapping)
+            and str(step_data.get("status", "")).strip().lower() == "failed"
+            for step_data in step_state.values()
+        ):
             overall_status = StepStatus.FAILED
 
-        ended_at = datetime.now(timezone.utc)
-        metadata: dict[str, Any] = {}
-        if errors:
-            metadata["errors"] = errors
-        metadata["elapsed_seconds"] = max(0.0, time.perf_counter() - started_perf)
-
-        return WorkflowResult(
-            workflow_id=run_id,
-            workflow_name=workflow_name,
-            steps=step_results,
+        raw_result = SimpleNamespace(
+            steps=step_state,
+            token_counts=token_counts,
+            models_used=models_used,
+            errors=errors,
             overall_status=overall_status,
-            start_time=started_at,
-            end_time=ended_at,
+            elapsed_seconds=max(0.0, time.perf_counter() - started_perf),
             final_output=resolved_outputs,
-            metadata=metadata,
+        )
+        return normalize_workflow_result(
+            raw_result,
+            workflow_name=workflow_name,
+            run_id=run_id,
         )
     except Exception as stream_err:
         logger.warning("Streaming failed (%s); falling back to invoke", stream_err)

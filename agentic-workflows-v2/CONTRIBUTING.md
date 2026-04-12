@@ -20,18 +20,11 @@ Contributions are welcome for:
 ## Local Setup
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
-pip install -e ".[dev,server,langchain]"
+# From the repo root
+just setup
 ```
 
-UI setup:
-
-```bash
-cd ui
-npm install
-cd ..
-```
+If you prefer a containerized workspace, open the repo in the provided devcontainer instead of bootstrapping locally.
 
 ## Development Workflow
 
@@ -44,14 +37,10 @@ cd ..
 ## Required Local Checks
 
 ```bash
-# Python style + lint hooks
+# From the repo root
+just test
+just docs
 pre-commit run --all-files
-
-# Backend tests
-python -m pytest tests -v
-
-# Docs link checks
-python scripts/check_docs_refs.py
 ```
 
 UI checks (when frontend files changed):
@@ -60,7 +49,10 @@ UI checks (when frontend files changed):
 cd ui
 npm run build
 npm test
+npm run test:coverage
 ```
+
+The UI package enforces a 60% coverage floor in `ui/vitest.config.ts`.
 
 ## Pull Request Expectations
 
@@ -80,6 +72,7 @@ Typical mappings:
 - New environment variable: `README.md` and `docs/DEVELOPMENT.md`
 - New endpoint: `docs/API_REFERENCE.md`
 - New architecture pattern: `docs/ARCHITECTURE.md`
+- New bootstrap command or devcontainer behavior: `README.md`, `docs/ONBOARDING.md`, and `CONTRIBUTING.md`
 
 ## Code Style
 
@@ -92,6 +85,7 @@ Typical mappings:
 
 - Never commit secrets, keys, or production tokens.
 - Prefer environment variables for credentials.
+- Resolve runtime secrets through `agentic_v2.models.secrets.get_secret()` / `get_first_secret()` instead of reading `os.environ` directly in application code.
 - Follow `SECURITY.md` for vulnerability reporting.
 
 ## Need Help?

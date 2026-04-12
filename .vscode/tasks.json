@@ -774,6 +774,56 @@
 				"showReuseMessage": false
 			},
 			"group": "test"
+		},
+		{
+			"label": "Run soft-pop processing",
+			"type": "shell",
+			"command": "python process_soft_pop_2.py"
+		},
+		{
+			"label": "Show JSON content start",
+			"type": "shell",
+			"command": "python -c \"import os; p=r'c:\\Users\\tandf\\AppData\\Roaming\\Code\\User\\workspaceStorage\\789a1f73e42cd8ab075ea68fa181075c\\GitHub.copilot-chat\\chat-session-resources\\15e5f1de-19d4-4af6-b921-68b52ec2efda\\call_MHxmek5VWUVnT1UxS1NmSXJsbmM__vscode-1775999057797\\content.txt'; print(open(p, encoding='utf-8').read()[:500])\""
+		},
+		{
+			"label": "Run debug script",
+			"type": "shell",
+			"command": "python debug_json.py"
+		},
+		{
+			"label": "Run debug script 2",
+			"type": "shell",
+			"command": "python debug_json.py"
+		},
+		{
+			"label": "Run process_soft_pop_2",
+			"type": "shell",
+			"command": "python process_soft_pop_2.py"
+		},
+		{
+			"label": "List raw-themes",
+			"type": "shell",
+			"command": "ls presentation/src/tokens/raw-themes/"
+		},
+		{
+			"label": "List files with python",
+			"type": "shell",
+			"command": "python -c \"import os; print(os.listdir('presentation/src/tokens/raw-themes'))\""
+		},
+		{
+			"label": "process_soft_pop_3",
+			"type": "shell",
+			"command": "python process_soft_pop_3.py"
+		},
+		{
+			"label": "process_soft_pop_4",
+			"type": "shell",
+			"command": "python process_soft_pop_4.py"
+		},
+		{
+			"label": "Final run soft pop",
+			"type": "shell",
+			"command": "python process_soft_pop_4.py"
 		}
 	]
 }

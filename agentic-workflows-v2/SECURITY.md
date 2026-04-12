@@ -39,6 +39,9 @@ We follow coordinated disclosure:
 
 ## Hardening Guidance for Contributors
 
-- Never commit secrets, credentials, or private datasets
-- Keep API keys in environment variables
+- Never commit secrets, credentials, or private datasets.
+- Keep API keys in environment variables.
+- Resolve runtime secrets through `agentic_v2.models.secrets.get_secret()` / `get_first_secret()` instead of direct `os.environ` reads so the default provider chain, tests, and future secret backends behave consistently.
+- HTTP API authentication is opt-in with `AGENTIC_API_KEY`; protected `/api/*` routes accept `Authorization: Bearer <key>` or `X-API-Key: <key>`.
+- WebSocket clients must send credentials in headers, and browser origin checks still apply via `AGENTIC_CORS_ORIGINS`.
 - Add tests for security-sensitive behavior changes

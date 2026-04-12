@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import {
   listWorkflows,
   getWorkflowDAG,
+  getWorkflowEditor,
   listEvaluationDatasets,
 } from "../api/client";
 
@@ -17,6 +18,14 @@ export function useWorkflowDAG(name: string | undefined) {
     queryKey: ["workflow-dag", name],
     queryFn: () => getWorkflowDAG(name!),
     enabled: !!name,
+  });
+}
+
+export function useWorkflowEditor(name: string | undefined, enabled = true) {
+  return useQuery({
+    queryKey: ["workflow-editor", name],
+    queryFn: () => getWorkflowEditor(name!),
+    enabled: enabled && !!name,
   });
 }
 

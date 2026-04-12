@@ -6,7 +6,10 @@ import asyncio
 import re
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Awaitable, Callable, TypeVar
+from typing import TYPE_CHECKING, Any, Awaitable, Callable, TypeVar
+
+if TYPE_CHECKING:
+    from ..contracts.verification import VerificationPolicy
 
 from ..contracts import ReviewStatus, StepResult, StepStatus
 from ..models import ModelTier
@@ -104,7 +107,7 @@ class StepDefinition:
     depends_on: list[str] = field(default_factory=list)
 
     # I/O mapping
-    input_mapping: dict[str, str] = field(
+    input_mapping: dict[str, Any] = field(
         default_factory=dict
     )  # step_input -> context_var
     output_mapping: dict[str, str] = field(
@@ -115,6 +118,9 @@ class StepDefinition:
     pre_hooks: list[HookFunction] = field(default_factory=list)
     post_hooks: list[HookFunction] = field(default_factory=list)
     error_hooks: list[HookFunction] = field(default_factory=list)
+
+    # Verification policy (optional)
+    verify: VerificationPolicy | None = None
 
     # Metadata
     tags: list[str] = field(default_factory=list)
@@ -179,6 +185,11 @@ class StepDefinition:
     def with_post_hook(self, hook: HookFunction) -> "StepDefinition":
         """Fluent builder: Add post-execution hook."""
         self.post_hooks.append(hook)
+        return self
+
+    def with_verify(self, policy: VerificationPolicy) -> StepDefinition:
+        """Fluent builder: Set verification policy for self-correction loops."""
+        self.verify = policy
         return self
 
 

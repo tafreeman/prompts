@@ -1,4 +1,12 @@
 {
+	"inputs": [
+		{
+			"id": "api_key",
+			"type": "promptString",
+			"description": "your API key",
+			"password": true
+		}
+	],
 	"servers": {
 		"openaiDeveloperDocs": {
 			"type": "http",
@@ -17,13 +25,5 @@
 			"gallery": "https://api.mcp.github.com",
 			"version": "1.0.0"
 		}
-	},
-	"inputs": [
-		{
-			"id": "api_key",
-			"type": "promptString",
-			"description": "your API key",
-			"password": true
-		}
-	]
+	}
 }

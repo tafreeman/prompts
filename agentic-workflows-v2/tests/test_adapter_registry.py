@@ -11,6 +11,8 @@ Verifies:
 
 from __future__ import annotations
 
+import importlib
+
 import pytest
 from agentic_v2.core import AdapterError, AdapterNotFoundError
 
@@ -19,15 +21,11 @@ class TestAdapterRegistry:
     """Core registry behaviour."""
 
     def _make_registry(self):
-        """Create a fresh registry (bypasses singleton for isolation)."""
-        import threading
-
+        """Create a fresh registry via the supported test seam."""
         from agentic_v2.adapters.registry import AdapterRegistry
 
-        reg = object.__new__(AdapterRegistry)
-        reg._adapters = {}
-        reg._instance_lock = threading.Lock()
-        return reg
+        AdapterRegistry.reset_for_tests()
+        return AdapterRegistry()
 
     def test_register_and_get(self):
         from agentic_v2.adapters.registry import AdapterRegistry
@@ -86,9 +84,15 @@ class TestAdapterRegistry:
 
     def test_native_adapter_auto_registered(self):
         """Importing the adapters package auto-registers the native adapter."""
-        from agentic_v2.adapters import get_registry
+        import agentic_v2.adapters as adapters
+        import agentic_v2.adapters.native as native_adapter
 
-        reg = get_registry()
+        from agentic_v2.adapters.registry import AdapterRegistry
+
+        AdapterRegistry.reset_for_tests()
+        importlib.reload(native_adapter)
+        adapters = importlib.reload(adapters)
+        reg = adapters.get_registry()
         assert "native" in reg.list_adapters()
 
 

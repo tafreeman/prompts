@@ -19,6 +19,8 @@ The :class:`LLMBackend` :class:`Protocol` defines the minimal interface
 that concrete backends (OpenAI, Anthropic, Gemini, etc.) must implement.
 """
 
+from __future__ import annotations
+
 import asyncio
 import hashlib
 import logging
@@ -26,7 +28,11 @@ import random
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from functools import wraps
-from typing import Any, AsyncIterator, Callable, Protocol, TypeVar
+from typing import TYPE_CHECKING, Any, AsyncIterator, Callable, Protocol, TypeVar
+
+if TYPE_CHECKING:
+    from ..middleware.response_sanitizer import ResponseSanitizer
+    from ..middleware.sanitization import SanitizationMiddleware
 
 from .router import ModelTier
 from .smart_router import SmartModelRouter, get_smart_router
@@ -180,6 +186,10 @@ class LLMClientWrapper:
     log_prompts: bool = False
     log_responses: bool = False
 
+    # Sanitization (optional)
+    sanitization: SanitizationMiddleware | None = None
+    response_sanitizer: ResponseSanitizer | None = None
+
     @property
     def model_id(self) -> str | None:
         """Return the current default model ID from the router."""
@@ -296,6 +306,19 @@ class LLMClientWrapper:
         if self.log_prompts:
             logger.info(f"Prompt (tier={tier.name}): {prompt[:200]}...")
 
+        # Pre-send sanitization
+        effective_prompt = prompt
+        if self.sanitization is not None:
+            san_result = await self.sanitization.process(
+                prompt, {"source": "llm_complete", "tier": tier.name}
+            )
+            if not san_result.is_safe:
+                raise ValueError(
+                    f"Prompt blocked by sanitization: {san_result.classification.value}"
+                )
+            if san_result.sanitized_text is not None:
+                effective_prompt = san_result.sanitized_text
+
         # Use router for model selection and fallback
         async def call_model(model: str, p: str) -> tuple[str, int]:
             response = await self.backend.complete(model, p, **kwargs)
@@ -313,7 +336,7 @@ class LLMClientWrapper:
             tried.append(model)
 
             # Estimate tokens and check budget
-            prompt_tokens = self.backend.count_tokens(prompt, model)
+            prompt_tokens = self.backend.count_tokens(effective_prompt, model)
             if self.budget and not self.budget.can_afford(prompt_tokens * 2):
                 raise ValueError(
                     f"Budget exceeded: {self.budget.used_tokens}/{self.budget.max_tokens}"
@@ -322,11 +345,17 @@ class LLMClientWrapper:
             start = datetime.now(timezone.utc)
 
             try:
-                response, tokens = await call_model(model, prompt)
+                response, tokens = await call_model(model, effective_prompt)
                 latency = (datetime.now(timezone.utc) - start).total_seconds() * 1000
 
                 # Record success
                 self.router.record_success(model, latency)
+
+                # Post-receive response sanitization
+                if self.response_sanitizer is not None:
+                    resp_result = await self.response_sanitizer.sanitize_response(response)
+                    if resp_result.sanitized_text is not None:
+                        response = resp_result.sanitized_text
 
                 # Update budget
                 if self.budget:
@@ -384,18 +413,31 @@ class LLMClientWrapper:
         if model is None:
             raise RuntimeError(f"No available model for tier {tier.name}")
 
+        # Pre-send sanitization
+        effective_prompt = prompt
+        if self.sanitization is not None:
+            san_result = await self.sanitization.process(
+                prompt, {"source": "llm_stream", "tier": tier.name}
+            )
+            if not san_result.is_safe:
+                raise ValueError(
+                    f"Prompt blocked by sanitization: {san_result.classification.value}"
+                )
+            if san_result.sanitized_text is not None:
+                effective_prompt = san_result.sanitized_text
+
         start = datetime.now(timezone.utc)
         total_response = []
 
         try:
-            async for chunk in self.backend.complete_stream(model, prompt, **kwargs):
+            async for chunk in self.backend.complete_stream(model, effective_prompt, **kwargs):
                 total_response.append(chunk)
                 yield chunk
 
             # Record success after stream completes
             latency = (datetime.now(timezone.utc) - start).total_seconds() * 1000
             full_response = "".join(total_response)
-            tokens = self.backend.count_tokens(prompt + full_response, model)
+            tokens = self.backend.count_tokens(effective_prompt + full_response, model)
 
             self.router.record_success(model, latency)
 
@@ -405,6 +447,20 @@ class LLMClientWrapper:
         except Exception as e:
             self.router.record_failure(model, type(e).__name__)
             raise
+
+    def with_sanitization(
+        self,
+        sanitization: SanitizationMiddleware | None = None,
+        response_sanitizer: ResponseSanitizer | None = None,
+    ) -> None:
+        """Attach sanitization middleware to the client.
+
+        Args:
+            sanitization: Inbound prompt sanitizer.
+            response_sanitizer: Outbound response sanitizer.
+        """
+        self.sanitization = sanitization
+        self.response_sanitizer = response_sanitizer
 
     def clear_cache(self) -> int:
         """Clear response cache.

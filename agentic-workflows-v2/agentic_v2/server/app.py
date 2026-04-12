@@ -22,7 +22,6 @@ A module-level ``app`` instance is created for use by ``uvicorn`` or the
 from __future__ import annotations
 
 import logging
-import os
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -33,7 +32,7 @@ from fastapi.staticfiles import StaticFiles
 
 from ..integrations.otel import is_tracing_enabled, shutdown_tracing
 from . import websocket
-from .auth import APIKeyMiddleware
+from .auth import APIKeyMiddleware, _get_api_key, get_allowed_origins
 from .routes import agents, evaluation_routes, health, runs, workflows
 
 # Configure logging
@@ -43,23 +42,6 @@ logger = logging.getLogger(__name__)
 # Built frontend assets directory
 UI_DIST_DIR = Path(__file__).resolve().parent.parent.parent / "ui" / "dist"
 UI_DIST_DIR_RESOLVED = UI_DIST_DIR.resolve()
-
-# Allowed CORS origins (override via AGENTIC_CORS_ORIGINS env var)
-
-_CORS_ORIGINS_ENV = os.environ.get("AGENTIC_CORS_ORIGINS", "")
-CORS_ORIGINS: list[str] = (
-    [o.strip() for o in _CORS_ORIGINS_ENV.split(",") if o.strip()]
-    if _CORS_ORIGINS_ENV
-    else [
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-        "http://localhost:8000",
-        "http://127.0.0.1:8000",
-        "http://localhost:8010",
-        "http://127.0.0.1:8010",
-    ]
-)
-
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -80,7 +62,7 @@ async def lifespan(app: FastAPI):
     logger.info("Starting Agentic Workflows V2 Server")
 
     # Warn if API key auth is not configured
-    if not os.environ.get("AGENTIC_API_KEY"):
+    if not _get_api_key():
         logger.warning(
             "AGENTIC_API_KEY is not set — all API routes are publicly accessible. "
             "Set this env var to enable authentication."
@@ -98,6 +80,16 @@ async def lifespan(app: FastAPI):
         )
     except ImportError:
         logger.warning("LangChain extras not installed — skipping LLM provider probe")
+
+    # Initialize sanitization middleware
+    # Start in dry_run=True for shadow deployment; flip to False when validated
+    try:
+        from ..middleware.sanitization import SanitizationMiddleware
+        app.state.sanitization = SanitizationMiddleware.default(dry_run=True)
+        logger.info("Sanitization middleware initialized (dry_run=True)")
+    except Exception:
+        logger.exception("Failed to initialize sanitization middleware")
+        app.state.sanitization = None
 
     if is_tracing_enabled():
         logger.info("OpenTelemetry tracing is enabled")
@@ -126,7 +118,7 @@ def create_app() -> FastAPI:
     # Configure CORS
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=CORS_ORIGINS,
+        allow_origins=get_allowed_origins(),
         allow_credentials=True,
         allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         allow_headers=["Authorization", "X-API-Key", "Content-Type", "Accept"],

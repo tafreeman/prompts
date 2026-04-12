@@ -33,6 +33,8 @@ For a deeper map, see `docs/REPO_MAP.md`.
 
 ## Quick Start
 
+Contributors can bootstrap the full workspace from the repo root with `just setup`, then use `just dev`, `just test`, and `just docs` for the canonical local workflow.
+
 ### 1) Install
 
 From this directory:
@@ -107,6 +109,9 @@ Primary routes:
 - `GET /api/workflows`
 - `GET /api/workflows/{name}/dag`
 - `GET /api/workflows/{name}/capabilities`
+- `GET /api/workflows/{name}/editor`
+- `PUT /api/workflows/{name}`
+- `POST /api/workflows/validate`
 - `POST /api/run`
 - `GET /api/runs`
 - `GET /api/runs/{filename}`
@@ -127,7 +132,7 @@ See `docs/SUBAGENTS.md` for setup and examples.
 
 | Variable | Default | Purpose |
 | --- | --- | --- |
-| `AGENTIC_API_KEY` | unset | Enables API key auth for `/api/*` (except health/docs) |
+| `AGENTIC_API_KEY` | unset | Enables API key auth for `/api/*` (except health/docs); send via `Authorization: Bearer <key>` or `X-API-Key: <key>` |
 | `AGENTIC_CORS_ORIGINS` | local dev origins | Comma-separated CORS allowlist |
 | `AGENTIC_MEMORY_PATH` | unset | File path for persistent memory tools |
 | `AGENTIC_TRACING` | unset | Set `1/true/yes` to enable tracing |
@@ -145,8 +150,9 @@ See `docs/SUBAGENTS.md` for setup and examples.
 Quality checks:
 
 ```bash
+just test
+just docs
 pre-commit run --all-files
-python scripts/check_docs_refs.py
 ```
 
 Backend tests:
@@ -163,6 +169,8 @@ cd ui
 npm test
 npm run test:coverage
 ```
+
+The UI package enforces a 60% coverage floor in `ui/vitest.config.ts`.
 
 More details: `docs/DEVELOPMENT.md`.
 

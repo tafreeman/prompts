@@ -109,6 +109,14 @@ Base prefix: `/api`.
 - `GET /api/workflows/{name}/capabilities`
 - `GET /api/workflows/{workflow_name}/preview-dataset-inputs`
 
+### Workflow Editor
+
+- `GET /api/workflows/{name}/editor`
+- `PUT /api/workflows/{name}`
+- `POST /api/workflows/validate`
+
+The editor write and validate endpoints accept `WorkflowEditorRequest` payloads. Send either a parsed `document` mapping or YAML text in `yaml_text` (the legacy `source` field is still accepted for compatibility). Save responses return the normalized `name`, `path`, `yaml_text`, `document`, and `step_count`.
+
 ### Runs
 
 - `POST /api/run`
@@ -129,5 +137,7 @@ Base prefix: `/api`.
 ## Auth and Security Notes
 
 - API key auth is opt-in with `AGENTIC_API_KEY`.
+- Protected `/api/*` routes accept either `Authorization: Bearer <key>` or `X-API-Key: <key>`.
+- WebSocket clients must send the API key in headers; query-string tokens are no longer the documented transport.
 - CORS allowlist is configurable with `AGENTIC_CORS_ORIGINS`.
 - See `../SECURITY.md` for vulnerability reporting policy.
