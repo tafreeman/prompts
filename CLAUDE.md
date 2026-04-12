@@ -23,7 +23,8 @@ A monorepo for multi-agent workflow runtime, evaluation framework, and shared LL
 | `agentic-v2-eval/` | Evaluation framework (Python 3.11+) | hatchling |
 | `tools/` (prompts-tools) | Shared LLM client, benchmarks, utilities (Python 3.11+) | hatchling |
 | `agentic-workflows-v2/ui/` | React 19 dashboard | Vite 6 |
-| `presentation/` | React 19 presentation system (10 decks, 34 layouts, Storybook) | Vite 5 |
+
+> **Note:** The presentation system was extracted to its own repo at `c:\Users\tandf\source\present` (April 2026).
 
 ---
 
@@ -51,7 +52,6 @@ A monorepo for multi-agent workflow runtime, evaluation framework, and shared LL
 │   └── ui/                      # React 19 + @xyflow/react 12 + TanStack Query + Tailwind
 ├── agentic-v2-eval/             # Evaluation: rubrics, evaluators, runners, reporters
 ├── tools/                       # Shared: LLM client, benchmarks, caching, errors
-├── presentation/                # React 19 presentation system (Vite 5, Storybook)
 ├── research/                    # Research library, subagent reports
 ├── docs/                        # ARCHITECTURE.md, CODING_STANDARDS.md, ADRs (docs/adr/)
 └── .claude/                     # Commands (11), rules (12), skills (14)
@@ -66,15 +66,6 @@ A monorepo for multi-agent workflow runtime, evaluation framework, and shared LL
 - **Memory:** `MemoryStoreProtocol` (async key-value + search). Implementations: `InMemoryStore`, `RAGMemoryStore`.
 - **LLM routing:** `smart_router.py` dispatches by tier/capability. 8+ providers: OpenAI, Anthropic, Gemini, Azure OpenAI, Azure Foundry, GitHub Models, Ollama, local ONNX.
 - **Contracts:** Pydantic models in `contracts/`. **Additive-only** — never break existing schemas.
-
-### Presentation System (`presentation/`)
-
-- **Layout registry:** `layoutRegistry.register(id, Component)` — 34 layouts across 8 families (base, verge-pop, sprint, onboarding, handbook, engineering, advocacy, advocacy-dense)
-- **Deck factory:** `createDeckPreset(config)` in `App.v14.jsx` — normalizes topics, sprint nodes, theme binding
-- **Transcription:** `transcribeTopic(topic, targetFamily)` reshapes content across layout families (e.g., `info-cards` → `adv-stats`)
-- **Tokens:** `Theme` interface (15 themes), `StyleMode` interface (4 modes), all in `src/tokens/*.ts`
-- **ControlPanel:** Floating right-side drawer with DECK / THEME / STYLE / RENDER AS / EFFECTS / BACKGROUND sections
-- **Storybook:** 60 stories with global ThemeContext+ChromeContext decorator, theme/chrome toolbar selectors
 
 ---
 
@@ -127,15 +118,6 @@ python -m agentic_v2_eval evaluate results.json
 python -m agentic_v2_eval report results.json --format html
 ```
 
-### Presentation (from `presentation/`)
-
-```bash
-npm install && npm run dev       # Dev server on :5173
-npm run build                    # Vite production build
-npm run storybook                # Storybook on :6006 (60 stories, autodocs)
-npm run export:all               # Export HTML + images + PDF
-```
-
 ---
 
 ## Environment Variables
@@ -162,8 +144,6 @@ See `.env.example` for the full template. At least one LLM provider key is requi
 | `agentic-v2-eval/tests/` | 12 files | pytest + pytest-asyncio |
 | `tests/e2e/` | 1 file | pytest |
 | `agentic-workflows-v2/ui/` | — | Vitest + React Testing Library |
-| `presentation/` | 60 stories | Storybook (visual) |
-
 Test markers: `integration`, `slow`, `security`. Skip with `pytest -m 'not integration'`.
 
 ## Coding Standards
