@@ -4,7 +4,7 @@ Canonical Claude/Codex workflow configuration for this repository.
 
 ## Structure
 
-```
+```text
 .claude/
 ├── agents/         # Canonical Claude/Codex execution specialists
 ├── commands/       # Slash commands (invoked via /command-name)
@@ -21,7 +21,7 @@ Canonical Claude/Codex workflow configuration for this repository.
 Slash commands for common workflows. Invoked with `/command-name`.
 
 | Command | Purpose |
-|---------|---------|
+| ------- | ------- |
 | `build-fix` | Resolve build and type errors |
 | `checkpoint` | Run checkpoint review |
 | `code-review` | Review code changes |
@@ -55,12 +55,25 @@ When content overlaps between layers, this precedence applies:
 - **`.claude/agents/`** is the authoritative agent layer for Claude/Codex workflows in this repo.
 - **`.github/agents/`** is an optional GitHub Copilot integration surface. Update `.claude/` first, then sync `.github/agents/` only when Copilot support is intentionally being maintained.
 
+Current custom agents include:
+
+- `architect`
+- `build-error-resolver`
+- `code-reviewer`
+- `doc-updater`
+- `e2e-runner`
+- `planner`
+- `refactor-cleaner`
+- `security-reviewer`
+- `skill-architect`
+- `tdd-guide`
+
 ## Skills (14)
 
 Multi-step skill definitions with structured workflows.
 
 | Skill | Purpose |
-|-------|---------|
+| ----- | ------- |
 | `build-all` | Build and verify all packages in the monorepo |
 | `changelog-generator` | Generate changelogs from git history |
 | `code-review` | Structured code review workflow |
