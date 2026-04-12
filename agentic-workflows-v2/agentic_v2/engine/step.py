@@ -360,6 +360,32 @@ class StepExecutor:
                 for hook in step_def.post_hooks:
                     await hook(ctx, step_def)
 
+                # Run verification gate if configured
+                if step_def.verify is not None and step_def.verify.enabled:
+                    from .verification import VerificationGate, VerificationStatus as VStatus
+                    gate = VerificationGate()
+                    v_status, failing = await gate.run_checks(
+                        step_def.verify.verification_commands,
+                        stop_on_first_failure=step_def.verify.stop_on_first_failure,
+                    )
+                    result.metadata["verification_status"] = v_status.value
+                    if failing:
+                        result.metadata["verification_failing_checks"] = list(failing)
+                    if v_status != VStatus.PASSED:
+                        strategy = step_def.verify.escalation_strategy
+                        if strategy == "block":
+                            result.status = StepStatus.FAILED
+                            result.error = f"Verification failed: {', '.join(failing)}"
+                            await ctx.mark_step_failed(step_def.name, result.error)
+                            return result
+                        # "report" and "ask" just log and continue
+                        logger.warning(
+                            "Verification failed for step %r (strategy=%s): %s",
+                            step_def.name,
+                            strategy,
+                            ", ".join(failing),
+                        )
+
                 # Loop-until logic (R5): re-execute until condition is satisfied
                 if step_def.loop_until:
                     loop_iteration = result.metadata.get("loop_iteration", 1)
