@@ -86,9 +86,3 @@ class ExponentialBackoff:
             return False
         return self._current_attempt >= self.max_attempts
 
-    @property
-    def is_exhausted(self) -> bool:
-        """Check if max attempts reached."""
-        if self.max_attempts is None:
-            return False
-        return self._current_attempt >= self.max_attempts

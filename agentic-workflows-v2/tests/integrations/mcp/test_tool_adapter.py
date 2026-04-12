@@ -20,7 +20,7 @@ from agentic_v2.integrations.mcp.types import ToolDescriptor
 class TestMcpToolAdapter:
     """Test McpToolAdapter functionality."""
 
-    async def test_adapter_creation(self):
+    def test_adapter_creation(self):
         """Test creating a tool adapter."""
         tool = ToolDescriptor(
             name="test_tool",
@@ -39,7 +39,7 @@ class TestMcpToolAdapter:
         assert adapter.description == "A test tool"
         assert adapter.input_schema == tool.input_schema
 
-    async def test_schema_passthrough(self):
+    def test_schema_passthrough(self):
         """Test that JSON Schema is preserved verbatim (not reconstructed)."""
         original_schema = {
             "type": "object",
@@ -224,7 +224,7 @@ class TestMcpToolAdapter:
         # Should return some indication of no output
         assert len(result) > 0  # Not empty string
 
-    async def test_to_dict_serialization(self):
+    def test_to_dict_serialization(self):
         """Test adapter can serialize to dict for registry."""
         tool = ToolDescriptor(
             name="test_tool",
@@ -244,7 +244,7 @@ class TestMcpToolAdapter:
         assert tool_dict["input_schema"] == tool.input_schema
         assert "execute" in tool_dict  # Callable present
 
-    async def test_namespacing_prevents_collisions(self):
+    def test_namespacing_prevents_collisions(self):
         """Test tool namespacing prevents name collisions across servers."""
         tool = ToolDescriptor(
             name="common_tool",

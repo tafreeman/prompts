@@ -15,7 +15,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 import pytest
 
 from agentic_v2.integrations.mcp.protocol.client import McpProtocolClient
-from agentic_v2.integrations.mcp.runtime.backoff import BackoffStrategy
+from agentic_v2.integrations.mcp.runtime.backoff import ExponentialBackoff
 from agentic_v2.integrations.mcp.runtime.manager import (
     McpConnectionManager,
     _compute_server_signature,
@@ -89,7 +89,7 @@ class TestServerSignature:
 class TestMcpConnectionManager:
     """Test McpConnectionManager connection lifecycle."""
 
-    async def test_manager_creation(self):
+    def test_manager_creation(self):
         """Test creating connection manager."""
         manager = McpConnectionManager()
         assert manager is not None
@@ -272,7 +272,7 @@ class TestBackoffStrategy:
 
     def test_backoff_initial_delay(self):
         """Test backoff starts at 1 second."""
-        backoff = BackoffStrategy(max_attempts=5)
+        backoff = ExponentialBackoff(max_attempts=5)
         delay = backoff.next_delay()
 
         # Should be around 1 second (±20% jitter)
@@ -280,7 +280,7 @@ class TestBackoffStrategy:
 
     def test_backoff_exponential_growth(self):
         """Test backoff grows exponentially."""
-        backoff = BackoffStrategy(max_attempts=5)
+        backoff = ExponentialBackoff(max_attempts=5)
 
         delay1 = backoff.next_delay()
         delay2 = backoff.next_delay()
@@ -292,7 +292,7 @@ class TestBackoffStrategy:
 
     def test_backoff_max_delay(self):
         """Test backoff caps at max delay."""
-        backoff = BackoffStrategy(max_attempts=10, max_delay=30)
+        backoff = ExponentialBackoff(max_attempts=10, max_delay=30)
 
         # Exhaust attempts to reach max
         for _ in range(10):
@@ -303,7 +303,7 @@ class TestBackoffStrategy:
 
     def test_backoff_max_attempts_exceeded(self):
         """Test backoff returns None after max attempts."""
-        backoff = BackoffStrategy(max_attempts=3)
+        backoff = ExponentialBackoff(max_attempts=3)
 
         backoff.next_delay()  # Attempt 1
         backoff.next_delay()  # Attempt 2
@@ -314,7 +314,7 @@ class TestBackoffStrategy:
 
     def test_backoff_reset(self):
         """Test reset() restarts backoff from beginning."""
-        backoff = BackoffStrategy(max_attempts=5)
+        backoff = ExponentialBackoff(max_attempts=5)
 
         backoff.next_delay()
         backoff.next_delay()
@@ -327,8 +327,8 @@ class TestBackoffStrategy:
 
     def test_backoff_jitter_variance(self):
         """Test jitter adds variance to delays."""
-        backoff1 = BackoffStrategy(max_attempts=5)
-        backoff2 = BackoffStrategy(max_attempts=5)
+        backoff1 = ExponentialBackoff(max_attempts=5)
+        backoff2 = ExponentialBackoff(max_attempts=5)
 
         # Get delays from two independent backoff instances
         delays1 = [backoff1.next_delay() for _ in range(3)]
