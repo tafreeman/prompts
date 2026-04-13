@@ -194,6 +194,40 @@ class McpProtocolClient:
             self._pending_requests.pop(request_id, None)
             raise
 
+    async def call_tool(
+        self,
+        name: str,
+        arguments: Dict[str, Any],
+        timeout: Optional[float] = None,
+    ) -> Any:
+        """
+        Invoke a remote MCP tool via ``tools/call``.
+
+        Thin wrapper over :meth:`request` that serializes the standard
+        MCP tools/call envelope. Callers (e.g., ``McpToolAdapter``) may
+        still wrap this in their own ``asyncio.wait_for`` to enforce an
+        outer deadline.
+
+        Args:
+            name: Tool name as advertised by the server.
+            arguments: Tool arguments (JSON-serializable dict).
+            timeout: Optional per-request timeout forwarded to ``request``.
+                Defaults to :data:`TOOL_CALL_TIMEOUT` when ``None``.
+
+        Returns:
+            Parsed ``result`` payload from the server (typically a dict
+            with a ``content`` key).
+
+        Raises:
+            asyncio.TimeoutError: If the request exceeds ``timeout``.
+            McpProtocolError: If the server returns an error.
+        """
+        return await self.request(
+            "tools/call",
+            params={"name": name, "arguments": arguments},
+            timeout=timeout or TOOL_CALL_TIMEOUT,
+        )
+
     async def notify(
         self,
         method: str,
