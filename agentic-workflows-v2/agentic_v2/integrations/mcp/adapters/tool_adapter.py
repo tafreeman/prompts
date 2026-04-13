@@ -44,6 +44,7 @@ class McpToolAdapter:
         server_name: str,
         tool_descriptor: McpToolDescriptor,
         client: McpProtocolClient,
+        timeout: Optional[float] = None,
     ) -> None:
         """
         Initialize tool adapter.
@@ -66,6 +67,7 @@ class McpToolAdapter:
 
         # Preserve original JSON Schema (CRITICAL: no conversion)
         self.input_schema = tool_descriptor.input_schema
+        self._default_timeout = timeout
 
     async def execute(
         self,
@@ -82,7 +84,7 @@ class McpToolAdapter:
         Returns:
             Tool result as string (never raises exceptions to LLM)
         """
-        timeout_value = timeout or TOOL_CALL_TIMEOUT
+        timeout_value = timeout or self._default_timeout or TOOL_CALL_TIMEOUT
 
         logger.info(
             f"Executing MCP tool {self.tool_descriptor.name} on {self.server_name}"
@@ -92,14 +94,7 @@ class McpToolAdapter:
         try:
             # Call remote tool with timeout
             response = await asyncio.wait_for(
-                self.client.request(
-                    "tools/call",
-                    params={
-                        "name": self.tool_descriptor.name,
-                        "arguments": arguments,
-                    },
-                    timeout=timeout_value,
-                ),
+                self.client.call_tool(self.tool_descriptor.name, arguments),
                 timeout=timeout_value,
             )
 
@@ -127,9 +122,14 @@ class McpToolAdapter:
                     )
 
                 elif block_type == "resource":
-                    # Resource reference
-                    resource_uri = block.get("resource", {}).get("uri", "")
-                    formatted_parts.append(f"[Resource: {resource_uri}]")
+                    # Resource reference — include URI and inline text if present
+                    resource = block.get("resource", {})
+                    resource_uri = resource.get("uri", "")
+                    resource_text = resource.get("text", "")
+                    if resource_text:
+                        formatted_parts.append(f"[Resource: {resource_uri}]\n{resource_text}")
+                    else:
+                        formatted_parts.append(f"[Resource: {resource_uri}]")
 
                 else:
                     # Unknown block type
@@ -176,6 +176,7 @@ class McpToolAdapter:
             "server_name": self.server_name,
             "original_tool_name": self.tool_descriptor.name,
             "type": "mcp_tool",
+            "execute": self.execute,
         }
 
     @classmethod

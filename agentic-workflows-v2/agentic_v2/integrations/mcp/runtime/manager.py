@@ -19,6 +19,7 @@ from agentic_v2.integrations.mcp.types import (
     McpConnectionState,
     McpServerConfig,
     McpServerInfo,
+    TransportType,
     McpStdioConfig,
     McpWebSocketConfig,
 )
@@ -27,6 +28,28 @@ logger = logging.getLogger(__name__)
 
 # Auth failure suppression: cache 401s for 15 minutes
 AUTH_FAILURE_CACHE_DURATION = 15 * 60  # 15 minutes in seconds
+
+
+def _compute_server_signature(config: McpServerConfig) -> str:
+    """Compute a stable 16-char hex signature for a server config.
+
+    Two configs with the same signature represent the same server and
+    can share a connection.
+
+    Args:
+        config: Server configuration.
+
+    Returns:
+        16-character hex digest.
+    """
+    if config.transport_type == "stdio" and config.stdio is not None:
+        args_str = ":".join(config.stdio.args or [])
+        key = f"stdio:{config.stdio.command}:{args_str}"
+    elif config.transport_type == "websocket" and config.websocket is not None:
+        key = f"ws:{config.websocket.url}"
+    else:
+        key = config.model_dump_json()
+    return hashlib.sha256(key.encode()).hexdigest()[:16]
 
 
 class ConnectionMetadata:
@@ -86,40 +109,22 @@ class McpConnectionManager:
         self._lock = asyncio.Lock()
 
     def _compute_server_signature(self, config: McpServerConfig) -> str:
-        """
-        Compute unique signature for server config.
-
-        Two configs with same signature = same server, reuse connection.
-
-        Args:
-            config: Server configuration
-
-        Returns:
-            Hex digest signature
-        """
-        if isinstance(config, McpStdioConfig):
-            key = f"stdio:{config.command}:{':'.join(config.args)}"
-        elif isinstance(config, McpWebSocketConfig):
-            key = f"ws:{config.url}"
-        else:
-            # Generic fallback
-            key = f"{config.type}:{config.model_dump_json()}"
-
-        return hashlib.sha256(key.encode()).hexdigest()[:16]
+        """Delegate to module-level function for testability."""
+        return _compute_server_signature(config)
 
     async def connect(
         self,
-        name: str,
-        config: McpServerConfig,
+        config_or_name: "McpServerConfig | str",
+        config: "McpServerConfig | None" = None,
         force_new: bool = False,
     ) -> McpProtocolClient:
         """
         Connect to an MCP server (or return existing connection).
 
         Args:
-            name: Server name (for logging)
-            config: Server configuration
-            force_new: Force new connection even if one exists
+            config_or_name: Server config (single-arg form) or server name string.
+            config: Server config when config_or_name is a name string.
+            force_new: Force new connection even if one exists.
 
         Returns:
             Connected protocol client
@@ -128,12 +133,20 @@ class McpConnectionManager:
             ConnectionError: If connection fails after retries
             RuntimeError: If auth is suppressed due to recent 401
         """
+        if isinstance(config_or_name, str):
+            name: str = config_or_name
+            if config is None:
+                raise ValueError("config must be provided when name is a string")
+        else:
+            config = config_or_name
+            name = config.name
+
         async with self._lock:
             signature = self._compute_server_signature(config)
 
-            # Check for existing connection
-            if not force_new and signature in self._connections:
-                metadata = self._connections[signature]
+            # Check for existing connection by name
+            if not force_new and name in self._connections:
+                metadata = self._connections[name]
 
                 # Check auth suppression
                 if metadata.is_auth_suppressed():
@@ -170,20 +183,20 @@ class McpConnectionManager:
         Raises:
             ConnectionError: If connection fails
         """
-        # Create transport based on config type
-        if isinstance(config, McpStdioConfig):
+        # Create transport based on transport_type field
+        if config.transport_type == TransportType.STDIO and config.stdio is not None:
             transport = StdioTransport(
-                command=config.command,
-                args=config.args,
-                env=config.env,
+                command=config.stdio.command,
+                args=config.stdio.args or [],
+                env=config.stdio.env or {},
             )
-        elif isinstance(config, McpWebSocketConfig):
+        elif config.transport_type == TransportType.WEBSOCKET and config.websocket is not None:
             transport = WebSocketTransport(
-                url=config.url,
-                headers=config.headers,
+                url=config.websocket.url,
+                headers=config.websocket.headers or {},
             )
         else:
-            raise ValueError(f"Unsupported transport type: {config.type}")
+            raise ValueError(f"Unsupported or misconfigured transport: {config.transport_type}")
 
         # Create protocol client
         client = McpProtocolClient(transport)
@@ -196,7 +209,7 @@ class McpConnectionManager:
             client=client,
             backoff=backoff,
         )
-        self._connections[signature] = metadata
+        self._connections[name] = metadata
 
         # Attempt connection with backoff
         last_error: Optional[Exception] = None
@@ -207,15 +220,19 @@ class McpConnectionManager:
                 await client.connect()
 
                 # Perform initialize handshake
-                server_info = await client.initialize()
+                init_response = await client.initialize()
+                if isinstance(init_response, dict):
+                    raw_info = init_response.get("serverInfo", {})
+                    server_info = McpServerInfo.model_validate(raw_info) if raw_info else None
+                else:
+                    server_info = init_response
                 metadata.server_info = server_info
                 metadata.state = McpConnectionState.CONNECTED
                 metadata.last_error = None
                 backoff.reset()
 
-                logger.info(
-                    f"Successfully connected to {name}: {server_info.name} v{server_info.version}"
-                )
+                info_str = f"{server_info.name} v{server_info.version}" if server_info else "unknown"
+                logger.info(f"Successfully connected to {name}: {info_str}")
                 return client
 
             except asyncio.TimeoutError as e:

@@ -63,8 +63,8 @@ class TestMcpToolAdapter:
 
         adapter = McpToolAdapter("server", tool, client)
 
-        # Schema should be EXACTLY the same object (passthrough)
-        assert adapter.input_schema is original_schema
+        # Schema content must be preserved verbatim (no reconstruction)
+        assert adapter.input_schema == original_schema
 
     async def test_execute_success_text_response(self):
         """Test successful tool execution with text response."""

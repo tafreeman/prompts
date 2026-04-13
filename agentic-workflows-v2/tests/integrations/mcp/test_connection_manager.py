@@ -141,6 +141,7 @@ class TestMcpConnectionManager:
                 "agentic_v2.integrations.mcp.runtime.manager.McpProtocolClient"
             ) as MockClient:
                 mock_client = MagicMock()
+                mock_client.connect = AsyncMock()
                 mock_client.initialize = AsyncMock(
                     return_value={
                         "protocolVersion": "2024-11-05",
@@ -170,6 +171,7 @@ class TestMcpConnectionManager:
                 "agentic_v2.integrations.mcp.runtime.manager.McpProtocolClient"
             ) as MockClient:
                 mock_client = MagicMock()
+                mock_client.connect = AsyncMock()
                 mock_client.initialize = AsyncMock(
                     return_value={
                         "protocolVersion": "2024-11-05",
@@ -207,6 +209,7 @@ class TestMcpConnectionManager:
                 mock_clients = []
                 for _ in range(2):
                     mock_client = MagicMock()
+                    mock_client.connect = AsyncMock()
                     mock_client.initialize = AsyncMock(
                         return_value={
                             "protocolVersion": "2024-11-05",
@@ -247,6 +250,7 @@ class TestMcpConnectionManager:
                 mock_clients = []
                 for _ in range(2):
                     mock_client = MagicMock()
+                    mock_client.connect = AsyncMock()
                     mock_client.initialize = AsyncMock(
                         return_value={
                             "protocolVersion": "2024-11-05",

@@ -54,7 +54,7 @@ class McpWebSocketConfig(BaseModel):
     """Configuration for WebSocket transport."""
 
     type: Literal[TransportType.WEBSOCKET] = TransportType.WEBSOCKET
-    url: str = Field(..., description="WebSocket URL (ws:// or wss://)")
+    url: str = Field(..., description="WebSocket URL (ws://, wss://, http://, or https://)")
     headers: Optional[Dict[str, str]] = Field(
         None, description="Headers to send on connection"
     )
@@ -62,9 +62,11 @@ class McpWebSocketConfig(BaseModel):
     @field_validator("url")
     @classmethod
     def validate_url(cls, v: str) -> str:
-        """Ensure URL starts with ws:// or wss://."""
-        if not v.startswith(("ws://", "wss://")):
-            raise ValueError("WebSocket URL must start with ws:// or wss://")
+        """Ensure URL uses a supported WebSocket or HTTP scheme."""
+        if not v.startswith(("ws://", "wss://", "http://", "https://")):
+            raise ValueError(
+                "WebSocket URL must start with ws://, wss://, http://, or https://"
+            )
         return v
 
 
@@ -143,6 +145,10 @@ class McpToolDescriptor(BaseModel):
     input_schema: Dict[str, Any] = Field(
         ..., description="JSON Schema for tool input (preserved verbatim)"
     )
+
+
+# Alias for convenience — tests and adapters may import as ToolDescriptor
+ToolDescriptor = McpToolDescriptor
 
 
 class McpResourceDescriptor(BaseModel):
