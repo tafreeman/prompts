@@ -11,6 +11,7 @@ This directory contains architecture documentation, coding standards, decision r
 | `subagents.yml` | Canonical registry of subagent definitions |
 | `adr/` | Architecture Decision Records (ADRs) |
 | `pr-checklists/` | PR review checklists for documentation and code changes |
+| `../CHANGELOG.md` | User-facing changelog — features, fixes, and notable changes by release (at repo root) |
 
 ## Table of Contents
 - [Purpose](#purpose)

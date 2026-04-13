@@ -409,6 +409,10 @@ claude    = ["anthropic", "claude-agent-sdk"]
 
 ---
 
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for a user-facing history of features, improvements, and fixes.
+
 ## Contributing
 
 See [CONTRIBUTING.md](agentic-workflows-v2/CONTRIBUTING.md) for development guidelines, code review process, and pull request standards.

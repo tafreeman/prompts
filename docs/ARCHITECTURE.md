@@ -1,6 +1,6 @@
 # Architecture Analysis — `tafreeman/prompts` Monorepo
 
-> Generated 2026-02-27 via multi-agent codebase analysis (code-explorer + architect).
+> Generated 2026-02-27 via multi-agent codebase analysis (code-explorer + architect). Package table last updated 2026-04-13.
 
 ---
 
@@ -50,8 +50,8 @@
 | Package | Purpose | Build | Python |
 |---------|---------|-------|--------|
 | `agentic-workflows-v2/` | Main runtime — workflow execution, agents, server, UI | hatchling | >=3.11 |
-| `agentic-v2-eval/` | Evaluation framework — scorers, evaluators, runners, reporters | setuptools | >=3.10 |
-| `tools/` | Shared utilities — LLMClient, benchmarks, config, errors | setuptools | >=3.10 |
+| `agentic-v2-eval/` | Evaluation framework — scorers, evaluators, runners, reporters | hatchling | >=3.11 |
+| `tools/` | Shared utilities — LLMClient, benchmarks, config, errors | hatchling | >=3.11 |
 
 ### Module Layout (agentic-workflows-v2)
 
