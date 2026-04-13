@@ -38,7 +38,7 @@ dev = [
     "ruff>=0.1.0",
 ]
 server = [
-    "fastapi>=0.100,<1",
+    "fastapi>=0.135.3,<1",
     "uvicorn>=0.23,<1",
     "python-multipart>=0.0.6,<1",
 ]
