@@ -1,6 +1,6 @@
 # Architecture Analysis — `tafreeman/prompts` Monorepo
 
-> Generated 2026-02-27 via multi-agent codebase analysis (code-explorer + architect).
+> Generated 2026-02-27 via multi-agent codebase analysis (code-explorer + architect). Package table last updated 2026-04-13.
 
 ---
 

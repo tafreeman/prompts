@@ -4,7 +4,7 @@ All notable changes to this project are documented here.
 
 ---
 
-## [Unreleased] — April 2026
+## [Unreleased]
 
 ### New Features
 
@@ -21,8 +21,11 @@ All notable changes to this project are documented here.
 - **Release pipeline** — New tag-triggered `deploy.yml` with build provenance for reproducible releases.
 - **Performance regression detection** — Rewrote `performance-benchmark.yml` to compare against a stored baseline and fail on detected regressions.
 - **Secret sanitization rule** — Always-on sanitization middleware now redacts API keys, tokens, and passwords before they reach LLM context. Covers all agent sessions by default.
-- **Built-in tool enhancements** — `http_ops`, `search_ops`, and `shell_ops` received new capabilities and improved error handling.
-- **Backlog tracking** — Added 39 new backlog tickets covering architectural debt, test gaps, and documentation tasks.
+- **Backlog tracking** — Added 11 new backlog tickets (rows 34–44) covering architectural debt, test gaps, and documentation tasks.
+
+### Security
+
+- **P0 tool-layer hardening** — `http_ops`, `search_ops`, and `shell_ops` received critical security fixes: SSRF URL validation, shell injection blocklist (20+ blocked patterns), `shlex.split` with `shell=False`, path traversal guards, and `__builtins__` restriction in the code execution sandbox.
 
 ### Bug Fixes & Documentation
 
