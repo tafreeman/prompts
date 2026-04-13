@@ -40,7 +40,7 @@ dev = [
 server = [
     "fastapi>=0.100,<1",
     "uvicorn>=0.23,<1",
-    "python-multipart>=0.0.6,<1",
+    "python-multipart>=0.0.26,<1",
 ]
 langchain = [
     "langchain-core>=0.3,<0.4",
