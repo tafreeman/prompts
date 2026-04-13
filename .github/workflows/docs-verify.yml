@@ -47,8 +47,7 @@ jobs:
         run: |
           sudo apt-get update && sudo apt-get install -y git git-secrets
           git secrets --register-aws --global || true
-          git secrets --scan -r || true
-        # Consider failing the job on a positive match by removing '|| true' above
+          git secrets --scan -r docs docs/subagents.yml
 
       - name: Install Python deps
         run: |
