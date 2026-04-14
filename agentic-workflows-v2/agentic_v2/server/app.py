@@ -82,11 +82,11 @@ async def lifespan(app: FastAPI):
         logger.warning("LangChain extras not installed — skipping LLM provider probe")
 
     # Initialize sanitization middleware
-    # Start in dry_run=True for shadow deployment; flip to False when validated
+    # Enforcement mode: dry_run=False blocks/redacts unsafe content
     try:
         from ..middleware.sanitization import SanitizationMiddleware
-        app.state.sanitization = SanitizationMiddleware.default(dry_run=True)
-        logger.info("Sanitization middleware initialized (dry_run=True)")
+        app.state.sanitization = SanitizationMiddleware.default(dry_run=False)
+        logger.info("Sanitization middleware initialized (dry_run=False)")
     except Exception:
         logger.exception("Failed to initialize sanitization middleware")
         app.state.sanitization = None

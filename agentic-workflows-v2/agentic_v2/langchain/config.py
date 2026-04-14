@@ -7,6 +7,7 @@ The graph compiler (``graph.py``) turns configs into runnable graphs.
 
 from __future__ import annotations
 
+import functools
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -132,6 +133,7 @@ def get_workflow_path(
     )
 
 
+@functools.lru_cache(maxsize=128)
 def load_workflow_config(
     name: str,
     definitions_dir: Path | None = None,
