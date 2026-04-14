@@ -264,6 +264,7 @@ async def test_shell_tool_dangerous_command():
 
 
 @pytest.mark.asyncio
+@pytest.mark.slow
 async def test_shell_tool_timeout():
     """Test ShellTool timeout handling."""
     tool = ShellTool()
