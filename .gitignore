@@ -6,6 +6,8 @@ local.settings.json
 
 # Environment configuration
 .env
+.env.*
+!.env.example
 
 # Local-only secrets (never commit)
 prompts/tools/windows_ai_bridge/LafSecrets.local.cs

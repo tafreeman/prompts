@@ -46,7 +46,7 @@ A monorepo for multi-agent workflow runtime, evaluation framework, and shared LL
 │   │   ├── contracts/           # Pydantic I/O models (additive-only)
 │   │   ├── prompts/             # 7 agent persona definitions (.md)
 │   │   ├── server/              # FastAPI + WebSocket/SSE streaming
-│   │   ├── tools/builtin/       # 12 built-in tool modules
+│   │   ├── tools/builtin/       # 11 built-in tool modules
 │   │   └── workflows/definitions/ # 6 YAML workflow definitions
 │   ├── tests/                   # 78+ files, pytest-asyncio (auto mode)
 │   └── ui/                      # React 19 + @xyflow/react 12 + TanStack Query + Tailwind

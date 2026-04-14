@@ -337,7 +337,7 @@ agentic run code_review --dry-run
 ```bash
 # Start the FastAPI backend
 cd agentic-workflows-v2
-uvicorn agentic_v2.server.app:create_app --factory --reload --port 8000
+uvicorn agentic_v2.server.app:create_app --factory --reload --port 8010
 
 # Start the React UI (in another terminal)
 cd agentic-workflows-v2/ui

@@ -79,7 +79,7 @@ Open:
 
 ```bash
 # terminal 1
-python -m uvicorn agentic_v2.server.app:app --host 127.0.0.1 --port 8000
+python -m uvicorn agentic_v2.server.app:app --host 127.0.0.1 --port 8010
 
 # terminal 2
 cd ui
