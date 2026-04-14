@@ -1,145 +1,269 @@
-# Code Quality Audit
+# Code Quality Audit — 2026-04-14
 
-**Date:** 2026-03-17
-**Auditor:** Claude Code (automated)
-**Scope:** Dangling references, import correctness, exception handling, test coverage
+**Git SHA:** 0252c88ce93792d05d13613e0b1f431d3193d006
+**Auditor:** Claude Code (automated — Code Quality Expert role)
+**Scope:** `agentic-workflows-v2/agentic_v2/`, `agentic-v2-eval/`, `tools/`
+**Status:** Issues Found
 
----
-
-## Findings Summary
-
-| # | Severity | Finding | Impact |
-|---|----------|---------|--------|
-| CQ-1 | CRITICAL | `prompts/__init__.py` exports 7 constants for deleted `.md` files | ImportError at runtime |
-| CQ-2 | HIGH | `agents.yaml` references 12 non-existent prompt files | Agent instantiation fails |
-| CQ-3 | HIGH | 42 presentation `.tsx` files import from wrong relative path | Production build will fail |
-| CQ-4 | HIGH | `content-registry.ts` imports `.js` structure files | Rollup production build will fail |
-| CQ-5 | MEDIUM | 40+ bare `except Exception:` handlers | Swallows unexpected errors |
-| CQ-6 | LOW | 2 `print()` calls in production code | Bypasses structured logging |
+> This supersedes the 2026-03-17 audit. Prior findings CQ-1 through CQ-4 (stale prompt exports,
+> broken agent YAML references, and presentation import paths) are not in scope for this audit
+> as they target the presentation package now extracted to a separate repo.
 
 ---
 
-## Detailed Findings
+## Findings
 
-### CQ-1: Stale Prompt Exports in `__init__.py` (CRITICAL)
+### Critical
 
-**File:** `agentic-workflows-v2/agentic_v2/prompts/__init__.py`
+None identified in this pass.
 
-The module exports 7 constants that attempt to load content from deleted markdown files:
+### High
 
-| Constant | Expected File | Status |
-|----------|--------------|--------|
-| `ANALYST` | `analyst.md` | DELETED |
-| `DEBUGGER` | `debugger.md` | DELETED |
-| `JUDGE` | `judge.md` | DELETED |
-| `REASONER` | `reasoner.md` | DELETED |
-| `RESEARCHER` | `researcher.md` | DELETED |
-| `VISION` | `vision.md` | DELETED |
-| `WRITER` | `writer.md` | DELETED |
+#### H-1: Silent Exception Swallowing — 11 confirmed `except Exception: pass` blocks
 
-These files were removed in commit `d921ba0f` but the exports were not cleaned up. Any code importing these constants will get an empty string or raise a `FileNotFoundError` depending on the loader implementation.
-
-A grep of the codebase confirms none of these 7 constants are referenced anywhere outside `__init__.py` itself.
-
-**Fix:** Remove all 7 constants from `prompts/__init__.py`. A script exists at `scripts/fix-stale-prompt-exports.py`.
-
-### CQ-2: Broken Agent YAML References (HIGH)
-
-**File:** `agentic-workflows-v2/agentic_v2/agents.yaml`
-
-12 of 18 agent entries in the registry reference prompt files that no longer exist on disk:
-
-| Agent Entry | Referenced Prompt | Exists? |
-|-------------|------------------|---------|
-| analyst | `prompts/analyst.md` | No |
-| debugger | `prompts/debugger.md` | No |
-| judge | `prompts/judge.md` | No |
-| reasoner | `prompts/reasoner.md` | No |
-| researcher | `prompts/researcher.md` | No |
-| vision | `prompts/vision.md` | No |
-| writer | `prompts/writer.md` | No |
-| linter | `prompts/linter.md` | No |
-| summarizer | `prompts/summarizer.md` | No |
-| validator | `prompts/validator.md` | No |
-| developer | `prompts/developer.md` | No |
-| assembler | `prompts/assembler.md` | No |
-
-**Impact:** Instantiating any of these 12 agents will either fail or produce agents with empty system prompts, depending on error handling in the agent loader.
-
-**Fix:** Remove the 12 stale entries from `agents.yaml`, or restore the prompt files if the agents are still needed.
-
-### CQ-3: Wrong Relative Import Paths in Presentation (HIGH)
-
-**Path:** `presentation/src/components/**/*.tsx` (42 files)
-
-42 `.tsx` component files import hooks using an incorrect relative path:
-```typescript
-import { useTheme } from "../hooks/useTheme.js";
-```
-
-The actual hook files live at `./hooks/` relative to the component, not `../hooks/`. Vite's dev server resolves this automatically through its module resolution, but Rollup (used for production builds) does NOT perform this resolution. The production build will fail with unresolved import errors.
-
-**Fix:** Update all 42 import paths. A script exists at `scripts/fix-presentation-imports.py`.
-
-### CQ-4: `.js` Extension Imports in TypeScript (HIGH)
-
-**File:** `presentation/src/content/content-registry.ts`
-
-The content registry imports structure definition files using `.js` extensions:
-```typescript
-import { advocacyStructure } from "./structures/advocacy.js";
-import { sprintStructure } from "./structures/sprint.js";
-// ... 6 more
-```
-
-The actual files are `.ts`. Vite dev server auto-resolves `.js` to `.ts`, but Rollup production builds do not. This is a known gotcha documented in the project's own CLAUDE.md.
-
-**Fix:** Change all `.js` import extensions to `.ts` in `content-registry.ts`. This is also flagged in git status as a modified file.
-
-### CQ-5: Broad Exception Handling (MEDIUM)
-
-40+ instances of bare `except Exception:` (or `except Exception as e:` with only logging) across the codebase. Key locations:
+Eleven locations use `except Exception: pass` with no logging, re-raise, or fallback assignment.
+This is a rule violation (`except: pass` is **forbidden** per coding standards) and actively hides
+bugs in production.
 
 | File | Line(s) | Context |
 |------|---------|---------|
-| `cli/display.py` | 189, 225 | CLI rendering |
-| `workflows/artifact_extractor.py` | 57 | Artifact parsing |
-| `server/app.py` | multiple | Request handlers |
-| `langchain/tools.py` | multiple | Tool execution |
-| `engine/executor.py` | multiple | Step execution |
+| `engine/agent_resolver.py` | 113, 121 | Context lookup for `file_path`/`code_file` keys |
+| `agents/capabilities.py` | 380–381 | Capability introspection probe |
+| `langchain/graph_wiring.py` | 244, 265 | JSON parsing / output extraction |
+| `langchain/tools.py` | 430–431 | Tool schema introspection |
+| `integrations/tracing.py` | 83–84 | Tracer cleanup (comment says intentional) |
+| `engine/step.py` | 446–447 | Error hook invocation (comment says intentional) |
 
-The project's coding standards require specific exception types. Bare `except Exception:` masks bugs, swallows unexpected errors, and makes debugging difficult.
+The tracing and error-hook cases have inline comments explaining intent. The remaining 5 locations
+(agent_resolver, capabilities, graph_wiring×2, tools) are unprotected and should log at `DEBUG`
+or `WARNING` level so errors surface during development.
 
-**Fix:** Replace with specific exception types on a case-by-case basis. This requires judgment -- not fully scriptable.
+#### H-2: Oversized Files — 1 file exceeds 800-line gate
 
-### CQ-6: `print()` in Production Code (LOW)
+| File | Lines | Over by |
+|------|-------|---------|
+| `langchain/graph_wiring.py` | 807 | 7 |
+
+The following files are approaching the 800-line ceiling and should be watched:
+
+| File | Lines |
+|------|-------|
+| `server/evaluation_scoring.py` | 750 |
+| `langchain/runner.py` | 654 |
+| `tools/llm/local_model.py` | 641 |
+| `tools/llm/probe_discovery_providers.py` | 590 |
+| `server/judge.py` | 579 |
+| `workflows/loader.py` | 575 |
+| `server/dataset_matching.py` | 564 |
+| `contracts/messages.py` | 566 |
+| `server/multidimensional_scoring.py` | 549 |
+| `agents/test_agent.py` | 544 |
+| `agents/orchestrator.py` | 541 |
+| `agents/base.py` | 541 |
+| `tools/llm/model_probe.py` | 538 |
+| `models/smart_router.py` | 536 |
+| `tools/llm/model_inventory.py` | 534 |
+| `models/client.py` | 526 |
+| `server/execution.py` | 520 |
+| `langchain/tools.py` | 520 |
+| `engine/step.py` | 517 |
+| `tools/core/tool_init.py` | 509 |
+| `cli/main.py` | 509 |
+
+### Medium
+
+#### M-1: Broad `except Exception` — 171 occurrences across 71 files (agentic_v2 alone)
+
+The codebase relies heavily on `except Exception as e` with logging or return-value fallbacks.
+While most log the error or re-raise, the sheer volume (171 in agentic_v2, 17 in agentic-v2-eval,
+108 in tools) makes it difficult to distinguish intentional broad catches from accidental masking.
+
+High-density files (>5 occurrences each):
+
+| File | Count |
+|------|-------|
+| `langchain/tools.py` | 10 |
+| `tools/builtin/memory_ops.py` | 6 |
+| `tools/builtin/file_ops.py` | 6 |
+| `server/routes/workflows.py` | 5 |
+| `langchain/runner.py` | 5 |
+| `langchain/graph_wiring.py` | 5 |
+| `tools/builtin/transform.py` | 5 |
+| `server/routes/evaluation_routes.py` | 4 |
+| `integrations/mcp/adapters/resource_adapter.py` | 4 |
+| `agents/base.py` | 4 |
+| `agents/orchestrator.py` | 4 |
+| `integrations/mcp/transports/websocket.py` | 5 |
+
+**Recommendation:** Audit each `except Exception` site to narrow to the specific exception class
+expected. Use `except (ValueError, KeyError)` patterns where the callee raises predictable errors.
+
+#### M-2: Magic Numbers in Scoring Logic
+
+`server/scoring_criteria.py` and `server/evaluation_scoring.py` contain inline numeric literals
+that represent domain thresholds without named constants. Examples:
+
+- `0.7` / `0.3` blend weights for correctness
+- `0.75` penalty multiplier for failed correctness
+- `45.0`, `4.0`, `20.0`, `78.0`, `8.0`, `12.0` in code-quality scoring
+- `1.5`, `55.0`, `5.0` in efficiency scoring
+- `120.0` richness divisor and `6.0` key bonus in documentation scoring
+- `30.0` base, `15.0` failure penalty in documentation scoring
+- `50.0` baseline for unknown criteria, `20.0` failure adjustment
+- Score thresholds 90/80/70/60 for grade mapping (A/B/C/D/F) — these are acceptable but
+  benefit from a named `GRADE_THRESHOLDS` mapping for discoverability
+
+These literals are scattered across approximately 30 lines in scoring_criteria.py. They should be
+extracted to named constants at the top of the module (e.g. `CORRECTNESS_SUCCESS_WEIGHT = 0.7`).
+
+#### M-3: Deep Nesting — 9 files with 5+ indent levels (32+ spaces)
+
+Files confirmed to have code at 5+ levels of indentation (each level = 4 spaces):
+
+| File | Deep-nest occurrences |
+|------|----------------------|
+| `server/execution.py` | 9 |
+| `integrations/mcp/adapters/resource_adapter.py` | 5 |
+| `server/routes/runs.py` | 4 |
+| `langchain/tools.py` | 3 |
+| `workflows/loader.py` | 4 |
+| `agents/architect.py` | 4 |
+| `agents/implementations/claude_agent.py` | 3 |
+| `engine/llm_output_parsing.py` | 1 |
+| `middleware/detectors/secrets.py` | 1 |
+
+`server/execution.py` is the worst offender (9 occurrences at 32+ spaces).
+
+#### M-4: `print()` in Production Source — `agentic-v2-eval` evaluators
+
+The `agentic_v2` package itself avoids bare `print()` (CLI code uses Rich's `console.print`,
+and the single `print(json.dumps(output))` in `code_execution.py` is inside a generated
+subprocess wrapper — intentional). However, `agentic-v2-eval` source has 11 files with
+bare `print()` in non-test production code:
+
+| File | Pattern |
+|------|---------|
+| `evaluators/standard.py` | `print(f"Warning: ...")` in module-level loader |
+| `evaluators/pattern.py` | `print(f"Warning: ...")` in module-level loader |
+| `evaluators/standard.py` | `print(f"Standard eval run {i+1} failed: {e}")` |
+| `evaluators/pattern.py` | `print(f"Pattern eval run {i+1} failed: {e}")` |
+| `runners/streaming.py` | `print(result)` in docstring example (acceptable) |
+| `__main__.py` | Multiple `print()` for CLI output |
+
+The evaluator warning prints bypass structured logging and will not appear in log aggregators.
+The `__main__.py` prints are CLI output (lower priority).
+
+**Fix:** Replace evaluator `print()` calls with `logger.warning()`.
+
+#### M-5: `sys.path` Hacks in Source Code (Not Just Tests)
+
+`sys.path.insert(0, ...)` appears in 3 non-test source files:
+
+| File | Location |
+|------|----------|
+| `tools/agents/benchmarks/runner.py` | Line 33 |
+| `tools/llm/list_gemini.py` | Line 9 |
+| `agentic-workflows-v2/scripts/run_deep_research.py` | Lines 59–62 |
+
+Tests using `sys.path` in `conftest.py` are acceptable (standard pytest pattern). The source
+files above should be refactored to use proper package imports, enabled by `pip install -e .`.
+
+### Low
+
+#### L-1: TODO/FIXME Count — 2 tracked items
 
 | File | Line | Content |
 |------|------|---------|
-| `claude_sdk_agent.py` | 28 | Debug print in agent initialization |
-| `code_execution.py` | 194 | Status print in code runner |
+| `cli/main.py` | 197 | `# TODO(ADR-001): The LangChain path uses a separate...` |
+| `workflows/runner.py` | 313 | `# TODO(ADR-001): When a custom step_executor is provided...` |
 
-The project uses structured logging (`structlog`/`loguru`). These 2 `print()` calls bypass the logging pipeline, won't appear in log aggregators, and violate the coding standard against print statements.
+Both reference ADR-001 and appear intentional/tracked. No untracked `HACK` or `XXX` markers found.
 
-**Fix:** Replace with appropriate `logger.debug()` or `logger.info()` calls. A script exists at `scripts/fix-print-to-logging.py`.
+#### L-2: No Star Imports Detected
 
----
+`from x import *` — 0 instances found. Clean.
 
-## Test Coverage Assessment
+#### L-3: No Bare `except:` (Without `Exception`) Detected
 
-Overall test coverage is adequate:
-- **1,396 tests** passing across the main test suite
-- RAG module coverage at ~92% (gate: 80%)
-- 3 pre-existing test failures (known, tracked)
-- 17 tests skipped (integration/slow markers)
-
-No immediate test coverage gaps identified beyond the stale references above.
+Bare `except:` (without a type) — 0 instances found. Clean.
 
 ---
 
-## Recommended Priority
+## Metrics
 
-1. **Immediate (blocks production build):** CQ-3 (fix import paths), CQ-4 (fix `.js` extensions)
-2. **Immediate (runtime failures):** CQ-1 (remove stale exports), CQ-2 (clean agents.yaml)
-3. **Next sprint:** CQ-5 (narrow exception handlers)
-4. **Backlog:** CQ-6 (replace print with logging)
+| Metric | Value | Gate | Status |
+|--------|-------|------|--------|
+| Files > 800 lines | 1 (`graph_wiring.py` at 807) | 0 | Issues Found |
+| `except Exception: pass` (silent) | 11 | 0 | Issues Found |
+| Total `except Exception` occurrences | 296 (all packages) | — | Monitor |
+| Bare `except:` (no type) | 0 | 0 | OK |
+| Star imports | 0 | 0 | OK |
+| `sys.path` hacks in non-test source | 3 | 0 | Issues Found |
+| `print()` in production source (non-CLI, non-test) | ~6 (eval package) | 0 | Issues Found |
+| TODO/FIXME count | 2 | — | — |
+| Deep nesting (5+ levels) files | 9 | 0 | Monitor |
+| Magic number density | High (scoring_criteria.py) | 0 | Issues Found |
+
+---
+
+## Oversized Files
+
+| File | Lines | Over by |
+|------|-------|---------|
+| `agentic-workflows-v2/agentic_v2/langchain/graph_wiring.py` | 807 | 7 |
+
+Files 700–799 lines (approaching gate — monitor):
+
+| File | Lines |
+|------|-------|
+| `agentic-workflows-v2/agentic_v2/server/evaluation_scoring.py` | 750 |
+| `agentic-workflows-v2/agentic_v2/langchain/runner.py` | 654 |
+| `tools/llm/local_model.py` | 641 |
+| `tools/llm/probe_discovery_providers.py` | 590 |
+| `agentic-workflows-v2/agentic_v2/server/judge.py` | 579 |
+
+---
+
+## Recommendations
+
+1. **Fix silent exception swallows (H-1, 5 sites):** Add `logger.debug("...", exc_info=True)`
+   inside the `except Exception: pass` blocks in `agent_resolver.py`, `capabilities.py`,
+   `graph_wiring.py` (×2), and `tools.py`. Do NOT change the tracing/error-hook cases —
+   those are intentional and commented.
+
+2. **Extract scoring magic numbers to named constants (M-2):** Introduce a `_SCORING_WEIGHTS`
+   or `_THRESHOLDS` dict/dataclass at the top of `scoring_criteria.py`. This is a 30-minute
+   refactor with high readability payoff.
+
+3. **Split `langchain/graph_wiring.py` (H-2):** At 807 lines with 25+ functions, this file
+   should be split into `node_factories.py` (step node builders), `edge_wiring.py` (add_*/wire_*
+   helpers), and `graph_builder.py` (`build_graph`, `compile_graph`). The existing function
+   boundaries make this straightforward.
+
+4. **Watch `evaluation_scoring.py` (750 lines):** One more significant addition will push it
+   past the gate. Consider extracting the `compute_hard_gates` and `_step_scores` groups into
+   a `gates.py` submodule.
+
+5. **Remove `sys.path` hacks from source (M-5):** `runner.py` and `list_gemini.py` should use
+   proper package imports. Ensure `pip install -e .` is documented in the contributor setup.
+
+6. **Replace `print()` with logging in evaluators (M-4):** Two evaluator files use `print()`
+   for warnings that belong in the logging pipeline.
+
+7. **Narrow `except Exception` over time (M-1):** Prioritize the 10 densest files. Use
+   `ruff` rule `BLE001` (blind exception) to enforce this in CI once the count is reduced.
+
+---
+
+## Prior Findings Status
+
+From the 2026-03-17 audit:
+
+| Finding | Status |
+|---------|--------|
+| CQ-1: Stale prompt exports in `__init__.py` | Out of scope (presentation repo extracted) |
+| CQ-2: Broken agent YAML references | Out of scope (presentation repo extracted) |
+| CQ-3: Wrong relative import paths in presentation | Out of scope (presentation repo extracted) |
+| CQ-4: `.js` extension imports in TypeScript | Out of scope (presentation repo extracted) |
+| CQ-5: 40+ bare `except Exception:` handlers | Still present — narrowed to 11 silent, 296 total |
+| CQ-6: `print()` in production code | Partially resolved — CLI uses Rich console (correct), eval package still has raw prints |
