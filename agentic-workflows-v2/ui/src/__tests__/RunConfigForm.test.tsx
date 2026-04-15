@@ -1,7 +1,44 @@
-import { render, screen, fireEvent } from "@testing-library/react";
-import { describe, it, expect, vi } from "vitest";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import RunConfigForm from "../components/runs/RunConfigForm";
 import type { WorkflowInputSchema } from "../api/types";
+
+vi.mock("../api/client", () => ({
+  listEvaluationDatasets: vi.fn().mockResolvedValue({
+    repository: [
+      {
+        id: "repo-dataset",
+        name: "Repository Dataset",
+        source: "repository",
+        description: "A mocked repository dataset",
+        sample_count: 3,
+      },
+    ],
+    local: [
+      {
+        id: "local-dataset",
+        name: "Local Dataset",
+        source: "local",
+        description: "A mocked local dataset",
+        sample_count: 2,
+      },
+    ],
+    eval_sets: [
+      {
+        id: "quick_test",
+        name: "Quick Test",
+        description: "Displayed elsewhere",
+        datasets: ["repo-dataset"],
+      },
+    ],
+  }),
+  previewDatasetInputs: vi.fn().mockResolvedValue({
+    compatible: true,
+    reasons: [],
+    adapted_inputs: { prompt: "prefilled" },
+    dataset_meta: {},
+  }),
+}));
 
 /** Helper to build a minimal input schema. */
 function makeInput(
@@ -17,15 +54,30 @@ function makeInput(
   };
 }
 
+async function renderForm(
+  inputs: WorkflowInputSchema[],
+  onChange = vi.fn(),
+  workflowName = "test"
+) {
+  render(<RunConfigForm inputs={inputs} workflowName={workflowName} onChange={onChange} />);
+  await waitFor(() => {
+    expect(onChange).toHaveBeenCalled();
+  });
+  return { onChange };
+}
+
 describe("RunConfigForm", () => {
-  it("renders the correct number of input fields from schema", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("renders the correct number of input fields from schema", async () => {
     const inputs: WorkflowInputSchema[] = [
       makeInput({ name: "repo_url", description: "GitHub repository URL" }),
       makeInput({ name: "issue_text", description: "Issue description" }),
     ];
-    const onChange = vi.fn();
 
-    render(<RunConfigForm inputs={inputs} workflowName="test" onChange={onChange} />);
+    await renderForm(inputs);
 
     // Both fields should be rendered
     expect(screen.getByTestId("input-repo_url")).toBeInTheDocument();
@@ -35,7 +87,7 @@ describe("RunConfigForm", () => {
     expect(screen.getByTestId("workflow-inputs")).toBeInTheDocument();
   });
 
-  it("renders a select dropdown for enum inputs", () => {
+  it("renders a select dropdown for enum inputs", async () => {
     const inputs: WorkflowInputSchema[] = [
       makeInput({
         name: "language",
@@ -43,9 +95,7 @@ describe("RunConfigForm", () => {
         description: "Programming language",
       }),
     ];
-    const onChange = vi.fn();
-
-    render(<RunConfigForm inputs={inputs} workflowName="test" onChange={onChange} />);
+    await renderForm(inputs);
 
     const select = screen.getByTestId("input-language") as HTMLSelectElement;
     expect(select.tagName).toBe("SELECT");
@@ -58,14 +108,12 @@ describe("RunConfigForm", () => {
     expect(optionValues).toContain("go");
   });
 
-  it("does not mark optional fields as required", () => {
+  it("does not mark optional fields as required", async () => {
     const inputs: WorkflowInputSchema[] = [
       makeInput({ name: "optional_field", required: false }),
       makeInput({ name: "required_field", required: true }),
     ];
-    const onChange = vi.fn();
-
-    render(<RunConfigForm inputs={inputs} workflowName="test" onChange={onChange} />);
+    await renderForm(inputs);
 
     const optionalInput = screen.getByTestId(
       "input-optional_field"
@@ -78,29 +126,28 @@ describe("RunConfigForm", () => {
     expect(requiredInput.required).toBe(true);
   });
 
-  it("populates default values from schema", () => {
+  it("populates default values from schema", async () => {
     const inputs: WorkflowInputSchema[] = [
       makeInput({ name: "model", default: "gpt-4o" }),
     ];
-    const onChange = vi.fn();
-
-    render(<RunConfigForm inputs={inputs} workflowName="test" onChange={onChange} />);
+    await renderForm(inputs);
 
     const input = screen.getByTestId("input-model") as HTMLInputElement;
     expect(input.value).toBe("gpt-4o");
   });
 
-  it("shows advanced config panel with rubric and runtime options when toggled", () => {
+  it("shows advanced runtime panel with rubric and runtime options when toggled", async () => {
     const inputs: WorkflowInputSchema[] = [
       makeInput({ name: "task" }),
     ];
-    const onChange = vi.fn();
-
-    render(<RunConfigForm inputs={inputs} workflowName="test" onChange={onChange} />);
+    await renderForm(inputs);
 
     // Advanced panel should not be visible initially
     expect(screen.queryByTestId("rubric-config")).not.toBeInTheDocument();
     expect(screen.queryByTestId("runtime-config")).not.toBeInTheDocument();
+
+    expect(screen.getByTestId("evaluation-config")).toBeInTheDocument();
+    expect(screen.getByText(/score this run against a workflow-compatible dataset/i)).toBeInTheDocument();
 
     // Click toggle
     fireEvent.click(screen.getByTestId("advanced-toggle"));
@@ -114,39 +161,49 @@ describe("RunConfigForm", () => {
     const inputs: WorkflowInputSchema[] = [
       makeInput({ name: "prompt", default: "hello" }),
     ];
-    const onChange = vi.fn();
-
-    render(<RunConfigForm inputs={inputs} workflowName="test" onChange={onChange} />);
+    const { onChange } = await renderForm(inputs);
 
     // The form should emit onChange on initial render with defaults
     expect(onChange).toHaveBeenCalled();
 
-    const lastCall = onChange.mock.calls[onChange.mock.calls.length - 1]?.[0];
+    const lastCall = onChange.mock.calls.at(-1)?.[0];
     expect(lastCall).toBeDefined();
     expect(lastCall!.inputValues).toHaveProperty("prompt", "hello");
     expect(lastCall!.executionProfile).toHaveProperty("runtime", "subprocess");
     expect(lastCall!.rubricId).toBe("");
   });
 
-  it("renders textarea for object-type inputs", () => {
+  it("renders textarea for object-type inputs", async () => {
     const inputs: WorkflowInputSchema[] = [
       makeInput({ name: "config", type: "object", description: "JSON config" }),
     ];
-    const onChange = vi.fn();
-
-    render(<RunConfigForm inputs={inputs} workflowName="test" onChange={onChange} />);
+    await renderForm(inputs);
 
     const textarea = screen.getByTestId("input-config") as HTMLTextAreaElement;
     expect(textarea.tagName).toBe("TEXTAREA");
   });
 
-  it("renders no input grid when inputs array is empty", () => {
-    const onChange = vi.fn();
-
-    render(<RunConfigForm inputs={[]} workflowName="test" onChange={onChange} />);
+  it("renders no input grid when inputs array is empty", async () => {
+    await renderForm([]);
 
     expect(screen.queryByTestId("workflow-inputs")).not.toBeInTheDocument();
     // Form wrapper should still exist
     expect(screen.getByTestId("run-config-form")).toBeInTheDocument();
+  });
+
+  it("loads workflow-specific datasets and does not offer eval-set execution", async () => {
+    const inputs: WorkflowInputSchema[] = [makeInput({ name: "prompt", required: false })];
+    await renderForm(inputs, vi.fn(), "code_review");
+
+    fireEvent.click(screen.getByLabelText(/enable evaluation/i));
+
+    const sourceSelect = screen.getByRole("combobox", { name: /source/i });
+    fireEvent.change(sourceSelect, { target: { value: "repository" } });
+
+    await waitFor(() => {
+      expect(screen.getByRole("option", { name: /repository dataset/i })).toBeInTheDocument();
+    });
+
+    expect(screen.queryByRole("option", { name: /quick test/i })).not.toBeInTheDocument();
   });
 });

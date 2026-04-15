@@ -32,9 +32,7 @@ from .datasets import (
     _extract_message_text,
     _is_empty_value,
     _load_eval_config,
-    _materialize_file_input,
     _pick_first,
-    adapt_sample_to_workflow_inputs,
     list_eval_sets,
     list_local_datasets,
     list_repository_datasets,
@@ -190,9 +188,12 @@ def adapt_sample_to_workflow_inputs(
         lowered = name.lower()
         explicit = sample.get(name)
         value = explicit
+        default_value = definition.default
 
-        if value in (None, ""):
-            if "file" in lowered:
+        if _is_empty_value(value):
+            if not _is_empty_value(default_value):
+                value = default_value
+            elif "file" in lowered:
                 value = _pick_first(
                     sample,
                     [
@@ -232,10 +233,12 @@ def adapt_sample_to_workflow_inputs(
                     "backend": "fastapi",
                     "database": "postgresql",
                 }
+            elif definition.enum:
+                value = None
             else:
                 value = generic_text
 
-        if value in (None, ""):
+        if _is_empty_value(value):
             continue
 
         if definition.type == "string":

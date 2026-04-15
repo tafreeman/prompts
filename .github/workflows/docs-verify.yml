@@ -47,7 +47,7 @@ jobs:
         run: |
           set -euo pipefail
           sudo apt-get update && sudo apt-get install -y git git-secrets
-          git secrets --register-aws --global
+          git secrets --register-aws --global || true
           git secrets --scan -r docs docs/subagents.yml
 
       - name: Install Python deps

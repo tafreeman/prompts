@@ -201,8 +201,15 @@ export function runWorkflow(
 }
 
 /** List repository and local datasets for evaluation mode. */
-export function listEvaluationDatasets(): Promise<EvaluationDatasetsResponse> {
-  return fetchJSON(`${BASE}/eval/datasets`);
+export function listEvaluationDatasets(
+  workflowName?: string
+): Promise<EvaluationDatasetsResponse> {
+  const params = new URLSearchParams();
+  if (workflowName) {
+    params.set("workflow", workflowName);
+  }
+  const query = params.size > 0 ? `?${params.toString()}` : "";
+  return fetchJSON(`${BASE}/eval/datasets${query}`);
 }
 
 /** Preview how dataset sample fields will map to workflow inputs. */

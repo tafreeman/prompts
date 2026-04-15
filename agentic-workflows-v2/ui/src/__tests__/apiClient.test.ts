@@ -74,7 +74,7 @@ describe("API client", () => {
   });
 
   it("listEvaluationDatasets fetches /api/eval/datasets", async () => {
-    const mockResponse = { repository: [], local: [] };
+    const mockResponse = { repository: [], local: [], eval_sets: [] };
     vi.spyOn(globalThis, "fetch").mockResolvedValue({
       ok: true,
       json: () => Promise.resolve(mockResponse),
@@ -124,6 +124,21 @@ describe("API client", () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ source: "steps: []", name: "test" }),
     });
+  });
+
+  it("listEvaluationDatasets includes workflow when provided", async () => {
+    const mockResponse = { repository: [], local: [], eval_sets: [] };
+    vi.spyOn(globalThis, "fetch").mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve(mockResponse),
+    } as Response);
+
+    await listEvaluationDatasets("code_review");
+
+    expect(fetch).toHaveBeenCalledWith(
+      "/api/eval/datasets?workflow=code_review",
+      undefined
+    );
   });
 
   it("throws on non-OK response", async () => {

@@ -120,6 +120,59 @@ def test_adapt_sample_to_workflow_inputs_materializes_file(tmp_path: Path):
     assert path.read_text(encoding="utf-8").startswith("def add")
 
 
+def test_adapt_sample_to_workflow_inputs_uses_default_for_missing_enum(tmp_path: Path):
+    schema = {
+        "code_file": WorkflowInput(name="code_file", type="string", required=True),
+        "review_depth": WorkflowInput(
+            name="review_depth",
+            type="string",
+            required=False,
+            enum=["quick", "standard", "deep"],
+            default="standard",
+        ),
+    }
+    sample = {
+        "body": "Long review prompt that should not be assigned to review_depth.",
+        "code": "def add(a, b):\n    return a + b\n",
+    }
+
+    adapted = adapt_sample_to_workflow_inputs(
+        schema,
+        sample,
+        run_id="wf-enum-default",
+        artifacts_dir=tmp_path,
+    )
+
+    assert adapted["review_depth"] == "standard"
+    assert adapted["review_depth"] in {"quick", "standard", "deep"}
+    assert Path(adapted["code_file"]).exists()
+
+
+def test_adapt_sample_to_workflow_inputs_preserves_explicit_enum_value(tmp_path: Path):
+    schema = {
+        "review_depth": WorkflowInput(
+            name="review_depth",
+            type="string",
+            required=False,
+            enum=["quick", "standard", "deep"],
+            default="standard",
+        ),
+    }
+    sample = {
+        "review_depth": "deep",
+        "body": "Fallback text should not override explicit enum values.",
+    }
+
+    adapted = adapt_sample_to_workflow_inputs(
+        schema,
+        sample,
+        run_id="wf-enum-explicit",
+        artifacts_dir=tmp_path,
+    )
+
+    assert adapted["review_depth"] == "deep"
+
+
 def test_score_workflow_result_includes_all_criteria():
     result = _build_result(StepStatus.SUCCESS)
     evaluation = score_workflow_result(
@@ -451,6 +504,51 @@ def test_hybrid_score_with_mock_judge():
     assert with_judge["weighted_score"] < without_judge["weighted_score"]
     assert with_judge["judge"] is not None
     assert with_judge["score_layers"]["layer2_judge"] is not None
+
+
+def test_hybrid_score_with_mock_judge_and_workflow_config_criteria():
+    def _provider(*, prompt: str, model: str, temperature: float):
+        assert "Schema" in prompt
+        return {
+            "criteria": [
+                {"name": "correctness_rubric", "score": 4, "evidence": "solid"},
+                {"name": "code_quality", "score": 4, "evidence": "solid"},
+            ]
+        }
+
+    workflow_def = WorkflowDefinition(
+        name="workflow-config-criteria",
+        outputs=_build_workflow_definition().outputs,
+        evaluation=WorkflowEvaluation(
+            criteria=[
+                WorkflowCriterion(
+                    name="correctness_rubric",
+                    definition="How correct the review output is.",
+                    scale={"1": "poor", "5": "excellent"},
+                    weight=0.7,
+                    formula_id="zero_one",
+                ),
+                WorkflowCriterion(
+                    name="code_quality",
+                    definition="How actionable and clear the review is.",
+                    scale={"1": "poor", "5": "excellent"},
+                    weight=0.3,
+                    formula_id="zero_one",
+                ),
+            ]
+        ),
+    )
+
+    evaluation = score_workflow_result(
+        _build_result(StepStatus.SUCCESS),
+        dataset_meta={"source": "local"},
+        dataset_sample={"code_file": "x.py"},
+        workflow_definition=workflow_def,
+        judge=LLMJudge(response_provider=_provider, model_version="mock-judge-criteria"),
+    )
+
+    assert evaluation["judge"] is not None
+    assert evaluation["score_layers"]["layer2_judge"] is not None
 
 
 def test_hybrid_hard_gates_still_override():
