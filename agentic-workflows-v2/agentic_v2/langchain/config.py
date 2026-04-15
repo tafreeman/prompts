@@ -108,6 +108,30 @@ class WorkflowConfig:
 _DEFAULT_DEFINITIONS_DIR = Path(__file__).parent.parent / "workflows" / "definitions"
 
 
+def get_workflow_path(
+    name: str,
+    definitions_dir: Path | None = None,
+    *,
+    must_exist: bool = True,
+) -> Path:
+    """Resolve the filesystem path for a workflow YAML file."""
+    base = _resolve_definitions_dir(definitions_dir)
+    normalized_name = _validate_workflow_name(name)
+
+    yaml_path = _resolve_workflow_path(base, normalized_name, ".yaml")
+    if yaml_path.exists() or not must_exist:
+        return yaml_path
+
+    yml_path = _resolve_workflow_path(base, normalized_name, ".yml")
+    if yml_path.exists():
+        return yml_path
+
+    available = list_workflows(definitions_dir)
+    raise FileNotFoundError(
+        f"Workflow '{normalized_name}' not found in {base}. Available: {available}"
+    )
+
+
 def load_workflow_config(
     name: str,
     definitions_dir: Path | None = None,
@@ -122,39 +146,102 @@ def load_workflow_config(
         Directory containing YAML files.  Defaults to the package's
         built-in ``workflows/definitions/`` folder.
     """
-    base = definitions_dir or _DEFAULT_DEFINITIONS_DIR
-    base = base.resolve()
-
-    # Validate name strictly to prevent path traversal or absolute paths.
-    # Allow only word chars, dash, dot, and underscore (e.g. "my-workflow.v1").
-    if not re.fullmatch(r"[A-Za-z0-9_.-]+", name):
-        raise ValueError(f"Invalid workflow name: {name}")
-
-    # First try .yaml, then .yml
-    try:
-        path = ensure_within_base(base / f"{name}.yaml", base)
-    except ValueError as exc:
-        raise ValueError(f"Invalid workflow name: {name}") from exc
-    if not path.exists():
-        try:
-            path = ensure_within_base(base / f"{name}.yml", base)
-        except ValueError as exc:
-            raise ValueError(f"Invalid workflow name: {name}") from exc
-
-    if not path.exists():
-        available = list_workflows(definitions_dir)
-        raise FileNotFoundError(
-            f"Workflow '{name}' not found in {base}. Available: {available}"
-        )
+    path = get_workflow_path(name, definitions_dir=definitions_dir)
     return _parse_file(path)
 
 
 def list_workflows(definitions_dir: Path | None = None) -> list[str]:
     """List available workflow names."""
-    base = definitions_dir or _DEFAULT_DEFINITIONS_DIR
+    base = _resolve_definitions_dir(definitions_dir)
     if not base.exists():
         return []
     return sorted(p.stem for p in base.iterdir() if p.suffix in (".yaml", ".yml"))
+
+
+def load_workflow_document(
+    name: str,
+    definitions_dir: Path | None = None,
+) -> tuple[Path, dict[str, Any], str]:
+    """Load the raw workflow YAML document and its source text."""
+    path = get_workflow_path(name, definitions_dir=definitions_dir)
+    source = path.read_text(encoding="utf-8")
+    data = yaml.safe_load(source)
+    if not isinstance(data, dict):
+        raise ValueError(f"Workflow YAML must be a mapping: {path}")
+    return path, data, source
+
+
+def render_workflow_document(document: dict[str, Any]) -> str:
+    """Render a workflow document to YAML while preserving key order."""
+    return yaml.safe_dump(document, sort_keys=False, allow_unicode=True)
+
+
+def validate_workflow_document(
+    document: dict[str, Any],
+    *,
+    expected_name: str | None = None,
+) -> WorkflowConfig:
+    """Validate a raw workflow document and return the parsed config."""
+    if not isinstance(document, dict):
+        raise ValueError("Workflow document must be a mapping.")
+
+    default_name = _validate_workflow_name(expected_name or document.get("name", ""))
+    doc_name = document.get("name")
+    if doc_name is not None and str(doc_name) != default_name:
+        raise ValueError(
+            f"Workflow document name {doc_name!r} does not match requested workflow "
+            f"name {default_name!r}."
+        )
+
+    raw_steps = document.get("steps")
+    if not isinstance(raw_steps, list) or not raw_steps:
+        raise ValueError("Workflow document must define a non-empty 'steps' list.")
+
+    seen_step_names: set[str] = set()
+    for index, raw_step in enumerate(raw_steps):
+        if not isinstance(raw_step, dict):
+            raise ValueError(f"Workflow step #{index} must be a mapping.")
+        step_name = raw_step.get("name")
+        if not isinstance(step_name, str) or not step_name.strip():
+            raise ValueError(f"Workflow step #{index} is missing required 'name'.")
+        if step_name in seen_step_names:
+            raise ValueError(f"Workflow step name {step_name!r} is duplicated.")
+        seen_step_names.add(step_name)
+
+        depends_on = raw_step.get("depends_on", [])
+        if depends_on is not None and (
+            not isinstance(depends_on, list)
+            or any(not isinstance(item, str) or not item for item in depends_on)
+        ):
+            raise ValueError(
+                f"Workflow step {step_name!r} has invalid 'depends_on' values."
+            )
+
+        for field_name in ("inputs", "outputs"):
+            raw_mapping = raw_step.get(field_name, {})
+            if raw_mapping is not None and not isinstance(raw_mapping, dict):
+                raise ValueError(
+                    f"Workflow step {step_name!r} has invalid '{field_name}' mapping."
+                )
+
+    config = _parse(document, default_name)
+    return config
+
+
+def save_workflow_document(
+    name: str,
+    document: dict[str, Any],
+    definitions_dir: Path | None = None,
+) -> tuple[Path, dict[str, Any], WorkflowConfig, str]:
+    """Validate and persist a workflow document to disk."""
+    config = validate_workflow_document(document, expected_name=name)
+    path = get_workflow_path(name, definitions_dir=definitions_dir, must_exist=False)
+    persisted_document = dict(document)
+    persisted_document.setdefault("name", name)
+    yaml_text = render_workflow_document(persisted_document)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(yaml_text, encoding="utf-8")
+    return path, persisted_document, config, yaml_text
 
 
 # ---------------------------------------------------------------------------
@@ -168,6 +255,24 @@ def _parse_file(path: Path) -> WorkflowConfig:
     if not isinstance(data, dict):
         raise ValueError(f"Workflow YAML must be a mapping: {path}")
     return _parse(data, path.stem)
+
+
+def _resolve_definitions_dir(definitions_dir: Path | None) -> Path:
+    base = definitions_dir or _DEFAULT_DEFINITIONS_DIR
+    return base.resolve()
+
+
+def _validate_workflow_name(name: str) -> str:
+    if not isinstance(name, str) or not name or not re.fullmatch(r"[A-Za-z0-9_.-]+", name):
+        raise ValueError(f"Invalid workflow name: {name}")
+    return name
+
+
+def _resolve_workflow_path(base: Path, name: str, suffix: str) -> Path:
+    try:
+        return ensure_within_base(base / f"{name}{suffix}", base)
+    except ValueError as exc:
+        raise ValueError(f"Invalid workflow name: {name}") from exc
 
 
 def _parse(data: dict[str, Any], default_name: str) -> WorkflowConfig:

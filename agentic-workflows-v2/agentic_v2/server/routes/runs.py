@@ -13,7 +13,6 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
-import os
 from pathlib import Path
 from typing import Any
 
@@ -21,6 +20,7 @@ from fastapi import APIRouter, HTTPException
 from fastapi.responses import StreamingResponse
 
 from ...utils.path_safety import is_within_base
+from ...models.secrets import get_secret
 
 # LangChain imports — optional at the package level.
 try:
@@ -146,10 +146,10 @@ async def get_run(filename: str):
                             parts = val.split("|", 1)
                             if len(parts) > 1:
                                 env_key = parts[0][4:]
-                                val = os.environ.get(env_key, parts[1])
+                                val = get_secret(env_key, default=parts[1])
                             else:
                                 env_key = val[4:]
-                                val = os.environ.get(env_key, val)
+                                val = get_secret(env_key, default=val)
 
                         step["model_used"] = val
                         # Mark as inferred (optional, maybe distinct UI style?)

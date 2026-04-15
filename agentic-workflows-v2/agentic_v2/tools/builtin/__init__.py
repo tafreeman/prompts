@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from .build_ops import BuildAppTool
 from .code_analysis import AstDumpTool, CodeAnalysisTool
+from .code_execution import CodeExecutionTool
 
 # Import all tool classes
 from .context_ops import ContextTrimTool, TokenEstimateTool
@@ -69,6 +70,8 @@ __all__ = [
     # Code analysis
     "CodeAnalysisTool",
     "AstDumpTool",
+    # Code execution
+    "CodeExecutionTool",
     # Build verification
     "BuildAppTool",
     # Search operations

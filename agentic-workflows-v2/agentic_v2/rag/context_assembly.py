@@ -17,6 +17,7 @@ Security note:
 from __future__ import annotations
 
 import logging
+import re
 from typing import Callable
 
 from .contracts import RAGResponse, RetrievalResult
@@ -28,24 +29,94 @@ logger = logging.getLogger(__name__)
 # untrusted retrieved data, never as instructions.
 CONTEXT_DELIMITER_START = "<retrieved_context>"
 CONTEXT_DELIMITER_END = "</retrieved_context>"
-
-# Overhead tokens per framed chunk (delimiters + newlines).
-# Used to account for framing cost in the token budget.
-_FRAMING_OVERHEAD_CHARS = (
-    len(CONTEXT_DELIMITER_START) + len(CONTEXT_DELIMITER_END) + 2  # newlines
-)
+_CONTROL_CHAR_PATTERN = re.compile(r"[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]")
 
 
-def frame_content(content: str) -> str:
-    """Wrap retrieved content in delimiter tags for prompt injection defense.
+def sanitize_content(content: str) -> str:
+    """Normalize retrieved content before it reaches the model.
+
+    The sanitization step deliberately avoids semantic rewriting. It removes
+    control characters, neutralizes attempts to smuggle retrieval delimiters,
+    and prefixes each line so instruction-like text is preserved as quoted data.
+    """
+    normalized = content.replace("\r\n", "\n").replace("\r", "\n")
+    normalized = _CONTROL_CHAR_PATTERN.sub(" ", normalized)
+    normalized = normalized.replace(
+        CONTEXT_DELIMITER_START,
+        "[blocked-retrieved-context-start]",
+    )
+    normalized = normalized.replace(
+        CONTEXT_DELIMITER_END,
+        "[blocked-retrieved-context-end]",
+    )
+
+    quoted_lines = [f"| {line}" if line else "|" for line in normalized.split("\n")]
+    return "\n".join(quoted_lines)
+
+
+def sanitize_provenance_value(value: object | None) -> str:
+    """Normalize provenance metadata so it cannot forge wrapper structure."""
+    normalized = "" if value is None else str(value)
+    normalized = normalized.replace("\r\n", "\n").replace("\r", "\n")
+    normalized = _CONTROL_CHAR_PATTERN.sub(" ", normalized)
+    normalized = normalized.replace(
+        CONTEXT_DELIMITER_START,
+        "[blocked-retrieved-context-start]",
+    )
+    normalized = normalized.replace(
+        CONTEXT_DELIMITER_END,
+        "[blocked-retrieved-context-end]",
+    )
+    return " ".join(part for part in normalized.split("\n") if part).strip() or "unknown"
+
+
+def frame_content(
+    content: str,
+    *,
+    document_id: str | None = None,
+    chunk_id: str | None = None,
+    score: float | None = None,
+    metadata: dict[str, object] | None = None,
+) -> str:
+    """Wrap retrieved content in a provenance-aware untrusted-data envelope.
 
     Args:
         content: Raw retrieved chunk content.
+        document_id: Source document identifier, when available.
+        chunk_id: Source chunk identifier, when available.
+        score: Retrieval relevance score, when available.
+        metadata: Optional retrieval metadata used for provenance hints.
 
     Returns:
         Content wrapped in ``<retrieved_context>`` delimiters.
     """
-    return f"{CONTEXT_DELIMITER_START}\n{content}\n{CONTEXT_DELIMITER_END}"
+    safe_content = sanitize_content(content)
+    provenance_lines = [
+        "trust_level: untrusted_retrieved_data",
+        f"document_id: {sanitize_provenance_value(document_id)}",
+        f"chunk_id: {sanitize_provenance_value(chunk_id)}",
+    ]
+    if score is not None:
+        provenance_lines.append(f"retrieval_score: {score:.4f}")
+
+    if metadata:
+        source = metadata.get("source")
+        if isinstance(source, str) and source.strip():
+            provenance_lines.append(
+                f"source: {sanitize_provenance_value(source)}"
+            )
+
+    provenance_block = "\n".join(provenance_lines)
+    return (
+        f"{CONTEXT_DELIMITER_START}\n"
+        "[retrieval_provenance]\n"
+        f"{provenance_block}\n"
+        "[/retrieval_provenance]\n"
+        "[retrieved_data]\n"
+        f"{safe_content}\n"
+        "[/retrieved_data]\n"
+        f"{CONTEXT_DELIMITER_END}"
+    )
 
 
 def _default_token_estimator(text: str) -> int:
@@ -115,14 +186,19 @@ class TokenBudgetAssembler:
         assembled: list[RetrievalResult] = []
         tokens_used = 0
 
-        framing_overhead = (
-            self._estimate_tokens("x" * _FRAMING_OVERHEAD_CHARS)
-            if self._frame_results
-            else 0
-        )
-
         for result in sorted_results:
-            result_tokens = self._estimate_tokens(result.content) + framing_overhead
+            framed_content = (
+                frame_content(
+                    result.content,
+                    document_id=result.document_id,
+                    chunk_id=result.chunk_id,
+                    score=result.score,
+                    metadata=result.metadata,
+                )
+                if self._frame_results
+                else result.content
+            )
+            result_tokens = self._estimate_tokens(framed_content)
             if tokens_used + result_tokens > self._max_tokens:
                 logger.debug(
                     "Token budget exhausted at %d/%d tokens, "
@@ -135,11 +211,11 @@ class TokenBudgetAssembler:
 
             if self._frame_results:
                 framed = RetrievalResult(
-                    content=frame_content(result.content),
+                    content=framed_content,
                     score=result.score,
                     document_id=result.document_id,
                     chunk_id=result.chunk_id,
-                    metadata=result.metadata,
+                    metadata=dict(result.metadata),
                 )
                 assembled.append(framed)
             else:
@@ -156,5 +232,6 @@ class TokenBudgetAssembler:
                 "results_considered": len(results),
                 "results_included": len(assembled),
                 "framing_enabled": self._frame_results,
+                "sanitization_enabled": self._frame_results,
             },
         )

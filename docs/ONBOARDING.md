@@ -9,6 +9,8 @@ This repository serves a dual mission:
 
 This guide will take you from zero to running workflows in about 45 minutes.
 
+If you prefer a prebuilt environment, open the repository in the provided devcontainer. Otherwise, use the root `justfile` commands described below for the same bootstrap and test flow.
+
 ---
 
 ## Prerequisites
@@ -56,24 +58,25 @@ Open `.env` in your editor and paste in at least one API key. For example:
 GITHUB_TOKEN=ghp_your_token_here
 ```
 
-### 3. Install the main package
+### 3. Bootstrap the workspace
+
+From the repo root:
 
 ```bash
-cd agentic-workflows-v2
-pip install -e ".[dev,server,langchain]"
+just setup
 ```
 
-This installs the `agentic-workflows-v2` package in editable mode with all optional dependencies (testing, server, LangChain engine).
+This installs the root helpers, the `agentic-workflows-v2` package, the eval package, and the UI dependencies in one pass.
 
 ### 4. Verify the installation
 
 Collect tests without running them -- this confirms imports work and pytest can find the test suite:
 
 ```bash
-python -m pytest tests/ -q --co
+python -m pytest agentic-workflows-v2/tests/ -q --co
 ```
 
-You should see output like `~1456 tests collected`.
+You should see output like `~1456 tests collected`. For the full local gate, run `just test` from the repo root.
 
 ### 5. List available workflows
 
@@ -202,6 +205,8 @@ prompts/
 ```
 
 Each package has its own `pyproject.toml`, installs independently, and can be developed in isolation.
+
+The repo root also provides a canonical `justfile`, `.devcontainer/`, and `docker-compose.yml` for contributors who want a reproducible local environment.
 
 ### Inside `agentic_v2/` -- the main runtime
 
@@ -524,17 +529,8 @@ Project overview and commands: [CLAUDE.md](../CLAUDE.md)
 ### Running tests
 
 ```bash
-# Main runtime (from agentic-workflows-v2/)
-python -m pytest tests/ -v                                       # all tests
-python -m pytest tests/ -q --cov=agentic_v2 --cov-report=term-missing  # with coverage
-
-# Eval framework (from agentic-v2-eval/)
-python -m pytest tests/ -v
-
-# Frontend (from agentic-workflows-v2/ui/)
-npm run test
-
-# Linting (from repo root)
+just test
+just docs
 pre-commit run --all-files
 ```
 
@@ -551,6 +547,6 @@ pre-commit run --all-files
 
 1. Create a feature branch from `main`.
 2. Follow the [coding standards](CODING_STANDARDS.md) and commit format (`feat:`, `fix:`, `refactor:`, etc.).
-3. Write tests first (TDD). Target 80%+ coverage on new code.
-4. Run `pre-commit run --all-files` before committing.
+3. Write tests first (TDD). Target 80%+ coverage on new backend code where practical; the UI package enforces a 60% floor.
+4. Run `just test`, `just docs`, and `pre-commit run --all-files` before committing.
 5. Open a PR with a clear description and test plan.

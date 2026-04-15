@@ -1,6 +1,13 @@
-import { useMemo, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { Play, ArrowLeft, Loader2, Sparkles, AlertCircle } from "lucide-react";
+import { useMemo, useRef, useState } from "react";
+import { Link, useParams, useNavigate } from "react-router-dom";
+import {
+  Play,
+  ArrowLeft,
+  Loader2,
+  Sparkles,
+  AlertCircle,
+  Pencil,
+} from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import { useWorkflowDAG } from "../hooks/useWorkflows";
 import { useRuns } from "../hooks/useRuns";
@@ -10,10 +17,12 @@ import RunList from "../components/runs/RunList";
 import RunConfigForm, {
   type RunConfigValues,
 } from "../components/runs/RunConfigForm";
+import { isWorkflowBuilderEnabled } from "../config/featureFlags";
 
 export default function WorkflowDetailPage() {
   const { name } = useParams<{ name: string }>();
   const navigate = useNavigate();
+  const workflowBuilderEnabled = isWorkflowBuilderEnabled();
   const { data: dag, isLoading: dagLoading } = useWorkflowDAG(name);
   const { data: runs, isLoading: runsLoading } = useRuns(name);
 
@@ -232,6 +241,15 @@ export default function WorkflowDetailPage() {
               <span>{evalSummary}</span>
             </div>
           </div>
+          {workflowBuilderEnabled && name && (
+            <Link
+              to={`/workflows/${encodeURIComponent(name)}/edit`}
+              className="btn-ghost px-3 py-1.5 text-xs"
+            >
+              <Pencil className="h-3.5 w-3.5" />
+              Edit
+            </Link>
+          )}
           <button
             type="button"
             onClick={() => runMutation.mutate()}

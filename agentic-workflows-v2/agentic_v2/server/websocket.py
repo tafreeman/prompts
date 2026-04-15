@@ -26,12 +26,18 @@ from __future__ import annotations
 
 import asyncio
 import logging
-import os
-import secrets
 from collections import deque
 from typing import Any
 
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
+
+from .auth import (
+    _get_api_key,
+    extract_websocket_token,
+    is_token_authorized,
+    is_websocket_origin_allowed,
+    websocket_uses_query_token,
+)
 
 logger = logging.getLogger(__name__)
 router = APIRouter(tags=["streaming"])
@@ -199,23 +205,44 @@ async def websocket_endpoint(websocket: WebSocket, run_id: str):
     """WebSocket endpoint for real-time execution streaming.
 
     On connect:
-    1. Validate token from query parameter (if auth is enabled)
+    1. Validate browser origin (when provided)
+    2. Validate API key from headers or compatibility query parameter
     2. Accept the connection and replay buffered events
     3. Keep alive — execution events are pushed via broadcast()
     4. Client can send ping/commands; server ignores content
     """
-    # Authenticate WebSocket connections when API key auth is enabled
-    api_key = os.environ.get("AGENTIC_API_KEY") or None
-    if api_key is not None:
-        token = websocket.query_params.get("token", "")
-        if not token or not secrets.compare_digest(token, api_key):
-            await websocket.close(code=4001, reason="Invalid or missing token")
-            logger.warning(
-                "WebSocket auth failed for run %s from %s",
-                run_id,
-                websocket.client.host if websocket.client else "unknown",
-            )
-            return
+    client_host = websocket.client.host if websocket.client else "unknown"
+
+    if not is_websocket_origin_allowed(websocket):
+        await websocket.close(code=1008, reason="Origin not allowed")
+        logger.warning(
+            "Rejected WebSocket origin %r for run %s from %s",
+            websocket.headers.get("origin"),
+            run_id,
+            client_host,
+        )
+        return
+
+    if websocket_uses_query_token(websocket):
+        await websocket.close(
+            code=1008,
+            reason="Query-string API keys are not supported for WebSocket auth",
+        )
+        logger.warning(
+            "Rejected WebSocket query-token auth for run %s from %s",
+            run_id,
+            client_host,
+        )
+        return
+
+    api_key = _get_api_key()
+    token = extract_websocket_token(websocket)
+    if api_key is not None and not is_token_authorized(
+        token.value if token is not None else None, api_key
+    ):
+        await websocket.close(code=1008, reason="Invalid or missing API key")
+        logger.warning("WebSocket auth failed for run %s from %s", run_id, client_host)
+        return
 
     await manager.connect(websocket, run_id)
     try:

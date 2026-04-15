@@ -36,11 +36,14 @@ from typing import (
     Callable,
     Optional,
     Protocol,
+    Sequence,
     runtime_checkable,
 )
 
 if TYPE_CHECKING:
     from ..contracts import WorkflowResult
+    from ..contracts.sanitization import Finding, SanitizationResult
+    from ..contracts.verification import VerificationPolicy, VerificationStatus
     from ..engine.context import ExecutionContext
 
 
@@ -186,3 +189,37 @@ class ToolProtocol(Protocol):
 # MemoryStore is deprecated — use MemoryStoreProtocol from core.memory instead.
 # Kept as an alias for backward compatibility with existing agent code.
 from .memory import MemoryStoreProtocol as MemoryStore
+
+
+# --- Sanitization & Verification Protocols (ADR-002) ---
+
+
+@runtime_checkable
+class DetectorProtocol(Protocol):
+    """A pluggable detector that scans text for a specific threat category."""
+
+    @property
+    def name(self) -> str: ...
+
+    @property
+    def version(self) -> str: ...
+
+    async def scan(self, text: str) -> Sequence[Finding]: ...
+
+
+@runtime_checkable
+class MiddlewareProtocol(Protocol):
+    """A middleware that transforms or gates content flowing through the pipeline."""
+
+    async def process(
+        self, content: str, context: dict[str, object]
+    ) -> SanitizationResult: ...
+
+
+@runtime_checkable
+class VerifierProtocol(Protocol):
+    """A verification gate that checks step output quality."""
+
+    async def verify(
+        self, step_output: Any, policy: VerificationPolicy
+    ) -> VerificationStatus: ...

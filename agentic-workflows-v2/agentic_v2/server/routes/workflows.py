@@ -27,46 +27,114 @@ import logging
 import uuid
 from typing import Any
 
-from fastapi import APIRouter, BackgroundTasks, HTTPException
+from fastapi import APIRouter, BackgroundTasks, HTTPException, Request
 
 from ...contracts import StepStatus
+from ...langchain.config import (
+    list_workflows as lc_list_workflows,
+    load_workflow_config,
+    load_workflow_document,
+    render_workflow_document,
+    save_workflow_document,
+    validate_workflow_document,
+)
+from ...langchain.dependencies import (
+    is_missing_langchain_dependency_error,
+    to_missing_langchain_dependency_error,
+)
 from ...workflows.run_logger import RunLogger
 from ..execution import _run_and_evaluate
 from ..models import (
+    WorkflowEditorRequest,
+    WorkflowEditorResponse,
+    WorkflowValidationResponse,
     ListWorkflowsResponse,
     WorkflowRunRequest,
     WorkflowRunResponse,
 )
 from ..result_normalization import _resolve_evaluation_inputs
 
-# LangChain imports — optional at the package level.  Guard so the
-# server module can be imported even without langchain extras.
-try:
-    from ...langchain import list_workflows as lc_list_workflows
-    from ...langchain import load_workflow_config
-
-    _LANGCHAIN_AVAILABLE = True
-except ImportError:
-    _LANGCHAIN_AVAILABLE = False
-
 logger = logging.getLogger(__name__)
 router = APIRouter(tags=["workflows"])
 run_logger = RunLogger()
 
 
-def _require_langchain() -> None:
-    """Raise 501 if langchain extras are missing."""
-    if not _LANGCHAIN_AVAILABLE:
-        raise HTTPException(
-            status_code=501,
-            detail="LangChain extras not installed. Install with: pip install -e '.[langchain]'",
+async def _sanitize_inputs(
+    request_obj: WorkflowRunRequest,
+    app_state: Any,
+) -> None:
+    """Sanitize workflow inputs if middleware is available.
+
+    Raises HTTPException 400 if inputs are blocked.
+    """
+    sanitization = getattr(app_state, "sanitization", None)
+    if sanitization is None:
+        return
+
+    import json
+    input_text = json.dumps(request_obj.input_data, default=str)
+    result = await sanitization.process(input_text, {"source": "api_run_workflow"})
+
+    if not result.is_safe:
+        logger.warning(
+            "Workflow input blocked: classification=%s, findings=%d",
+            result.classification.value,
+            len(result.findings),
         )
+        raise HTTPException(
+            status_code=400,
+            detail=f"Input blocked by security policy: {result.classification.value}",
+        )
+
+
+def _require_langchain_runtime() -> None:
+    """Raise 501 if LangChain runtime extras are missing."""
+    try:
+        from ...langchain import WorkflowRunner
+    except ImportError as exc:
+        if is_missing_langchain_dependency_error(exc):
+            raise HTTPException(
+                status_code=501,
+                detail=str(to_missing_langchain_dependency_error(exc)),
+            ) from exc
+        raise
+    _ = WorkflowRunner
+
+
+def _compile_workflow_for_validation(config) -> None:
+    """Validate workflow graph topology without executing it."""
+    try:
+        from ...langchain.graph import compile_workflow
+    except ImportError as exc:
+        if is_missing_langchain_dependency_error(exc):
+            raise HTTPException(
+                status_code=501,
+                detail=str(to_missing_langchain_dependency_error(exc)),
+            ) from exc
+        raise
+
+    compile_workflow(config, validate_only=True)
+
+
+def _workflow_editor_response(
+    name: str,
+    path: str,
+    document: dict[str, Any],
+    yaml_text: str,
+):
+    config = validate_workflow_document(document, expected_name=name)
+    return WorkflowEditorResponse(
+        name=config.name,
+        path=path,
+        yaml_text=yaml_text,
+        document=document,
+        step_count=len(config.steps),
+    )
 
 
 @router.get("/workflows", response_model=ListWorkflowsResponse)
 async def list_workflows():
     """List available workflows."""
-    _require_langchain()
     workflows = lc_list_workflows()
     return ListWorkflowsResponse(workflows=workflows)
 
@@ -89,11 +157,10 @@ async def list_adapters():
 @router.get("/workflows/{name}/dag")
 async def get_workflow_dag(name: str):
     """Return the DAG structure for visualization."""
-    _require_langchain()
     try:
         wf = load_workflow_config(name)
     except Exception as e:
-        raise HTTPException(status_code=404, detail=str(e))
+        raise HTTPException(status_code=404, detail=str(e)) from e
 
     nodes = []
     edges = []
@@ -136,11 +203,10 @@ async def get_workflow_dag(name: str):
 @router.get("/workflows/{name}/capabilities")
 async def get_workflow_capabilities(name: str):
     """Return workflow capability declarations (inputs/outputs)."""
-    _require_langchain()
     try:
         wf = load_workflow_config(name)
     except Exception as e:
-        raise HTTPException(status_code=404, detail=str(e))
+        raise HTTPException(status_code=404, detail=str(e)) from e
 
     return {
         "workflow": wf.name,
@@ -148,23 +214,91 @@ async def get_workflow_capabilities(name: str):
     }
 
 
+@router.get("/workflows/{name}/editor", response_model=WorkflowEditorResponse)
+async def get_workflow_editor(name: str):
+    """Return the raw YAML workflow document for editor clients."""
+    try:
+        path, document, yaml_text = load_workflow_document(name)
+        return _workflow_editor_response(name, str(path), document, yaml_text)
+    except FileNotFoundError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+
+@router.put("/workflows/{name}", response_model=WorkflowEditorResponse)
+async def save_workflow_editor(name: str, request: WorkflowEditorRequest):
+    """Validate and persist a workflow document."""
+    try:
+        path, persisted_document, _config, yaml_text = save_workflow_document(
+            name, request.document
+        )
+        return _workflow_editor_response(
+            name,
+            str(path),
+            persisted_document,
+            yaml_text,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    except OSError as exc:
+        raise HTTPException(
+            status_code=503,
+            detail=f"Workflow definitions directory is not writable: {exc}",
+        ) from exc
+
+
+@router.post(
+    "/workflows/validate",
+    response_model=WorkflowValidationResponse,
+)
+async def validate_workflow_editor(request: WorkflowEditorRequest):
+    """Validate a workflow document without persisting it."""
+    document = request.document
+    try:
+        if not isinstance(document, dict):
+            raise ValueError("Workflow document must be a mapping.")
+        expected_name = document.get("name")
+        config = validate_workflow_document(document, expected_name=expected_name)
+        _compile_workflow_for_validation(config)
+        return WorkflowValidationResponse(
+            valid=True,
+            name=config.name,
+            step_count=len(config.steps),
+            yaml_text=render_workflow_document(document),
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    except HTTPException:
+        raise
+    except Exception as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+
 @router.post("/run", response_model=WorkflowRunResponse)
-async def run_workflow(request: WorkflowRunRequest, background_tasks: BackgroundTasks):
+async def run_workflow(
+    request: WorkflowRunRequest,
+    background_tasks: BackgroundTasks,
+    http_request: Request,
+):
     """Execute a workflow asynchronously."""
+    # Sanitize inputs
+    await _sanitize_inputs(request, http_request.app.state)
+
     adapter_name = request.adapter
     from ...adapters import get_registry as _get_adapter_registry
 
     try:
         _get_adapter_registry().get_adapter(adapter_name)
-    except Exception:
+    except Exception as exc:
         raise HTTPException(
             status_code=422,
             detail=f"Unknown adapter: {adapter_name!r}. "
             f"Available: {_get_adapter_registry().list_adapters()}",
-        )
+        ) from exc
 
     if adapter_name == "langchain":
-        _require_langchain()
+        _require_langchain_runtime()
     try:
         workflow_def = load_workflow_config(request.workflow)
         run_id = request.run_id or f"{workflow_def.name}-{uuid.uuid4().hex[:8]}"
@@ -197,4 +331,4 @@ async def run_workflow(request: WorkflowRunRequest, background_tasks: Background
     except HTTPException:
         raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e)) from e

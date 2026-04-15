@@ -6,7 +6,10 @@ import asyncio
 import re
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Awaitable, Callable, TypeVar
+from typing import TYPE_CHECKING, Any, Awaitable, Callable, TypeVar
+
+if TYPE_CHECKING:
+    from ..contracts.verification import VerificationPolicy
 
 from ..contracts import ReviewStatus, StepResult, StepStatus
 from ..models import ModelTier
@@ -104,7 +107,7 @@ class StepDefinition:
     depends_on: list[str] = field(default_factory=list)
 
     # I/O mapping
-    input_mapping: dict[str, str] = field(
+    input_mapping: dict[str, Any] = field(
         default_factory=dict
     )  # step_input -> context_var
     output_mapping: dict[str, str] = field(
@@ -115,6 +118,9 @@ class StepDefinition:
     pre_hooks: list[HookFunction] = field(default_factory=list)
     post_hooks: list[HookFunction] = field(default_factory=list)
     error_hooks: list[HookFunction] = field(default_factory=list)
+
+    # Verification policy (optional)
+    verify: VerificationPolicy | None = None
 
     # Metadata
     tags: list[str] = field(default_factory=list)
@@ -179,6 +185,11 @@ class StepDefinition:
     def with_post_hook(self, hook: HookFunction) -> "StepDefinition":
         """Fluent builder: Add post-execution hook."""
         self.post_hooks.append(hook)
+        return self
+
+    def with_verify(self, policy: VerificationPolicy) -> StepDefinition:
+        """Fluent builder: Set verification policy for self-correction loops."""
+        self.verify = policy
         return self
 
 
@@ -348,6 +359,32 @@ class StepExecutor:
                 # Run post-hooks
                 for hook in step_def.post_hooks:
                     await hook(ctx, step_def)
+
+                # Run verification gate if configured
+                if step_def.verify is not None and step_def.verify.enabled:
+                    from .verification import VerificationGate, VerificationStatus as VStatus
+                    gate = VerificationGate()
+                    v_status, failing = await gate.run_checks(
+                        step_def.verify.verification_commands,
+                        stop_on_first_failure=step_def.verify.stop_on_first_failure,
+                    )
+                    result.metadata["verification_status"] = v_status.value
+                    if failing:
+                        result.metadata["verification_failing_checks"] = list(failing)
+                    if v_status != VStatus.PASSED:
+                        strategy = step_def.verify.escalation_strategy
+                        if strategy == "block":
+                            result.status = StepStatus.FAILED
+                            result.error = f"Verification failed: {', '.join(failing)}"
+                            await ctx.mark_step_failed(step_def.name, result.error)
+                            return result
+                        # "report" and "ask" just log and continue
+                        logger.warning(
+                            "Verification failed for step %r (strategy=%s): %s",
+                            step_def.name,
+                            strategy,
+                            ", ".join(failing),
+                        )
 
                 # Loop-until logic (R5): re-execute until condition is satisfied
                 if step_def.loop_until:

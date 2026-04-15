@@ -480,8 +480,7 @@ class WorkflowLoader:
         raw_inputs = data.get("inputs", {})
         if isinstance(raw_inputs, dict):
             for key, value in raw_inputs.items():
-                if isinstance(value, str):
-                    input_mapping[key] = value
+                input_mapping[key] = value
 
         output_mapping = {}
         raw_outputs = data.get("outputs", {})
@@ -539,6 +538,11 @@ class WorkflowLoader:
                 # - ["file_read", "search"] => only those tool names
                 "tools": (
                     data.get("tools") if isinstance(data.get("tools"), list) else None
+                ),
+                "model_override": (
+                    data.get("model_override")
+                    if isinstance(data.get("model_override"), str)
+                    else data.get("model")
                 ),
             },
         )

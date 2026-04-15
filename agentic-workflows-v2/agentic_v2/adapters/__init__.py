@@ -15,12 +15,16 @@ Usage::
 
 # Auto-register built-in adapters
 from . import native as _native_adapter
+from ..langchain.dependencies import (
+    is_missing_langchain_dependency_error,
+)
 from .registry import AdapterRegistry, get_registry
 
 try:
     from . import langchain as _langchain_adapter
-except ImportError:  # pragma: no cover — optional dependency
-    pass
+except ImportError as exc:  # pragma: no cover — optional dependency
+    if not is_missing_langchain_dependency_error(exc):
+        raise
 
 __all__ = [
     "AdapterRegistry",

@@ -49,7 +49,7 @@
 | `workflows/run_logger.py` | Run log persistence (JSON per run) | **Active** |
 | `workflows/definitions/code_review.yaml` | Code review DAG workflow (Profile B) | **Active** |
 | `workflows/definitions/fullstack_generation.yaml` | Fullstack generation workflow (Profile A) | **Active** |
-| `workflows/definitions/plan_implementation.yaml` | Iterative plan implementation | **Removed** |
+| `plan_implementation` workflow definition | Iterative plan implementation | **Removed** |
 
 ### Integrations
 

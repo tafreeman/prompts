@@ -21,7 +21,6 @@ working unchanged.
 from __future__ import annotations
 
 import logging
-import os
 from dataclasses import dataclass, field
 from typing import Any, AsyncIterator
 
@@ -33,16 +32,7 @@ from .backends_cloud import (
     OpenAIBackend,
 )
 from .backends_local import OllamaBackend
-from typing import Any, AsyncIterator, Optional
-
-from .backends_base import LLMBackend
-from .backends_cloud import (
-    AnthropicBackend,
-    GeminiBackend,
-    GitHubModelsBackend,
-    OpenAIBackend,
-)
-from .backends_local import OllamaBackend
+from .secrets import SecretProvider, get_first_secret, get_secret
 
 logger = logging.getLogger(__name__)
 
@@ -211,7 +201,11 @@ class MockBackend(LLMBackend):
 # ---------------------------------------------------------------------------
 
 
-def get_backend(provider: str = "github") -> LLMBackend:
+def get_backend(
+    provider: str = "github",
+    *,
+    secret_provider: SecretProvider | None = None,
+) -> LLMBackend:
     """Factory function to get a single LLM backend.
 
     Args:
@@ -220,14 +214,44 @@ def get_backend(provider: str = "github") -> LLMBackend:
     Returns:
         Configured LLM backend
     """
+    provider = provider.lower()
     if provider == "github":
-        return GitHubModelsBackend()
+        return GitHubModelsBackend(
+            token=get_first_secret(
+                "GITHUB_TOKEN",
+                "GH_TOKEN",
+                default="",
+                provider=secret_provider,
+            )
+            or ""
+        )
     elif provider == "openai":
-        return OpenAIBackend()
+        return OpenAIBackend(
+            api_key=get_secret(
+                "OPENAI_API_KEY",
+                default="",
+                provider=secret_provider,
+            )
+            or ""
+        )
     elif provider == "anthropic":
-        return AnthropicBackend()
+        return AnthropicBackend(
+            api_key=get_secret(
+                "ANTHROPIC_API_KEY",
+                default="",
+                provider=secret_provider,
+            )
+            or ""
+        )
     elif provider == "gemini":
-        return GeminiBackend()
+        return GeminiBackend(
+            api_key=get_secret(
+                "GEMINI_API_KEY",
+                default="",
+                provider=secret_provider,
+            )
+            or ""
+        )
     elif provider == "ollama":
         return OllamaBackend()
     elif provider == "mock":
@@ -236,62 +260,54 @@ def get_backend(provider: str = "github") -> LLMBackend:
         raise ValueError(f"Unknown provider: {provider}")
 
 
-def auto_configure_backend() -> LLMBackend:
+def auto_configure_backend(
+    *,
+    secret_provider: SecretProvider | None = None,
+) -> LLMBackend:
     """Auto-detect available API keys and build a MultiBackend.
 
     Probes env vars in priority order and registers all available backends.
     Returns a MultiBackend that dispatches based on model prefix.
-
-    Loads .env files from the project root if ``python-dotenv`` is
-    installed, so API keys stored there are picked up automatically.
     """
-    # Load .env files (project root -> parent) without overwriting
-    # already-set env vars.
-    try:
-        from pathlib import Path
-
-        from dotenv import load_dotenv
-
-        # Walk upwards from this file looking for .env
-        for parent in Path(__file__).resolve().parents:
-            env_path = parent / ".env"
-            if env_path.is_file():
-                load_dotenv(env_path, override=False)
-                logger.debug("Loaded env from %s", env_path)
-                break
-    except ImportError:
-        pass
-
     backends: dict[str, LLMBackend] = {}
+    active_provider = secret_provider
 
     # OpenAI -- most common, check first
-    if os.environ.get("OPENAI_API_KEY"):
+    openai_api_key = get_secret("OPENAI_API_KEY", provider=active_provider)
+    if openai_api_key:
         try:
-            backends["openai"] = OpenAIBackend()
+            backends["openai"] = OpenAIBackend(api_key=openai_api_key)
             logger.info("Registered OpenAI backend")
         except ValueError:
             pass
 
     # Anthropic
-    if os.environ.get("ANTHROPIC_API_KEY"):
+    anthropic_api_key = get_secret("ANTHROPIC_API_KEY", provider=active_provider)
+    if anthropic_api_key:
         try:
-            backends["anthropic"] = AnthropicBackend()
+            backends["anthropic"] = AnthropicBackend(api_key=anthropic_api_key)
             logger.info("Registered Anthropic backend")
         except ValueError:
             pass
 
     # GitHub Models (check both GITHUB_TOKEN and GH_TOKEN)
-    if os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN"):
+    github_token = get_first_secret(
+        "GITHUB_TOKEN",
+        "GH_TOKEN",
+        provider=active_provider,
+    )
+    if github_token:
         try:
-            backends["github"] = GitHubModelsBackend()
+            backends["github"] = GitHubModelsBackend(token=github_token)
             logger.info("Registered GitHub Models backend")
         except ValueError:
             pass
 
     # Gemini
-    if os.environ.get("GEMINI_API_KEY"):
+    gemini_api_key = get_secret("GEMINI_API_KEY", provider=active_provider)
+    if gemini_api_key:
         try:
-            backends["gemini"] = GeminiBackend()
+            backends["gemini"] = GeminiBackend(api_key=gemini_api_key)
             logger.info("Registered Gemini backend")
         except ValueError:
             pass

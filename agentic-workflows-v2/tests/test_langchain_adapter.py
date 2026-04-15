@@ -11,7 +11,7 @@ Verifies:
 
 from __future__ import annotations
 
-import threading
+import importlib
 from datetime import datetime, timezone
 from typing import Any, AsyncIterator
 from unittest.mock import AsyncMock, MagicMock, patch
@@ -39,14 +39,11 @@ def _make_fake_result(workflow_name: str = "test_workflow") -> WorkflowResult:
 
 
 def _make_isolated_registry():
-    """Create a fresh registry instance (bypasses singleton for test
-    isolation)."""
+    """Create a fresh registry instance using the supported test seam."""
     from agentic_v2.adapters.registry import AdapterRegistry
 
-    reg = object.__new__(AdapterRegistry)
-    reg._adapters = {}
-    reg._instance_lock = threading.Lock()
-    return reg
+    AdapterRegistry.reset_for_tests()
+    return AdapterRegistry()
 
 
 # ---------------------------------------------------------------------------
@@ -93,9 +90,14 @@ class TestLangChainAdapterRegistration:
 
     def test_global_registry_has_langchain(self) -> None:
         """The global registry should contain ``'langchain'`` after import."""
-        from agentic_v2.adapters import get_registry
+        import agentic_v2.adapters as adapters
+        import agentic_v2.adapters.langchain as langchain_adapter
+        from agentic_v2.adapters.registry import AdapterRegistry
 
-        reg = get_registry()
+        AdapterRegistry.reset_for_tests()
+        importlib.reload(langchain_adapter)
+        adapters = importlib.reload(adapters)
+        reg = adapters.get_registry()
         assert "langchain" in reg.list_adapters()
 
 

@@ -151,6 +151,16 @@ class WorkflowRunner:
         # Also store the flat dict for expression resolution
         ctx.set_sync("inputs", validated)
 
+        # Register sanitization middleware in DI container if available
+        try:
+            from ..middleware.sanitization import SanitizationMiddleware
+            if ctx.services.resolve(SanitizationMiddleware) is None:
+                ctx.services.register_singleton(
+                    SanitizationMiddleware, SanitizationMiddleware.default()
+                )
+        except ImportError:
+            pass  # Middleware not installed
+
         try:
             # 4. Execute DAG
             result, runtime_profile, runtime_artifacts = await self._execute_definition(

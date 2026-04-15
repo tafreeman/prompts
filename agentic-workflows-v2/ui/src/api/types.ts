@@ -39,6 +39,49 @@ export interface DAGResponse {
   inputs?: WorkflowInputSchema[];
 }
 
+export interface WorkflowEditorStep {
+  name: string;
+  agent?: string | null;
+  description?: string | null;
+  tier?: string | null;
+  depends_on?: string[];
+  when?: string | null;
+  loop_until?: string | null;
+  loop_max?: number | null;
+  tools?: string[];
+  prompt_file?: string | null;
+  metadata?: Record<string, unknown> | null;
+}
+
+export interface WorkflowEditorDocument extends DAGResponse {
+  source: string;
+  steps?: WorkflowEditorStep[];
+  metadata?: Record<string, unknown> | null;
+  read_only?: boolean;
+  updated_at?: string | null;
+}
+
+export interface WorkflowEditorMutationRequest {
+  source: string;
+}
+
+export interface WorkflowEditorValidationIssue {
+  level: "error" | "warning";
+  message: string;
+  path?: string | null;
+}
+
+export interface WorkflowEditorValidateResponse {
+  valid: boolean;
+  issues: WorkflowEditorValidationIssue[];
+  workflow?: WorkflowEditorDocument;
+}
+
+export interface WorkflowEditorSaveResponse {
+  saved: boolean;
+  workflow: WorkflowEditorDocument;
+}
+
 /** Summary of a single run (from GET /api/runs). */
 export interface RunSummary {
   filename: string;

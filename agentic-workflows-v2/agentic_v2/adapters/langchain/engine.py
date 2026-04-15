@@ -18,14 +18,26 @@ from __future__ import annotations
 import logging
 from typing import Any, AsyncIterator, Awaitable, Callable
 
+from ...langchain.dependencies import (
+    is_missing_langchain_dependency_error,
+    to_missing_langchain_dependency_error,
+)
+
 logger = logging.getLogger(__name__)
 
 try:
     from ...langchain.runner import WorkflowRunner as _WorkflowRunner
 
     _HAS_LANGCHAIN = True
-except ImportError:  # pragma: no cover
+    _LANGCHAIN_IMPORT_ERROR: ImportError | None = None
+except ImportError as exc:  # pragma: no cover
+    if not is_missing_langchain_dependency_error(exc):
+        raise
     _HAS_LANGCHAIN = False
+    _LANGCHAIN_IMPORT_ERROR = to_missing_langchain_dependency_error(
+        exc,
+        install_hint="pip install langchain langgraph",
+    )
     _WorkflowRunner = None  # type: ignore[assignment,misc]
 
 
@@ -52,11 +64,8 @@ class LangChainEngine:
         """Lazily create the underlying ``WorkflowRunner`` if needed."""
         if self._runner is None:
             if not _HAS_LANGCHAIN:
-                raise ImportError(
-                    "LangChain/LangGraph packages are required for the "
-                    "LangChainEngine adapter.  Install them with: "
-                    "pip install langchain langgraph"
-                )
+                assert _LANGCHAIN_IMPORT_ERROR is not None
+                raise _LANGCHAIN_IMPORT_ERROR
             self._runner = _WorkflowRunner()
         return self._runner
 

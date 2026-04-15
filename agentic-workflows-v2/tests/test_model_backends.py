@@ -28,6 +28,7 @@ from agentic_v2.models.backends import (
     get_backend,
 )
 from agentic_v2.models.backends_base import LLMBackend
+from agentic_v2.models.secrets import MappingSecretProvider
 
 # Env vars cleared in auto_configure tests
 _PROVIDER_ENV_VARS = (
@@ -373,6 +374,12 @@ class TestGetBackendFactory:
         with pytest.raises(ValueError, match="Unknown provider: nope"):
             get_backend("nope")
 
+    def test_supports_explicit_secret_provider(self) -> None:
+        provider = MappingSecretProvider({"OPENAI_API_KEY": "provider-key"})
+        result = get_backend("openai", secret_provider=provider)
+        assert isinstance(result, OpenAIBackend)
+        assert result.api_key == "provider-key"
+
 
 # ---------------------------------------------------------------------------
 # auto_configure_backend
@@ -456,12 +463,11 @@ class TestAutoConfigureBackend:
     ) -> None:
         """If a backend constructor raises ValueError, it is silently skipped."""
         monkeypatch.setenv("OPENAI_API_KEY", "present-but-broken")
-        with patch.dict(sys.modules, {"dotenv": None}):
-            with patch(
-                "agentic_v2.models.backends.OpenAIBackend",
-                side_effect=ValueError("boom"),
-            ):
-                result = auto_configure_backend()
+        with patch.dict(sys.modules, {"dotenv": None}), patch(
+            "agentic_v2.models.backends.OpenAIBackend",
+            side_effect=ValueError("boom"),
+        ):
+            result = auto_configure_backend()
         assert "openai" not in result.backends
         assert "ollama" in result.backends  # still registered
 
@@ -470,3 +476,18 @@ class TestAutoConfigureBackend:
         with patch.dict(sys.modules, {"dotenv": None}):
             result = auto_configure_backend()
         assert isinstance(result, MultiBackend)
+
+    def test_uses_explicit_secret_provider_without_env(self) -> None:
+        provider = MappingSecretProvider(
+            {
+                "OPENAI_API_KEY": "provider-openai",
+                "GH_TOKEN": "provider-gh",
+            }
+        )
+
+        result = auto_configure_backend(secret_provider=provider)
+
+        assert "openai" in result.backends
+        assert "github" in result.backends
+        assert result.backends["openai"].api_key == "provider-openai"
+        assert result.backends["github"].token == "provider-gh"

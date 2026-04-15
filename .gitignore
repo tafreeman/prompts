@@ -429,3 +429,5 @@ presentation/*.jsx
 presentation/*.zip
 decks-generated/package-lock.json
 decks-generated/package.json
+presentation/src/tokens/raw-themes/*
+.mypy_cache/3.13/asyncio/windows_events.meta.json

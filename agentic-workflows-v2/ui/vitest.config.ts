@@ -4,6 +4,13 @@ import path from "path";
 
 export default defineConfig({
   plugins: [react()],
+  define: {
+    __AGENTIC_ENABLE_WORKFLOW_BUILDER__: JSON.stringify(
+      process.env.VITE_AGENTIC_ENABLE_WORKFLOW_BUILDER ??
+        process.env.AGENTIC_ENABLE_WORKFLOW_BUILDER ??
+        ""
+    ),
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
@@ -24,6 +31,12 @@ export default defineConfig({
         "src/main.tsx",
         "src/vite-env.d.ts",
       ],
+      thresholds: {
+        lines: 60,
+        statements: 60,
+        functions: 60,
+        branches: 60,
+      },
     },
   },
 });

@@ -2,10 +2,17 @@
 
 from __future__ import annotations
 
-import agentic_v2.server.auth as auth_module
 import pytest
-from agentic_v2.server.auth import APIKeyMiddleware, _extract_token
-from fastapi import FastAPI, Request
+from agentic_v2.server.auth import (
+    APIKeyMiddleware,
+    _extract_token,
+    extract_websocket_token,
+    get_allowed_origins,
+    is_websocket_origin_allowed,
+    websocket_uses_query_token,
+)
+from fastapi import FastAPI, Request, WebSocket
+from fastapi.responses import StreamingResponse
 from starlette.testclient import TestClient
 
 
@@ -21,6 +28,13 @@ def _make_app(api_key: str | None) -> FastAPI:
     @app.get("/api/health")
     async def health_route():
         return {"status": "ok"}
+
+    @app.get("/api/runs/{run_id}/stream")
+    async def stream_route(run_id: str):
+        async def event_stream():
+            yield f"data: {run_id}\n\n"
+
+        return StreamingResponse(event_stream(), media_type="text/event-stream")
 
     @app.get("/docs")
     async def docs_route():
@@ -89,6 +103,85 @@ class TestExtractToken:
         """Non-Bearer Authorization (e.g. Basic) returns None."""
         request = self._make_request({"authorization": "Basic dXNlcjpwYXNz"})
         assert _extract_token(request) is None
+
+
+class TestWebSocketAuthHelpers:
+    """Unit tests for shared WebSocket auth helpers."""
+
+    def _make_websocket(
+        self,
+        *,
+        headers: dict[str, str] | None = None,
+        query_string: bytes = b"",
+        host: str = "testserver",
+    ) -> WebSocket:
+        scope = {
+            "type": "websocket",
+            "scheme": "ws",
+            "path": "/ws/execution/run-1",
+            "headers": [
+                (b"host", host.encode()),
+                *[
+                    (k.lower().encode(), v.encode())
+                    for k, v in (headers or {}).items()
+                ],
+            ],
+            "query_string": query_string,
+            "client": ("127.0.0.1", 1234),
+            "server": ("testserver", 80),
+            "subprotocols": [],
+        }
+
+        async def receive():
+            return {"type": "websocket.disconnect"}
+
+        async def send(message):
+            return None
+
+        return WebSocket(scope, receive=receive, send=send)
+
+    def test_extract_websocket_token_prefers_authorization_header(self) -> None:
+        websocket = self._make_websocket(
+            headers={
+                "authorization": "Bearer primary-token",
+                "x-api-key": "secondary-token",
+            },
+            query_string=b"token=query-token",
+        )
+
+        token = extract_websocket_token(websocket)
+
+        assert token is not None
+        assert token.value == "primary-token"
+        assert token.source == "authorization"
+
+    def test_extract_websocket_token_does_not_use_query_parameter(self) -> None:
+        websocket = self._make_websocket(query_string=b"token=query-token")
+
+        token = extract_websocket_token(websocket)
+
+        assert token is None
+        assert websocket_uses_query_token(websocket) is True
+
+    def test_same_host_websocket_origin_is_allowed(self) -> None:
+        websocket = self._make_websocket(headers={"origin": "http://testserver"})
+        assert is_websocket_origin_allowed(websocket) is True
+
+    def test_disallowed_websocket_origin_is_rejected(self) -> None:
+        websocket = self._make_websocket(
+            headers={"origin": "https://evil.example"},
+            host="api.example",
+        )
+        assert (
+            is_websocket_origin_allowed(websocket, ["https://allowed.example"]) is False
+        )
+
+    def test_get_allowed_origins_uses_default_when_env_missing(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.delenv("AGENTIC_CORS_ORIGINS", raising=False)
+        origins = get_allowed_origins()
+        assert "http://localhost:5173" in origins
 
 
 class TestAPIKeyMiddlewareNoKey:
@@ -192,3 +285,36 @@ class TestAPIKeyMiddlewareWithKey:
         }
         request = Request(scope)
         assert _extract_token(request) == "spaced"
+
+    def test_sse_route_requires_auth(self) -> None:
+        """SSE endpoints remain protected by the shared HTTP auth policy."""
+        app = _make_app(api_key="test-secret-key")
+        client = TestClient(app)
+
+        response = client.get("/api/runs/run-1/stream")
+
+        assert response.status_code == 401
+
+    def test_sse_route_accepts_bearer_auth(self) -> None:
+        """Authenticated SSE requests pass through middleware."""
+        app = _make_app(api_key="test-secret-key")
+        client = TestClient(app)
+
+        response = client.get(
+            "/api/runs/run-1/stream",
+            headers={"Authorization": "Bearer test-secret-key"},
+        )
+
+        assert response.status_code == 200
+
+    def test_sse_route_accepts_x_api_key_auth(self) -> None:
+        """SSE endpoints accept the shared X-API-Key transport."""
+        app = _make_app(api_key="test-secret-key")
+        client = TestClient(app)
+
+        response = client.get(
+            "/api/runs/run-1/stream",
+            headers={"X-API-Key": "test-secret-key"},
+        )
+
+        assert response.status_code == 200

@@ -13,13 +13,13 @@ variables and communicates with the provider over ``httpx.AsyncClient``.
 
 from __future__ import annotations
 
-import os
 from dataclasses import dataclass, field
 from typing import Any
 
 import httpx
 
 from .backends_base import LLMBackend
+from .secrets import get_first_secret, get_secret
 
 # ---------------------------------------------------------------------------
 # GitHub Models
@@ -35,7 +35,7 @@ class GitHubModelsBackend(LLMBackend):
 
     token: str = field(
         default_factory=lambda: (
-            os.environ.get("GITHUB_TOKEN", "") or os.environ.get("GH_TOKEN", "")
+            get_first_secret("GITHUB_TOKEN", "GH_TOKEN", default="") or ""
         ),
         repr=False,
     )
@@ -135,7 +135,7 @@ class OpenAIBackend(LLMBackend):
     """Backend for OpenAI API."""
 
     api_key: str = field(
-        default_factory=lambda: os.environ.get("OPENAI_API_KEY", ""),
+        default_factory=lambda: get_secret("OPENAI_API_KEY", default="") or "",
         repr=False,
     )
     base_url: str = "https://api.openai.com/v1"
@@ -226,7 +226,7 @@ class AnthropicBackend(LLMBackend):
     """Backend for Anthropic Claude API."""
 
     api_key: str = field(
-        default_factory=lambda: os.environ.get("ANTHROPIC_API_KEY", ""),
+        default_factory=lambda: get_secret("ANTHROPIC_API_KEY", default="") or "",
         repr=False,
     )
     base_url: str = "https://api.anthropic.com"
@@ -337,7 +337,7 @@ class GeminiBackend(LLMBackend):
     """Backend for Google Gemini API."""
 
     api_key: str = field(
-        default_factory=lambda: os.environ.get("GEMINI_API_KEY", ""),
+        default_factory=lambda: get_secret("GEMINI_API_KEY", default="") or "",
         repr=False,
     )
     base_url: str = "https://generativelanguage.googleapis.com/v1beta"

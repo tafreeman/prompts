@@ -8,6 +8,9 @@ from unittest.mock import AsyncMock
 
 import pytest
 from agentic_v2.server.websocket import ConnectionManager
+from agentic_v2.server.app import create_app
+from starlette.websockets import WebSocketDisconnect
+from starlette.testclient import TestClient
 
 
 def _mock_websocket() -> AsyncMock:
@@ -269,3 +272,105 @@ class TestConnectionManagerClearBuffer:
         """clear_buffer() is safe for unknown run_id."""
         mgr = ConnectionManager()
         mgr.clear_buffer("nonexistent")
+
+
+class TestWebSocketEndpointAuth:
+    """Integration tests for WebSocket auth and origin policy."""
+
+    def test_websocket_accepts_authorization_header(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setenv("AGENTIC_API_KEY", "test-secret-key")
+        app = create_app()
+
+        with TestClient(app) as client, client.websocket_connect(
+            "/ws/execution/run-1",
+            headers={
+                "Authorization": "Bearer test-secret-key",
+                "Origin": "http://testserver",
+            },
+        ):
+            pass
+
+    def test_websocket_accepts_x_api_key_header(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setenv("AGENTIC_API_KEY", "test-secret-key")
+        app = create_app()
+
+        with TestClient(app) as client, client.websocket_connect(
+            "/ws/execution/run-1",
+            headers={
+                "Origin": "http://testserver",
+                "X-API-Key": "test-secret-key",
+            },
+        ):
+            pass
+
+    def test_websocket_rejects_missing_token_when_auth_enabled(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setenv("AGENTIC_API_KEY", "test-secret-key")
+        app = create_app()
+
+        with (
+            TestClient(app) as client,
+            pytest.raises(WebSocketDisconnect),
+            client.websocket_connect(
+                "/ws/execution/run-1",
+                headers={"Origin": "http://testserver"},
+            ),
+        ):
+            pass
+
+    def test_websocket_rejects_query_token_auth(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setenv("AGENTIC_API_KEY", "test-secret-key")
+        app = create_app()
+
+        with (
+            TestClient(app) as client,
+            pytest.raises(WebSocketDisconnect),
+            client.websocket_connect(
+                "/ws/execution/run-1?token=test-secret-key",
+                headers={"Origin": "http://testserver"},
+            ),
+        ):
+            pass
+
+    def test_websocket_rejects_invalid_bearer_token(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setenv("AGENTIC_API_KEY", "test-secret-key")
+        app = create_app()
+
+        with (
+            TestClient(app) as client,
+            pytest.raises(WebSocketDisconnect),
+            client.websocket_connect(
+                "/ws/execution/run-1",
+                headers={
+                    "Origin": "http://testserver",
+                    "Authorization": "Bearer wrong-key",
+                },
+            ),
+        ):
+            pass
+
+    def test_websocket_rejects_disallowed_origin(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.delenv("AGENTIC_API_KEY", raising=False)
+        monkeypatch.setenv("AGENTIC_CORS_ORIGINS", "https://allowed.example")
+        app = create_app()
+
+        with (
+            TestClient(app) as client,
+            pytest.raises(WebSocketDisconnect),
+            client.websocket_connect(
+                "/ws/execution/run-1",
+                headers={"Origin": "https://evil.example"},
+            ),
+        ):
+            pass

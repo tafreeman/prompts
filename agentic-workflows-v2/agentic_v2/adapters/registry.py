@@ -39,6 +39,16 @@ class AdapterRegistry:
     _instance: AdapterRegistry | None = None
     _lock = threading.Lock()
 
+    @classmethod
+    def reset_for_tests(cls) -> None:
+        """Reset the singleton for test isolation.
+
+        This method is intentionally limited to tests; production code
+        should continue using :func:`get_registry`.
+        """
+        with cls._lock:
+            cls._instance = None
+
     def __new__(cls) -> AdapterRegistry:
         with cls._lock:
             if cls._instance is None:
