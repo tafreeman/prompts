@@ -1,6 +1,6 @@
-import { useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Play, ArrowLeft, Loader2 } from "lucide-react";
+import { Play, ArrowLeft, Loader2, Sparkles, AlertCircle } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import { useWorkflowDAG } from "../hooks/useWorkflows";
 import { useRuns } from "../hooks/useRuns";
@@ -17,15 +17,18 @@ export default function WorkflowDetailPage() {
   const { data: dag, isLoading: dagLoading } = useWorkflowDAG(name);
   const { data: runs, isLoading: runsLoading } = useRuns(name);
 
-  const configRef = useRef<RunConfigValues>({
+  const [config, setConfig] = useState<RunConfigValues>({
     inputValues: {},
     executionProfile: { runtime: "subprocess" },
     rubricId: "",
+    evaluationReadiness: {
+      status: "idle",
+      message: "Turn on evaluation to score the run after it completes.",
+    },
     evaluation: {
       enabled: false,
       datasetSource: "none",
       datasetId: "",
-      evalSetId: "",
       selectedSamples: [0],
       runsPerRecord: 1,
     },
@@ -34,7 +37,7 @@ export default function WorkflowDetailPage() {
   const buildInputData = (): Record<string, unknown> => {
     const data: Record<string, unknown> = {};
     if (!dag?.inputs) return data;
-    const vals = configRef.current.inputValues;
+    const vals = config.inputValues;
     for (const inp of dag.inputs) {
       const val = vals[inp.name] ?? "";
       if (!val && !inp.required) continue;
@@ -53,21 +56,56 @@ export default function WorkflowDetailPage() {
 
   const [batchProgress, setBatchProgress] = useState<{ done: number; total: number } | null>(null);
 
+  const requiredInputNames = useMemo(
+    () => dag?.inputs?.filter((input) => input.required).map((input) => input.name) ?? [],
+    [dag?.inputs]
+  );
+
+  const validationMessage = useMemo(() => {
+    if (!config.evaluation.enabled) {
+      return null;
+    }
+    if (
+      config.evaluation.datasetSource !== "none" &&
+      !config.evaluation.datasetId
+    ) {
+      return "Choose a dataset before starting a scored evaluation.";
+    }
+
+    if (config.evaluation.datasetSource !== "none") {
+      if (config.evaluationReadiness.status === "loading") {
+        return "Wait for dataset preview to finish before starting the run.";
+      }
+      if (config.evaluationReadiness.status === "error") {
+        return config.evaluationReadiness.message;
+      }
+    }
+
+    const missingRequiredInputs = requiredInputNames.filter((name) => {
+      const value = config.inputValues[name];
+      if (typeof value === "string") {
+        return value.trim() === "";
+      }
+      return value == null;
+    });
+
+    if (config.evaluation.datasetSource === "none" && missingRequiredInputs.length > 0) {
+      return "Provide the required workflow inputs or choose a dataset that can prefill them.";
+    }
+
+    return null;
+  }, [config, requiredInputNames]);
+
   const runMutation = useMutation({
     mutationFn: async () => {
-      const { executionProfile, rubricId, evaluation } = configRef.current;
+      const { executionProfile, rubricId, evaluation } = config;
+
+      if (validationMessage) {
+        throw new Error(validationMessage);
+      }
 
       const buildEvalRequest = (sampleIndex: number) => {
         if (!evaluation.enabled) return undefined;
-        if (evaluation.datasetSource === "eval_set" && evaluation.evalSetId) {
-          return {
-            enabled: true as const,
-            dataset_source: "repository" as const,
-            dataset_id: evaluation.evalSetId,
-            sample_index: sampleIndex,
-            rubric_id: rubricId || undefined,
-          };
-        }
         if (evaluation.datasetSource !== "none" && evaluation.datasetId) {
           return {
             enabled: true as const,
@@ -132,6 +170,43 @@ export default function WorkflowDetailPage() {
     },
   });
 
+  let runButtonLabel = "Run";
+  if (batchProgress) {
+    runButtonLabel = `${batchProgress.done}/${batchProgress.total}`;
+  } else if (runMutation.isPending) {
+    runButtonLabel = "Starting...";
+  } else if (config.evaluation.enabled) {
+    runButtonLabel = "Run + Eval";
+  }
+
+  let evalSummary = "Manual run";
+  if (config.evaluation.enabled) {
+    if (config.evaluation.datasetSource === "none") {
+      evalSummary = "Evaluation enabled — using manual inputs only.";
+    } else if (config.evaluation.datasetId) {
+      evalSummary = `Evaluation ready · ${config.evaluation.datasetSource} dataset selected`;
+    } else {
+      evalSummary = "Evaluation enabled — choose a dataset to continue.";
+    }
+  }
+
+  let dagContent = (
+    <div className="flex h-full items-center justify-center text-gray-600 text-sm">
+      Failed to load DAG
+    </div>
+  );
+
+  if (dagLoading) {
+    dagContent = (
+      <div className="flex h-full items-center justify-center text-gray-600 text-sm">
+        Loading DAG...
+      </div>
+    );
+  } else if (dag) {
+    dagContent = <WorkflowDAG dagNodes={dag.nodes} dagEdges={dag.edges} />;
+  }
+
+  const errorMessage = runMutation.error?.message ?? null;
   const hasInputs = dag?.inputs && dag.inputs.length > 0;
 
   return (
@@ -152,25 +227,30 @@ export default function WorkflowDetailPage() {
             {dag?.description && (
               <p className="truncate text-xs text-gray-600">{dag.description}</p>
             )}
+            <div className="mt-1 flex items-center gap-1.5 text-[11px] text-gray-500">
+              <Sparkles className="h-3 w-3 text-accent-blue" />
+              <span>{evalSummary}</span>
+            </div>
           </div>
           <button
             type="button"
             onClick={() => runMutation.mutate()}
-            disabled={runMutation.isPending}
+            disabled={runMutation.isPending || Boolean(validationMessage)}
             className="btn-primary text-xs py-1.5 px-3"
           >
             {runMutation.isPending
               ? <Loader2 className="h-3.5 w-3.5 animate-spin" />
               : <Play className="h-3.5 w-3.5" />}
-            {batchProgress
-              ? `${batchProgress.done}/${batchProgress.total}`
-              : runMutation.isPending
-              ? "Starting..."
-              : configRef.current.evaluation.enabled
-              ? "Run + Eval"
-              : "Run"}
+            {runButtonLabel}
           </button>
         </div>
+
+        {validationMessage && (
+          <div className="mt-2 inline-flex items-start gap-2 rounded-lg border border-amber-500/20 bg-amber-500/5 px-3 py-2 text-[11px] text-amber-100">
+            <AlertCircle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+            <span>{validationMessage}</span>
+          </div>
+        )}
 
         {/* Config form — directly under header, compact */}
         {hasInputs && (
@@ -178,9 +258,7 @@ export default function WorkflowDetailPage() {
             <RunConfigForm
               inputs={dag.inputs!}
               workflowName={name!}
-              onChange={(values) => {
-                configRef.current = values;
-              }}
+              onChange={setConfig}
             />
           </div>
         )}
@@ -190,17 +268,7 @@ export default function WorkflowDetailPage() {
       <div className="flex flex-1 overflow-hidden">
         {/* DAG Preview */}
         <div className="flex-1 border-r border-white/5">
-          {dagLoading ? (
-            <div className="flex h-full items-center justify-center text-gray-600 text-sm">
-              Loading DAG...
-            </div>
-          ) : dag ? (
-            <WorkflowDAG dagNodes={dag.nodes} dagEdges={dag.edges} />
-          ) : (
-            <div className="flex h-full items-center justify-center text-gray-600 text-sm">
-              Failed to load DAG
-            </div>
-          )}
+          {dagContent}
         </div>
 
         {/* Run history sidebar — narrower */}
@@ -213,9 +281,9 @@ export default function WorkflowDetailPage() {
       </div>
 
       {/* Error banner */}
-      {runMutation.isError && (
+      {runMutation.isError && errorMessage && (
         <div className="border-t border-red-500/20 bg-red-500/5 px-4 py-2 text-xs text-red-400">
-          Failed: {(runMutation.error as Error).message}
+          Failed: {errorMessage}
         </div>
       )}
     </div>

@@ -1,5 +1,15 @@
 import { useState, useEffect, useCallback } from "react";
-import { Settings2, Cpu, FlaskConical, Database, ChevronDown, ChevronRight } from "lucide-react";
+import {
+  Settings2,
+  Cpu,
+  FlaskConical,
+  Database,
+  ChevronDown,
+  ChevronRight,
+  Sparkles,
+  AlertCircle,
+  CheckCircle2,
+} from "lucide-react";
 import type {
   WorkflowInputSchema,
   ExecutionProfileRequest,
@@ -15,14 +25,23 @@ export interface RunConfigValues {
   inputValues: Record<string, string>;
   executionProfile: ExecutionProfileRequest;
   rubricId: string;
+  evaluationReadiness: {
+    status: DatasetPreviewState["status"];
+    message: string;
+  };
   evaluation: {
     enabled: boolean;
-    datasetSource: "none" | "repository" | "local" | "eval_set";
+    datasetSource: "none" | "repository" | "local";
     datasetId: string;
-    evalSetId: string;
     selectedSamples: number[];
     runsPerRecord: number;
   };
+}
+
+interface DatasetPreviewState {
+  status: "idle" | "loading" | "ready" | "error";
+  message: string;
+  reasons: string[];
 }
 
 export interface RunConfigFormProps {
@@ -65,31 +84,105 @@ export default function RunConfigForm({ inputs, workflowName, onChange }: RunCon
 
   // -- Evaluation config -----------------------------------------------------
   const [evalEnabled, setEvalEnabled] = useState<boolean>(false);
-  const [evalDatasetSource, setEvalDatasetSource] = useState<"none" | "repository" | "local" | "eval_set">("none");
+  const [evalDatasetSource, setEvalDatasetSource] = useState<"none" | "repository" | "local">("none");
   const [evalDatasetId, setEvalDatasetId] = useState<string>("");
-  const [evalSetId, setEvalSetId] = useState<string>("");
   const [evalSelectedSamples, setEvalSelectedSamples] = useState<number[]>([0]);
   const [evalRunsPerRecord, setEvalRunsPerRecord] = useState<number>(1);
   const [datasets, setDatasets] = useState<EvaluationDatasetsResponse | null>(null);
+  const [datasetsError, setDatasetsError] = useState<string | null>(null);
+  const [isDatasetsLoading, setIsDatasetsLoading] = useState(false);
+  const [previewState, setPreviewState] = useState<DatasetPreviewState>({
+    status: "idle",
+    message: "Choose a workflow-compatible dataset to auto-fill inputs.",
+    reasons: [],
+  });
 
   useEffect(() => {
-    listEvaluationDatasets()
-      .then(setDatasets)
-      .catch((err) => console.error("Failed to load datasets:", err));
-  }, []);
+    let isActive = true;
+    setIsDatasetsLoading(true);
+    setDatasetsError(null);
+
+    listEvaluationDatasets(workflowName)
+      .then((response) => {
+        if (!isActive) return;
+        setDatasets(response);
+      })
+      .catch((err) => {
+        if (!isActive) return;
+        setDatasetsError(
+          err instanceof Error ? err.message : "Failed to load evaluation datasets."
+        );
+      })
+      .finally(() => {
+        if (!isActive) return;
+        setIsDatasetsLoading(false);
+      });
+
+    return () => {
+      isActive = false;
+    };
+  }, [workflowName]);
+
+  useEffect(() => {
+    if (!evalEnabled) {
+      setPreviewState({
+        status: "idle",
+        message: "Turn on evaluation to score the run after it completes.",
+        reasons: [],
+      });
+      return;
+    }
+
+    if (datasetsError) {
+      setPreviewState({
+        status: "error",
+        message: "Evaluation datasets could not be loaded for this workflow.",
+        reasons: [datasetsError],
+      });
+      return;
+    }
+
+    if (evalDatasetSource === "none") {
+      setPreviewState({
+        status: "idle",
+        message: "Select a repository or local dataset to run a scored evaluation.",
+        reasons: [],
+      });
+      return;
+    }
+
+    if (!evalDatasetId) {
+      setPreviewState({
+        status: "idle",
+        message: "Select a dataset to preview how it maps onto this workflow's inputs.",
+        reasons: [],
+      });
+      return;
+    }
+
+    setPreviewState({
+      status: "loading",
+      message: "Checking dataset compatibility and preparing sample inputs…",
+      reasons: [],
+    });
+  }, [evalEnabled, evalDatasetSource, evalDatasetId, datasetsError]);
 
   useEffect(() => {
     if (
       !evalEnabled ||
       evalDatasetSource === "none" ||
-      evalDatasetSource === "eval_set" ||
       !evalDatasetId
     ) {
       return;
     }
+
+    let isCurrent = true;
     const previewIndex = evalSelectedSamples[0] ?? 0;
     previewDatasetInputs(workflowName, evalDatasetSource, evalDatasetId, previewIndex)
       .then((preview) => {
+        if (!isCurrent) {
+          return;
+        }
         if (preview.compatible && preview.adapted_inputs) {
           setInputValues((prev) => {
             const updated = { ...prev };
@@ -102,10 +195,36 @@ export default function RunConfigForm({ inputs, workflowName, onChange }: RunCon
             return updated;
           });
         }
+
+        setPreviewState(
+          preview.compatible
+            ? {
+                status: "ready",
+                message: "Dataset is compatible. Sample inputs were prefilled for you.",
+                reasons: [],
+              }
+            : {
+                status: "error",
+                message: "Dataset does not match this workflow's required inputs.",
+                reasons: preview.reasons,
+              }
+        );
       })
       .catch((err) => {
-        console.warn("Failed to preview dataset inputs:", err);
+        if (!isCurrent) {
+          return;
+        }
+        const reason = err instanceof Error ? err.message : "Failed to preview dataset inputs.";
+        setPreviewState({
+          status: "error",
+          message: "Dataset preview failed.",
+          reasons: [reason],
+        });
       });
+
+    return () => {
+      isCurrent = false;
+    };
   }, [workflowName, evalEnabled, evalDatasetSource, evalDatasetId, evalSelectedSamples]);
 
   const [showAdvanced, setShowAdvanced] = useState(false);
@@ -121,17 +240,21 @@ export default function RunConfigForm({ inputs, workflowName, onChange }: RunCon
       inputValues,
       executionProfile: profile,
       rubricId,
+      evaluationReadiness: {
+        status: previewState.status,
+        message: previewState.message,
+      },
       evaluation: {
         enabled: evalEnabled,
         datasetSource: evalDatasetSource,
         datasetId: evalDatasetId,
-        evalSetId: evalSetId,
         selectedSamples: evalSelectedSamples,
         runsPerRecord: evalRunsPerRecord,
       }
     });
   }, [inputValues, runtime, maxAttempts, maxDuration, containerImage, rubricId,
-      evalEnabled, evalDatasetSource, evalDatasetId, evalSetId, evalSelectedSamples, evalRunsPerRecord, onChange]);
+      previewState.status, previewState.message, evalEnabled, evalDatasetSource, evalDatasetId,
+      evalSelectedSamples, evalRunsPerRecord, onChange]);
 
   useEffect(() => {
     emitChange();
@@ -148,6 +271,27 @@ export default function RunConfigForm({ inputs, workflowName, onChange }: RunCon
   const largeInputs = inputs.filter(
     (inp) => inp.type === "object" || inp.type === "array"
   );
+
+  const selectedDataset =
+    evalDatasetSource === "repository"
+      ? datasets?.repository.find((dataset) => dataset.id === evalDatasetId)
+      : datasets?.local.find((dataset) => dataset.id === evalDatasetId);
+
+  const previewTone =
+    previewState.status === "error"
+      ? "border-red-500/20 bg-red-500/5 text-red-200"
+      : previewState.status === "ready"
+      ? "border-emerald-500/20 bg-emerald-500/5 text-emerald-100"
+      : "border-white/10 bg-surface-1/70 text-gray-300";
+
+  const previewIcon =
+    previewState.status === "error" ? (
+      <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-300" />
+    ) : previewState.status === "ready" ? (
+      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-300" />
+    ) : (
+      <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-accent-blue" />
+    );
 
   return (
     <div data-testid="run-config-form" className="space-y-2">
@@ -209,6 +353,132 @@ export default function RunConfigForm({ inputs, workflowName, onChange }: RunCon
         </div>
       )}
 
+      <div
+        data-testid="evaluation-config"
+        className="space-y-3 rounded-xl border border-white/10 bg-surface-1/60 p-3 text-xs"
+      >
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div className="space-y-1">
+            <div className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-400">
+              <Database className="h-3.5 w-3.5" />
+              Evaluation
+            </div>
+            <p className="max-w-xl text-xs text-gray-500">
+              Score this run against a workflow-compatible dataset. Evaluation sets remain visible on the
+              datasets page, but this runner executes one concrete dataset at a time for predictable results.
+            </p>
+          </div>
+          <label className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-surface-2 px-3 py-1.5 text-gray-200">
+            <input
+              type="checkbox"
+              checked={evalEnabled}
+              onChange={(e) => setEvalEnabled(e.target.checked)}
+              className="rounded border-white/10 bg-surface-2 text-accent-blue focus:ring-accent-blue/50"
+            />
+            Enable evaluation
+          </label>
+        </div>
+
+        {evalEnabled && (
+          <>
+            <div className="flex flex-wrap items-end gap-2">
+              <label className="text-gray-400">
+                Source
+                <select
+                  value={evalDatasetSource}
+                  onChange={(e) => {
+                    setEvalDatasetSource(e.target.value as typeof evalDatasetSource);
+                    setEvalDatasetId("");
+                    setEvalSelectedSamples([0]);
+                  }}
+                  className="ml-1 rounded border border-white/10 bg-surface-2 px-2 py-1 text-xs text-gray-200 focus:border-accent-blue/50 focus:outline-none"
+                >
+                  <option value="none">None</option>
+                  <option value="repository">Repository</option>
+                  <option value="local">Local</option>
+                </select>
+              </label>
+
+              {evalDatasetSource === "repository" && datasets?.repository && (
+                <label className="text-gray-400">
+                  Dataset
+                  <select
+                    value={evalDatasetId}
+                    onChange={(e) => setEvalDatasetId(e.target.value)}
+                    className="ml-1 rounded border border-white/10 bg-surface-2 px-2 py-1 text-xs text-gray-200 focus:border-accent-blue/50 focus:outline-none"
+                  >
+                    <option value="">Select...</option>
+                    {datasets.repository.map((ds) => (
+                      <option key={ds.id} value={ds.id}>
+                        {ds.name} {ds.sample_count ? `(${ds.sample_count})` : ""}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              )}
+
+              {evalDatasetSource === "local" && datasets?.local && (
+                <label className="text-gray-400">
+                  Dataset
+                  <select
+                    value={evalDatasetId}
+                    onChange={(e) => setEvalDatasetId(e.target.value)}
+                    className="ml-1 rounded border border-white/10 bg-surface-2 px-2 py-1 text-xs text-gray-200 focus:border-accent-blue/50 focus:outline-none"
+                  >
+                    <option value="">Select...</option>
+                    {datasets.local.map((ds) => (
+                      <option key={ds.id} value={ds.id}>
+                        {ds.name} {ds.sample_count ? `(${ds.sample_count})` : ""}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              )}
+            </div>
+
+            {(evalDatasetSource === "repository" || evalDatasetSource === "local") && evalDatasetId && (
+              <SampleSelector
+                datasetSource={evalDatasetSource}
+                datasetId={evalDatasetId}
+                datasets={datasets}
+                selectedSamples={evalSelectedSamples}
+                runsPerRecord={evalRunsPerRecord}
+                onSelectedSamplesChange={setEvalSelectedSamples}
+                onRunsPerRecordChange={setEvalRunsPerRecord}
+              />
+            )}
+
+            <div className={`rounded-lg border px-3 py-2 ${previewTone}`}>
+              <div className="flex items-start gap-2">
+                {previewIcon}
+                <div className="min-w-0 space-y-1">
+                  <p className="font-medium">{previewState.message}</p>
+                  {selectedDataset && (
+                    <p className="text-[11px] text-inherit/80">
+                      {selectedDataset.name}
+                      {selectedDataset.sample_count != null ? ` · ${selectedDataset.sample_count} samples` : ""}
+                    </p>
+                  )}
+                  {previewState.reasons.length > 0 && (
+                    <ul className="list-disc space-y-0.5 pl-4 text-[11px] text-inherit/80">
+                      {previewState.reasons.map((reason) => (
+                        <li key={reason}>{reason}</li>
+                      ))}
+                    </ul>
+                  )}
+                  {isDatasetsLoading && (
+                    <p className="text-[11px] text-inherit/80">Loading workflow-compatible datasets…</p>
+                  )}
+                  {datasetsError && !isDatasetsLoading && (
+                    <p className="text-[11px] text-inherit/80">{datasetsError}</p>
+                  )}
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+
       {/* ---- Advanced toggle ---- */}
       <button
         type="button"
@@ -217,115 +487,11 @@ export default function RunConfigForm({ inputs, workflowName, onChange }: RunCon
         data-testid="advanced-toggle"
       >
         <Settings2 className="h-3 w-3" />
-        {showAdvanced ? "Hide advanced" : "Advanced"}
+        {showAdvanced ? "Hide advanced" : "Advanced runtime"}
       </button>
 
       {showAdvanced && (
         <div className="space-y-2 rounded border border-white/10 bg-surface-1/60 p-2 text-xs">
-          {/* ---- Evaluation config ---- */}
-          <fieldset data-testid="evaluation-config">
-            <legend className="mb-1 flex items-center gap-1 text-[11px] font-medium text-gray-300">
-              <Database className="h-3 w-3" />
-              Evaluation
-            </legend>
-
-            <div className="space-y-1.5">
-              <label className="flex items-center gap-2 text-gray-400">
-                <input
-                  type="checkbox"
-                  checked={evalEnabled}
-                  onChange={(e) => setEvalEnabled(e.target.checked)}
-                  className="rounded border-white/10 bg-surface-2 text-accent-blue focus:ring-accent-blue/50"
-                />
-                Enable evaluation
-              </label>
-
-              {evalEnabled && (
-                <div className="flex flex-wrap items-end gap-2">
-                  <label className="text-gray-400">
-                    Source
-                    <select
-                      value={evalDatasetSource}
-                      onChange={(e) => setEvalDatasetSource(e.target.value as typeof evalDatasetSource)}
-                      className="ml-1 rounded border border-white/10 bg-surface-2 px-2 py-1 text-xs text-gray-200 focus:border-accent-blue/50 focus:outline-none"
-                    >
-                      <option value="none">None</option>
-                      <option value="eval_set">Eval Set</option>
-                      <option value="repository">Repository</option>
-                      <option value="local">Local</option>
-                    </select>
-                  </label>
-
-                  {evalDatasetSource === "eval_set" && datasets?.eval_sets && (
-                    <label className="text-gray-400">
-                      Set
-                      <select
-                        value={evalSetId}
-                        onChange={(e) => setEvalSetId(e.target.value)}
-                        className="ml-1 rounded border border-white/10 bg-surface-2 px-2 py-1 text-xs text-gray-200 focus:border-accent-blue/50 focus:outline-none"
-                      >
-                        <option value="">Select...</option>
-                        {datasets.eval_sets.map((set) => (
-                          <option key={set.id} value={set.id}>
-                            {set.name} ({set.datasets.length})
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                  )}
-
-                  {evalDatasetSource === "repository" && datasets?.repository && (
-                    <label className="text-gray-400">
-                      Dataset
-                      <select
-                        value={evalDatasetId}
-                        onChange={(e) => setEvalDatasetId(e.target.value)}
-                        className="ml-1 rounded border border-white/10 bg-surface-2 px-2 py-1 text-xs text-gray-200 focus:border-accent-blue/50 focus:outline-none"
-                      >
-                        <option value="">Select...</option>
-                        {datasets.repository.map((ds) => (
-                          <option key={ds.id} value={ds.id}>
-                            {ds.name} {ds.sample_count ? `(${ds.sample_count})` : ""}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                  )}
-
-                  {evalDatasetSource === "local" && datasets?.local && (
-                    <label className="text-gray-400">
-                      Dataset
-                      <select
-                        value={evalDatasetId}
-                        onChange={(e) => setEvalDatasetId(e.target.value)}
-                        className="ml-1 rounded border border-white/10 bg-surface-2 px-2 py-1 text-xs text-gray-200 focus:border-accent-blue/50 focus:outline-none"
-                      >
-                        <option value="">Select...</option>
-                        {datasets.local.map((ds) => (
-                          <option key={ds.id} value={ds.id}>
-                            {ds.name} {ds.sample_count ? `(${ds.sample_count})` : ""}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                  )}
-
-                  {(evalDatasetSource === "repository" || evalDatasetSource === "local") && evalDatasetId && (
-                    <SampleSelector
-                      datasetSource={evalDatasetSource}
-                      datasetId={evalDatasetId}
-                      datasets={datasets}
-                      selectedSamples={evalSelectedSamples}
-                      runsPerRecord={evalRunsPerRecord}
-                      onSelectedSamplesChange={setEvalSelectedSamples}
-                      onRunsPerRecordChange={setEvalRunsPerRecord}
-                    />
-                  )}
-                </div>
-              )}
-            </div>
-          </fieldset>
-
           {/* ---- Rubric + Runtime in a single row ---- */}
           <div className="flex flex-wrap items-end gap-3 pt-1 border-t border-white/5">
             <fieldset data-testid="rubric-config" className="flex items-end gap-1">

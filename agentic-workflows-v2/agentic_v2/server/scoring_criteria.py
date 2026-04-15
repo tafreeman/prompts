@@ -304,6 +304,16 @@ def _build_judge_criteria(
     Returns:
         List of :class:`JudgeCriterionDefinition` instances for the judge prompt.
     """
+
+    def _resolve_scale(criterion: WorkflowCriterion) -> dict[str, str]:
+        scale = getattr(criterion, "scale_anchors", None)
+        if scale:
+            return scale
+        scale = getattr(criterion, "scale", None)
+        if scale:
+            return scale
+        return _default_judge_scale()
+
     criteria: list[JudgeCriterionDefinition] = []
     if criteria_by_name:
         for criterion_name in weights:
@@ -323,7 +333,7 @@ def _build_judge_criteria(
                     definition=(
                         criterion.definition or f"Quality of '{criterion_name}' aspect."
                     ),
-                    scale=criterion.scale_anchors or _default_judge_scale(),
+                    scale=_resolve_scale(criterion),
                 )
             )
     else:
