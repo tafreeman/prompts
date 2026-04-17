@@ -432,3 +432,37 @@ presentation/*.zip
 decks-generated/package-lock.json
 decks-generated/package.json
 presentation/src/tokens/raw-themes/*
+# AI assistant tooling — commit shared team config, ignore local/user state and secrets
+
+# Claude Code — commit agents/, commands/, skills/, rules/, CLAUDE.md
+.claude/settings.local.json
+.claude/logs/
+.claude/cache/
+.claude/projects/
+.claude/todos/
+.claude/shell-snapshots/
+.claude/statsig/
+.claude/ide/
+
+# Cursor — commit rules/, ignore local logs
+.cursor/logs/
+.cursor/cache/
+
+# Gemini CLI — commit GEMINI.md and shared config, ignore creds
+.gemini/oauth_creds.json
+.gemini/logs/
+.gemini/cache/
+
+# Generic agent dirs — commit if shared; adjust if your tool stores secrets here
+# .agents/
+# .agent/
+
+# GitHub skills — commit shared team skills
+# .github/skills/
+
+# Tool-installed skill/agent packs (regenerable — like node_modules)
+_bmad*
+**/bmad-*/
+**/wds-*/
+.agent/
+.agents/
