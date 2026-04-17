@@ -14,6 +14,7 @@ from agentic_v2.langchain import load_workflow_config
 from agentic_v2.langchain.config import InputConfig, OutputConfig, WorkflowConfig
 from agentic_v2.server import execution as execution_mod
 from agentic_v2.server import result_normalization
+from agentic_v2.server.app import create_app
 from agentic_v2.server.evaluation import (
     adapt_sample_to_workflow_inputs,
     list_local_datasets,
@@ -33,6 +34,7 @@ from agentic_v2.workflows.loader import (
     WorkflowLoader,
 )
 from fastapi import BackgroundTasks, HTTPException
+from starlette.requests import Request
 
 
 def _build_result(status: StepStatus = StepStatus.SUCCESS) -> WorkflowResult:
@@ -74,6 +76,18 @@ def _build_workflow_definition() -> WorkflowConfig:
             )
         },
     )
+
+
+def _build_http_request() -> Request:
+    app = create_app()
+    scope = {
+        "type": "http",
+        "method": "POST",
+        "path": "/api/run",
+        "headers": [],
+        "app": app,
+    }
+    return Request(scope)
 
 
 def test_list_local_datasets_includes_fixture_files():
@@ -453,6 +467,48 @@ def test_hybrid_score_with_mock_judge():
     assert with_judge["score_layers"]["layer2_judge"] is not None
 
 
+def test_hybrid_score_with_mock_judge_and_workflow_config_criteria():
+    def _provider(*, prompt: str, model: str, temperature: float):
+        assert "correctness_rubric" in prompt
+        return {
+            "criteria": [
+                {
+                    "name": "correctness_rubric",
+                    "score": 4,
+                    "evidence": "mostly correct review output",
+                },
+                {
+                    "name": "code_quality",
+                    "score": 4,
+                    "evidence": "clear structure and findings",
+                },
+                {
+                    "name": "efficiency",
+                    "score": 3,
+                    "evidence": "reasonable latency",
+                },
+                {
+                    "name": "documentation",
+                    "score": 4,
+                    "evidence": "useful summary",
+                },
+            ]
+        }
+
+    workflow_def = load_workflow_config("code_review")
+    evaluation = score_workflow_result(
+        _build_result(StepStatus.SUCCESS),
+        dataset_meta={"source": "local"},
+        dataset_sample={"code_file": "x.py"},
+        workflow_definition=workflow_def,
+        judge=LLMJudge(response_provider=_provider, model_version="mock-judge-scale"),
+    )
+
+    assert evaluation["judge"] is not None
+    assert evaluation["score_layers"]["layer2_judge"] is not None
+    assert evaluation["weighted_score"] > 0
+
+
 def test_hybrid_hard_gates_still_override():
     def _provider(*, prompt: str, model: str, temperature: float):
         return {
@@ -580,7 +636,7 @@ async def test_sse_payload_includes_hard_gates(monkeypatch):
         ),
     )
     background = BackgroundTasks()
-    await workflow_routes.run_workflow(request, background)
+    await workflow_routes.run_workflow(request, background, _build_http_request())
     for task in background.tasks:
         await task()
 
@@ -630,6 +686,9 @@ async def test_run_log_evaluation_has_gate_fields(monkeypatch):
 
     request = WorkflowRunRequest(
         workflow="dummy_workflow",
+        run_id="test-run-id",
+        adapter="default",
+        execution_profile="default",
         evaluation=WorkflowEvaluationRequest(
             enabled=True,
             dataset_source="local",
@@ -637,7 +696,7 @@ async def test_run_log_evaluation_has_gate_fields(monkeypatch):
         ),
     )
     background = BackgroundTasks()
-    await workflow_routes.run_workflow(request, background)
+    await workflow_routes.run_workflow(request, background, _build_http_request())
     for task in background.tasks:
         await task()
 
@@ -689,7 +748,7 @@ async def test_sse_payload_schema_validation(monkeypatch):
         ),
     )
     background = BackgroundTasks()
-    await workflow_routes.run_workflow(request, background)
+    await workflow_routes.run_workflow(request, background, _build_http_request())
     for task in background.tasks:
         await task()
 
@@ -722,7 +781,11 @@ async def test_run_workflow_preserves_422_for_invalid_repository_dataset(monkeyp
     )
 
     with pytest.raises(HTTPException) as exc_info:
-        await workflow_routes.run_workflow(request, BackgroundTasks())
+        await workflow_routes.run_workflow(
+            request,
+            BackgroundTasks(),
+            _build_http_request(),
+        )
 
     assert exc_info.value.status_code == 422
     assert "dataset_id is required" in str(exc_info.value.detail)

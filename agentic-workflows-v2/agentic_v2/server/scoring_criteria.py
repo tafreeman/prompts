@@ -152,6 +152,8 @@ def _compute_criterion_score(
         Raw score clamped to the 0.0--100.0 range.
     """
     # Support both contract WorkflowResult and langchain runner WorkflowResult
+    # Normalize both result shapes into the same scoring signals so the
+    # formulas below stay deterministic across execution backends.
     if hasattr(result, "success_rate"):
         success_rate = float(result.success_rate)
         total_steps = max(len(result.steps), 1)
@@ -171,6 +173,8 @@ def _compute_criterion_score(
     output_text = _output_text(result)
 
     _overall = getattr(result, "overall_status", None)
+    # Prefer the enum-based overall status when present; string statuses are a
+    # legacy fallback and can be less precise than the contract result.
     if _overall is None:
         _status_str = getattr(result, "status", "unknown")
         is_failed = _status_str != "success"
@@ -225,6 +229,8 @@ def _compute_criterion_score(
             result, "outputs", {}
         )
         key_count = len(final_out.keys()) if isinstance(final_out, dict) else 1
+        # Documentation-style criteria use output richness as a heuristic proxy,
+        # not as a guarantee of correctness.
         richness = min(chars / 120.0, 45.0) + min(key_count * 6.0, 30.0)
         base = 30.0 + richness
         if is_failed:
@@ -304,6 +310,19 @@ def _build_judge_criteria(
     Returns:
         List of :class:`JudgeCriterionDefinition` instances for the judge prompt.
     """
+
+    # Normalize the two supported workflow schema variants onto one scale map.
+    def _resolve_scale(criterion: Any) -> dict[str, str]:
+        scale_anchors = getattr(criterion, "scale_anchors", None)
+        if isinstance(scale_anchors, dict) and scale_anchors:
+            return {str(key): str(value) for key, value in scale_anchors.items()}
+
+        scale = getattr(criterion, "scale", None)
+        if isinstance(scale, dict) and scale:
+            return {str(key): str(value) for key, value in scale.items()}
+
+        return _default_judge_scale()
+
     criteria: list[JudgeCriterionDefinition] = []
     if criteria_by_name:
         for criterion_name in weights:
@@ -323,10 +342,12 @@ def _build_judge_criteria(
                     definition=(
                         criterion.definition or f"Quality of '{criterion_name}' aspect."
                     ),
-                    scale=criterion.scale_anchors or _default_judge_scale(),
+                    scale=_resolve_scale(criterion),
                 )
             )
     else:
+        # Older workflows may define weights without rich criterion metadata;
+        # keep the judge usable by synthesizing a generic definition.
         for criterion_name in weights:
             criteria.append(
                 JudgeCriterionDefinition(
@@ -445,6 +466,8 @@ def _compose_hybrid_score(
         "objective": objective_score_0_1,
         "advisory": advisory_score_0_1,
     }
+    # Omit the judge component entirely when it is unavailable so the remaining
+    # weights can be re-normalized instead of penalizing the final score.
     if judge_score_0_1 is not None:
         active_components["judge"] = judge_score_0_1
 
