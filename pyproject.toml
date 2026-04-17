@@ -33,7 +33,7 @@ dev = [
     "pytest-mock>=3.12",
     "pytest-timeout>=2.2",
     "black>=23.0",
-    "ruff>=0.1.0",
+    "ruff>=0.15.10",
     "mypy>=1.19",
     "pre-commit>=3.0",
 ]
