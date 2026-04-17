@@ -1,0 +1,96 @@
+{
+  "repository_type": "monorepo",
+  "workspace_manager": "uv",
+  "build_system": "hatchling",
+  "python_version": ">=3.11",
+  "parts": [
+    {
+      "part_id": "runtime",
+      "project_type_id": "backend",
+      "display_name": "agentic-workflows-v2 (Runtime Backend)",
+      "package_name": "agentic-workflows-v2",
+      "root_path": "agentic-workflows-v2/",
+      "source_path": "agentic-workflows-v2/agentic_v2/",
+      "test_path": "agentic-workflows-v2/tests/",
+      "language": "Python",
+      "framework": "FastAPI",
+      "key_technologies": ["Pydantic v2", "Typer", "httpx", "aiohttp", "Jinja2", "LangChain", "LangGraph", "OpenTelemetry", "LanceDB"],
+      "test_count": 87,
+      "coverage_target": 80
+    },
+    {
+      "part_id": "ui",
+      "project_type_id": "web",
+      "display_name": "agentic-workflows-v2/ui (React Dashboard)",
+      "package_name": "agentic-workflows-ui",
+      "root_path": "agentic-workflows-v2/ui/",
+      "source_path": "agentic-workflows-v2/ui/src/",
+      "test_path": "agentic-workflows-v2/ui/src/__tests__/",
+      "language": "TypeScript",
+      "framework": "React 19",
+      "key_technologies": ["Vite 6", "TanStack Query 5", "@xyflow/react 12", "react-router-dom 7", "Tailwind CSS 3.4", "lucide-react"],
+      "test_count": 23,
+      "coverage_target": 60
+    },
+    {
+      "part_id": "eval",
+      "project_type_id": "library",
+      "display_name": "agentic-v2-eval (Evaluation Framework)",
+      "package_name": "agentic-v2-eval",
+      "root_path": "agentic-v2-eval/",
+      "source_path": "agentic-v2-eval/src/agentic_v2_eval/",
+      "test_path": "agentic-v2-eval/tests/",
+      "language": "Python",
+      "framework": null,
+      "key_technologies": ["PyYAML", "prompts-tools"],
+      "test_count": 11,
+      "coverage_target": 80
+    },
+    {
+      "part_id": "tools",
+      "project_type_id": "library",
+      "display_name": "prompts-tools (Shared Utilities)",
+      "package_name": "prompts-tools",
+      "root_path": "tools/",
+      "source_path": "tools/",
+      "test_path": "tools/tests/",
+      "language": "Python",
+      "framework": null,
+      "key_technologies": ["OpenAI SDK", "Anthropic SDK", "Pydantic", "NumPy", "aiohttp", "PyYAML"],
+      "test_count": 10,
+      "coverage_target": 70
+    }
+  ],
+  "integration_points": [
+    {
+      "from": "ui",
+      "to": "runtime",
+      "type": "REST API",
+      "details": "16 endpoints under /api/, Vite dev proxy on port 5173 → 8010"
+    },
+    {
+      "from": "ui",
+      "to": "runtime",
+      "type": "WebSocket",
+      "details": "/ws/execution/{run_id} for real-time execution streaming with 500-event replay buffer"
+    },
+    {
+      "from": "ui",
+      "to": "runtime",
+      "type": "SSE",
+      "details": "/api/runs/{run_id}/stream for server-sent event streaming"
+    },
+    {
+      "from": "runtime",
+      "to": "tools",
+      "type": "Python import",
+      "details": "tools.llm.llm_client.LLMClient (aliased as LegacyClient), tools.llm.langchain_adapter, tools.agents.benchmarks.*"
+    },
+    {
+      "from": "eval",
+      "to": "tools",
+      "type": "Python import (lazy)",
+      "details": "tools.llm.llm_client.LLMClient via adapters, tools.agents.benchmarks via datasets.py"
+    }
+  ]
+}
