@@ -1,6 +1,6 @@
 # Project Documentation Index
 
-> **Generated:** 2026-04-16 | **Scan Mode:** initial_scan (exhaustive) | **Workflow Version:** 1.2.0
+> **Generated:** 2026-04-16 | **Last Updated:** 2026-04-18 | **Scan Mode:** initial_scan (exhaustive) | **Workflow Version:** 1.2.0 | **Deep-Dives:** 3
 
 ---
 
@@ -70,36 +70,37 @@
 
 ---
 
+## Deep-Dive Documentation
+
+Exhaustive full-file analysis of specific areas:
+
+- [Server Deep-Dive](./deep-dive-server.md) — Comprehensive analysis of `agentic-workflows-v2/agentic_v2/server/` (23 files, 6,589 LOC) — Generated 2026-04-17
+- [Agents Deep-Dive](./deep-dive-agents.md) — Comprehensive analysis of `agentic-workflows-v2/agentic_v2/agents/` (15 files, 4,337 LOC) — Generated 2026-04-17
+- [agentic-v2-eval Deep-Dive](./deep-dive-agentic-v2-eval.md) — Comprehensive analysis of the evaluation framework (`agentic-v2-eval/`, 60 files incl. tests + rubrics) — Generated 2026-04-18
+
+---
+
 ## Existing Documentation
 
 ### Architecture Decision Records
 
-- [ADR-001/002/003 — Architecture Decisions](./adr/ADR-001-002-003-architecture-decisions.md) — Foundational architecture choices
+- [ADR Index](./adr/ADR-INDEX.md) — Master index of all ADRs (start here)
+- [ADR-001/002/003 — Architecture Decisions](./adr/ADR-001-002-003-architecture-decisions.md)
 - [ADR-007 — Classification Matrix Stop Policy](./adr/ADR-007-classification-matrix-stop-policy.md)
 - [ADR-008 — Testing Approach Overhaul](./adr/ADR-008-testing-approach-overhaul.md)
 - [ADR-009 — Scoring Enhancements](./adr/ADR-009-scoring-enhancements.md)
 - [ADR-010 — Eval Harness Methodology](./adr/ADR-010-eval-harness-methodology.md)
 - [ADR-011 — Eval Harness API Interface](./adr/ADR-011-eval-harness-api-interface.md)
 - [ADR-012 — UI Evaluation Hub](./adr/ADR-012-ui-evaluation-hub.md)
-- [ADR Index](./adr/ADR-INDEX.md) — Master index of all ADRs
-- [ADR Compiled](./adr/ADR_COMPILED.md) — All ADRs in single document
-- [ADR Implementation Audit](./adr/ADR_IMPLEMENTATION_AUDIT.md)
-- [ADR Research Justifications](./adr/ADR_RESEARCH_JUSTIFICATIONS.md)
 - [RAG Pipeline Blueprint](./adr/RAG-pipeline-blueprint.md)
 
 ### Reference Documents
 
-- [Architecture (Legacy)](./ARCHITECTURE.md) — Original architecture document
 - [Coding Standards](./CODING_STANDARDS.md) — Detailed coding standards reference
 - [Workflow Authoring](./WORKFLOW_AUTHORING.md) — YAML workflow definition guide
 - [Pattern Catalog](./PATTERN_CATALOG.md) — Agentic pattern reference
 - [Glossary](./GLOSSARY.md) — Term definitions
 - [Onboarding](./ONBOARDING.md) — Team onboarding guide
-- [Test Coverage Analysis](./TEST_COVERAGE_ANALYSIS.md) — Coverage audit
-- [Context Engineering Audit](./CONTEXT_ENGINEERING_AUDIT.md)
-- [GitHub Repo Technical Audit](./GitHub_Repo_Technical_Audit.md)
-- [Implementation Roadmap](./IMPLEMENTATION_ROADMAP.md)
-- [Improvement Tracker](./IMPROVEMENT_TRACKER.md)
 
 ---
 

@@ -534,3 +534,51 @@ There is no database or ORM. All run results are serialised as JSON files. This 
 ### Protocol-Driven Architecture
 
 All major system interfaces are defined as `@runtime_checkable` Protocol classes. This decouples implementations from the interface definitions, enabling testing with pure mock implementations and preventing tight coupling between layers. It also allows third-party adapters, tools, and memory stores to be registered without modifying core code.
+
+---
+
+## Architectural Critique & Known Gaps
+
+Merged from the 2026-03-03 architecture review. Captures weaknesses and recommendations that complement the strengths above.
+
+### Protocol Type-Safety Weaknesses
+
+- `ExecutionEngine.execute()` uses `Any` for `workflow`, `ctx`, and return type — loses compile-time type safety and pushes validation to runtime.
+- `AgentProtocol.run()` uses `Any` for both input and output. `BaseAgent` is generic over `TInput`/`TOutput`, but the protocol itself does not enforce it.
+- No protocol exists for `WorkflowLoader` or config validation — these remain concrete classes.
+
+### Adapter Gaps
+
+- **Context bridging missing.** `LangChainEngine` accepts `ctx: Any` but does not forward the `ExecutionContext` to the underlying `WorkflowRunner`. Shared state (variables, services, step tracking) from the native context system is not available in LangGraph executions. `ctx` is currently reserved for "future use."
+- **Instance caching.** `AdapterRegistry` caches adapter instances. Configuration changes after first access require a registry reset — production-safe but forces `object.__new__()` workarounds in tests.
+
+### Workflow DSL Limits
+
+- `deep_research.yaml` is 619 lines with four near-identical rounds. YAML anchors help, but the round-based structure does not support dynamic round counts; adding more rounds requires duplication.
+- `server/routes/workflows.py` is ~1,200 lines — the largest single file. Evaluation, dataset, and run-history concerns should be extracted as verticals grow.
+
+### Code-Quality Configuration Drift
+
+- `agentic-workflows-v2/pyproject.toml` has **no `[tool.ruff]` section**. Pre-commit runs `ruff --fix` with no `--select`, falling back to defaults (E + F only). CLAUDE.md prescribes 13 rule categories (E, F, W, I, N, UP, S, B, A, C4, SIM, TCH, RUF). Only `agentic-v2-eval` has an explicit ruff config. Documented standards are aspirational rather than tool-enforced for the main package.
+
+### Production Readiness Gaps
+
+- All vector store / memory implementations are in-memory. Production needs a persistent `VectorStoreProtocol` implementation (LanceDB optional dep exists but no adapter).
+- No cross-package integration tests exercising `tools/` → `agentic-workflows-v2` → `agentic-v2-eval` end-to-end.
+- No adapter/tool plugin discovery — registration is import-time only (no `entry_points` or directory scan).
+- RAG prompt-injection hardening (system-prompt-level delimiter framing for retrieved documents) is noted as architectural gap.
+
+### Prioritized Recommendations
+
+| # | Recommendation | Impact | Effort | Priority |
+|---|---|:---:|:---:|:---:|
+| 1 | Tighten protocol signatures — replace `Any` in `ExecutionEngine.execute()` / `AgentProtocol.run()` with bounded TypeVars or Union types | 4 | M | High |
+| 2 | Bridge `ExecutionContext` into `LangChainEngine` so both engines share state during adapter-routed execution | 4 | M | High |
+| 3 | Add cross-package integration tests covering the LLM client → engine → eval scoring path | 4 | M | High |
+| 4 | Add RAG prompt-injection hardening (delimiter framing in system prompts for retrieved docs) | 4 | M | High |
+| 5 | Add persistent `VectorStoreProtocol` adapter (LanceDB) to bridge dev and production | 4 | M | Medium |
+| 6 | Extract `deep_research` round template into a loader-level loop construct — ~619 lines → ~200 | 3 | M | Medium |
+| 7 | Split `server/routes/workflows.py` into evaluation, dataset, and run-history route modules | 3 | S | Medium |
+| 8 | Add a standalone `quickstart.py` / CLI command running a simple workflow end-to-end | 3 | S | Medium |
+| 9 | Document "How to implement ExecutionEngine / VectorStoreProtocol" with test templates | 3 | S | Medium |
+| 10 | Add adapter/tool plugin discovery via `entry_points` or directory scan | 3 | M | Low |
