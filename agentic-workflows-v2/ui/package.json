@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.62.0",
-    "@xyflow/react": "^12.4.0",
+    "@xyflow/react": "^12.10.2",
     "lucide-react": "^0.468.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
