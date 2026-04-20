@@ -77,6 +77,24 @@ cd ../..
 pre-commit install
 ```
 
+### Windows Quick Start (alternative to steps 2–5)
+
+On Windows, a single script handles the full bring-up:
+
+```powershell
+cd agentic-workflows-v2
+.\scripts\setup-dev.ps1
+```
+
+This checks prerequisites (`uv`, `node`, `npm`), runs `uv sync` with all required extras,
+installs frontend packages, validates all 6 bundled workflows, and runs a deterministic
+smoke test. Flags:
+
+- `-SkipSmokeTest` — skip workflow validation and smoke test (faster)
+- `-SkipFrontend` — skip `npm install` for backend-only work
+
+After setup completes, launch the dev servers with `.\scripts\start-dev.ps1`.
+
 ---
 
 ## Environment Variables

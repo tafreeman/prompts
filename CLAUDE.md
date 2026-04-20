@@ -80,6 +80,19 @@ python -m pytest tests/ -q --cov=agentic_v2 --cov-report=term-missing  # Coverag
 pre-commit run --all-files                      # Lint (from repo root)
 ```
 
+### Windows One-Command Bring-Up
+
+```powershell
+# From agentic-workflows-v2/ — installs deps, validates workflows, runs smoke test:
+.\scripts\setup-dev.ps1
+
+# Backend-only (skip frontend):
+.\scripts\setup-dev.ps1 -SkipFrontend
+
+# Skip workflow validation (faster):
+.\scripts\setup-dev.ps1 -SkipSmokeTest
+```
+
 ### Dev Server (two terminals)
 
 ```bash
