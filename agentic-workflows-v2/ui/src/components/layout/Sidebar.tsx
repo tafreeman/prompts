@@ -3,54 +3,86 @@ import {
   LayoutDashboard,
   Workflow,
   Radio,
-  Zap,
+  List,
   Database,
   Trophy,
 } from "lucide-react";
+import { useTheme, type Theme } from "../../hooks/useTheme";
 
 const links = [
-  { to: "/", icon: LayoutDashboard, label: "Dashboard" },
-  { to: "/workflows", icon: Workflow, label: "Workflows" },
-  { to: "/datasets", icon: Database, label: "Datasets" },
-  { to: "/evaluations", icon: Trophy, label: "Evaluations" },
-  { to: "/live/latest", icon: Radio, label: "Live" },
+  { to: "/", icon: LayoutDashboard, label: "dashboard", end: true },
+  { to: "/workflows", icon: Workflow, label: "workflows", end: false },
+  { to: "/live/latest", icon: Radio, label: "live", end: false },
+  { to: "/runs", icon: List, label: "runs", end: false },
+  { to: "/datasets", icon: Database, label: "datasets", end: false },
+  { to: "/evaluations", icon: Trophy, label: "evals", end: false },
 ];
 
+const THEMES: Theme[] = ["dark", "paper", "bolt"];
+
 export default function Sidebar() {
+  const [theme, setTheme] = useTheme();
+
   return (
-    <aside className="flex h-full w-56 flex-col border-r border-white/5 bg-surface-1">
+    <aside className="flex h-full w-48 flex-col border-r border-b-line bg-b-bg1">
       {/* Logo */}
-      <div className="flex items-center gap-2 px-4 py-5">
-        <Zap className="h-5 w-5 text-accent-blue" />
-        <span className="text-sm font-semibold tracking-wide">
-          Agentic Workflows
-        </span>
+      <div className="px-4 py-4">
+        <div
+          className="font-mono text-[13px] font-bold text-b-clay"
+          style={{ letterSpacing: "3px" }}
+        >
+          PROMPTS
+        </div>
+        <div className="mt-0.5 font-mono text-[10px] text-b-text-dim">
+          workspace · acme
+        </div>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 space-y-1 px-2">
+      <nav className="flex-1 space-y-0.5 px-2">
         {links.map((link) => (
           <NavLink
             key={link.to}
             to={link.to}
-            end={link.to === "/"}
+            end={link.end}
             className={({ isActive }) =>
-              `flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors ${
+              `flex items-center gap-2.5 rounded-sm border-l-2 px-3 py-2 font-mono text-[11px] transition-colors ${
                 isActive
-                  ? "bg-accent-blue/10 text-accent-blue"
-                  : "text-gray-400 hover:bg-white/5 hover:text-gray-200"
+                  ? "border-b-clay bg-b-clay-soft text-b-clay"
+                  : "border-transparent text-b-text-dim hover:bg-b-bg2 hover:text-b-text"
               }`
             }
           >
-            <link.icon className="h-4 w-4" />
-            {link.label}
+            <link.icon className="h-3.5 w-3.5" />
+            <span>{link.label}</span>
           </NavLink>
         ))}
       </nav>
 
-      {/* Footer */}
-      <div className="border-t border-white/5 px-4 py-3">
-        <p className="text-xs text-gray-600">v0.1.0</p>
+      {/* Footer: version + theme toggle */}
+      <div className="border-t border-b-line px-4 py-2.5">
+        <div className="mb-2 font-mono text-[10px] text-b-text-faint">
+          v0.1.0
+        </div>
+        <div className="flex items-center gap-1.5">
+          {THEMES.map((t) => {
+            const active = theme === t;
+            return (
+              <button
+                key={t}
+                type="button"
+                onClick={() => setTheme(t)}
+                className={`font-mono text-[9px] uppercase tracking-[0.5px] transition-colors ${
+                  active
+                    ? "text-b-clay"
+                    : "text-b-text-faint hover:text-b-text-dim"
+                }`}
+              >
+                [{t}]
+              </button>
+            );
+          })}
+        </div>
       </div>
     </aside>
   );

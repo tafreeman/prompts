@@ -1,3 +1,5 @@
+@import "./tokens.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,19 +9,29 @@
     box-sizing: border-box;
   }
 
+  html {
+    background: rgb(var(--b-bg0));
+    color: rgb(var(--b-text));
+  }
+
   body {
     margin: 0;
-    font-family:
-      "Inter",
-      -apple-system,
-      BlinkMacSystemFont,
-      "Segoe UI",
-      sans-serif;
+    font-family: var(--b-font-mono);
+    background: rgb(var(--b-bg0));
+    color: rgb(var(--b-text));
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Scrollbar styling */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--b-font-heading);
+  }
+
   ::-webkit-scrollbar {
     width: 5px;
     height: 5px;
@@ -28,46 +40,47 @@
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: #2a2a3a;
+    background: var(--b-scroll-thumb);
     border-radius: 3px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: #444;
   }
 }
 
 @layer components {
   .card {
-    @apply rounded-lg border border-white/5 bg-surface-1 p-4;
+    @apply rounded border border-b-line bg-b-bg1 p-4;
   }
 
   .card-hover {
-    @apply card transition-all duration-200 hover:border-white/10 hover:bg-surface-2;
+    @apply card transition-colors duration-150 hover:border-b-clay/40 hover:bg-b-bg2;
   }
 
   .btn {
-    @apply inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-accent-blue/50;
+    @apply inline-flex items-center gap-1.5 rounded-sm px-3 py-1.5 font-mono text-[11px] transition-colors duration-150 focus:outline-none focus:ring-1 focus:ring-b-clay/50;
   }
 
   .btn-primary {
-    @apply btn bg-accent-blue text-white hover:bg-accent-blue/80 active:scale-[0.98];
+    @apply btn bg-b-clay;
+    color: var(--b-btn-primary-ink);
+  }
+  .btn-primary:hover {
+    opacity: 0.85;
   }
 
   .btn-ghost {
-    @apply btn text-gray-400 hover:bg-white/5 hover:text-gray-200;
+    @apply btn border border-b-line text-b-text-dim hover:bg-b-bg2 hover:text-b-text;
   }
 }
 
 /* ── React Flow overrides ── */
 
 .react-flow__background {
-  background-color: #0a0a0f !important;
+  background-color: rgb(var(--b-bg0)) !important;
 }
 
 .react-flow__minimap {
-  background-color: #0e0e16 !important;
-  border: 1px solid rgba(255, 255, 255, 0.04) !important;
-  border-radius: 6px !important;
+  background-color: rgb(var(--b-bg1)) !important;
+  border: 1px solid rgb(var(--b-line)) !important;
+  border-radius: 4px !important;
   opacity: 0.8;
   transition: opacity 0.2s;
 }
@@ -77,8 +90,8 @@
 }
 
 .react-flow__controls {
-  border: 1px solid rgba(255, 255, 255, 0.04) !important;
-  border-radius: 6px !important;
+  border: 1px solid rgb(var(--b-line)) !important;
+  border-radius: 4px !important;
   overflow: hidden;
   opacity: 0.6;
   transition: opacity 0.2s;
@@ -89,24 +102,22 @@
 }
 
 .react-flow__controls-button {
-  background-color: #14141e !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
-  fill: #6b7280 !important;
+  background-color: rgb(var(--b-bg1)) !important;
+  border-bottom: 1px solid rgb(var(--b-line)) !important;
+  fill: rgb(var(--b-text-dim)) !important;
   width: 26px !important;
   height: 26px !important;
 }
 
 .react-flow__controls-button:hover {
-  background-color: #1e1e2a !important;
-  fill: #9ca3af !important;
+  background-color: rgb(var(--b-bg2)) !important;
+  fill: rgb(var(--b-text)) !important;
 }
 
-/* Smooth viewport transitions */
 .react-flow__viewport {
   transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Animated edge for running steps */
 @keyframes dash-flow {
   to {
     stroke-dashoffset: -20;
@@ -117,12 +128,12 @@
   animation: dash-flow 0.5s linear infinite;
 }
 
-/* Edge transitions */
 .react-flow__edge path {
-  transition: stroke 0.4s ease, stroke-opacity 0.4s ease;
+  transition:
+    stroke 0.4s ease,
+    stroke-opacity 0.4s ease;
 }
 
-/* Node transitions */
 .react-flow__node {
   transition: opacity 0.3s ease;
 }

@@ -3,7 +3,8 @@
   "timestamps": {
     "started": "2026-04-16T00:00:00.000Z",
     "last_updated": "2026-04-16T15:45:00.000Z",
-    "completed": "2026-04-16T15:45:00.000Z"
+    "completed": "2026-04-16T15:45:00.000Z",
+    "deep_dive_last": "2026-04-17T00:00:00.000Z"
   },
   "mode": "initial_scan",
   "scan_level": "exhaustive",
@@ -55,7 +56,27 @@
     "development-guide.md",
     "deployment-guide.md",
     "contribution-guide.md",
-    "project-parts.json"
+    "project-parts.json",
+    "deep-dive-server.md",
+    "deep-dive-agents.md"
+  ],
+  "deep_dive_targets": [
+    {
+      "target_name": "Server",
+      "target_path": "agentic-workflows-v2/agentic_v2/server/",
+      "files_analyzed": 23,
+      "total_loc": 6589,
+      "output_file": "deep-dive-server.md",
+      "timestamp": "2026-04-17T00:00:00.000Z"
+    },
+    {
+      "target_name": "Agents",
+      "target_path": "agentic-workflows-v2/agentic_v2/agents/",
+      "files_analyzed": 15,
+      "total_loc": 4337,
+      "output_file": "deep-dive-agents.md",
+      "timestamp": "2026-04-17T00:00:00.000Z"
+    }
   ],
   "resume_instructions": "Workflow complete. No further steps needed."
 }

@@ -11,6 +11,8 @@ import RunConfigForm, {
   type RunConfigValues,
 } from "../components/runs/RunConfigForm";
 import { isWorkflowBuilderEnabled } from "../config/featureFlags";
+import BTopBar from "../components/layout/BTopBar";
+import BBox from "../components/common/BBox";
 
 export default function WorkflowDetailPage() {
   const { name } = useParams<{ name: string }>();
@@ -138,54 +140,64 @@ export default function WorkflowDetailPage() {
 
   return (
     <div className="flex h-full flex-col">
-      {/* Header — compact with inline run button */}
-      <div className="border-b border-white/5 px-4 py-2.5">
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={() => navigate("/workflows")}
-            className="btn-ghost p-1"
-            aria-label="Back to workflows"
+      <BTopBar path={`workflows/${name ?? ""}`}>
+        <button
+          type="button"
+          onClick={() => navigate("/workflows")}
+          className="btn-ghost"
+        >
+          <ArrowLeft className="h-3 w-3" />
+          <span>[b] back</span>
+        </button>
+        {workflowBuilderEnabled && name && (
+          <Link
+            to={`/workflows/${encodeURIComponent(name)}/edit`}
+            className="btn-ghost"
           >
-            <ArrowLeft className="h-4 w-4" />
-          </button>
-          <div className="min-w-0 flex-1">
-            <h1 className="truncate text-sm font-semibold">{name}</h1>
-            {dag?.description && (
-              <p className="truncate text-xs text-gray-600">{dag.description}</p>
-            )}
-          </div>
-          {workflowBuilderEnabled && name && (
-            <Link
-              to={`/workflows/${encodeURIComponent(name)}/edit`}
-              className="btn-ghost px-3 py-1.5 text-xs"
-            >
-              <Pencil className="h-3.5 w-3.5" />
-              Edit
-            </Link>
+            <Pencil className="h-3 w-3" />
+            <span>[e] edit</span>
+          </Link>
+        )}
+        <button
+          type="button"
+          onClick={() => runMutation.mutate()}
+          disabled={runMutation.isPending}
+          className="btn-primary"
+        >
+          {runMutation.isPending ? (
+            <Loader2 className="h-3 w-3 animate-spin" />
+          ) : (
+            <Play className="h-3 w-3" />
           )}
-          <button
-            type="button"
-            onClick={() => runMutation.mutate()}
-            disabled={runMutation.isPending}
-            className="btn-primary text-xs py-1.5 px-3"
-          >
-            {runMutation.isPending
-              ? <Loader2 className="h-3.5 w-3.5 animate-spin" />
-              : <Play className="h-3.5 w-3.5" />}
+          <span>
             {batchProgress
               ? `${batchProgress.done}/${batchProgress.total}`
               : runMutation.isPending
-              ? "Starting..."
-              : configRef.current.evaluation.enabled
-              ? "Run + Eval"
-              : "Run"}
-          </button>
-        </div>
+                ? "[…] starting"
+                : configRef.current.evaluation.enabled
+                  ? "[▶] run + eval"
+                  : "[▶] run"}
+          </span>
+        </button>
+      </BTopBar>
 
-        {/* Config form — directly under header, compact */}
+      {/* Header band + config form */}
+      <div className="border-b border-b-line bg-b-bg1 px-4 py-3">
+        <div className="min-w-0">
+          <h1
+            className="truncate text-[18px] font-semibold text-b-text"
+            style={{ letterSpacing: "-0.3px" }}
+          >
+            {name}
+          </h1>
+          {dag?.description && (
+            <p className="mt-0.5 truncate font-mono text-[11px] text-b-text-dim">
+              {dag.description}
+            </p>
+          )}
+        </div>
         {hasInputs && (
-          <div className="mt-2">
+          <div className="mt-3">
             <RunConfigForm
               inputs={dag.inputs!}
               workflowName={name!}
@@ -199,34 +211,32 @@ export default function WorkflowDetailPage() {
 
       {/* Content */}
       <div className="flex flex-1 overflow-hidden">
-        {/* DAG Preview */}
-        <div className="flex-1 border-r border-white/5">
+        <div className="flex-1 border-r border-b-line">
           {dagLoading ? (
-            <div className="flex h-full items-center justify-center text-gray-600 text-sm">
-              Loading DAG...
+            <div className="flex h-full items-center justify-center font-mono text-[11px] text-b-text-dim">
+              $ loading dag…
             </div>
           ) : dag ? (
             <WorkflowDAG dagNodes={dag.nodes} dagEdges={dag.edges} />
           ) : (
-            <div className="flex h-full items-center justify-center text-gray-600 text-sm">
-              Failed to load DAG
+            <div className="flex h-full items-center justify-center font-mono text-[11px] text-b-red">
+              $ failed to load dag
             </div>
           )}
         </div>
 
-        {/* Run history sidebar — narrower */}
-        <div className="w-[320px] overflow-y-auto p-3">
-          <h2 className="mb-2 text-xs font-medium text-gray-500 uppercase tracking-wide">
-            History
-          </h2>
-          <RunList runs={runs} isLoading={runsLoading} />
+        <div className="w-[340px] overflow-y-auto bg-b-bg0 p-3">
+          <BBox title="run history">
+            <div className="p-2">
+              <RunList runs={runs} isLoading={runsLoading} />
+            </div>
+          </BBox>
         </div>
       </div>
 
-      {/* Error banner */}
       {runMutation.isError && (
-        <div className="border-t border-red-500/20 bg-red-500/5 px-4 py-2 text-xs text-red-400">
-          Failed: {(runMutation.error as Error).message}
+        <div className="border-t border-b-red bg-b-red/10 px-4 py-2 font-mono text-[11px] text-b-red">
+          [!] {(runMutation.error as Error).message}
         </div>
       )}
     </div>

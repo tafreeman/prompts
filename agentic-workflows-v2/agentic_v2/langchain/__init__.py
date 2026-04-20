@@ -19,6 +19,17 @@ Quick start::
 
 from __future__ import annotations
 
+import warnings
+
+warnings.warn(
+    "agentic_v2.langchain (LangGraph adapter) is deprecated and will be removed. "
+    "The native DAG executor is the single supported engine. "
+    "See docs/adr/ADR-013-foundation-native-dag.md. "
+    "LangGraph adapter removal target: v2.0, 2026-Q3.",
+    DeprecationWarning,
+    stacklevel=2,
+)
+
 from .config import WorkflowConfig, list_workflows, load_workflow_config
 
 __all__ = [

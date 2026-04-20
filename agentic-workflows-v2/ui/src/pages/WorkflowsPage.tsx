@@ -1,69 +1,140 @@
-import { useState } from "react";
+import { useMemo, useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Workflow, ChevronRight, Search } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { useWorkflows } from "../hooks/useWorkflows";
+import { useRuns } from "../hooks/useRuns";
+import BTopBar from "../components/layout/BTopBar";
+import BPill from "../components/common/BPill";
+import type { RunSummary } from "../api/types";
+
+function latestRunFor(runs: RunSummary[] | undefined, name: string) {
+  if (!runs) return null;
+  return runs.find((r) => r.workflow_name === name) ?? null;
+}
+
+function statusTone(status: string | null | undefined) {
+  if (status === "success") return "ok" as const;
+  if (status === "failed" || status === "error") return "err" as const;
+  if (status === "running" || status === "in_progress") return "clay" as const;
+  return "dim" as const;
+}
 
 export default function WorkflowsPage() {
   const { data: workflows, isLoading } = useWorkflows();
-  const [searchQuery, setSearchQuery] = useState("");
+  const { data: runs } = useRuns();
+  const [query, setQuery] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const filteredWorkflows = workflows?.filter((name) =>
-    name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "/" && document.activeElement?.tagName !== "INPUT") {
+        e.preventDefault();
+        inputRef.current?.focus();
+      }
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  const filtered = useMemo(() => {
+    const q = query.toLowerCase().trim();
+    if (!q) return workflows ?? [];
+    return (workflows ?? []).filter((name) =>
+      name.toLowerCase().includes(q),
+    );
+  }, [workflows, query]);
 
   return (
-    <div className="h-full overflow-y-auto">
-      <div className="mx-auto max-w-4xl space-y-6 p-6">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div className="flex h-full flex-col">
+      <BTopBar path="workflows" />
+
+      <div className="h-full overflow-y-auto">
+        <div className="mx-auto max-w-3xl space-y-4 p-6">
+          {/* Header */}
           <div>
-            <h1 className="text-xl font-semibold">Workflows</h1>
-            <p className="mt-1 text-sm text-gray-500">
-              Available workflow definitions
-            </p>
-          </div>
-          <div className="relative w-full sm:w-64">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
-            <input
-              type="text"
-              placeholder="Search workflows..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full rounded-md border border-white/10 bg-surface-2 py-2 pl-9 pr-4 text-sm text-gray-200 placeholder-gray-500 focus:border-accent-blue focus:outline-none focus:ring-1 focus:ring-accent-blue"
-            />
-          </div>
-        </div>
-
-        {isLoading && (
-          <div className="space-y-2">
-            {Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="card animate-pulse h-20" />
-            ))}
-          </div>
-        )}
-
-        <div className="space-y-2">
-          {filteredWorkflows?.map((name) => (
-            <Link
-              key={name}
-              to={`/workflows/${name}`}
-              className="card-hover flex items-center gap-4"
+            <h1
+              className="text-[24px] font-semibold text-b-text"
+              style={{ letterSpacing: "-0.5px" }}
             >
-              <Workflow className="h-5 w-5 text-accent-blue" />
-              <div className="flex-1">
-                <div className="font-medium text-gray-200">{name}</div>
-                <div className="text-xs text-gray-600">
-                  {name.replace(/_/g, " ")}
-                </div>
-              </div>
-              <ChevronRight className="h-4 w-4 text-gray-600" />
-            </Link>
-          ))}
+              Workflows
+            </h1>
+            <div className="mt-1 font-mono text-[11px] text-b-text-dim">
+              $ {workflows?.length ?? 0} definitions · filter with{" "}
+              <span className="text-b-clay">/</span>
+            </div>
+          </div>
 
-          {filteredWorkflows?.length === 0 && !isLoading && (
-            <div className="text-center text-gray-600 py-12">
-              No workflows found matching "{searchQuery}".
+          {/* Search */}
+          <div className="flex items-center gap-2 rounded-sm border border-b-line bg-b-bg0 px-3 py-2">
+            <span className="font-mono text-[13px] font-bold text-b-clay">
+              /
+            </span>
+            <input
+              ref={inputRef}
+              type="text"
+              placeholder="filter by name, tag…"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="flex-1 bg-transparent font-mono text-[11px] text-b-text placeholder:text-b-text-faint focus:outline-none"
+            />
+            {query && (
+              <span className="font-mono text-[10px] text-b-text-dim">
+                {filtered.length} match
+              </span>
+            )}
+          </div>
+
+          {/* Loading */}
+          {isLoading && (
+            <div className="space-y-[2px]">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="h-[52px] animate-pulse rounded-sm border border-b-line bg-b-bg1"
+                />
+              ))}
             </div>
           )}
+
+          {/* List */}
+          <div className="space-y-[2px]">
+            {filtered.map((name) => {
+              const latest = latestRunFor(runs, name);
+              return (
+                <Link
+                  key={name}
+                  to={`/workflows/${name}`}
+                  className="group flex items-center gap-3 border border-b-line border-l-2 bg-b-bg1 px-3 py-3 transition-colors hover:bg-b-bg2 hover:border-l-b-clay"
+                >
+                  <span className="font-mono text-[14px] text-b-blue">▣</span>
+                  <div className="flex-1 min-w-0">
+                    <div
+                      className="truncate font-mono text-[14px] font-semibold text-b-text"
+                      style={{ fontFamily: "var(--b-font-mono)" }}
+                    >
+                      {name}
+                    </div>
+                    <div className="mt-0.5 truncate font-mono text-[10px] text-b-text-dim">
+                      #{name.replace(/_/g, "-")}
+                    </div>
+                  </div>
+                  {latest && (
+                    <BPill tone={statusTone(latest.status)}>
+                      {latest.status ?? "—"}
+                    </BPill>
+                  )}
+                  <ChevronRight className="h-4 w-4 text-b-text-faint group-hover:text-b-clay" />
+                </Link>
+              );
+            })}
+
+            {filtered.length === 0 && !isLoading && (
+              <div className="rounded-sm border border-dashed border-b-line py-10 text-center font-mono text-[11px] text-b-text-dim">
+                no workflows match "<span className="text-b-text">{query}</span>
+                "
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
