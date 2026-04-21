@@ -22,6 +22,7 @@ from datetime import datetime, timezone
 from typing import Any, Awaitable, Callable
 
 from ..contracts import StepResult, StepStatus, WorkflowResult
+from ..integrations.otel import get_tracer as _get_tracer
 from .context import ExecutionContext, get_context
 from .dag import DAG
 from .step import StepExecutor
@@ -93,6 +94,21 @@ class DAGExecutor:
 
         dag.validate()
 
+        _tracer = _get_tracer()
+        if _tracer:
+            with _tracer.start_as_current_span("engine.execute") as _span:
+                _span.set_attribute("workflow.name", dag.name)
+                return await self._run_dag(dag, ctx, on_update, max_concurrency)
+        return await self._run_dag(dag, ctx, on_update, max_concurrency)
+
+    async def _run_dag(
+        self,
+        dag: DAG,
+        ctx: ExecutionContext,
+        on_update: Callable[[dict[str, Any]], Awaitable[None]] | None,
+        max_concurrency: int,
+    ) -> WorkflowResult:
+        """Internal DAG scheduling loop (separated for OTEL span instrumentation)."""
         # Fresh state manager per execution to avoid cross-run pollution
         self._state_manager = StepStateManager()
 

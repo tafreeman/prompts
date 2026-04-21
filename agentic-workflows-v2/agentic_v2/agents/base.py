@@ -33,12 +33,14 @@ Key abstractions:
 from __future__ import annotations
 
 import asyncio
+import contextlib
 import logging
 import uuid
 from abc import ABC, abstractmethod
 from typing import Any, AsyncIterator, Generic, TypeVar
 
 from ..contracts import TaskInput, TaskOutput
+from ..integrations.otel import get_tracer as _get_tracer
 from ..engine import ExecutionContext, StepDefinition
 from ..models import (
     LLMClientWrapper,
@@ -205,26 +207,33 @@ class BaseAgent(ABC, Generic[TInput, TOutput]):
         self._iteration_count = 0
         self._tool_call_count = 0
 
-        try:
-            # Add task to memory
-            task_message = self._format_task_message(task)
-            self._memory.add_user(task_message)
+        _tracer = _get_tracer()
+        _span_cm = (
+            _tracer.start_as_current_span(f"agent.{self.name}")
+            if _tracer
+            else contextlib.nullcontext()
+        )
+        with _span_cm:
+            try:
+                # Add task to memory
+                task_message = self._format_task_message(task)
+                self._memory.add_user(task_message)
 
-            # Main execution loop
-            result = await self._execute_loop(task)
+                # Main execution loop
+                result = await self._execute_loop(task)
 
-            self._last_result = result
-            self._set_state(AgentState.COMPLETED)
-            return result
+                self._last_result = result
+                self._set_state(AgentState.COMPLETED)
+                return result
 
-        except asyncio.CancelledError:
-            self._set_state(AgentState.CANCELLED)
-            raise
+            except asyncio.CancelledError:
+                self._set_state(AgentState.CANCELLED)
+                raise
 
-        except Exception as e:
-            self._error = str(e)
-            self._set_state(AgentState.FAILED)
-            raise
+            except Exception as e:
+                self._error = str(e)
+                self._set_state(AgentState.FAILED)
+                raise
 
     async def _execute_loop(self, task: TInput) -> TOutput:
         """Main execution loop with iteration limit."""
