@@ -220,7 +220,7 @@ class CodeExecutionTool(BaseTool):
                     tmp_path,
                     stdout=asyncio.subprocess.PIPE,
                     stderr=asyncio.subprocess.PIPE,
-                    env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"},
+                    env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"},  # env-pass: subprocess env
                 )
                 stdout_bytes, stderr_bytes = await asyncio.wait_for(
                     proc.communicate(), timeout=timeout

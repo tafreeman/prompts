@@ -44,7 +44,7 @@ class StdioTransport(McpTransport):
         Args:
             command: Executable command (e.g., "npx", "python", "/path/to/binary")
             args: Command arguments
-            env: Environment variables (merged with os.environ)
+            env: Extra environment variables merged into the subprocess env
         """
         super().__init__()
         self.command = command

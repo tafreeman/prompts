@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import ast
-import os
 from pathlib import Path
 from typing import Any
 
@@ -66,7 +65,8 @@ class CodeAnalysisTool(BaseTool):
             # Get source code
             if from_file:
                 file_path = Path(source)
-                base_dir = os.environ.get("AGENTIC_FILE_BASE_DIR")
+                from ...settings import get_settings as _gs
+                base_dir = _gs().agentic_file_base_dir
                 if base_dir:
                     try:
                         ensure_within_base(file_path, base_dir)

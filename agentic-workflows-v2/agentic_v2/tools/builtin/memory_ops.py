@@ -16,7 +16,6 @@ Storage location:
 from __future__ import annotations
 
 import json
-import os
 import threading
 import time
 from dataclasses import dataclass
@@ -47,7 +46,8 @@ class _FileMemoryStore:
     """
 
     def __init__(self, storage_path: str | None = None):
-        env_path = os.environ.get("AGENTIC_MEMORY_PATH")
+        from ...settings import get_settings
+        env_path = get_settings().agentic_memory_path
         self._path = Path(storage_path or env_path or ".agentic_memory.json").resolve()
         self._lock = threading.Lock()
 

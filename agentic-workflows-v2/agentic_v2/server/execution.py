@@ -91,7 +91,7 @@ def _resolve_judge_model() -> str | None:
         Model identifier string, or None if no judge model is configured.
     """
     for key in ("AGENTIC_JUDGE_MODEL", "AGENTIC_MODEL_TIER_2", "AGENTIC_MODEL_TIER_1"):
-        value = os.getenv(key)
+        value = os.getenv(key)  # env-pass: dynamic model tier config
         if value and value.strip():
             return value.strip()
     return None

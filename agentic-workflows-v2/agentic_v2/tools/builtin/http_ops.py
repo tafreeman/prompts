@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import ipaddress
-import os
 from typing import Any
 from urllib.parse import urlparse
 
@@ -44,7 +43,8 @@ def _validate_url(url: str) -> str | None:
         return f"Access to metadata endpoint '{hostname}' is blocked."
 
     # Block private/reserved IP addresses when strict mode is enabled
-    block_private = os.environ.get("AGENTIC_BLOCK_PRIVATE_IPS", "").strip() == "1"
+    from ...settings import get_settings
+    block_private = get_settings().agentic_block_private_ips
     if block_private:
         try:
             addr = ipaddress.ip_address(hostname)

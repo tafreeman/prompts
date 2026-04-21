@@ -18,7 +18,7 @@ import json
 import logging
 from pathlib import Path
 
-# Load .env before anything reads os.environ
+# Load .env before the settings singleton initialises
 try:
     from dotenv import load_dotenv
 

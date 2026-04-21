@@ -27,7 +27,6 @@ mapped to full Claude model identifiers via ``_MODEL_MAP``.
 
 from __future__ import annotations
 
-import os
 import re
 from pathlib import Path
 from typing import Any
@@ -53,7 +52,9 @@ _DEFAULT_AGENTS_DIR = Path(__file__).parent / "definitions"
 
 # Optional external directory for local agent packs.
 # Keep this configurable to avoid machine-specific absolute paths in source.
-_EXTERNAL_AGENTS_DIR_RAW = os.environ.get("AGENTIC_EXTERNAL_AGENTS_DIR")
+from agentic_v2.settings import get_settings as _get_settings
+
+_EXTERNAL_AGENTS_DIR_RAW = _get_settings().agentic_external_agents_dir
 _EXTERNAL_AGENTS_DIR: Path | None = (
     Path(_EXTERNAL_AGENTS_DIR_RAW) if _EXTERNAL_AGENTS_DIR_RAW else None
 )

@@ -14,42 +14,38 @@ Environment variables:
 from __future__ import annotations
 
 import logging
-import os
 from typing import TYPE_CHECKING, Any
 
 from .base import TraceAdapter
 from .tracing import NullTraceAdapter
+from ..settings import get_settings
 
 logger = logging.getLogger(__name__)
-
-# Default AI Toolkit OTLP endpoint (gRPC)
-DEFAULT_OTLP_ENDPOINT = "http://localhost:4317"
-DEFAULT_SERVICE_NAME = "agentic-workflows-v2"
 
 
 def is_tracing_enabled() -> bool:
     """Check if tracing is enabled via environment variable."""
-    return os.environ.get("AGENTIC_TRACING", "").strip() in ("1", "true", "yes")
+    return get_settings().agentic_tracing
 
 
 def is_sensitive_capture_enabled() -> bool:
     """Check if sensitive data capture (prompts/responses) is enabled."""
-    return os.environ.get("AGENTIC_TRACE_SENSITIVE", "").strip() in ("1", "true", "yes")
+    return get_settings().agentic_trace_sensitive
 
 
 def get_otlp_endpoint() -> str:
     """Get the OTLP exporter endpoint from environment or default."""
-    return os.environ.get("OTEL_EXPORTER_OTLP_ENDPOINT", DEFAULT_OTLP_ENDPOINT).strip()
+    return get_settings().otel_exporter_otlp_endpoint
 
 
 def get_otlp_protocol() -> str:
     """Get the OTLP protocol (grpc or http/protobuf)."""
-    return os.environ.get("OTEL_EXPORTER_OTLP_PROTOCOL", "grpc").strip().lower()
+    return get_settings().otel_exporter_otlp_protocol
 
 
 def get_service_name() -> str:
     """Get the service name for traces."""
-    return os.environ.get("OTEL_SERVICE_NAME", DEFAULT_SERVICE_NAME).strip()
+    return get_settings().otel_service_name
 
 
 def _setup_otel_tracer() -> Any:

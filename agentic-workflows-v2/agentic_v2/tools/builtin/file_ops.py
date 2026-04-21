@@ -2,20 +2,20 @@
 
 from __future__ import annotations
 
-import os
 import shutil
 from pathlib import Path
 from typing import Any
 
 import aiofiles
 
+from ...settings import get_settings as _get_settings
 from ...utils.path_safety import ensure_within_base
 from ..base import BaseTool, ToolResult
 
 # Base directory for path validation.  When ``AGENTIC_FILE_BASE_DIR`` is set
 # tools will reject any path that escapes it.  When unset, validation is
 # skipped (backwards-compatible with the pre-hardening behaviour).
-_FILE_BASE_DIR: str | None = os.environ.get("AGENTIC_FILE_BASE_DIR")
+_FILE_BASE_DIR: str | None = _get_settings().agentic_file_base_dir
 
 
 def _validate_path(path: str) -> Path:

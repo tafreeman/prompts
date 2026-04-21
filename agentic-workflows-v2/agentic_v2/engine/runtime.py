@@ -101,7 +101,8 @@ def _host_shell_command(command: str) -> tuple[str, ...]:
     """Return host shell invocation args while still using subprocess_exec."""
     if os.name == "nt":
         return ("cmd", "/c", command)
-    shell = os.environ.get("SHELL", "/bin/bash")
+    from agentic_v2.settings import get_settings
+    shell = get_settings().shell
     return (shell, "-lc", command)
 
 

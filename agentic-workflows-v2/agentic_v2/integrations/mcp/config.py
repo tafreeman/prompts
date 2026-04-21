@@ -39,7 +39,7 @@ def expand_variables(
 
     Args:
         value: String with potential variables
-        env_vars: Environment variables (defaults to os.environ)
+        env_vars: Environment variables dict (defaults to current process env)
         input_values: Input values from user prompts
 
     Returns:
@@ -48,7 +48,7 @@ def expand_variables(
     if not isinstance(value, str):
         return value
 
-    env_vars = env_vars or dict(os.environ)
+    env_vars = env_vars or dict(os.environ)  # env-pass: subprocess env
     input_values = input_values or {}
 
     def replacer(match: re.Match) -> str:
@@ -396,7 +396,7 @@ class McpConfigLoader:
         """
         self.workspace_root = workspace_root or os.getcwd()
         self.user_home = user_home or str(Path.home())
-        self.env_vars = env_vars or dict(os.environ)
+        self.env_vars = env_vars or dict(os.environ)  # env-pass: subprocess env
         self.input_values = input_values or {}
         self._cached_configs: Optional[list[McpServerConfig]] = None
 

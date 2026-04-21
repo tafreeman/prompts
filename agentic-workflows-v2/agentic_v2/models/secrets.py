@@ -1,7 +1,7 @@
 """Secret provider abstractions with environment fallback.
 
 This module gives runtime code a provider-agnostic way to resolve secrets
-without hard-coding ``os.environ`` lookups everywhere. The default provider
+without hard-coding environment lookups everywhere. The default provider
 chain keeps local development behavior intact by reading ``.env`` and the
 process environment, while allowing tests or future vault-backed providers
 to plug in explicitly.
@@ -60,7 +60,7 @@ class EnvSecretProvider:
 
     def get(self, name: str, default: str | None = None) -> str | None:
         self._load_dotenv_once()
-        source = self.env if self.env is not None else os.environ
+        source = self.env if self.env is not None else os.environ  # env-pass: secrets abstraction reads env by design
         return _normalize_secret(source.get(name)) or default
 
     def refresh(self) -> None:
