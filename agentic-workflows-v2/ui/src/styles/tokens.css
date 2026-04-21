@@ -36,6 +36,7 @@
   --b-line-soft: 227 221 200;
   --b-text: 20 19 12;
   --b-text-mid: 60 58 46;
+  /* --b-text-dim audited 2026-04-21: 7.45:1 on --b-bg1 (paper) — passes AA 4.5:1 */
   --b-text-dim: 84 81 66;
   --b-text-faint: 139 133 114;
   --b-clay: 184 74 28;
