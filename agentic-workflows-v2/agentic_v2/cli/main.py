@@ -192,7 +192,7 @@ def run(
             return
 
         with Progress(
-            SpinnerColumn(),
+            SpinnerColumn(spinner_name="line"),
             TextColumn("[progress.description]{task.description}"),
             console=console,
         ) as progress:
@@ -413,6 +413,21 @@ def validate(
         agentic validate code_review
         agentic validate ./custom_workflow.yaml --verbose
     """
+    from ..devex.workflow_linter import lint_workflow_by_name, lint_workflow_file
+
+    # Tier 1: fast structural lint (no extras required)
+    if workflow.endswith((".yaml", ".yml")):
+        lint_violations = lint_workflow_file(Path(workflow))
+    else:
+        lint_violations = lint_workflow_by_name(workflow)
+
+    if lint_violations:
+        for v in lint_violations:
+            console.print(f"  [red]!![/red]  {v}")
+        console.print(f"\n[red]{len(lint_violations)} lint violation(s) -- fix before validating.[/red]")
+        raise typer.Exit(1)
+
+    # Tier 2: deep LangGraph compilation check (requires langchain extra)
     _require_langchain()
     try:
         definitions_dir: Path | None = None
@@ -432,7 +447,7 @@ def validate(
         compile_workflow(workflow_def, validate_only=True)
 
         console.print(
-            f"\n[green]\u2713[/green] Workflow '[bold]{workflow_def.name}[/bold]' is valid!"
+            f"\n[green]OK[/green] Workflow '[bold]{workflow_def.name}[/bold]' is valid!"
         )
 
         if verbose:
@@ -444,10 +459,10 @@ def validate(
             _show_execution_plan(workflow_def)
 
     except FileNotFoundError as e:
-        console.print(f"[red]\u2717 Workflow not found:[/red] {e}")
+        console.print(f"[red]FAIL[/red] Workflow not found: {e}")
         raise typer.Exit(1)
     except Exception as e:
-        console.print(f"[red]\u2717 Validation error:[/red] {e}")
+        console.print(f"[red]FAIL[/red] Validation error: {e}")
         raise typer.Exit(1)
 
 

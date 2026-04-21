@@ -5,6 +5,7 @@ on:
     branches: [main, agenticv2]
     paths:
       - 'agentic-workflows-v2/agentic_v2/workflows/definitions/**'
+      - 'agentic-workflows-v2/agentic_v2/cli/**'
       - 'agentic-workflows-v2/scripts/setup-dev.ps1'
       - 'agentic-workflows-v2/scripts/fixtures/**'
       - '.github/workflows/windows-workflows-ci.yml'
@@ -12,6 +13,7 @@ on:
     branches: [main, agenticv2]
     paths:
       - 'agentic-workflows-v2/agentic_v2/workflows/definitions/**'
+      - 'agentic-workflows-v2/agentic_v2/cli/**'
       - 'agentic-workflows-v2/scripts/setup-dev.ps1'
       - 'agentic-workflows-v2/scripts/fixtures/**'
       - '.github/workflows/windows-workflows-ci.yml'
@@ -65,6 +67,18 @@ jobs:
             exit 1
           }
           Write-Host "All 6 workflows validated on windows-latest."
+
+      - name: Verify CLI commands on Windows
+        working-directory: agentic-workflows-v2
+        shell: pwsh
+        run: |
+          $LASTEXITCODE = 0
+          uv run agentic list workflows
+          if ($LASTEXITCODE -ne 0) { Write-Host "::error::agentic list workflows failed"; exit 1 }
+          $LASTEXITCODE = 0
+          uv run agentic validate test_deterministic
+          if ($LASTEXITCODE -ne 0) { Write-Host "::error::agentic validate failed"; exit 1 }
+          Write-Host "CLI verification passed on windows-latest."
 
       - name: Run deterministic smoke test (dry-run)
         # Uses --dry-run: validates parsing, graph compilation, and plan generation
