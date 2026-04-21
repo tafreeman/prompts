@@ -76,7 +76,7 @@ jobs:
 
       - name: Set up Docker Buildx
         if: steps.docker_backend.outputs.exists == 'true' || steps.docker_frontend.outputs.exists == 'true'
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
 
       - name: Prepare image artifact directory
         if: steps.docker_backend.outputs.exists == 'true' || steps.docker_frontend.outputs.exists == 'true'
