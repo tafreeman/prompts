@@ -132,7 +132,7 @@ class TestArchitectAgent:
         """Test parsing valid JSON response."""
         agent = ArchitectAgent()
         response = """Here's the architecture:
-        
+
 ```json
 {
     "tech_stack": {
