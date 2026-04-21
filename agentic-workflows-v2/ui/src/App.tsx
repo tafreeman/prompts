@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Sidebar from "./components/layout/Sidebar";
 import DashboardPage from "./pages/DashboardPage";
 import WorkflowsPage from "./pages/WorkflowsPage";
@@ -7,9 +7,9 @@ import WorkflowEditorPage from "./pages/WorkflowEditorPage";
 import RunDetailPage from "./pages/RunDetailPage";
 import LivePage from "./pages/LivePage";
 import { isWorkflowBuilderEnabled } from "./config/featureFlags";
-
 import DatasetsPage from "./pages/DatasetsPage";
 import EvaluationsPage from "./pages/EvaluationsPage";
+import NotFoundPage from "./components/states/NotFoundPage";
 
 export default function App() {
   const workflowBuilderEnabled = isWorkflowBuilderEnabled();
@@ -29,7 +29,7 @@ export default function App() {
           <Route path="/evaluations" element={<EvaluationsPage />} />
           <Route path="/runs/:filename" element={<RunDetailPage />} />
           <Route path="/live/:runId" element={<LivePage />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
     </div>

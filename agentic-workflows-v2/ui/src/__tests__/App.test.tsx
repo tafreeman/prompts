@@ -36,6 +36,9 @@ async function renderAppAt(path: string, workflowBuilderEnabled: boolean) {
   vi.doMock("../pages/EvaluationsPage", () => ({
     default: () => <div>Evaluations Page</div>,
   }));
+  vi.doMock("../components/states/NotFoundPage", () => ({
+    default: () => <div>Not Found Page</div>,
+  }));
 
   const { default: App } = await import("../App");
 
@@ -57,8 +60,8 @@ describe("App routing", () => {
     expect(screen.getByText("Workflow Editor Page")).toBeInTheDocument();
   });
 
-  it("falls back to the default route when the feature flag is disabled", async () => {
+  it("falls back to the 404 page when the feature flag is disabled", async () => {
     await renderAppAt("/workflows/review/edit", false);
-    expect(screen.getByText("Dashboard Page")).toBeInTheDocument();
+    expect(screen.getByText("Not Found Page")).toBeInTheDocument();
   });
 });
