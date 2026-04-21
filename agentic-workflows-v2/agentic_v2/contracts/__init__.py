@@ -93,4 +93,15 @@ __all__ = [
     "TestCase",
     "TestGenerationInput",
     "TestGenerationOutput",
+    # Events
+    "ExecutionEvent",
+    "WorkflowStartEvent",
+    "StepStartEvent",
+    "StepEndEvent",
+    "StepCompleteEvent",
+    "StepErrorEvent",
+    "WorkflowEndEvent",
+    "EvaluationStartEvent",
+    "EvaluationCompleteEvent",
+    "validate_event",
 ]

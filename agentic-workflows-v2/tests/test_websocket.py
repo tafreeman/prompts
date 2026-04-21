@@ -21,6 +21,22 @@ def _mock_websocket() -> AsyncMock:
     return ws
 
 
+def _workflow_end_event(seq: int = 0) -> dict[str, Any]:
+    """Return a valid ExecutionEvent payload for broadcast tests.
+
+    The broadcast path validates events against the Pydantic union; tests that
+    exercise broadcast mechanics must supply a real event shape. ``seq`` is
+    threaded into ``run_id`` so tests that care about ordering can distinguish
+    events.
+    """
+    return {
+        "type": "workflow_end",
+        "run_id": f"run-{seq}",
+        "status": "success",
+        "timestamp": "2026-04-21T00:00:00Z",
+    }
+
+
 class TestConnectionManagerConnect:
     """Tests for connect/disconnect lifecycle."""
 
@@ -106,7 +122,7 @@ class TestConnectionManagerBroadcast:
         await mgr.connect(ws1, "run-1")
         await mgr.connect(ws2, "run-1")
 
-        msg = {"type": "step_complete", "data": "test"}
+        msg = _workflow_end_event()
         await mgr.broadcast("run-1", msg)
 
         ws1.send_json.assert_awaited_once_with(msg)
@@ -116,7 +132,7 @@ class TestConnectionManagerBroadcast:
     async def test_broadcast_buffers_events(self) -> None:
         """Broadcast() adds events to the replay buffer."""
         mgr = ConnectionManager()
-        msg = {"type": "event", "seq": 1}
+        msg = _workflow_end_event(seq=1)
 
         await mgr.broadcast("run-1", msg)
 
@@ -129,13 +145,13 @@ class TestConnectionManagerBroadcast:
         mgr = ConnectionManager(max_buffer_size=3)
 
         for i in range(5):
-            await mgr.broadcast("run-1", {"seq": i})
+            await mgr.broadcast("run-1", _workflow_end_event(seq=i))
 
         buf = mgr.event_buffers["run-1"]
         assert len(buf) == 3
         # Oldest events (0 and 1) should have been evicted
-        assert buf[0]["seq"] == 2
-        assert buf[2]["seq"] == 4
+        assert buf[0]["run_id"] == "run-2"
+        assert buf[2]["run_id"] == "run-4"
 
     @pytest.mark.asyncio
     async def test_broadcast_pushes_to_sse_listeners(self) -> None:
@@ -144,7 +160,7 @@ class TestConnectionManagerBroadcast:
         queue: asyncio.Queue[dict[str, Any]] = asyncio.Queue(maxsize=10)
         mgr.register_sse_listener("run-1", queue)
 
-        msg = {"type": "update"}
+        msg = _workflow_end_event()
         await mgr.broadcast("run-1", msg)
 
         assert not queue.empty()
@@ -158,9 +174,9 @@ class TestConnectionManagerBroadcast:
         mgr.register_sse_listener("run-1", queue)
 
         # Fill the queue
-        await mgr.broadcast("run-1", {"seq": 1})
+        await mgr.broadcast("run-1", _workflow_end_event(seq=1))
         # This should not raise even though queue is full
-        await mgr.broadcast("run-1", {"seq": 2})
+        await mgr.broadcast("run-1", _workflow_end_event(seq=2))
 
         # Queue still has only the first message
         assert queue.qsize() == 1
@@ -173,14 +189,27 @@ class TestConnectionManagerBroadcast:
         ws.send_json = AsyncMock(side_effect=Exception("disconnected"))
         await mgr.connect(ws, "run-1")
         # Must not raise
-        await mgr.broadcast("run-1", {"type": "event"})
+        await mgr.broadcast("run-1", _workflow_end_event())
 
     @pytest.mark.asyncio
     async def test_broadcast_no_connections_no_error(self) -> None:
         """Broadcast() with no connected clients doesn't error."""
         mgr = ConnectionManager()
-        await mgr.broadcast("run-1", {"data": "test"})
+        await mgr.broadcast("run-1", _workflow_end_event())
         assert len(mgr.event_buffers["run-1"]) == 1
+
+    @pytest.mark.asyncio
+    async def test_broadcast_rejects_malformed_event(self) -> None:
+        """Broadcast() refuses to emit events that fail Pydantic validation."""
+        mgr = ConnectionManager()
+        ws = _mock_websocket()
+        await mgr.connect(ws, "run-1")
+
+        with pytest.raises(ValueError):
+            await mgr.broadcast("run-1", {"type": "bogus", "data": "test"})
+
+        ws.send_json.assert_not_awaited()
+        assert "run-1" not in mgr.event_buffers
 
 
 class TestConnectionManagerReplay:
@@ -192,7 +221,7 @@ class TestConnectionManagerReplay:
         mgr = ConnectionManager()
         # Pre-buffer some events
         for i in range(3):
-            await mgr.broadcast("run-1", {"seq": i})
+            await mgr.broadcast("run-1", _workflow_end_event(seq=i))
 
         ws = _mock_websocket()
         await mgr.replay(ws, "run-1")
@@ -204,7 +233,7 @@ class TestConnectionManagerReplay:
         """Replay() breaks cleanly if send_json raises."""
         mgr = ConnectionManager()
         for i in range(3):
-            await mgr.broadcast("run-1", {"seq": i})
+            await mgr.broadcast("run-1", _workflow_end_event(seq=i))
 
         ws = _mock_websocket()
         ws.send_json.side_effect = [None, RuntimeError("disconnected")]
@@ -261,7 +290,7 @@ class TestConnectionManagerClearBuffer:
     async def test_clear_buffer(self) -> None:
         """clear_buffer() removes the run's event buffer."""
         mgr = ConnectionManager()
-        await mgr.broadcast("run-1", {"data": "test"})
+        await mgr.broadcast("run-1", _workflow_end_event())
         assert "run-1" in mgr.event_buffers
 
         mgr.clear_buffer("run-1")

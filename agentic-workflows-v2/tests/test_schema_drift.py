@@ -20,10 +20,18 @@ from agentic_v2.contracts import (
     CodeGenerationOutput,
     CodeReviewInput,
     CodeReviewOutput,
+    EvaluationCompleteEvent,
+    EvaluationStartEvent,
     ReviewReport,
+    StepCompleteEvent,
+    StepEndEvent,
+    StepErrorEvent,
     StepResult,
+    StepStartEvent,
     TaskOutput,
+    WorkflowEndEvent,
     WorkflowResult,
+    WorkflowStartEvent,
 )
 
 SCHEMA_DIR = Path(__file__).parent / "schemas"
@@ -37,6 +45,14 @@ COVERED_MODELS = [
     CodeReviewOutput,
     CodeGenerationOutput,
     TaskOutput,
+    WorkflowStartEvent,
+    StepStartEvent,
+    StepEndEvent,
+    StepCompleteEvent,
+    StepErrorEvent,
+    WorkflowEndEvent,
+    EvaluationStartEvent,
+    EvaluationCompleteEvent,
 ]
 
 

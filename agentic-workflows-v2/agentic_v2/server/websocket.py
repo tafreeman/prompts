@@ -31,6 +31,7 @@ from typing import Any
 
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 
+from ..contracts.events import validate_event
 from .auth import (
     _get_api_key,
     extract_websocket_token,
@@ -128,6 +129,14 @@ class ConnectionManager:
             run_id: Target workflow run identifier.
             message: JSON-serializable event dict to broadcast.
         """
+        try:
+            validate_event(message)
+        except ValueError as exc:
+            logger.error(
+                "Refusing to broadcast malformed event for run %s: %s", run_id, exc
+            )
+            raise
+
         # Buffer the event for late-connecting clients.
         # deque(maxlen=...) evicts the oldest entry in O(1) automatically.
         if run_id not in self.event_buffers:
