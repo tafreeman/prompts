@@ -17,7 +17,16 @@ from unittest.mock import MagicMock
 
 import pytest
 import yaml
+from agentic_v2.langchain.config import load_workflow_config
 from agentic_v2.models.client import get_client, reset_client
+
+
+@pytest.fixture(autouse=True)
+def clear_workflow_cache():
+    """Clear the load_workflow_config LRU cache before and after each test."""
+    load_workflow_config.cache_clear()
+    yield
+    load_workflow_config.cache_clear()
 
 
 @pytest.fixture(autouse=True)

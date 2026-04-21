@@ -225,6 +225,8 @@ def _resolve_rubric(
 
     if criteria_by_name:
         scoped_weights: dict[str, float] = {}
+        # Once a workflow declares explicit criteria, ignore inherited weights
+        # for undeclared criteria to avoid silently scoring the wrong rubric.
         for criterion_name in criteria_by_name:
             if criterion_name in weights:
                 scoped_weights[criterion_name] = weights[criterion_name]
@@ -594,6 +596,8 @@ def score_workflow_result_impl(
                 )
                 criterion_payload["judge_evidence"] = judge_item.evidence
         except (ValueError, RuntimeError, OSError, TypeError, KeyError) as exc:
+            # Judge failures should not discard an otherwise valid objective
+            # evaluation; log the issue and fall back to non-judge scoring.
             logger.warning("Judge evaluation skipped due to error: %s", exc)
 
     hybrid_score_0_1, active_hybrid_weights = _compose_hybrid_score(
@@ -633,6 +637,8 @@ def score_workflow_result_impl(
 
     for correctness_key in ("correctness", "correctness_rubric"):
         if correctness_key in normalized_scores:
+            # Legacy workflows may omit explicit floors, so keep a conservative
+            # correctness minimum to prevent a high aggregate from masking misses.
             _record_floor_failure(
                 correctness_key, 0.70, normalized_scores[correctness_key]
             )
@@ -640,6 +646,8 @@ def score_workflow_result_impl(
 
     for validation_key in ("safety_validation", "validation", "safety", "code_quality"):
         if validation_key in normalized_scores:
+            # Apply the same backstop to safety/validation-style criteria even
+            # when the workflow YAML does not declare a critical floor.
             _record_floor_failure(
                 validation_key, 0.80, normalized_scores[validation_key]
             )
@@ -693,10 +701,14 @@ def score_workflow_result_impl(
     no_floor_violations = len(floor_violations) == 0
     grade_capped = False
     if no_floor_violations is False and grade in {"A", "B", "C"}:
+        # Floor failures do not automatically fail the run, but they prevent a
+        # strong aggregate score from earning a strong letter grade.
         grade = "D"
         grade_capped = True
 
     if hard_gates.all_passed is False and enforce_hard_gates:
+        # Hard gates are absolute release blockers, so they always dominate the
+        # softer weighted score and floor logic.
         grade = "F"
         grade_capped = False
 

@@ -7,7 +7,9 @@ import WorkflowDAG from "../components/dag/WorkflowDAG";
 import StepLogPanel from "../components/live/StepLogPanel";
 import LiveStepDetails from "../components/live/LiveStepDetails";
 import TokenCounter from "../components/live/TokenCounter";
-import StatusBadge from "../components/common/StatusBadge";
+import BTopBar from "../components/layout/BTopBar";
+import BBox from "../components/common/BBox";
+import BPill from "../components/common/BPill";
 import type { EvaluationResult } from "../api/types";
 
 const WIDTH_CLASS_BY_DECILE: Record<number, string> = {
@@ -121,58 +123,57 @@ export default function LivePage() {
     setSelectedStep((prev) => (prev === runningStep ? prev : runningStep));
   }, [runningStep]);
 
-  const statusMap: Record<string, string> = {
-    connecting: "pending",
-    running: "running",
-    evaluating: "running",
-    completed: "success",
-    error: "failed",
-  };
+
+  const runTone =
+    workflowStatus === "completed"
+      ? ("ok" as const)
+      : workflowStatus === "error"
+        ? ("err" as const)
+        : ("clay" as const);
 
   return (
     <div className="flex h-full flex-col">
-      {/* Header — compact single row */}
-      <div className="flex items-center gap-3 border-b border-white/5 px-4 py-2.5">
-        <button type="button" onClick={() => navigate(-1)} className="btn-ghost p-1" title="Go back">
-          <ArrowLeft className="h-4 w-4" />
+      <BTopBar path={`live/${runId ?? ""}`}>
+        <button
+          type="button"
+          onClick={() => navigate(-1)}
+          className="btn-ghost"
+        >
+          <ArrowLeft className="h-3 w-3" />
+          <span>[esc] back</span>
         </button>
-        <Radio className="h-3.5 w-3.5 text-red-400 animate-pulse" />
+      </BTopBar>
+
+      {/* Header band */}
+      <div className="flex items-center gap-3 border-b border-b-line bg-b-bg1 px-4 py-2">
+        <Radio className="h-3.5 w-3.5 animate-pulse text-b-red" />
         <div className="min-w-0 flex-1">
-          <h1 className="truncate text-sm font-semibold">
-            {wfName ?? "Live Execution"}
+          <h1 className="truncate font-mono text-[13px] font-semibold text-b-text">
+            {wfName ?? "live execution"}
           </h1>
         </div>
-
-        {/* Progress pill */}
         {totalSteps > 0 && (
-          <div className="flex items-center gap-1.5 rounded-full bg-surface-2 px-2.5 py-1 text-[11px] text-gray-400">
-            <span className="tabular-nums">{completedCount}/{totalSteps}</span>
-            <span className="text-gray-600">steps</span>
-          </div>
+          <BPill tone="dim">
+            {completedCount}/{totalSteps} steps
+          </BPill>
         )}
-
         <TokenCounter events={events} />
-        <StatusBadge
-          status={statusMap[workflowStatus] ?? "pending"}
-          size="md"
-        />
+        <BPill tone={runTone}>{workflowStatus}</BPill>
       </div>
 
-      {/* Evaluating / error banners — slimmer */}
       {workflowStatus === "evaluating" && (
-        <div className="border-b border-accent-blue/20 bg-accent-blue/5 px-4 py-1.5 text-[11px] text-accent-blue">
-          Evaluating workflow output...
+        <div className="border-b border-b-blue bg-b-blue/10 px-4 py-1.5 font-mono text-[11px] text-b-blue">
+          [~] evaluating workflow output…
         </div>
       )}
       {error && (
-        <div className="border-b border-red-500/20 bg-red-500/5 px-4 py-2 text-xs text-red-400">
-          {error}
+        <div className="border-b border-b-red bg-b-red/10 px-4 py-2 font-mono text-[11px] text-b-red">
+          [!] {error}
         </div>
       )}
 
       {/* Content */}
       <div className="flex flex-1 overflow-hidden">
-        {/* DAG — takes as much room as possible */}
         <div className="flex-1">
           {dag ? (
             <WorkflowDAG
@@ -184,33 +185,33 @@ export default function LivePage() {
               onNodeClick={setSelectedStep}
             />
           ) : (
-            <div className="flex h-full items-center justify-center text-gray-600 text-sm">
+            <div className="flex h-full items-center justify-center font-mono text-[11px] text-b-text-dim">
               {workflowStatus === "connecting"
-                ? "Connecting..."
-                : "Waiting for DAG..."}
+                ? "$ connecting…"
+                : "$ waiting for dag…"}
             </div>
           )}
         </div>
 
-        {/* Sidebar — narrower, collapsible-ready */}
-        <div className="w-[430px] flex flex-col overflow-hidden border-l border-white/5">
+        <div className="flex w-[430px] flex-col overflow-hidden border-l border-b-line bg-b-bg0">
           {evaluation && (
-            <div className="flex-shrink-0 p-3 border-b border-white/5">
+            <div className="shrink-0 p-3">
               <EvaluationCard evaluation={evaluation} />
             </div>
           )}
-          <div className="flex-1 overflow-y-auto p-3">
-            <div className="mb-2 text-xs font-medium uppercase tracking-wide text-gray-500">
-              Step details
-            </div>
-            <LiveStepDetails
-              stepStates={stepStates}
-              stepOrder={dag?.nodes.map((n) => n.id)}
-              selectedStep={selectedStep}
-              onSelectStep={setSelectedStep}
-            />
+          <div className="flex-1 overflow-y-auto px-3 pb-3">
+            <BBox title="step details">
+              <div className="p-2">
+                <LiveStepDetails
+                  stepStates={stepStates}
+                  stepOrder={dag?.nodes.map((n) => n.id)}
+                  selectedStep={selectedStep}
+                  onSelectStep={setSelectedStep}
+                />
+              </div>
+            </BBox>
           </div>
-          <div className="flex-shrink-0 p-3 pt-0">
+          <div className="shrink-0 border-t border-b-line p-3">
             <StepLogPanel events={events} />
           </div>
         </div>
@@ -219,7 +220,6 @@ export default function LivePage() {
   );
 }
 
-/* ── Criterion row ── */
 function CriterionRow({
   criterion: c,
 }: Readonly<{ criterion: EvaluationResult["criteria"][number] }>) {
@@ -227,55 +227,59 @@ function CriterionRow({
   const clampedPct = Math.min(pct, 100);
   const widthClass = scoreWidthClass(clampedPct);
 
-  let barColor = "bg-red-500";
-  if (pct >= 80) barColor = "bg-green-500";
-  else if (pct >= 50) barColor = "bg-amber-500";
+  let barColor = "bg-b-red";
+  if (pct >= 80) barColor = "bg-b-green";
+  else if (pct >= 50) barColor = "bg-b-amber";
 
   return (
     <div>
-      <div className="flex items-center justify-between text-[11px]">
-        <span className="truncate text-gray-300">{c.criterion}</span>
-        <span className="ml-2 flex-shrink-0 tabular-nums text-gray-500">
+      <div className="flex items-center justify-between font-mono text-[11px]">
+        <span className="truncate text-b-text-mid">{c.criterion}</span>
+        <span className="ml-2 flex-shrink-0 tabular-nums text-b-text-dim">
           {c.score}/{c.max_score}
           {c.weight !== 1 && (
-            <span className="ml-0.5 text-gray-600">&times;{c.weight}</span>
+            <span className="ml-0.5 text-b-text-faint">×{c.weight}</span>
           )}
         </span>
       </div>
-      <div className="mt-0.5 h-0.5 w-full rounded-full bg-white/5">
-        <div className={`h-full rounded-full ${barColor} ${widthClass} transition-all duration-500`} />
+      <div className="mt-0.5 h-[3px] w-full bg-b-bg3">
+        <div
+          className={`h-full ${barColor} ${widthClass} transition-all duration-500`}
+        />
       </div>
     </div>
   );
 }
 
-/* ── Evaluation card — compact ── */
-function EvaluationCard({ evaluation }: Readonly<{ evaluation: EvaluationResult }>) {
+function EvaluationCard({
+  evaluation,
+}: Readonly<{ evaluation: EvaluationResult }>) {
   const [expanded, setExpanded] = useState(false);
   const hasCriteria = evaluation.criteria.length > 0;
 
   return (
-    <div className="rounded-lg border border-white/5 bg-surface-1 p-2.5">
-      <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wide text-gray-600 mb-1.5">
-        <Trophy className="h-3 w-3 text-amber-400" />
-        Evaluation
+    <div className="rounded-[4px] border border-b-line bg-b-bg1 p-3">
+      <div className="mb-1.5 flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.5px] text-b-text-dim">
+        <Trophy className="h-3 w-3 text-b-amber" />
+        evaluation
       </div>
       <div className="flex items-end justify-between">
         <div>
-          <div className="text-xl font-semibold tabular-nums text-gray-100">
+          <div
+            className="text-[22px] font-semibold tabular-nums text-b-text"
+            style={{ fontFamily: "var(--b-font-heading)" }}
+          >
             {evaluation.weighted_score.toFixed(1)}
           </div>
-          <div className="text-[10px] text-gray-600">/ 100</div>
+          <div className="font-mono text-[10px] text-b-text-dim">/ 100</div>
         </div>
         <div className="text-right">
-          <div className="text-xs font-medium text-gray-300">
-            {evaluation.grade}
+          <div className="font-mono text-[11px] text-b-text-mid">
+            grade <span className="text-b-text">{evaluation.grade}</span>
           </div>
-          <div
-            className={`text-[10px] ${evaluation.passed ? "text-green-400" : "text-red-400"}`}
-          >
-            {evaluation.passed ? "Passed" : "Needs work"}
-          </div>
+          <BPill tone={evaluation.passed ? "ok" : "err"}>
+            {evaluation.passed ? "passed" : "needs work"}
+          </BPill>
         </div>
       </div>
 
@@ -284,9 +288,13 @@ function EvaluationCard({ evaluation }: Readonly<{ evaluation: EvaluationResult 
           <button
             type="button"
             onClick={() => setExpanded((prev) => !prev)}
-            className="mt-2 flex w-full items-center gap-1 text-[11px] text-gray-500 hover:text-gray-300 transition-colors"
+            className="mt-2 flex w-full items-center gap-1 font-mono text-[11px] text-b-text-dim transition-colors hover:text-b-text"
           >
-            {expanded ? <ChevronDown className="h-3 w-3" /> : <ChevronRight className="h-3 w-3" />}
+            {expanded ? (
+              <ChevronDown className="h-3 w-3" />
+            ) : (
+              <ChevronRight className="h-3 w-3" />
+            )}
             {evaluation.criteria.length} criteria
           </button>
 

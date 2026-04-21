@@ -6,6 +6,8 @@ local.settings.json
 
 # Environment configuration
 .env
+.env.*
+!.env.example
 
 # Local-only secrets (never commit)
 prompts/tools/windows_ai_bridge/LafSecrets.local.cs
@@ -430,3 +432,51 @@ presentation/*.zip
 decks-generated/package-lock.json
 decks-generated/package.json
 presentation/src/tokens/raw-themes/*
+# AI assistant tooling — commit shared team config, ignore local/user state and secrets
+
+# Claude Code — commit agents/, commands/, skills/, rules/, CLAUDE.md
+.claude/settings.local.json
+.claude/logs/
+.claude/cache/
+.claude/projects/
+.claude/todos/
+.claude/shell-snapshots/
+.claude/statsig/
+.claude/ide/
+
+# Cursor — commit rules/, ignore local logs
+.cursor/logs/
+.cursor/cache/
+
+# Gemini CLI — commit GEMINI.md and shared config, ignore creds
+.gemini/oauth_creds.json
+.gemini/logs/
+.gemini/cache/
+
+# Generic agent dirs — commit if shared; adjust if your tool stores secrets here
+# .agents/
+# .agent/
+
+# GitHub skills — commit shared team skills
+# .github/skills/
+
+# Tool-installed skill/agent packs (regenerable — like node_modules)
+_bmad*
+**/bmad-*/
+**/wds-*/
+.agent/
+.agents/
+docs/screenshots/b-redesign/01-dashboard-dark.png
+docs/screenshots/b-redesign/02-dashboard-paper.png
+docs/screenshots/b-redesign/03-dashboard-bolt.png
+docs/screenshots/b-redesign/04-workflows-dark.png
+docs/screenshots/b-redesign/05-datasets-dark.png
+docs/screenshots/b-redesign/06-evaluations-dark.png
+docs/screenshots/b-redesign/07-live-dark.png
+docs/screenshots/b-redesign/11-dashboard-dark-populated.png
+docs/screenshots/b-redesign/12-workflows-dark-populated.png
+docs/screenshots/b-redesign/13-datasets-dark-populated.png
+docs/screenshots/b-redesign/14-run-detail-dark-populated.png
+docs/screenshots/b-redesign/15-dashboard-paper-populated.png
+docs/screenshots/b-redesign/16-evaluations-dark-populated.png
+docs/screenshots/b-redesign/17-dashboard-bolt-populated.png

@@ -1,4 +1,5 @@
-{
+	{
+	"$schema": "https://json.schemastore.org/claude-code-settings.json",
 	"permissions": {
 		"allow": [
 			"Bash(python:*)",
@@ -29,19 +30,34 @@
 	"hooks": {
 		"SessionStart": [
 			{
-				"command": "bash -c 'echo \"── Environment Check ──\"; echo \"cwd: $(pwd)\"; if [ -d .venv ]; then echo \"venv: ✅ .venv found\"; else echo \"venv: ⚠️ .venv not found — run: python -m venv .venv && pip install -e .[dev]\"; fi; if command -v node >/dev/null 2>&1; then echo \"node: ✅ $(node --version)\"; else echo \"node: ⚠️ not on PATH\"; fi; if command -v npm >/dev/null 2>&1; then echo \"npm: ✅ $(npm --version)\"; else echo \"npm: ⚠️ not on PATH\"; fi; echo \"──────────────────────\"; exit 0'"
+				"hooks": [
+					{
+						"type": "command",
+						"command": "bash -c 'echo \"── Environment Check ──\"; echo \"cwd: $(pwd)\"; if [ -d .venv ]; then echo \"venv: ✅ .venv found\"; else echo \"venv: ⚠️ .venv not found — run: python -m venv .venv && pip install -e .[dev]\"; fi; if command -v node >/dev/null 2>&1; then echo \"node: ✅ $(node --version)\"; else echo \"node: ⚠️ not on PATH\"; fi; if command -v npm >/dev/null 2>&1; then echo \"npm: ✅ $(npm --version)\"; else echo \"npm: ⚠️ not on PATH\"; fi; echo \"──────────────────────\"; exit 0'"
+					}
+				]
 			}
 		],
 		"PostToolUse": [
 			{
 				"matcher": "Edit|Write",
-				"command": "bash -c 'FILE=\"$CLAUDE_FILE_PATH\"; [[ \"$FILE\" == *.py ]] && ruff check --fix -q \"$FILE\" 2>/dev/null && ruff format -q \"$FILE\" 2>/dev/null; exit 0'"
+				"hooks": [
+					{
+						"type": "command",
+						"command": "bash -c 'FILE=\"$CLAUDE_FILE_PATH\"; [[ \"$FILE\" == *.py ]] && ruff check --fix -q \"$FILE\" 2>/dev/null && ruff format -q \"$FILE\" 2>/dev/null; exit 0'"
+					}
+				]
 			}
 		],
 		"PreToolUse": [
 			{
 				"matcher": "Edit|Write",
-				"command": "bash -c 'FILE=\"$CLAUDE_FILE_PATH\"; if [[ \"$FILE\" == *.env ]] || [[ \"$FILE\" == *.env.* ]]; then echo \"BLOCKED: Cannot edit .env files directly. Use environment variables or a secret manager.\"; exit 1; fi; exit 0'"
+				"hooks": [
+					{
+						"type": "command",
+						"command": "bash -c 'FILE=\"$CLAUDE_FILE_PATH\"; if [[ \"$FILE\" == *.env ]] || [[ \"$FILE\" == *.env.* ]]; then echo \"BLOCKED: Cannot edit .env files directly. Use environment variables or a secret manager.\"; exit 1; fi; exit 0'"
+					}
+				]
 			}
 		]
 	}

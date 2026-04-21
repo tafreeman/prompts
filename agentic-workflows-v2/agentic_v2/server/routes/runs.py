@@ -31,6 +31,7 @@ except ImportError:
     _LANGCHAIN_AVAILABLE = False
 from ...workflows.run_logger import RunLogger
 from .. import websocket
+from ..models import RunSummaryModel, RunsSummaryResponse
 
 logger = logging.getLogger(__name__)
 router = APIRouter(tags=["workflows"])
@@ -42,7 +43,7 @@ def _is_within_base(path, base_dir) -> bool:
     return is_within_base(path, base_dir)
 
 
-@router.get("/runs")
+@router.get("/runs", response_model=list[RunSummaryModel])
 async def list_runs(
     workflow: str | None = None,
     limit: int = 50,
@@ -98,7 +99,7 @@ async def list_runs(
     return results
 
 
-@router.get("/runs/summary")
+@router.get("/runs/summary", response_model=RunsSummaryResponse)
 async def runs_summary(workflow: str | None = None):
     """Aggregate stats across runs."""
     return run_logger.summary(workflow_name=workflow)

@@ -233,6 +233,7 @@ async def save_workflow_editor(name: str, request: WorkflowEditorRequest):
         path, persisted_document, _config, yaml_text = save_workflow_document(
             name, request.document
         )
+        load_workflow_config.cache_clear()
         return _workflow_editor_response(
             name,
             str(path),

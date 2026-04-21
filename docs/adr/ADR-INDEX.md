@@ -1,7 +1,7 @@
 # ADR Index — agentic-workflows-v2
 
-> **Last updated:** 2026-03-17
-> **Total ADRs:** 9 (4 Accepted, 4 Proposed, 1 Superseded)
+> **Last updated:** 2026-04-20
+> **Total ADRs:** 10 (5 Accepted, 4 Proposed, 1 Superseded)
 > **Replaces:** `ADR_COMPILED.md` (deprecated — was missing ADRs 009-012)
 
 ---
@@ -19,6 +19,7 @@
 | **010** | Commit-Driven A/B Eval Harness Methodology | Proposed | [ADR-010](ADR-010-eval-harness-methodology.md) |
 | **011** | Eval Harness API & Interface Design | Proposed | [ADR-011](ADR-011-eval-harness-api-interface.md) |
 | **012** | UI Evaluation Hub & A/B Comparison | Proposed | [ADR-012](ADR-012-ui-evaluation-hub.md) |
+| **013** | Native DAG as Single Supported Execution Engine | Accepted | [ADR-013](ADR-013-foundation-native-dag.md) |
 
 **Note:** ADRs 004-006 were never created. The numbering gap is intentional.
 
@@ -28,7 +29,7 @@
 
 ```
 Engine Domain:
-  ADR-001 (Dual Engine) ─── standalone
+  ADR-001 (Dual Engine) ──superseded-by──> ADR-013 (Native DAG Ratification)
 
 Models Domain:
   ADR-002 (Circuit Breaker) ─── standalone
@@ -60,6 +61,7 @@ Evaluation Domain:
 | 010 | Proposed | ~10% (primitives only) | Reused primitives only | 2026-03-17 |
 | 011 | Proposed | ~15% (partial eval infra) | Adjacent route/UI helpers only | 2026-03-17 |
 | 012 | Proposed | ~10% (existing evaluations table only) | None specific | 2026-03-17 |
+| 013 | Yes | 100% (deprecation warning + ADR doc) | test_langchain_deprecation.py | 2026-04-20 |
 
 ---
 

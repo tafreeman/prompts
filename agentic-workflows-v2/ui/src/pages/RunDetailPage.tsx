@@ -1,13 +1,15 @@
 import { useMemo, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, Clock, Percent, Trophy } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { useRunDetail } from "../hooks/useRuns";
 import { useWorkflowDAG } from "../hooks/useWorkflows";
 import WorkflowDAG from "../components/dag/WorkflowDAG";
 import RunDetailSteps from "../components/runs/RunDetail";
-import StatusBadge from "../components/common/StatusBadge";
 import DurationDisplay from "../components/common/DurationDisplay";
-import type { StepStatus } from "../api/types";
+import BTopBar from "../components/layout/BTopBar";
+import BBox from "../components/common/BBox";
+import BPill from "../components/common/BPill";
+import BAsciiBar from "../components/common/BAsciiBar";
 
 export default function RunDetailPage() {
   const { filename } = useParams<{ filename: string }>();
@@ -66,55 +68,94 @@ export default function RunDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="flex h-full items-center justify-center text-gray-600">
-        Loading run...
+      <div className="flex h-full items-center justify-center font-mono text-[11px] text-b-text-dim">
+        $ loading run…
       </div>
     );
   }
 
   if (!run) {
     return (
-      <div className="flex h-full items-center justify-center text-gray-600">
-        Run not found
+      <div className="flex h-full items-center justify-center font-mono text-[11px] text-b-red">
+        $ run not found
       </div>
     );
   }
 
-  const successPercent = run.success_rate <= 1 ? run.success_rate * 100 : run.success_rate;
+  const successPercent =
+    run.success_rate <= 1 ? run.success_rate * 100 : run.success_rate;
+
+  const runTone =
+    run.status === "success"
+      ? ("ok" as const)
+      : run.status === "failed" || run.status === "error"
+        ? ("err" as const)
+        : run.status === "running" || run.status === "in_progress"
+          ? ("clay" as const)
+          : ("dim" as const);
+
+  const evalData = run.extra?.evaluation;
+  const evalPct =
+    evalData?.weighted_score !== undefined
+      ? Math.max(0, Math.min(1, evalData.weighted_score / 100))
+      : null;
 
   return (
     <div className="flex h-full flex-col">
-      {/* Header */}
-      <div className="flex items-center gap-4 border-b border-white/5 px-6 py-4">
-        <button onClick={() => navigate(-1)} className="btn-ghost p-1" title="Go back">
-          <ArrowLeft className="h-4 w-4" />
+      <BTopBar path={`runs/${run.workflow_name}`}>
+        <button
+          onClick={() => navigate(-1)}
+          className="btn-ghost"
+          title="Go back"
+        >
+          <ArrowLeft className="h-3 w-3" />
+          <span>[esc] back</span>
         </button>
-        <div className="flex-1">
-          <h1 className="text-lg font-semibold">{run.workflow_name}</h1>
-          <p className="text-xs text-gray-600">{run.run_id}</p>
-        </div>
-        <div className="flex items-center gap-4 text-sm text-gray-400">
-          {run.extra?.evaluation && (
-            <span className="flex items-center gap-1 text-amber-300">
-              <Trophy className="h-4 w-4" />
-              {run.extra.evaluation.weighted_score.toFixed(1)}
+      </BTopBar>
+
+      {/* Header band */}
+      <div className="border-b border-b-line bg-b-bg1 px-6 py-3">
+        <div className="flex items-center justify-between gap-4">
+          <div className="min-w-0">
+            <h1
+              className="truncate text-[20px] font-semibold text-b-text"
+              style={{ letterSpacing: "-0.3px" }}
+            >
+              {run.workflow_name}
+            </h1>
+            <div className="mt-0.5 truncate font-mono text-[10px] text-b-text-dim">
+              {run.run_id}
+            </div>
+          </div>
+          <div className="flex items-center gap-4 font-mono text-[11px] text-b-text-mid">
+            <span>
+              <span className="text-b-text-faint">dur </span>
+              <DurationDisplay ms={run.total_duration_ms} />
             </span>
-          )}
-          <span className="flex items-center gap-1">
-            <Clock className="h-4 w-4" />
-            <DurationDisplay ms={run.total_duration_ms} />
-          </span>
-          <span className="flex items-center gap-1">
-            <Percent className="h-4 w-4" />
-            {successPercent.toFixed(0)}%
-          </span>
-          <StatusBadge status={run.status as StepStatus} size="md" />
+            <span>
+              <span className="text-b-text-faint">steps </span>
+              {run.step_count}
+              {run.failed_step_count ? (
+                <span className="text-b-red">/{run.failed_step_count}</span>
+              ) : null}
+            </span>
+            <span>
+              <span className="text-b-text-faint">ok </span>
+              <span
+                className={
+                  successPercent > 85 ? "text-b-green" : "text-b-amber"
+                }
+              >
+                {successPercent.toFixed(0)}%
+              </span>
+            </span>
+            <BPill tone={runTone}>{run.status}</BPill>
+          </div>
         </div>
       </div>
 
       {/* Content */}
       <div className="flex flex-1 overflow-hidden">
-        {/* DAG */}
         <div className="flex-1">
           {dag ? (
             <WorkflowDAG
@@ -126,51 +167,65 @@ export default function RunDetailPage() {
               onNodeClick={setSelectedStep}
             />
           ) : (
-            <div className="flex h-full items-center justify-center text-gray-600">
-              DAG unavailable
+            <div className="flex h-full items-center justify-center font-mono text-[11px] text-b-text-dim">
+              $ dag unavailable
             </div>
           )}
         </div>
 
-        {/* Step panels */}
-        <div className="w-[450px] overflow-y-auto border-l border-white/5 p-4">
-          {run.extra?.evaluation && (
-            <div className="mb-3 rounded-lg border border-white/10 bg-surface-1 p-3">
-              <div className="mb-2 text-xs uppercase tracking-wide text-gray-500">
-                Evaluation Result
-              </div>
-              <div className="flex items-end justify-between">
-                <div>
-                  <div className="text-2xl font-semibold text-gray-100">
-                    {run.extra.evaluation.weighted_score.toFixed(1)}
+        <div className="w-[450px] overflow-y-auto border-l border-b-line bg-b-bg0 p-3 space-y-3">
+          {evalData && evalPct !== null && (
+            <BBox title="evaluation">
+              <div className="p-3">
+                <div className="flex items-end justify-between">
+                  <div>
+                    <div
+                      className="text-[28px] font-semibold text-b-text tabular-nums"
+                      style={{ fontFamily: "var(--b-font-heading)" }}
+                    >
+                      {evalData.weighted_score.toFixed(1)}
+                    </div>
+                    <div className="font-mono text-[10px] uppercase tracking-[0.5px] text-b-text-dim">
+                      weighted / 100
+                    </div>
                   </div>
-                  <div className="text-xs text-gray-500">Weighted / 100</div>
+                  <div className="text-right">
+                    <div className="font-mono text-[11px] text-b-text-mid">
+                      grade{" "}
+                      <span className="text-b-text">
+                        {evalData.grade}
+                      </span>
+                    </div>
+                    <BPill tone={evalData.passed ? "ok" : "err"}>
+                      {evalData.passed ? "passed" : "failed"}
+                    </BPill>
+                  </div>
                 </div>
-                <div className="text-right">
-                  <div className="text-sm font-medium text-gray-300">
-                    Grade {run.extra.evaluation.grade}
-                  </div>
-                  <div
-                    className={`text-xs ${
-                      run.extra.evaluation.passed
-                        ? "text-green-400"
-                        : "text-red-400"
-                    }`}
-                  >
-                    {run.extra.evaluation.passed ? "Passed" : "Did not pass"}
-                  </div>
+                <div className="mt-3">
+                  <BAsciiBar
+                    value={evalPct}
+                    color={
+                      evalPct > 0.75
+                        ? "b-green"
+                        : evalPct > 0.5
+                          ? "b-amber"
+                          : "b-red"
+                    }
+                  />
                 </div>
               </div>
-            </div>
+            </BBox>
           )}
-          <h2 className="mb-3 text-sm font-medium text-gray-400">
-            Steps ({run.steps.length})
-          </h2>
-          <RunDetailSteps
-            steps={run.steps}
-            selectedStep={selectedStep}
-            onSelectStep={setSelectedStep}
-          />
+
+          <BBox title={`steps · ${run.steps.length}`}>
+            <div className="p-2">
+              <RunDetailSteps
+                steps={run.steps}
+                selectedStep={selectedStep}
+                onSelectStep={setSelectedStep}
+              />
+            </div>
+          </BBox>
         </div>
       </div>
     </div>

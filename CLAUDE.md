@@ -46,7 +46,7 @@ A monorepo for multi-agent workflow runtime, evaluation framework, and shared LL
 │   │   ├── contracts/           # Pydantic I/O models (additive-only)
 │   │   ├── prompts/             # 7 agent persona definitions (.md)
 │   │   ├── server/              # FastAPI + WebSocket/SSE streaming
-│   │   ├── tools/builtin/       # 12 built-in tool modules
+│   │   ├── tools/builtin/       # 11 built-in tool modules
 │   │   └── workflows/definitions/ # 6 YAML workflow definitions
 │   ├── tests/                   # 78+ files, pytest-asyncio (auto mode)
 │   └── ui/                      # React 19 + @xyflow/react 12 + TanStack Query + Tailwind
@@ -78,6 +78,19 @@ pip install -e ".[dev,server,langchain]"       # Install (extras: dev, server, l
 python -m pytest tests/ -v                      # Test
 python -m pytest tests/ -q --cov=agentic_v2 --cov-report=term-missing  # Coverage
 pre-commit run --all-files                      # Lint (from repo root)
+```
+
+### Windows One-Command Bring-Up
+
+```powershell
+# From agentic-workflows-v2/ — installs deps, validates workflows, runs smoke test:
+.\scripts\setup-dev.ps1
+
+# Backend-only (skip frontend):
+.\scripts\setup-dev.ps1 -SkipFrontend
+
+# Skip workflow validation (faster):
+.\scripts\setup-dev.ps1 -SkipSmokeTest
 ```
 
 ### Dev Server (two terminals)

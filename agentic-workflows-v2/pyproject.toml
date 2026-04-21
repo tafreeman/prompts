@@ -80,6 +80,9 @@ packages = ["agentic_v2"]
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
+filterwarnings = [
+    "default:.*LangGraph adapter.*:DeprecationWarning",
+]
 markers = [
     "integration: end-to-end tests that call real agents/LLMs (deselect with -m 'not integration')",
     "slow: tests taking more than 5 seconds",

@@ -1,0 +1,82 @@
+{
+  "workflow_version": "1.2.0",
+  "timestamps": {
+    "started": "2026-04-16T00:00:00.000Z",
+    "last_updated": "2026-04-16T15:45:00.000Z",
+    "completed": "2026-04-16T15:45:00.000Z",
+    "deep_dive_last": "2026-04-17T00:00:00.000Z"
+  },
+  "mode": "initial_scan",
+  "scan_level": "exhaustive",
+  "project_root": "C:/Users/tandf/source/prompts",
+  "project_knowledge": "C:/Users/tandf/source/prompts/docs",
+  "completed_steps": [
+    {"step": "step_1", "status": "completed", "timestamp": "2026-04-16T00:01:00.000Z", "summary": "Classified as monorepo with 4 parts: runtime(backend), ui(web), eval(library), tools(library)"},
+    {"step": "step_2", "status": "completed", "timestamp": "2026-04-16T00:02:00.000Z", "summary": "Found 50+ existing docs in docs/, adr/, audit/, analysis/"},
+    {"step": "step_3", "status": "completed", "timestamp": "2026-04-16T14:30:00.000Z", "summary": "Tech stack: Python 3.11+ (FastAPI, Pydantic, LangChain, OTEL, RAG) + React 19 (Vite 6, TanStack Query, xyflow, Tailwind)"},
+    {"step": "step_4", "status": "completed", "timestamp": "2026-04-16T15:00:00.000Z", "summary": "Exhaustive scan via 4 parallel agents. Runtime: 16 REST + WS + SSE, 38+ models, 87 tests. UI: 13 API calls, 17 components, 23 tests. Eval: 8 rubrics, 4 evaluators, ~215 tests. Tools: 10 providers, 8 benchmarks, 10 tests."},
+    {"step": "step_5", "status": "completed", "timestamp": "2026-04-16T15:10:00.000Z", "summary": "Source tree with annotated directories, entry points, integration points written"},
+    {"step": "step_6", "status": "completed", "timestamp": "2026-04-16T15:15:00.000Z", "summary": "Development guide, deployment guide, contribution guide written"},
+    {"step": "step_7", "status": "completed", "timestamp": "2026-04-16T15:20:00.000Z", "summary": "Integration architecture: REST (16 endpoints), WebSocket, SSE, Python imports (runtime←tools, eval←tools)"},
+    {"step": "step_8", "status": "completed", "timestamp": "2026-04-16T15:30:00.000Z", "summary": "Architecture docs written for all 4 parts via parallel agents"},
+    {"step": "step_9", "status": "completed", "timestamp": "2026-04-16T15:35:00.000Z", "summary": "Supporting docs: project-overview, api-contracts-runtime, data-models-runtime, component-inventory-ui, project-parts.json"},
+    {"step": "step_10", "status": "completed", "timestamp": "2026-04-16T15:40:00.000Z", "summary": "Master index.md generated with links to all 13 generated + 23 existing docs"},
+    {"step": "step_11", "status": "completed", "timestamp": "2026-04-16T15:42:00.000Z", "summary": "Validation checklist reviewed, all files verified on disk, no incomplete markers found"},
+    {"step": "step_12", "status": "completed", "timestamp": "2026-04-16T15:45:00.000Z", "summary": "Workflow complete. 15 files generated (13 markdown + 1 JSON metadata + 1 state file)."}
+  ],
+  "current_step": "completed",
+  "project_types": [
+    {"part_id": "runtime", "project_type_id": "backend", "display_name": "agentic-workflows-v2 (Runtime Backend)", "root_path": "agentic-workflows-v2/"},
+    {"part_id": "ui", "project_type_id": "web", "display_name": "agentic-workflows-v2/ui (React Dashboard)", "root_path": "agentic-workflows-v2/ui/"},
+    {"part_id": "eval", "project_type_id": "library", "display_name": "agentic-v2-eval (Evaluation Framework)", "root_path": "agentic-v2-eval/"},
+    {"part_id": "tools", "project_type_id": "library", "display_name": "prompts-tools (Shared Utilities)", "root_path": "tools/"}
+  ],
+  "findings": {
+    "project_classification": "monorepo, 4 parts, Python+FastAPI+React",
+    "existing_docs_count": "50+ files across docs/, adr/",
+    "technology_stack": "Python 3.11 + React 19 + uv workspace",
+    "api_endpoints": "16 REST + 1 WebSocket + 1 SSE",
+    "data_models": "38+ Pydantic v2 models",
+    "components": "17 React components",
+    "test_files": "131 total (87 runtime + 23 UI + 11 eval + 10 tools)"
+  },
+  "outputs_generated": [
+    "project-scan-report.json",
+    "index.md",
+    "project-overview.md",
+    "source-tree-analysis.md",
+    "architecture-runtime.md",
+    "architecture-ui.md",
+    "architecture-eval.md",
+    "architecture-tools.md",
+    "api-contracts-runtime.md",
+    "data-models-runtime.md",
+    "component-inventory-ui.md",
+    "integration-architecture.md",
+    "development-guide.md",
+    "deployment-guide.md",
+    "contribution-guide.md",
+    "project-parts.json",
+    "deep-dive-server.md",
+    "deep-dive-agents.md"
+  ],
+  "deep_dive_targets": [
+    {
+      "target_name": "Server",
+      "target_path": "agentic-workflows-v2/agentic_v2/server/",
+      "files_analyzed": 23,
+      "total_loc": 6589,
+      "output_file": "deep-dive-server.md",
+      "timestamp": "2026-04-17T00:00:00.000Z"
+    },
+    {
+      "target_name": "Agents",
+      "target_path": "agentic-workflows-v2/agentic_v2/agents/",
+      "files_analyzed": 15,
+      "total_loc": 4337,
+      "output_file": "deep-dive-agents.md",
+      "timestamp": "2026-04-17T00:00:00.000Z"
+    }
+  ],
+  "resume_instructions": "Workflow complete. No further steps needed."
+}

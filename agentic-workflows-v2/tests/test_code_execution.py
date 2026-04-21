@@ -135,6 +135,7 @@ class TestCodeExecution:
         assert "3.14" in result.data["stdout"]
 
     @pytest.mark.asyncio
+    @pytest.mark.slow
     @pytest.mark.timeout(15)
     async def test_timeout_handling(self) -> None:
         """Long-running code is killed after timeout."""
