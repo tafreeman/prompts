@@ -50,7 +50,7 @@ export default function Sidebar() {
                 isActive
                   ? "border-b-clay bg-b-clay-soft text-b-clay"
                   : "border-transparent text-b-text-dim hover:bg-b-bg2 hover:text-b-text"
-              }`
+              } focus:outline-none focus:ring-1 focus:ring-b-clay/50`
             }
           >
             <link.icon className="h-3.5 w-3.5" />
@@ -72,7 +72,7 @@ export default function Sidebar() {
                 key={t}
                 type="button"
                 onClick={() => setTheme(t)}
-                className={`font-mono text-[9px] uppercase tracking-[0.5px] transition-colors ${
+                className={`font-mono text-[9px] uppercase tracking-[0.5px] transition-colors focus:outline-none focus:ring-1 focus:ring-b-clay/50 ${
                   active
                     ? "text-b-clay"
                     : "text-b-text-faint hover:text-b-text-dim"

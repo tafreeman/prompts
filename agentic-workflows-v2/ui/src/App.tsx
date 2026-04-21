@@ -16,8 +16,15 @@ export default function App() {
 
   return (
     <div className="flex h-screen overflow-hidden">
+      {/* Skip-to-main-content: visually hidden until focused via keyboard Tab */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-sm focus:bg-b-bg1 focus:px-3 focus:py-1.5 focus:font-mono focus:text-[11px] focus:text-b-clay focus:ring-1 focus:ring-b-clay/50 focus:outline-none"
+      >
+        skip to main content
+      </a>
       <Sidebar />
-      <main className="flex-1 overflow-hidden">
+      <main id="main-content" className="flex-1 overflow-hidden" tabIndex={-1}>
         <Routes>
           <Route path="/" element={<DashboardPage />} />
           <Route path="/workflows" element={<WorkflowsPage />} />

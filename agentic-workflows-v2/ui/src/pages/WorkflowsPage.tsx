@@ -65,7 +65,7 @@ export default function WorkflowsPage() {
           </div>
 
           {/* Search */}
-          <div className="flex items-center gap-2 rounded-sm border border-b-line bg-b-bg0 px-3 py-2">
+          <div className="flex items-center gap-2 rounded-sm border border-b-line bg-b-bg0 px-3 py-2 focus-within:ring-1 focus-within:ring-b-clay/50">
             <span className="font-mono text-[13px] font-bold text-b-clay">
               /
             </span>
@@ -75,7 +75,7 @@ export default function WorkflowsPage() {
               placeholder="filter by name, tag…"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="flex-1 bg-transparent font-mono text-[11px] text-b-text placeholder:text-b-text-faint focus:outline-none"
+              className="flex-1 bg-transparent font-mono text-[11px] text-b-text placeholder:text-b-text-faint focus:outline-none focus:ring-0"
             />
             {query && (
               <span className="font-mono text-[10px] text-b-text-dim">
@@ -104,7 +104,7 @@ export default function WorkflowsPage() {
                 <Link
                   key={name}
                   to={`/workflows/${name}`}
-                  className="group flex items-center gap-3 border border-b-line border-l-2 bg-b-bg1 px-3 py-3 transition-colors hover:bg-b-bg2 hover:border-l-b-clay"
+                  className="group flex items-center gap-3 border border-b-line border-l-2 bg-b-bg1 px-3 py-3 transition-colors hover:bg-b-bg2 hover:border-l-b-clay focus:outline-none focus:ring-1 focus:ring-b-clay/50"
                 >
                   <span className="font-mono text-[14px] text-b-blue">▣</span>
                   <div className="flex-1 min-w-0">

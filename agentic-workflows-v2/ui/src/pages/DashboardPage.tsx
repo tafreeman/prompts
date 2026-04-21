@@ -200,7 +200,7 @@ export default function DashboardPage() {
           onKeyDown={(e) => e.key === "Escape" && clearFilter()}
           placeholder="[f] filter runs…"
           aria-label="Filter runs"
-          className="h-5 w-36 bg-transparent font-mono text-[11px] text-b-text placeholder:text-b-text-dim focus:outline-none focus:placeholder:text-b-text-faint"
+          className="h-5 w-36 bg-transparent font-mono text-[11px] text-b-text placeholder:text-b-text-dim focus:outline-none focus:placeholder:text-b-text-faint focus:ring-0"
         />
         <button className="btn-primary">
           <Plus className="h-3 w-3" />
