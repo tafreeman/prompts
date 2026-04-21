@@ -1,7 +1,7 @@
 """Output formatting and batch reporting for LLM-as-judge evaluation results.
 
-Provides console report printing, file-based report saving (JSON + Markdown),
-and batch summarisation helpers.
+Provides console report printing, file-based report saving (JSON +
+Markdown), and batch summarisation helpers.
 """
 
 from __future__ import annotations

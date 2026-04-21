@@ -59,8 +59,8 @@ class AgentState(str, Enum):
 
 
 class AgentEvent(str, Enum):
-    """Observable events emitted by :class:`~agentic_v2.agents.base.BaseAgent`
-    during execution.
+    """Observable events emitted by :class:`~agentic_v2.agents.base.BaseAgent` during
+    execution.
 
     Register handlers via :meth:`~agentic_v2.agents.base.BaseAgent.on_event`
     to receive these events for logging, metrics, or UI updates.
@@ -87,8 +87,8 @@ Signature::
 
 @dataclass
 class AgentConfig:
-    """Configuration parameters for a
-    :class:`~agentic_v2.agents.base.BaseAgent` instance.
+    """Configuration parameters for a :class:`~agentic_v2.agents.base.BaseAgent`
+    instance.
 
     Attributes:
         name: Human-readable agent identifier used in logging and

@@ -1,5 +1,4 @@
-"""
-Resource discovery service with LRU caching.
+"""Resource discovery service with LRU caching.
 
 Fetches and caches resource lists from MCP servers, invalidating on
 server notifications.
@@ -8,10 +7,9 @@ server notifications.
 import logging
 from typing import Dict, List, Optional
 
-from cachetools import TTLCache
-
 from agentic_v2.integrations.mcp.protocol.client import McpProtocolClient
 from agentic_v2.integrations.mcp.types import McpResourceDescriptor
+from cachetools import TTLCache
 
 logger = logging.getLogger(__name__)
 
@@ -21,8 +19,7 @@ CACHE_TTL_SECONDS = 300  # 5 minutes TTL as fallback
 
 
 class ResourceDiscovery:
-    """
-    Service for discovering resources from MCP servers.
+    """Service for discovering resources from MCP servers.
 
     Features:
     - Fetches resources/list from servers with resource capability
@@ -33,17 +30,14 @@ class ResourceDiscovery:
 
     def __init__(self) -> None:
         """Initialize resource discovery service."""
-        self._cache: TTLCache = TTLCache(
-            maxsize=CACHE_MAX_SIZE, ttl=CACHE_TTL_SECONDS
-        )
+        self._cache: TTLCache = TTLCache(maxsize=CACHE_MAX_SIZE, ttl=CACHE_TTL_SECONDS)
 
     async def discover_resources(
         self,
         server_name: str,
         client: McpProtocolClient,
-    ) -> List[McpResourceDescriptor]:
-        """
-        Discover resources from an MCP server.
+    ) -> list[McpResourceDescriptor]:
+        """Discover resources from an MCP server.
 
         Args:
             server_name: Server name (for cache key)
@@ -101,9 +95,8 @@ class ResourceDiscovery:
         server_name: str,
         client: McpProtocolClient,
         uri: str,
-    ) -> Dict:
-        """
-        Read a specific resource from an MCP server.
+    ) -> dict:
+        """Read a specific resource from an MCP server.
 
         Args:
             server_name: Server name (for logging)
@@ -134,8 +127,7 @@ class ResourceDiscovery:
             raise
 
     def invalidate_cache(self, server_name: str) -> None:
-        """
-        Invalidate cached resources for a server.
+        """Invalidate cached resources for a server.
 
         Called when server sends notifications/resources/list_changed.
 
@@ -156,15 +148,14 @@ class ResourceDiscovery:
         server_name: str,
         client: McpProtocolClient,
     ) -> None:
-        """
-        Register notification handlers for cache invalidation.
+        """Register notification handlers for cache invalidation.
 
         Args:
             server_name: Server name
             client: Protocol client to register handlers on
         """
 
-        def on_resources_list_changed(params: Dict) -> None:
+        def on_resources_list_changed(params: dict) -> None:
             logger.info(f"Resources changed notification from {server_name}")
             self.invalidate_cache(server_name)
 

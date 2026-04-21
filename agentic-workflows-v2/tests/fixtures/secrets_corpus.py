@@ -18,10 +18,16 @@ _GITHUB_OAUTH = "gho" + "_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmn"
 # Positive cases — should be detected
 POSITIVE_SECRETS: list[tuple[str, str]] = [
     ("AKIAIOSFODNN7EXAMPLE", "aws_access_key"),
-    ("aws_secret_access_key = wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY", "aws_secret_key"),
+    (
+        "aws_secret_access_key = wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+        "aws_secret_key",
+    ),
     (_GITHUB_PAT, "github_token"),
     (_GITHUB_OAUTH, "github_token"),
-    ("Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.dozjgNryP4J3jVmNHl0w5N_XgL0n3I9PlFUP0THsR8U", "bearer_token"),
+    (
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.dozjgNryP4J3jVmNHl0w5N_XgL0n3I9PlFUP0THsR8U",
+        "bearer_token",
+    ),
     (f"api_key = {_STRIPE_LIVE}", "generic_api_key"),
     ("API-KEY: abcdef1234567890abcdef1234567890", "generic_api_key"),
     ("-----BEGIN RSA PRIVATE KEY-----", "private_key_header"),

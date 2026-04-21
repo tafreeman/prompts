@@ -32,7 +32,6 @@ from tools.core.tool_init import (
     with_retry,
 )
 
-
 # ---------------------------------------------------------------------------
 # safe_str / safe_print
 # ---------------------------------------------------------------------------
@@ -270,8 +269,7 @@ class TestToolInitSummary:
         """Summary only shows first 10 failed items."""
         init = ToolInit(name="test", log_file=tmp_path / "log.jsonl")
         init._failed_items = [
-            {"item": f"item_{i}", "error": "e", "code": "err"}
-            for i in range(15)
+            {"item": f"item_{i}", "error": "e", "code": "err"} for i in range(15)
         ]
         init._failed_count = 15
         # Should not raise

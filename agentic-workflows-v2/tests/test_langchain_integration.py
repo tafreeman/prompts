@@ -2,7 +2,8 @@
 
 Tests end-to-end execution, checkpointing, and streaming behavior.
 
-# ADR-008 cleanup: removed 5 duplicate tests (see docs/adr/ADR-008-testing-approach-overhaul.md)
+# ADR-008 cleanup: removed 5 duplicate tests (see
+docs/adr/ADR-008-testing-approach-overhaul.md)
 """
 
 import os

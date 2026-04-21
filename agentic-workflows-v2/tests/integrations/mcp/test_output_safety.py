@@ -1,5 +1,4 @@
-"""
-Tests for output safety and context budget protection.
+"""Tests for output safety and context budget protection.
 
 Validates:
 - Token counting and estimation
@@ -15,7 +14,6 @@ import tempfile
 from pathlib import Path
 
 import pytest
-
 from agentic_v2.integrations.mcp.results.budget import (
     ContextBudgetGuard,
     estimate_content_blocks_tokens,
@@ -51,9 +49,7 @@ class TestTokenEstimation:
 
     def test_estimate_content_blocks_image(self):
         """Test token estimation includes image blocks (1600 tokens each)."""
-        blocks = [
-            {"type": "image", "data": "base64data", "mimeType": "image/png"}
-        ]
+        blocks = [{"type": "image", "data": "base64data", "mimeType": "image/png"}]
 
         tokens = estimate_content_blocks_tokens(blocks)
         assert tokens == 1600
@@ -103,9 +99,7 @@ class TestContextBudgetGuard:
         guard = ContextBudgetGuard(max_tokens=1000)
         text = "Small text"
 
-        result, was_truncated = guard.check_and_truncate_text(
-            text, "server", "tool"
-        )
+        result, was_truncated = guard.check_and_truncate_text(text, "server", "tool")
 
         assert result == text
         assert not was_truncated
@@ -115,9 +109,7 @@ class TestContextBudgetGuard:
         guard = ContextBudgetGuard(max_tokens=10)
         text = "This is a very long piece of text " * 100
 
-        result, was_truncated = guard.check_and_truncate_text(
-            text, "server", "tool"
-        )
+        result, was_truncated = guard.check_and_truncate_text(text, "server", "tool")
 
         assert len(result) < len(text)
         assert was_truncated
@@ -198,7 +190,7 @@ class TestMcpOutputStorage:
             assert os.path.exists(file_path)
 
             # Content should match
-            with open(file_path, "r") as f:
+            with open(file_path) as f:
                 saved_content = f.read()
             assert saved_content == content
 
@@ -262,9 +254,7 @@ class TestMcpOutputStorage:
 
             # Try to save with malicious server/tool names
             content = "test"
-            file_path, _ = storage.save_text_output(
-                content, "../../../etc", "passwd"
-            )
+            file_path, _ = storage.save_text_output(content, "../../../etc", "passwd")
 
             # Path separators should be sanitized
             assert "../" not in file_path

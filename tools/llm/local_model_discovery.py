@@ -40,8 +40,7 @@ def _safe_float(value: Any, default: float = 0.0) -> float:
 
 
 def _find_onnx_model_dir(base: Path) -> Path | None:
-    """Return the first directory under base that looks like an ONNX model
-    folder."""
+    """Return the first directory under base that looks like an ONNX model folder."""
     if not base.exists() or not base.is_dir():
         return None
 

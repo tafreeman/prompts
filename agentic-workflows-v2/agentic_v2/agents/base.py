@@ -498,8 +498,7 @@ class BaseAgent(ABC, Generic[TInput, TOutput]):
 def agent_to_step(
     agent: BaseAgent[TInput, TOutput], name: str | None = None
 ) -> StepDefinition:
-    """Wrap a :class:`BaseAgent` as a
-    :class:`~agentic_v2.engine.StepDefinition`.
+    """Wrap a :class:`BaseAgent` as a :class:`~agentic_v2.engine.StepDefinition`.
 
     Creates a step function that extracts a ``"task"`` key from the
     :class:`~agentic_v2.engine.ExecutionContext`, passes it to

@@ -122,8 +122,8 @@ class RerankerProtocol(Protocol):
     """Interface for result rerankers.
 
     Rerankers rescore and reorder retrieval results using a more
-    expensive signal (cross-encoder model, LLM judge, etc.) to
-    improve precision after an initial cheap retrieval pass.
+    expensive signal (cross-encoder model, LLM judge, etc.) to improve
+    precision after an initial cheap retrieval pass.
     """
 
     async def rerank(

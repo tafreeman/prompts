@@ -1,4 +1,5 @@
-"""Tests for model_probe -- ModelProbe class, provider detection, caching, and convenience functions.
+"""Tests for model_probe -- ModelProbe class, provider detection, caching, and
+convenience functions.
 
 Covers:
 - Provider detection from model name strings (get_provider)
@@ -32,7 +33,6 @@ from tools.llm.model_probe import (
 )
 from tools.llm.probe_config import CACHE_VERSION, ProbeResult, cache_key
 from tools.llm.probe_providers import get_provider
-
 
 # ---------------------------------------------------------------------------
 # get_provider
@@ -298,14 +298,19 @@ class TestModelProbeFilterRunnable:
     @patch("tools.llm.model_probe.probe_model")
     def test_filters_unusable_models(self, mock_probe):
         """filter_runnable removes models that probe as unusable."""
+
         def side_effect(model, log=None):
             if model == "gh:gpt-4o-mini":
                 return ProbeResult(
-                    model=model, provider="github", usable=True,
+                    model=model,
+                    provider="github",
+                    usable=True,
                     probe_time=datetime.now().isoformat(),
                 )
             return ProbeResult(
-                model=model, provider="local", usable=False,
+                model=model,
+                provider="local",
+                usable=False,
                 error_code=ErrorCode.UNAVAILABLE_MODEL.value,
                 probe_time=datetime.now().isoformat(),
             )
@@ -329,7 +334,9 @@ class TestModelProbeGetProbeReport:
     def test_report_structure(self, mock_probe):
         """Report contains expected keys and correct counts."""
         mock_probe.return_value = ProbeResult(
-            model="gh:gpt-4o-mini", provider="github", usable=True,
+            model="gh:gpt-4o-mini",
+            provider="github",
+            usable=True,
             probe_time=datetime.now().isoformat(),
         )
         probe = ModelProbe(use_cache=False)
@@ -350,7 +357,9 @@ class TestModelProbeClearCache:
     def test_clear_single_model(self, mock_probe):
         """Clearing cache for one model removes it from session cache."""
         mock_probe.return_value = ProbeResult(
-            model="gh:gpt-4o-mini", provider="github", usable=True,
+            model="gh:gpt-4o-mini",
+            provider="github",
+            usable=True,
             probe_time=datetime.now().isoformat(),
         )
         probe = ModelProbe(use_cache=False)
@@ -364,7 +373,9 @@ class TestModelProbeClearCache:
     def test_clear_all(self, mock_probe):
         """Clearing all cache empties session probes."""
         mock_probe.return_value = ProbeResult(
-            model="test", provider="test", usable=True,
+            model="test",
+            provider="test",
+            usable=True,
             probe_time=datetime.now().isoformat(),
         )
         probe = ModelProbe(use_cache=False)
@@ -400,11 +411,14 @@ class TestConvenienceFunctions:
         """is_model_usable returns bool based on probe result."""
         mock_cache.return_value = {"version": CACHE_VERSION, "probes": {}}
         mock_probe.return_value = ProbeResult(
-            model="test", provider="test", usable=True,
+            model="test",
+            provider="test",
+            usable=True,
             probe_time=datetime.now().isoformat(),
         )
         # Reset singleton for test isolation
         import tools.llm.model_probe as mod
+
         mod._DEFAULT_PROBE = None
         assert is_model_usable("test") is True
 
@@ -415,10 +429,13 @@ class TestConvenienceFunctions:
         """get_model_error returns None for usable models."""
         mock_cache.return_value = {"version": CACHE_VERSION, "probes": {}}
         mock_probe.return_value = ProbeResult(
-            model="test", provider="test", usable=True,
+            model="test",
+            provider="test",
+            usable=True,
             probe_time=datetime.now().isoformat(),
         )
         import tools.llm.model_probe as mod
+
         mod._DEFAULT_PROBE = None
         assert get_model_error("test") is None
 
@@ -434,6 +451,7 @@ class TestGetProbe:
     def test_returns_same_instance(self):
         """get_probe returns the same instance on repeated calls."""
         import tools.llm.model_probe as mod
+
         mod._DEFAULT_PROBE = None  # Reset
 
         with patch("tools.llm.model_probe.load_cache") as mock_cache:

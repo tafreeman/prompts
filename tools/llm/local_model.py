@@ -633,9 +633,10 @@ Return ONLY valid JSON:
         }
 
 
+from tools.llm.local_model_cli import main
+
 # Backward-compat re-exports
 from tools.llm.local_model_discovery import check_model_available, get_model_info
-from tools.llm.local_model_cli import main
 
 if __name__ == "__main__":
     main()

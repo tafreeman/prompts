@@ -19,12 +19,12 @@ Usage:
 from __future__ import annotations
 
 import atexit
+import contextlib
 import json
 import logging
 import sys
 from datetime import datetime
 from pathlib import Path
-import contextlib
 
 logger = logging.getLogger(__name__)
 
@@ -37,8 +37,8 @@ def get_lock_dir() -> Path:
 
 
 def create_model_lock(model_name: str) -> Path:
-    """Create a lock file indicating this model is in use. Automatically
-    cleaned up when process exits.
+    """Create a lock file indicating this model is in use. Automatically cleaned up when
+    process exits.
 
     Args:
         model_name: Human-readable model name (e.g., "Phi-4 Mini")
@@ -74,8 +74,8 @@ def create_model_lock(model_name: str) -> Path:
 
 
 def get_models_in_use(available: dict[str, Path] | None = None) -> dict[str, str]:
-    """Check which models are currently in use by checking lock files.
-    Validates PIDs are still running and cleans up stale locks.
+    """Check which models are currently in use by checking lock files. Validates PIDs
+    are still running and cleans up stale locks.
 
     Args:
         available: Optional dict of available models to filter by.

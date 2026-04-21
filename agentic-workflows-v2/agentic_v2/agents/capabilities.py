@@ -350,8 +350,7 @@ def requires_capabilities(*cap_types: CapabilityType):
 
 
 def get_agent_capabilities(agent: "BaseAgent") -> CapabilitySet:
-    """Aggregate capabilities from all :class:`CapabilityMixin` bases of an
-    agent.
+    """Aggregate capabilities from all :class:`CapabilityMixin` bases of an agent.
 
     Walks the agent's MRO and calls :meth:`CapabilityMixin.get_capabilities`
     on each mixin class, merging the results into a single

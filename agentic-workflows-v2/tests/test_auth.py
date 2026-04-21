@@ -121,10 +121,7 @@ class TestWebSocketAuthHelpers:
             "path": "/ws/execution/run-1",
             "headers": [
                 (b"host", host.encode()),
-                *[
-                    (k.lower().encode(), v.encode())
-                    for k, v in (headers or {}).items()
-                ],
+                *[(k.lower().encode(), v.encode()) for k, v in (headers or {}).items()],
             ],
             "query_string": query_string,
             "client": ("127.0.0.1", 1234),

@@ -19,8 +19,7 @@ from agentic_v2.rag.protocols import EmbeddingProtocol
 
 
 class TestInMemoryEmbedder:
-    """Verify InMemoryEmbedder — deterministic hash-based embedder for
-    testing."""
+    """Verify InMemoryEmbedder — deterministic hash-based embedder for testing."""
 
     def test_satisfies_embedding_protocol(self):
         """InMemoryEmbedder must be recognized as EmbeddingProtocol."""
@@ -139,8 +138,7 @@ class TestFallbackEmbedder:
 
     @pytest.mark.asyncio
     async def test_falls_back_on_first_provider_failure(self):
-        """If the first provider raises EmbeddingError, fall back to the
-        next."""
+        """If the first provider raises EmbeddingError, fall back to the next."""
         from agentic_v2.rag.embeddings import FallbackEmbedder, InMemoryEmbedder
 
         class _FailingEmbedder:
@@ -162,8 +160,7 @@ class TestFallbackEmbedder:
 
     @pytest.mark.asyncio
     async def test_raises_when_all_providers_fail(self):
-        """If all providers fail, raise EmbeddingError with all collected
-        errors."""
+        """If all providers fail, raise EmbeddingError with all collected errors."""
         from agentic_v2.rag.embeddings import FallbackEmbedder
 
         class _FailingA:

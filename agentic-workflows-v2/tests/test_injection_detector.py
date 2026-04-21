@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from agentic_v2.contracts.sanitization import FindingCategory
 from agentic_v2.middleware.detectors.injection import PromptInjectionDetector
 from tests.fixtures.injection_corpus import (

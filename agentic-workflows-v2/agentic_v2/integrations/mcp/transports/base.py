@@ -1,8 +1,8 @@
-"""
-Abstract base class for MCP transports.
+"""Abstract base class for MCP transports.
 
-Implements the contract that all transports (stdio, WebSocket, SSE) must follow.
-Strictly separates byte-stream management from JSON-RPC protocol logic.
+Implements the contract that all transports (stdio, WebSocket, SSE) must
+follow. Strictly separates byte-stream management from JSON-RPC protocol
+logic.
 """
 
 import asyncio
@@ -13,8 +13,7 @@ from agentic_v2.integrations.mcp.types import JsonRpcMessage
 
 
 class McpTransport(ABC):
-    """
-    Abstract base class for MCP transport layers.
+    """Abstract base class for MCP transport layers.
 
     Responsibilities:
     - Establish and maintain raw byte streams (stdin/stdout, WebSocket, HTTP)
@@ -39,8 +38,7 @@ class McpTransport(ABC):
 
     @abstractmethod
     async def start(self) -> None:
-        """
-        Start the transport and begin listening for messages.
+        """Start the transport and begin listening for messages.
 
         Raises:
             RuntimeError: If transport is already started or closed.
@@ -50,8 +48,7 @@ class McpTransport(ABC):
 
     @abstractmethod
     async def send(self, message: JsonRpcMessage) -> None:
-        """
-        Send a JSON-RPC message over the transport.
+        """Send a JSON-RPC message over the transport.
 
         Args:
             message: The JSON-RPC message to send.
@@ -64,11 +61,10 @@ class McpTransport(ABC):
 
     @abstractmethod
     async def close(self) -> None:
-        """
-        Close the transport and clean up resources.
+        """Close the transport and clean up resources.
 
-        Should be idempotent (safe to call multiple times).
-        Must trigger on_close callback on first call.
+        Should be idempotent (safe to call multiple times). Must trigger
+        on_close callback on first call.
         """
         pass
 
@@ -86,9 +82,7 @@ class McpTransport(ABC):
                 self.on_message(message)
             except Exception as e:
                 # Prevent handler errors from crashing transport
-                self._emit_error(
-                    Exception(f"Message handler raised exception: {e}")
-                )
+                self._emit_error(Exception(f"Message handler raised exception: {e}"))
 
     def _emit_error(self, error: Exception) -> None:
         """Emit an error to the registered handler."""
@@ -108,6 +102,4 @@ class McpTransport(ABC):
                     self.on_close()
                 except Exception as e:
                     # Don't crash during cleanup
-                    self._emit_error(
-                        Exception(f"Close handler raised exception: {e}")
-                    )
+                    self._emit_error(Exception(f"Close handler raised exception: {e}"))

@@ -161,8 +161,7 @@ class RAGMemoryStore:
         return results
 
     async def delete(self, key: str) -> bool:
-        """Delete a memory entry from both the vector store and internal
-        mapping.
+        """Delete a memory entry from both the vector store and internal mapping.
 
         Args:
             key: The key to delete.

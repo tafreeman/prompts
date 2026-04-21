@@ -17,7 +17,6 @@ from typing import Any
 from unittest.mock import patch
 
 import pytest
-
 from agentic_v2.tools.builtin.memory_ops import (
     MemoryClearTool,
     MemoryDeleteTool,
@@ -27,7 +26,6 @@ from agentic_v2.tools.builtin.memory_ops import (
     MemoryUpsertTool,
     _FileMemoryStore,
 )
-
 
 # ---------------------------------------------------------------------------
 # Fixtures
@@ -262,9 +260,7 @@ class TestMemoryUpsertTool:
         assert result.success is True
         assert result.data["key"] == "k"
 
-    async def test_execute_empty_key_returns_failure(
-        self, tmp_path: Path
-    ) -> None:
+    async def test_execute_empty_key_returns_failure(self, tmp_path: Path) -> None:
         """Tier 1: empty key yields success=False with error message."""
         tool = _make_tool(MemoryUpsertTool, tmp_path)
         result = await tool.execute(key="", value="v")
@@ -275,7 +271,9 @@ class TestMemoryUpsertTool:
         """Tier 2: tool metadata is correct."""
         tool = MemoryUpsertTool()
         assert tool.name == "memory_upsert"
-        assert "upsert" in tool.description.lower() or "create" in tool.description.lower()
+        assert (
+            "upsert" in tool.description.lower() or "create" in tool.description.lower()
+        )
 
 
 class TestMemoryGetTool:
@@ -351,9 +349,7 @@ class TestMemoryListTool:
 class TestMemorySearchTool:
     """Tier 1: search tool error path."""
 
-    async def test_search_empty_query_returns_failure(
-        self, tmp_path: Path
-    ) -> None:
+    async def test_search_empty_query_returns_failure(self, tmp_path: Path) -> None:
         """Tier 1: empty query yields success=False."""
         tool = _make_tool(MemorySearchTool, tmp_path)
         result = await tool.execute(query="")

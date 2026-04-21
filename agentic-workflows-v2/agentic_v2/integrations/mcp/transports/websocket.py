@@ -1,5 +1,4 @@
-"""
-WebSocket transport for MCP servers.
+"""WebSocket transport for MCP servers.
 
 Connects to remote MCP servers via WebSocket (ws:// or wss:// URLs).
 Uses the `websockets` library for async WebSocket client implementation.
@@ -21,26 +20,29 @@ except ImportError:
     )
 
 from agentic_v2.integrations.mcp.transports.base import McpTransport
-from agentic_v2.integrations.mcp.types import JsonRpcMessage, JsonRpcNotification, JsonRpcRequest, JsonRpcResponse
+from agentic_v2.integrations.mcp.types import (
+    JsonRpcMessage,
+    JsonRpcNotification,
+    JsonRpcRequest,
+    JsonRpcResponse,
+)
 
 logger = logging.getLogger(__name__)
 
 
 class WebSocketTransport(McpTransport):
-    """
-   Transport for MCP servers accessible via WebSocket.
+    """Transport for MCP servers accessible via WebSocket.
 
-    Supports both ws:// (insecure) and wss:// (TLS) connections.
-    Handles connection establishment, message framing, and cleanup.
+    Supports both ws:// (insecure) and wss:// (TLS) connections. Handles
+    connection establishment, message framing, and cleanup.
     """
 
     def __init__(
         self,
         url: str,
-        headers: Optional[Dict[str, str]] = None,
+        headers: Optional[dict[str, str]] = None,
     ) -> None:
-        """
-        Initialize WebSocket transport.
+        """Initialize WebSocket transport.
 
         Args:
             url: WebSocket URL (must start with ws:// or wss://)
@@ -56,8 +58,7 @@ class WebSocketTransport(McpTransport):
         self._receive_task: Optional[asyncio.Task] = None
 
     async def start(self) -> None:
-        """
-        Connect to the WebSocket server and start receiving.
+        """Connect to the WebSocket server and start receiving.
 
         Raises:
             RuntimeError: If already started.
@@ -86,8 +87,7 @@ class WebSocketTransport(McpTransport):
         logger.info(f"WebSocket connected: {self.url}")
 
     async def send(self, message: JsonRpcMessage) -> None:
-        """
-        Send a JSON-RPC message via WebSocket.
+        """Send a JSON-RPC message via WebSocket.
 
         Args:
             message: JSON-RPC message to send
@@ -108,8 +108,7 @@ class WebSocketTransport(McpTransport):
             raise ConnectionError(f"WebSocket send failed: {e}") from e
 
     async def close(self) -> None:
-        """
-        Close the WebSocket connection gracefully.
+        """Close the WebSocket connection gracefully.
 
         Idempotent: safe to call multiple times.
         """
@@ -134,8 +133,7 @@ class WebSocketTransport(McpTransport):
         self._emit_close()
 
     async def _receive_loop(self) -> None:
-        """
-        Receive and parse JSON-RPC messages from WebSocket.
+        """Receive and parse JSON-RPC messages from WebSocket.
 
         Runs until connection closes or transport is shut down.
         """
@@ -175,8 +173,7 @@ class WebSocketTransport(McpTransport):
                 self._emit_close()
 
     def _parse_json_rpc(self, data: dict) -> JsonRpcMessage:
-        """
-        Parse raw JSON into typed JSON-RPC message.
+        """Parse raw JSON into typed JSON-RPC message.
 
         Args:
             data: Deserialized JSON object

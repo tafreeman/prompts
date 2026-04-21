@@ -45,8 +45,7 @@ class HealthResponse(BaseModel):
 
 
 class WorkflowExecutionProfileRequest(BaseModel):
-    """Optional execution profile controlling runtime behavior for workflow
-    runs.
+    """Optional execution profile controlling runtime behavior for workflow runs.
 
     Attributes:
         runtime: Execution runtime (``"subprocess"`` or ``"docker"``).
@@ -89,7 +88,6 @@ class WorkflowRunRequest(BaseModel):
                 "run_id must be 1-128 characters using only letters, digits, hyphens, and underscores"
             )
         return v
-
 
     adapter: str = Field(
         "langchain",
@@ -244,7 +242,9 @@ class WorkflowEditorRequest(BaseModel):
             return self
 
         if not self.yaml_text or not self.yaml_text.strip():
-            raise ValueError("Workflow editor request must include document or yaml_text.")
+            raise ValueError(
+                "Workflow editor request must include document or yaml_text."
+            )
 
         parsed = yaml.safe_load(self.yaml_text)
         if not isinstance(parsed, dict):

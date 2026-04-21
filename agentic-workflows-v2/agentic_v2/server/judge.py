@@ -238,8 +238,7 @@ def check_swapped_order_consistency(
     *,
     max_delta: float = 1.0,
 ) -> tuple[bool, list[str]]:
-    """Detect positional bias by comparing forward and swapped-order judge
-    scores.
+    """Detect positional bias by comparing forward and swapped-order judge scores.
 
     For each criterion present in both payloads, checks whether the
     absolute score difference exceeds ``max_delta``.

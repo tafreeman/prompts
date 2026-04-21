@@ -263,8 +263,7 @@ class TestOtelTraceAdapter:
         assert sanitized["model"] == "gpt-4"
 
     def test_non_sensitive_fields_always_included(self, adapter):
-        """Non-sensitive fields are included regardless of
-        capture_sensitive."""
+        """Non-sensitive fields are included regardless of capture_sensitive."""
         data = {
             "model": "gpt-4",
             "step_name": "analyze",

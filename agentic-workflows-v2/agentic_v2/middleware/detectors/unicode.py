@@ -50,10 +50,11 @@ class UnicodeSanitizer:
         _, findings = await self.sanitize(text)
         return findings
 
-    async def sanitize(
-        self, text: str
-    ) -> tuple[str, Sequence[Finding]]:
-        """Iteratively normalize until stable. Returns (cleaned_text, findings)."""
+    async def sanitize(self, text: str) -> tuple[str, Sequence[Finding]]:
+        """Iteratively normalize until stable.
+
+        Returns (cleaned_text, findings).
+        """
         findings: list[Finding] = []
         current = text
         removed_count = 0
@@ -84,14 +85,11 @@ class UnicodeSanitizer:
             findings.append(
                 Finding(
                     category=FindingCategory.UNICODE_INJECTION,
-                    severity=Severity.MEDIUM
-                    if removed_count > 5
-                    else Severity.LOW,
+                    severity=Severity.MEDIUM if removed_count > 5 else Severity.LOW,
                     location="full_text",
                     matched_pattern="dangerous_unicode_removed",
                     redacted_preview=(
-                        f"Removed {removed_count} dangerous Unicode "
-                        f"character(s)"
+                        f"Removed {removed_count} dangerous Unicode " f"character(s)"
                     ),
                 )
             )

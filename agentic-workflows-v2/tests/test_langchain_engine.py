@@ -3,7 +3,8 @@
 Tests config loading, expression evaluation, and graph compilation
 without requiring any API keys (tier-0 only).
 
-# ADR-008 cleanup: removed 5 duplicate tests (see docs/adr/ADR-008-testing-approach-overhaul.md)
+# ADR-008 cleanup: removed 5 duplicate tests (see
+docs/adr/ADR-008-testing-approach-overhaul.md)
 """
 
 import json
@@ -77,8 +78,7 @@ class TestConfigLoader:
         assert "code_quality" in criteria_names
 
     def test_compile_validate_only_all_runnable_workflows(self):
-        """All runnable workflow definitions should compile in validate_only
-        mode."""
+        """All runnable workflow definitions should compile in validate_only mode."""
         workflows = list_workflows()
         assert workflows, "Expected at least one runnable workflow definition"
 
@@ -664,13 +664,11 @@ class TestConfigParserNonStringInputs:
         assert isinstance(config.steps[0].inputs["composite"], dict)
 
 
-
 class TestLoopIterationCounter:
     """Tests that loop iteration is tracked correctly in step data."""
 
     def test_tier0_node_increments_iteration(self):
-        """Running a tier-0 step twice should show loop_iteration=2 on second
-        call."""
+        """Running a tier-0 step twice should show loop_iteration=2 on second call."""
         from agentic_v2.langchain.config import StepConfig, WorkflowConfig
         from agentic_v2.langchain.graph import compile_workflow
 
@@ -718,8 +716,7 @@ class TestConditionalFanOut:
         )
 
     def test_unconditional_sibling_always_runs(self):
-        """The 'always' step must execute even when a conditional sibling
-        exists."""
+        """The 'always' step must execute even when a conditional sibling exists."""
         config = self._make_config(cond_true=False)
         g = compile_workflow(config)
         state = {
@@ -736,8 +733,7 @@ class TestConditionalFanOut:
         assert result["steps"]["always"]["status"] == "success"
 
     def test_conditional_step_runs_when_condition_true(self):
-        """The 'conditional' step must execute when its when-expression is
-        true."""
+        """The 'conditional' step must execute when its when-expression is true."""
         config = self._make_config(cond_true=True)
         g = compile_workflow(config)
         state = {
@@ -754,8 +750,7 @@ class TestConditionalFanOut:
         assert "conditional" in result["steps"]
 
     def test_self_skipped_conditional_allows_downstream_join(self):
-        """A self-skipped conditional node should still allow join dependents
-        to run."""
+        """A self-skipped conditional node should still allow join dependents to run."""
         from agentic_v2.langchain.config import InputConfig, StepConfig, WorkflowConfig
 
         config = WorkflowConfig(

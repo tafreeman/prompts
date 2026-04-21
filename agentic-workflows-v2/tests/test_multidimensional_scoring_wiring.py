@@ -1,5 +1,4 @@
-"""Tests for Sprint 9 Task 9.2: Wiring multidimensional scoring through CI
-calculator.
+"""Tests for Sprint 9 Task 9.2: Wiring multidimensional scoring through CI calculator.
 
 Verifies that ``compute_ci_tiebreaker`` in ``server/multidimensional_scoring.py``
 still works correctly after delegation to the centralized ``ci_calculator.compute_ci``.

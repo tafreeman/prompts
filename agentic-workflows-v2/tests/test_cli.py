@@ -6,6 +6,7 @@ Covers:
 - Workflow listing and validation
 - Error handling
 """
+
 # ADR-008 cleanup: fixed 2 broken tests (see docs/adr/ADR-008-testing-approach-overhaul.md)
 
 from pathlib import Path

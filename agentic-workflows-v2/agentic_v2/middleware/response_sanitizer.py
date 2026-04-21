@@ -1,7 +1,7 @@
 """Response-path sanitizer for LLM outputs.
 
-Lighter than the full inbound chain — focuses on detecting leaked secrets
-and ensuring Unicode safety in LLM responses.
+Lighter than the full inbound chain — focuses on detecting leaked
+secrets and ensuring Unicode safety in LLM responses.
 """
 
 from __future__ import annotations
@@ -31,8 +31,9 @@ class ResponseSanitizationConfig:
 class ResponseSanitizer:
     """Sanitizes LLM responses on the output path.
 
-    Lighter than the full inbound SanitizationMiddleware — only checks for
-    secret leakage and Unicode normalization (no PII/injection scanning).
+    Lighter than the full inbound SanitizationMiddleware — only checks
+    for secret leakage and Unicode normalization (no PII/injection
+    scanning).
     """
 
     def __init__(
@@ -41,7 +42,9 @@ class ResponseSanitizer:
     ) -> None:
         self._config = config or ResponseSanitizationConfig()
         self._secret_detector = SecretDetector() if self._config.check_secrets else None
-        self._unicode_sanitizer = UnicodeSanitizer() if self._config.normalize_unicode else None
+        self._unicode_sanitizer = (
+            UnicodeSanitizer() if self._config.normalize_unicode else None
+        )
 
     async def sanitize_response(self, response_text: str) -> SanitizationResult:
         """Scan and clean an LLM response.
@@ -56,16 +59,22 @@ class ResponseSanitizer:
 
         # Unicode normalization
         if self._unicode_sanitizer is not None:
-            cleaned, unicode_findings = await self._unicode_sanitizer.sanitize(current_text)
+            cleaned, unicode_findings = await self._unicode_sanitizer.sanitize(
+                current_text
+            )
             all_findings.extend(unicode_findings)
             current_text = cleaned
-            detector_versions[self._unicode_sanitizer.name] = self._unicode_sanitizer.version
+            detector_versions[self._unicode_sanitizer.name] = (
+                self._unicode_sanitizer.version
+            )
 
         # Secret leakage check
         if self._secret_detector is not None:
             secret_findings = await self._secret_detector.scan(current_text)
             all_findings.extend(secret_findings)
-            detector_versions[self._secret_detector.name] = self._secret_detector.version
+            detector_versions[self._secret_detector.name] = (
+                self._secret_detector.version
+            )
 
         # Responses are never BLOCKED — classify as CLEAN or REDACTED only
         classification = Classification.CLEAN
@@ -75,7 +84,9 @@ class ResponseSanitizer:
                 and f.matched_pattern != "high_entropy"
                 for f in all_findings
             )
-            classification = Classification.REDACTED if has_secrets else Classification.CLEAN
+            classification = (
+                Classification.REDACTED if has_secrets else Classification.CLEAN
+            )
 
         if classification == Classification.REDACTED:
             logger.warning(

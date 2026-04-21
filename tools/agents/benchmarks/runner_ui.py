@@ -65,7 +65,9 @@ def print_table(headers: list[str], rows: list[list[str]], widths: list[int]) ->
     print("-" * len(header_line))
 
     for row in rows:
-        print(" | ".join(str(c).ljust(w)[:w] for c, w in zip(row, widths, strict=False)))
+        print(
+            " | ".join(str(c).ljust(w)[:w] for c, w in zip(row, widths, strict=False))
+        )
 
 
 def colorize(text: str, color: str) -> str:

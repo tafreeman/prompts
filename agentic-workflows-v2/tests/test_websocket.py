@@ -7,10 +7,10 @@ from typing import Any
 from unittest.mock import AsyncMock
 
 import pytest
-from agentic_v2.server.websocket import ConnectionManager
 from agentic_v2.server.app import create_app
-from starlette.websockets import WebSocketDisconnect
+from agentic_v2.server.websocket import ConnectionManager
 from starlette.testclient import TestClient
+from starlette.websockets import WebSocketDisconnect
 
 
 def _mock_websocket() -> AsyncMock:
@@ -283,12 +283,15 @@ class TestWebSocketEndpointAuth:
         monkeypatch.setenv("AGENTIC_API_KEY", "test-secret-key")
         app = create_app()
 
-        with TestClient(app) as client, client.websocket_connect(
-            "/ws/execution/run-1",
-            headers={
-                "Authorization": "Bearer test-secret-key",
-                "Origin": "http://testserver",
-            },
+        with (
+            TestClient(app) as client,
+            client.websocket_connect(
+                "/ws/execution/run-1",
+                headers={
+                    "Authorization": "Bearer test-secret-key",
+                    "Origin": "http://testserver",
+                },
+            ),
         ):
             pass
 
@@ -298,12 +301,15 @@ class TestWebSocketEndpointAuth:
         monkeypatch.setenv("AGENTIC_API_KEY", "test-secret-key")
         app = create_app()
 
-        with TestClient(app) as client, client.websocket_connect(
-            "/ws/execution/run-1",
-            headers={
-                "Origin": "http://testserver",
-                "X-API-Key": "test-secret-key",
-            },
+        with (
+            TestClient(app) as client,
+            client.websocket_connect(
+                "/ws/execution/run-1",
+                headers={
+                    "Origin": "http://testserver",
+                    "X-API-Key": "test-secret-key",
+                },
+            ),
         ):
             pass
 

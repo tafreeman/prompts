@@ -265,7 +265,11 @@ def _resolve_definitions_dir(definitions_dir: Path | None) -> Path:
 
 
 def _validate_workflow_name(name: str) -> str:
-    if not isinstance(name, str) or not name or not re.fullmatch(r"[A-Za-z0-9_.-]+", name):
+    if (
+        not isinstance(name, str)
+        or not name
+        or not re.fullmatch(r"[A-Za-z0-9_.-]+", name)
+    ):
         raise ValueError(f"Invalid workflow name: {name}")
     return name
 

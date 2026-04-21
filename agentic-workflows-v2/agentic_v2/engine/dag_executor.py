@@ -16,6 +16,7 @@ Key design decisions:
 from __future__ import annotations
 
 import asyncio
+import logging
 from collections import deque
 from datetime import datetime, timezone
 from typing import Any, Awaitable, Callable
@@ -25,6 +26,8 @@ from .context import ExecutionContext, get_context
 from .dag import DAG
 from .step import StepExecutor
 from .step_state import StepState, StepStateManager
+
+logger = logging.getLogger(__name__)
 
 
 class DAGExecutor:
@@ -53,8 +56,7 @@ class DAGExecutor:
         on_update: Callable[[dict[str, Any]], Awaitable[None]] | None = None,
         **kwargs: Any,
     ) -> WorkflowResult:
-        """Execute a validated DAG with dynamic scheduling and concurrency
-        limits.
+        """Execute a validated DAG with dynamic scheduling and concurrency limits.
 
         Execution proceeds in a tight loop:
 

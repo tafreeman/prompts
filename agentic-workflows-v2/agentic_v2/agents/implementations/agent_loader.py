@@ -54,7 +54,9 @@ _DEFAULT_AGENTS_DIR = Path(__file__).parent / "definitions"
 # Optional external directory for local agent packs.
 # Keep this configurable to avoid machine-specific absolute paths in source.
 _EXTERNAL_AGENTS_DIR_RAW = os.environ.get("AGENTIC_EXTERNAL_AGENTS_DIR")
-_EXTERNAL_AGENTS_DIR: Path | None = Path(_EXTERNAL_AGENTS_DIR_RAW) if _EXTERNAL_AGENTS_DIR_RAW else None
+_EXTERNAL_AGENTS_DIR: Path | None = (
+    Path(_EXTERNAL_AGENTS_DIR_RAW) if _EXTERNAL_AGENTS_DIR_RAW else None
+)
 
 _FRONTMATTER_RE = re.compile(r"^---\s*\n(.*?)\n---\s*\n", re.DOTALL)
 

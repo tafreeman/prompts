@@ -17,8 +17,7 @@ EVALUATIONS_FILE = os.path.join(DB_DIR, "evaluations.json")
 
 
 class PromptDatabase:
-    """Persistent store for prompts, evaluation rubrics, and run
-    evaluations."""
+    """Persistent store for prompts, evaluation rubrics, and run evaluations."""
 
     def __init__(self):
         """Initialise the database, creating JSON backing files if needed."""
@@ -104,8 +103,7 @@ class PromptDatabase:
     # --- Rubrics ---
 
     def add_rubric(self, rubric_data: dict) -> str:
-        """Persist *rubric_data* and return its ID (auto-generated if
-        absent)."""
+        """Persist *rubric_data* and return its ID (auto-generated if absent)."""
         if "id" not in rubric_data:
             rubric_data["id"] = str(uuid.uuid4())
         self.rubrics.append(rubric_data)
@@ -119,8 +117,7 @@ class PromptDatabase:
     # --- Evaluations ---
 
     def add_evaluation(self, evaluation_data: dict) -> str:
-        """Persist *evaluation_data* and return its ID (auto-generated if
-        absent)."""
+        """Persist *evaluation_data* and return its ID (auto-generated if absent)."""
         if "id" not in evaluation_data:
             evaluation_data["id"] = str(uuid.uuid4())
         if "timestamp" not in evaluation_data:

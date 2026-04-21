@@ -50,8 +50,7 @@ run_logger = RunLogger()
 
 
 def is_effectively_empty(value: Any) -> bool:
-    """Check whether a value is effectively empty (None, blank, or empty
-    collection).
+    """Check whether a value is effectively empty (None, blank, or empty collection).
 
     Args:
         value: The value to test.
@@ -163,8 +162,7 @@ def build_step_results(
     token_counts: Mapping[str, Any] | None = None,
     models_used: Mapping[str, Any] | None = None,
 ) -> list[StepResult]:
-    """Convert LangGraph step state mappings into contract :class:`StepResult`
-    objects.
+    """Convert LangGraph step state mappings into contract :class:`StepResult` objects.
 
     Merges token counts and model identifiers from separate metadata
     dictionaries into each step result.
@@ -386,8 +384,8 @@ def _resolve_evaluation_inputs(
     *,
     artifacts_dir: Path | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any] | None, dict[str, Any] | None]:
-    """Load a dataset sample, adapt it to workflow inputs, and merge with
-    request inputs.
+    """Load a dataset sample, adapt it to workflow inputs, and merge with request
+    inputs.
 
     Args:
         workflow_def: Loaded workflow definition.

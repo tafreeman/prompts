@@ -188,8 +188,7 @@ class TestTokenBudgetAssembler:
     def test_query_defaults_to_empty_string(
         self, small_results: list[RetrievalResult]
     ) -> None:
-        """When no query is provided, RAGResponse.query defaults to empty
-        string."""
+        """When no query is provided, RAGResponse.query defaults to empty string."""
         assembler = TokenBudgetAssembler(max_tokens=10000)
         response = assembler.assemble(small_results)
 

@@ -12,7 +12,8 @@ logger = logging.getLogger(__name__)
 
 
 class SanitizationASGIMiddleware(BaseHTTPMiddleware):
-    """Starlette BaseHTTPMiddleware that applies prompt sanitization to JSON request bodies.
+    """Starlette BaseHTTPMiddleware that applies prompt sanitization to JSON request
+    bodies.
 
     Reads ``app.state.sanitization`` (a :class:`~agentic_v2.middleware.sanitization.SanitizationMiddleware`
     instance) to process incoming request bodies.  Only JSON payloads are
@@ -49,7 +50,11 @@ class SanitizationASGIMiddleware(BaseHTTPMiddleware):
                 sanitized = result.sanitized_text.encode("utf-8")
 
                 async def receive():
-                    return {"type": "http.request", "body": sanitized, "more_body": False}
+                    return {
+                        "type": "http.request",
+                        "body": sanitized,
+                        "more_body": False,
+                    }
 
                 request = Request(request.scope, receive)
         except Exception:

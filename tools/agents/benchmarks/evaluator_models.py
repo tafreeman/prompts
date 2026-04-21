@@ -164,8 +164,7 @@ class EvaluationResult:
 
 @dataclass
 class BatchEvaluationSummary:
-    """Aggregate statistics across a batch of :class:`EvaluationResult`
-    objects.
+    """Aggregate statistics across a batch of :class:`EvaluationResult` objects.
 
     Attributes:
         benchmark_id: Benchmark that was evaluated.

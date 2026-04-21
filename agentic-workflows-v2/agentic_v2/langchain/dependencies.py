@@ -27,8 +27,7 @@ def to_missing_langchain_dependency_error(
 ) -> MissingLangChainDependencyError:
     """Wrap an optional-dependency import error in a consistent message."""
     return MissingLangChainDependencyError(
-        "LangChain extras not installed. Install with: "
-        f"{install_hint}"
+        "LangChain extras not installed. Install with: " f"{install_hint}"
     )
 
 

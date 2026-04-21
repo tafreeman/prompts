@@ -353,7 +353,9 @@ class LLMClientWrapper:
 
                 # Post-receive response sanitization
                 if self.response_sanitizer is not None:
-                    resp_result = await self.response_sanitizer.sanitize_response(response)
+                    resp_result = await self.response_sanitizer.sanitize_response(
+                        response
+                    )
                     if resp_result.sanitized_text is not None:
                         response = resp_result.sanitized_text
 
@@ -430,7 +432,9 @@ class LLMClientWrapper:
         total_response = []
 
         try:
-            async for chunk in self.backend.complete_stream(model, effective_prompt, **kwargs):
+            async for chunk in self.backend.complete_stream(
+                model, effective_prompt, **kwargs
+            ):
                 total_response.append(chunk)
                 yield chunk
 

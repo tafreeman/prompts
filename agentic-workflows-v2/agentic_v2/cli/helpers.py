@@ -135,8 +135,7 @@ def _run_via_adapter(
     workflow_name: str,
     input_data: dict[str, Any],
 ) -> _NormalizedResult:
-    """Execute a workflow through the named adapter and return a normalised
-    result.
+    """Execute a workflow through the named adapter and return a normalised result.
 
     Loads the workflow definition via
     :class:`~agentic_v2.workflows.loader.WorkflowLoader`, builds an

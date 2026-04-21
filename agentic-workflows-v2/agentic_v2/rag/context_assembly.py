@@ -35,9 +35,10 @@ _CONTROL_CHAR_PATTERN = re.compile(r"[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]")
 def sanitize_content(content: str) -> str:
     """Normalize retrieved content before it reaches the model.
 
-    The sanitization step deliberately avoids semantic rewriting. It removes
-    control characters, neutralizes attempts to smuggle retrieval delimiters,
-    and prefixes each line so instruction-like text is preserved as quoted data.
+    The sanitization step deliberately avoids semantic rewriting. It
+    removes control characters, neutralizes attempts to smuggle
+    retrieval delimiters, and prefixes each line so instruction-like
+    text is preserved as quoted data.
     """
     normalized = content.replace("\r\n", "\n").replace("\r", "\n")
     normalized = _CONTROL_CHAR_PATTERN.sub(" ", normalized)
@@ -67,7 +68,9 @@ def sanitize_provenance_value(value: object | None) -> str:
         CONTEXT_DELIMITER_END,
         "[blocked-retrieved-context-end]",
     )
-    return " ".join(part for part in normalized.split("\n") if part).strip() or "unknown"
+    return (
+        " ".join(part for part in normalized.split("\n") if part).strip() or "unknown"
+    )
 
 
 def frame_content(
@@ -102,9 +105,7 @@ def frame_content(
     if metadata:
         source = metadata.get("source")
         if isinstance(source, str) and source.strip():
-            provenance_lines.append(
-                f"source: {sanitize_provenance_value(source)}"
-            )
+            provenance_lines.append(f"source: {sanitize_provenance_value(source)}")
 
     provenance_block = "\n".join(provenance_lines)
     return (

@@ -19,7 +19,10 @@ logger = logging.getLogger(__name__)
 
 
 class MiddlewareChain:
-    """Ordered chain of detectors. Processes content through each, aggregates findings."""
+    """Ordered chain of detectors.
+
+    Processes content through each, aggregates findings.
+    """
 
     def __init__(
         self,
@@ -41,17 +44,24 @@ class MiddlewareChain:
     async def process(
         self, content: str, context: dict[str, object] | None = None
     ) -> SanitizationResult:
-        """Run all detectors. Short-circuit on BLOCKED classification."""
+        """Run all detectors.
+
+        Short-circuit on BLOCKED classification.
+        """
         all_findings: list[Finding] = []
         current_text = content
         detector_versions: dict[str, str] = {}
 
         # Step 1: Unicode normalization (if sanitizer provided)
         if self._unicode_sanitizer is not None:
-            sanitized_text, unicode_findings = await self._unicode_sanitizer.sanitize(current_text)
+            sanitized_text, unicode_findings = await self._unicode_sanitizer.sanitize(
+                current_text
+            )
             all_findings.extend(unicode_findings)
             current_text = sanitized_text
-            detector_versions[self._unicode_sanitizer.name] = self._unicode_sanitizer.version
+            detector_versions[self._unicode_sanitizer.name] = (
+                self._unicode_sanitizer.version
+            )
 
         # Step 2: Run each detector
         for detector in self._detectors:
@@ -60,7 +70,9 @@ class MiddlewareChain:
                 all_findings.extend(findings)
                 detector_versions[detector.name] = detector.version
             except Exception:
-                logger.exception("Detector %s failed, skipping", getattr(detector, "name", "unknown"))
+                logger.exception(
+                    "Detector %s failed, skipping", getattr(detector, "name", "unknown")
+                )
                 continue
 
             # Early exit check: if current findings already warrant blocking

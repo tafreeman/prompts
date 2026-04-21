@@ -20,10 +20,10 @@ from __future__ import annotations
 import logging
 import os
 import sys
+from typing import TYPE_CHECKING
 
 from tools.llm import provider_adapters
 from tools.llm.local_models import LOCAL_MODELS
-from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -195,8 +195,7 @@ class LLMClient:
         temperature: float = 0.7,
         max_tokens: int = 4096,
     ) -> str:
-        """Dispatches the request to the appropriate provider based on
-        model_name.
+        """Dispatches the request to the appropriate provider based on model_name.
 
         Args:
             model_name: Model identifier (e.g., "local:phi4mini", "azure-foundry:phi4mini")

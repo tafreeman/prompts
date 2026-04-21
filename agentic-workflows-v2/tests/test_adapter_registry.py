@@ -86,7 +86,6 @@ class TestAdapterRegistry:
         """Importing the adapters package auto-registers the native adapter."""
         import agentic_v2.adapters as adapters
         import agentic_v2.adapters.native as native_adapter
-
         from agentic_v2.adapters.registry import AdapterRegistry
 
         AdapterRegistry.reset_for_tests()

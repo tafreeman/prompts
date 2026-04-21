@@ -1,8 +1,8 @@
-"""
-Core type definitions for MCP integration.
+"""Core type definitions for MCP integration.
 
-Defines Pydantic models for configuration, connection state, and protocol types.
-Follows the patterns from claude-code-main but adapted for Python/Pydantic.
+Defines Pydantic models for configuration, connection state, and
+protocol types. Follows the patterns from claude-code-main but adapted
+for Python/Pydantic.
 """
 
 from enum import Enum
@@ -36,8 +36,8 @@ class McpStdioConfig(BaseModel):
 
     type: Literal[TransportType.STDIO] = TransportType.STDIO
     command: str = Field(..., min_length=1, description="Executable command")
-    args: List[str] = Field(default_factory=list, description="Command arguments")
-    env: Optional[Dict[str, str]] = Field(
+    args: list[str] = Field(default_factory=list, description="Command arguments")
+    env: Optional[dict[str, str]] = Field(
         None, description="Environment variables for subprocess"
     )
 
@@ -54,8 +54,10 @@ class McpWebSocketConfig(BaseModel):
     """Configuration for WebSocket transport."""
 
     type: Literal[TransportType.WEBSOCKET] = TransportType.WEBSOCKET
-    url: str = Field(..., description="WebSocket URL (ws://, wss://, http://, or https://)")
-    headers: Optional[Dict[str, str]] = Field(
+    url: str = Field(
+        ..., description="WebSocket URL (ws://, wss://, http://, or https://)"
+    )
+    headers: Optional[dict[str, str]] = Field(
         None, description="Headers to send on connection"
     )
 
@@ -75,7 +77,7 @@ class McpSSEConfig(BaseModel):
 
     type: Literal[TransportType.SSE] = TransportType.SSE
     url: str = Field(..., description="SSE endpoint URL (https://)")
-    headers: Optional[Dict[str, str]] = Field(
+    headers: Optional[dict[str, str]] = Field(
         None, description="Headers to send with requests"
     )
 
@@ -93,10 +95,10 @@ McpTransportConfig = Union[McpStdioConfig, McpWebSocketConfig, McpSSEConfig]
 
 
 class McpServerConfig(BaseModel):
-    """
-    Complete server configuration including metadata and transport.
+    """Complete server configuration including metadata and transport.
 
-    Wraps transport-specific configs (stdio/websocket/sse) with server metadata.
+    Wraps transport-specific configs (stdio/websocket/sse) with server
+    metadata.
     """
 
     name: str = Field(..., description="Server name/identifier")
@@ -122,7 +124,7 @@ class McpCapabilities(BaseModel):
     resources: bool = Field(False, description="Server supports resources")
     prompts: bool = Field(False, description="Server supports prompts")
     logging: bool = Field(False, description="Server supports logging")
-    experimental: Dict[str, Any] = Field(
+    experimental: dict[str, Any] = Field(
         default_factory=dict, description="Experimental capabilities"
     )
 
@@ -142,7 +144,7 @@ class McpToolDescriptor(BaseModel):
 
     name: str = Field(..., description="Tool name")
     description: Optional[str] = Field(None, description="Tool description")
-    input_schema: Dict[str, Any] = Field(
+    input_schema: dict[str, Any] = Field(
         ..., description="JSON Schema for tool input (preserved verbatim)"
     )
 
@@ -165,7 +167,7 @@ class McpPromptDescriptor(BaseModel):
 
     name: str = Field(..., description="Prompt name")
     description: Optional[str] = Field(None, description="Prompt description")
-    arguments: List[Dict[str, Any]] = Field(
+    arguments: list[dict[str, Any]] = Field(
         default_factory=list, description="Required prompt arguments"
     )
 
@@ -176,7 +178,7 @@ class JsonRpcRequest(BaseModel):
     jsonrpc: Literal["2.0"] = "2.0"
     id: Union[str, int] = Field(..., description="Request ID")
     method: str = Field(..., description="Method name")
-    params: Optional[Dict[str, Any]] = Field(None, description="Method parameters")
+    params: Optional[dict[str, Any]] = Field(None, description="Method parameters")
 
 
 class JsonRpcResponse(BaseModel):
@@ -185,7 +187,7 @@ class JsonRpcResponse(BaseModel):
     jsonrpc: Literal["2.0"] = "2.0"
     id: Union[str, int] = Field(..., description="Request ID")
     result: Optional[Any] = Field(None, description="Result (if success)")
-    error: Optional[Dict[str, Any]] = Field(None, description="Error (if failed)")
+    error: Optional[dict[str, Any]] = Field(None, description="Error (if failed)")
 
 
 class JsonRpcNotification(BaseModel):
@@ -193,7 +195,7 @@ class JsonRpcNotification(BaseModel):
 
     jsonrpc: Literal["2.0"] = "2.0"
     method: str = Field(..., description="Notification method")
-    params: Optional[Dict[str, Any]] = Field(None, description="Notification params")
+    params: Optional[dict[str, Any]] = Field(None, description="Notification params")
 
 
 # Union type for all JSON-RPC messages

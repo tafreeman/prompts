@@ -42,19 +42,6 @@ from tools.agents.benchmarks.registry import (
     BenchmarkConfig,
     BenchmarkRegistry,
 )
-from tools.agents.benchmarks.runner_ui import (
-    colorize,
-    get_available_models_by_provider,
-    interactive_mode,
-    print_header,
-    print_table,
-    prompt_input,
-    prompt_yes_no,
-)
-from tools.agents.benchmarks.workflow_pipeline import (
-    extract_workflow_data,
-    save_workflow_phases_md,
-)
 
 # ---------------------------------------------------------------------------
 # Re-exports for backward compatibility
@@ -67,6 +54,19 @@ from tools.agents.benchmarks.runner_commands import (
     cmd_list_models,
     cmd_list_presets,
     cmd_run,
+)
+from tools.agents.benchmarks.runner_ui import (
+    colorize,
+    get_available_models_by_provider,
+    interactive_mode,
+    print_header,
+    print_table,
+    prompt_input,
+    prompt_yes_no,
+)
+from tools.agents.benchmarks.workflow_pipeline import (
+    extract_workflow_data,
+    save_workflow_phases_md,
 )
 
 # =============================================================================

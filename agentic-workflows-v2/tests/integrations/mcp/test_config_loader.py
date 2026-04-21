@@ -1,5 +1,4 @@
-"""
-Tests for MCP configuration loader.
+"""Tests for MCP configuration loader.
 
 Validates:
 - Variable expansion (${VAR}, ${env:VAR}, ${input:VAR})
@@ -15,7 +14,6 @@ from pathlib import Path
 from typing import Dict
 
 import pytest
-
 from agentic_v2.integrations.mcp.config import (
     McpConfigLoader,
     deduplicate_configs,
@@ -62,9 +60,7 @@ class TestVariableExpansion:
     def test_expand_multiple_vars(self):
         """Test expansion with multiple variables in one string."""
         env_vars = {"HOST": "localhost", "PORT": "8080"}
-        result = expand_variables(
-            "http://${HOST}:${PORT}/api", env_vars=env_vars
-        )
+        result = expand_variables("http://${HOST}:${PORT}/api", env_vars=env_vars)
         assert result == "http://localhost:8080/api"
 
     def test_expand_dict_variables(self):
@@ -109,9 +105,7 @@ class TestServerConfigParsing:
         }
         env_vars = {"TEST_KEY": "key123"}
 
-        config = parse_server_config(
-            "test-server", server_data, env_vars=env_vars
-        )
+        config = parse_server_config("test-server", server_data, env_vars=env_vars)
 
         assert config is not None
         assert config.name == "test-server"
@@ -129,9 +123,7 @@ class TestServerConfigParsing:
         }
         env_vars = {"TOKEN": "abc123"}
 
-        config = parse_server_config(
-            "http-server", server_data, env_vars=env_vars
-        )
+        config = parse_server_config("http-server", server_data, env_vars=env_vars)
 
         assert config is not None
         assert config.name == "http-server"
@@ -193,9 +185,7 @@ class TestConfigFileLoading:
             }
         }
 
-        with tempfile.NamedTemporaryFile(
-            mode="w", suffix=".json", delete=False
-        ) as f:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
             json.dump(config_data, f)
             temp_path = f.name
 
@@ -213,9 +203,7 @@ class TestConfigFileLoading:
 
     def test_load_invalid_json(self):
         """Test loading invalid JSON returns empty list."""
-        with tempfile.NamedTemporaryFile(
-            mode="w", suffix=".json", delete=False
-        ) as f:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
             f.write("{invalid json")
             temp_path = f.name
 
@@ -229,9 +217,7 @@ class TestConfigFileLoading:
         """Test loading config without 'servers' key."""
         config_data = {"other_key": "value"}
 
-        with tempfile.NamedTemporaryFile(
-            mode="w", suffix=".json", delete=False
-        ) as f:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
             json.dump(config_data, f)
             temp_path = f.name
 
@@ -323,11 +309,7 @@ class TestMcpConfigLoader:
         """Test loader caches configs after first load."""
         with tempfile.TemporaryDirectory() as tmpdir:
             config_path = Path(tmpdir) / ".mcp.json"
-            config_data = {
-                "servers": {
-                    "test": {"type": "stdio", "command": "test"}
-                }
-            }
+            config_data = {"servers": {"test": {"type": "stdio", "command": "test"}}}
             config_path.write_text(json.dumps(config_data))
 
             loader = McpConfigLoader(workspace_root=tmpdir)
@@ -343,11 +325,7 @@ class TestMcpConfigLoader:
         """Test force reload bypasses cache."""
         with tempfile.TemporaryDirectory() as tmpdir:
             config_path = Path(tmpdir) / ".mcp.json"
-            config_data = {
-                "servers": {
-                    "test": {"type": "stdio", "command": "test"}
-                }
-            }
+            config_data = {"servers": {"test": {"type": "stdio", "command": "test"}}}
             config_path.write_text(json.dumps(config_data))
 
             loader = McpConfigLoader(workspace_root=tmpdir)
@@ -382,11 +360,7 @@ class TestMcpConfigLoader:
         """Test clear_cache forces reload on next access."""
         with tempfile.TemporaryDirectory() as tmpdir:
             config_path = Path(tmpdir) / ".mcp.json"
-            config_data = {
-                "servers": {
-                    "test": {"type": "stdio", "command": "test"}
-                }
-            }
+            config_data = {"servers": {"test": {"type": "stdio", "command": "test"}}}
             config_path.write_text(json.dumps(config_data))
 
             loader = McpConfigLoader(workspace_root=tmpdir)

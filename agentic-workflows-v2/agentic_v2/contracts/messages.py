@@ -131,8 +131,7 @@ class TestGateStatus(str, Enum):
 
     @classmethod
     def normalize(cls, raw: str | None) -> "TestGateStatus":
-        """Map any LLM-returned test status string to a canonical
-        TestGateStatus."""
+        """Map any LLM-returned test status string to a canonical TestGateStatus."""
         if raw is None:
             return cls.FAIL
         cleaned = raw.strip().upper()
@@ -155,8 +154,7 @@ class FindingSeverity(str, Enum):
 
     @classmethod
     def normalize(cls, raw: str | None) -> "FindingSeverity":
-        """Map any LLM-returned severity string to a canonical
-        FindingSeverity."""
+        """Map any LLM-returned severity string to a canonical FindingSeverity."""
         if raw is None:
             return cls.MEDIUM
         cleaned = raw.strip().upper()

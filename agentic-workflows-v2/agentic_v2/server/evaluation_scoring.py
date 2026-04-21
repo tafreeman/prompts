@@ -255,8 +255,8 @@ def _validate_rubric_weights(
     *,
     known_criteria: set[str] | None = None,
 ) -> None:
-    """Validate that rubric weights are non-empty, positive, sum to ~1.0, and
-    reference only known criteria.
+    """Validate that rubric weights are non-empty, positive, sum to ~1.0, and reference
+    only known criteria.
 
     Args:
         weights: Mapping of criterion name to weight.

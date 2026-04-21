@@ -17,11 +17,11 @@ logger = logging.getLogger(__name__)
 
 
 class McpResourceAdapter:
-    """
-    Adapter that provides resource meta-tools to the LLM.
+    """Adapter that provides resource meta-tools to the LLM.
 
-    Unlike tool and prompt adapters (which wrap individual capabilities),
-    this adapter exposes generic meta-tools that work across all servers.
+    Unlike tool and prompt adapters (which wrap individual
+    capabilities), this adapter exposes generic meta-tools that work
+    across all servers.
     """
 
     def __init__(
@@ -29,8 +29,7 @@ class McpResourceAdapter:
         connection_manager: McpConnectionManager,
         resource_discovery: ResourceDiscovery,
     ) -> None:
-        """
-        Initialize resource adapter.
+        """Initialize resource adapter.
 
         Args:
             connection_manager: Manager for all MCP connections
@@ -40,8 +39,7 @@ class McpResourceAdapter:
         self.resource_discovery = resource_discovery
 
     async def list_resources(self, server_name: Optional[str] = None) -> str:
-        """
-        List available resources from MCP servers.
+        """List available resources from MCP servers.
 
         Args:
             server_name: Optional server filter (list from single server)
@@ -109,8 +107,7 @@ class McpResourceAdapter:
             return f"Error: {error_msg}"
 
     async def read_resource(self, uri: str) -> str:
-        """
-        Read a specific resource by URI.
+        """Read a specific resource by URI.
 
         Args:
             uri: Resource URI (format: mcp://server/path or server-specific)
@@ -167,9 +164,7 @@ class McpResourceAdapter:
                     )
 
                 else:
-                    formatted_parts.append(
-                        f"[Unknown content type: {content_type}]"
-                    )
+                    formatted_parts.append(f"[Unknown content type: {content_type}]")
 
             result = "\n\n".join(formatted_parts)
             logger.debug(f"Resource content length: {len(result)} chars")
@@ -181,8 +176,7 @@ class McpResourceAdapter:
             return f"Error: {error_msg}"
 
     async def _find_resource_server(self, uri: str) -> Optional[str]:
-        """
-        Find which server provides a given resource URI.
+        """Find which server provides a given resource URI.
 
         Args:
             uri: Resource URI
@@ -211,9 +205,8 @@ class McpResourceAdapter:
 
         return None
 
-    def get_meta_tools(self) -> List[Dict[str, Any]]:
-        """
-        Get meta-tool definitions for tool registry.
+    def get_meta_tools(self) -> list[dict[str, Any]]:
+        """Get meta-tool definitions for tool registry.
 
         Returns:
             List of tool definitions

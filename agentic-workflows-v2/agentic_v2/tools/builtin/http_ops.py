@@ -16,9 +16,7 @@ from ..base import BaseTool, ToolResult
 # ---------------------------------------------------------------------------
 
 _ALLOWED_URL_SCHEMES = frozenset({"http", "https"})
-_METADATA_HOSTS = frozenset(
-    {"metadata.google.internal", "metadata", "169.254.169.254"}
-)
+_METADATA_HOSTS = frozenset({"metadata.google.internal", "metadata", "169.254.169.254"})
 
 
 def _validate_url(url: str) -> str | None:
@@ -50,7 +48,12 @@ def _validate_url(url: str) -> str | None:
     if block_private:
         try:
             addr = ipaddress.ip_address(hostname)
-            if addr.is_private or addr.is_loopback or addr.is_link_local or addr.is_reserved:
+            if (
+                addr.is_private
+                or addr.is_loopback
+                or addr.is_link_local
+                or addr.is_reserved
+            ):
                 return f"Access to private/reserved IP address '{hostname}' is blocked."
         except ValueError:
             pass  # hostname is not an IP literal — allowed

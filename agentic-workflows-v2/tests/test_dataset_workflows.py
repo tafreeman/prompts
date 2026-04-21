@@ -128,7 +128,6 @@ class TestFullstackGenerationAdapter:
             assert len(inp["feature_spec"]) > 0
 
 
-
 # ---------------------------------------------------------------------------
 # Workflow validation integration tests
 # ---------------------------------------------------------------------------

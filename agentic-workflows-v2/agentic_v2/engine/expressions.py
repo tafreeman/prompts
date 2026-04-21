@@ -72,8 +72,7 @@ class _SafeNamespace(SimpleNamespace):
 
 
 def _coalesce(*args: Any) -> Any:
-    """Return the first non-None / non-NullSafe argument (SQL-style
-    COALESCE)."""
+    """Return the first non-None / non-NullSafe argument (SQL-style COALESCE)."""
     for arg in args:
         if arg is not None and not isinstance(arg, _NullSafe):
             return arg
@@ -81,8 +80,7 @@ def _coalesce(*args: Any) -> Any:
 
 
 def _from_namespace(obj: Any) -> Any:
-    """Convert ``_SafeNamespace`` / ``SimpleNamespace`` trees back to plain
-    dicts.
+    """Convert ``_SafeNamespace`` / ``SimpleNamespace`` trees back to plain dicts.
 
     Called at the expression-evaluation boundary so that callers never
     see namespace wrapper objects in their results.
@@ -268,8 +266,8 @@ class ExpressionEvaluator:
         )
 
     def _build_step_views(self) -> dict[str, StepResultView]:
-        """Convert :class:`StepResult` objects into lightweight
-        :class:`StepResultView` dicts."""
+        """Convert :class:`StepResult` objects into lightweight :class:`StepResultView`
+        dicts."""
         views: dict[str, StepResultView] = {}
         for name, result in self.step_results.items():
             completed_at = None

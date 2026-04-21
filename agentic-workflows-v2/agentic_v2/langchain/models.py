@@ -168,8 +168,8 @@ def probe_available_providers() -> dict[str, bool]:
 
 
 def probe_and_update_tier_defaults() -> dict[str, Any]:
-    """Probe providers and update ``_TIER_DEFAULTS`` to the best available
-    model per tier.
+    """Probe providers and update ``_TIER_DEFAULTS`` to the best available model per
+    tier.
 
     Called on module import and can be re-called at server startup to pick up
     env changes.  Also installs a health-checker on the native ``ModelRouter``

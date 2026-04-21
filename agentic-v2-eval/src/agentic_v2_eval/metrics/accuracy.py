@@ -6,7 +6,7 @@ recall, and F1 scores.
 
 from __future__ import annotations
 
-from typing import Any, TypeVar, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, TypeVar
 
 if TYPE_CHECKING:
     from collections.abc import Sequence

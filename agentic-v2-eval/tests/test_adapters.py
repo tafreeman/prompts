@@ -94,8 +94,7 @@ class TestLLMClientAdapter:
         )
 
     def test_generate_text_uses_default_system_instruction(self):
-        """Test that adapter uses default system instruction when not
-        provided."""
+        """Test that adapter uses default system instruction when not provided."""
         mock_llm_class = MagicMock()
         mock_llm_class.generate_text = MagicMock(return_value="Response")
 
@@ -172,8 +171,7 @@ class TestLLMClientAdapter:
             )
 
     def test_generate_text_raises_when_llm_not_available(self):
-        """Test that generate_text raises RuntimeError when LLMClient
-        unavailable."""
+        """Test that generate_text raises RuntimeError when LLMClient unavailable."""
         adapter = LLMClientAdapter()
         adapter._llm_client_class = None
 

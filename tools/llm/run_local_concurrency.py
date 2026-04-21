@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""Run local CPU+GPU inference concurrently and compare vs sequential
-execution."""
+"""Run local CPU+GPU inference concurrently and compare vs sequential execution."""
 
 from __future__ import annotations
 

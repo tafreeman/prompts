@@ -112,8 +112,7 @@ def evaluate_task_output_llm(
 
 
 def get_gold_standard_for_task(task: BenchmarkTask) -> dict[str, Any] | None:
-    """Return the gold-standard data dict for *task*, or ``None`` if
-    unavailable."""
+    """Return the gold-standard data dict for *task*, or ``None`` if unavailable."""
     if not HAS_GOLD_STANDARD:
         return None
 
@@ -138,8 +137,7 @@ def evaluate_task_output_legacy(
     verbose: bool = False,
     output_dir: Path | None = None,
 ) -> dict[str, Any] | None:
-    """Legacy pattern-matching evaluation (fallback when LLM evaluator is
-    absent)."""
+    """Legacy pattern-matching evaluation (fallback when LLM evaluator is absent)."""
     if not HAS_GOLD_STANDARD:
         return None
 
@@ -193,8 +191,7 @@ def print_mismatch_analysis(
     gold_data: dict[str, Any],
     output: str,
 ) -> None:
-    """Print a detailed analysis of why items did not match the gold
-    standard."""
+    """Print a detailed analysis of why items did not match the gold standard."""
     print("\n" + "-" * 60)
     print("DETAILED MISMATCH ANALYSIS")
     print("-" * 60)

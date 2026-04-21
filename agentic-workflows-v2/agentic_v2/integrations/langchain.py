@@ -52,8 +52,7 @@ def _require_langchain():
 if LANGCHAIN_AVAILABLE:
 
     class AgenticChatModel(BaseChatModel):
-        """LangChain ChatModel backed by V2's LLMClientWrapper +
-        SmartModelRouter.
+        """LangChain ChatModel backed by V2's LLMClientWrapper + SmartModelRouter.
 
         Usage:
             from agentic_v2.integrations.langchain import AgenticChatModel

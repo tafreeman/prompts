@@ -75,7 +75,9 @@ class CrossEncoderReranker:
             self._predict = predict_fn
         else:
             try:
-                from sentence_transformers import CrossEncoder  # type: ignore[import-untyped]
+                from sentence_transformers import (
+                    CrossEncoder,  # type: ignore[import-untyped]
+                )
 
                 model = CrossEncoder(model_name)
 
@@ -174,9 +176,7 @@ class LLMReranker:
             return []
 
         # Score all results concurrently (bounded by semaphore)
-        score_tasks = [
-            self._score_one(query, r.content) for r in results
-        ]
+        score_tasks = [self._score_one(query, r.content) for r in results]
         scores = await asyncio.gather(*score_tasks)
 
         # Pair results with scores and sort descending
@@ -198,7 +198,5 @@ class LLMReranker:
                 )
             )
 
-        logger.debug(
-            "LLM reranked %d → %d results", len(results), len(reranked)
-        )
+        logger.debug("LLM reranked %d → %d results", len(results), len(reranked))
         return reranked

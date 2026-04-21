@@ -1,7 +1,7 @@
-"""E2E smoke test template that demonstrates running a single "subagent" in a
-mocked environment. This test starts a tiny HTTP server to act as the external
-API, writes a small ad-hoc subagent runner script that POSTS to the server,
-runs it as a subprocess and asserts the output.
+"""E2E smoke test template that demonstrates running a single "subagent" in a mocked
+environment. This test starts a tiny HTTP server to act as the external API, writes a
+small ad-hoc subagent runner script that POSTS to the server, runs it as a subprocess
+and asserts the output.
 
 How to run locally:
   pytest tests/e2e/test_subagent_smoke.py -q
@@ -56,8 +56,8 @@ def find_free_port():
 
 
 def make_subagent_script(path: Path):
-    """Create a tiny subagent runner script that POSTs JSON to TARGET_URL env
-    var and prints the JSON response.
+    """Create a tiny subagent runner script that POSTs JSON to TARGET_URL env var and
+    prints the JSON response.
 
     Uses only standard library so it's runnable in minimal CI images.
     """

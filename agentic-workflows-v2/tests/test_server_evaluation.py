@@ -1,6 +1,7 @@
 """Tests for server-side evaluation helpers.
 
-# ADR-008 cleanup: removed 7 duplicate tests (see docs/adr/ADR-008-testing-approach-overhaul.md)
+# ADR-008 cleanup: removed 7 duplicate tests (see
+docs/adr/ADR-008-testing-approach-overhaul.md)
 """
 
 from __future__ import annotations

@@ -72,7 +72,9 @@ def main() -> None:
     print(f"Found hooks at: {hooks_dir.relative_to(ROOT)}")
 
     # Find all files with potentially wrong hook imports
-    import_pattern = re.compile(r'''(from\s+["'])(\.\.?/[^"']*hooks/useTheme[^"']*)(["'])''')
+    import_pattern = re.compile(
+        r"""(from\s+["'])(\.\.?/[^"']*hooks/useTheme[^"']*)(["'])"""
+    )
 
     fixed = []
     for ext in ("*.tsx", "*.ts", "*.jsx", "*.js"):
@@ -99,11 +101,13 @@ def main() -> None:
                         f"{match.group(1)}{old_path}{match.group(3)}",
                         f"{match.group(1)}{new_path}{match.group(3)}",
                     )
-                    fixed.append((
-                        str(filepath.relative_to(ROOT)),
-                        old_path,
-                        new_path,
-                    ))
+                    fixed.append(
+                        (
+                            str(filepath.relative_to(ROOT)),
+                            old_path,
+                            new_path,
+                        )
+                    )
 
             if new_text != text and not args.dry_run:
                 filepath.write_text(new_text, encoding="utf-8")

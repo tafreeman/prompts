@@ -21,8 +21,7 @@ from agentic_v2.rag.memory import RAGMemoryStore
 
 
 class TestInMemoryStoreProtocolConformance:
-    """Verify InMemoryStore satisfies MemoryStoreProtocol via
-    runtime_checkable."""
+    """Verify InMemoryStore satisfies MemoryStoreProtocol via runtime_checkable."""
 
     def test_protocol_conformance(self) -> None:
         store = InMemoryStore()

@@ -1,7 +1,7 @@
 """Tests for RAG reranking implementations.
 
-Covers NoOpReranker, CrossEncoderReranker, and LLMReranker against
-the RerankerProtocol contract.
+Covers NoOpReranker, CrossEncoderReranker, and LLMReranker against the
+RerankerProtocol contract.
 """
 
 from __future__ import annotations
@@ -9,10 +9,8 @@ from __future__ import annotations
 import asyncio
 
 import pytest
-
 from agentic_v2.rag.contracts import RetrievalResult
 from agentic_v2.rag.protocols import RerankerProtocol
-
 
 # ---------------------------------------------------------------------------
 # Fixtures
@@ -135,9 +133,7 @@ class TestCrossEncoderReranker:
         reranked = await reranker.rerank("query", sample_results, top_k=2)
         assert len(reranked) == 2
 
-    async def test_scores_updated(
-        self, sample_results: list[RetrievalResult]
-    ) -> None:
+    async def test_scores_updated(self, sample_results: list[RetrievalResult]) -> None:
         from agentic_v2.rag.reranking import CrossEncoderReranker
 
         def mock_predict(pairs: list[tuple[str, str]]) -> list[float]:

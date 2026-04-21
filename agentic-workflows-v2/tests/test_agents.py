@@ -1,4 +1,5 @@
 """Tests for agent components."""
+
 # ADR-008 cleanup: removed 3 duplicate tests (see docs/adr/ADR-008-testing-approach-overhaul.md)
 
 import pytest

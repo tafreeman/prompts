@@ -78,8 +78,7 @@ class TestLangChainAdapterRegistration:
     """Verify the langchain adapter auto-registers when imported."""
 
     def test_langchain_in_registry(self) -> None:
-        """Importing ``adapters.langchain`` registers the ``'langchain'``
-        name."""
+        """Importing ``adapters.langchain`` registers the ``'langchain'`` name."""
         reg = _make_isolated_registry()
 
         # Manually trigger registration into our isolated registry
@@ -128,8 +127,7 @@ class TestLangChainEngineExecute:
 
     @pytest.mark.asyncio
     async def test_execute_passes_kwargs_to_runner(self) -> None:
-        """Extra kwargs from execute() are forwarded to
-        WorkflowRunner.run()."""
+        """Extra kwargs from execute() are forwarded to WorkflowRunner.run()."""
         from agentic_v2.adapters.langchain.engine import LangChainEngine
 
         expected = _make_fake_result()
@@ -150,8 +148,7 @@ class TestLangChainEngineExecute:
 
     @pytest.mark.asyncio
     async def test_execute_non_string_workflow_raises_type_error(self) -> None:
-        """Passing a non-string workflow to ``execute()`` raises
-        ``TypeError``."""
+        """Passing a non-string workflow to ``execute()`` raises ``TypeError``."""
         from agentic_v2.adapters.langchain.engine import LangChainEngine
 
         engine = LangChainEngine()
@@ -211,8 +208,7 @@ class TestLangChainEngineStream:
 
     @pytest.mark.asyncio
     async def test_stream_non_string_workflow_raises_type_error(self) -> None:
-        """Passing a non-string workflow to ``stream()`` raises
-        ``TypeError``."""
+        """Passing a non-string workflow to ``stream()`` raises ``TypeError``."""
         from agentic_v2.adapters.langchain.engine import LangChainEngine
 
         engine = LangChainEngine()

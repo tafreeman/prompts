@@ -377,7 +377,9 @@ class TestNegativeCases:
         from agentic_v2.rag.protocols import VectorStoreProtocol
 
         class _NoAdd:
-            async def search(self, query_embedding, top_k=5, metadata_filter=None, **kw):
+            async def search(
+                self, query_embedding, top_k=5, metadata_filter=None, **kw
+            ):
                 return []
 
             async def delete(self, document_id: str) -> bool:
@@ -395,7 +397,9 @@ class TestNegativeCases:
             async def add(self, chunks, embeddings):
                 pass
 
-            async def search(self, query_embedding, top_k=5, metadata_filter=None, **kw):
+            async def search(
+                self, query_embedding, top_k=5, metadata_filter=None, **kw
+            ):
                 return []
 
             # delete deliberately omitted

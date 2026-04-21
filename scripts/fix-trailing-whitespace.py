@@ -12,7 +12,14 @@ import pathlib
 import sys
 
 EXTENSIONS = {".py", ".ts", ".tsx", ".js", ".jsx", ".md", ".yaml", ".yml"}
-SKIP_DIRS = {"node_modules", ".venv", "__pycache__", ".git", "storybook-static", ".venv314"}
+SKIP_DIRS = {
+    "node_modules",
+    ".venv",
+    "__pycache__",
+    ".git",
+    "storybook-static",
+    ".venv314",
+}
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
@@ -25,7 +32,10 @@ def fix_file(path: pathlib.Path, dry_run: bool) -> bool:
     """Return True if file was (or would be) modified."""
     text = path.read_text(encoding="utf-8", errors="replace")
     lines = text.splitlines(keepends=True)
-    fixed = [line.rstrip() + "\n" if line.rstrip() != line.rstrip("\n") else line for line in lines]
+    fixed = [
+        line.rstrip() + "\n" if line.rstrip() != line.rstrip("\n") else line
+        for line in lines
+    ]
     # Ensure file ends with single newline
     fixed_text = "".join(fixed)
     if fixed_text and not fixed_text.endswith("\n"):
@@ -40,7 +50,9 @@ def fix_file(path: pathlib.Path, dry_run: bool) -> bool:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--dry-run", action="store_true", help="Report but don't modify")
+    parser.add_argument(
+        "--dry-run", action="store_true", help="Report but don't modify"
+    )
     args = parser.parse_args()
 
     modified = []

@@ -1,17 +1,15 @@
-"""
-Tool discovery service with LRU caching.
+"""Tool discovery service with LRU caching.
 
-Fetches and caches tool lists from MCP servers, invalidating on
-server notifications.
+Fetches and caches tool lists from MCP servers, invalidating on server
+notifications.
 """
 
 import logging
 from typing import Dict, List, Optional
 
-from cachetools import TTLCache
-
 from agentic_v2.integrations.mcp.protocol.client import McpProtocolClient
 from agentic_v2.integrations.mcp.types import McpToolDescriptor
+from cachetools import TTLCache
 
 logger = logging.getLogger(__name__)
 
@@ -21,8 +19,7 @@ CACHE_TTL_SECONDS = 300  # 5 minutes TTL as fallback
 
 
 class ToolDiscovery:
-    """
-    Service for discovering tools from MCP servers.
+    """Service for discovering tools from MCP servers.
 
     Features:
     - Fetches tools/list from servers with tool capability
@@ -33,17 +30,14 @@ class ToolDiscovery:
 
     def __init__(self) -> None:
         """Initialize tool discovery service."""
-        self._cache: TTLCache = TTLCache(
-            maxsize=CACHE_MAX_SIZE, ttl=CACHE_TTL_SECONDS
-        )
+        self._cache: TTLCache = TTLCache(maxsize=CACHE_MAX_SIZE, ttl=CACHE_TTL_SECONDS)
 
     async def discover_tools(
         self,
         server_name: str,
         client: McpProtocolClient,
-    ) -> List[McpToolDescriptor]:
-        """
-        Discover tools from an MCP server.
+    ) -> list[McpToolDescriptor]:
+        """Discover tools from an MCP server.
 
         Args:
             server_name: Server name (for cache key)
@@ -96,8 +90,7 @@ class ToolDiscovery:
             raise
 
     def invalidate_cache(self, server_name: str) -> None:
-        """
-        Invalidate cached tools for a server.
+        """Invalidate cached tools for a server.
 
         Called when server sends notifications/tools/list_changed.
 
@@ -118,15 +111,14 @@ class ToolDiscovery:
         server_name: str,
         client: McpProtocolClient,
     ) -> None:
-        """
-        Register notification handlers for cache invalidation.
+        """Register notification handlers for cache invalidation.
 
         Args:
             server_name: Server name
             client: Protocol client to register handlers on
         """
 
-        def on_tools_list_changed(params: Dict) -> None:
+        def on_tools_list_changed(params: dict) -> None:
             logger.info(f"Tools changed notification from {server_name}")
             self.invalidate_cache(server_name)
 

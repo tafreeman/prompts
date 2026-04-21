@@ -123,8 +123,7 @@ class TestComputeCiGeometric:
         assert result == pytest.approx(0.5)
 
     def test_mixed_scores(self) -> None:
-        """Geometric mean should be less than arithmetic mean for unequal
-        inputs."""
+        """Geometric mean should be less than arithmetic mean for unequal inputs."""
         scores = {
             "coverage": 0.9,
             "source_quality": 0.3,
@@ -403,8 +402,7 @@ class TestRecencyDecay:
         assert score == pytest.approx(0.5)
 
     def test_academic_domain_slower_decay(self) -> None:
-        """Academic research (730 days) decays much slower than AI/ML (90
-        days)."""
+        """Academic research (730 days) decays much slower than AI/ML (90 days)."""
         age = 365.0  # 1 year old
         ai_score = recency_decay(age, domain="ai_ml")
         academic_score = recency_decay(age, domain="academic_research")
@@ -494,8 +492,7 @@ class TestLoadRecencyWindows:
         assert result["default"] == 100
 
     def test_ignores_non_positive_values(self) -> None:
-        """Zero and negative integers must be rejected; domain falls back to
-        default."""
+        """Zero and negative integers must be rejected; domain falls back to default."""
         cfg_zero = {"evaluation": {"deep_research": {"recency_windows": {"ai_ml": 0}}}}
         assert load_recency_windows(cfg_zero)["ai_ml"] == 90
 

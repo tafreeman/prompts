@@ -1,12 +1,8 @@
 name: Performance Benchmark
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main, agenticv2]
-  schedule:
-    - cron: "0 0 * * 0"
+  # TODO(tech-debt): re-enable push/pull_request triggers once baseline
+  # comparison is reliable. Manual/scheduled only for now.
   workflow_dispatch:
     inputs:
       max_regression_percent:

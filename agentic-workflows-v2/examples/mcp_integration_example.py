@@ -1,5 +1,4 @@
-"""
-MCP Client Integration Example.
+"""MCP Client Integration Example.
 
 Demonstrates end-to-end usage of the MCP client:
 1. Load configuration from .mcp.json
@@ -42,9 +41,7 @@ async def main():
     configs = loader.get_enabled()
 
     if not configs:
-        logger.warning(
-            "No MCP servers configured. Create .mcp.json in project root."
-        )
+        logger.warning("No MCP servers configured. Create .mcp.json in project root.")
         return
 
     logger.info(f"Found {len(configs)} enabled MCP servers")
@@ -52,7 +49,7 @@ async def main():
     # Step 2: Connect to all servers
     logger.info("Connecting to MCP servers...")
     manager = McpConnectionManager()
-    clients: List[McpProtocolClient] = []
+    clients: list[McpProtocolClient] = []
 
     for config in configs:
         try:
@@ -86,13 +83,9 @@ async def main():
             logger.info(f"Found {len(resources)} resources from {config.name}")
 
         except Exception as e:
-            logger.error(
-                f"Failed to discover capabilities from {config.name}: {e}"
-            )
+            logger.error(f"Failed to discover capabilities from {config.name}: {e}")
 
-    logger.info(
-        f"Total: {len(all_tools)} tools, {len(all_resources)} resources"
-    )
+    logger.info(f"Total: {len(all_tools)} tools, {len(all_resources)} resources")
 
     # Step 4: Create adapters for LLM invocation
     logger.info("Creating tool adapters...")
@@ -168,8 +161,7 @@ async def main():
 
 
 async def register_with_tool_registry_example():
-    """
-    Example of how to integrate MCP tools into the main tool registry.
+    """Example of how to integrate MCP tools into the main tool registry.
 
     This would be called during application startup.
     """

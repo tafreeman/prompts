@@ -154,6 +154,7 @@ class WorkflowRunner:
         # Register sanitization middleware in DI container if available
         try:
             from ..middleware.sanitization import SanitizationMiddleware
+
             if ctx.services.resolve(SanitizationMiddleware) is None:
                 ctx.services.register_singleton(
                     SanitizationMiddleware, SanitizationMiddleware.default()
@@ -432,8 +433,7 @@ class WorkflowRunner:
         evaluator: ExpressionEvaluator,
         from_expr: Any,
     ) -> Any:
-        """Resolve workflow output expressions from string/dict/list
-        mappings."""
+        """Resolve workflow output expressions from string/dict/list mappings."""
         if isinstance(from_expr, str):
             expr = from_expr.strip()
             if expr.startswith("${") and expr.endswith("}"):

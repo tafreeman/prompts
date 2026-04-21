@@ -1,5 +1,4 @@
-"""
-Stdio transport for MCP servers running as subprocesses.
+"""Stdio transport for MCP servers running as subprocesses.
 
 Spawns a local process and communicates via stdin/stdout using JSON-RPC.
 Implements graceful shutdown with SIGINT → SIGTERM → SIGKILL escalation.
@@ -12,7 +11,12 @@ import signal
 from typing import Dict, List, Optional
 
 from agentic_v2.integrations.mcp.transports.base import McpTransport
-from agentic_v2.integrations.mcp.types import JsonRpcMessage, JsonRpcNotification, JsonRpcRequest, JsonRpcResponse
+from agentic_v2.integrations.mcp.types import (
+    JsonRpcMessage,
+    JsonRpcNotification,
+    JsonRpcRequest,
+    JsonRpcResponse,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -23,21 +27,19 @@ SIGKILL_TIMEOUT_SEC = 5.0
 
 
 class StdioTransport(McpTransport):
-    """
-    Transport for MCP servers running as local subprocesses.
+    """Transport for MCP servers running as local subprocesses.
 
-    Communicates via newline-delimited JSON over stdin/stdout.
-    Handles process lifecycle with graceful shutdown escalation.
+    Communicates via newline-delimited JSON over stdin/stdout. Handles
+    process lifecycle with graceful shutdown escalation.
     """
 
     def __init__(
         self,
         command: str,
-        args: Optional[List[str]] = None,
-        env: Optional[Dict[str, str]] = None,
+        args: Optional[list[str]] = None,
+        env: Optional[dict[str, str]] = None,
     ) -> None:
-        """
-        Initialize stdio transport.
+        """Initialize stdio transport.
 
         Args:
             command: Executable command (e.g., "npx", "python", "/path/to/binary")
@@ -52,8 +54,7 @@ class StdioTransport(McpTransport):
         self._read_task: Optional[asyncio.Task] = None
 
     async def start(self) -> None:
-        """
-        Spawn the subprocess and start reading from stdout.
+        """Spawn the subprocess and start reading from stdout.
 
         Raises:
             RuntimeError: If already started.
@@ -84,8 +85,7 @@ class StdioTransport(McpTransport):
         logger.info(f"Subprocess started: PID={self._process.pid}")
 
     async def send(self, message: JsonRpcMessage) -> None:
-        """
-        Send a JSON-RPC message via stdin.
+        """Send a JSON-RPC message via stdin.
 
         Args:
             message: JSON-RPC message (request, response, or notification)
@@ -108,8 +108,7 @@ class StdioTransport(McpTransport):
             raise ConnectionError(f"Failed to write to subprocess: {e}") from e
 
     async def close(self) -> None:
-        """
-        Terminate subprocess with graceful escalation.
+        """Terminate subprocess with graceful escalation.
 
         Sequence: SIGINT(5s) → SIGTERM(5s) → SIGKILL(5s)
         """
@@ -131,8 +130,7 @@ class StdioTransport(McpTransport):
         self._emit_close()
 
     async def _read_loop(self) -> None:
-        """
-        Read newline-delimited JSON from stdout.
+        """Read newline-delimited JSON from stdout.
 
         Runs until process exits or transport closes.
         """
@@ -169,8 +167,7 @@ class StdioTransport(McpTransport):
                 self._emit_close()
 
     def _parse_json_rpc(self, data: dict) -> JsonRpcMessage:
-        """
-        Parse raw JSON into typed JSON-RPC message.
+        """Parse raw JSON into typed JSON-RPC message.
 
         Args:
             data: Deserialized JSON object
@@ -187,8 +184,7 @@ class StdioTransport(McpTransport):
             return JsonRpcNotification(**data)
 
     async def _terminate_process(self) -> None:
-        """
-        Gracefully terminate subprocess with escalation.
+        """Gracefully terminate subprocess with escalation.
 
         Escalation strategy:
         1. SIGINT (allow 5s)
@@ -204,13 +200,13 @@ class StdioTransport(McpTransport):
         try:
             self._process.send_signal(signal.SIGINT)
             try:
-                await asyncio.wait_for(
-                    self._process.wait(), timeout=SIGINT_TIMEOUT_SEC
-                )
+                await asyncio.wait_for(self._process.wait(), timeout=SIGINT_TIMEOUT_SEC)
                 logger.debug("Process exited after SIGINT")
                 return
-            except asyncio.TimeoutError:
-                logger.warning("Process did not exit after SIGINT, escalating to SIGTERM")
+            except TimeoutError:
+                logger.warning(
+                    "Process did not exit after SIGINT, escalating to SIGTERM"
+                )
         except ProcessLookupError:
             return  # Already dead
 
@@ -223,19 +219,19 @@ class StdioTransport(McpTransport):
                 )
                 logger.debug("Process exited after SIGTERM")
                 return
-            except asyncio.TimeoutError:
-                logger.warning("Process did not exit after SIGTERM, escalating to SIGKILL")
+            except TimeoutError:
+                logger.warning(
+                    "Process did not exit after SIGTERM, escalating to SIGKILL"
+                )
         except ProcessLookupError:
             return  # Already dead
 
         # Step 3: SIGKILL
         try:
             self._process.kill()
-            await asyncio.wait_for(
-                self._process.wait(), timeout=SIGKILL_TIMEOUT_SEC
-            )
+            await asyncio.wait_for(self._process.wait(), timeout=SIGKILL_TIMEOUT_SEC)
             logger.warning("Process killed with SIGKILL")
         except ProcessLookupError:
             pass  # Already dead
-        except asyncio.TimeoutError:
+        except TimeoutError:
             logger.error("Process did not die after SIGKILL (!)")

@@ -11,7 +11,10 @@ import logging
 import time
 from typing import Dict, Optional, Tuple
 
-from agentic_v2.integrations.mcp.protocol.client import McpProtocolClient, McpProtocolError
+from agentic_v2.integrations.mcp.protocol.client import (
+    McpProtocolClient,
+    McpProtocolError,
+)
 from agentic_v2.integrations.mcp.runtime.backoff import ExponentialBackoff
 from agentic_v2.integrations.mcp.transports.stdio import StdioTransport
 from agentic_v2.integrations.mcp.transports.websocket import WebSocketTransport
@@ -19,9 +22,9 @@ from agentic_v2.integrations.mcp.types import (
     McpConnectionState,
     McpServerConfig,
     McpServerInfo,
-    TransportType,
     McpStdioConfig,
     McpWebSocketConfig,
+    TransportType,
 )
 
 logger = logging.getLogger(__name__)
@@ -92,8 +95,7 @@ class ConnectionMetadata:
 
 
 class McpConnectionManager:
-    """
-    Manages MCP server connections with lifecycle control.
+    """Manages MCP server connections with lifecycle control.
 
     Features:
     - Connection memoization (one connection per server signature)
@@ -105,7 +107,7 @@ class McpConnectionManager:
 
     def __init__(self) -> None:
         """Initialize connection manager."""
-        self._connections: Dict[str, ConnectionMetadata] = {}
+        self._connections: dict[str, ConnectionMetadata] = {}
         self._lock = asyncio.Lock()
 
     def _compute_server_signature(self, config: McpServerConfig) -> str:
@@ -118,8 +120,7 @@ class McpConnectionManager:
         config: "McpServerConfig | None" = None,
         force_new: bool = False,
     ) -> McpProtocolClient:
-        """
-        Connect to an MCP server (or return existing connection).
+        """Connect to an MCP server (or return existing connection).
 
         Args:
             config_or_name: Server config (single-arg form) or server name string.
@@ -169,8 +170,7 @@ class McpConnectionManager:
         config: McpServerConfig,
         signature: str,
     ) -> McpProtocolClient:
-        """
-        Create and initialize a new MCP connection.
+        """Create and initialize a new MCP connection.
 
         Args:
             name: Server name
@@ -190,13 +190,18 @@ class McpConnectionManager:
                 args=config.stdio.args or [],
                 env=config.stdio.env or {},
             )
-        elif config.transport_type == TransportType.WEBSOCKET and config.websocket is not None:
+        elif (
+            config.transport_type == TransportType.WEBSOCKET
+            and config.websocket is not None
+        ):
             transport = WebSocketTransport(
                 url=config.websocket.url,
                 headers=config.websocket.headers or {},
             )
         else:
-            raise ValueError(f"Unsupported or misconfigured transport: {config.transport_type}")
+            raise ValueError(
+                f"Unsupported or misconfigured transport: {config.transport_type}"
+            )
 
         # Create protocol client
         client = McpProtocolClient(transport)
@@ -223,7 +228,9 @@ class McpConnectionManager:
                 init_response = await client.initialize()
                 if isinstance(init_response, dict):
                     raw_info = init_response.get("serverInfo", {})
-                    server_info = McpServerInfo.model_validate(raw_info) if raw_info else None
+                    server_info = (
+                        McpServerInfo.model_validate(raw_info) if raw_info else None
+                    )
                 else:
                     server_info = init_response
                 metadata.server_info = server_info
@@ -231,11 +238,15 @@ class McpConnectionManager:
                 metadata.last_error = None
                 backoff.reset()
 
-                info_str = f"{server_info.name} v{server_info.version}" if server_info else "unknown"
+                info_str = (
+                    f"{server_info.name} v{server_info.version}"
+                    if server_info
+                    else "unknown"
+                )
                 logger.info(f"Successfully connected to {name}: {info_str}")
                 return client
 
-            except asyncio.TimeoutError as e:
+            except TimeoutError as e:
                 last_error = e
                 metadata.last_error = f"Timeout: {e}"
                 metadata.state = McpConnectionState.RECONNECTING
@@ -283,8 +294,7 @@ class McpConnectionManager:
         )
 
     async def disconnect(self, name: str) -> None:
-        """
-        Disconnect from a server by name.
+        """Disconnect from a server by name.
 
         Args:
             name: Server name
@@ -310,15 +320,12 @@ class McpConnectionManager:
                 try:
                     await metadata.client.close()
                 except Exception as e:
-                    logger.error(
-                        f"Error closing connection {metadata.name}: {e}"
-                    )
+                    logger.error(f"Error closing connection {metadata.name}: {e}")
 
             self._connections.clear()
 
     def get_connection(self, name: str) -> Optional[McpProtocolClient]:
-        """
-        Get existing connection by name (if connected).
+        """Get existing connection by name (if connected).
 
         Args:
             name: Server name
@@ -327,16 +334,12 @@ class McpConnectionManager:
             Protocol client if connected, None otherwise
         """
         for metadata in self._connections.values():
-            if (
-                metadata.name == name
-                and metadata.state == McpConnectionState.CONNECTED
-            ):
+            if metadata.name == name and metadata.state == McpConnectionState.CONNECTED:
                 return metadata.client
         return None
 
     def get_connection_state(self, name: str) -> Optional[McpConnectionState]:
-        """
-        Get connection state by name.
+        """Get connection state by name.
 
         Args:
             name: Server name
@@ -349,9 +352,8 @@ class McpConnectionManager:
                 return metadata.state
         return None
 
-    def list_connections(self) -> Dict[str, Tuple[McpConnectionState, Optional[str]]]:
-        """
-        List all connections with their states.
+    def list_connections(self) -> dict[str, tuple[McpConnectionState, Optional[str]]]:
+        """List all connections with their states.
 
         Returns:
             Dict mapping server name to (state, error_message)

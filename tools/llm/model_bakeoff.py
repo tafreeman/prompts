@@ -25,6 +25,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from tools.llm.bakeoff_reporting import _recommend_alignment, _write_reports
 from tools.llm.bakeoff_tasks import (
     TASKS,
     TaskSpec,
@@ -37,7 +38,6 @@ from tools.llm.bakeoff_tasks import (
     _provider_of,
     _repo_root,
 )
-from tools.llm.bakeoff_reporting import _recommend_alignment, _write_reports
 
 logger = logging.getLogger(__name__)
 

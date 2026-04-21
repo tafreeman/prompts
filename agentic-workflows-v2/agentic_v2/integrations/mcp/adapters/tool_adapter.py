@@ -28,8 +28,7 @@ TOOL_CALL_TIMEOUT = 120.0  # 2 minutes
 
 
 class McpToolAdapter:
-    """
-    Adapter that wraps remote MCP tools as local tool instances.
+    """Adapter that wraps remote MCP tools as local tool instances.
 
     Handles:
     - Tool name namespacing
@@ -46,8 +45,7 @@ class McpToolAdapter:
         client: McpProtocolClient,
         timeout: Optional[float] = None,
     ) -> None:
-        """
-        Initialize tool adapter.
+        """Initialize tool adapter.
 
         Args:
             server_name: Server providing this tool
@@ -71,11 +69,10 @@ class McpToolAdapter:
 
     async def execute(
         self,
-        arguments: Dict[str, Any],
+        arguments: dict[str, Any],
         timeout: Optional[float] = None,
     ) -> str:
-        """
-        Execute the remote tool.
+        """Execute the remote tool.
 
         Args:
             arguments: Tool input arguments (validated against input_schema)
@@ -127,7 +124,9 @@ class McpToolAdapter:
                     resource_uri = resource.get("uri", "")
                     resource_text = resource.get("text", "")
                     if resource_text:
-                        formatted_parts.append(f"[Resource: {resource_uri}]\n{resource_text}")
+                        formatted_parts.append(
+                            f"[Resource: {resource_uri}]\n{resource_text}"
+                        )
                     else:
                         formatted_parts.append(f"[Resource: {resource_uri}]")
 
@@ -139,7 +138,7 @@ class McpToolAdapter:
             logger.debug(f"Tool result length: {len(result)} chars")
             return result
 
-        except asyncio.TimeoutError:
+        except TimeoutError:
             error_msg = f"Tool execution timed out after {timeout_value}s"
             logger.warning(f"{self.name}: {error_msg}")
             return f"Error: {error_msg}"
@@ -160,9 +159,8 @@ class McpToolAdapter:
             logger.error(f"{self.name}: {error_msg}", exc_info=True)
             return f"Error: {error_msg}"
 
-    def to_dict(self) -> Dict[str, Any]:
-        """
-        Convert adapter to dictionary representation.
+    def to_dict(self) -> dict[str, Any]:
+        """Convert adapter to dictionary representation.
 
         Used for tool registry serialization.
 
@@ -186,8 +184,7 @@ class McpToolAdapter:
         client: McpProtocolClient,
         tool_discovery: ToolDiscovery,
     ) -> list["McpToolAdapter"]:
-        """
-        Create adapters for all tools on a server.
+        """Create adapters for all tools on a server.
 
         Args:
             server_name: Server name
@@ -203,17 +200,12 @@ class McpToolAdapter:
 
             # Create adapters
             adapters = [
-                cls(server_name, tool_descriptor, client)
-                for tool_descriptor in tools
+                cls(server_name, tool_descriptor, client) for tool_descriptor in tools
             ]
 
-            logger.info(
-                f"Created {len(adapters)} tool adapters for {server_name}"
-            )
+            logger.info(f"Created {len(adapters)} tool adapters for {server_name}")
             return adapters
 
         except Exception as e:
-            logger.error(
-                f"Failed to create tool adapters for {server_name}: {e}"
-            )
+            logger.error(f"Failed to create tool adapters for {server_name}: {e}")
             return []

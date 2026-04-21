@@ -1,5 +1,4 @@
-"""Tests for Phase 2D enhanced tools (git, http, shell, code_analysis,
-search)."""
+"""Tests for Phase 2D enhanced tools (git, http, shell, code_analysis, search)."""
 
 from __future__ import annotations
 
@@ -50,8 +49,7 @@ async def test_build_app_tool_dry_run_python_detection(tmp_path: Path):
 
 @pytest.mark.asyncio
 async def test_build_app_tool_exec_with_explicit_commands(tmp_path: Path):
-    """BuildAppTool should execute explicit commands and report phase
-    results."""
+    """BuildAppTool should execute explicit commands and report phase results."""
     tool = BuildAppTool()
 
     result = await tool.execute(

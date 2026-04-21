@@ -8,8 +8,8 @@ from agentic_v2.langchain.config import (
     WorkflowConfig,
     get_workflow_path,
     list_workflows,
-    load_workflow_document,
     load_workflow_config,
+    load_workflow_document,
     save_workflow_document,
     validate_workflow_document,
 )
@@ -119,19 +119,21 @@ class TestLoadWorkflowConfig:
         data = {"name": "editor", "steps": [{"name": "step1", "agent": "coder"}]}
         _write_workflow(tmp_path, "editor", data)
 
-        path, document, source = load_workflow_document("editor", definitions_dir=tmp_path)
+        path, document, source = load_workflow_document(
+            "editor", definitions_dir=tmp_path
+        )
 
         assert path == tmp_path / "editor.yaml"
         assert document["name"] == "editor"
         assert "step1" in source
 
     def test_get_workflow_path_uses_yaml_for_new_files(self, tmp_path) -> None:
-        path = get_workflow_path("new-workflow", definitions_dir=tmp_path, must_exist=False)
+        path = get_workflow_path(
+            "new-workflow", definitions_dir=tmp_path, must_exist=False
+        )
         assert path == tmp_path / "new-workflow.yaml"
 
-    def test_validate_workflow_document_rejects_duplicate_steps(
-        self, tmp_path
-    ) -> None:
+    def test_validate_workflow_document_rejects_duplicate_steps(self, tmp_path) -> None:
         with pytest.raises(ValueError, match="duplicated"):
             validate_workflow_document(
                 {

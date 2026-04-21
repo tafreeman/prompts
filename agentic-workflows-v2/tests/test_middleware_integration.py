@@ -7,11 +7,10 @@ verifying end-to-end behavior from raw input to classification.
 from __future__ import annotations
 
 import pytest
-
 from agentic_v2.contracts.sanitization import Classification
-from agentic_v2.middleware.sanitization import SanitizationMiddleware
-from agentic_v2.middleware.response_sanitizer import ResponseSanitizer
 from agentic_v2.middleware.policy import PolicyConfig
+from agentic_v2.middleware.response_sanitizer import ResponseSanitizer
+from agentic_v2.middleware.sanitization import SanitizationMiddleware
 
 
 class TestFullPipelineClean:
@@ -29,9 +28,7 @@ class TestFullPipelineClean:
     @pytest.mark.asyncio
     async def test_clean_code_snippet(self) -> None:
         mw = SanitizationMiddleware.default()
-        result = await mw.process(
-            "def add(a: int, b: int) -> int:\n    return a + b"
-        )
+        result = await mw.process("def add(a: int, b: int) -> int:\n    return a + b")
         assert result.is_safe is True
 
 
