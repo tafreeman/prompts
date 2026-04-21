@@ -40,7 +40,13 @@ def _reset_llm_client():
     reset_client()
 
 
-from agentic_v2.adapters.registry import AdapterRegistry
+from agentic_v2.adapters.registry import AdapterRegistry, get_registry
+from agentic_v2.adapters.native import NativeEngine
+
+
+def _register_builtin_adapters() -> None:
+    """Re-register built-in adapters after a registry reset."""
+    get_registry().register("native", NativeEngine)
 
 
 @pytest.fixture(autouse=True)
@@ -50,10 +56,15 @@ def _reset_adapter_registry():
     Prevents adapter registrations made inside a test from leaking into
     subsequent tests, which is critical under pytest-xdist -n auto where
     test order is non-deterministic across workers.
+
+    Built-in adapters (native) are re-registered after each reset so that
+    tests that need them can use them without explicit setup.
     """
     AdapterRegistry.reset_for_tests()
+    _register_builtin_adapters()
     yield
     AdapterRegistry.reset_for_tests()
+    _register_builtin_adapters()
 
 
 @pytest.fixture

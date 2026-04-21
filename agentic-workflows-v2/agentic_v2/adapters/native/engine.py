@@ -22,6 +22,7 @@ from ...engine.context import ExecutionContext
 from ...engine.dag import DAG
 from ...engine.dag_executor import DAGExecutor
 from ...engine.pipeline import Pipeline, PipelineExecutor
+from ...workflows.loader import WorkflowDefinition
 from ._checkpoint_store import CheckpointStore
 
 logger = logging.getLogger(__name__)
@@ -232,6 +233,8 @@ class NativeEngine:
         Raises:
             TypeError: If *workflow* is not a supported type.
         """
+        if isinstance(workflow, WorkflowDefinition):
+            workflow = workflow.dag
         if isinstance(workflow, DAG):
             return await self._dag_executor.execute(
                 workflow, ctx, on_update=on_update, **kwargs
