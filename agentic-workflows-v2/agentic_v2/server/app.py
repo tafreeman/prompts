@@ -43,6 +43,7 @@ logger = logging.getLogger(__name__)
 UI_DIST_DIR = Path(__file__).resolve().parent.parent.parent / "ui" / "dist"
 UI_DIST_DIR_RESOLVED = UI_DIST_DIR.resolve()
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Manage server startup and shutdown lifecycle.
@@ -85,6 +86,7 @@ async def lifespan(app: FastAPI):
     # Enforcement mode: dry_run=False blocks/redacts unsafe content
     try:
         from ..middleware.sanitization import SanitizationMiddleware
+
         app.state.sanitization = SanitizationMiddleware.default(dry_run=False)
         logger.info("Sanitization middleware initialized (dry_run=False)")
     except Exception:
@@ -129,6 +131,7 @@ def create_app() -> FastAPI:
 
     # Sanitization middleware (wraps app.state.sanitization set in lifespan)
     from .middleware import SanitizationASGIMiddleware
+
     app.add_middleware(SanitizationASGIMiddleware)
 
     # Include routes

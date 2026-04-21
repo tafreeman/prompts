@@ -23,10 +23,8 @@ from unittest.mock import MagicMock, call, patch
 
 import pytest
 
-from tools.agents.benchmarks.loader import BenchmarkTask
-
 import tools.agents.benchmarks.evaluation_pipeline as pipeline
-
+from tools.agents.benchmarks.loader import BenchmarkTask
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -185,9 +183,7 @@ class TestEvaluateTaskOutputLlm:
         """Verbose fallback prints a warning about unavailability."""
         with (
             patch.object(pipeline, "HAS_LLM_EVALUATOR", False),
-            patch.object(
-                pipeline, "evaluate_task_output_legacy", return_value=None
-            ),
+            patch.object(pipeline, "evaluate_task_output_legacy", return_value=None),
         ):
             pipeline.evaluate_task_output_llm(
                 task=_make_task(),
@@ -200,8 +196,8 @@ class TestEvaluateTaskOutputLlm:
         assert "LLM evaluator not available" in captured.out
 
     def test_creates_minimal_gold_data_when_none_found(self):
-        """When get_gold_standard_for_task returns None, minimal dict is built
-        from task.expected_output and task.test_cases."""
+        """When get_gold_standard_for_task returns None, minimal dict is built from
+        task.expected_output and task.test_cases."""
         eval_result = _make_eval_result()
 
         with (
@@ -292,9 +288,7 @@ class TestEvaluateTaskOutputLlm:
             ),
             patch.object(pipeline, "evaluate_with_llm", return_value=eval_result),
             patch.object(pipeline, "print_evaluation_report"),
-            patch.object(
-                pipeline, "save_evaluation_report"
-            ) as mock_save,
+            patch.object(pipeline, "save_evaluation_report") as mock_save,
         ):
             pipeline.evaluate_task_output_llm(
                 task=_make_task(),
@@ -321,9 +315,7 @@ class TestEvaluateTaskOutputLlm:
             ),
             patch.object(pipeline, "evaluate_with_llm", return_value=eval_result),
             patch.object(pipeline, "print_evaluation_report"),
-            patch.object(
-                pipeline, "save_evaluation_report"
-            ) as mock_save,
+            patch.object(pipeline, "save_evaluation_report") as mock_save,
         ):
             pipeline.evaluate_task_output_llm(
                 task=_make_task(),
@@ -347,9 +339,7 @@ class TestEvaluateTaskOutputLlm:
                 return_value={"expected_output": "x"},
             ),
             patch.object(pipeline, "evaluate_with_llm", return_value=eval_result),
-            patch.object(
-                pipeline, "print_evaluation_report"
-            ) as mock_print,
+            patch.object(pipeline, "print_evaluation_report") as mock_print,
         ):
             pipeline.evaluate_task_output_llm(
                 task=_make_task(),
@@ -411,9 +401,12 @@ class TestEvaluateTaskOutputLlm:
             )
 
         call_kwargs = mock_eval.call_args
-        assert call_kwargs.kwargs.get(
-            "evaluator_model", call_kwargs[1].get("evaluator_model")
-        ) == "gpt-4o"
+        assert (
+            call_kwargs.kwargs.get(
+                "evaluator_model", call_kwargs[1].get("evaluator_model")
+            )
+            == "gpt-4o"
+        )
 
 
 # ===========================================================================
@@ -460,8 +453,10 @@ class TestEvaluateTaskOutputLegacy:
             patch.object(pipeline, "HAS_GOLD_STANDARD", True),
             patch.object(pipeline, "TEST_TASKS", [fake_tt]),
             patch.object(
-                pipeline, "evaluate_against_gold_standard",
-                return_value=eval_dict, create=True,
+                pipeline,
+                "evaluate_against_gold_standard",
+                return_value=eval_dict,
+                create=True,
             ),
             patch.object(pipeline, "print_gold_standard_report", create=True),
         ):
@@ -481,12 +476,12 @@ class TestEvaluateTaskOutputLegacy:
             patch.object(pipeline, "HAS_GOLD_STANDARD", True),
             patch.object(pipeline, "TEST_TASKS", [fake_tt]),
             patch.object(
-                pipeline, "evaluate_against_gold_standard",
-                return_value=eval_dict, create=True,
+                pipeline,
+                "evaluate_against_gold_standard",
+                return_value=eval_dict,
+                create=True,
             ),
-            patch.object(
-                pipeline, "save_evaluation_report_legacy"
-            ) as mock_save,
+            patch.object(pipeline, "save_evaluation_report_legacy") as mock_save,
         ):
             pipeline.evaluate_task_output_legacy(
                 _make_task("1"), "output text", output_dir=tmp_path
@@ -504,13 +499,13 @@ class TestEvaluateTaskOutputLegacy:
             patch.object(pipeline, "HAS_GOLD_STANDARD", True),
             patch.object(pipeline, "TEST_TASKS", [fake_tt]),
             patch.object(
-                pipeline, "evaluate_against_gold_standard",
-                return_value=eval_dict, create=True,
+                pipeline,
+                "evaluate_against_gold_standard",
+                return_value=eval_dict,
+                create=True,
             ),
             patch.object(pipeline, "print_gold_standard_report", create=True),
-            patch.object(
-                pipeline, "print_mismatch_analysis"
-            ) as mock_mismatch,
+            patch.object(pipeline, "print_mismatch_analysis") as mock_mismatch,
         ):
             pipeline.evaluate_task_output_legacy(
                 _make_task("1"), "output text", verbose=True
@@ -521,8 +516,8 @@ class TestEvaluateTaskOutputLegacy:
     @pytest.mark.parametrize(
         "task_id, tt_id",
         [
-            ("5", 5),           # string match
-            ("task_005", 5),    # formatted match
+            ("5", 5),  # string match
+            ("task_005", 5),  # formatted match
         ],
     )
     def test_legacy_id_matching_strategies(self, task_id: str, tt_id: int):
@@ -535,13 +530,13 @@ class TestEvaluateTaskOutputLegacy:
             patch.object(pipeline, "HAS_GOLD_STANDARD", True),
             patch.object(pipeline, "TEST_TASKS", [fake_tt]),
             patch.object(
-                pipeline, "evaluate_against_gold_standard",
-                return_value=eval_dict, create=True,
+                pipeline,
+                "evaluate_against_gold_standard",
+                return_value=eval_dict,
+                create=True,
             ),
         ):
-            result = pipeline.evaluate_task_output_legacy(
-                _make_task(task_id), "output"
-            )
+            result = pipeline.evaluate_task_output_legacy(_make_task(task_id), "output")
 
         assert result is not None
 

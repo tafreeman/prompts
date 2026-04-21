@@ -1,24 +1,26 @@
 import json
 import os
 
-json_path = os.path.join("presentation", "src", "tokens", "raw-themes", "all_themes.json")
+json_path = os.path.join(
+    "presentation", "src", "tokens", "raw-themes", "all_themes.json"
+)
 
-with open(json_path, "r", encoding="utf-8") as f:
+with open(json_path, encoding="utf-8") as f:
     themes = json.load(f)
 
 for data in themes:
     theme_name = data.get("themeName", "unknown")
     print(f"Processing {theme_name}...")
-    
+
     json_out_path = f"presentation/src/tokens/raw-themes/{theme_name}.json"
-    
+
     with open(json_out_path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2)
-        
+
     # generate simple preview
     variables = data.get("variables", {})
     html_out_path = f"presentation/src/tokens/raw-themes/{theme_name}-preview.html"
-    
+
     html_content = f"""<!DOCTYPE html>
 <html lang="en" class="{data.get('classes', '')}">
 <head>

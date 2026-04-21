@@ -339,8 +339,8 @@ def evaluate_research_round_from_step_outputs(
     consecutive_regression: bool = False,
     tiebreaker_weights: Mapping[str, float] | None = None,
 ) -> MultidimensionalGateResult:
-    """Convenience wrapper that reads directly from a
-    ``coverage_confidence_audit`` step output dict.
+    """Convenience wrapper that reads directly from a ``coverage_confidence_audit`` step
+    output dict.
 
     The step output keys produced by ``deep_research.yaml`` are::
 

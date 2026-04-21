@@ -266,8 +266,9 @@ def auto_configure_backend(
 ) -> LLMBackend:
     """Auto-detect available API keys and build a MultiBackend.
 
-    Probes env vars in priority order and registers all available backends.
-    Returns a MultiBackend that dispatches based on model prefix.
+    Probes env vars in priority order and registers all available
+    backends. Returns a MultiBackend that dispatches based on model
+    prefix.
     """
     backends: dict[str, LLMBackend] = {}
     active_provider = secret_provider

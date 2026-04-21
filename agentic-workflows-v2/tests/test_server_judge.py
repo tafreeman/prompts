@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from agentic_v2.server.judge import (
     JudgeCriterionDefinition,
     JudgeCriterionScore,
@@ -284,9 +283,7 @@ def test_validate_when_required_key_missing(missing_key: str):
 )
 def test_validate_when_score_invalid(bad_score, expected_msg):
     """Out-of-range and non-numeric scores produce appropriate errors."""
-    payload = {
-        "criteria": [{"name": "test", "score": bad_score, "evidence": "text"}]
-    }
+    payload = {"criteria": [{"name": "test", "score": bad_score, "evidence": "text"}]}
     ok, errors = validate_judge_structured_output(payload)
     assert ok is False
     assert any(expected_msg in e for e in errors)
@@ -310,9 +307,7 @@ def test_validate_when_evidence_not_string():
 
 def test_validate_reports_missing_expected_criteria():
     """Expected criteria not present in response are listed as missing."""
-    payload = {
-        "criteria": [{"name": "correctness", "score": 4, "evidence": "good"}]
-    }
+    payload = {"criteria": [{"name": "correctness", "score": 4, "evidence": "good"}]}
     ok, errors = validate_judge_structured_output(
         payload, expected_criteria={"correctness", "completeness"}
     )
@@ -322,9 +317,7 @@ def test_validate_reports_missing_expected_criteria():
 
 def test_validate_without_expected_criteria_accepts_any_names():
     """When expected_criteria is None, any valid criterion name is accepted."""
-    payload = {
-        "criteria": [{"name": "arbitrary_name", "score": 3, "evidence": "fine"}]
-    }
+    payload = {"criteria": [{"name": "arbitrary_name", "score": 3, "evidence": "fine"}]}
     ok, errors = validate_judge_structured_output(payload)
     assert ok is True
     assert errors == []
@@ -419,12 +412,9 @@ def test_evaluate_raises_when_criteria_empty():
 
 def test_evaluate_accepts_dict_criteria():
     """Dict-format criteria are converted to JudgeCriterionDefinition."""
+
     def _provider(*, prompt: str, model: str, temperature: float):
-        return {
-            "criteria": [
-                {"name": "quality", "score": 4, "evidence": "good"}
-            ]
-        }
+        return {"criteria": [{"name": "quality", "score": 4, "evidence": "good"}]}
 
     judge = LLMJudge(response_provider=_provider)
     result = judge.evaluate(
@@ -437,6 +427,7 @@ def test_evaluate_accepts_dict_criteria():
 
 def test_evaluate_normalizes_scores_correctly():
     """Raw Likert 1-5 scores are normalized to [0, 1] via (raw-1)/4."""
+
     def _provider(*, prompt: str, model: str, temperature: float):
         return {
             "criteria": [
@@ -462,12 +453,17 @@ def test_evaluate_normalizes_scores_correctly():
 
 def test_evaluate_defaults_missing_criterion_from_response():
     """Criterion not in judge response gets default raw_score=3.0."""
+
     def _provider(*, prompt: str, model: str, temperature: float):
         # Only return 'correctness', omit 'completeness'
         return {
             "criteria": [
                 {"name": "correctness", "score": 5, "evidence": "great"},
-                {"name": "completeness", "score": 3, "evidence": "missing_from_response"},
+                {
+                    "name": "completeness",
+                    "score": 3,
+                    "evidence": "missing_from_response",
+                },
             ]
         }
 
@@ -511,6 +507,7 @@ def test_evaluate_defaults_missing_criterion_from_response():
 
 def test_evaluate_raises_when_response_schema_invalid():
     """Invalid judge output (bad schema) raises ValueError."""
+
     def _bad_provider(*, prompt: str, model: str, temperature: float):
         return {"criteria": [{"name": "correctness", "score": 99, "evidence": "bad"}]}
 
@@ -668,6 +665,7 @@ def test_invoke_prompt_raises_when_no_backend():
 
 def test_evaluate_pairwise_flags_inconsistent_criteria():
     """Large score divergence in pairwise check is detected and reported."""
+
     def _provider(*, prompt: str, model: str, temperature: float):
         if "SWAPPED_ORDER" in prompt:
             return {
@@ -703,6 +701,7 @@ def test_evaluate_pairwise_flags_inconsistent_criteria():
 
 def test_calibration_outside_tolerance():
     """MAE exceeding tolerance is flagged as out of tolerance."""
+
     def _provider(*, prompt: str, model: str, temperature: float):
         return {
             "criteria": [

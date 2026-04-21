@@ -141,7 +141,6 @@ steps:
             assert step.metadata["tools"] == ["file_read", "search"]
 
 
-
 class TestWorkflowLoaderInputs:
     """Tests for workflow input parsing."""
 

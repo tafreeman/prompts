@@ -3,9 +3,8 @@
 Covers _collect_strings, _safe_rel_path, _scan_output_for_files,
 extract_from_record, and extract_artifacts.
 
-Test tiers (per ADR-008):
-  Tier 1 — path traversal blocking, branching, edge cases
-  Tier 2 — happy-path contracts, file-writing behaviour
+Test tiers (per ADR-008):   Tier 1 — path traversal blocking, branching,
+edge cases   Tier 2 — happy-path contracts, file-writing behaviour
 """
 
 from __future__ import annotations
@@ -14,7 +13,6 @@ from pathlib import Path
 from typing import Any
 
 import pytest
-
 from agentic_v2.contracts import StepResult, StepStatus, WorkflowResult
 from agentic_v2.workflows.artifact_extractor import (
     _collect_strings,
@@ -23,7 +21,6 @@ from agentic_v2.workflows.artifact_extractor import (
     extract_artifacts,
     extract_from_record,
 )
-
 
 # ===================================================================
 # _collect_strings
@@ -111,10 +108,7 @@ class TestScanOutputForFiles:
 
     def test_multiple_file_blocks(self) -> None:
         """Tier 2: multiple blocks in the same string are all extracted."""
-        blob = (
-            "FILE: a.txt\ncontent_a\nENDFILE\n"
-            "FILE: b.txt\ncontent_b\nENDFILE\n"
-        )
+        blob = "FILE: a.txt\ncontent_a\nENDFILE\n" "FILE: b.txt\ncontent_b\nENDFILE\n"
         files = _scan_output_for_files(blob)
         assert len(files) == 2
 
@@ -137,11 +131,7 @@ class TestScanOutputForFiles:
 
     def test_nested_dict_output(self) -> None:
         """Tier 2: FILE blocks inside nested dicts/lists are found."""
-        output = {
-            "result": {
-                "code": "FILE: nested.py\ncode_here\nENDFILE\n"
-            }
-        }
+        output = {"result": {"code": "FILE: nested.py\ncode_here\nENDFILE\n"}}
         files = _scan_output_for_files(output)
         assert len(files) == 1
 

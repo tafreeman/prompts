@@ -1,5 +1,4 @@
-"""Provider detection utilities and shared helpers for the LangChain model
-registry.
+"""Provider detection utilities and shared helpers for the LangChain model registry.
 
 This module contains stateless utilities that operate on model ID strings, provider
 environment variables, and transient-failure classification.  It has no dependency

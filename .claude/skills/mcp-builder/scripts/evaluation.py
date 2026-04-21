@@ -310,8 +310,7 @@ def parse_headers(header_list: list[str]) -> dict[str, str]:
 
 
 def parse_env_vars(env_list: list[str]) -> dict[str, str]:
-    """Parse environment variable strings in format 'KEY=VALUE' into a
-    dictionary."""
+    """Parse environment variable strings in format 'KEY=VALUE' into a dictionary."""
     env = {}
     if not env_list:
         return env

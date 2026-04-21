@@ -60,7 +60,9 @@ class TestGlobalSecretProviderHelpers:
         reset_default_secret_provider()
 
     def test_get_secret_uses_overridden_provider(self) -> None:
-        set_default_secret_provider(MappingSecretProvider({"AGENTIC_API_KEY": "shared"}))
+        set_default_secret_provider(
+            MappingSecretProvider({"AGENTIC_API_KEY": "shared"})
+        )
         assert get_secret("AGENTIC_API_KEY") == "shared"
 
     def test_get_first_secret_uses_first_present_name(self) -> None:

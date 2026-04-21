@@ -21,7 +21,6 @@ from agentic_v2.workflows.run_logger import (
     build_step_record,
 )
 
-
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
@@ -204,9 +203,21 @@ class TestBuildStepRecord:
         step = _step()
         record = build_step_record(step)
         required = {
-            "step_name", "status", "agent_role", "tier", "model_used",
-            "duration_ms", "retry_count", "tokens_used", "input", "output",
-            "error", "error_type", "start_time", "end_time", "metadata",
+            "step_name",
+            "status",
+            "agent_role",
+            "tier",
+            "model_used",
+            "duration_ms",
+            "retry_count",
+            "tokens_used",
+            "input",
+            "output",
+            "error",
+            "error_type",
+            "start_time",
+            "end_time",
+            "metadata",
         }
         assert required.issubset(record.keys())
 
@@ -242,9 +253,7 @@ class TestBuildRunRecord:
     def test_uses_overall_score_when_no_weighted(self):
         """ADR-008 Phase 3: overall_score used when weighted_score absent."""
         result = _result()
-        record = build_run_record(
-            result, extra={"evaluation": {"overall_score": 65.0}}
-        )
+        record = build_run_record(result, extra={"evaluation": {"overall_score": 65.0}})
         assert record["score"] == pytest.approx(65.0)
 
     def test_non_numeric_evaluation_scores_ignored(self):

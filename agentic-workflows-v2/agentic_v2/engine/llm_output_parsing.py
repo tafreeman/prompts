@@ -1,5 +1,4 @@
-"""LLM output parsing — JSON extraction, normalization, and sentinel artifact
-parsing.
+"""LLM output parsing — JSON extraction, normalization, and sentinel artifact parsing.
 
 Provides robust fallback strategies for turning raw LLM text into structured
 dicts:

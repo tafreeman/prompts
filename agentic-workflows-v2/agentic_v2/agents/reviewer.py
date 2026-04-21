@@ -97,8 +97,7 @@ class ReviewerAgent(BaseAgent[CodeReviewInput, CodeReviewOutput], CodeReviewMixi
         focus_areas: list[str] | None = None,
         **kwargs,
     ):
-        """Initialize the reviewer agent with optional config and focus
-        areas."""
+        """Initialize the reviewer agent with optional config and focus areas."""
         if config is None:
             config = AgentConfig(
                 name="reviewer",

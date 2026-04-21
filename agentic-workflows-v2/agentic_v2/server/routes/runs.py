@@ -19,8 +19,8 @@ from typing import Any
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import StreamingResponse
 
-from ...utils.path_safety import is_within_base
 from ...models.secrets import get_secret
+from ...utils.path_safety import is_within_base
 
 # LangChain imports — optional at the package level.
 try:
@@ -31,7 +31,7 @@ except ImportError:
     _LANGCHAIN_AVAILABLE = False
 from ...workflows.run_logger import RunLogger
 from .. import websocket
-from ..models import RunSummaryModel, RunsSummaryResponse
+from ..models import RunsSummaryResponse, RunSummaryModel
 
 logger = logging.getLogger(__name__)
 router = APIRouter(tags=["workflows"])
@@ -160,7 +160,10 @@ async def get_run(filename: str):
             # Workflow definition might have changed or been deleted; ignore errors
             # but log at debug level for operational diagnostics
             logger.debug(
-                "Failed to infer model_used for run %s: %s", filename, exc, exc_info=True
+                "Failed to infer model_used for run %s: %s",
+                filename,
+                exc,
+                exc_info=True,
             )
 
     return run_data

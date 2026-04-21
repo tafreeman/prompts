@@ -169,16 +169,14 @@ class TestPackageImports:
 
 @pytest.mark.e2e
 class TestToolsToRuntimeIntegration:
-    """Verify tools.llm.LLMClient can serve as a model backend in
-    agentic_v2."""
+    """Verify tools.llm.LLMClient can serve as a model backend in agentic_v2."""
 
     @pytest.mark.skipif(
         not (HAS_TOOLS and HAS_RUNTIME),
         reason="tools and agentic-workflows-v2 required",
     )
     def test_tools_llm_client_has_compatible_interface(self) -> None:
-        """LLMClient.generate_text signature is compatible with eval
-        protocol."""
+        """LLMClient.generate_text signature is compatible with eval protocol."""
         import inspect
 
         from tools.llm.llm_client import LLMClient
@@ -375,14 +373,13 @@ class TestToolsToEvalIntegration:
         reason="tools and agentic-v2-eval required",
     )
     def test_tools_llm_client_satisfies_eval_protocol(self) -> None:
-        """A thin wrapper around tools.LLMClient satisfies
-        LLMClientProtocol."""
+        """A thin wrapper around tools.LLMClient satisfies LLMClientProtocol."""
         # LLMClient is a static class, so wrap it to produce an instance
         # that satisfies the eval framework's protocol.
 
         class ToolsLLMAdapter:
-            """Adapts the static tools.LLMClient into an instance that
-            satisfies agentic_v2_eval.LLMClientProtocol."""
+            """Adapts the static tools.LLMClient into an instance that satisfies
+            agentic_v2_eval.LLMClientProtocol."""
 
             def generate_text(
                 self,

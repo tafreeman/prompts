@@ -15,11 +15,11 @@ logger = logging.getLogger(__name__)
 
 
 class McpPromptAdapter:
-    """
-    Adapter for MCP prompts.
+    """Adapter for MCP prompts.
 
-    Prompts are reusable context templates (e.g., "code review guidelines",
-    "bug report template") that can be dynamically inserted into agent context.
+    Prompts are reusable context templates (e.g., "code review
+    guidelines", "bug report template") that can be dynamically inserted
+    into agent context.
     """
 
     def __init__(
@@ -28,8 +28,7 @@ class McpPromptAdapter:
         prompt_descriptor: McpPromptDescriptor,
         client: McpProtocolClient,
     ) -> None:
-        """
-        Initialize prompt adapter.
+        """Initialize prompt adapter.
 
         Args:
             server_name: Server providing this prompt
@@ -50,10 +49,9 @@ class McpPromptAdapter:
 
     async def get_content(
         self,
-        arguments: Optional[Dict[str, Any]] = None,
+        arguments: Optional[dict[str, Any]] = None,
     ) -> str:
-        """
-        Retrieve prompt content from server.
+        """Retrieve prompt content from server.
 
         Args:
             arguments: Prompt parameters (if parameterized)
@@ -90,9 +88,7 @@ class McpPromptAdapter:
                 elif isinstance(content, dict) and "text" in content:
                     formatted_parts.append(f"[{role}]: {content['text']}")
                 else:
-                    formatted_parts.append(
-                        f"[{role}]: {content}"
-                    )  # Fallback
+                    formatted_parts.append(f"[{role}]: {content}")  # Fallback
 
             result = "\n\n".join(formatted_parts)
             logger.debug(f"Prompt content length: {len(result)} chars")
@@ -103,9 +99,8 @@ class McpPromptAdapter:
             logger.error(f"{self.name}: {error_msg}")
             return f"Error: {error_msg}"
 
-    def to_dict(self) -> Dict[str, Any]:
-        """
-        Convert adapter to dictionary representation.
+    def to_dict(self) -> dict[str, Any]:
+        """Convert adapter to dictionary representation.
 
         Returns:
             Prompt metadata dict
@@ -125,9 +120,8 @@ class McpPromptAdapter:
         server_name: str,
         client: McpProtocolClient,
         prompt_discovery: PromptDiscovery,
-    ) -> List["McpPromptAdapter"]:
-        """
-        Create adapters for all prompts on a server.
+    ) -> list["McpPromptAdapter"]:
+        """Create adapters for all prompts on a server.
 
         Args:
             server_name: Server name
@@ -147,13 +141,9 @@ class McpPromptAdapter:
                 for prompt_descriptor in prompts
             ]
 
-            logger.info(
-                f"Created {len(adapters)} prompt adapters for {server_name}"
-            )
+            logger.info(f"Created {len(adapters)} prompt adapters for {server_name}")
             return adapters
 
         except Exception as e:
-            logger.error(
-                f"Failed to create prompt adapters for {server_name}: {e}"
-            )
+            logger.error(f"Failed to create prompt adapters for {server_name}: {e}")
             return []

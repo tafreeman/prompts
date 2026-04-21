@@ -1,5 +1,4 @@
-"""
-Model Context Protocol (MCP) Integration Package.
+"""Model Context Protocol (MCP) Integration Package.
 
 This package provides a production-ready Python implementation of an MCP client
 for dynamically loading tools, resources, and prompts from external MCP servers.
@@ -18,10 +17,10 @@ from agentic_v2.integrations.mcp.config import McpConfigLoader
 from agentic_v2.integrations.mcp.types import (
     McpConnectionState,
     McpServerConfig,
+    McpSSEConfig,
     McpStdioConfig,
     McpTransportConfig,
     McpWebSocketConfig,
-    McpSSEConfig,
     TransportType,
 )
 

@@ -68,7 +68,10 @@ def _is_private_ip(hostname: str) -> bool:
 
 
 def _validate_url(url: str) -> str | None:
-    """Validate a URL for SSRF safety. Returns error string or None."""
+    """Validate a URL for SSRF safety.
+
+    Returns error string or None.
+    """
     try:
         parsed = urlparse(url)
     except Exception:
@@ -89,6 +92,7 @@ def _validate_url(url: str) -> str | None:
         return f"Access to metadata endpoint '{hostname}' is blocked."
 
     return None
+
 
 # ---------------------------------------------------------------------------
 # File operations

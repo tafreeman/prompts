@@ -212,6 +212,8 @@ if __name__ == "__main__":
         logger.info(f"Cleared {cleared} cache entries")
     elif args.clear_old:
         cleared = clear_cache(max_age_hours=args.clear_old)
-        logger.info(f"Cleared {cleared} cache entries older than {args.clear_old} hours")
+        logger.info(
+            f"Cleared {cleared} cache entries older than {args.clear_old} hours"
+        )
     else:
         parser.print_help()

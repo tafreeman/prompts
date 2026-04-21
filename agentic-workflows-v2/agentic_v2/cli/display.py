@@ -157,8 +157,7 @@ def _show_results(result, verbose: bool) -> None:
 
 
 def _list_workflows() -> None:
-    """Print a table of available workflows using the LangChain config
-    loader."""
+    """Print a table of available workflows using the LangChain config loader."""
     import typer
 
     try:

@@ -70,7 +70,10 @@ def scan_file_content(path: pathlib.Path) -> list[tuple[str, int, str]]:
         for pattern, desc in SECRET_PATTERNS:
             if re.search(pattern, line):
                 # Skip if it's clearly a placeholder/example
-                if any(w in line.lower() for w in ["example", "placeholder", "xxx", "your_", "TODO"]):
+                if any(
+                    w in line.lower()
+                    for w in ["example", "placeholder", "xxx", "your_", "TODO"]
+                ):
                     continue
                 findings.append((desc, line_num, line.strip()[:80]))
 

@@ -296,8 +296,7 @@ def _build_judge_criteria(
     weights: dict[str, float],
     criteria_by_name: dict[str, WorkflowCriterion],
 ) -> list[JudgeCriterionDefinition]:
-    """Build LLM Judge criterion definitions from workflow criteria and
-    weights.
+    """Build LLM Judge criterion definitions from workflow criteria and weights.
 
     If the workflow defines criteria with definitions and scale anchors,
     those are used.  Otherwise, generic definitions are generated from

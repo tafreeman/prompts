@@ -456,8 +456,7 @@ def probe_claude(model: str, log: LogFn = None) -> ProbeResult:
 def probe_openai_compatible_endpoint(
     base_url: str, model: str, provider: str
 ) -> ProbeResult:
-    """Shared probe for any OpenAI-compatible server (LM Studio, LocalAI,
-    etc.).
+    """Shared probe for any OpenAI-compatible server (LM Studio, LocalAI, etc.).
 
     Hits GET /v1/models to list available models.
     """

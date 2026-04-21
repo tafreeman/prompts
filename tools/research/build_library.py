@@ -21,6 +21,7 @@ import json
 import shutil
 from collections import Counter
 from pathlib import Path
+from urllib.parse import urlparse
 
 from tools.research.library_helpers import (
     APPROVED_DOMAINS,
@@ -51,7 +52,6 @@ from tools.research.library_helpers import (
     _relative,
     _sha256,
 )
-from urllib.parse import urlparse
 
 
 def build_library(root: Path, max_copy_mb: int = 20) -> dict:

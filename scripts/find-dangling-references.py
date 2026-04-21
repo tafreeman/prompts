@@ -12,7 +12,14 @@ import re
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-SKIP_DIRS = {"node_modules", ".venv", "__pycache__", ".git", "storybook-static", ".venv314"}
+SKIP_DIRS = {
+    "node_modules",
+    ".venv",
+    "__pycache__",
+    ".git",
+    "storybook-static",
+    ".venv314",
+}
 
 # Deleted prompt persona names (removed in d921ba0f)
 DELETED_PROMPTS = [
@@ -52,7 +59,18 @@ for name in DELETED_WORKFLOWS:
     PATTERNS.append((name, re.compile(rf"\bdefinitions/{name}\.yaml\b")))
     PATTERNS.append((name, re.compile(rf'\bworkflow:\s*["\']?{name}["\']?\b')))
 
-EXTENSIONS = {".py", ".yaml", ".yml", ".md", ".json", ".ts", ".tsx", ".js", ".jsx", ".toml"}
+EXTENSIONS = {
+    ".py",
+    ".yaml",
+    ".yml",
+    ".md",
+    ".json",
+    ".ts",
+    ".tsx",
+    ".js",
+    ".jsx",
+    ".toml",
+}
 
 
 def should_skip(path: pathlib.Path) -> bool:

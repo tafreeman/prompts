@@ -44,8 +44,7 @@ router = APIRouter(tags=["streaming"])
 
 
 class ConnectionManager:
-    """Pub/sub hub for WebSocket connections and SSE listeners, keyed by run
-    ID.
+    """Pub/sub hub for WebSocket connections and SSE listeners, keyed by run ID.
 
     Maintains three per-run data structures:
 
@@ -118,8 +117,7 @@ class ConnectionManager:
                 break
 
     async def broadcast(self, run_id: str, message: dict[str, Any]):
-        """Broadcast an event to all WebSocket clients and SSE listeners for a
-        run.
+        """Broadcast an event to all WebSocket clients and SSE listeners for a run.
 
         The event is first appended to the run's replay buffer (evicting
         the oldest entry if the buffer exceeds ``_max_buffer_size``), then

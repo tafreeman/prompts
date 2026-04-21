@@ -112,9 +112,7 @@ class SecretDetector:
                             severity=Severity.LOW,
                             location=f"text[{start}:{end}]",
                             matched_pattern="high_entropy",
-                            redacted_preview=self._build_preview(
-                                text, start, end
-                            ),
+                            redacted_preview=self._build_preview(text, start, end),
                         )
                     )
 
@@ -134,15 +132,9 @@ class SecretDetector:
         counts = Counter(data)
         length = len(data)
         return -sum(
-            (count / length) * math.log2(count / length)
-            for count in counts.values()
+            (count / length) * math.log2(count / length) for count in counts.values()
         )
 
     @staticmethod
-    def _overlaps_any(
-        start: int, end: int, ranges: list[tuple[int, int]]
-    ) -> bool:
-        return any(
-            not (end <= r_start or start >= r_end)
-            for r_start, r_end in ranges
-        )
+    def _overlaps_any(start: int, end: int, ranges: list[tuple[int, int]]) -> bool:
+        return any(not (end <= r_start or start >= r_end) for r_start, r_end in ranges)

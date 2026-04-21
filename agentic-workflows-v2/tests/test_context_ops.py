@@ -2,21 +2,18 @@
 
 Covers _estimate_tokens, TokenEstimateTool, and ContextTrimTool.
 
-Test tiers (per ADR-008):
-  Tier 1 — error paths, branching, boundary conditions
-  Tier 2 — happy-path contracts
+Test tiers (per ADR-008):   Tier 1 — error paths, branching, boundary
+conditions   Tier 2 — happy-path contracts
 """
 
 from __future__ import annotations
 
 import pytest
-
 from agentic_v2.tools.builtin.context_ops import (
     ContextTrimTool,
     TokenEstimateTool,
     _estimate_tokens,
 )
-
 
 # ===================================================================
 # _estimate_tokens — unit tests
@@ -107,7 +104,9 @@ class TestContextTrimToolTrims:
         """Tier 2: long text is trimmed; head + marker + tail returned."""
         tool = ContextTrimTool()
         text = "A" * 2000  # well over max_tokens=50 (200 chars)
-        result = await tool.execute(text=text, max_tokens=50, head_tokens=10, tail_tokens=10)
+        result = await tool.execute(
+            text=text, max_tokens=50, head_tokens=10, tail_tokens=10
+        )
         assert result.success is True
         data = result.data
         assert data["trimmed"] is True
@@ -157,7 +156,10 @@ class TestContextTrimToolErrors:
         [
             ({"text": "x", "max_tokens": 0}, "max_tokens must be > 0"),
             ({"text": "x", "max_tokens": -5}, "max_tokens must be > 0"),
-            ({"text": "x", "max_tokens": 10, "head_tokens": -1}, "head_tokens must be >= 0"),
+            (
+                {"text": "x", "max_tokens": 10, "head_tokens": -1},
+                "head_tokens must be >= 0",
+            ),
             (
                 {"text": "x", "max_tokens": 10, "tail_tokens": -1},
                 "tail_tokens must be >= 0",

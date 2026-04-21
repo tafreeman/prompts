@@ -1,5 +1,4 @@
-"""
-MCP Configuration Loader.
+"""MCP Configuration Loader.
 
 Loads MCP server configurations from:
 1. Project-local: .mcp.json (workspace root)
@@ -33,11 +32,10 @@ VAR_EXPANSION_PATTERN = re.compile(
 
 def expand_variables(
     value: str,
-    env_vars: Optional[Dict[str, str]] = None,
-    input_values: Optional[Dict[str, str]] = None,
+    env_vars: Optional[dict[str, str]] = None,
+    input_values: Optional[dict[str, str]] = None,
 ) -> str:
-    """
-    Expand ${VAR_NAME}, ${env:VAR_NAME}, and ${input:VAR_NAME} in strings.
+    """Expand ${VAR_NAME}, ${env:VAR_NAME}, and ${input:VAR_NAME} in strings.
 
     Args:
         value: String with potential variables
@@ -81,12 +79,11 @@ def expand_variables(
 
 
 def expand_dict_variables(
-    data: Dict[str, Any],
-    env_vars: Optional[Dict[str, str]] = None,
-    input_values: Optional[Dict[str, str]] = None,
-) -> Dict[str, Any]:
-    """
-    Recursively expand variables in a dictionary.
+    data: dict[str, Any],
+    env_vars: Optional[dict[str, str]] = None,
+    input_values: Optional[dict[str, str]] = None,
+) -> dict[str, Any]:
+    """Recursively expand variables in a dictionary.
 
     Args:
         data: Dictionary to process
@@ -105,9 +102,11 @@ def expand_dict_variables(
             result[key] = expand_dict_variables(value, env_vars, input_values)
         elif isinstance(value, list):
             result[key] = [
-                expand_variables(item, env_vars, input_values)
-                if isinstance(item, str)
-                else item
+                (
+                    expand_variables(item, env_vars, input_values)
+                    if isinstance(item, str)
+                    else item
+                )
                 for item in value
             ]
         else:
@@ -118,12 +117,11 @@ def expand_dict_variables(
 
 def parse_server_config(
     server_name: str,
-    server_data: Dict[str, Any],
-    env_vars: Optional[Dict[str, str]] = None,
-    input_values: Optional[Dict[str, str]] = None,
+    server_data: dict[str, Any],
+    env_vars: Optional[dict[str, str]] = None,
+    input_values: Optional[dict[str, str]] = None,
 ) -> Optional[McpServerConfig]:
-    """
-    Parse a single server configuration from VS Code MCP format.
+    """Parse a single server configuration from VS Code MCP format.
 
     Args:
         server_name: Name/ID of the server
@@ -210,11 +208,10 @@ def parse_server_config(
 
 def load_config_file(
     file_path: str,
-    env_vars: Optional[Dict[str, str]] = None,
-    input_values: Optional[Dict[str, str]] = None,
-) -> List[McpServerConfig]:
-    """
-    Load MCP configuration from a JSON file.
+    env_vars: Optional[dict[str, str]] = None,
+    input_values: Optional[dict[str, str]] = None,
+) -> list[McpServerConfig]:
+    """Load MCP configuration from a JSON file.
 
     Args:
         file_path: Path to .mcp.json file
@@ -229,7 +226,7 @@ def load_config_file(
         return []
 
     try:
-        with open(file_path, "r", encoding="utf-8") as f:
+        with open(file_path, encoding="utf-8") as f:
             data = json.load(f)
 
         servers_data = data.get("servers", {})
@@ -245,9 +242,7 @@ def load_config_file(
             if config:
                 configs.append(config)
 
-        logger.info(
-            f"Loaded {len(configs)} server configs from {file_path}"
-        )
+        logger.info(f"Loaded {len(configs)} server configs from {file_path}")
         return configs
 
     except json.JSONDecodeError as e:
@@ -261,11 +256,10 @@ def load_config_file(
 def load_all_configs(
     workspace_root: Optional[str] = None,
     user_home: Optional[str] = None,
-    env_vars: Optional[Dict[str, str]] = None,
-    input_values: Optional[Dict[str, str]] = None,
-) -> List[McpServerConfig]:
-    """
-    Load MCP configurations from all standard locations.
+    env_vars: Optional[dict[str, str]] = None,
+    input_values: Optional[dict[str, str]] = None,
+) -> list[McpServerConfig]:
+    """Load MCP configurations from all standard locations.
 
     Priority order:
     1. Project-local: <workspace>/.mcp.json
@@ -292,9 +286,7 @@ def load_all_configs(
 
     # Load project-local config (higher priority)
     project_config_path = os.path.join(workspace_root, ".mcp.json")
-    project_configs = load_config_file(
-        project_config_path, env_vars, input_values
-    )
+    project_configs = load_config_file(project_config_path, env_vars, input_values)
     all_configs.extend(project_configs)
 
     # Deduplicate by name (project configs override user configs)
@@ -309,10 +301,9 @@ def load_all_configs(
 
 
 def deduplicate_configs(
-    configs: List[McpServerConfig],
-) -> List[McpServerConfig]:
-    """
-    Deduplicate server configurations by name.
+    configs: list[McpServerConfig],
+) -> list[McpServerConfig]:
+    """Deduplicate server configurations by name.
 
     Later configs (project-local) override earlier ones (user-global).
 
@@ -322,7 +313,7 @@ def deduplicate_configs(
     Returns:
         Deduplicated list (preserves last occurrence of each name)
     """
-    seen: Dict[str, McpServerConfig] = {}
+    seen: dict[str, McpServerConfig] = {}
 
     for config in configs:
         seen[config.name] = config
@@ -331,10 +322,9 @@ def deduplicate_configs(
 
 
 def filter_enabled_configs(
-    configs: List[McpServerConfig],
-) -> List[McpServerConfig]:
-    """
-    Filter to only enabled server configurations.
+    configs: list[McpServerConfig],
+) -> list[McpServerConfig]:
+    """Filter to only enabled server configurations.
 
     Args:
         configs: List of server configurations
@@ -350,10 +340,9 @@ def filter_enabled_configs(
 
 
 def get_server_signatures(
-    configs: List[McpServerConfig],
-) -> Dict[str, str]:
-    """
-    Generate unique signatures for each server config.
+    configs: list[McpServerConfig],
+) -> dict[str, str]:
+    """Generate unique signatures for each server config.
 
     Used by McpConnectionManager for deduplication.
 
@@ -382,8 +371,7 @@ def get_server_signatures(
 
 
 class McpConfigLoader:
-    """
-    High-level configuration loader with caching and validation.
+    """High-level configuration loader with caching and validation.
 
     Example:
         loader = McpConfigLoader(workspace_root="/path/to/project")
@@ -395,11 +383,10 @@ class McpConfigLoader:
         self,
         workspace_root: Optional[str] = None,
         user_home: Optional[str] = None,
-        env_vars: Optional[Dict[str, str]] = None,
-        input_values: Optional[Dict[str, str]] = None,
+        env_vars: Optional[dict[str, str]] = None,
+        input_values: Optional[dict[str, str]] = None,
     ) -> None:
-        """
-        Initialize config loader.
+        """Initialize config loader.
 
         Args:
             workspace_root: Project workspace root
@@ -411,11 +398,10 @@ class McpConfigLoader:
         self.user_home = user_home or str(Path.home())
         self.env_vars = env_vars or dict(os.environ)
         self.input_values = input_values or {}
-        self._cached_configs: Optional[List[McpServerConfig]] = None
+        self._cached_configs: Optional[list[McpServerConfig]] = None
 
-    def load(self, force_reload: bool = False) -> List[McpServerConfig]:
-        """
-        Load all configurations (with caching).
+    def load(self, force_reload: bool = False) -> list[McpServerConfig]:
+        """Load all configurations (with caching).
 
         Args:
             force_reload: Force reload from disk (ignore cache)
@@ -434,9 +420,8 @@ class McpConfigLoader:
         )
         return self._cached_configs
 
-    def get_enabled(self, force_reload: bool = False) -> List[McpServerConfig]:
-        """
-        Get only enabled server configurations.
+    def get_enabled(self, force_reload: bool = False) -> list[McpServerConfig]:
+        """Get only enabled server configurations.
 
         Args:
             force_reload: Force reload from disk
@@ -448,8 +433,7 @@ class McpConfigLoader:
         return filter_enabled_configs(all_configs)
 
     def get_by_name(self, name: str) -> Optional[McpServerConfig]:
-        """
-        Get a specific server configuration by name.
+        """Get a specific server configuration by name.
 
         Args:
             name: Server name

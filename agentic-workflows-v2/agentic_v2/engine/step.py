@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+import logging
 import re
 from dataclasses import dataclass, field
 from enum import Enum
@@ -14,6 +15,8 @@ if TYPE_CHECKING:
 from ..contracts import ReviewStatus, StepResult, StepStatus
 from ..models import ModelTier
 from .context import ExecutionContext
+
+logger = logging.getLogger(__name__)
 
 T = TypeVar("T")
 
@@ -41,8 +44,7 @@ class RetryConfig:
     no_retry_on: tuple[type[Exception], ...] = ()
 
     def get_delay(self, attempt: int) -> float:
-        """Calculate backoff delay for attempt (1-indexed, with jitter).
-        """
+        """Calculate backoff delay for attempt (1-indexed, with jitter)."""
         import random
 
         if self.strategy == RetryStrategy.NONE:
@@ -78,8 +80,7 @@ ConditionFunction = Callable[[ExecutionContext], bool]
 
 @dataclass
 class StepDefinition:
-    """Declarative step definition for workflow DAGs with fluent builder
-    API."""
+    """Declarative step definition for workflow DAGs with fluent builder API."""
 
     name: str
     description: str = ""
@@ -127,7 +128,8 @@ class StepDefinition:
     metadata: dict[str, Any] = field(default_factory=dict)
 
     def should_run(self, ctx: ExecutionContext) -> bool:
-        """Check if step is eligible to run (dependencies met, when/unless satisfied)."""
+        """Check if step is eligible to run (dependencies met, when/unless
+        satisfied)."""
         # Check dependencies
         for dep in self.depends_on:
             if not ctx.is_step_complete(dep):
@@ -362,7 +364,11 @@ class StepExecutor:
 
                 # Run verification gate if configured
                 if step_def.verify is not None and step_def.verify.enabled:
-                    from .verification import VerificationGate, VerificationStatus as VStatus
+                    from .verification import (
+                        VerificationGate,
+                    )
+                    from .verification import VerificationStatus as VStatus
+
                     gate = VerificationGate()
                     v_status, failing = await gate.run_checks(
                         step_def.verify.verification_commands,

@@ -1,4 +1,5 @@
-"""Tests for agent_resolver -- agent name resolution, tier inference, and step function generation.
+"""Tests for agent_resolver -- agent name resolution, tier inference, and step function
+generation.
 
 Covers:
 - Tier inference from agent name prefixes
@@ -19,7 +20,6 @@ from typing import Any
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
-
 from agentic_v2.engine.agent_resolver import (
     TIER0_REGISTRY,
     _infer_tier,
@@ -31,7 +31,6 @@ from agentic_v2.engine.agent_resolver import (
 from agentic_v2.engine.context import ExecutionContext
 from agentic_v2.engine.step import StepDefinition
 from agentic_v2.models.router import ModelTier
-
 
 # ---------------------------------------------------------------------------
 # Fixtures
@@ -146,9 +145,7 @@ class TestParseCodeStep:
     async def test_parse_valid_python_file(self, tmp_path, make_context):
         """Should extract functions, classes, and imports from a Python file."""
         source = tmp_path / "example.py"
-        source.write_text(
-            "import os\n\nclass Foo:\n    pass\n\ndef bar():\n    pass\n"
-        )
+        source.write_text("import os\n\nclass Foo:\n    pass\n\ndef bar():\n    pass\n")
         ctx = make_context(file_path=str(source))
         result = await _parse_code_step(ctx)
 
@@ -216,7 +213,9 @@ class TestNoopStep:
 class TestMakeLlmStep:
     """Tests for the LLM step factory function."""
 
-    @patch("agentic_v2.engine.agent_resolver.load_agent_system_prompt", return_value=None)
+    @patch(
+        "agentic_v2.engine.agent_resolver.load_agent_system_prompt", return_value=None
+    )
     def test_returns_callable(self, mock_prompt):
         """_make_llm_step returns an async callable."""
         step_fn = _make_llm_step(
@@ -226,7 +225,9 @@ class TestMakeLlmStep:
         )
         assert callable(step_fn)
 
-    @patch("agentic_v2.engine.agent_resolver.load_agent_system_prompt", return_value=None)
+    @patch(
+        "agentic_v2.engine.agent_resolver.load_agent_system_prompt", return_value=None
+    )
     def test_qualname_contains_agent_name(self, mock_prompt):
         """The generated function's qualname identifies the agent."""
         step_fn = _make_llm_step(
@@ -236,9 +237,16 @@ class TestMakeLlmStep:
         )
         assert "tier3_architect" in step_fn.__qualname__
 
-    @patch("agentic_v2.engine.agent_resolver.load_agent_system_prompt", return_value=None)
-    @patch("agentic_v2.engine.agent_resolver.build_tool_contracts", return_value=([], {}))
-    @patch("agentic_v2.engine.agent_resolver.build_system_prompt", return_value="test prompt")
+    @patch(
+        "agentic_v2.engine.agent_resolver.load_agent_system_prompt", return_value=None
+    )
+    @patch(
+        "agentic_v2.engine.agent_resolver.build_tool_contracts", return_value=([], {})
+    )
+    @patch(
+        "agentic_v2.engine.agent_resolver.build_system_prompt",
+        return_value="test prompt",
+    )
     async def test_llm_unavailable_returns_placeholder(
         self, mock_build, mock_tools, mock_prompt
     ):
@@ -254,16 +262,27 @@ class TestMakeLlmStep:
         assert result["status"] == "llm_unavailable"
         assert result["agent"] == "tier2_coder"
 
-    @patch("agentic_v2.engine.agent_resolver.load_agent_system_prompt", return_value="You are a coder.")
-    @patch("agentic_v2.engine.agent_resolver.build_tool_contracts", return_value=([], {}))
-    @patch("agentic_v2.engine.agent_resolver.build_system_prompt", return_value="test prompt")
+    @patch(
+        "agentic_v2.engine.agent_resolver.load_agent_system_prompt",
+        return_value="You are a coder.",
+    )
+    @patch(
+        "agentic_v2.engine.agent_resolver.build_tool_contracts", return_value=([], {})
+    )
+    @patch(
+        "agentic_v2.engine.agent_resolver.build_system_prompt",
+        return_value="test prompt",
+    )
     @patch("agentic_v2.engine.agent_resolver.complete_chat_with_fallback")
     async def test_successful_llm_call_parses_output(
         self, mock_chat, mock_build, mock_tools, mock_prompt
     ):
         """When LLM responds, result is parsed and includes _meta."""
         mock_chat.return_value = (
-            {"content": '<<<ARTIFACT review>>>\n{"status": "ok"}\n<<<ENDARTIFACT>>>', "tool_calls": None},
+            {
+                "content": '<<<ARTIFACT review>>>\n{"status": "ok"}\n<<<ENDARTIFACT>>>',
+                "tool_calls": None,
+            },
             "gpt-4o-mini",
             150,
         )
@@ -279,7 +298,9 @@ class TestMakeLlmStep:
         # The closure does `from ..models.client import get_client` at call time
         mock_client_module = MagicMock()
         mock_client_module.get_client.return_value = MagicMock()
-        with patch.dict("sys.modules", {"agentic_v2.models.client": mock_client_module}):
+        with patch.dict(
+            "sys.modules", {"agentic_v2.models.client": mock_client_module}
+        ):
             ctx = ExecutionContext()
             result = await step_fn(ctx)
 
@@ -310,7 +331,9 @@ class TestResolveAgent:
         assert resolved.func is TIER0_REGISTRY["tier0_parser"]
         assert resolved.tier == ModelTier.TIER_0
 
-    @patch("agentic_v2.engine.agent_resolver.load_agent_system_prompt", return_value=None)
+    @patch(
+        "agentic_v2.engine.agent_resolver.load_agent_system_prompt", return_value=None
+    )
     def test_tier2_agent_generates_llm_step(self, mock_prompt, make_step):
         """Tier-2 agent generates an LLM-backed step function."""
         step = make_step(agent="tier2_coder", output_mapping={"code": "result_code"})
@@ -325,14 +348,18 @@ class TestResolveAgent:
         with pytest.raises(ValueError, match="has no agent and no func"):
             resolve_agent(step)
 
-    @patch("agentic_v2.engine.agent_resolver.load_agent_system_prompt", return_value=None)
+    @patch(
+        "agentic_v2.engine.agent_resolver.load_agent_system_prompt", return_value=None
+    )
     def test_tier_is_set_on_step(self, mock_prompt, make_step):
         """resolve_agent sets the tier field on the step definition."""
         step = make_step(agent="tier3_architect")
         resolve_agent(step)
         assert step.tier == ModelTier.TIER_3
 
-    @patch("agentic_v2.engine.agent_resolver.load_agent_system_prompt", return_value=None)
+    @patch(
+        "agentic_v2.engine.agent_resolver.load_agent_system_prompt", return_value=None
+    )
     def test_unknown_tier0_agent_falls_to_llm(self, mock_prompt, make_step):
         """A tier0_ agent not in TIER0_REGISTRY still generates an LLM step."""
         step = make_step(agent="tier0_unknown_agent")
@@ -342,7 +369,9 @@ class TestResolveAgent:
         assert resolved.tier == ModelTier.TIER_0
         assert resolved.func is not TIER0_REGISTRY.get("tier0_unknown_agent")
 
-    @patch("agentic_v2.engine.agent_resolver.load_agent_system_prompt", return_value=None)
+    @patch(
+        "agentic_v2.engine.agent_resolver.load_agent_system_prompt", return_value=None
+    )
     def test_prompt_file_override_passed_through(self, mock_prompt, make_step):
         """prompt_file metadata is forwarded to _make_llm_step."""
         step = make_step(
@@ -353,9 +382,11 @@ class TestResolveAgent:
         # The load_agent_system_prompt should have been called with the override
         mock_prompt.assert_called_once_with("tier2_coder", "custom_coder.md")
 
-    @patch("agentic_v2.engine.agent_resolver.load_agent_system_prompt", return_value=None)
+    @patch(
+        "agentic_v2.engine.agent_resolver.load_agent_system_prompt", return_value=None
+    )
     def test_tools_metadata_passed_through(self, mock_prompt, make_step):
-        """tools metadata is forwarded to _make_llm_step."""
+        """Tools metadata is forwarded to _make_llm_step."""
         step = make_step(
             agent="tier2_coder",
             metadata={"agent": "tier2_coder", "tools": ["file_read", "file_write"]},
@@ -375,8 +406,8 @@ class TestBackwardCompatAliases:
     def test_sentinel_instructions_alias(self):
         """_SENTINEL_OUTPUT_INSTRUCTIONS alias matches canonical constant."""
         from agentic_v2.engine.agent_resolver import (
-            SENTINEL_OUTPUT_INSTRUCTIONS,
             _SENTINEL_OUTPUT_INSTRUCTIONS,
+            SENTINEL_OUTPUT_INSTRUCTIONS,
         )
 
         assert _SENTINEL_OUTPUT_INSTRUCTIONS is SENTINEL_OUTPUT_INSTRUCTIONS
@@ -384,8 +415,8 @@ class TestBackwardCompatAliases:
     def test_max_tool_rounds_alias(self):
         """_MAX_TOOL_ROUNDS alias matches canonical constant."""
         from agentic_v2.engine.agent_resolver import (
-            MAX_TOOL_ROUNDS,
             _MAX_TOOL_ROUNDS,
+            MAX_TOOL_ROUNDS,
         )
 
         assert _MAX_TOOL_ROUNDS == MAX_TOOL_ROUNDS

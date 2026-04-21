@@ -209,8 +209,7 @@ class TestTestGenerationInput:
         assert "main.py" in inp.files
 
     def test_empty_code_and_files_allowed(self):
-        """Test that empty code and files is allowed (agent handles
-        validation)."""
+        """Test that empty code and files is allowed (agent handles validation)."""
         # Pydantic allows this - agent logic handles the validation during execution
         inp = TestGenerationInput(code="", files={}, language="python")
         assert inp.code == ""

@@ -14,8 +14,8 @@ from typing import Any, AsyncIterator
 from unittest.mock import patch
 
 import pytest
-
 from agentic_v2.models.backends import (
+    PREFIX_MAP,
     AnthropicBackend,
     GeminiBackend,
     GitHubModelsBackend,
@@ -23,7 +23,6 @@ from agentic_v2.models.backends import (
     MultiBackend,
     OllamaBackend,
     OpenAIBackend,
-    PREFIX_MAP,
     auto_configure_backend,
     get_backend,
 )
@@ -76,9 +75,7 @@ class StubBackend(LLMBackend):
         tools: list[dict[str, Any]] | None = None,
         **kwargs: Any,
     ) -> dict[str, Any]:
-        self.chat_calls.append(
-            {"model": model, "messages": messages, "tools": tools}
-        )
+        self.chat_calls.append({"model": model, "messages": messages, "tools": tools})
         return {"content": f"{self.name}_chat:{model}", "tool_calls": None}
 
     async def complete_stream(
@@ -92,7 +89,8 @@ class StubBackend(LLMBackend):
 
 
 class StubBackendNoClose(LLMBackend):
-    """Backend without a close method -- tests the hasattr guard in MultiBackend.close."""
+    """Backend without a close method -- tests the hasattr guard in
+    MultiBackend.close."""
 
     async def complete(
         self,
@@ -142,9 +140,7 @@ class TestPrefixMap:
             ("ollama:", "ollama"),
         ],
     )
-    def test_prefix_maps_to_correct_provider(
-        self, prefix: str, provider: str
-    ) -> None:
+    def test_prefix_maps_to_correct_provider(self, prefix: str, provider: str) -> None:
         assert PREFIX_MAP[prefix] == provider
 
 
@@ -178,9 +174,7 @@ class TestMultiBackendRouting:
     def test_bare_model_name_falls_back_to_openai(self) -> None:
         """Models without a prefix (e.g. 'gpt-4o') default to OpenAI."""
         openai = StubBackend("openai")
-        multi = MultiBackend(
-            backends={"openai": openai, "github": StubBackend("gh")}
-        )
+        multi = MultiBackend(backends={"openai": openai, "github": StubBackend("gh")})
         assert multi._get_backend("gpt-4o") is openai
 
     def test_raises_when_matched_provider_not_configured(self) -> None:
@@ -463,9 +457,12 @@ class TestAutoConfigureBackend:
     ) -> None:
         """If a backend constructor raises ValueError, it is silently skipped."""
         monkeypatch.setenv("OPENAI_API_KEY", "present-but-broken")
-        with patch.dict(sys.modules, {"dotenv": None}), patch(
-            "agentic_v2.models.backends.OpenAIBackend",
-            side_effect=ValueError("boom"),
+        with (
+            patch.dict(sys.modules, {"dotenv": None}),
+            patch(
+                "agentic_v2.models.backends.OpenAIBackend",
+                side_effect=ValueError("boom"),
+            ),
         ):
             result = auto_configure_backend()
         assert "openai" not in result.backends

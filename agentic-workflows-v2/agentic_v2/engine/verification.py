@@ -268,11 +268,13 @@ class VerificationLoop:
 
         # --- Build final result ---------------------------------------
         total_duration = time.monotonic() - loop_start
-        final_status = status if status == VerificationStatus.PASSED else VerificationStatus.MAX_RETRIES_EXCEEDED
-
-        escalated, escalation_reason = self._resolve_escalation(
-            final_status, failing
+        final_status = (
+            status
+            if status == VerificationStatus.PASSED
+            else VerificationStatus.MAX_RETRIES_EXCEEDED
         )
+
+        escalated, escalation_reason = self._resolve_escalation(final_status, failing)
 
         if final_status != VerificationStatus.PASSED:
             self._logger.warning(
@@ -333,7 +335,9 @@ class VerificationLoop:
             return True, reason
 
         # Unknown strategy — treat as report
-        self._logger.warning("Unknown escalation strategy %r — defaulting to report", strategy)
+        self._logger.warning(
+            "Unknown escalation strategy %r — defaulting to report", strategy
+        )
         return False, ""
 
 

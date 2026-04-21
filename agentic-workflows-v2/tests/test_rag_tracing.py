@@ -84,8 +84,7 @@ class TestRAGTracerEvents:
         assert event.data["latency_ms"] == pytest.approx(12.3)
 
     def test_emit_search(self, tracer: RAGTracer, collector: CollectingAdapter) -> None:
-        """emit_search creates a rag.search event with result count and
-        latency."""
+        """emit_search creates a rag.search event with result count and latency."""
         tracer.emit_search(result_count=3, latency_ms=45.6)
         assert len(collector.events) == 1
         event = collector.events[0]
@@ -151,8 +150,7 @@ class TestRAGTracerContextManager:
     def test_context_manager_emits_start_and_complete(
         self, tracer: RAGTracer, collector: CollectingAdapter
     ) -> None:
-        """Context manager emits query_start on entry and query_complete on
-        exit."""
+        """Context manager emits query_start on entry and query_complete on exit."""
         with tracer.query_span(query="test query") as result_count:
             result_count[0] = 3
 
@@ -194,8 +192,7 @@ class TestRAGTracerContextManager:
     def test_ingest_span_emits_start_and_complete(
         self, tracer: RAGTracer, collector: CollectingAdapter
     ) -> None:
-        """ingest_span emits ingest_start on entry and ingest_complete on
-        exit."""
+        """ingest_span emits ingest_start on entry and ingest_complete on exit."""
         with tracer.ingest_span(source="/path/to/file.md") as chunk_count:
             chunk_count[0] = 5
 

@@ -60,8 +60,7 @@ logger = logging.getLogger(__name__)
 
 
 def _resolve_project_root() -> Path:
-    """Locate the project root by searching parent directories for
-    ``pyproject.toml``.
+    """Locate the project root by searching parent directories for ``pyproject.toml``.
 
     Returns:
         Path to the project root directory.
@@ -253,8 +252,8 @@ def list_local_datasets() -> list[dict[str, Any]]:
 
 
 def list_eval_sets() -> list[dict[str, Any]]:
-    """Return predefined evaluation sets from the ``evaluation.eval_sets``
-    config section.
+    """Return predefined evaluation sets from the ``evaluation.eval_sets`` config
+    section.
 
     Returns:
         Sorted list of eval set dicts with ``id``, ``name``,
@@ -308,8 +307,7 @@ def _is_under_allowed_root(path: Path) -> bool:
 
 
 def _resolve_local_dataset(dataset_ref: str) -> Path:
-    """Resolve a local dataset reference to a JSON file path under an allowed
-    root.
+    """Resolve a local dataset reference to a JSON file path under an allowed root.
 
     Args:
         dataset_ref: Dataset ID string matching a known local dataset.

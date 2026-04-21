@@ -58,8 +58,8 @@ COMMON_ENV_KEYS = {
 
 
 def detect_env_keys() -> dict[str, dict[str, bool]]:
-    """Return a mapping of provider -> {env_var: is_set} for common keys (never
-    exposes values)."""
+    """Return a mapping of provider -> {env_var: is_set} for common keys (never exposes
+    values)."""
     found: dict[str, dict[str, bool]] = {}
     for provider, keys in COMMON_ENV_KEYS.items():
         provider_map: dict[str, bool] = {}

@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from agentic_v2.contracts.sanitization import FindingCategory, Severity
 from agentic_v2.middleware.detectors.secrets import SecretDetector
 from tests.fixtures.secrets_corpus import NEGATIVE_SECRETS, POSITIVE_SECRETS
@@ -23,7 +22,9 @@ class TestSecretDetectorPositives:
         self, detector: SecretDetector, secret_text: str, expected_pattern: str
     ) -> None:
         findings = await detector.scan(secret_text)
-        assert len(findings) >= 1, f"Expected detection for pattern '{expected_pattern}'"
+        assert (
+            len(findings) >= 1
+        ), f"Expected detection for pattern '{expected_pattern}'"
         pattern_names = [f.matched_pattern for f in findings]
         assert expected_pattern in pattern_names
 
@@ -46,7 +47,9 @@ class TestSecretDetectorRedaction:
     """Verify preview never leaks the actual secret."""
 
     @pytest.mark.asyncio
-    async def test_preview_contains_redacted_marker(self, detector: SecretDetector) -> None:
+    async def test_preview_contains_redacted_marker(
+        self, detector: SecretDetector
+    ) -> None:
         # Split literal to avoid tripping upstream secret scanners on this test
         # fixture. This is a synthetic value; the detector still matches it.
         fake_stripe_key = "sk_" + "live_" + "ABCDEFGHIJKLMNOP1234567890"

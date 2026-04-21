@@ -10,7 +10,6 @@ from datetime import datetime, timedelta, timezone
 from unittest.mock import patch
 
 import pytest
-
 from agentic_v2.contracts import StepResult, StepStatus, WorkflowResult
 from agentic_v2.server.evaluation_scoring import (
     CriterionFloorResult,
@@ -425,7 +424,9 @@ class TestPassThreshold:
     def test_returns_default_on_invalid_value(self) -> None:
         with patch(
             "agentic_v2.server.evaluation_scoring._load_eval_config",
-            return_value={"evaluation": {"scoring": {"pass_threshold": "not-a-number"}}},
+            return_value={
+                "evaluation": {"scoring": {"pass_threshold": "not-a-number"}}
+            },
         ):
             assert pass_threshold() == 70.0
 
@@ -657,9 +658,7 @@ class TestHardGateResultExtended:
             "dataset_workflow_compatible",
         ],
     )
-    def test_single_field_false_causes_all_passed_false(
-        self, field_name: str
-    ) -> None:
+    def test_single_field_false_causes_all_passed_false(self, field_name: str) -> None:
         kwargs = {
             "required_outputs_present": True,
             "overall_status_success": True,

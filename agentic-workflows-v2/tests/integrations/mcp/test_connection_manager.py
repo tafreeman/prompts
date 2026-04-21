@@ -1,5 +1,4 @@
-"""
-Tests for MCP connection manager.
+"""Tests for MCP connection manager.
 
 Validates:
 - Connection lifecycle (connect, disconnect, reconnect)
@@ -13,7 +12,6 @@ import asyncio
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
-
 from agentic_v2.integrations.mcp.protocol.client import McpProtocolClient
 from agentic_v2.integrations.mcp.runtime.backoff import ExponentialBackoff
 from agentic_v2.integrations.mcp.runtime.manager import (
@@ -164,9 +162,7 @@ class TestMcpConnectionManager:
         """Test disconnecting from server."""
         manager = McpConnectionManager()
 
-        with patch(
-            "agentic_v2.integrations.mcp.runtime.manager.StdioTransport"
-        ):
+        with patch("agentic_v2.integrations.mcp.runtime.manager.StdioTransport"):
             with patch(
                 "agentic_v2.integrations.mcp.runtime.manager.McpProtocolClient"
             ) as MockClient:
@@ -200,9 +196,7 @@ class TestMcpConnectionManager:
             stdio=McpStdioConfig(command="cmd2"),
         )
 
-        with patch(
-            "agentic_v2.integrations.mcp.runtime.manager.StdioTransport"
-        ):
+        with patch("agentic_v2.integrations.mcp.runtime.manager.StdioTransport"):
             with patch(
                 "agentic_v2.integrations.mcp.runtime.manager.McpProtocolClient"
             ) as MockClient:

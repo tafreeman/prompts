@@ -63,8 +63,7 @@ async def validate_data(ctx: ExecutionContext) -> dict[str, Any]:
 
 
 async def enrich_data(ctx: ExecutionContext) -> dict[str, Any]:
-    """Enrich data with metadata (depends on fetch_data, parallel with
-    validate)."""
+    """Enrich data with metadata (depends on fetch_data, parallel with validate)."""
     await asyncio.sleep(0.08)
     raw = ctx.get_sync("raw_data")
     records = raw if isinstance(raw, list) else []

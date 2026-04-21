@@ -57,8 +57,7 @@ def _extract_message_text(
     sample: dict[str, Any],
     preferred_roles: tuple[str, ...] = ("user", "system", "assistant"),
 ) -> str | None:
-    """Extract the best text snippet from chat-style ``messages`` in a dataset
-    sample.
+    """Extract the best text snippet from chat-style ``messages`` in a dataset sample.
 
     Iterates through the ``messages`` list and returns the content of the
     first message matching a preferred role.  Falls back to the first
@@ -99,8 +98,7 @@ def _extract_message_text(
 
 
 def _pick_first(sample: dict[str, Any], keys: list[str]) -> Any:
-    """Return the first non-empty value found in the sample for any of the
-    given keys.
+    """Return the first non-empty value found in the sample for any of the given keys.
 
     Searches the top-level sample dict, then ``sample["inputs"]``, then
     ``sample["input"]`` (if they are dicts).
@@ -144,8 +142,8 @@ def _dataset_value_for_input(
     input_def: WorkflowInput,
     dataset_sample: dict[str, Any],
 ) -> Any:
-    """Resolve a single workflow input value from a dataset sample using
-    heuristic field matching.
+    """Resolve a single workflow input value from a dataset sample using heuristic field
+    matching.
 
     Tries exact name match first, then semantic matching based on the
     input name (e.g., ``file`` inputs look for ``code_file``, ``patch``;
@@ -364,8 +362,7 @@ def _materialize_file_input(
     run_id: str,
     artifacts_dir: Path,
 ) -> Any:
-    """Materialize a string value to a file on disk for file-type workflow
-    inputs.
+    """Materialize a string value to a file on disk for file-type workflow inputs.
 
     If the value contains Python code markers (``def``, ``class``, ``import``),
     writes it as a ``.py`` file.  If it looks like a path, resolves it

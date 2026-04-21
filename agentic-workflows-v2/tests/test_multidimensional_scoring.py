@@ -343,8 +343,7 @@ class TestCoalesceBestRound:
         assert best["round"] == "R1"
 
     def test_passing_always_beats_failing_regardless_of_ci(self) -> None:
-        """A passing round with low CI still beats a failing round with high
-        CI."""
+        """A passing round with low CI still beats a failing round with high CI."""
         rounds = [
             self._make(False, 0.99),
             self._make(True, 0.01),

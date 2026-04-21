@@ -1,11 +1,10 @@
 from __future__ import annotations
 
 import yaml
-from fastapi.testclient import TestClient
-
 from agentic_v2.langchain import config as lc_config
 from agentic_v2.server.app import create_app
 from agentic_v2.server.routes import workflows
+from fastapi.testclient import TestClient
 
 
 def _write_workflow(tmp_path, name: str, document: dict) -> None:
@@ -82,7 +81,9 @@ def test_validate_workflow_editor_rejects_invalid_dependency_graph(
     monkeypatch.setattr(
         workflows,
         "_compile_workflow_for_validation",
-        lambda _config: (_ for _ in ()).throw(ValueError("Unknown dependency: missing")),
+        lambda _config: (_ for _ in ()).throw(
+            ValueError("Unknown dependency: missing")
+        ),
     )
 
     client = TestClient(create_app())

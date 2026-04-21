@@ -47,7 +47,9 @@ def evaluate_condition(expr: str | None, state: dict[str, Any]) -> bool:
     try:
         tree = ast.parse(resolved, mode="eval")
         _validate_ast(tree.body)
-        result = eval(compile(tree, "<expr>", "eval"))  # nosec B307 — AST-validated expression
+        result = eval(
+            compile(tree, "<expr>", "eval")
+        )  # nosec B307 — AST-validated expression
         return bool(result)
     except Exception:
         return False

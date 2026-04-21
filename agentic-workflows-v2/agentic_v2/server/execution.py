@@ -149,8 +149,8 @@ async def _run_via_native_adapter(
     workflow_inputs: dict[str, Any],
     on_update: Callable[[dict[str, Any]], Awaitable[None]] | None = None,
 ) -> WorkflowResult:
-    """Execute a workflow through a non-LangChain adapter and return a
-    normalised :class:`WorkflowResult`.
+    """Execute a workflow through a non-LangChain adapter and return a normalised
+    :class:`WorkflowResult`.
 
     Args:
         adapter_name: Registered adapter name (e.g. ``"native"``).
@@ -205,6 +205,7 @@ async def _stream_and_run(
         The completed :class:`WorkflowResult`.
     """
     if adapter_name != "langchain":
+
         async def _broadcast_native_update(event: dict[str, Any]) -> None:
             await websocket.manager.broadcast(run_id, event)
 

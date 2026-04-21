@@ -36,9 +36,9 @@ class TestAdapterConformance:
         registry = get_registry()
         for name in registry.list_adapters():
             engine = registry.get_adapter(name)
-            assert isinstance(engine, ExecutionEngine), (
-                f"Adapter {name!r} does not satisfy ExecutionEngine protocol"
-            )
+            assert isinstance(
+                engine, ExecutionEngine
+            ), f"Adapter {name!r} does not satisfy ExecutionEngine protocol"
 
 
 class TestNativeAdapterExecution:
@@ -101,7 +101,8 @@ class TestNativeAdapterExecution:
 class TestLangChainAdapterExecution:
     """Verify the langchain adapter produces valid WorkflowResult structures.
 
-    These tests require langchain extras and are marked as integration tests.
+    These tests require langchain extras and are marked as integration
+    tests.
     """
 
     @pytest.mark.integration

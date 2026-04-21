@@ -58,8 +58,7 @@ def _normalize(vec: list[float]) -> list[float]:
 
 
 class TestInMemoryVectorStore:
-    """Verify InMemoryVectorStore — cosine similarity vector store for
-    dev/test."""
+    """Verify InMemoryVectorStore — cosine similarity vector store for dev/test."""
 
     def test_satisfies_vector_store_protocol(self):
         """InMemoryVectorStore must be recognized as VectorStoreProtocol."""
@@ -88,8 +87,7 @@ class TestInMemoryVectorStore:
 
     @pytest.mark.asyncio
     async def test_search_returns_ranked_by_cosine_similarity(self):
-        """Search() must return results sorted by descending cosine
-        similarity."""
+        """Search() must return results sorted by descending cosine similarity."""
         from agentic_v2.rag.vectorstore import InMemoryVectorStore
 
         store = InMemoryVectorStore()
@@ -207,8 +205,8 @@ class TestInMemoryVectorStore:
 
     @pytest.mark.asyncio
     async def test_add_mismatched_lengths_raises(self):
-        """Add() should raise ValueError if chunks and embeddings have
-        different lengths."""
+        """Add() should raise ValueError if chunks and embeddings have different
+        lengths."""
         from agentic_v2.rag.vectorstore import InMemoryVectorStore
 
         store = InMemoryVectorStore()

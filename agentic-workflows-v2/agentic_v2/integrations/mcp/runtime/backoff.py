@@ -1,5 +1,4 @@
-"""
-Exponential backoff with jitter for reconnection attempts.
+"""Exponential backoff with jitter for reconnection attempts.
 
 Implements the backoff strategy used when MCP connections fail.
 """
@@ -9,8 +8,7 @@ from typing import Optional
 
 
 class ExponentialBackoff:
-    """
-    Implements exponential backoff with jitter.
+    """Implements exponential backoff with jitter.
 
     Sequence: 1s → 2s → 4s → 8s → 16s → 30s (max)
     Jitter: ±20% randomization to prevent thundering herd
@@ -24,8 +22,7 @@ class ExponentialBackoff:
         jitter: float = 0.2,
         max_attempts: Optional[int] = 5,
     ) -> None:
-        """
-        Initialize backoff strategy.
+        """Initialize backoff strategy.
 
         Args:
             initial_delay: Starting delay in seconds
@@ -44,8 +41,7 @@ class ExponentialBackoff:
         self._current_delay = initial_delay
 
     def next_delay(self) -> Optional[float]:
-        """
-        Calculate next delay value.
+        """Calculate next delay value.
 
         Returns:
             Delay in seconds, or None if max attempts exceeded
@@ -85,4 +81,3 @@ class ExponentialBackoff:
         if self.max_attempts is None:
             return False
         return self._current_attempt >= self.max_attempts
-

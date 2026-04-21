@@ -1,17 +1,15 @@
-"""
-Prompt discovery service with LRU caching.
+"""Prompt discovery service with LRU caching.
 
-Fetches and caches prompt lists from MCP servers, invalidating on
-server notifications.
+Fetches and caches prompt lists from MCP servers, invalidating on server
+notifications.
 """
 
 import logging
 from typing import Dict, List, Optional
 
-from cachetools import TTLCache
-
 from agentic_v2.integrations.mcp.protocol.client import McpProtocolClient
 from agentic_v2.integrations.mcp.types import McpPromptDescriptor
+from cachetools import TTLCache
 
 logger = logging.getLogger(__name__)
 
@@ -21,8 +19,7 @@ CACHE_TTL_SECONDS = 300  # 5 minutes TTL as fallback
 
 
 class PromptDiscovery:
-    """
-    Service for discovering prompts from MCP servers.
+    """Service for discovering prompts from MCP servers.
 
     Features:
     - Fetches prompts/list from servers with prompt capability
@@ -33,17 +30,14 @@ class PromptDiscovery:
 
     def __init__(self) -> None:
         """Initialize prompt discovery service."""
-        self._cache: TTLCache = TTLCache(
-            maxsize=CACHE_MAX_SIZE, ttl=CACHE_TTL_SECONDS
-        )
+        self._cache: TTLCache = TTLCache(maxsize=CACHE_MAX_SIZE, ttl=CACHE_TTL_SECONDS)
 
     async def discover_prompts(
         self,
         server_name: str,
         client: McpProtocolClient,
-    ) -> List[McpPromptDescriptor]:
-        """
-        Discover prompts from an MCP server.
+    ) -> list[McpPromptDescriptor]:
+        """Discover prompts from an MCP server.
 
         Args:
             server_name: Server name (for cache key)
@@ -100,10 +94,9 @@ class PromptDiscovery:
         server_name: str,
         client: McpProtocolClient,
         prompt_name: str,
-        arguments: Optional[Dict] = None,
-    ) -> Dict:
-        """
-        Get a specific prompt from an MCP server.
+        arguments: Optional[dict] = None,
+    ) -> dict:
+        """Get a specific prompt from an MCP server.
 
         Args:
             server_name: Server name (for logging)
@@ -135,14 +128,11 @@ class PromptDiscovery:
             return response
 
         except Exception as e:
-            logger.error(
-                f"Failed to get prompt {prompt_name} from {server_name}: {e}"
-            )
+            logger.error(f"Failed to get prompt {prompt_name} from {server_name}: {e}")
             raise
 
     def invalidate_cache(self, server_name: str) -> None:
-        """
-        Invalidate cached prompts for a server.
+        """Invalidate cached prompts for a server.
 
         Called when server sends notifications/prompts/list_changed.
 
@@ -163,15 +153,14 @@ class PromptDiscovery:
         server_name: str,
         client: McpProtocolClient,
     ) -> None:
-        """
-        Register notification handlers for cache invalidation.
+        """Register notification handlers for cache invalidation.
 
         Args:
             server_name: Server name
             client: Protocol client to register handlers on
         """
 
-        def on_prompts_list_changed(params: Dict) -> None:
+        def on_prompts_list_changed(params: dict) -> None:
             logger.info(f"Prompts changed notification from {server_name}")
             self.invalidate_cache(server_name)
 

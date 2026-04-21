@@ -5,12 +5,12 @@ import re
 theme_path = "presentation/src/tokens/raw-themes/doom-64.json"
 out_path = "presentation/src/tokens/raw-themes/preview.html"
 
-with open(theme_path, 'r', encoding='utf-8') as f:
+with open(theme_path, encoding="utf-8") as f:
     data = json.load(f)
 
-variables = data.get('variables', {})
+variables = data.get("variables", {})
 
-html_content = f"""<!DOCTYPE html>
+html_content = rf"""<!DOCTYPE html>
 <html lang="en" class="{data.get('classes', '')}">
 <head>
 <meta charset="UTF-8">
@@ -185,7 +185,7 @@ body.hsl-mode {{
 </html>
 """
 
-with open(out_path, 'w', encoding='utf-8') as f:
+with open(out_path, "w", encoding="utf-8") as f:
     f.write(html_content)
 
 print(f"Preview generated. Absolute Path: {os.path.abspath(out_path)}")

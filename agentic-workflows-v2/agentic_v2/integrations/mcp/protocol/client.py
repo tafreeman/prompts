@@ -41,8 +41,7 @@ class McpProtocolError(Exception):
 
 
 class McpProtocolClient:
-    """
-    JSON-RPC protocol client for MCP.
+    """JSON-RPC protocol client for MCP.
 
     Responsibilities:
     - Correlate requests with responses using request IDs
@@ -57,15 +56,14 @@ class McpProtocolClient:
     """
 
     def __init__(self, transport: McpTransport) -> None:
-        """
-        Initialize protocol client.
+        """Initialize protocol client.
 
         Args:
             transport: Transport layer (stdio, websocket, etc.)
         """
         self.transport = transport
-        self._pending_requests: Dict[Union[str, int], asyncio.Future] = {}
-        self._notification_handlers: Dict[str, Callable[[Dict[str, Any]], None]] = {}
+        self._pending_requests: dict[Union[str, int], asyncio.Future] = {}
+        self._notification_handlers: dict[str, Callable[[dict[str, Any]], None]] = {}
         self._initialized = False
         self._capabilities: Optional[McpCapabilities] = None
         self._server_info: Optional[McpServerInfo] = None
@@ -76,8 +74,7 @@ class McpProtocolClient:
         self.transport.on_close = self._handle_transport_close
 
     async def connect(self) -> None:
-        """
-        Start the transport layer.
+        """Start the transport layer.
 
         Raises:
             ConnectionError: If transport fails to start.
@@ -87,11 +84,10 @@ class McpProtocolClient:
 
     async def initialize(
         self,
-        client_info: Optional[Dict[str, str]] = None,
-        capabilities: Optional[Dict[str, Any]] = None,
+        client_info: Optional[dict[str, str]] = None,
+        capabilities: Optional[dict[str, Any]] = None,
     ) -> McpServerInfo:
-        """
-        Perform MCP initialize handshake.
+        """Perform MCP initialize handshake.
 
         Args:
             client_info: Client name and version
@@ -115,7 +111,7 @@ class McpProtocolClient:
                 request.params,
                 timeout=INITIALIZE_TIMEOUT,
             )
-        except asyncio.TimeoutError as e:
+        except TimeoutError as e:
             raise McpTimeoutError(
                 f"Initialize handshake timed out after {INITIALIZE_TIMEOUT}s"
             ) from e
@@ -149,11 +145,10 @@ class McpProtocolClient:
     async def request(
         self,
         method: str,
-        params: Optional[Dict[str, Any]] = None,
+        params: Optional[dict[str, Any]] = None,
         timeout: Optional[float] = None,
     ) -> Any:
-        """
-        Send a JSON-RPC request and wait for response.
+        """Send a JSON-RPC request and wait for response.
 
         Args:
             method: Method name
@@ -183,13 +178,13 @@ class McpProtocolClient:
             result = await asyncio.wait_for(future, timeout=timeout_value)
             return result
 
-        except asyncio.TimeoutError:
+        except TimeoutError:
             # Clean up pending request
             self._pending_requests.pop(request_id, None)
             logger.warning(f"Request {method} timed out after {timeout_value}s")
             raise
 
-        except Exception as e:
+        except Exception:
             # Clean up on any error
             self._pending_requests.pop(request_id, None)
             raise
@@ -197,11 +192,10 @@ class McpProtocolClient:
     async def call_tool(
         self,
         name: str,
-        arguments: Dict[str, Any],
+        arguments: dict[str, Any],
         timeout: Optional[float] = None,
     ) -> Any:
-        """
-        Invoke a remote MCP tool via ``tools/call``.
+        """Invoke a remote MCP tool via ``tools/call``.
 
         Thin wrapper over :meth:`request` that serializes the standard
         MCP tools/call envelope. Callers (e.g., ``McpToolAdapter``) may
@@ -231,10 +225,9 @@ class McpProtocolClient:
     async def notify(
         self,
         method: str,
-        params: Optional[Dict[str, Any]] = None,
+        params: Optional[dict[str, Any]] = None,
     ) -> None:
-        """
-        Send a JSON-RPC notification (no response expected).
+        """Send a JSON-RPC notification (no response expected).
 
         Args:
             method: Notification method
@@ -247,10 +240,9 @@ class McpProtocolClient:
     def register_notification_handler(
         self,
         method: str,
-        handler: Callable[[Dict[str, Any]], None],
+        handler: Callable[[dict[str, Any]], None],
     ) -> None:
-        """
-        Register a handler for server notifications.
+        """Register a handler for server notifications.
 
         Args:
             method: Notification method to handle (e.g., "notifications/tools/list_changed")
@@ -260,8 +252,7 @@ class McpProtocolClient:
         logger.debug(f"Registered notification handler: {method}")
 
     async def close(self) -> None:
-        """
-        Close the protocol client and transport.
+        """Close the protocol client and transport.
 
         Rejects all pending requests and cleans up resources.
         """
@@ -296,8 +287,7 @@ class McpProtocolClient:
         return self._initialized
 
     def _handle_message(self, message: JsonRpcMessage) -> None:
-        """
-        Handle incoming JSON-RPC message from transport.
+        """Handle incoming JSON-RPC message from transport.
 
         Routes to appropriate handler based on message type.
         """
@@ -366,9 +356,7 @@ class McpProtocolClient:
         # Reject all pending requests
         for request_id, future in self._pending_requests.items():
             if not future.done():
-                future.set_exception(
-                    McpProtocolError(f"Transport error: {error}")
-                )
+                future.set_exception(McpProtocolError(f"Transport error: {error}"))
 
     def _handle_transport_close(self) -> None:
         """
@@ -379,9 +367,7 @@ class McpProtocolClient:
         # Reject all pending requests
         for request_id, future in self._pending_requests.items():
             if not future.done():
-                future.set_exception(
-                    McpProtocolError("Transport closed unexpectedly")
-                )
+                future.set_exception(McpProtocolError("Transport closed unexpectedly"))
 
         self._pending_requests.clear()
         self._initialized = False

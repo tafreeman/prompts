@@ -1,8 +1,7 @@
-"""
-JSON-RPC message builders and validators.
+"""JSON-RPC message builders and validators.
 
-Provides helper functions to construct well-formed JSON-RPC messages
-for the MCP protocol.
+Provides helper functions to construct well-formed JSON-RPC messages for
+the MCP protocol.
 """
 
 import uuid
@@ -16,8 +15,7 @@ from agentic_v2.integrations.mcp.types import (
 
 
 class MessageBuilder:
-    """
-    Helper class for building JSON-RPC messages.
+    """Helper class for building JSON-RPC messages.
 
     Handles ID generation, method validation, and message construction
     according to JSON-RPC 2.0 spec.
@@ -26,11 +24,10 @@ class MessageBuilder:
     @staticmethod
     def create_request(
         method: str,
-        params: Optional[Dict[str, Any]] = None,
+        params: Optional[dict[str, Any]] = None,
         request_id: Optional[Union[str, int]] = None,
     ) -> JsonRpcRequest:
-        """
-        Create a JSON-RPC request.
+        """Create a JSON-RPC request.
 
         Args:
             method: Method name to invoke
@@ -54,10 +51,9 @@ class MessageBuilder:
     def create_response(
         request_id: Union[str, int],
         result: Optional[Any] = None,
-        error: Optional[Dict[str, Any]] = None,
+        error: Optional[dict[str, Any]] = None,
     ) -> JsonRpcResponse:
-        """
-        Create a JSON-RPC response.
+        """Create a JSON-RPC response.
 
         Args:
             request_id: ID from the original request
@@ -85,10 +81,9 @@ class MessageBuilder:
     @staticmethod
     def create_notification(
         method: str,
-        params: Optional[Dict[str, Any]] = None,
+        params: Optional[dict[str, Any]] = None,
     ) -> JsonRpcNotification:
-        """
-        Create a JSON-RPC notification (no response expected).
+        """Create a JSON-RPC notification (no response expected).
 
         Args:
             method: Notification method name
@@ -106,11 +101,10 @@ class MessageBuilder:
     @staticmethod
     def create_initialize_request(
         protocol_version: str = "2024-11-05",
-        client_info: Optional[Dict[str, str]] = None,
-        capabilities: Optional[Dict[str, Any]] = None,
+        client_info: Optional[dict[str, str]] = None,
+        capabilities: Optional[dict[str, Any]] = None,
     ) -> JsonRpcRequest:
-        """
-        Create an MCP initialize request.
+        """Create an MCP initialize request.
 
         Args:
             protocol_version: MCP protocol version
@@ -134,9 +128,8 @@ class MessageBuilder:
         code: int,
         message: str,
         data: Optional[Any] = None,
-    ) -> Dict[str, Any]:
-        """
-        Create a JSON-RPC error object.
+    ) -> dict[str, Any]:
+        """Create a JSON-RPC error object.
 
         Args:
             code: Error code (e.g., -32600 for invalid request)

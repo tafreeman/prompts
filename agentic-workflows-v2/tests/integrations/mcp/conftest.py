@@ -1,13 +1,10 @@
-"""
-Pytest configuration and shared fixtures for MCP integration tests.
-"""
+"""Pytest configuration and shared fixtures for MCP integration tests."""
 
 import asyncio
-from typing import AsyncGenerator, Dict, Any
+from typing import Any, AsyncGenerator, Dict
 from unittest.mock import AsyncMock, MagicMock
 
 import pytest
-
 from agentic_v2.integrations.mcp.protocol.client import McpProtocolClient
 from agentic_v2.integrations.mcp.transports.base import McpTransport
 from agentic_v2.integrations.mcp.types import (
@@ -55,7 +52,7 @@ def sample_stdio_config() -> McpServerConfig:
 
 
 @pytest.fixture
-def sample_initialize_response() -> Dict[str, Any]:
+def sample_initialize_response() -> dict[str, Any]:
     """Sample initialize response from MCP server."""
     return {
         "protocolVersion": "2024-11-05",
@@ -72,7 +69,7 @@ def sample_initialize_response() -> Dict[str, Any]:
 
 
 @pytest.fixture
-def sample_tools_list_response() -> Dict[str, Any]:
+def sample_tools_list_response() -> dict[str, Any]:
     """Sample tools/list response."""
     return {
         "tools": [
@@ -102,7 +99,7 @@ def sample_tools_list_response() -> Dict[str, Any]:
 
 
 @pytest.fixture
-def sample_tool_call_response() -> Dict[str, Any]:
+def sample_tool_call_response() -> dict[str, Any]:
     """Sample tools/call response."""
     return {
         "content": [
@@ -115,7 +112,7 @@ def sample_tool_call_response() -> Dict[str, Any]:
 
 
 @pytest.fixture
-def sample_resources_list_response() -> Dict[str, Any]:
+def sample_resources_list_response() -> dict[str, Any]:
     """Sample resources/list response."""
     return {
         "resources": [
@@ -130,7 +127,7 @@ def sample_resources_list_response() -> Dict[str, Any]:
 
 
 @pytest.fixture
-def sample_prompts_list_response() -> Dict[str, Any]:
+def sample_prompts_list_response() -> dict[str, Any]:
     """Sample prompts/list response."""
     return {
         "prompts": [
@@ -152,16 +149,16 @@ def sample_prompts_list_response() -> Dict[str, Any]:
 @pytest.fixture
 async def mock_protocol_client(
     mock_transport: McpTransport,
-    sample_initialize_response: Dict[str, Any],
+    sample_initialize_response: dict[str, Any],
 ) -> AsyncGenerator[McpProtocolClient, None]:
     """Create a mock protocol client with initialized connection."""
     client = McpProtocolClient(mock_transport)
-    
+
     # Mock the initialize handshake
     client._initialized = True
     client._server_capabilities = sample_initialize_response["capabilities"]
     client._server_info = sample_initialize_response["serverInfo"]
-    
+
     yield client
-    
+
     await client.close()

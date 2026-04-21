@@ -434,8 +434,7 @@ class TestCoderAgentLLMIntegration:
 
     @pytest.mark.asyncio
     async def test_coder_uses_llm_client_when_backend_set(self, llm_client):
-        """Test that CoderAgent uses the LLM client when backend is
-        configured."""
+        """Test that CoderAgent uses the LLM client when backend is configured."""
         mock_backend = llm_client.backend
         mock_backend.set_response(
             "function",

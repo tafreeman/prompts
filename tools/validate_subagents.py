@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Minimal validator for docs/subagents.yml Checks that each subagent
-definition contains required fields and basic typing.
+"""Minimal validator for docs/subagents.yml Checks that each subagent definition
+contains required fields and basic typing.
 
 Usage:
   python tools/validate_subagents.py docs/subagents.yml

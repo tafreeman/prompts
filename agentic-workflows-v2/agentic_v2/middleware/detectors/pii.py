@@ -24,13 +24,9 @@ class PIIDetector:
     _PHONE_RE: re.Pattern[str] = re.compile(
         r"(?<!\d)(?:\+?1[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}(?!\d)"
     )
-    _SSN_RE: re.Pattern[str] = re.compile(
-        r"(?<!\d)\d{3}-\d{2}-\d{4}(?!\d)"
-    )
+    _SSN_RE: re.Pattern[str] = re.compile(r"(?<!\d)\d{3}-\d{2}-\d{4}(?!\d)")
 
-    _PATTERNS: tuple[
-        tuple[re.Pattern[str], FindingCategory, str], ...
-    ] = (
+    _PATTERNS: tuple[tuple[re.Pattern[str], FindingCategory, str], ...] = (
         (_EMAIL_RE, FindingCategory.PII_EMAIL, "email_address"),
         (_PHONE_RE, FindingCategory.PII_PHONE, "phone_number"),
         (_SSN_RE, FindingCategory.PII_SSN, "ssn"),
@@ -48,9 +44,7 @@ class PIIDetector:
                         severity=Severity.MEDIUM,
                         location=f"text[{start}:{end}]",
                         matched_pattern=pattern_name,
-                        redacted_preview=self._build_preview(
-                            text, start, end
-                        ),
+                        redacted_preview=self._build_preview(text, start, end),
                     )
                 )
 

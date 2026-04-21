@@ -1,4 +1,5 @@
-"""Tests for llm_evaluator -- prompt construction, response parsing, scoring, and evaluation.
+"""Tests for llm_evaluator -- prompt construction, response parsing, scoring, and
+evaluation.
 
 Covers:
 - build_evaluation_prompt construction with various gold standard fields
@@ -30,7 +31,6 @@ from tools.agents.benchmarks.llm_evaluator import (
     evaluate_with_llm,
     parse_evaluation_response,
 )
-
 
 # ---------------------------------------------------------------------------
 # build_evaluation_prompt
@@ -287,19 +287,41 @@ class TestEvaluateWithLlm:
 
     def _mock_llm_response(self) -> str:
         """Return a valid LLM evaluation response JSON string."""
-        return json.dumps({
-            "dimension_scores": {
-                "completeness": {"score": 8.0, "reasoning": "Covers all requirements", "evidence": ["evidence1"]},
-                "correctness": {"score": 9.0, "reasoning": "Technically sound", "evidence": []},
-                "quality": {"score": 7.5, "reasoning": "Well structured", "evidence": []},
-                "specificity": {"score": 8.0, "reasoning": "Detailed", "evidence": []},
-                "alignment": {"score": 7.0, "reasoning": "Good alignment", "evidence": []},
-            },
-            "strengths": ["clear code", "good tests"],
-            "weaknesses": ["missing docs"],
-            "improvement_suggestions": ["add docstrings"],
-            "key_findings": ["solid implementation"],
-        })
+        return json.dumps(
+            {
+                "dimension_scores": {
+                    "completeness": {
+                        "score": 8.0,
+                        "reasoning": "Covers all requirements",
+                        "evidence": ["evidence1"],
+                    },
+                    "correctness": {
+                        "score": 9.0,
+                        "reasoning": "Technically sound",
+                        "evidence": [],
+                    },
+                    "quality": {
+                        "score": 7.5,
+                        "reasoning": "Well structured",
+                        "evidence": [],
+                    },
+                    "specificity": {
+                        "score": 8.0,
+                        "reasoning": "Detailed",
+                        "evidence": [],
+                    },
+                    "alignment": {
+                        "score": 7.0,
+                        "reasoning": "Good alignment",
+                        "evidence": [],
+                    },
+                },
+                "strengths": ["clear code", "good tests"],
+                "weaknesses": ["missing docs"],
+                "improvement_suggestions": ["add docstrings"],
+                "key_findings": ["solid implementation"],
+            }
+        )
 
     @patch("tools.llm.llm_client.LLMClient")
     def test_successful_evaluation(self, mock_client_cls):
@@ -325,24 +347,38 @@ class TestEvaluateWithLlm:
     @patch("tools.llm.llm_client.LLMClient")
     def test_score_clamping(self, mock_client_cls):
         """Scores outside 0-10 are clamped."""
-        response = json.dumps({
-            "dimension_scores": {
-                "completeness": {"score": 15.0, "reasoning": "over", "evidence": []},
-                "correctness": {"score": -5.0, "reasoning": "under", "evidence": []},
-                "quality": {"score": 8.0, "reasoning": "ok", "evidence": []},
-                "specificity": {"score": 8.0, "reasoning": "ok", "evidence": []},
-                "alignment": {"score": 8.0, "reasoning": "ok", "evidence": []},
-            },
-            "strengths": [],
-            "weaknesses": [],
-            "improvement_suggestions": [],
-            "key_findings": [],
-        })
+        response = json.dumps(
+            {
+                "dimension_scores": {
+                    "completeness": {
+                        "score": 15.0,
+                        "reasoning": "over",
+                        "evidence": [],
+                    },
+                    "correctness": {
+                        "score": -5.0,
+                        "reasoning": "under",
+                        "evidence": [],
+                    },
+                    "quality": {"score": 8.0, "reasoning": "ok", "evidence": []},
+                    "specificity": {"score": 8.0, "reasoning": "ok", "evidence": []},
+                    "alignment": {"score": 8.0, "reasoning": "ok", "evidence": []},
+                },
+                "strengths": [],
+                "weaknesses": [],
+                "improvement_suggestions": [],
+                "key_findings": [],
+            }
+        )
         mock_client_cls.generate_text.return_value = response
 
         result = evaluate_with_llm(
-            task_id="1", task_prompt="t", generated_output="o",
-            gold_standard={}, model="m", benchmark_id="b",
+            task_id="1",
+            task_prompt="t",
+            generated_output="o",
+            gold_standard={},
+            model="m",
+            benchmark_id="b",
         )
 
         assert result.dimension_scores["completeness"].score == 10.0
@@ -354,8 +390,12 @@ class TestEvaluateWithLlm:
         mock_client_cls.generate_text.side_effect = RuntimeError("API down")
 
         result = evaluate_with_llm(
-            task_id="1", task_prompt="t", generated_output="o",
-            gold_standard={}, model="m", benchmark_id="b",
+            task_id="1",
+            task_prompt="t",
+            generated_output="o",
+            gold_standard={},
+            model="m",
+            benchmark_id="b",
         )
 
         assert result.overall_score == 0.0
@@ -368,8 +408,12 @@ class TestEvaluateWithLlm:
         mock_client_cls.generate_text.return_value = "Not valid JSON"
 
         result = evaluate_with_llm(
-            task_id="1", task_prompt="t", generated_output="o",
-            gold_standard={}, model="m", benchmark_id="b",
+            task_id="1",
+            task_prompt="t",
+            generated_output="o",
+            gold_standard={},
+            model="m",
+            benchmark_id="b",
         )
 
         # All dimension scores should be 0.0 since parsing failed
@@ -381,8 +425,12 @@ class TestEvaluateWithLlm:
         mock_client_cls.generate_text.return_value = self._mock_llm_response()
 
         result = evaluate_with_llm(
-            task_id="1", task_prompt="t", generated_output="o",
-            gold_standard={}, model="gpt-4o-mini", benchmark_id="b",
+            task_id="1",
+            task_prompt="t",
+            generated_output="o",
+            gold_standard={},
+            model="gpt-4o-mini",
+            benchmark_id="b",
             evaluator_model="gpt-4o",
         )
 
@@ -394,21 +442,27 @@ class TestEvaluateWithLlm:
     @patch("tools.llm.llm_client.LLMClient")
     def test_missing_dimensions_default_to_zero(self, mock_client_cls):
         """Missing dimensions in LLM response get score 0.0."""
-        response = json.dumps({
-            "dimension_scores": {
-                "completeness": {"score": 8.0, "reasoning": "ok"},
-                # Missing other dimensions
-            },
-            "strengths": [],
-            "weaknesses": [],
-            "improvement_suggestions": [],
-            "key_findings": [],
-        })
+        response = json.dumps(
+            {
+                "dimension_scores": {
+                    "completeness": {"score": 8.0, "reasoning": "ok"},
+                    # Missing other dimensions
+                },
+                "strengths": [],
+                "weaknesses": [],
+                "improvement_suggestions": [],
+                "key_findings": [],
+            }
+        )
         mock_client_cls.generate_text.return_value = response
 
         result = evaluate_with_llm(
-            task_id="1", task_prompt="t", generated_output="o",
-            gold_standard={}, model="m", benchmark_id="b",
+            task_id="1",
+            task_prompt="t",
+            generated_output="o",
+            gold_standard={},
+            model="m",
+            benchmark_id="b",
         )
 
         assert result.dimension_scores["completeness"].score == 8.0

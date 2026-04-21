@@ -37,7 +37,6 @@ from tools.llm.model_inventory import (
     main,
 )
 
-
 # ---------------------------------------------------------------------------
 # _load_dotenv
 # ---------------------------------------------------------------------------
@@ -95,9 +94,7 @@ class TestLoadDotenv:
             "NO_EQUALS_SIGN",
         ],
     )
-    def test_skips_comments_blanks_and_no_equals(
-        self, tmp_path: Path, line: str
-    ):
+    def test_skips_comments_blanks_and_no_equals(self, tmp_path: Path, line: str):
         """Comments, blank lines, and lines without '=' are ignored."""
         env_file = tmp_path / ".env"
         env_file.write_text(line + "\n", encoding="utf-8")
@@ -336,13 +333,14 @@ class TestBuildInventory:
     @patch("tools.llm.model_inventory._load_dotenv")
     @patch("tools.llm.model_inventory._dns_resolves", return_value=False)
     @patch("tools.llm.model_inventory.shutil.which", return_value=None)
-    def test_import_failure_returns_error(
-        self, mock_which, mock_dns, mock_dotenv
-    ):
+    def test_import_failure_returns_error(self, mock_which, mock_dns, mock_dotenv):
         """When llm_client cannot be imported, inventory reports failure."""
-        with patch.dict("sys.modules", {"llm_client": None}), patch(
-            "builtins.__import__",
-            side_effect=ImportError("no module"),
+        with (
+            patch.dict("sys.modules", {"llm_client": None}),
+            patch(
+                "builtins.__import__",
+                side_effect=ImportError("no module"),
+            ),
         ):
             result = build_inventory(active_probes=False)
             # If llm_client import fails, ok=False
@@ -358,11 +356,19 @@ class TestBuildInventory:
         """Passive inventory contains expected top-level keys."""
         # Clear provider env vars to get predictable output
         for var in [
-            "OPENAI_API_KEY", "ANTHROPIC_API_KEY", "CLAUDE_API_KEY",
-            "GEMINI_API_KEY", "GOOGLE_API_KEY", "GITHUB_TOKEN", "GH_TOKEN",
-            "AZURE_FOUNDRY_API_KEY", "OLLAMA_HOST",
-            "OPENAI_BASE_URL", "OPENAI_API_BASE",
-            "LOCAL_AI_API_BASE_URL", "LOCAL_OPENAI_BASE_URL",
+            "OPENAI_API_KEY",
+            "ANTHROPIC_API_KEY",
+            "CLAUDE_API_KEY",
+            "GEMINI_API_KEY",
+            "GOOGLE_API_KEY",
+            "GITHUB_TOKEN",
+            "GH_TOKEN",
+            "AZURE_FOUNDRY_API_KEY",
+            "OLLAMA_HOST",
+            "OPENAI_BASE_URL",
+            "OPENAI_API_BASE",
+            "LOCAL_AI_API_BASE_URL",
+            "LOCAL_OPENAI_BASE_URL",
         ]:
             monkeypatch.delenv(var, raising=False)
         # Also clear any AZURE_OPENAI_ or AZURE_FOUNDRY_ENDPOINT_ vars
@@ -382,7 +388,8 @@ class TestBuildInventory:
                 with patch(
                     "builtins.__import__",
                     side_effect=lambda name, *a, **kw: (
-                        mock_llm if name == "llm_client"
+                        mock_llm
+                        if name == "llm_client"
                         else __builtins__["__import__"](name, *a, **kw)  # type: ignore[index]
                     ),
                 ):
@@ -437,15 +444,11 @@ class TestFormatInventorySummary:
         assert "github_models(configured=True)" in summary
 
     def test_openai_model_count(self):
-        summary = format_inventory_summary(
-            self._base_inv(openai={"model_count": 42})
-        )
+        summary = format_inventory_summary(self._base_inv(openai={"model_count": 42}))
         assert "openai(models=42)" in summary
 
     def test_ollama_reachable(self):
-        summary = format_inventory_summary(
-            self._base_inv(ollama={"reachable": True})
-        )
+        summary = format_inventory_summary(self._base_inv(ollama={"reachable": True}))
         assert "ollama(reachable=True)" in summary
 
     def test_windows_ai_available(self):

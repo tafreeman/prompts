@@ -113,9 +113,10 @@ def is_websocket_origin_allowed(
 ) -> bool:
     """Validate browser origins for WebSocket handshakes.
 
-    Non-browser clients often omit the Origin header; those requests are allowed.
-    Browser requests must either come from an explicitly allowed origin, use a
-    wildcard allowlist, or match the current Host header exactly.
+    Non-browser clients often omit the Origin header; those requests are
+    allowed. Browser requests must either come from an explicitly
+    allowed origin, use a wildcard allowlist, or match the current Host
+    header exactly.
     """
     origin = _normalize_origin(websocket.headers.get("origin"))
     if origin is None:
@@ -140,8 +141,8 @@ def build_auth_error_response() -> JSONResponse:
 
 
 class APIKeyMiddleware(BaseHTTPMiddleware):
-    """Starlette middleware that enforces bearer-token authentication on
-    ``/api/`` routes.
+    """Starlette middleware that enforces bearer-token authentication on ``/api/``
+    routes.
 
     When ``AGENTIC_API_KEY`` is not set, all requests pass through unchanged.
     Otherwise, requests to protected paths must include a valid token via
@@ -167,9 +168,7 @@ class APIKeyMiddleware(BaseHTTPMiddleware):
         token = extract_http_token(request)
         if token is None or not is_token_authorized(token.value, api_key):
             client_host = request.client.host if request.client else "unknown"
-            logger.warning(
-                "Authentication failed for %s from %s", path, client_host
-            )
+            logger.warning("Authentication failed for %s from %s", path, client_host)
             return build_auth_error_response()
 
         return await call_next(request)

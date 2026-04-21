@@ -1,5 +1,4 @@
-"""
-Tests for MCP tool adapter.
+"""Tests for MCP tool adapter.
 
 Validates:
 - Tool execution with various input types
@@ -9,9 +8,9 @@ Validates:
 - Schema passthrough preservation
 """
 
-import pytest
 from unittest.mock import AsyncMock, MagicMock
 
+import pytest
 from agentic_v2.integrations.mcp.adapters.tool_adapter import McpToolAdapter
 from agentic_v2.integrations.mcp.types import ToolDescriptor
 
@@ -173,9 +172,7 @@ class TestMcpToolAdapter:
             input_schema={"type": "object"},
         )
         client = MagicMock()
-        client.call_tool = AsyncMock(
-            side_effect=Exception("Connection failed")
-        )
+        client.call_tool = AsyncMock(side_effect=Exception("Connection failed"))
 
         adapter = McpToolAdapter("server", tool, client)
         result = await adapter.execute({})

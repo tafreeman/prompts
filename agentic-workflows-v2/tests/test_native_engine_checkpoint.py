@@ -132,8 +132,7 @@ class TestNativeEngineCheckpoint:
     """Integration tests for NativeEngine with checkpointing enabled."""
 
     async def test_execute_writes_checkpoints(self, tmp_path: Path) -> None:
-        """Execute with thread_id writes checkpoint rows for each completed
-        step."""
+        """Execute with thread_id writes checkpoint rows for each completed step."""
         db_path = tmp_path / "ckpt.db"
         dag = _make_dag(
             "linear",
@@ -307,8 +306,8 @@ class TestNativeEngineCheckpoint:
         self,
         tmp_path: Path,
     ) -> None:
-        """Concurrent executions with different thread_ids write isolated
-        checkpoint rows to the same SQLite database.
+        """Concurrent executions with different thread_ids write isolated checkpoint
+        rows to the same SQLite database.
 
         Each NativeEngine gets its own DAGExecutor to avoid the shared-
         state-manager race that occurs when two DAG runs share one
@@ -376,8 +375,7 @@ class TestProtocolConformance:
     """Verify NativeEngine satisfies SupportsCheckpointing."""
 
     def test_supports_checkpointing_protocol(self, tmp_path: Path) -> None:
-        """NativeEngine with checkpoint store satisfies
-        SupportsCheckpointing."""
+        """NativeEngine with checkpoint store satisfies SupportsCheckpointing."""
         engine = NativeEngine(checkpoint_db_path=tmp_path / "ckpt.db")
         assert isinstance(engine, SupportsCheckpointing)
 

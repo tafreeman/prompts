@@ -49,8 +49,7 @@ def _make_mock_runner() -> MagicMock:
 
 
 def _make_ctx(variables: dict | None = None) -> MagicMock:
-    """Return a mock ExecutionContext with all_variables() returning
-    *variables*."""
+    """Return a mock ExecutionContext with all_variables() returning *variables*."""
     ctx = MagicMock()
     # Tests only rely on all_variables(), so a lightweight MagicMock is enough.
     ctx.all_variables.return_value = variables or {"key": "value"}
@@ -177,8 +176,7 @@ async def test_stream_forwards_extra_kwargs_alongside_ctx() -> None:
 
 
 async def test_runner_run_merges_ctx_variables_into_state() -> None:
-    """WorkflowRunner.run() must merge ctx.all_variables() into
-    state['context']."""
+    """WorkflowRunner.run() must merge ctx.all_variables() into state['context']."""
     from agentic_v2.langchain.runner import WorkflowRunner
 
     ctx = _make_ctx({"tenant_id": "deloitte", "env": "prod"})
@@ -284,8 +282,7 @@ async def test_runner_run_ctx_none_no_error() -> None:
 
 
 async def test_runner_astream_merges_ctx_variables_into_state() -> None:
-    """WorkflowRunner.astream() must merge ctx.all_variables() into
-    state['context']."""
+    """WorkflowRunner.astream() must merge ctx.all_variables() into state['context']."""
     from agentic_v2.langchain.runner import WorkflowRunner
 
     ctx = _make_ctx({"request_id": "req-999"})

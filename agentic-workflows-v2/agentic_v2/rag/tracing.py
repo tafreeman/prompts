@@ -197,8 +197,7 @@ class RAGTracer:
 
     @contextmanager
     def ingest_span(self, *, source: str) -> Generator[IngestChunkCount, None, None]:
-        """Context manager that emits ingest_start/ingest_complete
-        automatically.
+        """Context manager that emits ingest_start/ingest_complete automatically.
 
         Yields a single-element ``list[int]`` accumulator.  The caller records
         the chunk count by writing ``chunk_count[0] = N``.  The context

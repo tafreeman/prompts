@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""Generates a ranked model list combining probe data and provider limit
-checks.
+"""Generates a ranked model list combining probe data and provider limit checks.
 
 Includes ALL available models.
 """

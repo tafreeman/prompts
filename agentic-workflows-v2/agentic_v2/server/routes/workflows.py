@@ -30,8 +30,8 @@ from typing import Any
 from fastapi import APIRouter, BackgroundTasks, HTTPException, Request
 
 from ...contracts import StepStatus
+from ...langchain.config import list_workflows as lc_list_workflows
 from ...langchain.config import (
-    list_workflows as lc_list_workflows,
     load_workflow_config,
     load_workflow_document,
     render_workflow_document,
@@ -45,12 +45,12 @@ from ...langchain.dependencies import (
 from ...workflows.run_logger import RunLogger
 from ..execution import _run_and_evaluate
 from ..models import (
+    ListWorkflowsResponse,
     WorkflowEditorRequest,
     WorkflowEditorResponse,
-    WorkflowValidationResponse,
-    ListWorkflowsResponse,
     WorkflowRunRequest,
     WorkflowRunResponse,
+    WorkflowValidationResponse,
 )
 from ..result_normalization import _resolve_evaluation_inputs
 
@@ -72,6 +72,7 @@ async def _sanitize_inputs(
         return
 
     import json
+
     input_text = json.dumps(request_obj.input_data, default=str)
     result = await sanitization.process(input_text, {"source": "api_run_workflow"})
 

@@ -20,11 +20,10 @@ from __future__ import annotations
 import os
 from unittest.mock import MagicMock, patch
 
-import pytest
-
 # Import the module under test (not individual functions) so we can
 # patch the module-level _tracer_instance.
 import agentic_v2.integrations.otel as otel_mod
+import pytest
 from agentic_v2.integrations.otel import (
     DEFAULT_OTLP_ENDPOINT,
     DEFAULT_SERVICE_NAME,
@@ -34,7 +33,6 @@ from agentic_v2.integrations.otel import (
     is_sensitive_capture_enabled,
     is_tracing_enabled,
 )
-
 
 # ---------------------------------------------------------------------------
 # Environment helper readers
@@ -59,7 +57,9 @@ class TestIsSensitiveCaptureEnabled:
     )
     def test_sensitive_capture_values(self, env_value, expected):
         """ADR-008 Phase 3: sensitive capture follows same truthy pattern as tracing."""
-        with patch.dict(os.environ, {"AGENTIC_TRACE_SENSITIVE": env_value}, clear=False):
+        with patch.dict(
+            os.environ, {"AGENTIC_TRACE_SENSITIVE": env_value}, clear=False
+        ):
             assert is_sensitive_capture_enabled() is expected
 
     def test_sensitive_capture_unset(self):
@@ -82,12 +82,16 @@ class TestGetOtlpEndpoint:
 
     def test_returns_custom_endpoint(self):
         """ADR-008 Phase 3: custom endpoint from env var."""
-        with patch.dict(os.environ, {"OTEL_EXPORTER_OTLP_ENDPOINT": "http://collector:4317"}):
+        with patch.dict(
+            os.environ, {"OTEL_EXPORTER_OTLP_ENDPOINT": "http://collector:4317"}
+        ):
             assert get_otlp_endpoint() == "http://collector:4317"
 
     def test_strips_whitespace(self):
         """ADR-008 Phase 3: endpoint value is stripped of whitespace."""
-        with patch.dict(os.environ, {"OTEL_EXPORTER_OTLP_ENDPOINT": "  http://x:4317  "}):
+        with patch.dict(
+            os.environ, {"OTEL_EXPORTER_OTLP_ENDPOINT": "  http://x:4317  "}
+        ):
             assert get_otlp_endpoint() == "http://x:4317"
 
 
@@ -143,12 +147,14 @@ class TestSetupOtelTracer:
 
     def test_raises_import_error_when_sdk_missing(self):
         """ADR-008 Phase 3: ImportError raised when opentelemetry SDK not installed."""
-        with patch.dict(
-            "sys.modules",
-            {"opentelemetry": None, "opentelemetry.trace": None},
+        with (
+            patch.dict(
+                "sys.modules",
+                {"opentelemetry": None, "opentelemetry.trace": None},
+            ),
+            pytest.raises(ImportError, match="tracing"),
         ):
-            with pytest.raises(ImportError, match="tracing"):
-                otel_mod._setup_otel_tracer()
+            otel_mod._setup_otel_tracer()
 
     def test_grpc_exporter_import_error(self):
         """ADR-008 Phase 3: ImportError raised when gRPC exporter not installed."""
@@ -235,15 +241,17 @@ class TestGetTracer:
 
     def test_returns_none_on_import_failure(self):
         """ADR-008 Phase 3: get_tracer returns None when _setup_otel_tracer fails."""
-        with patch.dict(os.environ, {"AGENTIC_TRACING": "1"}):
-            with patch.object(
+        with (
+            patch.dict(os.environ, {"AGENTIC_TRACING": "1"}),
+            patch.object(
                 otel_mod,
                 "_setup_otel_tracer",
                 side_effect=ImportError("no sdk"),
-            ):
-                assert otel_mod.get_tracer() is None
-                # _tracer_instance should remain None (not cached)
-                assert otel_mod._tracer_instance is None
+            ),
+        ):
+            assert otel_mod.get_tracer() is None
+            # _tracer_instance should remain None (not cached)
+            assert otel_mod._tracer_instance is None
 
 
 # ---------------------------------------------------------------------------
@@ -335,7 +343,13 @@ class TestShutdownTracing:
         mock_trace_mod.get_tracer_provider.return_value = mock_provider
 
         otel_mod._tracer_instance = MagicMock()  # non-None so we enter the block
-        with patch.dict("sys.modules", {"opentelemetry": MagicMock(trace=mock_trace_mod), "opentelemetry.trace": mock_trace_mod}):
+        with patch.dict(
+            "sys.modules",
+            {
+                "opentelemetry": MagicMock(trace=mock_trace_mod),
+                "opentelemetry.trace": mock_trace_mod,
+            },
+        ):
             otel_mod.shutdown_tracing()
 
         mock_provider.shutdown.assert_called_once()
@@ -347,7 +361,13 @@ class TestShutdownTracing:
         mock_trace_mod.get_tracer_provider.side_effect = RuntimeError("shutdown boom")
 
         otel_mod._tracer_instance = MagicMock()
-        with patch.dict("sys.modules", {"opentelemetry": MagicMock(trace=mock_trace_mod), "opentelemetry.trace": mock_trace_mod}):
+        with patch.dict(
+            "sys.modules",
+            {
+                "opentelemetry": MagicMock(trace=mock_trace_mod),
+                "opentelemetry.trace": mock_trace_mod,
+            },
+        ):
             otel_mod.shutdown_tracing()  # should not raise
 
         assert otel_mod._tracer_instance is None
@@ -359,7 +379,13 @@ class TestShutdownTracing:
         mock_trace_mod.get_tracer_provider.return_value = mock_provider
 
         otel_mod._tracer_instance = MagicMock()
-        with patch.dict("sys.modules", {"opentelemetry": MagicMock(trace=mock_trace_mod), "opentelemetry.trace": mock_trace_mod}):
+        with patch.dict(
+            "sys.modules",
+            {
+                "opentelemetry": MagicMock(trace=mock_trace_mod),
+                "opentelemetry.trace": mock_trace_mod,
+            },
+        ):
             otel_mod.shutdown_tracing()
 
         assert otel_mod._tracer_instance is None

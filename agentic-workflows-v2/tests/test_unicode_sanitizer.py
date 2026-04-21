@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from agentic_v2.middleware.detectors.unicode import UnicodeSanitizer
 from tests.fixtures.unicode_corpus import (
     DANGEROUS_UNICODE,
@@ -27,9 +26,9 @@ class TestDangerousUnicode:
     ) -> None:
         cleaned, _findings = await sanitizer.sanitize(text)
         removed_count = len(text) - len(cleaned)
-        assert removed_count >= min_removals, (
-            f"Expected at least {min_removals} removals, got {removed_count}"
-        )
+        assert (
+            removed_count >= min_removals
+        ), f"Expected at least {min_removals} removals, got {removed_count}"
 
     @pytest.mark.asyncio
     @pytest.mark.parametrize("text,min_removals", DANGEROUS_UNICODE)
@@ -78,7 +77,9 @@ class TestIterativeStability:
         assert cleaned1 == cleaned2, "Sanitization should be idempotent"
 
     @pytest.mark.asyncio
-    async def test_scan_delegates_to_sanitize(self, sanitizer: UnicodeSanitizer) -> None:
+    async def test_scan_delegates_to_sanitize(
+        self, sanitizer: UnicodeSanitizer
+    ) -> None:
         text = "test\u200btext"
         findings = await sanitizer.scan(text)
         _, sanitize_findings = await sanitizer.sanitize(text)

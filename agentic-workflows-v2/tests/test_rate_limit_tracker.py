@@ -451,8 +451,7 @@ class TestSmartModelRouterHardening:
 
 
 class TestMonotonicClockIntegration:
-    """Verify monotonic clock usage across model_stats and smart_router
-    (ADR-002C)."""
+    """Verify monotonic clock usage across model_stats and smart_router (ADR-002C)."""
 
     def test_cooldown_uses_monotonic(self) -> None:
         stats = ModelStats(model_id="test:model")
@@ -541,9 +540,7 @@ class TestConcurrentStatsPersistence:
             except Exception as exc:
                 errors.append(exc)
 
-        threads = [
-            threading.Thread(target=save_and_load, args=(i,)) for i in range(10)
-        ]
+        threads = [threading.Thread(target=save_and_load, args=(i,)) for i in range(10)]
         for t in threads:
             t.start()
         for t in threads:

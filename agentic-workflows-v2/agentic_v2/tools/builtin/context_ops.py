@@ -66,8 +66,7 @@ class TokenEstimateTool(BaseTool):
 
 
 class ContextTrimTool(BaseTool):
-    """Trim long text to fit within a token budget, preserving head and
-    tail."""
+    """Trim long text to fit within a token budget, preserving head and tail."""
 
     @property
     def name(self) -> str:
@@ -121,8 +120,7 @@ class ContextTrimTool(BaseTool):
         tail_tokens: int | None = None,
         marker: str = "\n\n[... truncated to fit token budget ...]\n\n",
     ) -> ToolResult:
-        """Trim *text* to fit *max_tokens*, preserving head and tail
-        sections."""
+        """Trim *text* to fit *max_tokens*, preserving head and tail sections."""
         try:
             max_tokens = int(max_tokens)
             if max_tokens <= 0:

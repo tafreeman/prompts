@@ -425,8 +425,7 @@ class WorkflowRunner:
         use_cache: bool = True,
         run_config: dict[str, Any] | None = None,
     ) -> dict[str, Any] | None:
-        """Return latest checkpoint state snapshot for a thread, if
-        available."""
+        """Return latest checkpoint state snapshot for a thread, if available."""
         config = load_workflow_config(workflow_name, self._definitions_dir)
         graph = self._get_or_compile(config, use_cache)
         langgraph_config = self._build_langgraph_config(thread_id, run_config)
@@ -487,8 +486,7 @@ class WorkflowRunner:
         use_cache: bool = True,
         run_config: dict[str, Any] | None = None,
     ) -> WorkflowResult:
-        """Resume an interrupted workflow from the latest checkpoint thread
-        state."""
+        """Resume an interrupted workflow from the latest checkpoint thread state."""
         config = load_workflow_config(workflow_name, self._definitions_dir)
         graph = self._get_or_compile(config, use_cache)
         langgraph_config = self._build_langgraph_config(thread_id, run_config)
@@ -594,8 +592,7 @@ class WorkflowRunner:
         thread_id: str | None,
         run_config: dict[str, Any] | None,
     ) -> dict[str, Any]:
-        """Build LangGraph runtime config with optional thread checkpoint
-        key."""
+        """Build LangGraph runtime config with optional thread checkpoint key."""
         config: dict[str, Any] = dict(run_config or {})
 
         if thread_id:

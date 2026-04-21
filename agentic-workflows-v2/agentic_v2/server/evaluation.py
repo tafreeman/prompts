@@ -104,7 +104,6 @@ def score_workflow_result(
     )
 
 
-
 __all__ = [
     "CriterionFloorResult",
     "HardGateResult",

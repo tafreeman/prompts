@@ -32,7 +32,6 @@ from tools.agents.benchmarks.workflow_pipeline import (
     save_workflow_phases_md,
 )
 
-
 # ---------------------------------------------------------------------------
 # Helpers — lightweight stubs for OrchestratorResult-like objects
 # ---------------------------------------------------------------------------
@@ -154,9 +153,7 @@ class TestEvaluateAgentOutput:
     )
     def test_short_output_returns_f_grade(self, output: str, reason_fragment: str):
         """Output shorter than 50 chars (after strip) gets score 0 / grade F."""
-        with patch(
-            "tools.agents.benchmarks.workflow_pipeline.HAS_LLM_EVALUATOR", True
-        ):
+        with patch("tools.agents.benchmarks.workflow_pipeline.HAS_LLM_EVALUATOR", True):
             result = evaluate_agent_output(
                 agent_task_id="t1",
                 agent_type="analyst",
@@ -180,11 +177,12 @@ class TestEvaluateAgentOutput:
         mock_eval_result.strengths = ["good"]
         mock_eval_result.weaknesses = ["bad"]
 
-        with patch(
-            "tools.agents.benchmarks.workflow_pipeline.HAS_LLM_EVALUATOR", True
-        ), patch(
-            "tools.agents.benchmarks.workflow_pipeline.evaluate_with_llm",
-            return_value=mock_eval_result,
+        with (
+            patch("tools.agents.benchmarks.workflow_pipeline.HAS_LLM_EVALUATOR", True),
+            patch(
+                "tools.agents.benchmarks.workflow_pipeline.evaluate_with_llm",
+                return_value=mock_eval_result,
+            ),
         ):
             result = evaluate_agent_output(
                 agent_task_id="t1",
@@ -200,7 +198,8 @@ class TestEvaluateAgentOutput:
         assert result["score"] == 7.5
 
     def test_successful_evaluation_returns_formatted_dict(self):
-        """Successful LLM eval returns score, grade, dimensions, strengths, weaknesses."""
+        """Successful LLM eval returns score, grade, dimensions, strengths,
+        weaknesses."""
         mock_dim = MagicMock()
         mock_dim.score = 8.5
 
@@ -211,11 +210,12 @@ class TestEvaluateAgentOutput:
         mock_eval_result.strengths = ["clear", "thorough", "extra"]
         mock_eval_result.weaknesses = ["verbose", "redundant", "extra2"]
 
-        with patch(
-            "tools.agents.benchmarks.workflow_pipeline.HAS_LLM_EVALUATOR", True
-        ), patch(
-            "tools.agents.benchmarks.workflow_pipeline.evaluate_with_llm",
-            return_value=mock_eval_result,
+        with (
+            patch("tools.agents.benchmarks.workflow_pipeline.HAS_LLM_EVALUATOR", True),
+            patch(
+                "tools.agents.benchmarks.workflow_pipeline.evaluate_with_llm",
+                return_value=mock_eval_result,
+            ),
         ):
             result = evaluate_agent_output(
                 agent_task_id="t1",
@@ -236,11 +236,12 @@ class TestEvaluateAgentOutput:
 
     def test_evaluation_exception_returns_error_dict(self):
         """When evaluate_with_llm raises, returns F grade with error reason."""
-        with patch(
-            "tools.agents.benchmarks.workflow_pipeline.HAS_LLM_EVALUATOR", True
-        ), patch(
-            "tools.agents.benchmarks.workflow_pipeline.evaluate_with_llm",
-            side_effect=RuntimeError("API timeout"),
+        with (
+            patch("tools.agents.benchmarks.workflow_pipeline.HAS_LLM_EVALUATOR", True),
+            patch(
+                "tools.agents.benchmarks.workflow_pipeline.evaluate_with_llm",
+                side_effect=RuntimeError("API timeout"),
+            ),
         ):
             result = evaluate_agent_output(
                 agent_task_id="t1",
@@ -258,11 +259,12 @@ class TestEvaluateAgentOutput:
 
     def test_evaluation_exception_verbose_prints(self, capsys):
         """In verbose mode, evaluation exceptions are printed."""
-        with patch(
-            "tools.agents.benchmarks.workflow_pipeline.HAS_LLM_EVALUATOR", True
-        ), patch(
-            "tools.agents.benchmarks.workflow_pipeline.evaluate_with_llm",
-            side_effect=ValueError("bad data"),
+        with (
+            patch("tools.agents.benchmarks.workflow_pipeline.HAS_LLM_EVALUATOR", True),
+            patch(
+                "tools.agents.benchmarks.workflow_pipeline.evaluate_with_llm",
+                side_effect=ValueError("bad data"),
+            ),
         ):
             evaluate_agent_output(
                 agent_task_id="t1",
@@ -287,12 +289,13 @@ class TestEvaluateAgentOutput:
         mock_eval_result.strengths = []
         mock_eval_result.weaknesses = []
 
-        with patch(
-            "tools.agents.benchmarks.workflow_pipeline.HAS_LLM_EVALUATOR", True
-        ), patch(
-            "tools.agents.benchmarks.workflow_pipeline.evaluate_with_llm",
-            return_value=mock_eval_result,
-        ) as mock_eval:
+        with (
+            patch("tools.agents.benchmarks.workflow_pipeline.HAS_LLM_EVALUATOR", True),
+            patch(
+                "tools.agents.benchmarks.workflow_pipeline.evaluate_with_llm",
+                return_value=mock_eval_result,
+            ) as mock_eval,
+        ):
             evaluate_agent_output(
                 agent_task_id="t1",
                 agent_type="analyst",
@@ -657,10 +660,19 @@ class TestSaveWorkflowPhasesMd:
             "phases": [
                 {
                     "phase_number": 1,
-                    "tasks": [{"task_id": "t1", "agent_type": "a", "status": "done", "description": "d"}],
+                    "tasks": [
+                        {
+                            "task_id": "t1",
+                            "agent_type": "a",
+                            "status": "done",
+                            "description": "d",
+                        }
+                    ],
                 }
             ],
-            "agent_results": {"t1": {"output": "Here is my analysis", "duration_seconds": 5.2}},
+            "agent_results": {
+                "t1": {"output": "Here is my analysis", "duration_seconds": 5.2}
+            },
             "phase_evaluations": {},
             "metadata": {},
         }
@@ -677,7 +689,14 @@ class TestSaveWorkflowPhasesMd:
             "phases": [
                 {
                     "phase_number": 1,
-                    "tasks": [{"task_id": "t1", "agent_type": "a", "status": "done", "description": "d"}],
+                    "tasks": [
+                        {
+                            "task_id": "t1",
+                            "agent_type": "a",
+                            "status": "done",
+                            "description": "d",
+                        }
+                    ],
                 }
             ],
             "agent_results": {"t1": {"output": long_output}},
@@ -698,7 +717,14 @@ class TestSaveWorkflowPhasesMd:
             "phases": [
                 {
                     "phase_number": 1,
-                    "tasks": [{"task_id": "t1", "agent_type": "a", "status": "done", "description": "d"}],
+                    "tasks": [
+                        {
+                            "task_id": "t1",
+                            "agent_type": "a",
+                            "status": "done",
+                            "description": "d",
+                        }
+                    ],
                 }
             ],
             "agent_results": {"t1": {"output": ""}},
@@ -716,7 +742,14 @@ class TestSaveWorkflowPhasesMd:
             "phases": [
                 {
                     "phase_number": 1,
-                    "tasks": [{"task_id": "t1", "agent_type": "analyst", "status": "done", "description": "d"}],
+                    "tasks": [
+                        {
+                            "task_id": "t1",
+                            "agent_type": "analyst",
+                            "status": "done",
+                            "description": "d",
+                        }
+                    ],
                 }
             ],
             "agent_results": {"t1": {"output": "analysis here"}},

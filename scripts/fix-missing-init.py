@@ -12,7 +12,14 @@ import argparse
 import pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-SKIP_DIRS = {"__pycache__", ".venv", ".venv314", "node_modules", ".git", "storybook-static"}
+SKIP_DIRS = {
+    "__pycache__",
+    ".venv",
+    ".venv314",
+    "node_modules",
+    ".git",
+    "storybook-static",
+}
 
 SCAN_DIRS = [
     ROOT / "agentic-workflows-v2" / "agentic_v2",

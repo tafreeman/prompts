@@ -25,7 +25,6 @@ from tools.agents.benchmarks.evaluator_models import (
 )
 from tools.agents.benchmarks.loader import BenchmarkTask
 
-
 # ---------------------------------------------------------------------------
 # Fixtures
 # ---------------------------------------------------------------------------
@@ -53,10 +52,16 @@ def sample_eval_result() -> EvaluationResult:
         timestamp=datetime.now().isoformat(),
         dimension_scores={
             "completeness": DimensionScore(
-                dimension="completeness", score=8.0, reasoning="Good", weight=0.25,
+                dimension="completeness",
+                score=8.0,
+                reasoning="Good",
+                weight=0.25,
             ),
             "correctness": DimensionScore(
-                dimension="correctness", score=7.0, reasoning="Ok", weight=0.25,
+                dimension="correctness",
+                score=7.0,
+                reasoning="Ok",
+                weight=0.25,
             ),
         },
         overall_score=7.5,
@@ -120,8 +125,14 @@ class TestEvaluateTaskOutputLlm:
     @patch("tools.agents.benchmarks.evaluation_pipeline.print_evaluation_report")
     @patch("tools.agents.benchmarks.evaluation_pipeline.save_evaluation_report")
     def test_saves_report_when_output_dir(
-        self, mock_save, mock_print, mock_gold, mock_eval,
-        sample_task, sample_eval_result, tmp_path,
+        self,
+        mock_save,
+        mock_print,
+        mock_gold,
+        mock_eval,
+        sample_task,
+        sample_eval_result,
+        tmp_path,
     ):
         """When output_dir is provided, report is saved."""
         mock_gold.return_value = {}
@@ -143,7 +154,12 @@ class TestEvaluateTaskOutputLlm:
     @patch("tools.agents.benchmarks.evaluation_pipeline.get_gold_standard_for_task")
     @patch("tools.agents.benchmarks.evaluation_pipeline.print_evaluation_report")
     def test_creates_minimal_gold_when_none_found(
-        self, mock_print, mock_gold, mock_eval, sample_task, sample_eval_result,
+        self,
+        mock_print,
+        mock_gold,
+        mock_eval,
+        sample_task,
+        sample_eval_result,
     ):
         """When no gold standard found, creates minimal one from task data."""
         mock_gold.return_value = None
@@ -171,7 +187,9 @@ class TestGetGoldStandardForTask:
     @patch("tools.agents.benchmarks.evaluation_pipeline.HAS_GOLD_STANDARD", False)
     def test_returns_none_when_unavailable(self, sample_task):
         """Returns None when gold standard module is not available."""
-        from tools.agents.benchmarks.evaluation_pipeline import get_gold_standard_for_task
+        from tools.agents.benchmarks.evaluation_pipeline import (
+            get_gold_standard_for_task,
+        )
 
         assert get_gold_standard_for_task(sample_task) is None
 
@@ -234,7 +252,9 @@ class TestSaveEvaluationReportLegacy:
             "database_tables": [],
         }
 
-        save_evaluation_report_legacy("001", eval_result, gold_data, "output text", tmp_path)
+        save_evaluation_report_legacy(
+            "001", eval_result, gold_data, "output text", tmp_path
+        )
 
         report_file = tmp_path / "task_001_evaluation.md"
         assert report_file.exists()
@@ -259,7 +279,10 @@ class TestGetAgentExpectations:
         assert "Deep analysis" in result["key_qualities"]
         assert "KEY FINDINGS" in result["expected_sections"]
 
-    @pytest.mark.parametrize("agent_type", ["analyst", "researcher", "strategist", "implementer", "validator"])
+    @pytest.mark.parametrize(
+        "agent_type",
+        ["analyst", "researcher", "strategist", "implementer", "validator"],
+    )
     def test_all_known_agents_have_expectations(self, agent_type: str):
         """All defined agent types have expectations with required keys."""
         from tools.agents.benchmarks.workflow_pipeline import get_agent_expectations
@@ -286,9 +309,13 @@ class TestEvaluateAgentOutput:
         from tools.agents.benchmarks.workflow_pipeline import evaluate_agent_output
 
         result = evaluate_agent_output(
-            agent_task_id="t1", agent_type="analyst",
-            task_description="Analyze data", agent_output="analysis results",
-            original_prompt="Analyze this", model="gpt-4o", benchmark_id="test",
+            agent_task_id="t1",
+            agent_type="analyst",
+            task_description="Analyze data",
+            agent_output="analysis results",
+            original_prompt="Analyze this",
+            model="gpt-4o",
+            benchmark_id="test",
         )
         assert result is None
 
@@ -298,9 +325,13 @@ class TestEvaluateAgentOutput:
         from tools.agents.benchmarks.workflow_pipeline import evaluate_agent_output
 
         result = evaluate_agent_output(
-            agent_task_id="t1", agent_type="analyst",
-            task_description="Analyze data", agent_output="short",
-            original_prompt="prompt", model="m", benchmark_id="b",
+            agent_task_id="t1",
+            agent_type="analyst",
+            task_description="Analyze data",
+            agent_output="short",
+            original_prompt="prompt",
+            model="m",
+            benchmark_id="b",
         )
         assert result["score"] == 0.0
         assert result["grade"] == "F"
@@ -312,9 +343,13 @@ class TestEvaluateAgentOutput:
         from tools.agents.benchmarks.workflow_pipeline import evaluate_agent_output
 
         result = evaluate_agent_output(
-            agent_task_id="t1", agent_type="analyst",
-            task_description="Analyze data", agent_output="",
-            original_prompt="prompt", model="m", benchmark_id="b",
+            agent_task_id="t1",
+            agent_type="analyst",
+            task_description="Analyze data",
+            agent_output="",
+            original_prompt="prompt",
+            model="m",
+            benchmark_id="b",
         )
         assert result["score"] == 0.0
 
@@ -327,10 +362,13 @@ class TestEvaluateAgentOutput:
         from tools.agents.benchmarks.workflow_pipeline import evaluate_agent_output
 
         result = evaluate_agent_output(
-            agent_task_id="t1", agent_type="analyst",
+            agent_task_id="t1",
+            agent_type="analyst",
             task_description="Analyze data",
             agent_output="A detailed analysis of the data showing patterns and trends across multiple dimensions.",
-            original_prompt="prompt", model="m", benchmark_id="b",
+            original_prompt="prompt",
+            model="m",
+            benchmark_id="b",
         )
 
         assert result["score"] == 7.5
@@ -346,10 +384,13 @@ class TestEvaluateAgentOutput:
         from tools.agents.benchmarks.workflow_pipeline import evaluate_agent_output
 
         result = evaluate_agent_output(
-            agent_task_id="t1", agent_type="analyst",
+            agent_task_id="t1",
+            agent_type="analyst",
             task_description="Analyze data",
             agent_output="A detailed analysis covering many aspects of the problem domain and solution space.",
-            original_prompt="prompt", model="m", benchmark_id="b",
+            original_prompt="prompt",
+            model="m",
+            benchmark_id="b",
         )
 
         assert result["score"] == 0.0
@@ -359,7 +400,9 @@ class TestEvaluateAgentOutput:
 class TestExtractWorkflowData:
     """Tests for extract_workflow_data."""
 
-    def _make_mock_result(self, with_plan: bool = True, with_agents: bool = True) -> MagicMock:
+    def _make_mock_result(
+        self, with_plan: bool = True, with_agents: bool = True
+    ) -> MagicMock:
         """Create a mock OrchestratorResult."""
         result = MagicMock()
         result.task_description = "Design a microservices architecture"

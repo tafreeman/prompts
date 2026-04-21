@@ -3,8 +3,6 @@
 from __future__ import annotations
 
 import pytest
-from pydantic import ValidationError
-
 from agentic_v2.contracts.sanitization import (
     Classification,
     Finding,
@@ -19,6 +17,7 @@ from agentic_v2.contracts.verification import (
     VerificationResult,
     VerificationStatus,
 )
+from pydantic import ValidationError
 
 
 class TestFinding:
@@ -101,8 +100,12 @@ class TestVerificationResult:
         result = VerificationResult(
             final_status=VerificationStatus.PASSED,
             attempts=(
-                CorrectionAttempt(attempt_number=1, verification_status=VerificationStatus.FAILED),
-                CorrectionAttempt(attempt_number=2, verification_status=VerificationStatus.PASSED),
+                CorrectionAttempt(
+                    attempt_number=1, verification_status=VerificationStatus.FAILED
+                ),
+                CorrectionAttempt(
+                    attempt_number=2, verification_status=VerificationStatus.PASSED
+                ),
             ),
         )
         assert result.attempt_count == 2

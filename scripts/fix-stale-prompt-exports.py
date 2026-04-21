@@ -45,7 +45,7 @@ def main() -> None:
     verb = "Would remove" if args.dry_run else "Removing"
     print(f"{verb} {len(to_remove)} stale constant(s):")
     for const_name, prompt_name, line in to_remove:
-        print(f"  {const_name} = \"{prompt_name}\"  (no {prompt_name}.md)")
+        print(f'  {const_name} = "{prompt_name}"  (no {prompt_name}.md)')
 
     if not args.dry_run:
         new_text = text

@@ -744,8 +744,7 @@ def add_loop_edges(graph: StateGraph, config: WorkflowConfig) -> None:
 
 
 def compile_graph(graph: StateGraph, checkpointer: Any = None) -> Any:
-    """Compile graph with optional checkpointer, with compatibility
-    fallback."""
+    """Compile graph with optional checkpointer, with compatibility fallback."""
     if checkpointer is None:
         return graph.compile()
     try:

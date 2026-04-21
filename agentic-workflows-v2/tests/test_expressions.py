@@ -463,8 +463,7 @@ class TestNullSafeAndCoalesce:
         assert ns not in ["APPROVED", "NEEDS_FIXES"]
 
     def test_coalesce_on_skipped_step_outputs(self):
-        """Coalesce resolves through skipped step (empty outputs) to
-        original."""
+        """Coalesce resolves through skipped step (empty outputs) to original."""
         ctx = ExecutionContext()
 
         # Simulate: generate_api succeeded with real code
@@ -578,8 +577,7 @@ class TestNullSafeAndCoalesce:
         assert result == r2_code
 
     def test_safe_namespace_missing_step(self):
-        """Accessing a step that never ran returns NullSafe → coalesce skips
-        it."""
+        """Accessing a step that never ran returns NullSafe → coalesce skips it."""
 
         ctx = ExecutionContext()
 

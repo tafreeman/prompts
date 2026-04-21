@@ -67,8 +67,7 @@ class TestRunWithAdapter:
     """Tests for adapter field in ``POST /api/run``."""
 
     def test_run_request_accepts_adapter_field(self, monkeypatch):
-        """POST /api/run accepts an 'adapter' field and routes to the native
-        engine.
+        """POST /api/run accepts an 'adapter' field and routes to the native engine.
 
         Verifies that when ``adapter="native"`` is passed:
         1. The request is accepted (HTTP 200 with a run_id) — confirming the

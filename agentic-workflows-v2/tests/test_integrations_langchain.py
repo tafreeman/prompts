@@ -24,7 +24,6 @@ from agentic_v2.integrations.langchain import (
 )
 from agentic_v2.tools.base import BaseTool, ToolResult
 
-
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
@@ -150,7 +149,10 @@ class TestAgenticChatModel:
         [
             (["system", "human", "ai"], ["system", "user", "assistant"]),
             (["human", "human"], ["user", "user"]),
-            (["system", "ai", "human", "ai"], ["system", "assistant", "user", "assistant"]),
+            (
+                ["system", "ai", "human", "ai"],
+                ["system", "assistant", "user", "assistant"],
+            ),
         ],
         ids=["mixed-conversation", "double-user", "four-turn"],
     )

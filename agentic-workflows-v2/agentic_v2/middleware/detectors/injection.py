@@ -68,9 +68,7 @@ class PromptInjectionDetector:
                         severity=injection_pattern.severity,
                         location=f"text[{start}:{end}]",
                         matched_pattern=injection_pattern.name,
-                        redacted_preview=self._build_preview(
-                            text, start, end
-                        ),
+                        redacted_preview=self._build_preview(text, start, end),
                     )
                 )
 

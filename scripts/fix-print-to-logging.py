@@ -102,7 +102,9 @@ def main() -> None:
         print(f"{verb} {len(modified)} file(s):")
         for p in sorted(modified):
             print(f"  {p}")
-        print("\nWARNING: Review changes manually -- some print() calls may be intentional.")
+        print(
+            "\nWARNING: Review changes manually -- some print() calls may be intentional."
+        )
     else:
         print("No bare print() calls found in production code.")
 

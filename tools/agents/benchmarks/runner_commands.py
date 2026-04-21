@@ -6,6 +6,7 @@ Each ``cmd_*`` function maps to a CLI subcommand dispatched from
 
 from __future__ import annotations
 
+import argparse
 import json
 from pathlib import Path
 
@@ -15,8 +16,6 @@ from tools.agents.benchmarks.registry import (
     BenchmarkConfig,
     BenchmarkRegistry,
 )
-import argparse
-
 from tools.agents.benchmarks.runner_ui import (
     colorize,
     get_available_models_by_provider,

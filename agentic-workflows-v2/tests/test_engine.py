@@ -302,8 +302,8 @@ class TestStepExecutor:
 
     @pytest.mark.asyncio
     async def test_synthesizes_review_status_from_raw_response(self):
-        """Review steps with raw_response-only output still expose
-        review_report for gates."""
+        """Review steps with raw_response-only output still expose review_report for
+        gates."""
 
         async def reviewer_like_step(ctx):
             return {"raw_response": """```json
@@ -396,8 +396,7 @@ class TestAgentResolverParsing:
     """Regression tests for resilient reviewer-output parsing."""
 
     def test_parse_malformed_review_response_extracts_status(self):
-        """When JSON is malformed, fallback still provides review_report
-        status."""
+        """When JSON is malformed, fallback still provides review_report status."""
         response = (
             "```json\n{\n"
             '  "review_report": {\n'
@@ -415,8 +414,7 @@ class TestAgentResolverParsing:
         assert "raw_response" in parsed
 
     def test_parse_unstructured_review_defaults_to_needs_fixes(self):
-        """When no status can be extracted, fallback should force rework
-        path."""
+        """When no status can be extracted, fallback should force rework path."""
         response = "Model returned narrative text, not JSON."
 
         parsed = _parse_llm_json_output(response, ["review_report"])
@@ -424,8 +422,7 @@ class TestAgentResolverParsing:
         assert parsed["review_report"]["overall_status"] == "NEEDS_FIXES"
 
     def test_parse_nested_raw_response_review_report(self):
-        """Recover review_report when model wraps it under raw_response JSON
-        field."""
+        """Recover review_report when model wraps it under raw_response JSON field."""
         response = (
             '{"raw_response":"```json\\n{\\n  \\"review_report\\": {\\n'
             '    \\"overall_assessment\\": \\"Looks decent but incomplete.\\"\\n'

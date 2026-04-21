@@ -252,8 +252,8 @@ class NativeEngine:
         original_callback: Callable[[dict[str, Any]], Awaitable[None]] | None,
         thread_id: str | None,
     ) -> Callable[[dict[str, Any]], Awaitable[None]]:
-        """Create a wrapper around *original_callback* that also writes
-        checkpoints on ``step_end`` events.
+        """Create a wrapper around *original_callback* that also writes checkpoints on
+        ``step_end`` events.
 
         The checkpoint write is launched as a fire-and-forget task so it
         does not block DAG scheduling.

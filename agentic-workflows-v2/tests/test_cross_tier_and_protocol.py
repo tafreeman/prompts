@@ -65,8 +65,7 @@ class TestCrossTierDegradation:
         assert model is None
 
     def test_degrades_downward_first(self) -> None:
-        """When TIER_3 is exhausted, degrade to TIER_2 (lower) before
-        TIER_4."""
+        """When TIER_3 is exhausted, degrade to TIER_2 (lower) before TIER_4."""
         router = self._make_router()
         # Exhaust TIER_3
         stats = router._get_stats("anthropic:claude-3-sonnet")

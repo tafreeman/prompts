@@ -32,8 +32,7 @@ from typing import Mapping
 
 @dataclass(frozen=True)
 class ScoringProfile:
-    """Immutable scoring profile binding criterion weights to a workflow
-    family.
+    """Immutable scoring profile binding criterion weights to a workflow family.
 
     Attributes:
         profile_id: Single-letter identifier (``"A"``--``"E"``).

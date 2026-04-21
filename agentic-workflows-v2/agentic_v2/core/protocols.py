@@ -190,7 +190,6 @@ class ToolProtocol(Protocol):
 # Kept as an alias for backward compatibility with existing agent code.
 from .memory import MemoryStoreProtocol as MemoryStore
 
-
 # --- Sanitization & Verification Protocols (ADR-002) ---
 
 
