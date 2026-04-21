@@ -18,9 +18,9 @@ Type-safety notes (Sprint C1):
   and LangChainEngine.
 - ``workflow`` remains ``Any`` because different engines accept different
   representations (``DAG``, ``Pipeline``, ``str``, etc.).
-- ``AgentProtocol.run()`` uses ``object`` (not ``Any``) so the type checker
-  enforces explicit casting at call sites.  Concrete agents use the bounded
-  ``TypeVar``\s (``TInput``, ``TOutput``) defined in ``agents.base``.
+- ``AgentProtocol.run()`` uses ``object`` — enforces explicit casting at call
+  sites.  Concrete agents use the bounded ``TypeVar``\s (``TInput``,
+  ``TOutput``) defined in ``agents.base``.
 - Imports guarded by ``TYPE_CHECKING`` to prevent circular imports
   (``core/`` <- ``engine/`` <- ``core/``).
 """
