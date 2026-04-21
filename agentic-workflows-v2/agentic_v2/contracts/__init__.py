@@ -22,6 +22,18 @@ Exports by category:
   :class:`IssueCategory`, :class:`TestType`, :class:`TestCase`.
 """
 
+from .events import (
+    EvaluationCompleteEvent,
+    EvaluationStartEvent,
+    ExecutionEvent,
+    StepCompleteEvent,
+    StepEndEvent,
+    StepErrorEvent,
+    StepStartEvent,
+    WorkflowEndEvent,
+    WorkflowStartEvent,
+    validate_event,
+)
 from .messages import (
     AgentMessage,
     Finding,
