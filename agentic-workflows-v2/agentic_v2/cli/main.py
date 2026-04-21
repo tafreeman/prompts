@@ -46,6 +46,7 @@ from .display import (
 )
 from .helpers import _run_adapter, _run_via_adapter
 from .rag_commands import rag_group
+from ..devex.cli import devex_app
 
 logger = logging.getLogger(__name__)
 
@@ -78,6 +79,9 @@ atexit.register(shutdown_tracing)
 
 # Register RAG subcommand group
 app.add_typer(rag_group, name="rag")
+
+# Register DevEx subcommand group
+app.add_typer(devex_app, name="devex")
 
 
 def _require_langchain() -> None:
