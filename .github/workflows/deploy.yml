@@ -84,7 +84,7 @@ jobs:
 
       - name: Build backend OCI image archive
         if: steps.docker_backend.outputs.exists == 'true'
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: .
           file: ./Dockerfile
@@ -94,7 +94,7 @@ jobs:
 
       - name: Build frontend OCI image archive
         if: steps.docker_frontend.outputs.exists == 'true'
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: .
           file: ./Dockerfile.ui
