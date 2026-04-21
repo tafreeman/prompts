@@ -40,6 +40,22 @@ def _reset_llm_client():
     reset_client()
 
 
+from agentic_v2.adapters.registry import AdapterRegistry
+
+
+@pytest.fixture(autouse=True)
+def _reset_adapter_registry():
+    """Snapshot and restore AdapterRegistry state around every test.
+
+    Prevents adapter registrations made inside a test from leaking into
+    subsequent tests, which is critical under pytest-xdist -n auto where
+    test order is non-deterministic across workers.
+    """
+    AdapterRegistry.reset_for_tests()
+    yield
+    AdapterRegistry.reset_for_tests()
+
+
 @pytest.fixture
 def mock_backend() -> MagicMock:
     """Return a mock LLM backend that echoes its prompt."""
