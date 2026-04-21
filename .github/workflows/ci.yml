@@ -30,8 +30,9 @@ jobs:
       - name: Verify critical imports
         run: |
           python -c "
-          from agentic_v2 import DAGExecutor, ExecutionContext, WorkflowLoader
+          import agentic_v2
           from agentic_v2.core.protocols import AgentProtocol, ToolProtocol, ExecutionEngine
+          from agentic_v2.workflows import WorkflowLoader
           print('Critical imports OK')
           "
       - name: Run pytest (smoke, no coverage gate)
