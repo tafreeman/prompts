@@ -1,8 +1,9 @@
-import { useMemo } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { Filter, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useRuns, useRunsSummary } from "../hooks/useRuns";
 import { useWorkflows } from "../hooks/useWorkflows";
+import { useHotkeys } from "../hooks/useHotkeys";
 import BBox from "../components/common/BBox";
 import BPill from "../components/common/BPill";
 import BSpark from "../components/common/BSpark";
@@ -108,10 +109,30 @@ export default function DashboardPage() {
   const { data: runs } = useRuns();
   const { data: workflows } = useWorkflows();
 
-  const recent: RunSummary[] = useMemo(
-    () => (runs ?? []).slice(0, 7),
-    [runs],
-  );
+  const [filter, setFilter] = useState("");
+  const filterRef = useRef<HTMLInputElement>(null);
+
+  const focusFilter = useCallback(() => {
+    filterRef.current?.focus();
+  }, []);
+
+  const clearFilter = useCallback(() => {
+    setFilter("");
+    filterRef.current?.blur();
+  }, []);
+
+  useHotkeys({ filter: focusFilter, escape: clearFilter });
+
+  const recent: RunSummary[] = useMemo(() => {
+    const all = (runs ?? []).slice(0, 7);
+    if (!filter.trim()) return all;
+    const q = filter.trim().toLowerCase();
+    return all.filter(
+      (r) =>
+        (r.workflow_name ?? "").toLowerCase().includes(q) ||
+        (r.run_id ?? r.filename ?? "").toLowerCase().includes(q),
+    );
+  }, [runs, filter]);
 
   const totalRuns = summary?.total_runs ?? 0;
   const success = summary?.success ?? 0;
@@ -171,10 +192,16 @@ export default function DashboardPage() {
   return (
     <div className="flex h-full flex-col">
       <BTopBar path="dashboard">
-        <button className="btn-ghost">
-          <Filter className="h-3 w-3" />
-          <span>[f] filter</span>
-        </button>
+        <input
+          ref={filterRef}
+          type="text"
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+          onKeyDown={(e) => e.key === "Escape" && clearFilter()}
+          placeholder="[f] filter runs…"
+          aria-label="Filter runs"
+          className="h-5 w-36 bg-transparent font-mono text-[11px] text-b-text placeholder:text-b-text-dim focus:outline-none focus:placeholder:text-b-text-faint"
+        />
         <button className="btn-primary">
           <Plus className="h-3 w-3" />
           <span>[n] new run</span>
