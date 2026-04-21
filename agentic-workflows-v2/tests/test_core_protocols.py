@@ -220,27 +220,38 @@ class TestMemoryStore:
 # ── AgentProtocol.run signature ──────────────────────────────────────
 
 
-import inspect
+class TestProtocolSignatures:
+    """Verify no Any in core protocol method signatures."""
 
+    def test_agent_protocol_run_no_any_in_signature(self):
+        """run() must not use Any for input_data or return type."""
+        annotations = AgentProtocol.run.__annotations__
 
-def test_agent_protocol_run_no_any_in_signature():
-    """run() must not use Any for input_data or return type.
+        input_data_ann = annotations.get("input_data", "")
+        assert input_data_ann != "Any", (
+            "AgentProtocol.run parameter 'input_data' must not be typed as Any"
+        )
 
-    Uses raw ``__annotations__`` to avoid issues with forward-reference
-    resolution when ``from __future__ import annotations`` is active and
-    some types are guarded by ``TYPE_CHECKING``.
-    """
-    annotations = AgentProtocol.run.__annotations__
+        return_ann = annotations.get("return", "")
+        assert return_ann != "Any", (
+            "AgentProtocol.run return type must not be Any"
+        )
 
-    input_data_ann = annotations.get("input_data", "")
-    assert input_data_ann != "Any", (
-        "AgentProtocol.run parameter 'input_data' must not be typed as Any"
-    )
+    def test_tool_protocol_execute_no_any_in_signature(self):
+        """execute() **kwargs and return type must not be typed as Any."""
+        from agentic_v2.core.protocols import ToolProtocol
 
-    return_ann = annotations.get("return", "")
-    assert return_ann != "Any", (
-        "AgentProtocol.run return type must not be Any"
-    )
+        annotations = ToolProtocol.execute.__annotations__
+
+        return_ann = annotations.get("return", "")
+        assert return_ann != "Any", (
+            "ToolProtocol.execute return type must not be Any"
+        )
+
+        kwargs_ann = annotations.get("kwargs", "")
+        assert kwargs_ann != "Any", (
+            "ToolProtocol.execute **kwargs must not be typed as Any"
+        )
 
 
 # ── Core module imports ───────────────────────────────────────────────
