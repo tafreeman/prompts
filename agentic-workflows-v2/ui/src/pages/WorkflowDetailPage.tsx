@@ -6,6 +6,7 @@ import { useWorkflowDAG } from "../hooks/useWorkflows";
 import { useRuns } from "../hooks/useRuns";
 import { runWorkflow } from "../api/client";
 import WorkflowDAG from "../components/dag/WorkflowDAG";
+import BDagMini from "../components/dag/BDagMini";
 import RunList from "../components/runs/RunList";
 import RunConfigForm, {
   type RunConfigValues,
@@ -225,7 +226,14 @@ export default function WorkflowDetailPage() {
           )}
         </div>
 
-        <div className="w-[340px] overflow-y-auto bg-b-bg0 p-3">
+        <div className="w-[340px] overflow-y-auto bg-b-bg0 p-3 space-y-3">
+          {dag && (
+            <BBox title="dag preview">
+              <div className="p-2" style={{ height: 160 }}>
+                <BDagMini nodes={dag.nodes} edges={dag.edges} />
+              </div>
+            </BBox>
+          )}
           <BBox title="run history">
             <div className="p-2">
               <RunList runs={runs} isLoading={runsLoading} />
