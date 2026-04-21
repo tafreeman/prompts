@@ -139,9 +139,9 @@ class AgentProtocol(Protocol):
     Agents process task inputs and produce task outputs, optionally
     maintaining state across invocations.
 
-    Note: ``input_data`` and the return type remain ``Any`` to preserve
-    structural subtyping compatibility.  Concrete agents should use the
-    bounded ``TypeVar``\s (``TInput`` / ``TOutput``) from
+    Note: ``input_data`` and the return type use ``object`` (not ``Any``) so
+    the type checker enforces explicit casting at call sites.  Concrete agents
+    should use the bounded ``TypeVar``\s (``TInput`` / ``TOutput``) from
     :mod:`agentic_v2.agents.base`.
     """
 
@@ -150,7 +150,7 @@ class AgentProtocol(Protocol):
         """Agent's unique name."""
         ...
 
-    async def run(self, input_data: Any, ctx: Optional[ExecutionContext] = None) -> Any:
+    async def run(self, input_data: object, ctx: Optional[ExecutionContext] = None) -> object:
         """Execute the agent on the given input.
 
         Args:
@@ -177,7 +177,7 @@ class ToolProtocol(Protocol):
         """Human-readable description of what the tool does."""
         ...
 
-    async def execute(self, **kwargs: Any) -> Any:
+    async def execute(self, **kwargs: object) -> object:
         """Execute the tool with the given arguments.
 
         Returns:

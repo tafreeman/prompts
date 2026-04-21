@@ -217,6 +217,32 @@ class TestMemoryStore:
         assert not isinstance(_Incomplete(), MemoryStore)
 
 
+# ── AgentProtocol.run signature ──────────────────────────────────────
+
+
+import inspect
+
+
+def test_agent_protocol_run_no_any_in_signature():
+    """run() must not use Any for input_data or return type.
+
+    Uses raw ``__annotations__`` to avoid issues with forward-reference
+    resolution when ``from __future__ import annotations`` is active and
+    some types are guarded by ``TYPE_CHECKING``.
+    """
+    annotations = AgentProtocol.run.__annotations__
+
+    input_data_ann = annotations.get("input_data", "")
+    assert input_data_ann != "Any", (
+        "AgentProtocol.run parameter 'input_data' must not be typed as Any"
+    )
+
+    return_ann = annotations.get("return", "")
+    assert return_ann != "Any", (
+        "AgentProtocol.run return type must not be Any"
+    )
+
+
 # ── Core module imports ───────────────────────────────────────────────
 
 
