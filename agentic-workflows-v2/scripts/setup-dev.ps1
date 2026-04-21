@@ -3,8 +3,9 @@
     One-command Windows development environment bring-up for agentic-workflows-v2.
 
 .DESCRIPTION
-    Checks prerequisites, installs Python and Node.js dependencies, validates
-    all 6 bundled workflows, and runs a deterministic smoke test.
+    Checks prerequisites, installs Python and Node.js dependencies, builds the
+    frontend, validates all 6 bundled workflows, runs a deterministic smoke test,
+    and probes the backend health endpoint to confirm the server starts.
 
     Run this once after cloning the repo (or after pulling major changes).
     After setup completes, use start-dev.ps1 to launch the dev servers.
@@ -13,7 +14,13 @@
     Skip the workflow validation and smoke-test phase.
 
 .PARAMETER SkipFrontend
-    Skip the npm install step (backend-only setup).
+    Skip the npm install and build steps (backend-only setup).
+
+.PARAMETER BackendPort
+    Port used for the backend health probe. Default: 8012.
+
+.PARAMETER FrontendPort
+    Port displayed in the completion message. Default: 5174.
 
 .EXAMPLE
     .\setup-dev.ps1
@@ -24,7 +31,9 @@
 [CmdletBinding()]
 param(
     [switch]$SkipSmokeTest,
-    [switch]$SkipFrontend
+    [switch]$SkipFrontend,
+    [int]$BackendPort = 8012,
+    [int]$FrontendPort = 5174
 )
 
 Set-StrictMode -Version Latest
@@ -82,10 +91,44 @@ $env:PYTHONIOENCODING = "utf-8"
 
 Write-Step "Checking prerequisites"
 
-Assert-Tool "git"  "Install from: https://git-scm.com/"
-Assert-Tool "uv"   "Install from: https://docs.astral.sh/uv/"
-Assert-Tool "node"  "Install Node.js 20+ from: https://nodejs.org/"
-Assert-Tool "npm"   "npm should come with Node.js — reinstall Node if missing."
+Assert-Tool "git" "Install from: https://git-scm.com/"
+Assert-Tool "uv"  "Install from: https://docs.astral.sh/uv/"
+
+if (-not $SkipFrontend) {
+    Assert-Tool "node" "Install Node.js 20+ from: https://nodejs.org/"
+    Assert-Tool "npm"  "npm should come with Node.js — reinstall Node if missing."
+
+    # Enforce Node.js minimum version.
+    $nodeVersion = node --version 2>&1 | Select-Object -First 1
+    $nodeMajor = [int]($nodeVersion -replace '^v(\d+).*', '$1')
+    if ($nodeMajor -lt 20) {
+        Write-Fail "Node.js 20+ required (found $nodeVersion). Install from: https://nodejs.org/"
+        exit 1
+    }
+}
+
+# ---------------------------------------------------------------------------
+# Step 1b — Port availability check
+# ---------------------------------------------------------------------------
+
+Write-Step "Checking port availability (port-guard)"
+
+Push-Location $BackendRoot
+try {
+    $LASTEXITCODE = 0
+    $ErrorActionPreference = "Continue"
+    & uv run agentic devex port-guard --backend-port $BackendPort --frontend-port $FrontendPort
+    $portExit = $LASTEXITCODE
+}
+finally {
+    $ErrorActionPreference = "Stop"
+    Pop-Location
+}
+
+if ($portExit -ne 0) {
+    Write-Fail "Port conflict detected. Resolve conflicts before continuing."
+    exit 1
+}
 
 # ---------------------------------------------------------------------------
 # Step 2 — Python environment setup
@@ -107,7 +150,7 @@ finally {
 }
 
 # ---------------------------------------------------------------------------
-# Step 3 — Frontend install
+# Step 3 — Frontend install and build
 # ---------------------------------------------------------------------------
 
 if (-not $SkipFrontend) {
@@ -130,9 +173,24 @@ if (-not $SkipFrontend) {
     finally {
         Pop-Location
     }
+
+    Write-Step "Building frontend (npm run build)"
+
+    Push-Location $UiRoot
+    try {
+        & npm run build
+        if ($LASTEXITCODE -ne 0) {
+            Write-Fail "npm run build failed (exit code $LASTEXITCODE)"
+            exit 1
+        }
+        Write-Ok "Frontend build successful"
+    }
+    finally {
+        Pop-Location
+    }
 }
 else {
-    Write-Step "Skipping frontend install (--SkipFrontend)"
+    Write-Step "Skipping frontend install and build (-SkipFrontend)"
 }
 
 # ---------------------------------------------------------------------------
@@ -157,16 +215,29 @@ if (-not $SkipSmokeTest) {
     Push-Location $BackendRoot
     try {
         foreach ($wf in $workflows) {
-            $ErrorActionPreference = "Continue"
-            $output = & uv run agentic validate $wf 2>&1
-            $exitCode = $LASTEXITCODE
-            $ErrorActionPreference = "Stop"
+            $output = $null
+            $exitCode = 0
+            try {
+                $ErrorActionPreference = "Continue"
+                $output = & uv run agentic validate $wf 2>&1
+                $exitCode = $LASTEXITCODE
+            }
+            finally {
+                $ErrorActionPreference = "Stop"
+            }
 
             if ($exitCode -ne 0) {
-                # Some workflows have pre-existing static validation issues
-                # (e.g., unresolved variable templates). Warn but don't block.
-                Write-Host "    [WARN] Validation issue: $wf (non-blocking)" -ForegroundColor Yellow
-                $warned += $wf
+                # iterative_review.yaml has a known pre-existing static validation
+                # bug (unresolved variable template). All other failures are hard errors.
+                if ($wf -eq "iterative_review") {
+                    Write-Host "    [WARN] Known validation issue: $wf (pre-existing, non-blocking)" -ForegroundColor Yellow
+                    $warned += $wf
+                }
+                else {
+                    Write-Host "    [FAIL] Validation failed: $wf" -ForegroundColor Red
+                    if ($output) { Write-Host ($output | Out-String) -ForegroundColor DarkGray }
+                    $failed += $wf
+                }
             }
             else {
                 Write-Ok "Validated: $wf"
@@ -179,8 +250,13 @@ if (-not $SkipSmokeTest) {
 
     if ($warned.Count -gt 0) {
         Write-Host ""
-        Write-Host "    Note: $($warned.Count) workflow(s) had validation warnings: $($warned -join ', ')" -ForegroundColor Yellow
-        Write-Host "    These may have pre-existing issues with static analysis." -ForegroundColor Yellow
+        Write-Host "    Note: $($warned.Count) workflow(s) had known pre-existing warnings: $($warned -join ', ')" -ForegroundColor Yellow
+    }
+
+    if ($failed.Count -gt 0) {
+        Write-Host ""
+        Write-Fail "$($failed.Count) workflow(s) failed validation: $($failed -join ', ')"
+        exit 1
     }
 
     # Run the deterministic workflow with --dry-run to verify the full
@@ -196,14 +272,20 @@ if (-not $SkipSmokeTest) {
 
     Push-Location $BackendRoot
     try {
-        $ErrorActionPreference = "Continue"
-        $output = & uv run agentic run test_deterministic --input $smokeInput --dry-run 2>&1
-        $exitCode = $LASTEXITCODE
-        $ErrorActionPreference = "Stop"
+        $smokeOutput = $null
+        $smokeExit = 0
+        try {
+            $ErrorActionPreference = "Continue"
+            $smokeOutput = & uv run agentic run test_deterministic --input $smokeInput --dry-run 2>&1
+            $smokeExit = $LASTEXITCODE
+        }
+        finally {
+            $ErrorActionPreference = "Stop"
+        }
 
-        if ($exitCode -ne 0) {
-            Write-Fail "Smoke test failed (exit code $exitCode)"
-            Write-Host ($output | Out-String) -ForegroundColor DarkGray
+        if ($smokeExit -ne 0) {
+            Write-Fail "Smoke test failed (exit code $smokeExit)"
+            if ($smokeOutput) { Write-Host ($smokeOutput | Out-String) -ForegroundColor DarkGray }
             exit 1
         }
         Write-Ok "Smoke test passed"
@@ -213,7 +295,69 @@ if (-not $SkipSmokeTest) {
     }
 }
 else {
-    Write-Step "Skipping smoke test (--SkipSmokeTest)"
+    Write-Step "Skipping smoke test (-SkipSmokeTest)"
+}
+
+# ---------------------------------------------------------------------------
+# Step 5 — Backend health probe
+# ---------------------------------------------------------------------------
+
+Write-Step "Verifying backend starts (health probe on :$BackendPort)"
+
+$serverLogOut = Join-Path $env:TEMP "setup-dev-server.stdout.log"
+$serverLogErr = Join-Path $env:TEMP "setup-dev-server.stderr.log"
+$serverProc = $null
+
+try {
+    $serverProc = Start-Process -FilePath "uv" `
+        -ArgumentList "run", "python", "-m", "uvicorn", `
+                       "agentic_v2.server.app:app", `
+                       "--host", "127.0.0.1", "--port", "$BackendPort" `
+        -WorkingDirectory $BackendRoot `
+        -RedirectStandardOutput $serverLogOut `
+        -RedirectStandardError  $serverLogErr `
+        -NoNewWindow `
+        -PassThru
+
+    $maxWait   = 30
+    $waited    = 0
+    $started   = $false
+
+    while ($waited -lt $maxWait) {
+        Start-Sleep -Seconds 2
+        $waited += 2
+
+        if ($serverProc.HasExited) {
+            Write-Fail "Backend process exited unexpectedly (exit code $($serverProc.ExitCode))"
+            if (Test-Path $serverLogErr) { Get-Content $serverLogErr | Write-Host -ForegroundColor DarkGray }
+            exit 1
+        }
+
+        try {
+            $resp = Invoke-WebRequest `
+                -Uri            "http://127.0.0.1:$BackendPort/api/health" `
+                -UseBasicParsing `
+                -TimeoutSec     2 `
+                -ErrorAction    Stop
+            if ($resp.StatusCode -eq 200) { $started = $true; break }
+        }
+        catch { }
+    }
+
+    if (-not $started) {
+        Write-Fail "Backend did not respond on http://127.0.0.1:$BackendPort/api/health within ${maxWait}s"
+        if (Test-Path $serverLogErr) { Get-Content $serverLogErr | Write-Host -ForegroundColor DarkGray }
+        exit 1
+    }
+
+    Write-Ok "Backend health probe passed (http://127.0.0.1:$BackendPort/api/health)"
+}
+finally {
+    if ($serverProc -and -not $serverProc.HasExited) {
+        $serverProc.Kill()
+        $null = $serverProc.WaitForExit(5000)
+    }
+    Remove-Item $serverLogOut, $serverLogErr -ErrorAction SilentlyContinue
 }
 
 # ---------------------------------------------------------------------------
@@ -228,5 +372,5 @@ Write-Host ""
 Write-Host "Next steps:" -ForegroundColor Yellow
 Write-Host "  1. Copy .env.example to .env and add at least one LLM provider key"
 Write-Host "  2. Launch dev servers:  .\scripts\start-dev.ps1"
-Write-Host "  3. Backend: http://localhost:8012  |  Frontend: http://localhost:5174"
+Write-Host "  3. Backend: http://localhost:$BackendPort  |  Frontend: http://localhost:$FrontendPort"
 Write-Host ""

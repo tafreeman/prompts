@@ -87,11 +87,11 @@ cd agentic-workflows-v2
 ```
 
 This checks prerequisites (`uv`, `node`, `npm`), runs `uv sync` with all required extras,
-installs frontend packages, validates all 6 bundled workflows, and runs a deterministic
-smoke test. Flags:
+installs and builds the frontend, validates all 6 bundled workflows, runs a deterministic
+smoke test, and probes the backend health endpoint to confirm the server starts. Flags:
 
-- `-SkipSmokeTest` — skip workflow validation and smoke test (faster)
-- `-SkipFrontend` — skip `npm install` for backend-only work
+- `-SkipSmokeTest` — skip workflow validation, smoke test, and health probe (faster)
+- `-SkipFrontend` — skip `npm install`, `npm run build`, and the node/npm prerequisite checks
 
 After setup completes, launch the dev servers with `.\scripts\start-dev.ps1`.
 
