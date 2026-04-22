@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import json
 import logging
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
@@ -220,10 +220,30 @@ class RunLogger:
             if isinstance(r.get("total_duration_ms"), (int, float))
         ]
 
+        cutoff = datetime.now(timezone.utc) - timedelta(days=30)
+        tokens_30d = 0
+        for r in records:
+            try:
+                start_raw = r.get("start_time")
+                if not isinstance(start_raw, str):
+                    continue
+                start_dt = datetime.fromisoformat(start_raw)
+                if start_dt.tzinfo is None:
+                    start_dt = start_dt.replace(tzinfo=timezone.utc)
+                if start_dt < cutoff:
+                    continue
+                for step in r.get("steps", []):
+                    t = step.get("tokens_used")
+                    if isinstance(t, int):
+                        tokens_30d += t
+            except Exception:
+                continue
+
         return {
             "total_runs": len(records),
             "success": statuses.count("success"),
             "failed": statuses.count("failed"),
             "avg_duration_ms": sum(durations) / len(durations) if durations else None,
             "workflows": sorted({str(r.get("workflow_name")) for r in records}),
+            "tokens_30d": tokens_30d,
         }
