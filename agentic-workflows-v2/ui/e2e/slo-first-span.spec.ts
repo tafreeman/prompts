@@ -1,0 +1,23 @@
+import { test, expect } from '@playwright/test';
+import { recordLatency, readP95 } from './slo-storage';
+
+test.describe('SLO: time-to-first-span p95 <= 2s', () => {
+  test('record single latency sample', async ({ page }) => {
+    await page.goto('/');
+    const t0 = Date.now();
+    await page.getByRole('link', { name: /workflows/i }).click();
+    await page.getByRole('link', { name: /code_review/i }).click();
+    await page.getByRole('button', { name: /run/i }).click();
+
+    // Wait for first DAG node render
+    await expect(page.locator('[data-testid^="dag-node-"]').first()).toBeVisible();
+    const latency = Date.now() - t0;
+
+    await recordLatency(latency);
+  });
+
+  test('rolling 7-day p95 is within budget', async () => {
+    const p95 = await readP95({ windowDays: 7 });
+    expect(p95, `p95=${p95}ms exceeds 2000ms budget`).toBeLessThanOrEqual(2000);
+  });
+});
