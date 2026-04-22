@@ -1,9 +1,10 @@
-import { useMemo, useState, type ReactNode } from "react";
+import { useMemo } from "react";
 import { ChevronDown, ChevronRight, Cpu, Timer } from "lucide-react";
 import StatusBadge from "../common/StatusBadge";
 import DurationDisplay from "../common/DurationDisplay";
 import JsonViewer from "../common/JsonViewer";
 import type { StepState } from "../../hooks/useWorkflowStream";
+import type { StepStatus } from "../../api/types";
 
 interface Props {
   stepStates: Map<string, StepState>;
@@ -34,7 +35,7 @@ function orderedStepNames(stepStates: Map<string, StepState>, stepOrder?: string
   return ordered;
 }
 
-export default function LiveStepDetails({
+export default function LiveStepDetailsList({
   stepStates,
   stepOrder,
   selectedStep,
@@ -86,25 +87,6 @@ function StepPanel({
   isOpen: boolean;
   onToggle: () => void;
 }>) {
-  const [tab, setTab] = useState<"output" | "input">("output");
-  const hasInput = step.input !== undefined;
-  const hasOutput = step.output !== undefined;
-  let content: ReactNode;
-
-  if (tab === "input") {
-    content = hasInput ? (
-      <JsonViewer data={step.input} defaultExpanded maxDepth={3} />
-    ) : (
-      <div className="text-xs text-gray-600">No input captured yet.</div>
-    );
-  } else {
-    content = hasOutput ? (
-      <JsonViewer data={step.output} defaultExpanded maxDepth={3} />
-    ) : (
-      <div className="text-xs text-gray-600">No output captured yet.</div>
-    );
-  }
-
   return (
     <div className="overflow-hidden rounded-lg border border-white/5 bg-surface-1">
       <button
@@ -140,32 +122,16 @@ function StepPanel({
 
       {isOpen && (
         <div className="border-t border-white/5 px-3 py-3">
-          {step.error && (
-            <div className="mb-3 rounded-md border border-red-500/20 bg-red-500/10 px-3 py-2 text-xs text-red-400">
-              {step.error}
-            </div>
-          )}
-
-          <div className="mb-3 flex gap-1">
-            {(["output", "input"] as const).map((t) => (
-              <button
-                key={t}
-                type="button"
-                onClick={() => setTab(t)}
-                className={`rounded-md px-3 py-1 text-xs font-medium transition-colors ${
-                  tab === t
-                    ? "bg-white/10 text-gray-200"
-                    : "text-gray-500 hover:text-gray-300"
-                }`}
-              >
-                {t.charAt(0).toUpperCase() + t.slice(1)}
-              </button>
-            ))}
-          </div>
-
-          <div className="max-h-72 overflow-y-auto rounded-md bg-surface-0 p-3">
-            {content}
-          </div>
+          <LiveStepDetails
+            step={{
+              step_name: stepName,
+              status: step.status,
+              duration_ms: step.durationMs,
+              input: step.input,
+              output: step.output,
+              error: step.error ?? undefined,
+            }}
+          />
 
           <div className="mt-3 flex flex-wrap gap-3 text-xs text-gray-600">
             {step.tier && <span>Tier: {step.tier}</span>}
@@ -181,6 +147,143 @@ function StepPanel({
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+/**
+ * Format a duration in milliseconds to a human-readable string.
+ *
+ * Returns "42ms" for sub-second durations, "1.23s" for 1s+ (two decimals),
+ * or an em-dash when the value is missing.
+ */
+export function formatDuration(ms: number | null | undefined): string {
+  if (ms == null) return "—";
+  if (ms < 1000) return `${Math.round(ms)}ms`;
+  return `${(ms / 1000).toFixed(2)}s`;
+}
+
+/**
+ * Single-step drill-down panel (Story 2.6).
+ *
+ * Renders 5 fields: inputs, outputs, scores, status, duration — with
+ * explicit partial-state handling for running (outputs streaming),
+ * complete (all fields), and failed (error surfaced) steps.
+ */
+export interface LiveStepDetailsStep {
+  step_name: string;
+  status: StepStatus;
+  duration_ms?: number | null;
+  input?: Record<string, unknown>;
+  output?: Record<string, unknown>;
+  scores?: Record<string, unknown> | null;
+  error?: string | null;
+}
+
+interface LiveStepDetailsProps {
+  step: LiveStepDetailsStep;
+}
+
+export function LiveStepDetails({ step }: Readonly<LiveStepDetailsProps>) {
+  const isRunning = step.status === "running";
+  const isFailed = step.status === "failed";
+  const hasInput = step.input !== undefined;
+  const hasOutput = step.output !== undefined;
+  const hasScores =
+    step.scores !== undefined &&
+    step.scores !== null &&
+    Object.keys(step.scores).length > 0;
+
+  return (
+    <div className="space-y-3">
+      {isFailed && step.error && (
+        <div
+          data-testid="step-error"
+          className="rounded-md border border-red-500/20 bg-red-500/10 px-3 py-2 text-xs text-red-400"
+        >
+          {step.error}
+        </div>
+      )}
+
+      <div className="grid grid-cols-2 gap-3 text-xs">
+        <div>
+          <div className="mb-1 text-[10px] uppercase tracking-wide text-gray-500">
+            Status
+          </div>
+          <div data-testid="step-status" className="text-gray-300">
+            <StatusBadge status={step.status} size="sm" />
+          </div>
+        </div>
+        <div>
+          <div className="mb-1 text-[10px] uppercase tracking-wide text-gray-500">
+            Duration
+          </div>
+          <div data-testid="step-duration" className="text-gray-300">
+            {formatDuration(step.duration_ms)}
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div className="mb-1 text-[10px] uppercase tracking-wide text-gray-500">
+          Scores
+        </div>
+        <div data-testid="step-scores" className="text-xs text-gray-300">
+          {hasScores ? (
+            <JsonViewer
+              data={step.scores as Record<string, unknown>}
+              defaultExpanded
+              maxDepth={2}
+            />
+          ) : (
+            <span>—</span>
+          )}
+        </div>
+      </div>
+
+      <div>
+        <div className="mb-1 text-[10px] uppercase tracking-wide text-gray-500">
+          Inputs
+        </div>
+        <div
+          data-testid="step-input"
+          className="max-h-60 overflow-y-auto rounded-md bg-surface-0 p-3 text-xs"
+        >
+          {hasInput ? (
+            <JsonViewer
+              data={step.input as Record<string, unknown>}
+              defaultExpanded
+              maxDepth={3}
+            />
+          ) : (
+            <span className="text-gray-600">No input captured yet.</span>
+          )}
+        </div>
+      </div>
+
+      <div>
+        <div className="mb-1 text-[10px] uppercase tracking-wide text-gray-500">
+          Outputs
+        </div>
+        <div
+          data-testid="step-output"
+          className="max-h-60 overflow-y-auto rounded-md bg-surface-0 p-3 text-xs"
+        >
+          {hasOutput ? (
+            <JsonViewer
+              data={step.output as Record<string, unknown>}
+              defaultExpanded
+              maxDepth={3}
+            />
+          ) : isRunning ? (
+            <span className="text-gray-500 italic">streaming...</span>
+          ) : isFailed ? (
+            <span className="text-gray-600">No output (step failed).</span>
+          ) : (
+            <span className="text-gray-600">No output captured yet.</span>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
