@@ -1,8 +1,7 @@
 # ADR Index — agentic-workflows-v2
 
-> **Last updated:** 2026-04-20
-> **Total ADRs:** 10 (5 Accepted, 4 Proposed, 1 Superseded)
-> **Replaces:** `ADR_COMPILED.md` (deprecated — was missing ADRs 009-012)
+> **Last updated:** 2026-04-22
+> **Total ADRs:** 13 (8 Accepted, 4 Proposed, 1 Superseded)
 
 ---
 
@@ -10,7 +9,7 @@
 
 | ADR | Title | Status | File |
 |-----|-------|--------|------|
-| **001** | Dual Execution Engine (LangGraph vs. Kahn's DAG) | Accepted | [ADR-001-002-003](ADR-001-002-003-architecture-decisions.md) |
+| **001** | Dual Execution Engine (LangGraph vs. Kahn's DAG) | Accepted (superseded → 013) | [ADR-001-002-003](ADR-001-002-003-architecture-decisions.md) |
 | **002** | SmartModelRouter Circuit-Breaker Hardening | Accepted | [ADR-001-002-003](ADR-001-002-003-architecture-decisions.md) |
 | **003** | Deep Research Supervisor / CI Gating | Superseded → 007 | [ADR-001-002-003](ADR-001-002-003-architecture-decisions.md) |
 | **007** | Multidimensional Classification Matrix & Stop Policy | Proposed | [ADR-007](ADR-007-classification-matrix-stop-policy.md) |
@@ -20,8 +19,11 @@
 | **011** | Eval Harness API & Interface Design | Proposed | [ADR-011](ADR-011-eval-harness-api-interface.md) |
 | **012** | UI Evaluation Hub & A/B Comparison | Proposed | [ADR-012](ADR-012-ui-evaluation-hub.md) |
 | **013** | Native DAG as Single Supported Execution Engine | Accepted | [ADR-013](ADR-013-foundation-native-dag.md) |
+| **014** | Pydantic Discriminated Union as Execution Event Wire Format | Accepted | [ADR-014](ADR-014-pydantic-wire-format.md) |
+| **015** | SLO Rolling Window Stored in Git | Accepted | [ADR-015](ADR-015-slo-in-git-rolling-window.md) |
+| **016** | GitHub Models via `GITHUB_TOKEN` as Default E2E LLM Provider | Accepted | [ADR-016](ADR-016-github-token-as-default-e2e-llm.md) |
 
-**Note:** ADRs 004-006 were never created. The numbering gap is intentional.
+**Note:** ADRs 004-006 were never created. The numbering gap is intentional and should not be reclaimed.
 
 ---
 
@@ -33,6 +35,7 @@ Engine Domain:
 
 Models Domain:
   ADR-002 (Circuit Breaker) ─── standalone
+  ADR-016 (GitHub Models default) ─── standalone (CI policy)
 
 Research Domain:
   ADR-003 (CI Gating) ──superseded-by──> ADR-007 (Classification Matrix)
@@ -44,6 +47,10 @@ Testing Domain:
 Evaluation Domain:
   ADR-010 (Harness Methodology) ──extended-by──> ADR-011 (API Interface)
                                                       └──extended-by──> ADR-012 (UI Hub)
+
+Observability Domain:
+  ADR-014 (Event Wire Format) ─── standalone
+  ADR-015 (SLO Rolling Window) ─── standalone
 ```
 
 ---
@@ -62,6 +69,9 @@ Evaluation Domain:
 | 011 | Proposed | ~15% (partial eval infra) | Adjacent route/UI helpers only | 2026-03-17 |
 | 012 | Proposed | ~10% (existing evaluations table only) | None specific | 2026-03-17 |
 | 013 | Yes | 100% (deprecation warning + ADR doc) | test_langchain_deprecation.py | 2026-04-20 |
+| 014 | Yes | 100% (contracts + schema-drift gate) | test_schemas.py, golden output | 2026-04-22 |
+| 015 | Yes | 100% (rolling windows, nightly gate) | slo measurement tests | 2026-04-22 |
+| 016 | Yes | 100% (GITHUB_TOKEN wiring, fork-skip guards) | CI workflow invariants | 2026-04-22 |
 
 ---
 
@@ -69,8 +79,6 @@ Evaluation Domain:
 
 | Document | Description |
 |----------|-------------|
-| [../audit/adr-implementation-review.md](../audit/adr-implementation-review.md) | 2026-03-17 deep review of canonical ADR accuracy, implementation status, gaps, and technical soundness |
-| [ADR_COMPILED.md](ADR_COMPILED.md) | **Deprecated** — full-text compilation of ADRs 001-008 (stale, missing 009-012) |
-| [ADR_IMPLEMENTATION_AUDIT.md](ADR_IMPLEMENTATION_AUDIT.md) | Implementation audit against codebase (2026-02-28) |
-| [ADR_RESEARCH_JUSTIFICATIONS.md](ADR_RESEARCH_JUSTIFICATIONS.md) | Research citations and justifications |
 | [RAG-pipeline-blueprint.md](RAG-pipeline-blueprint.md) | RAG architecture blueprint |
+
+_Previously listed supporting files (`ADR_COMPILED.md`, `ADR_IMPLEMENTATION_AUDIT.md`, `ADR_RESEARCH_JUSTIFICATIONS.md`, and `../audit/adr-implementation-review.md`) were removed during the 2026-04-22 docs cleanup — they had fallen out of sync with the ADRs themselves and the index is now the canonical source._

@@ -1,5 +1,7 @@
 # Epic 2 — Observable Workflow Execution — Implementation Plan
 
+> **Status:** COMPLETED 2026-04-22. Preserved as implementation history — the unchecked `- [ ]` boxes below were the original worklist, not current state. For the shipped list see `CHANGELOG.md` Epic 2 under `[0.3.0]`.
+
 > **For agentic workers:** Use `superpowers:subagent-driven-development` or `superpowers:executing-plans` to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Users can launch a workflow, watch it stream end-to-end, and diagnose any failure from the UI alone — without reading server logs.

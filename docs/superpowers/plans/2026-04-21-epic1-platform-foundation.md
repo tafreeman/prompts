@@ -1,5 +1,7 @@
 # Epic 1 Platform Foundation Implementation Plan
 
+> **Status:** COMPLETED 2026-04-21. Preserved as implementation history — the unchecked `- [ ]` boxes below were the original worklist, not current state. For the shipped list see `CHANGELOG.md` Epic 1 under `[0.3.0]`.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Harden the agentic-workflows-v2 platform with typed protocols, centralized settings, test isolation, schema-drift protection, OTEL trace assertions, golden-output regression, and CI enforcement.
