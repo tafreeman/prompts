@@ -53,7 +53,6 @@
 - [Integration Architecture](./integration-architecture.md) — How the 4 parts communicate (REST, WebSocket, SSE, imports)
 - [Development Guide](./development-guide.md) — Prerequisites, installation, dev servers, testing, CLI, common issues
 - [Deployment Guide](./deployment-guide.md) — CI/CD pipeline, security scanning, environment variables, production checklist
-- [Contribution Guide (legacy)](./contribution-guide.md) — Per-package contribution notes (supersedes to root `CONTRIBUTING.md`)
 
 ### Runtime (Backend)
 
@@ -116,7 +115,7 @@ Exhaustive full-file analysis of specific areas:
 
 1. Read the [Project Overview](./project-overview.md) to understand the system
 2. Follow the [Development Guide](./development-guide.md) to set up your environment
-3. Review the [Contribution Guide](./contribution-guide.md) for code standards and workflow
+3. Review the root [`CONTRIBUTING.md`](../CONTRIBUTING.md) for code standards and workflow
 4. Explore the [Source Tree Analysis](./source-tree-analysis.md) to understand the codebase layout
 
 ### For Feature Work

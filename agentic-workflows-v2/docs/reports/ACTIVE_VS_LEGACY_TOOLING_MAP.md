@@ -1,6 +1,12 @@
 # Active vs Legacy Tooling Map
 
-> **Purpose:** Authoritative reference for which modules are active, deprecated, or superseded in `agentic-workflows-v2`.
+> ⚠️ **STALE — pre-dates Epics 1–6 (shipped April 2026).**
+> Tables below reflect the codebase as of 2026-02-20. Six epics have landed since, including the LangChain adapter deprecation (ADR-013) and the typed event wire format (ADR-014). Treat entries here as historical until a refresh commit updates them.
+>
+> **Current sources of truth:**
+> - [`docs/source-tree-analysis.md`](../../../docs/source-tree-analysis.md) — full annotated tree
+> - [`agentic-workflows-v2/docs/REPO_MAP.md`](../REPO_MAP.md) — module map
+> - [`docs/adr/ADR-INDEX.md`](../../../docs/adr/ADR-INDEX.md) — active architectural decisions (ADRs 001-016)
 >
 > **Last updated:** 2026-02-20 (refactor alignment)
 
