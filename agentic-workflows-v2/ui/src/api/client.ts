@@ -3,8 +3,11 @@ import type {
   DAGResponse,
   DAGEdge,
   DAGNode,
+  DatasetSampleDetailResponse,
+  DatasetSampleListResponse,
   EvaluationDatasetsResponse,
   RunDetail,
+  RunEvaluationDetailResponse,
   RunSummary,
   RunsSummary,
   WorkflowEditorDocument,
@@ -230,6 +233,47 @@ export function previewDatasetInputs(
 /** List available agents. */
 export function listAgents(): Promise<{ agents: AgentInfo[] }> {
   return fetchJSON(`${BASE}/agents`);
+}
+
+/** Get full rubric evaluation detail for a scored run. */
+export function getRunEvaluationDetail(
+  filename: string
+): Promise<RunEvaluationDetailResponse> {
+  return fetchJSON(`${BASE}/runs/${encodeURIComponent(filename)}/evaluation`);
+}
+
+/** List paginated dataset sample summaries. */
+export function listDatasetSamples(
+  datasetSource: string,
+  datasetId: string,
+  offset = 0,
+  limit = 20,
+  workflow?: string
+): Promise<DatasetSampleListResponse> {
+  const params = new URLSearchParams({
+    dataset_source: datasetSource,
+    dataset_id: datasetId,
+    offset: String(offset),
+    limit: String(limit),
+  });
+  if (workflow) params.set("workflow", workflow);
+  return fetchJSON(`${BASE}/eval/datasets/sample-list?${params}`);
+}
+
+/** Get full detail for a single dataset sample. */
+export function getDatasetSampleDetail(
+  datasetSource: string,
+  datasetId: string,
+  sampleIndex: number,
+  workflow?: string
+): Promise<DatasetSampleDetailResponse> {
+  const params = new URLSearchParams({
+    dataset_source: datasetSource,
+    dataset_id: datasetId,
+    sample_index: String(sampleIndex),
+  });
+  if (workflow) params.set("workflow", workflow);
+  return fetchJSON(`${BASE}/eval/datasets/sample-detail?${params}`);
 }
 
 /** Health check. */

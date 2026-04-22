@@ -1,13 +1,15 @@
-import { useMemo } from "react";
+import { Fragment, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useRuns } from "../hooks/useRuns";
 import BTopBar from "../components/layout/BTopBar";
 import BBox from "../components/common/BBox";
 import BPill from "../components/common/BPill";
 import BAsciiBar from "../components/common/BAsciiBar";
+import EvaluationRubricAccordion from "../components/evaluations/EvaluationRubricAccordion";
 
 export default function EvaluationsPage() {
   const { data: runs, isLoading } = useRuns();
+  const [expandedFilename, setExpandedFilename] = useState<string | null>(null);
 
   const evaluatedRuns = useMemo(
     () => (runs ?? []).filter((r) => r.evaluation_score != null),
@@ -27,16 +29,18 @@ export default function EvaluationsPage() {
   }, [evaluatedRuns]);
   const maxBucket = Math.max(1, ...histogram);
 
-  // Pass rate by workflow
+  // Pass rate by workflow — grade A/B = pass, else fail
   const workflowPassRate = useMemo(() => {
     const map = new Map<string, { total: number; pass: number }>();
     evaluatedRuns.forEach((r) => {
       const key = r.workflow_name ?? "unknown";
       const entry = map.get(key) ?? { total: 0, pass: 0 };
       entry.total += 1;
-      const score = r.evaluation_score ?? 0;
-      const normalized = score <= 1 ? score * 100 : score;
-      if (normalized >= 75) entry.pass += 1;
+      const grade = r.evaluation_grade;
+      const isPass = grade
+        ? grade === "A" || grade === "B"
+        : (r.evaluation_score ?? 0) >= 75;
+      if (isPass) entry.pass += 1;
       map.set(key, entry);
     });
     return Array.from(map.entries()).map(([name, v]) => ({
@@ -67,12 +71,12 @@ export default function EvaluationsPage() {
 
           {isLoading ? (
             <div className="flex justify-center p-12 font-mono text-[11px] text-b-text-dim">
-              $ loading evaluations…
+              Loading evaluations...
             </div>
           ) : evaluatedRuns.length === 0 ? (
             <BBox>
               <div className="p-8 text-center font-mono text-[11px] text-b-text-dim">
-                no evaluations yet · run a workflow with eval enabled
+                No evaluations found
               </div>
             </BBox>
           ) : (
@@ -128,12 +132,12 @@ export default function EvaluationsPage() {
                       )}
                       {workflowPassRate.map((w) => (
                         <div key={w.name}>
-                          <div className="flex items-center justify-between font-mono text-[11px]">
-                            <span className="truncate text-b-text-mid">
-                              {w.name}
-                            </span>
-                            <span className="tabular-nums text-b-text-dim">
-                              {(w.rate * 100).toFixed(0)}% · {w.total}
+                          <div className="flex items-center justify-between font-mono text-[11px] text-b-text-dim">
+                            <span className="truncate">
+                              {w.name} · {(w.rate * 100).toFixed(0)}%{" "}
+                              <span className="text-b-text-faint">
+                                ({w.total})
+                              </span>
                             </span>
                           </div>
                           <div className="mt-0.5">
@@ -170,68 +174,121 @@ export default function EvaluationsPage() {
                         <th className="w-[60px] px-3 py-2">GRADE</th>
                         <th className="w-[60px] px-3 py-2">PASS</th>
                         <th className="w-[110px] px-3 py-2">WHEN</th>
-                        <th className="w-[60px] px-3 py-2 text-right">—</th>
+                        <th className="w-[80px] px-3 py-2 text-right">—</th>
                       </tr>
                     </thead>
                     <tbody>
                       {evaluatedRuns.map((run) => {
                         const raw = run.evaluation_score ?? 0;
                         const pct = raw <= 1 ? raw * 100 : raw;
-                        const passed = pct >= 75;
+                        const grade = run.evaluation_grade;
+                        const passFromGrade =
+                          grade === "A" || grade === "B";
+                        const warnFromGrade = grade === "C";
+                        const passTone = grade
+                          ? passFromGrade
+                            ? "ok"
+                            : warnFromGrade
+                              ? "warn"
+                              : "err"
+                          : pct >= 75
+                            ? "ok"
+                            : "err";
+                        const passLabel = grade
+                          ? passFromGrade
+                            ? "pass"
+                            : warnFromGrade
+                              ? "warn"
+                              : "fail"
+                          : pct >= 75
+                            ? "pass"
+                            : "fail";
+                        const isExpanded =
+                          expandedFilename === run.filename;
+
                         return (
-                          <tr
-                            key={run.run_id ?? run.filename}
-                            className="border-b border-b-line-soft transition-colors hover:bg-b-bg2"
-                          >
-                            <td className="truncate px-3 py-2 text-b-text">
-                              {run.workflow_name}
-                            </td>
-                            <td className="px-3 py-2 text-right tabular-nums text-b-text">
-                              {pct.toFixed(1)}
-                            </td>
-                            <td className="px-3 py-2">
-                              <BAsciiBar
-                                value={Math.max(0, Math.min(1, pct / 100))}
-                                width={20}
-                                color={
-                                  pct >= 75
-                                    ? "b-green"
-                                    : pct >= 50
-                                      ? "b-amber"
-                                      : "b-red"
-                                }
-                              />
-                            </td>
-                            <td className="px-3 py-2 text-b-text-mid">
-                              {run.evaluation_grade || "—"}
-                            </td>
-                            <td className="px-3 py-2">
-                              <BPill tone={passed ? "ok" : "err"}>
-                                {passed ? "pass" : "fail"}
-                              </BPill>
-                            </td>
-                            <td className="px-3 py-2 text-b-text-dim">
-                              {run.start_time
-                                ? new Date(run.start_time).toLocaleString(
-                                    undefined,
-                                    {
+                          <Fragment key={run.run_id ?? run.filename}>
+                            <tr
+                              className="cursor-pointer border-b border-b-line-soft transition-colors hover:bg-b-bg2"
+                              onClick={() =>
+                                setExpandedFilename(
+                                  isExpanded ? null : run.filename,
+                                )
+                              }
+                            >
+                              <td className="truncate px-3 py-2 text-b-text">
+                                {run.workflow_name}
+                              </td>
+                              <td className="px-3 py-2 text-right tabular-nums text-b-text">
+                                {pct.toFixed(1)}
+                              </td>
+                              <td className="px-3 py-2">
+                                <BAsciiBar
+                                  value={Math.max(0, Math.min(1, pct / 100))}
+                                  width={20}
+                                  color={
+                                    pct >= 75
+                                      ? "b-green"
+                                      : pct >= 50
+                                        ? "b-amber"
+                                        : "b-red"
+                                  }
+                                />
+                              </td>
+                              <td className="px-3 py-2 text-b-text-mid">
+                                {run.evaluation_grade || "—"}
+                              </td>
+                              <td className="px-3 py-2">
+                                <BPill tone={passTone}>{passLabel}</BPill>
+                              </td>
+                              <td className="px-3 py-2 text-b-text-dim">
+                                {run.start_time
+                                  ? new Date(
+                                      run.start_time,
+                                    ).toLocaleString(undefined, {
                                       month: "short",
                                       day: "numeric",
                                       hour: "numeric",
                                       minute: "2-digit",
-                                    },
-                                  )
-                                : "—"}
-                            </td>
-                            <td className="px-3 py-2 text-right">
-                              <Link
-                                to={`/runs/${run.filename}`}
-                                className="font-semibold text-b-clay hover:underline"
-                              >
-                                [↗]
-                              </Link>
-                            </td>
-                          </tr>
+                                    })
+                                  : "—"}
+                              </td>
+                              <td className="px-3 py-2 text-right">
+                                <Link
+                                  to={`/runs/${run.filename}`}
+                                  aria-label="view"
+                                  className="font-semibold text-b-clay hover:underline"
+                                  onClick={(e) => e.stopPropagation()}
+                                >
+                                  [↗]
+                                </Link>
+                                <button
+                                  className="ml-2 font-mono text-[10px] text-b-text-dim hover:text-b-text"
+                                  aria-label={isExpanded ? "collapse" : "expand"}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setExpandedFilename(
+                                      isExpanded ? null : run.filename,
+                                    );
+                                  }}
+                                >
+                                  {isExpanded ? "[-]" : "[+]"}
+                                </button>
+                              </td>
+                            </tr>
+                            {isExpanded && (
+                              <tr>
+                                <td
+                                  colSpan={7}
+                                  className="border-b border-b-line-soft bg-b-bg2 px-3 py-2"
+                                >
+                                  <EvaluationRubricAccordion
+                                    filename={run.filename}
+                                  />
+                                </td>
+                              </tr>
+                            )}
+                          </Fragment>
                         );
                       })}
                     </tbody>
