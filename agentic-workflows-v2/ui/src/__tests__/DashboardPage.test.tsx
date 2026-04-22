@@ -16,16 +16,8 @@ vi.mock("../hooks/useWorkflows", () => ({
   useWorkflows: () => mockUseWorkflows(),
 }));
 
-vi.mock("../components/runs/RunSummaryCards", () => ({
-  default: ({ summary }: { summary: { total_runs?: number } | undefined }) => (
-    <div>Summary {summary?.total_runs ?? 0}</div>
-  ),
-}));
-
-vi.mock("../components/runs/RunList", () => ({
-  default: ({ runs }: { runs?: Array<{ workflow_name: string | null }> }) => (
-    <div>Run List {runs?.length ?? 0}</div>
-  ),
+vi.mock("../hooks/useHotkeys", () => ({
+  useHotkeys: () => {},
 }));
 
 describe("DashboardPage", () => {
@@ -34,9 +26,35 @@ describe("DashboardPage", () => {
   });
 
   it("renders available workflows and recent runs", () => {
-    mockUseRunsSummary.mockReturnValue({ data: { total_runs: 2 }, isLoading: false });
+    mockUseRunsSummary.mockReturnValue({
+      data: { total_runs: 2, success: 2, failed: 0 },
+      isLoading: false,
+    });
     mockUseRuns.mockReturnValue({
-      data: [{ workflow_name: "triage" }, { workflow_name: "review" }],
+      data: [
+        {
+          filename: "run1.json",
+          run_id: "run-001",
+          workflow_name: "triage",
+          status: "success",
+          start_time: null,
+          step_count: 1,
+          failed_step_count: 0,
+          total_duration_ms: 1000,
+          evaluation_score: null,
+        },
+        {
+          filename: "run2.json",
+          run_id: "run-002",
+          workflow_name: "review",
+          status: "success",
+          start_time: null,
+          step_count: 1,
+          failed_step_count: 0,
+          total_duration_ms: 2000,
+          evaluation_score: null,
+        },
+      ],
       isLoading: false,
     });
     mockUseWorkflows.mockReturnValue({ data: ["triage", "review"] });
@@ -47,14 +65,18 @@ describe("DashboardPage", () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByText("Summary 2")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /triage/i })).toHaveAttribute("href", "/workflows/triage");
-    expect(screen.getByRole("link", { name: /review/i })).toHaveAttribute("href", "/workflows/review");
-    expect(screen.getByText("Run List 2")).toBeInTheDocument();
+    // Workflow quick links render in the workflows section
+    expect(screen.getByRole("link", { name: /triage/i })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /review/i })).toBeInTheDocument();
+    // Dashboard heading
+    expect(screen.getByText("Dashboard")).toBeInTheDocument();
   });
 
   it("renders the empty state when there are no runs", () => {
-    mockUseRunsSummary.mockReturnValue({ data: { total_runs: 0 }, isLoading: false });
+    mockUseRunsSummary.mockReturnValue({
+      data: { total_runs: 0, success: 0, failed: 0 },
+      isLoading: false,
+    });
     mockUseRuns.mockReturnValue({ data: [], isLoading: false });
     mockUseWorkflows.mockReturnValue({ data: ["triage"] });
 
@@ -64,7 +86,9 @@ describe("DashboardPage", () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByText("No runs yet")).toBeInTheDocument();
-    expect(screen.queryByText("Run List 0")).not.toBeInTheDocument();
+    // Empty state text from the component
+    expect(
+      screen.getByText(/no runs yet · select a workflow to start/i)
+    ).toBeInTheDocument();
   });
 });

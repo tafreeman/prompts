@@ -42,10 +42,6 @@ vi.mock("../components/live/TokenCounter", () => ({
   default: () => <div>Token count</div>,
 }));
 
-vi.mock("../components/common/StatusBadge", () => ({
-  default: ({ status }: { status: string }) => <div>Status {status}</div>,
-}));
-
 function renderPage() {
   return render(
     <MemoryRouter initialEntries={["/live/review_flow-1234abcd"]}>
@@ -74,8 +70,10 @@ describe("LivePage", () => {
     renderPage();
 
     expect(screen.getByText("review_flow")).toBeInTheDocument();
-    expect(screen.getByText("Connecting...")).toBeInTheDocument();
-    expect(screen.getByText("Status pending")).toBeInTheDocument();
+    // Component renders "$ connecting…" (unicode ellipsis) in the DAG placeholder area
+    expect(screen.getByText("$ connecting…")).toBeInTheDocument();
+    // Status pill renders the workflowStatus value directly
+    expect(screen.getByText("connecting")).toBeInTheDocument();
   });
 
   it("renders live execution details, error banner, and expandable evaluation", () => {
@@ -123,10 +121,12 @@ describe("LivePage", () => {
     renderPage();
 
     expect(screen.getByText("Mock DAG")).toBeInTheDocument();
-    expect(screen.getByText("stream dropped once")).toBeInTheDocument();
-    expect(screen.getByText("0/1")).toBeInTheDocument();
+    // Error banner renders "[!] stream dropped once"
+    expect(screen.getByText(/stream dropped once/)).toBeInTheDocument();
+    expect(screen.getByText("0/1 steps")).toBeInTheDocument();
     expect(screen.getByText("Token count")).toBeInTheDocument();
-    expect(screen.getByText(/Status\s+success/)).toBeInTheDocument();
+    // Status pill renders workflowStatus = "completed", runTone = "ok"
+    expect(screen.getByText("completed")).toBeInTheDocument();
     expect(screen.getByText("88.2")).toBeInTheDocument();
     expect(screen.getByText("B+")).toBeInTheDocument();
 

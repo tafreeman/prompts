@@ -113,7 +113,7 @@ describe("WorkflowDetailPage", () => {
   it("starts a run from the page", async () => {
     renderPage();
 
-    fireEvent.click(screen.getByRole("button", { name: /^run$/i }));
+    fireEvent.click(screen.getByTestId("run-button"));
 
     await waitFor(() => {
       expect(mockRunWorkflow).toHaveBeenCalledWith({

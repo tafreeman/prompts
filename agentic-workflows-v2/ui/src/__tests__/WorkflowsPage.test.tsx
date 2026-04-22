@@ -4,14 +4,20 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import WorkflowsPage from "../pages/WorkflowsPage";
 
 const mockUseWorkflows = vi.fn();
+const mockUseRuns = vi.fn();
 
 vi.mock("../hooks/useWorkflows", () => ({
   useWorkflows: () => mockUseWorkflows(),
 }));
 
+vi.mock("../hooks/useRuns", () => ({
+  useRuns: () => mockUseRuns(),
+}));
+
 describe("WorkflowsPage", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    mockUseRuns.mockReturnValue({ data: [], isLoading: false });
   });
 
   it("renders loading placeholders", () => {
@@ -41,7 +47,7 @@ describe("WorkflowsPage", () => {
     expect(screen.getByText("code_review")).toBeInTheDocument();
     expect(screen.getByText("triage_workflow")).toBeInTheDocument();
 
-    fireEvent.change(screen.getByPlaceholderText("Search workflows..."), {
+    fireEvent.change(screen.getByPlaceholderText("filter by name, tag…"), {
       target: { value: "triage" },
     });
 
@@ -61,10 +67,12 @@ describe("WorkflowsPage", () => {
       </MemoryRouter>
     );
 
-    fireEvent.change(screen.getByPlaceholderText("Search workflows..."), {
+    fireEvent.change(screen.getByPlaceholderText("filter by name, tag…"), {
       target: { value: "missing" },
     });
 
-    expect(screen.getByText('No workflows found matching "missing".')).toBeInTheDocument();
+    // The empty state renders: no workflows match "<span>missing</span>"
+    expect(screen.getByText(/no workflows match/i)).toBeInTheDocument();
+    expect(screen.getByText("missing")).toBeInTheDocument();
   });
 });

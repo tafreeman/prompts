@@ -11,11 +11,13 @@ describe("Sidebar", () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByText("Agentic Workflows")).toBeInTheDocument();
+    // Logo text is "PROMPTS" in the redesigned sidebar
+    expect(screen.getByText("PROMPTS")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /dashboard/i })).toHaveAttribute("href", "/");
     expect(screen.getByRole("link", { name: /workflows/i })).toHaveAttribute("href", "/workflows");
     expect(screen.getByRole("link", { name: /datasets/i })).toHaveAttribute("href", "/datasets");
-    expect(screen.getByRole("link", { name: /evaluations/i })).toHaveAttribute("href", "/evaluations");
+    // Evaluations nav label is "evals" in the redesigned sidebar
+    expect(screen.getByRole("link", { name: /evals/i })).toHaveAttribute("href", "/evaluations");
     expect(screen.getByRole("link", { name: /live/i })).toHaveAttribute("href", "/live/latest");
   });
 });

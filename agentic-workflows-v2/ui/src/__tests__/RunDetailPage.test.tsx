@@ -39,7 +39,8 @@ describe("RunDetailPage", () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByText("Loading run...")).toBeInTheDocument();
+    // Component renders "$ loading run…" (unicode ellipsis)
+    expect(screen.getByText("$ loading run…")).toBeInTheDocument();
 
     mockUseRunDetail.mockReturnValue({ data: null, isLoading: false });
     rerender(
@@ -50,7 +51,8 @@ describe("RunDetailPage", () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByText("Run not found")).toBeInTheDocument();
+    // Component renders "$ run not found"
+    expect(screen.getByText("$ run not found")).toBeInTheDocument();
   });
 
   it("renders the run summary, DAG, and evaluation summary", () => {
@@ -116,7 +118,10 @@ describe("RunDetailPage", () => {
     expect(screen.getByText("run-123")).toBeInTheDocument();
     expect(screen.getByText("Workflow DAG")).toBeInTheDocument();
     expect(screen.getByText("Run Detail Steps 1")).toBeInTheDocument();
-    expect(screen.getByText("Grade A")).toBeInTheDocument();
-    expect(screen.getByText("Passed")).toBeInTheDocument();
+    // Component renders: grade <span>A</span> — so "grade" and "A" are separate nodes
+    expect(screen.getByText(/grade/i)).toBeInTheDocument();
+    expect(screen.getByText("A")).toBeInTheDocument();
+    // Evaluation pill renders "passed" (lowercase)
+    expect(screen.getByText("passed")).toBeInTheDocument();
   });
 });
