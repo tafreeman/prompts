@@ -84,7 +84,7 @@ class LLMEvaluator(Evaluator):
 
         return None
 
-    def evaluate(self, output: str, **kwargs) -> dict[str, Any]:
+    def evaluate(self, output: str, **kwargs: Any) -> dict[str, Any]:
         """Evaluate output using the LLM judge.
 
         Args:

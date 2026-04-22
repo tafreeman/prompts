@@ -14,7 +14,7 @@ import asyncio
 import inspect
 import logging
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Generic, TypeVar
+from typing import TYPE_CHECKING, Generic, Literal, TypeVar
 
 if TYPE_CHECKING:
     from collections.abc import AsyncIterator, Awaitable, Callable, Iterator
@@ -186,19 +186,26 @@ class AsyncStreamingRunner(Generic[T, R]):
 
         semaphore = asyncio.Semaphore(self.max_concurrency)
 
-        async def _eval_one(tc: T) -> tuple[bool, R | Exception]:
+        async def _eval_one(
+            tc: T,
+        ) -> tuple[Literal[True], R] | tuple[Literal[False], Exception]:
             async with semaphore:
                 try:
                     value = self.evaluator(tc)
                     if inspect.isawaitable(value):
                         value = await value
-                    return True, value  # type: ignore[return-value]
+                    # value is R here (the awaited result or sync result).
+                    return (True, value)  # type: ignore[return-value]
                 except Exception as e:  # pragma: no cover (exercised via tests)
-                    return False, e
+                    return (False, e)
 
-        pending: set[asyncio.Task[tuple[bool, R | Exception]]] = set()
+        pending: set[
+            asyncio.Task[tuple[Literal[True], R] | tuple[Literal[False], Exception]]
+        ] = set()
 
-        async def _drain_one() -> AsyncIterator[tuple[bool, R | Exception]]:
+        async def _drain_one() -> AsyncIterator[
+            tuple[Literal[True], R] | tuple[Literal[False], Exception]
+        ]:
             if not pending:
                 return
             done, _ = await asyncio.wait(pending, return_when=asyncio.FIRST_COMPLETED)
@@ -209,27 +216,27 @@ class AsyncStreamingRunner(Generic[T, R]):
         async for test_case in _aiter_cases():
             pending.add(asyncio.create_task(_eval_one(test_case)))
             if len(pending) >= self.max_concurrency:
-                async for ok, payload in _drain_one():
-                    if ok:
-                        result = payload  # type: ignore[assignment]
+                async for outcome in _drain_one():
+                    if outcome[0]:
+                        result = outcome[1]
                         if self.on_result:
                             self.on_result(result)
                         yield result
                     else:
-                        err = payload  # type: ignore[assignment]
+                        err = outcome[1]
                         logger.warning(f"Async streaming error: {err}")
                         if not self.continue_on_error:
                             raise err
 
         while pending:
-            async for ok, payload in _drain_one():
-                if ok:
-                    result = payload  # type: ignore[assignment]
+            async for outcome in _drain_one():
+                if outcome[0]:
+                    result = outcome[1]
                     if self.on_result:
                         self.on_result(result)
                     yield result
                 else:
-                    err = payload  # type: ignore[assignment]
+                    err = outcome[1]
                     logger.warning(f"Async streaming error: {err}")
                     if not self.continue_on_error:
                         raise err

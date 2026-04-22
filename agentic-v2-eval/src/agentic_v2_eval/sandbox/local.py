@@ -16,6 +16,7 @@ import subprocess
 import tempfile
 import time
 from pathlib import Path
+from types import TracebackType
 
 from .base import ExecutionResult, Sandbox
 
@@ -289,7 +290,12 @@ class LocalSubprocessSandbox(Sandbox):
     def __enter__(self) -> LocalSubprocessSandbox:
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb) -> None:
+    def __exit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc_val: BaseException | None,
+        exc_tb: TracebackType | None,
+    ) -> None:
         self.cleanup()
 
     def __del__(self) -> None:

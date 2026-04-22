@@ -66,7 +66,7 @@ class Sandbox(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def write_file(self, path: str, content: str):
+    def write_file(self, path: str, content: str) -> None:
         """Write content to a file in the sandbox."""
         pass
 

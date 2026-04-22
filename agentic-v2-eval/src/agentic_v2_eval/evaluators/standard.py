@@ -75,7 +75,8 @@ def _load_standard_prompt() -> str:
     """Load standard judge prompt from YAML."""
     try:
         data = load_rubric("prompt_standard")
-        return data.get("judge_prompt", "")
+        prompt: str = data.get("judge_prompt", "")
+        return prompt
     except Exception as e:
         print(f"Warning: Failed to load prompt_standard.yaml: {e}")
         return ""
@@ -209,14 +210,16 @@ class StandardEvaluator:
             text = match.group(1)
 
         try:
-            return json.loads(text)
+            parsed: dict = json.loads(text)
+            return parsed
         except json.JSONDecodeError:
             # Try finding object
             s = text.find("{")
             e = text.rfind("}")
             if s != -1 and e != -1:
                 try:
-                    return json.loads(text[s : e + 1])
+                    fallback: dict = json.loads(text[s : e + 1])
+                    return fallback
                 except json.JSONDecodeError:
                     pass
         return None

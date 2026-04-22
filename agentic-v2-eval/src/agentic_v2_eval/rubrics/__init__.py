@@ -55,7 +55,8 @@ def load_rubric(name: str = "default") -> dict[str, Any]:
         raise FileNotFoundError(f"Rubric not found: {name}. Available: {available}")
 
     with rubric_path.open("r", encoding="utf-8") as f:
-        return yaml.safe_load(f)
+        data: dict[str, Any] = yaml.safe_load(f)
+    return data
 
 
 def list_rubrics() -> list[str]:

@@ -57,7 +57,8 @@ def execution_time_score(
 
     # Exponential decay above threshold
     ratio = threshold / time_seconds
-    return min(1.0, ratio ** (1 / penalty_factor))
+    score: float = min(1.0, ratio ** (1 / penalty_factor))
+    return score
 
 
 def memory_usage_score(

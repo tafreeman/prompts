@@ -47,7 +47,7 @@ class LLMClientAdapter:
     system_instruction: str | None = None
     _llm_client_class: Any = field(default=None, repr=False)
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         """Lazy import LLMClient to avoid circular dependencies."""
         if self._llm_client_class is None:
             try:
@@ -67,7 +67,7 @@ class LLMClientAdapter:
         model_name: str,
         prompt: str,
         temperature: float = 0.0,
-        **kwargs,
+        **kwargs: Any,
     ) -> str:
         """Generate text using tools.llm.LLMClient.
 
@@ -104,13 +104,14 @@ class LLMClientAdapter:
         if kwargs:
             logger.debug("Unused kwargs passed to generate_text: %s", kwargs.keys())
 
-        return self._llm_client_class.generate_text(
+        response: str = self._llm_client_class.generate_text(
             model_name=effective_model,
             prompt=prompt,
             system_instruction=system_instruction,
             temperature=temperature,
             max_tokens=max_tokens,
         )
+        return response
 
 
 def create_llm_client(

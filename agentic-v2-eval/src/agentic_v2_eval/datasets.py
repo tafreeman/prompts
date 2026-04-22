@@ -32,17 +32,18 @@ Example:
 from __future__ import annotations
 
 import logging
-from typing import TYPE_CHECKING, Any
+from types import ModuleType
+from typing import TYPE_CHECKING, Any, cast
 
 logger = logging.getLogger(__name__)
 
 # Lazy imports to avoid circular dependencies and allow standalone usage
-_datasets_module = None
-_loader_module = None
-_registry_module = None
+_datasets_module: ModuleType | None = None
+_loader_module: ModuleType | None = None
+_registry_module: ModuleType | None = None
 
 
-def _ensure_imports():
+def _ensure_imports() -> None:
     """Ensure benchmark modules are imported."""
     global _datasets_module, _loader_module, _registry_module
     if _datasets_module is None:
@@ -66,6 +67,34 @@ def _ensure_imports():
             ) from e
 
 
+def _require_datasets_module() -> ModuleType:
+    """Return the loaded ``tools.agents.benchmarks.datasets`` module.
+
+    Raises:
+        ImportError: If benchmark modules are not available.
+    """
+    _ensure_imports()
+    if _datasets_module is None:  # pragma: no cover - defensive
+        raise ImportError("tools.agents.benchmarks.datasets is not available.")
+    return _datasets_module
+
+
+def _require_loader_module() -> ModuleType:
+    """Return the loaded ``tools.agents.benchmarks.loader`` module."""
+    _ensure_imports()
+    if _loader_module is None:  # pragma: no cover - defensive
+        raise ImportError("tools.agents.benchmarks.loader is not available.")
+    return _loader_module
+
+
+def _require_registry_module() -> ModuleType:
+    """Return the loaded ``tools.agents.benchmarks.registry`` module."""
+    _ensure_imports()
+    if _registry_module is None:  # pragma: no cover - defensive
+        raise ImportError("tools.agents.benchmarks.registry is not available.")
+    return _registry_module
+
+
 # Type-checking stubs for IDE support
 if TYPE_CHECKING:
     from tools.agents.benchmarks.datasets import (
@@ -84,8 +113,10 @@ def get_benchmark_definitions() -> dict[str, BenchmarkDefinition]:
     Returns:
         Dictionary mapping benchmark IDs to their definitions.
     """
-    _ensure_imports()
-    return _datasets_module.BENCHMARK_DEFINITIONS
+    return cast(
+        "dict[str, BenchmarkDefinition]",
+        _require_datasets_module().BENCHMARK_DEFINITIONS,
+    )
 
 
 def get_benchmark_definition(benchmark_id: str) -> BenchmarkDefinition | None:
@@ -97,8 +128,10 @@ def get_benchmark_definition(benchmark_id: str) -> BenchmarkDefinition | None:
     Returns:
         BenchmarkDefinition if found, None otherwise.
     """
-    _ensure_imports()
-    return _datasets_module.BENCHMARK_DEFINITIONS.get(benchmark_id)
+    return cast(
+        "BenchmarkDefinition | None",
+        _require_datasets_module().BENCHMARK_DEFINITIONS.get(benchmark_id),
+    )
 
 
 def list_benchmarks() -> list[str]:
@@ -107,8 +140,7 @@ def list_benchmarks() -> list[str]:
     Returns:
         List of benchmark IDs.
     """
-    _ensure_imports()
-    return list(_datasets_module.BENCHMARK_DEFINITIONS.keys())
+    return list(_require_datasets_module().BENCHMARK_DEFINITIONS.keys())
 
 
 def load_benchmark(
@@ -141,14 +173,15 @@ def load_benchmark(
         >>> for task in tasks:
         ...     print(task.task_id, task.prompt[:50])
     """
-    _ensure_imports()
+    datasets_mod = _require_datasets_module()
+    loader_mod = _require_loader_module()
 
-    if benchmark_id not in _datasets_module.BENCHMARK_DEFINITIONS:
+    if benchmark_id not in datasets_mod.BENCHMARK_DEFINITIONS:
         available = ", ".join(list_benchmarks())
         raise ValueError(f"Unknown benchmark: {benchmark_id}. Available: {available}")
 
     # Load via loader (native API)
-    tasks = _loader_module.load_benchmark(
+    tasks: list[BenchmarkTask] = loader_mod.load_benchmark(
         benchmark_id=benchmark_id,
         limit=limit,
         use_cache=not force_refresh,
@@ -169,8 +202,7 @@ def get_registry() -> BenchmarkRegistry:
     Returns:
         BenchmarkRegistry instance with preset configurations.
     """
-    _ensure_imports()
-    return _registry_module.BenchmarkRegistry()
+    return cast("BenchmarkRegistry", _require_registry_module().BenchmarkRegistry())
 
 
 # Re-export key types for convenience

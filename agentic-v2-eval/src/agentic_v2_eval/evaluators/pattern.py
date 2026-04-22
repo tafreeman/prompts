@@ -105,12 +105,18 @@ class PatternScore:
 # =============================================================================
 
 
-def _load_pattern_data():
+def _load_pattern_data() -> tuple[
+    str,
+    dict[str, str],
+    dict[str, str],
+    dict[str, list[str]],
+    dict[str, str],
+]:
     """Load pattern data from rubrics/prompt_pattern.yaml."""
-    instructions = {}
-    fields = {}
-    phases = {}
-    state_machines = {}
+    instructions: dict[str, str] = {}
+    fields: dict[str, str] = {}
+    phases: dict[str, list[str]] = {}
+    state_machines: dict[str, str] = {}
     judge_prompt = ""
 
     try:
@@ -312,14 +318,16 @@ class PatternEvaluator:
             text = match.group(1)
 
         try:
-            return json.loads(text)
+            parsed: dict = json.loads(text)
+            return parsed
         except json.JSONDecodeError:
             # Fallback: find first { and last }
             start = text.find("{")
             end = text.rfind("}")
             if start != -1 and end != -1:
                 try:
-                    return json.loads(text[start : end + 1])
+                    fallback: dict = json.loads(text[start : end + 1])
+                    return fallback
                 except json.JSONDecodeError:
                     pass
             return None
