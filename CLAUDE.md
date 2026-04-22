@@ -48,7 +48,7 @@ A monorepo for multi-agent workflow runtime, evaluation framework, and shared LL
 │   │   ├── server/              # FastAPI + WebSocket/SSE streaming
 │   │   ├── tools/builtin/       # 11 built-in tool modules
 │   │   └── workflows/definitions/ # 6 YAML workflow definitions
-│   ├── tests/                   # 78+ files, pytest-asyncio (auto mode)
+│   ├── tests/                   # 100+ files, pytest-asyncio (auto mode)
 │   └── ui/                      # React 19 + @xyflow/react 12 + TanStack Query + Tailwind
 ├── agentic-v2-eval/             # Evaluation: rubrics, evaluators, runners, reporters
 ├── tools/                       # Shared: LLM client, benchmarks, caching, errors
@@ -153,7 +153,7 @@ See `.env.example` for the full template. At least one LLM provider key is requi
 
 | Location | Count | Framework |
 |----------|-------|-----------|
-| `agentic-workflows-v2/tests/` | 78+ files | pytest-asyncio (auto mode) |
+| `agentic-workflows-v2/tests/` | 100+ files | pytest-asyncio (auto mode) |
 | `agentic-v2-eval/tests/` | 12 files | pytest + pytest-asyncio |
 | `tests/e2e/` | 1 file | pytest |
 | `agentic-workflows-v2/ui/` | — | Vitest + React Testing Library |
@@ -188,7 +188,6 @@ See `.claude/rules/` for comprehensive guidelines (immutability, Black, isort, r
 - **Rollup `.js` → `.ts` resolution:** Vite dev server auto-resolves `.js` imports to `.ts` files, but Rollup (production build) does NOT. When renaming `.js` → `.ts`, update all explicit `.js` import paths or the build will fail.
 - **Storybook `@storybook/addon-actions`:** Not installed by default. Use `const action = (name) => (...args) => console.log(name, ...args)` instead.
 - **PowerShell in Git Bash:** `$_` and `$_.Property` get mangled by bash extglob. Use `powershell.exe -NoProfile -Command '...'` with single quotes.
-- **Presentation tokens:** All tokens are TypeScript (`src/tokens/*.ts`) with exported interfaces (`Theme`, `StyleMode`, `TypeScaleEntry`). Import with `.ts` extension explicitly.
 
 ---
 

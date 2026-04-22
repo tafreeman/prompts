@@ -83,7 +83,7 @@ agentic-workflows-v2/
 │   ├── workflows/definitions/ # 6 YAML workflow definitions
 │   ├── integrations/        # OpenTelemetry integration
 │   └── middleware/          # Sanitization detectors
-├── tests/                   # 78+ test files, pytest-asyncio auto mode
+├── tests/                   # 100+ test files, pytest-asyncio auto mode
 └── ui/                      # React 19 frontend
 ```
 
@@ -504,7 +504,7 @@ The `compare` command is useful for verifying that the native and LangGraph engi
 | `agentic_v2/integrations/` | OpenTelemetry integration, tracer provider setup, span helpers |
 | `agentic_v2/middleware/` | Sanitization detector implementations (secret, PII, prompt injection, Unicode, classifier) |
 | `agentic_v2/cli/` | Typer CLI entry points |
-| `tests/` | 78+ test files; pytest-asyncio auto mode; markers: integration, slow, security |
+| `tests/` | 100+ test files; pytest-asyncio auto mode; markers: integration, slow, security |
 | `ui/` | React 19 frontend; @xyflow/react DAG canvas; TanStack Query; Tailwind CSS; Vitest |
 
 ---

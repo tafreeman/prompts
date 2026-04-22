@@ -8,7 +8,7 @@ Welcome to `tafreeman/prompts` -- a monorepo for multi-agent workflow orchestrat
 
 This repository serves a dual mission:
 
-1. **Working platform** -- a production-grade agentic AI runtime with a dual execution engine, 24 agent personas, a full RAG pipeline, and an evaluation framework.
+1. **Working platform** -- a production-grade agentic AI runtime with a dual execution engine, 7 agent personas, a full RAG pipeline, and an evaluation framework.
 2. **Educational portfolio** -- a living reference for team onboarding at Deloitte, demonstrating enterprise-grade practices for cleared federal environments.
 
 This guide has five independent sections. The first (**Quick Start**) gets a workflow running in **about 5 minutes**. Working through all five sections takes roughly **an hour**. Stop wherever you have what you need.
@@ -80,7 +80,7 @@ Collect tests without running them -- this confirms imports work and pytest can 
 python -m pytest agentic-workflows-v2/tests/ -q --co
 ```
 
-You should see output like `~1456 tests collected`. For the full local gate, run `just test` from the repo root.
+You should see output like `N tests collected` (on the order of 1500 as of 2026-04-22). For the full local gate, run `just test` from the repo root.
 
 ### 5. List available workflows
 
@@ -88,7 +88,7 @@ You should see output like `~1456 tests collected`. For the full local gate, run
 agentic list workflows
 ```
 
-Expected output -- a table showing the 10 built-in workflow definitions:
+Expected output -- a table showing the 6 built-in workflow definitions:
 
 ```
                 Available Workflows
@@ -202,7 +202,7 @@ The monorepo contains three Python packages with **zero cross-package imports**:
 prompts/
 +-- agentic-workflows-v2/     # Main runtime (Python 3.11+, hatchling)
 |   +-- agentic_v2/            # Source code
-|   +-- tests/                 # 66 files, ~1456 tests
+|   +-- tests/                 # 100+ files
 |   +-- ui/                    # React 19 dashboard
 +-- agentic-v2-eval/           # Evaluation framework (Python 3.10+, setuptools)
 +-- tools/                     # Shared LLM client, benchmarks (Python 3.10+, setuptools)
@@ -224,11 +224,11 @@ agentic_v2/
 +-- models/          # SmartModelRouter -- LLM tier routing across 8+ providers
 +-- rag/             # Full RAG pipeline (13 modules: load, chunk, embed, index, retrieve, assemble)
 +-- contracts/       # Pydantic v2 I/O models (additive-only -- never remove fields)
-+-- prompts/         # 24 agent persona definitions (.md files)
++-- prompts/         # 7 agent persona definitions (.md files)
 +-- server/          # FastAPI + WebSocket/SSE streaming
 +-- tools/builtin/   # 11 built-in tool modules (file_read, shell, grep, etc.)
 +-- workflows/
-    +-- definitions/ # 10 YAML workflow definitions
+    +-- definitions/ # 6 YAML workflow definitions
 +-- cli/             # Typer CLI (the `agentic` command)
 ```
 

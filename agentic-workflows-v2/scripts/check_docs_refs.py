@@ -33,7 +33,6 @@ TARGET_FILES = (
     "SUPPORT.md",
     "examples/README.md",
     "feature_package/README.md",
-    "feature_package/handoff.md",
     "docs/README.md",
     "docs/ARCHITECTURE.md",
     "docs/WORKFLOWS.md",

@@ -110,7 +110,6 @@ SEED_FILES = {
     Path("folder_report.txt"),
     Path("directory_analysis.log"),
     Path("system.md"),
-    Path("agentic-workflows-v2/docs/LANGCHAIN_MIGRATION_PLAN.md"),
 }
 
 EXCLUDED_DIRS = {

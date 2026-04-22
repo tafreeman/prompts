@@ -1,12 +1,12 @@
 # Deep Research Plan Series (Compiled from Conversation)
 
 ## Purpose
-This document set compiles and normalizes the planning progression captured in `agentic-v2-eval/chatlg.md` into a tracked, implementation-ready series.
+This document set compiles and normalizes an earlier planning-conversation progression into a tracked, implementation-ready series.
 
 The series is intentionally iterative: each iteration increases architectural depth and decision completeness.
 
 ## Source Conversation
-- Source log: `agentic-v2-eval/chatlg.md`
+- The original raw conversation log (`agentic-v2-eval/chatlg.md`) was removed during the 2026-04-22 docs cleanup after its planning content had been fully normalized into the iteration documents below.
 - Compilation date: February 16, 2026
 - Planning horizon uses explicit date anchors from the conversation (for example, August 15, 2025 six-month cutoff and February 15-16, 2026 planning updates).
 
