@@ -91,6 +91,49 @@ jobs:
             --cov-report=term-missing \
             --cov-fail-under=80
 
+  wire-format-drift:
+    # Sprint B #3 — prevent silent Python <-> TypeScript wire-format drift.
+    # `agentic_v2/contracts/events.py` is the source of truth; this job
+    # regenerates the committed JSON Schema + TS mirror and fails the PR if
+    # the working tree no longer matches what's checked in.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: agentic-workflows-v2/ui/package-lock.json
+      - name: Install backend
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e "agentic-workflows-v2/[dev]"
+      - name: Install UI
+        run: |
+          cd agentic-workflows-v2/ui
+          npm ci
+      - name: Regenerate Python JSON schema
+        run: |
+          cd agentic-workflows-v2
+          python scripts/generate_ts_types.py
+      - name: Regenerate TypeScript types
+        run: |
+          cd agentic-workflows-v2/ui
+          npm run generate:types
+      - name: Fail on drift
+        run: |
+          if ! git diff --exit-code -- \
+              agentic-workflows-v2/tests/schemas/events.schema.json \
+              agentic-workflows-v2/ui/src/api/events.generated.ts; then
+            echo "::error::Wire-format drift detected. Run 'python scripts/generate_ts_types.py' and 'npm --prefix ui run generate:types' from agentic-workflows-v2/ and commit the result."
+            exit 1
+          fi
+
   e2e-streaming:
     # Epic 2 Story 2.2 — Playwright streaming PR gate.
     # Runs the streaming spec 5× to catch flakes early. The rolling nightly

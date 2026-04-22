@@ -216,71 +216,49 @@ export interface EvaluationResult {
   dataset?: Record<string, unknown> | null;
 }
 
-/** WebSocket execution events. */
-export type ExecutionEvent =
-  | { type: "workflow_start"; run_id: string; workflow_name: string; timestamp: string }
-  | { type: "step_start"; run_id: string; step: string; timestamp: string }
-  | {
-      type: "step_end";
-      run_id: string;
-      step: string;
-      status: StepStatus;
-      duration_ms: number;
-      model_used?: string | null;
-      tokens_used?: number | null;
-      tier?: string | null;
-      input?: Record<string, unknown>;
-      output?: Record<string, unknown>;
-      error?: string | null;
-      timestamp: string;
-    }
-  | {
-      type: "step_complete";
-      run_id: string;
-      step: string;
-      status: StepStatus;
-      duration_ms: number;
-      model_used?: string | null;
-      tokens_used?: number | null;
-      tier?: string | null;
-      input?: Record<string, unknown>;
-      output?: Record<string, unknown>;
-      outputs?: Record<string, unknown>;
-      error?: string | null;
-      timestamp: string;
-    }
-  | {
-      type: "step_error";
-      run_id: string;
-      step: string;
-      status?: StepStatus;
-      duration_ms: number;
-      model_used?: string | null;
-      tokens_used?: number | null;
-      tier?: string | null;
-      input?: Record<string, unknown>;
-      output?: Record<string, unknown>;
-      outputs?: Record<string, unknown>;
-      error?: string | null;
-      timestamp: string;
-    }
-  | { type: "workflow_end"; run_id: string; status: string; timestamp: string }
-  | { type: "evaluation_start"; run_id: string; timestamp: string }
-  | {
-      type: "evaluation_complete";
-      run_id: string;
-      rubric: string;
-      weighted_score: number;
-      overall_score: number;
-      grade: string;
-      passed: boolean;
-      pass_threshold: number;
-      criteria: EvaluationCriterionScore[];
-      timestamp: string;
-    }
+// ---------------------------------------------------------------------------
+// WebSocket execution events
+// ---------------------------------------------------------------------------
+// The server-originating wire shapes below are AUTO-GENERATED from the
+// Pydantic contract in `agentic_v2/contracts/events.py`. Regenerate with:
+//
+//     python scripts/generate_ts_types.py              # in agentic-workflows-v2/
+//     npm run generate:types                           # in agentic-workflows-v2/ui/
+//
+// The `wire-format-drift` CI job fails any PR that changes the Python
+// contract without regenerating the TypeScript mirror. See CONTRIBUTING.md.
+export type {
+  WorkflowStartEvent,
+  StepStartEvent,
+  StepEndEvent,
+  StepCompleteEvent,
+  StepErrorEvent,
+  WorkflowEndEvent,
+  EvaluationStartEvent,
+  EvaluationCompleteEvent,
+} from "./events.generated";
+
+import type { ExecutionEvent as WireExecutionEvent } from "./events.generated";
+
+/**
+ * Client-only WebSocket event shapes emitted by the streaming channel
+ * itself (connection lifecycle, transport-level errors, keepalive pings).
+ *
+ * These are NOT part of the Python `ExecutionEvent` contract — the server
+ * never wraps them in a Pydantic model — so they stay hand-defined here.
+ */
+export type ChannelEvent =
   | { type: "error"; run_id: string; error: string }
   | { type: "keepalive" }
   | { type: "connection_established"; run_id: string; message: string };
+
+/**
+ * Union of every event type the UI handles on the execution WebSocket.
+ *
+ * Wire events come from `events.generated.ts` (Pydantic-derived).
+ * Channel events are transport-level and defined above.
+ */
+export type ExecutionEvent = WireExecutionEvent | ChannelEvent;
 
 /** Agent info (from GET /api/agents). */
 export interface AgentInfo {

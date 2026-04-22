@@ -1,6 +1,11 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { connectExecutionStream } from "../api/websocket";
-import type { EvaluationResult, ExecutionEvent, StepStatus } from "../api/types";
+import type {
+  EvaluationCriterionScore,
+  EvaluationResult,
+  ExecutionEvent,
+  StepStatus,
+} from "../api/types";
 
 export interface StepState {
   status: StepStatus;
@@ -57,13 +62,15 @@ export function useWorkflowStream(runId: string | null): WorkflowStreamState {
         setStepStates((prev) => {
           const next = new Map(prev);
           next.set(event.step, {
-            status: event.status,
+            // Wire schema types `status` as string; the server populates it
+            // from the StepStatus enum. Coerce at the boundary.
+            status: event.status as StepStatus,
             durationMs: event.duration_ms,
             modelUsed: event.model_used ?? undefined,
             tokensUsed: event.tokens_used ?? undefined,
             tier: event.tier,
-            input: event.input,
-            output: event.output,
+            input: event.input ?? undefined,
+            output: event.output ?? undefined,
             error: event.error,
           });
           return next;
@@ -78,13 +85,13 @@ export function useWorkflowStream(runId: string | null): WorkflowStreamState {
             status:
               event.type === "step_error"
                 ? "failed"
-                : event.status ?? "success",
+                : ((event.status ?? "success") as StepStatus),
             durationMs: event.duration_ms,
             modelUsed: event.model_used ?? undefined,
             tokensUsed: event.tokens_used ?? undefined,
             tier: event.tier,
-            input: event.input,
-            output: event.output ?? event.outputs,
+            input: event.input ?? undefined,
+            output: event.output ?? event.outputs ?? undefined,
             error: event.error ?? null,
           });
           return next;
@@ -100,15 +107,19 @@ export function useWorkflowStream(runId: string | null): WorkflowStreamState {
         break;
 
       case "evaluation_complete":
+        // Wire schema types `criteria` as an array of unknown dicts (Pydantic
+        // `list[dict[str, Any]]`) and marks defaulted fields (`passed`,
+        // `pass_threshold`) as optional at the JSON Schema level. The server
+        // always populates them — coerce/default at the boundary.
         setEvaluation({
           enabled: true,
           rubric: event.rubric,
-          criteria: event.criteria,
+          criteria: (event.criteria ?? []) as unknown as EvaluationCriterionScore[],
           overall_score: event.overall_score,
           weighted_score: event.weighted_score,
           grade: event.grade,
-          passed: event.passed,
-          pass_threshold: event.pass_threshold,
+          passed: event.passed ?? false,
+          pass_threshold: event.pass_threshold ?? 70.0,
           generated_at: event.timestamp,
         });
         setWorkflowStatus("completed");

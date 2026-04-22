@@ -78,6 +78,28 @@ Typical mappings:
 - New architecture pattern: `docs/ARCHITECTURE.md`
 - New bootstrap command or devcontainer behavior: `README.md`, `docs/ONBOARDING.md`, and `CONTRIBUTING.md`
 
+### Editing the execution-event wire format
+
+`agentic_v2/contracts/events.py` is the single source of truth for the
+WebSocket / SSE execution event contract. The TypeScript mirror in
+`ui/src/api/events.generated.ts` is produced from a committed JSON Schema
+(`tests/schemas/events.schema.json`) and **must never be hand-edited**.
+
+If you change any event model in `contracts/events.py`:
+
+1. Regenerate both sides:
+   ```bash
+   cd agentic-workflows-v2
+   python scripts/generate_ts_types.py      # Python  -> JSON Schema
+   cd ui && npm run generate:types          # JSON Schema -> TypeScript
+   ```
+2. Commit the regenerated `tests/schemas/events.schema.json` and
+   `ui/src/api/events.generated.ts` alongside the Python change.
+
+The `wire-format-drift` CI job regenerates both files and fails any PR
+that forgets either step. Editing the generated TypeScript by hand will
+also fail CI on the next regeneration.
+
 ## Code Style
 
 - Keep functions and classes focused.
