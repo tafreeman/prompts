@@ -8,6 +8,33 @@ All notable changes to this project are documented here.
 
 ### New Features
 
+- **Epic 1 — Platform Foundation (agentic-workflows-v2)**
+  - **Typed core protocols** — `AgentProtocol.run` no longer accepts/returns `Any`; signature tightened to `object` so type checkers stop treating agent I/O as opaque. Companion `ToolProtocol` conformance test added.
+  - **Consolidated `Settings`** — All environment variable reads routed through a single typed `pydantic-settings` class; scattered `os.environ` lookups removed so misconfigured deployments fail fast at startup instead of deep inside a run.
+  - **Adapter registry test isolation** — Autouse fixture resets the `AdapterRegistry` singleton between tests, eliminating cross-test leakage and flakes when suites register alternate engine backends.
+  - **Schema-drift CI gate** — New snapshot test on `contracts/` Pydantic models fails the build on any unreviewed wire-format change; `scripts/generate_schemas.py` refreshes the canonical snapshot.
+  - **OTEL parent-child trace assertion** — Regression test verifies the engine → agent span chain is preserved end-to-end so distributed traces remain connected in Jaeger / Tempo.
+  - **Golden-output regression test** — Deterministic fixture locks the `code_review` workflow's final output; any behavioral drift in the native engine trips the test.
+  - **CI lint + coverage enforcement** — Ruff runs as a required job and the 80% coverage floor is now enforced in GitHub Actions rather than advisory.
+  - **MCP results cleanup** — Ruff `UP006` / `S324` fixes across `mcp/results` remove legacy typing forms and insecure hash defaults.
+
+- **Epic 2 — Observable Execution (agentic-workflows-v2)**
+  - **Typed execution-event wire format** — New `contracts/events.py` Pydantic discriminated union covers `workflow_start`, `step_start`, `step_end`, `step_complete`, `step_error`, `workflow_end`, and `evaluation_*`. WebSocket and SSE broadcasts validate before emit; client union in `ui/src/api/types.ts` stays in lockstep.
+  - **Live DAG animation** — `@xyflow/react` nodes and edges animate through queued → running → complete / error states as events arrive on `/ws/execution/{run_id}`, so users can watch a run progress without opening server logs.
+  - **StepNode B2 redesign** — Each node now renders an ASCII status chip, LLM tier pill, token counter, and a streaming-progress bar driven by live events.
+  - **Step drill-down panel** — Click a node to see a five-field detail pane (inputs, outputs, status, timing, errors) that handles partial state gracefully while a step is still running.
+  - **Playwright streaming PR gate** — New E2E job runs the streaming flow 5× per PR using `data-testid` hooks added across the UI; any single failure blocks merge.
+  - **WebSocket reconnect-replay test** — Fault-injection E2E kills the socket mid-run and asserts the server's 500-event replay buffer restores UI state on reconnect.
+  - **Time-to-first-span SLO + p95 gate** — New measurement test records first-span latency and fails the build if the p95 regresses past the contract.
+  - **Nightly 50× reliability job** — Streaming E2E runs 50× on a nightly cron with a rolling flake-rate gate; reconnect and p95 contracts hardened alongside.
+
+- **Epic 3 — DevEx / Windows (agentic-workflows-v2)**
+  - **Windows bring-up hardening** — `scripts/setup-dev.ps1` one-command bootstrap validated in CI so a fresh Windows clone installs deps, validates workflows, and runs a smoke test without manual intervention.
+  - **`port-guard` devex tool** — Detects and reports processes holding dev ports (8010 / 5173 / 6006) before server startup so conflicts surface with an actionable message instead of a cryptic bind error.
+  - **`workspace-test-runner` tool** — Single entry point to run the right test suite for whichever package you're in (backend pytest, eval pytest, UI vitest).
+  - **`workflow-linter` tool** — Validates YAML workflow definitions against the required-fields contract (`name`, `agent`, `description`, `depends_on`, `inputs`, `outputs`) before they reach the runtime.
+  - **Windows Unicode CLI fix** — `agentic` CLI no longer crashes on the Windows default codepage when rendering non-ASCII output; CLI verification added to CI to prevent regressions.
+
 - **Epic 6 — Evaluation & Data Depth (agentic-workflows-v2)**
   - **Contracts** — Additive Pydantic v2 models (`EvaluationCriterionDetail`, `ScoreLayersModel`, `HardGatesModel`, `FloorViolationModel`, `RunEvaluationDetail`, `DatasetSampleSummary`, …) mirrored as TypeScript interfaces in `ui/src/api/types.ts`; `EvaluationCompleteEvent` expanded with `passed`, `pass_threshold`, `criteria`.
   - **Tokens-30d stat** — `RunsSummaryResponse` gains `tokens_30d`; `run_logger.summary()` aggregates tokens across all runs started in the last 30 days; Dashboard live stat wired to real data.
