@@ -148,7 +148,11 @@ export default function LivePage() {
       <div className="flex items-center gap-3 border-b border-b-line bg-b-bg1 px-4 py-2">
         <Radio className="h-3.5 w-3.5 animate-pulse text-b-red" />
         <div className="min-w-0 flex-1">
-          <h1 className="truncate font-mono text-[13px] font-semibold text-b-text">
+          <h1
+            data-testid="run-id"
+            data-run-id={runId ?? ""}
+            className="truncate font-mono text-[13px] font-semibold text-b-text"
+          >
             {wfName ?? "live execution"}
           </h1>
         </div>
@@ -158,7 +162,9 @@ export default function LivePage() {
           </BPill>
         )}
         <TokenCounter events={events} />
-        <BPill tone={runTone}>{workflowStatus}</BPill>
+        <span data-testid="workflow-status">
+          <BPill tone={runTone}>{workflowStatus}</BPill>
+        </span>
       </div>
 
       {workflowStatus === "evaluating" && (

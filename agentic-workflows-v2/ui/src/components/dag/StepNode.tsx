@@ -63,7 +63,7 @@ const statusConfig: Record<
   },
 };
 
-function StepNodeComponent({ data }: NodeProps) {
+function StepNodeComponent({ id, data }: NodeProps) {
   const nodeData = data as unknown as StepNodeData;
   const cfg = statusConfig[nodeData.status] ?? statusConfig.pending;
   const Icon = cfg.icon;
@@ -77,6 +77,7 @@ function StepNodeComponent({ data }: NodeProps) {
       <Handle type="target" position={Position.Top} className="!bg-gray-300 !border-white !border-2 !w-3 !h-3" />
 
       <div
+        data-testid={`dag-node-${id}`}
         className={`
           relative rounded-xl border ${cfg.border} ${bgClass}
           px-4 py-3 min-w-[200px] max-w-[260px]

@@ -90,3 +90,55 @@ jobs:
             --cov=agentic_v2 \
             --cov-report=term-missing \
             --cov-fail-under=80
+
+  e2e-streaming:
+    # Epic 2 Story 2.2 — Playwright streaming PR gate.
+    # Runs the streaming spec 5× to catch flakes early. The rolling nightly
+    # 50× job (Story 2.4) measures the long-term flake rate.
+    #
+    # LLM credentials: GITHUB_TOKEN + `models: read` permission let the
+    # runtime reach GitHub Models for a zero-config LLM backend in CI. When
+    # placeholder-mode support is implemented (tracked separately), this
+    # dependency can be dropped.
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      models: read
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: agentic-workflows-v2/ui/package-lock.json
+      - name: Install backend (server extra)
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e "agentic-workflows-v2/[dev,server]"
+      - name: Install UI + Playwright
+        run: |
+          cd agentic-workflows-v2/ui
+          npm ci
+          npx playwright install --with-deps chromium
+      - name: Run streaming E2E 5×
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd agentic-workflows-v2/ui
+          npm run test:e2e:5x
+      - name: Upload Playwright artifacts on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-artifacts
+          path: |
+            agentic-workflows-v2/ui/test-results/
+            agentic-workflows-v2/ui/playwright-report/
+            agentic-workflows-v2/ui/e2e-results.json
+          retention-days: 14
+          if-no-files-found: ignore

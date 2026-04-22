@@ -45,6 +45,7 @@ export default function Sidebar() {
             key={link.to}
             to={link.to}
             end={link.end}
+            data-testid={`nav-${link.label}`}
             className={({ isActive }) =>
               `flex items-center gap-2.5 rounded-sm border-l-2 px-3 py-2 font-mono text-[11px] transition-colors ${
                 isActive

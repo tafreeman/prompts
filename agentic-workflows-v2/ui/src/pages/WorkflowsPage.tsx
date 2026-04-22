@@ -104,6 +104,7 @@ export default function WorkflowsPage() {
                 <Link
                   key={name}
                   to={`/workflows/${name}`}
+                  data-testid={`workflow-link-${name}`}
                   className="group flex items-center gap-3 border border-b-line border-l-2 bg-b-bg1 px-3 py-3 transition-colors hover:bg-b-bg2 hover:border-l-b-clay focus:outline-none focus:ring-1 focus:ring-b-clay/50"
                 >
                   <span className="font-mono text-[14px] text-b-blue">▣</span>

@@ -429,6 +429,11 @@ system.md
 .playwright-cli/
 presentation/.playwright-cli/
 
+# Playwright E2E test artifacts (Epic 2 Story 2.2)
+agentic-workflows-v2/ui/test-results/
+agentic-workflows-v2/ui/playwright-report/
+agentic-workflows-v2/ui/e2e-results.json
+
 # Stale presentation artifacts
 presentation/~$*.pptx
 presentation/*.jsx

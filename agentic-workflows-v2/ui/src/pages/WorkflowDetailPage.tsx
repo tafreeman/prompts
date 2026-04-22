@@ -164,6 +164,7 @@ export default function WorkflowDetailPage() {
           onClick={() => runMutation.mutate()}
           disabled={runMutation.isPending}
           className="btn-primary"
+          data-testid="run-button"
         >
           {runMutation.isPending ? (
             <Loader2 className="h-3 w-3 animate-spin" />

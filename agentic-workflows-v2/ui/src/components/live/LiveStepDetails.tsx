@@ -61,13 +61,14 @@ export default function LiveStepDetails({
 
         const isOpen = selectedStep === name;
         return (
-          <StepPanel
-            key={name}
-            stepName={name}
-            step={step}
-            isOpen={isOpen}
-            onToggle={() => onSelectStep(isOpen ? null : name)}
-          />
+          <div key={name} data-testid={`step-row-${name}`}>
+            <StepPanel
+              stepName={name}
+              step={step}
+              isOpen={isOpen}
+              onToggle={() => onSelectStep(isOpen ? null : name)}
+            />
+          </div>
         );
       })}
     </div>
