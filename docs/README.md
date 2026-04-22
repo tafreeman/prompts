@@ -6,12 +6,19 @@ This directory contains architecture documentation, coding standards, decision r
 
 | Path | Description |
 | --- | --- |
-| `ARCHITECTURE.md` | System architecture overview and component diagrams |
+| `ARCHITECTURE.md` | Umbrella architecture — system-level map linking the per-package deep dives |
+| `architecture-runtime.md`, `architecture-ui.md`, `architecture-eval.md`, `architecture-tools.md` | Per-package architecture deep dives |
+| `ROADMAP.md` | Epics shipped (1/2/3/5/6), Epic 4 tombstone, Sprint B items, proposed Epic 7+ |
+| `KNOWN_LIMITATIONS.md` | Honest accounting of items shipped with caveats |
+| `MIGRATIONS.md` | Breaking changes since v0.3.0 |
+| `ONBOARDING.md` | Canonical 5-minute to 1-hour onboarding path |
 | `CODING_STANDARDS.md` | Coding standards and style guidelines |
+| `GLOSSARY.md` | Domain-specific term definitions |
 | `subagents.yml` | Canonical registry of subagent definitions |
-| `adr/` | Architecture Decision Records (ADRs) |
+| `adr/` | Architecture Decision Records — start at `adr/ADR-INDEX.md` |
 | `pr-checklists/` | PR review checklists for documentation and code changes |
-| `../CHANGELOG.md` | User-facing changelog — features, fixes, and notable changes by release (at repo root) |
+| `../CHANGELOG.md` | User-facing changelog (at repo root) |
+| `../CONTRIBUTING.md` | Monorepo contribution policy (at repo root) |
 
 ## Table of Contents
 - [Purpose](#purpose)

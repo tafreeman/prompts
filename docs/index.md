@@ -1,6 +1,6 @@
 # Project Documentation Index
 
-> **Generated:** 2026-04-16 | **Last Updated:** 2026-04-18 | **Scan Mode:** initial_scan (exhaustive) | **Workflow Version:** 1.2.0 | **Deep-Dives:** 3
+> **Generated:** 2026-04-16 | **Last Updated:** 2026-04-22 | **Scan Mode:** initial_scan (exhaustive) | **Workflow Version:** 1.2.0 | **Deep-Dives:** 3
 
 ---
 
@@ -42,12 +42,18 @@
 
 ### Project-Wide
 
+- [Architecture (Umbrella)](./ARCHITECTURE.md) — System map linking all per-package deep dives + the five load-bearing mechanisms
+- [Roadmap](./ROADMAP.md) — Shipped epics, Epic 4 tombstone, Sprint B, proposed Epic 7+
+- [Known Limitations](./KNOWN_LIMITATIONS.md) — Honest accounting of items shipped with caveats
+- [Migrations](./MIGRATIONS.md) — Breaking changes since v0.3.0 (starts with `presentation/` extraction)
+- [Onboarding Guide](./ONBOARDING.md) — Canonical 5-minute to 1-hour first-run path
+- [Contribution Policy](../CONTRIBUTING.md) — Monorepo-wide contribution guide (at repo root)
 - [Project Overview](./project-overview.md) — Purpose, tech stack summary, architecture type, links to all docs
 - [Source Tree Analysis](./source-tree-analysis.md) — Full annotated directory tree with entry points and integration points
 - [Integration Architecture](./integration-architecture.md) — How the 4 parts communicate (REST, WebSocket, SSE, imports)
 - [Development Guide](./development-guide.md) — Prerequisites, installation, dev servers, testing, CLI, common issues
-- [Deployment Guide](./deployment-guide.md) — CI/CD pipeline (8 jobs), security scanning, environment variables, production checklist
-- [Contribution Guide](./contribution-guide.md) — Code style, git workflow, testing requirements, security checklist, PR process
+- [Deployment Guide](./deployment-guide.md) — CI/CD pipeline, security scanning, environment variables, production checklist
+- [Contribution Guide (legacy)](./contribution-guide.md) — Per-package contribution notes (supersedes to root `CONTRIBUTING.md`)
 
 ### Runtime (Backend)
 
