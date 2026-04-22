@@ -188,6 +188,7 @@ export default function LivePage() {
               stepStates={stepStates}
               edgeCounts={edgeCounts}
               kickbackEdges={kickbackEdges}
+              disconnected={workflowStatus === "error"}
               onNodeClick={setSelectedStep}
             />
           ) : (

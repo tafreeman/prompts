@@ -44,6 +44,12 @@ interface Props {
   kickbackEdges?: Set<string>;
   /** Callback when a node is clicked. */
   onNodeClick?: (stepName: string) => void;
+  /**
+   * When true, the upstream WebSocket stream is disconnected. Live
+   * animations on running nodes/edges are paused to signal that on-screen
+   * state may not match the backend.
+   */
+  disconnected?: boolean;
   className?: string;
 }
 
@@ -55,6 +61,7 @@ function WorkflowDAGInner({
   edgeCounts,
   kickbackEdges,
   onNodeClick,
+  disconnected = false,
   className = "",
 }: Readonly<Props>) {
   const { fitView } = useReactFlow();
@@ -213,6 +220,7 @@ function WorkflowDAGInner({
         tokensUsed: live?.tokensUsed,
         modelInferred: live?.modelInferred,
         error: live?.error,
+        disconnected,
       };
 
       return {
@@ -222,7 +230,7 @@ function WorkflowDAGInner({
         data: data as unknown as Record<string, unknown>,
       };
     });
-  }, [dagNodes, positions, effectiveStepStates]);
+  }, [dagNodes, positions, effectiveStepStates, disconnected]);
 
   const edges: Edge[] = useMemo(() => {
     return dagEdges.map((de) => {
@@ -234,6 +242,10 @@ function WorkflowDAGInner({
 
       let strokeColor = "#374151"; // gray-700
       let animated = false;
+      const isActiveEdge =
+        sourceState?.status === "success" &&
+        targetState?.status === "running" &&
+        !disconnected;
 
       if (isKickback && traversalCount > 0) {
         strokeColor = "#a855f7"; // violet
@@ -251,6 +263,7 @@ function WorkflowDAGInner({
         source: de.source,
         target: de.target,
         animated,
+        className: isActiveEdge ? "dag-edge--active" : undefined,
         label: traversalCount > 0 ? String(traversalCount) : undefined,
         labelStyle: {
           fill: isKickback ? "#e9d5ff" : "#d1d5db",
@@ -272,7 +285,7 @@ function WorkflowDAGInner({
         },
       };
     });
-  }, [dagEdges, edgeCounts, kickbackEdges, stepStates]);
+  }, [dagEdges, edgeCounts, kickbackEdges, effectiveStepStates, disconnected]);
 
   const handleNodeClick = useCallback(
     (_: React.MouseEvent, node: Node) => {

@@ -25,6 +25,11 @@ export interface StepNodeData {
   tokensUsed?: number;
   modelInferred?: boolean;
   error?: string | null;
+  /**
+   * When true, the WebSocket stream is disconnected — live animations are
+   * paused to signal that what's on screen may no longer reflect reality.
+   */
+  disconnected?: boolean;
 }
 
 const statusConfig: Record<
@@ -72,6 +77,11 @@ function StepNodeComponent({ id, data }: NodeProps) {
   if (nodeData.status === "pending") bgClass = "bg-gray-50/80";
   if (nodeData.status === "failed") bgClass = "bg-[#1f0f0f] shadow-sm"; // Darker backdrop for error
 
+  // Live animation: only when the stream is connected AND step is running.
+  const isLiveRunning =
+    nodeData.status === "running" && !nodeData.disconnected;
+  const runningClass = isLiveRunning ? "step-node--running" : "";
+
   return (
     <>
       <Handle type="target" position={Position.Top} className="!bg-gray-300 !border-white !border-2 !w-3 !h-3" />
@@ -82,6 +92,7 @@ function StepNodeComponent({ id, data }: NodeProps) {
           relative rounded-xl border ${cfg.border} ${bgClass}
           px-4 py-3 min-w-[200px] max-w-[260px]
           transition-all duration-300 ease-out
+          ${runningClass}
           ${
             nodeData.status === "running"
               ? "ring-2 ring-blue-500/40 shadow-lg scale-105 z-10"

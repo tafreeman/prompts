@@ -120,12 +120,31 @@
 
 @keyframes dash-flow {
   to {
-    stroke-dashoffset: -20;
+    stroke-dashoffset: -12;
+  }
+}
+
+@keyframes clay-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(var(--b-clay));
+  }
+  50% {
+    box-shadow: 0 0 12px 2px rgb(var(--b-clay));
   }
 }
 
 .animated-edge {
   animation: dash-flow 0.5s linear infinite;
+}
+
+.step-node--running {
+  animation: clay-glow 1.6s ease-in-out infinite;
+}
+
+.dag-edge--active {
+  stroke-dasharray: 6 6;
+  animation: dash-flow 1s linear infinite;
 }
 
 .react-flow__edge path {
