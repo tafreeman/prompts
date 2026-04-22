@@ -187,8 +187,6 @@ export default function DashboardPage() {
   ).length;
   const cancelled = (runs ?? []).filter((r) => r.status === "cancelled").length;
 
-  const tokens30d = (runs ?? []).reduce((acc) => acc + 0, 0); // placeholder until tokens are in summary
-
   return (
     <div className="flex h-full flex-col">
       <BTopBar path="dashboard">
@@ -252,8 +250,12 @@ export default function DashboardPage() {
             />
             <StatCard
               label="tokens 30d"
-              value={tokens30d ? tokens30d.toLocaleString() : "—"}
-              empty={!tokens30d}
+              value={
+                typeof summary?.tokens_30d === "number"
+                  ? summary.tokens_30d.toLocaleString()
+                  : "—"
+              }
+              empty={!summary?.tokens_30d}
               values={sparkSeries}
               sparkColor="rgb(var(--b-purple))"
             />
