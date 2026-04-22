@@ -8,6 +8,16 @@ All notable changes to this project are documented here.
 
 ### New Features
 
+- **Epic 5 — Console UI Polish (agentic-workflows-v2/ui)**
+  - `StatusBadge` migrated to ASCII bracket format: `[OK ]` `[RUN]` `[ERR]` `[WARN]` using `--b-*` CSS tokens; works across dark / paper / bolt themes.
+  - `useHotkeys` hook — global keyboard shortcuts (n / f / / / j / k / Esc) with input-focus guard and unmount cleanup.
+  - Dashboard filter — `/` and `f` focus the filter input; `Esc` clears and blurs; narrows runs by workflow name or run ID.
+  - State pages — `EmptyState` (`$ no <entity> yet`), `ErrorBanner` (`[!] {msg}`), `NotFoundPage` (404 terminal-style), `AppErrorBoundary` (React error boundary).
+  - Skip-to-main link — visually hidden, appears on first Tab; `<main id="main-content">` as target.
+  - Focus ring audit — `focus:ring-1 focus:ring-b-clay/50` added to all interactive elements; audit notes at `docs/a11y-focus-ring-audit.md`.
+  - Paper theme contrast QA — `--b-text-dim` on `--b-bg1` verified at 7.45:1 (passes AA); bolt 5.92:1; dark 3.80:1 (dim tier, intentional).
+  - `BDagMini` — pure SVG static DAG thumbnail; reuses `layoutDAG` (Kahn topological sort); linear chains render as vertical, parallel branches center-aligned per rank; themed via CSS vars.
+
 - **`skill-architect` agent** — New AI persona specialized in designing, extracting, and refactoring skills as reusable prompt programs. Added to the canonical agent roster with full documentation.
 - **`verify-and-correct` skill** — Bounded self-correction loop: automatically runs tests, lint, and type checks after code changes, then retries fixes (up to a limit) before reporting back. Reduces back-and-forth on build failures.
 - **`session-plan` skill** — Plan a focused session with 1–2 goals, explicit success criteria, and a TODO checklist. Prevents mega-sessions that hit rate limits by scoping work upfront.
