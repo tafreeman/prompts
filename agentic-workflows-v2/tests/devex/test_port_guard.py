@@ -73,7 +73,7 @@ def test_check_port_bound_pid_unknown_without_psutil() -> None:
 # ---------------------------------------------------------------------------
 
 
-def test_guard_ports_all_free_returns_true(capsys) -> None:  # noqa: ANN001
+def test_guard_ports_all_free_returns_true(capsys) -> None:
     """guard_ports returns True and prints confirmation when all ports are free."""
     with patch("agentic_v2.devex.port_guard.check_port", return_value=(True, None)):
         result = guard_ports({"backend": 8012, "frontend": 5174})

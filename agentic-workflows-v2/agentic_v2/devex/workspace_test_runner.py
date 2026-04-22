@@ -97,7 +97,7 @@ def run_all(
             console.print(f"  [green]OK[/green]  {summary}")
         else:
             failed.append(pkg["name"])
-            console.print(f"  [red]!![/red]  FAILED")
+            console.print("  [red]!![/red]  FAILED")
             for line in output.splitlines():
                 console.print(f"    {line}")
 
