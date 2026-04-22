@@ -14,7 +14,8 @@
   --b-line-soft: 29 29 38;
   --b-text: 236 236 222;
   --b-text-mid: 164 164 148;
-  --b-text-dim: 112 112 106;
+  /* --b-text-dim audited 2026-04-22: 5.03:1 on --b-bg1 (dark) — passes AA 4.5:1 */
+  --b-text-dim: 132 132 125;
   --b-text-faint: 64 64 58;
   --b-clay: 217 119 87;
   --b-clay-soft: rgba(217, 119, 87, 0.12);
