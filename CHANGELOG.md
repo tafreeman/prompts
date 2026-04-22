@@ -13,6 +13,10 @@ All notable changes to this project are documented here.
 - **Stale-artifact triage and count-drift fixes** (commit `205b314`) — deletes ~2,050 lines of orphaned content: `MCP_IMPLEMENTATION_{COMPLETE,PLAN,STATUS}.md`, `LANGCHAIN_MIGRATION_PLAN.md` (directly contradicted ADR-013), `chatlg.md` (1052-line raw conversation log at `agentic-v2-eval/`), `playwright-tester-training-prompt.md`, and several `handoff.md` stubs. Count drift corrected in `ONBOARDING.md` / `GLOSSARY.md` / `CLAUDE.md` (24 → 7 agent personas, 78+ → 100+ test files, 10 → 6 workflow definitions). Corrected a factual claim in `docs/MIGRATIONS.md`: `presentation/` is not fully gone — the top-level directory retains leftover theme-collection scripts and raw-themes data pending a follow-up cleanup.
 - **Post-v0.3.0 doc cleanup** (commit `e7c2a69`) — drops superseded `IMPLEMENTATION_SUMMARY.md`, `MASTER_MANIFEST.md`, and `docs/contribution-guide.md` (all replaced by newer artifacts landed during the doc overhaul); relocates `docs/eval-harness/*` planning artifacts to `planning-artifacts/eval-harness/` so the user-facing `docs/` tree only contains user-facing content; adds a ⚠️ STALE banner to `ACTIVE_VS_LEGACY_TOOLING_MAP.md` linking to current sources of truth rather than rewriting it blind.
 
+### Cleanup & Refactoring
+
+- **UI build artifacts untracked** (commit `9522baf`) — `agentic-workflows-v2/ui/dist/index.html` and `agentic-workflows-v2/ui/tsconfig.tsbuildinfo` are now in `.gitignore`; they were showing up dirty after every `npm run build` and polluting every PR diff. Fulfills the spawned task filed during Sprint A triage.
+
 No production code changes. No v0.3.0 contract or behavior affected.
 
 ---
