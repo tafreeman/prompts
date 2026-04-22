@@ -8,6 +8,14 @@ All notable changes to this project are documented here.
 
 ### New Features
 
+- **Epic 6 — Evaluation & Data Depth (agentic-workflows-v2)**
+  - **Contracts** — Additive Pydantic v2 models (`EvaluationCriterionDetail`, `ScoreLayersModel`, `HardGatesModel`, `FloorViolationModel`, `RunEvaluationDetail`, `DatasetSampleSummary`, …) mirrored as TypeScript interfaces in `ui/src/api/types.ts`; `EvaluationCompleteEvent` expanded with `passed`, `pass_threshold`, `criteria`.
+  - **Tokens-30d stat** — `RunsSummaryResponse` gains `tokens_30d`; `run_logger.summary()` aggregates tokens across all runs started in the last 30 days; Dashboard live stat wired to real data.
+  - **`GET /runs/{filename}/evaluation`** — Returns full rubric breakdown for any stored run, including criteria scores, score layers, hard gates, and floor violations.
+  - **Dataset sample endpoints** — `GET /eval/datasets/sample-list?dataset_id=…&limit=…` and `GET /eval/datasets/sample-detail?dataset_id=…&sample_index=…`; dataset IDs use query params to handle slash characters.
+  - **Evaluations page** — `EvaluationRubricAccordion` with lazy `[+]`/`[-]` expansion: criterion table (normalized %, ASCII progress bar, `[FLOOR]` badge), score layers, hard gate `[OK]`/`[FAIL]` rows, floor violation list.
+  - **Datasets page** — 3-pane browser: dataset catalog → `SampleIndexGrid` (paginated `[<]`/`[>]`) → `DatasetDetailPane` (collapsible `[meta +/-]`, field rendering, JSON viewer, workflow preview badge).
+
 - **Epic 5 — Console UI Polish (agentic-workflows-v2/ui)**
   - `StatusBadge` migrated to ASCII bracket format: `[OK ]` `[RUN]` `[ERR]` `[WARN]` using `--b-*` CSS tokens; works across dark / paper / bolt themes.
   - `useHotkeys` hook — global keyboard shortcuts (n / f / / / j / k / Esc) with input-focus guard and unmount cleanup.
