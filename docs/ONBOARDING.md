@@ -1,5 +1,9 @@
 # Onboarding Guide
 
+> **Audience:** New contributors on their first clone.
+> **Outcome:** By the end you will have run a workflow, opened the dashboard, scored a result, and know where to find things next time.
+> **Last verified:** 2026-04-22
+
 Welcome to `tafreeman/prompts` -- a monorepo for multi-agent workflow orchestration, evaluation, and shared LLM utilities.
 
 This repository serves a dual mission:
@@ -7,7 +11,7 @@ This repository serves a dual mission:
 1. **Working platform** -- a production-grade agentic AI runtime with a dual execution engine, 24 agent personas, a full RAG pipeline, and an evaluation framework.
 2. **Educational portfolio** -- a living reference for team onboarding at Deloitte, demonstrating enterprise-grade practices for cleared federal environments.
 
-This guide will take you from zero to running workflows in about 45 minutes.
+This guide has five independent sections. The first (**Quick Start**) gets a workflow running in **about 5 minutes**. Working through all five sections takes roughly **an hour**. Stop wherever you have what you need.
 
 If you prefer a prebuilt environment, open the repository in the provided devcontainer. Otherwise, use the root `justfile` commands described below for the same bootstrap and test flow.
 

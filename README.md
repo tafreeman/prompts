@@ -295,6 +295,8 @@ The evaluation system supports multiple scoring profiles:
 
 ## Quick Start
 
+> **Fast path:** for a five-minute clone → run walk-through with expected outputs, follow [`docs/ONBOARDING.md`](docs/ONBOARDING.md). The Installation block below is the equivalent manual path for contributors who want package-level control.
+
 ### Prerequisites
 
 - Python 3.11+
@@ -307,7 +309,10 @@ The evaluation system supports multiple scoring profiles:
 git clone https://github.com/tafreeman/prompts.git
 cd prompts
 
-# Install the core runtime with development + server + LangChain dependencies
+# One-command bootstrap (installs root helpers, all three Python packages, and UI deps)
+just setup
+
+# Or install the runtime package directly if you do not have `just` available:
 cd agentic-workflows-v2
 pip install -e ".[dev,server,langchain]"
 
@@ -415,7 +420,13 @@ See [CHANGELOG.md](CHANGELOG.md) for a user-facing history of features, improvem
 
 ## Contributing
 
-See [CONTRIBUTING.md](agentic-workflows-v2/CONTRIBUTING.md) for development guidelines, code review process, and pull request standards.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for monorepo-wide contribution guidelines — local gates, commit format, when an ADR is required, and the PR checklist. Package-specific notes are at [`agentic-workflows-v2/CONTRIBUTING.md`](agentic-workflows-v2/CONTRIBUTING.md).
+
+## Roadmap & Known Limitations
+
+- [`docs/ROADMAP.md`](docs/ROADMAP.md) — epics shipped in April 2026, the Epic 4 numbering gap, and proposed next work.
+- [`docs/KNOWN_LIMITATIONS.md`](docs/KNOWN_LIMITATIONS.md) — honest accounting of currently-open issues (mypy findings, SLO empty-window, provider-key dependence).
+- [`docs/MIGRATIONS.md`](docs/MIGRATIONS.md) — breaking changes since the last coherent release, starting with the `presentation/` system extraction.
 
 ## Security
 

@@ -1,5 +1,9 @@
 # Contributing to Agentic Workflows v2
 
+> **Scope:** this file covers contributions specific to the `agentic-workflows-v2/` package (runtime + UI).
+> For monorepo-wide policy — local gates, commit format, when to write an ADR, the PR checklist — see the root [`CONTRIBUTING.md`](../CONTRIBUTING.md).
+> **Last verified:** 2026-04-22
+
 Thanks for contributing. This project uses docs-as-code, typed contracts, and test-first changes.
 
 ## Scope

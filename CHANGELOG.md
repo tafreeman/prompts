@@ -6,6 +6,23 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+_No unreleased changes yet._
+
+---
+
+## [0.3.0] — 2026-04-22
+
+First tracked release of the `agentic-workflows-v2` platform. Bundles
+**Epic 1** (Platform Foundation), **Epic 2** (Observable Execution),
+**Epic 3** (DevEx / Windows), **Epic 5** (Console UI Polish), and
+**Epic 6** (Evaluation & Data Depth). See **Known Limitations** below
+for items shipped with caveats and **Migration Notes** for breaking
+changes vs. the prior unversioned state.
+
+> **Note on Epic 4.** Epic numbering jumps from 3 to 5. Epic 4 was
+> never authored in this repository — the number was skipped during
+> planning. Not a regression, just a tombstone for the record.
+
 ### New Features
 
 - **Epic 1 — Platform Foundation (agentic-workflows-v2)**
@@ -90,6 +107,26 @@ All notable changes to this project are documented here.
 - **Presentation system extracted** — The presentation/deck builder has been moved to its own standalone repository (`present`). 245 files removed from this repo; raw-themes data and scripts are preserved in the new repo.
 - Removed deprecated agent prompts, workflow definitions, Copilot config, and stale GitHub Actions workflows.
 - Removed dead prompt constants, obsolete artifact files, and cleaned up `.gitignore`.
+
+### Migration Notes
+
+- **`presentation/` system extracted to a standalone repo (`present`).** If you imported anything from `presentation/*` or ran its deck-builder / token-generation scripts, those paths no longer exist here. 245 files moved.
+  - **What moved:** brutalist deck builder, JSX + PPTX slide generators, theme registry, raw-theme token configs, Storybook catalog, and the accompanying test suite.
+  - **What stayed:** `decks-generated/` (the output artifacts from the old builder) remains in this repo until downstream consumers migrate.
+  - **Action required:** Update imports of `presentation.*` or `src/tokens/*` to point at the new `present` repo, OR pin a pre-2026-04 commit of this repo if you are not ready to migrate.
+- **`agentic_v2.core.protocols.AgentProtocol.run` signature tightened** from `Any` to `object`. Code that relied on implicit-`Any` call sites may now surface previously hidden `mypy` errors; update call sites to use the bounded `TypeVar`s (`TInput` / `TOutput`) from `agentic_v2.agents.base`.
+- **`langchain` adapter is deprecated** in favor of the native DAG engine (see ADR-013). Importing `agentic_v2.langchain.*` still works but emits a `DeprecationWarning`. Plan to migrate off before v0.5.0.
+
+### Known Limitations
+
+This release ships with the following known issues. All are tracked for Sprint B or later; none block the primary workflows documented in `docs/ONBOARDING.md`.
+
+- **35 mypy findings in `agentic-v2-eval/`** are now visible in CI (`continue-on-error: true`, not blocking merges). One of them (`agentic_v2_eval/runners/streaming.py:216-235`) raises an object that is not derived from `BaseException` and is a real bug worth fixing in Sprint B. Tracked as "Sprint B #7-followup" in `eval-package-ci.yml`.
+- **SLO p95 gate can pass trivially on empty data.** `readP95({ windowDays: 7 })` in `ui/e2e/slo-storage.ts` returns `0` when the rolling window has no records, which silently satisfies the `<= 2000ms` assertion. Mitigated by the nightly workflow appending one sample per run, but the first night after an `slo-data` branch reset is a free pass.
+- **Schema-drift guard is root-properties-only.** `tests/test_schema_drift.py` checks the top-level `properties` of covered Pydantic models; field removals on nested models referenced via `$defs`, as well as any type narrowing (e.g., `str` -> `Literal[...]`), pass silently. Tracked for extension in Sprint B.
+- **No true placeholder / no-LLM mode.** Both local runs and CI require at least one configured LLM provider. In CI we use `GITHUB_TOKEN` + `models: read` to reach GitHub Models (zero-cost on public repos). The Epic 2 plan referenced a placeholder toggle, but the toggle was not implemented. See ADR-016 (planned) for the rationale.
+- **Python -> TypeScript wire-format mirror is manual.** `agentic_v2/contracts/events.py` is hand-mirrored in `ui/src/api/types.ts`; there is no codegen or drift-detection gate. An intentional schema change must be made in both files; a missed edit ships as a silent frontend bug.
+- **UI build artifacts are git-tracked.** `agentic-workflows-v2/ui/dist/index.html` and `agentic-workflows-v2/ui/tsconfig.tsbuildinfo` are historical tracked files that re-dirty after every `npm run build`. A follow-up task is filed; expect `git status` noise after building the UI locally.
 
 ---
 
