@@ -2,7 +2,12 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { mkdtempSync, rmSync, writeFileSync, readFileSync } from "fs";
 import { tmpdir } from "os";
 import { join } from "path";
-import { readP95, recordLatency } from "../../e2e/slo-storage";
+import {
+  readP95,
+  recordLatency,
+  InsufficientDataError,
+  DEFAULT_MIN_SAMPLES,
+} from "../../e2e/slo-storage";
 
 describe("slo-storage", () => {
   let tmpDir: string;
@@ -22,9 +27,52 @@ describe("slo-storage", () => {
     rmSync(tmpDir, { recursive: true, force: true });
   });
 
-  it("returns p95 = 0 when no records exist", async () => {
-    const p95 = await readP95({ windowDays: 7, pathOverride: tmpFile });
-    expect(p95).toBe(0);
+  // Sprint B #2: readP95 now throws InsufficientDataError on an empty window
+  // instead of returning 0. The old return-0-silently path produced trivial-
+  // pass green for `expect(p95).toBeLessThanOrEqual(2000)`.
+  it("throws InsufficientDataError when no records exist", async () => {
+    await expect(
+      readP95({ windowDays: 7, pathOverride: tmpFile })
+    ).rejects.toThrow(InsufficientDataError);
+  });
+
+  it("throws InsufficientDataError when below minSamples threshold", async () => {
+    // 5 records, default minSamples=10 -> must throw.
+    const records = Array.from({ length: 5 }, (_, i) => ({
+      timestamp: new Date().toISOString(),
+      latency_ms: i * 10,
+      commit: "test",
+    }));
+    writeFileSync(
+      tmpFile,
+      JSON.stringify({ version: 1, max_records: 1000, records }),
+      { encoding: "utf8" }
+    );
+    await expect(
+      readP95({ windowDays: 7, pathOverride: tmpFile })
+    ).rejects.toThrow(InsufficientDataError);
+  });
+
+  it("honors minSamples override below default", async () => {
+    // Single record with an explicit minSamples=1 should succeed.
+    const records = [
+      { timestamp: new Date().toISOString(), latency_ms: 42, commit: "test" },
+    ];
+    writeFileSync(
+      tmpFile,
+      JSON.stringify({ version: 1, max_records: 1000, records }),
+      { encoding: "utf8" }
+    );
+    const p95 = await readP95({
+      windowDays: 7,
+      pathOverride: tmpFile,
+      minSamples: 1,
+    });
+    expect(p95).toBe(42);
+  });
+
+  it("exposes DEFAULT_MIN_SAMPLES as 10", () => {
+    expect(DEFAULT_MIN_SAMPLES).toBe(10);
   });
 
   it("records latency and updates the file", async () => {
@@ -71,11 +119,15 @@ describe("slo-storage", () => {
   });
 
   it("excludes records older than the windowDays cutoff", async () => {
+    // One old record, ten recent records (meets default minSamples=10).
     const oldTs = new Date(Date.now() - 30 * 86400 * 1000).toISOString();
-    const recentTs = new Date().toISOString();
     const records = [
       { timestamp: oldTs, latency_ms: 9999, commit: "old" },
-      { timestamp: recentTs, latency_ms: 100, commit: "new" },
+      ...Array.from({ length: 10 }, () => ({
+        timestamp: new Date().toISOString(),
+        latency_ms: 100,
+        commit: "new",
+      })),
     ];
     writeFileSync(
       tmpFile,
@@ -83,7 +135,7 @@ describe("slo-storage", () => {
       { encoding: "utf8" }
     );
     const p95 = await readP95({ windowDays: 7, pathOverride: tmpFile });
-    // Only the recent record (100ms) should be considered; 9999 excluded.
+    // Only the 10 recent records (100ms each) should be considered; 9999 excluded.
     expect(p95).toBe(100);
   });
 
