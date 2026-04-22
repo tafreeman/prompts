@@ -295,7 +295,7 @@ The evaluation system supports multiple scoring profiles:
 
 ## Quick Start
 
-> **Fast path:** for a five-minute clone → run walk-through with expected outputs, follow [`docs/ONBOARDING.md`](docs/ONBOARDING.md). The Installation block below is the equivalent manual path for contributors who want package-level control.
+> **Fast path:** clone → setup → [`docs/ONBOARDING.md`](docs/ONBOARDING.md) (full guide) → [`docs/DEMO.md`](docs/DEMO.md) (the three commands that prove the platform is alive, with expected outputs). The Installation block below is the equivalent manual path for contributors who want package-level control.
 
 ### Prerequisites
 
