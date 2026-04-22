@@ -31,7 +31,7 @@ except ImportError:
     _LANGCHAIN_AVAILABLE = False
 from ...workflows.run_logger import RunLogger
 from .. import websocket
-from ..models import RunsSummaryResponse, RunSummaryModel
+from ..models import RunsSummaryResponse, RunSummaryModel, RunEvaluationDetailResponse, RunEvaluationDetail
 
 logger = logging.getLogger(__name__)
 router = APIRouter(tags=["workflows"])
@@ -167,6 +167,40 @@ async def get_run(filename: str):
             )
 
     return run_data
+
+
+@router.get("/runs/{filename}/evaluation", response_model=RunEvaluationDetailResponse)
+async def get_run_evaluation(filename: str):
+    """Get full rubric evaluation detail for a scored workflow run."""
+    base_dir = run_logger.runs_dir
+    candidate = (base_dir / filename).resolve()
+    if not _is_within_base(candidate, base_dir):
+        raise HTTPException(status_code=404, detail=f"Run not found: {filename}")
+    if not candidate.exists():
+        raise HTTPException(status_code=404, detail=f"Run not found: {filename}")
+
+    run_data = run_logger.load_run(candidate)
+
+    extra = run_data.get("extra") or {}
+    evaluation_requested = bool(extra.get("evaluation_requested", False))
+    evaluation_raw = extra.get("evaluation") if isinstance(extra.get("evaluation"), dict) else None
+
+    evaluation: RunEvaluationDetail | None = None
+    if evaluation_raw and evaluation_raw.get("enabled"):
+        try:
+            evaluation = RunEvaluationDetail.model_validate(evaluation_raw)
+        except Exception as exc:
+            logger.warning("Failed to parse evaluation for %s: %s", filename, exc)
+
+    return RunEvaluationDetailResponse(
+        filename=filename,
+        run_id=run_data.get("run_id"),
+        workflow_name=run_data.get("workflow_name"),
+        status=run_data.get("status"),
+        evaluation_requested=evaluation_requested,
+        dataset=run_data.get("dataset"),
+        evaluation=evaluation,
+    )
 
 
 @router.get("/runs/{run_id}/stream")
