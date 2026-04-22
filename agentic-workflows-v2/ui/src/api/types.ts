@@ -138,6 +138,7 @@ export interface RunsSummary {
   failed: number;
   avg_duration_ms: number | null;
   workflows: string[];
+  tokens_30d?: number | null;
 }
 
 /** Execution profile for runtime configuration. */
@@ -286,4 +287,113 @@ export interface AgentInfo {
   name: string;
   description: string;
   tier: string;
+}
+
+// ---------------------------------------------------------------------------
+// Epic 6 — Evaluation detail types
+// ---------------------------------------------------------------------------
+
+export interface EvaluationCriterionDetail {
+  criterion: string;
+  weight: number;
+  raw_score: number;
+  normalized_score: number;
+  weighted_contribution: number;
+  floor?: number | null;
+  floor_violated: boolean;
+}
+
+export interface ScoreLayers {
+  layer1_objective: number;
+  layer2_judge?: number | null;
+  layer3_similarity: number;
+  layer3_efficiency: number;
+  layer3_advisory: number;
+}
+
+export interface HardGates {
+  required_outputs_present: boolean;
+  overall_status_success: boolean;
+  no_critical_step_failures: boolean;
+  release_build_verified: boolean;
+  schema_contract_valid: boolean;
+  dataset_workflow_compatible: boolean;
+}
+
+export interface FloorViolation {
+  criterion: string;
+  floor: number;
+  normalized_score: number;
+}
+
+export interface RunEvaluationDetail {
+  enabled: boolean;
+  rubric: string;
+  rubric_id: string;
+  rubric_version: string;
+  criteria: EvaluationCriterionDetail[];
+  overall_score: number;
+  weighted_score: number;
+  objective_weighted_score: number;
+  grade: string;
+  grade_capped: boolean;
+  passed: boolean;
+  pass_threshold: number;
+  hard_gates?: HardGates | null;
+  hard_gate_failures: string[];
+  floor_violations: FloorViolation[];
+  step_scores: Record<string, unknown>;
+  score_layers?: ScoreLayers | null;
+  hybrid_weights: Record<string, number>;
+  judge?: Record<string, unknown> | null;
+  generated_at: string;
+  dataset?: Record<string, unknown> | null;
+}
+
+/** Response for GET /api/runs/{filename}/evaluation */
+export interface RunEvaluationDetailResponse {
+  filename: string;
+  run_id: string | null;
+  workflow_name: string | null;
+  status: string | null;
+  evaluation_requested: boolean;
+  dataset?: Record<string, unknown> | null;
+  evaluation?: RunEvaluationDetail | null;
+}
+
+// ---------------------------------------------------------------------------
+// Epic 6 — Dataset sample browser types
+// ---------------------------------------------------------------------------
+
+export interface DatasetSampleSummary {
+  sample_index: number;
+  sample_id?: string | null;
+  task_id?: string | null;
+  title: string;
+  summary: string;
+  field_names: string[];
+}
+
+/** Response for GET /api/eval/datasets/sample-list */
+export interface DatasetSampleListResponse {
+  dataset_source: string;
+  dataset_id: string;
+  sample_count: number;
+  offset: number;
+  limit: number;
+  samples: DatasetSampleSummary[];
+}
+
+/** Response for GET /api/eval/datasets/sample-detail */
+export interface DatasetSampleDetailResponse {
+  dataset_source: string;
+  dataset_id: string;
+  sample_index: number;
+  sample_id?: string | null;
+  task_id?: string | null;
+  field_names: string[];
+  summary: string;
+  sample: Record<string, unknown>;
+  dataset_meta: Record<string, unknown>;
+  workflow_preview?: Record<string, unknown> | null;
 }

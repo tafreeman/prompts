@@ -313,6 +313,7 @@ class RunsSummaryResponse(BaseModel):
         failed: Count of runs with ``FAILED`` status.
         avg_duration_ms: Mean duration in milliseconds, or None.
         workflows: Distinct workflow names seen.
+        tokens_30d: Total tokens consumed in the last 30 days, or None.
     """
 
     total_runs: int = 0
@@ -320,6 +321,7 @@ class RunsSummaryResponse(BaseModel):
     failed: int = 0
     avg_duration_ms: float | None = None
     workflows: list[str] = []
+    tokens_30d: int | None = None
 
 
 class WorkflowEvaluationRequest(BaseModel):
@@ -394,3 +396,227 @@ class ListEvaluationDatasetsResponse(BaseModel):
     repository: list[EvaluationDatasetOption] = []
     local: list[EvaluationDatasetOption] = []
     eval_sets: list[EvaluationSetOption] = []
+
+
+# ---------------------------------------------------------------------------
+# Epic 6 — Evaluation detail models
+# ---------------------------------------------------------------------------
+
+
+class EvaluationCriterionDetail(BaseModel):
+    """Detailed score for a single rubric criterion.
+
+    Attributes:
+        criterion: Criterion name (e.g. ``"correctness"``).
+        weight: Relative weight used in weighted aggregation (0.0--1.0).
+        raw_score: Raw score before normalisation (0--100).
+        normalized_score: Normalised score after applying sample-size adjustment.
+        weighted_contribution: ``weight * normalized_score``.
+        floor: Minimum acceptable normalised score, or None.
+        floor_violated: True if the criterion fell below its floor threshold.
+    """
+
+    criterion: str
+    weight: float
+    raw_score: float
+    normalized_score: float
+    weighted_contribution: float
+    floor: float | None = None
+    floor_violated: bool = False
+
+
+class ScoreLayersModel(BaseModel):
+    """Decomposed score layers from the hybrid scoring pipeline.
+
+    Attributes:
+        layer1_objective: Weighted objective criterion score (0--100).
+        layer2_judge: LLM-as-judge score (0--100), or None if not used.
+        layer3_similarity: Advisory text-overlap similarity score (0--100).
+        layer3_efficiency: Advisory efficiency score (0--100).
+        layer3_advisory: Combined advisory score (0--100).
+    """
+
+    layer1_objective: float
+    layer2_judge: float | None = None
+    layer3_similarity: float
+    layer3_efficiency: float
+    layer3_advisory: float
+
+
+class HardGatesModel(BaseModel):
+    """Binary hard-gate results for a workflow run evaluation.
+
+    All gates must pass for the run to receive a grade above ``F``.
+    """
+
+    required_outputs_present: bool = False
+    overall_status_success: bool = False
+    no_critical_step_failures: bool = False
+    release_build_verified: bool = False
+    schema_contract_valid: bool = False
+    dataset_workflow_compatible: bool = False
+
+
+class FloorViolationModel(BaseModel):
+    """A criterion that fell below its minimum acceptable score.
+
+    Attributes:
+        criterion: Name of the violating criterion.
+        floor: Required minimum normalised score (0.0--1.0 scale).
+        normalized_score: Actual normalised score achieved (0.0--1.0 scale).
+    """
+
+    criterion: str
+    floor: float
+    normalized_score: float
+
+
+class RunEvaluationDetail(BaseModel):
+    """Full rubric breakdown for a single scored workflow run.
+
+    Returned by ``GET /api/runs/{filename}/evaluation``.
+
+    Attributes:
+        enabled: Whether evaluation was performed.
+        rubric: Human-readable rubric name.
+        rubric_id: Canonical rubric identifier.
+        rubric_version: Rubric version string.
+        criteria: Per-criterion detailed scores.
+        overall_score: Unweighted mean criterion score (0--100).
+        weighted_score: Hybrid weighted composite score (0--100).
+        objective_weighted_score: Objective-only weighted score (0--100).
+        grade: Letter grade (A--F).
+        grade_capped: True if the grade was reduced due to floor violations.
+        passed: True if the run met the pass threshold with no blocking failures.
+        pass_threshold: Minimum weighted score required to pass.
+        hard_gates: Binary gate results.
+        hard_gate_failures: List of gate names that failed.
+        floor_violations: Criteria that fell below their floor.
+        step_scores: Per-step score contributions (arbitrary structure).
+        score_layers: Decomposed hybrid score layers.
+        hybrid_weights: Weight coefficients used for hybrid composition.
+        judge: LLM-as-judge evaluation payload, or None.
+        generated_at: ISO-8601 timestamp of when scoring ran.
+        dataset: Dataset metadata attached to the run, or None.
+    """
+
+    enabled: bool = True
+    rubric: str = ""
+    rubric_id: str = ""
+    rubric_version: str = ""
+    criteria: list[EvaluationCriterionDetail] = []
+    overall_score: float = 0.0
+    weighted_score: float = 0.0
+    objective_weighted_score: float = 0.0
+    grade: str = "F"
+    grade_capped: bool = False
+    passed: bool = False
+    pass_threshold: float = 70.0
+    hard_gates: HardGatesModel | None = None
+    hard_gate_failures: list[str] = []
+    floor_violations: list[FloorViolationModel] = []
+    step_scores: dict[str, Any] = {}
+    score_layers: ScoreLayersModel | None = None
+    hybrid_weights: dict[str, float] = {}
+    judge: dict[str, Any] | None = None
+    generated_at: str = ""
+    dataset: dict[str, Any] | None = None
+
+
+class RunEvaluationDetailResponse(BaseModel):
+    """Response model for ``GET /api/runs/{filename}/evaluation``.
+
+    Attributes:
+        filename: JSON log filename on disk.
+        run_id: Unique run identifier.
+        workflow_name: Name of the executed workflow.
+        status: Terminal run status.
+        evaluation_requested: Whether evaluation was requested for this run.
+        dataset: Dataset metadata used during the run, or None.
+        evaluation: Full rubric evaluation detail, or None if not evaluated.
+    """
+
+    filename: str
+    run_id: str | None = None
+    workflow_name: str | None = None
+    status: str | None = None
+    evaluation_requested: bool = False
+    dataset: dict[str, Any] | None = None
+    evaluation: RunEvaluationDetail | None = None
+
+
+# ---------------------------------------------------------------------------
+# Epic 6 — Dataset sample browser models
+# ---------------------------------------------------------------------------
+
+
+class DatasetSampleSummary(BaseModel):
+    """Compact summary of a single dataset sample for index/grid views.
+
+    Attributes:
+        sample_index: Zero-based position in the dataset.
+        sample_id: Optional stable identifier from the sample itself.
+        task_id: Optional task identifier (GSM-8K, HumanEval, etc.).
+        title: Short derived title for display purposes.
+        summary: One-sentence preview of the sample content.
+        field_names: Top-level field names present in the sample.
+    """
+
+    sample_index: int
+    sample_id: str | None = None
+    task_id: str | None = None
+    title: str = ""
+    summary: str = ""
+    field_names: list[str] = []
+
+
+class DatasetSampleListResponse(BaseModel):
+    """Paginated list of dataset sample summaries.
+
+    Returned by ``GET /api/eval/datasets/sample-list``.
+
+    Attributes:
+        dataset_source: Origin of the dataset (``"repository"`` or ``"local"``).
+        dataset_id: Dataset identifier.
+        sample_count: Total number of samples in the dataset.
+        offset: Zero-based start index of this page.
+        limit: Maximum samples returned per page.
+        samples: List of compact sample summaries.
+    """
+
+    dataset_source: str
+    dataset_id: str
+    sample_count: int
+    offset: int
+    limit: int
+    samples: list[DatasetSampleSummary] = []
+
+
+class DatasetSampleDetailResponse(BaseModel):
+    """Full detail for a single dataset sample.
+
+    Returned by ``GET /api/eval/datasets/sample-detail``.
+
+    Attributes:
+        dataset_source: Origin of the dataset.
+        dataset_id: Dataset identifier.
+        sample_index: Zero-based position in the dataset.
+        sample_id: Optional stable identifier.
+        task_id: Optional task identifier.
+        field_names: Top-level field names present.
+        summary: One-sentence preview of the sample content.
+        sample: Full sample data as a key-value dict.
+        dataset_meta: Dataset-level metadata (schema, source, etc.).
+        workflow_preview: Optional preview of adapted workflow inputs, or None.
+    """
+
+    dataset_source: str
+    dataset_id: str
+    sample_index: int
+    sample_id: str | None = None
+    task_id: str | None = None
+    field_names: list[str] = []
+    summary: str = ""
+    sample: dict[str, Any] = {}
+    dataset_meta: dict[str, Any] = {}
+    workflow_preview: dict[str, Any] | None = None

@@ -93,6 +93,9 @@ class EvaluationCompleteEvent(BaseModel):
     weighted_score: float
     overall_score: float
     grade: str
+    passed: bool = False
+    pass_threshold: float = 70.0
+    criteria: list[dict[str, Any]] = []
     timestamp: str
 
 
