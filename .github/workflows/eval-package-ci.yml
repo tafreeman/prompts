@@ -80,9 +80,14 @@ jobs:
           pip install -e "../tools"
           pip install -e ".[dev]"
 
+      # TODO(Sprint B #7-followup, 2026-04-21): clear 35 mypy findings then drop continue-on-error.
+      # Unmasked from `|| true` on 2026-04-21 — gate is now visible but non-blocking
+      # until the existing findings are triaged (mostly missing return annotations,
+      # no-any-return, and unsafe Exception handling in runners/streaming.py).
       - name: Run mypy
+        continue-on-error: true
         run: |
-          mypy src/agentic_v2_eval --ignore-missing-imports || true
+          mypy src/agentic_v2_eval --ignore-missing-imports
 
   build:
     runs-on: ubuntu-latest
