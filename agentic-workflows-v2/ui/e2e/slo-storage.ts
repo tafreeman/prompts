@@ -55,6 +55,8 @@ export async function readP95(
     .map((r) => r.latency_ms)
     .sort((a, b) => a - b);
   if (recent.length === 0) return 0; // no data yet — don't fail
-  const idx = Math.min(Math.floor(recent.length * 0.95), recent.length - 1);
+  // Canonical nearest-rank p95: ceil(0.95 * n) - 1. For n=100 yields index 94
+  // (the 95th value in 1-based ordering), not index 95 which would be the 96th.
+  const idx = Math.max(0, Math.ceil(recent.length * 0.95) - 1);
   return recent[idx] ?? 0;
 }

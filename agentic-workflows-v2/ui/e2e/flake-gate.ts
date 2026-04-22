@@ -24,8 +24,26 @@ const BUDGET = 0.005;
 const ROLLING_DAYS = 7;
 const MAX_RECORDS = 30;
 
+function parseFails(raw: string | undefined): number {
+  // Fail loud on anything that isn't a non-negative integer in [0, TOTAL]. A
+  // sentinel like `__UNSET__` (written by the nightly workflow before the
+  // 50x loop) would otherwise silently collapse to NaN -> 0 here, producing
+  // a fake "100% green" record that hides harness-level crashes.
+  if (raw === undefined || raw === '') {
+    throw new Error('flake-gate: missing fails argument (expected integer 0..50)');
+  }
+  if (!/^\d+$/.test(raw)) {
+    throw new Error(`flake-gate: non-integer fails argument: ${JSON.stringify(raw)}`);
+  }
+  const n = Number(raw);
+  if (!Number.isInteger(n) || n < 0 || n > TOTAL) {
+    throw new Error(`flake-gate: fails=${n} out of range [0, ${TOTAL}]`);
+  }
+  return n;
+}
+
 function main(): void {
-  const fails = Number(process.argv[2] ?? 0);
+  const fails = parseFails(process.argv[2]);
   const filePath = resolveFlakePath();
 
   const data: FlakeFile = JSON.parse(readFileSync(filePath, { encoding: 'utf8' }));

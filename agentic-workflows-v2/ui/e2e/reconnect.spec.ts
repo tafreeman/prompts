@@ -94,13 +94,15 @@ test.describe('streaming fault recovery', () => {
       `GET /api/runs/${runId}.json should succeed (got ${apiResponse.status()})`,
     ).toBe(true);
     const apiRun = await apiResponse.json();
-    const apiStatus = String(apiRun.overall_status ?? apiRun.status ?? '')
-      .trim()
-      .toLowerCase();
+    // Contract: `/api/runs/{id}.json` returns `status` (verified against
+    // routes/runs.py::get_run). `overall_status` is an unrelated internal
+    // evaluation-scoring field; do NOT accept it as a fallback.
+    const apiStatus = String(apiRun.status ?? '').trim().toLowerCase();
     expect(apiStatus, 'server run record must carry a status').toBeTruthy();
 
-    // Canonicalise both statuses so `error` vs `completed` cannot silently
-    // agree via a substring match.
+    // Canonicalise both statuses because the UI renders human-readable text
+    // (`completed`/`success`/`ok`) while the API emits the enum literal.
+    // This is terminal-state bucketing only, not a loose substring match.
     const canonicalise = (raw: string): 'success' | 'failed' | 'other' => {
       const s = raw.trim().toLowerCase();
       if (/^(success|completed|ok)$/.test(s)) return 'success';

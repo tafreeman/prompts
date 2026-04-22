@@ -1,7 +1,9 @@
 import { test, expect } from '@playwright/test';
 import { recordLatency, readP95 } from './slo-storage';
 
-test.describe('SLO: time-to-first-span p95 <= 2s', () => {
+// Serial because the two tests share mutable state (first-span-latency.json):
+// the record-sample test must write before the p95 assertion test reads.
+test.describe.serial('SLO: time-to-first-span p95 <= 2s', () => {
   test('record single latency sample', async ({ page }) => {
     await page.goto('/');
     const t0 = Date.now();

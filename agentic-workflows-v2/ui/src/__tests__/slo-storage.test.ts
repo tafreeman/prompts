@@ -35,7 +35,7 @@ describe("slo-storage", () => {
     expect(data.records[0].timestamp).toMatch(/^\d{4}-\d{2}-\d{2}T/);
   });
 
-  it("computes p95 as sorted[floor(n*0.95)] across 100 samples", async () => {
+  it("computes p95 as nearest-rank ceil(n*0.95)-1 across 100 samples", async () => {
     // Insert deterministic records 0..99 ms with current timestamps directly,
     // bypassing recordLatency (which would invoke git for each sample).
     const records = Array.from({ length: 100 }, (_, i) => ({
@@ -49,8 +49,25 @@ describe("slo-storage", () => {
       { encoding: "utf8" }
     );
     const p95 = await readP95({ windowDays: 7, pathOverride: tmpFile });
-    // sorted ascending: 0..99 -> index Math.floor(100*0.95) = 95 -> value 95
-    expect(p95).toBe(95);
+    // Canonical nearest-rank p95 for n=100: ceil(100*0.95)-1 = 94 -> value 94.
+    expect(p95).toBe(94);
+  });
+
+  it("computes p95 via nearest-rank on small/odd sample counts", async () => {
+    // n=20: ceil(20*0.95)-1 = 18 -> sorted[18].
+    // Values 1..20 so sorted[18] = 19.
+    const records = Array.from({ length: 20 }, (_, i) => ({
+      timestamp: new Date().toISOString(),
+      latency_ms: i + 1,
+      commit: "test",
+    }));
+    writeFileSync(
+      tmpFile,
+      JSON.stringify({ version: 1, max_records: 1000, records }),
+      { encoding: "utf8" }
+    );
+    const p95 = await readP95({ windowDays: 7, pathOverride: tmpFile });
+    expect(p95).toBe(19);
   });
 
   it("excludes records older than the windowDays cutoff", async () => {
