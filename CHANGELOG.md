@@ -6,7 +6,14 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
-_No unreleased changes yet._
+### Documentation
+
+- **Architecture umbrella + roadmap + honesty docs** (commit `41bd0d8`) — new `docs/ARCHITECTURE.md` index linking the four existing `architecture-*.md` deep-dives (closes the broken `docs/README.md` reference); new `docs/ROADMAP.md` surfacing Epic 1/2/3/5/6 status, explicit Epic 4 tombstone, and proposed Epic 7 scope (closes the in-repo backlog gap flagged by the final review); new `docs/KNOWN_LIMITATIONS.md` documenting the 35 unresolved `agentic-v2-eval` mypy findings, the empty-window SLO trivial-pass, the schema-drift root-only blind spot, and the Python→TypeScript manual mirror; new `docs/MIGRATIONS.md` with first entries for the `presentation/` extraction, the `AgentProtocol.run` signature tightening, and the `langchain` adapter deprecation.
+- **Epic retrospectives + three new ADRs** (commit `7b082fd`) — retrospective plan docs for Epics 3 (DevEx), 5 (UI Polish), and 6 (Eval Depth), covering stories, commits, load-bearing decisions, and process notes; **ADR-014** (Pydantic discriminated-union wire format for execution events), **ADR-015** (SLO rolling window stored in git as JSON artifacts — acknowledges the empty-window trivial-pass as open debt), **ADR-016** (GitHub Models via `GITHUB_TOKEN` as default E2E LLM provider — documents the zero-cost-vs-vendor-coupling trade-off); `ADR-INDEX.md` refreshed from 10 → 13 ADRs with updated lineage chains. Archive headers added to the Epic 1/2 prospective plan docs so unchecked boxes read as history rather than WIP.
+- **Stale-artifact triage and count-drift fixes** (commit `205b314`) — deletes ~2,050 lines of orphaned content: `MCP_IMPLEMENTATION_{COMPLETE,PLAN,STATUS}.md`, `LANGCHAIN_MIGRATION_PLAN.md` (directly contradicted ADR-013), `chatlg.md` (1052-line raw conversation log at `agentic-v2-eval/`), `playwright-tester-training-prompt.md`, and several `handoff.md` stubs. Count drift corrected in `ONBOARDING.md` / `GLOSSARY.md` / `CLAUDE.md` (24 → 7 agent personas, 78+ → 100+ test files, 10 → 6 workflow definitions). Corrected a factual claim in `docs/MIGRATIONS.md`: `presentation/` is not fully gone — the top-level directory retains leftover theme-collection scripts and raw-themes data pending a follow-up cleanup.
+- **Post-v0.3.0 doc cleanup** (commit `e7c2a69`) — drops superseded `IMPLEMENTATION_SUMMARY.md`, `MASTER_MANIFEST.md`, and `docs/contribution-guide.md` (all replaced by newer artifacts landed during the doc overhaul); relocates `docs/eval-harness/*` planning artifacts to `planning-artifacts/eval-harness/` so the user-facing `docs/` tree only contains user-facing content; adds a ⚠️ STALE banner to `ACTIVE_VS_LEGACY_TOOLING_MAP.md` linking to current sources of truth rather than rewriting it blind.
+
+No production code changes. No v0.3.0 contract or behavior affected.
 
 ---
 
