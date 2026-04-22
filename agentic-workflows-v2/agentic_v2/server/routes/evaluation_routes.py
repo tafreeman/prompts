@@ -25,7 +25,12 @@ from ..evaluation import (
     load_repository_dataset_sample,
     match_workflow_dataset,
 )
-from ..models import ListEvaluationDatasetsResponse
+from ..models import (
+    DatasetSampleDetailResponse,
+    DatasetSampleListResponse,
+    DatasetSampleSummary,
+    ListEvaluationDatasetsResponse,
+)
 
 # LangChain imports — optional.
 try:
@@ -38,6 +43,42 @@ except ImportError:
 logger = logging.getLogger(__name__)
 router = APIRouter(tags=["evaluation"])
 run_logger = RunLogger()
+
+
+def _make_sample_summary(
+    sample: dict[str, Any], sample_index: int, meta: dict[str, Any]
+) -> DatasetSampleSummary:
+    """Build a compact summary from a raw dataset sample."""
+    field_names = list(sample.keys())
+
+    sample_id = (
+        str(sample.get("id", sample.get("sample_id", sample.get("task_id", ""))))
+        or None
+    )
+    task_id = str(sample.get("task_id", "")) or None
+
+    title = f"Sample {sample_index}"
+    for title_key in ("title", "name", "problem", "question", "task"):
+        raw = sample.get(title_key)
+        if isinstance(raw, str) and raw.strip():
+            title = raw[:120]
+            break
+
+    summary = ""
+    for key in field_names:
+        val = sample.get(key)
+        if isinstance(val, str) and val.strip() and key not in ("id", "task_id", "sample_id"):
+            summary = val[:200]
+            break
+
+    return DatasetSampleSummary(
+        sample_index=sample_index,
+        sample_id=sample_id,
+        task_id=task_id,
+        title=title,
+        summary=summary,
+        field_names=field_names,
+    )
 
 
 def _require_langchain() -> None:
@@ -153,3 +194,133 @@ async def preview_dataset_inputs(
         "adapted_inputs": adapted_inputs,
         "dataset_meta": dataset_meta,
     }
+
+
+@router.get("/eval/datasets/sample-list", response_model=DatasetSampleListResponse)
+async def list_dataset_samples(
+    dataset_source: str,
+    dataset_id: str,
+    offset: int = 0,
+    limit: int = 20,
+    workflow: str | None = None,
+):
+    """List paginated dataset sample summaries."""
+    if dataset_source not in ("repository", "local"):
+        raise HTTPException(
+            status_code=422, detail=f"Invalid dataset_source: {dataset_source!r}"
+        )
+    if limit < 1 or limit > 100:
+        raise HTTPException(status_code=422, detail="limit must be between 1 and 100")
+    if offset < 0:
+        raise HTTPException(status_code=422, detail="offset must be >= 0")
+
+    try:
+        if dataset_source == "repository":
+            _, meta = load_repository_dataset_sample(dataset_id, sample_index=0)
+        else:
+            _, meta = load_local_dataset_sample(dataset_id, sample_index=0)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    except Exception as exc:
+        raise HTTPException(
+            status_code=500, detail=f"Failed to load dataset: {exc}"
+        ) from exc
+
+    sample_count = meta.get("sample_count")
+    if not isinstance(sample_count, int):
+        sample_count = 1
+
+    summaries: list[DatasetSampleSummary] = []
+    for i in range(offset, min(offset + limit, sample_count)):
+        try:
+            if dataset_source == "repository":
+                sample, s_meta = load_repository_dataset_sample(dataset_id, sample_index=i)
+            else:
+                sample, s_meta = load_local_dataset_sample(dataset_id, sample_index=i)
+            summaries.append(_make_sample_summary(sample, i, s_meta))
+        except Exception as exc:
+            logger.warning(
+                "Failed to load sample %d of %s/%s: %s", i, dataset_source, dataset_id, exc
+            )
+            break
+
+    return DatasetSampleListResponse(
+        dataset_source=dataset_source,
+        dataset_id=dataset_id,
+        sample_count=sample_count,
+        offset=offset,
+        limit=limit,
+        samples=summaries,
+    )
+
+
+@router.get("/eval/datasets/sample-detail", response_model=DatasetSampleDetailResponse)
+async def get_dataset_sample_detail(
+    dataset_source: str,
+    dataset_id: str,
+    sample_index: int = 0,
+    workflow: str | None = None,
+):
+    """Get full detail for a single dataset sample."""
+    if dataset_source not in ("repository", "local"):
+        raise HTTPException(
+            status_code=422, detail=f"Invalid dataset_source: {dataset_source!r}"
+        )
+
+    try:
+        if dataset_source == "repository":
+            sample, meta = load_repository_dataset_sample(
+                dataset_id, sample_index=sample_index
+            )
+        else:
+            sample, meta = load_local_dataset_sample(
+                dataset_id, sample_index=sample_index
+            )
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    except Exception as exc:
+        raise HTTPException(
+            status_code=500, detail=f"Failed to load sample: {exc}"
+        ) from exc
+
+    field_names = list(sample.keys())
+    sample_id = str(sample.get("id", sample.get("sample_id", ""))) or None
+    task_id = str(sample.get("task_id", "")) or None
+
+    summary = ""
+    for key in field_names:
+        val = sample.get(key)
+        if isinstance(val, str) and val.strip() and key not in ("id", "task_id", "sample_id"):
+            summary = val[:200]
+            break
+
+    workflow_preview: dict[str, Any] | None = None
+    if workflow and _LANGCHAIN_AVAILABLE:
+        try:
+            workflow_def = load_workflow_config(workflow)
+            compatible, _ = match_workflow_dataset(workflow_def, sample)
+            if compatible:
+                adapted = adapt_sample_to_workflow_inputs(
+                    workflow_def.inputs,
+                    sample,
+                    run_id="preview",
+                    artifacts_dir=run_logger.runs_dir / "_inputs",
+                )
+                workflow_preview = {"compatible": True, "adapted_inputs": adapted}
+            else:
+                workflow_preview = {"compatible": False}
+        except Exception as exc:
+            logger.debug("Workflow preview failed for %s: %s", workflow, exc)
+
+    return DatasetSampleDetailResponse(
+        dataset_source=dataset_source,
+        dataset_id=dataset_id,
+        sample_index=sample_index,
+        sample_id=sample_id,
+        task_id=task_id,
+        field_names=field_names,
+        summary=summary,
+        sample=sample,
+        dataset_meta=meta,
+        workflow_preview=workflow_preview,
+    )
