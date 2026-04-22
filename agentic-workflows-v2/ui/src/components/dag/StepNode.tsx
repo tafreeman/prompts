@@ -1,16 +1,5 @@
 import { memo, useEffect, useState } from "react";
 import { Handle, Position, type NodeProps } from "@xyflow/react";
-import {
-  CheckCircle2,
-  XCircle,
-  Clock,
-  Loader2,
-  SkipForward,
-  Timer,
-  Cpu,
-  Bot,
-  Sparkles,
-} from "lucide-react";
 import type { StepStatus } from "../../api/types";
 
 export interface StepNodeData {
@@ -23,6 +12,10 @@ export interface StepNodeData {
   durationMs?: number;
   modelUsed?: string;
   tokensUsed?: number;
+  /** Optional split input token count. Displayed when present. */
+  tokensIn?: number;
+  /** Optional split output token count. Displayed when present. */
+  tokensOut?: number;
   modelInferred?: boolean;
   error?: string | null;
   /**
@@ -32,152 +25,179 @@ export interface StepNodeData {
   disconnected?: boolean;
 }
 
-const statusConfig: Record<
-  StepStatus,
-  { border: string; icon: typeof Clock; iconClass: string }
-> = {
-  pending: {
-    border: "border-gray-200",
-    icon: Clock,
-    iconClass: "text-gray-400",
-  },
-  running: {
-    border: "border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.15)]",
-    icon: Loader2,
-    iconClass: "text-blue-500 animate-spin",
-  },
-  success: {
-    border: "border-green-500/40",
-    icon: CheckCircle2,
-    iconClass: "text-green-500",
-  },
-  failed: {
-    border: "border-red-500 bg-red-500/5 ring-2 ring-red-500/40 shadow-[0_0_15px_rgba(239,68,68,0.2)]",
-    icon: XCircle,
-    iconClass: "text-red-500",
-  },
-  skipped: {
-    border: "border-amber-500/40",
-    icon: SkipForward,
-    iconClass: "text-amber-500",
-  },
-  cancelled: {
-    border: "border-gray-300",
-    icon: Clock,
-    iconClass: "text-gray-400",
-  },
+/**
+ * ASCII status glyphs for the B2 redesign. Width-stable (4 printable chars
+ * between brackets) so the header row aligns across statuses.
+ */
+const ASCII_STATUS: Record<StepStatus, string> = {
+  pending: "[...]",
+  running: "[RUN]",
+  success: "[OK ]",
+  failed: "[ERR]",
+  skipped: "[SKP]",
+  cancelled: "[---]",
 };
 
 function StepNodeComponent({ id, data }: NodeProps) {
   const nodeData = data as unknown as StepNodeData;
-  const cfg = statusConfig[nodeData.status] ?? statusConfig.pending;
-  const Icon = cfg.icon;
+  const { status, label, tier, tokensIn, tokensOut, tokensUsed, error } =
+    nodeData;
 
-  let bgClass = "bg-white shadow-sm";
-  if (nodeData.status === "pending") bgClass = "bg-gray-50/80";
-  if (nodeData.status === "failed") bgClass = "bg-[#1f0f0f] shadow-sm"; // Darker backdrop for error
-
-  // Live animation: only when the stream is connected AND step is running.
-  const isLiveRunning =
-    nodeData.status === "running" && !nodeData.disconnected;
+  const isLiveRunning = status === "running" && !nodeData.disconnected;
   const runningClass = isLiveRunning ? "step-node--running" : "";
+
+  const showTokens =
+    tokensIn != null || tokensOut != null || tokensUsed != null;
+  const showStreamingBar = isLiveRunning;
 
   return (
     <>
-      <Handle type="target" position={Position.Top} className="!bg-gray-300 !border-white !border-2 !w-3 !h-3" />
+      <Handle
+        type="target"
+        position={Position.Top}
+        className="!bg-b-line !border-b-bg1 !border !w-2 !h-2"
+      />
 
       <div
         data-testid={`dag-node-${id}`}
-        className={`
-          relative rounded-xl border ${cfg.border} ${bgClass}
-          px-4 py-3 min-w-[200px] max-w-[260px]
-          transition-all duration-300 ease-out
-          ${runningClass}
-          ${
-            nodeData.status === "running"
-              ? "ring-2 ring-blue-500/40 shadow-lg scale-105 z-10"
-              : "hover:scale-[1.02]"
-          }
-        `}
+        className={`step-node ${runningClass} relative rounded-sm border bg-b-bg1 px-3 py-2 min-w-[220px] max-w-[280px] font-mono text-[11px] text-b-text transition-colors duration-200`}
+        style={{
+          borderColor: "rgb(var(--b-line))",
+        }}
       >
-        {/* Header: status icon + name */}
-        <div className="flex items-start gap-2">
-          <Icon className={`h-4 w-4 mt-0.5 flex-shrink-0 ${cfg.iconClass} transition-colors duration-300`} />
-          <span className="text-sm font-semibold text-gray-800 tracking-tight break-words">
-            {nodeData.label}
+        {/* Region 1: ASCII status + name + tier pill */}
+        <div className="flex items-center gap-2">
+          <span
+            data-testid="step-node-status"
+            className="tabular-nums tracking-tight"
+            style={{ color: resolveStatusColor(status) }}
+          >
+            {ASCII_STATUS[status] ?? "[...]"}
           </span>
+          <span className="flex-1 truncate text-b-text" title={label}>
+            {label}
+          </span>
+          {tier && (
+            <span
+              data-testid="step-node-tier"
+              className="rounded-sm border px-1.5 py-0 text-[10px] uppercase tracking-wider"
+              style={{
+                borderColor: "rgb(var(--b-line))",
+                color: "rgb(var(--b-purple))",
+                backgroundColor: "rgb(var(--b-bg2))",
+              }}
+            >
+              {tier}
+            </span>
+          )}
         </div>
 
-        {/* Agent name */}
-        {nodeData.agent && (
-          <div className="mt-1 text-xs font-medium text-gray-500 break-words">{nodeData.agent}</div>
-        )}
-
-        {/* Micro-status / Error message */}
-        {nodeData.status === "running" && (
-          <div className="mt-2 text-[10px] text-blue-500/80 animate-pulse font-medium">
-            Processing...
-          </div>
-        )}
-        
-        {nodeData.status === "failed" && nodeData.error && (
-          <div className="mt-2 text-[10px] font-mono text-red-400 bg-red-500/10 p-1.5 rounded border border-red-500/20 max-h-[60px] overflow-y-auto w-full break-words">
-            {nodeData.error}
-          </div>
-        )}
-
-        {/* Metrics row — only show when there's data */}
-        {(nodeData.status === "running" || nodeData.durationMs != null || nodeData.tokensUsed != null) && (
-          <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
+        {/* Region 2: token in/out counts */}
+        {showTokens && (
+          <div
+            data-testid="step-node-tokens"
+            className="mt-1.5 flex items-center gap-3 text-b-text-dim"
+          >
+            {tokensIn != null || tokensOut != null ? (
+              <>
+                {tokensIn != null && (
+                  <span className="tabular-nums">
+                    in: {tokensIn.toLocaleString()}
+                  </span>
+                )}
+                {tokensOut != null && (
+                  <span className="tabular-nums">
+                    out: {tokensOut.toLocaleString()}
+                  </span>
+                )}
+              </>
+            ) : (
+              tokensUsed != null && (
+                <span className="tabular-nums">
+                  tokens: {tokensUsed.toLocaleString()}
+                </span>
+              )
+            )}
             <StepTimer
-              status={nodeData.status}
+              status={status}
               startTime={nodeData.startTime}
               durationMs={nodeData.durationMs}
             />
-            {nodeData.tokensUsed != null && (
-              <span className="flex items-center gap-1 rounded-md bg-gray-50 border border-gray-200 px-2 py-0.5 font-medium text-gray-600 shadow-sm">
-                <Cpu className="h-3 w-3 text-blue-500/70" />
-                {nodeData.tokensUsed.toLocaleString()}
-              </span>
-            )}
           </div>
         )}
 
-        {/* Model + tier — compact single line */}
-        {(nodeData.modelUsed || nodeData.tier) && (
-          <div className="mt-2.5 flex flex-wrap items-center gap-2">
-            {nodeData.modelUsed && (
-              <span
-                className={`flex items-center gap-1 truncate text-[11px] px-2 py-0.5 rounded-md border shadow-sm font-medium ${
-                  nodeData.modelInferred
-                    ? "bg-amber-50 border-amber-200 text-amber-700 border-dashed"
-                    : "bg-gray-50 border-gray-200 text-gray-600"
-                }`}
-                title={nodeData.modelInferred ? "Model inferred from configuration" : "Model explicitly recorded"}
-              >
-                {nodeData.modelInferred ? (
-                  <Sparkles className="h-3 w-3 text-amber-500" />
-                ) : (
-                  <Bot className="h-3 w-3 text-gray-400" />
-                )}
-                <span className="truncate max-w-[130px]">{nodeData.modelUsed}</span>
-              </span>
-            )}
-            {nodeData.tier && (
-              <span className="rounded-md bg-purple-50 border border-purple-200 px-1.5 py-0.5 text-[10px] text-purple-700 uppercase flex-shrink-0 tracking-wider font-bold shadow-sm">
-                {nodeData.tier}
-              </span>
-            )}
+        {/* Region 3: streaming bar (running only, connected only) */}
+        {showStreamingBar && <StreamingBar />}
+
+        {/* Region 4: error line (failure only) */}
+        {status === "failed" && error && (
+          <div
+            data-testid="step-node-error"
+            className="mt-1.5 max-h-[60px] overflow-y-auto break-words text-[10px]"
+            style={{ color: "rgb(var(--b-red))" }}
+          >
+            {error}
           </div>
         )}
       </div>
 
-      <Handle type="source" position={Position.Bottom} className="!bg-gray-300 !border-white !border-2 !w-3 !h-3" />
+      <Handle
+        type="source"
+        position={Position.Bottom}
+        className="!bg-b-line !border-b-bg1 !border !w-2 !h-2"
+      />
     </>
   );
 }
 
-/* ── StepTimer: live elapsed or final duration ── */
+/** Resolve a theme-aware status color via CSS variables only. */
+function resolveStatusColor(status: StepStatus): string {
+  switch (status) {
+    case "running":
+      return "rgb(var(--b-clay))";
+    case "success":
+      return "rgb(var(--b-green))";
+    case "failed":
+      return "rgb(var(--b-red))";
+    case "skipped":
+      return "rgb(var(--b-amber))";
+    case "cancelled":
+      return "rgb(var(--b-text-dim))";
+    case "pending":
+    default:
+      return "rgb(var(--b-text-dim))";
+  }
+}
+
+/** Small 8-cell ASCII-ish streaming bar that animates while the step runs. */
+function StreamingBar() {
+  const [phase, setPhase] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => setPhase((p) => (p + 1) % 8), 150);
+    return () => clearInterval(id);
+  }, []);
+
+  const CELLS = 8;
+  const FILLED = 4;
+  const cells = Array.from({ length: CELLS }, (_, i) => {
+    const active = (i + phase) % CELLS < FILLED;
+    return active ? "\u25AE" : "\u25AF"; // ▮ / ▯
+  }).join("");
+
+  return (
+    <div
+      data-testid="step-node-streaming-bar"
+      className="mt-1.5 flex items-center gap-2 tabular-nums"
+      style={{ color: "rgb(var(--b-clay))" }}
+    >
+      <span>{cells}</span>
+      <span className="text-b-text-dim">streaming</span>
+    </div>
+  );
+}
+
+/** Live elapsed timer (running) or final duration display. */
 function StepTimer({
   status,
   startTime,
@@ -201,18 +221,11 @@ function StepTimer({
   }, [status, startTime]);
 
   const ms =
-    status === "running" && elapsed != null
-      ? elapsed
-      : durationMs ?? null;
+    status === "running" && elapsed != null ? elapsed : durationMs ?? null;
 
   if (ms == null) return null;
 
-  return (
-    <span className="flex items-center gap-1 rounded-md bg-gray-50 border border-gray-200 px-2 py-0.5 font-medium text-gray-600 shadow-sm tabular-nums">
-      <Timer className="h-3 w-3 text-gray-400" />
-      {formatMs(ms)}
-    </span>
-  );
+  return <span className="tabular-nums">{formatMs(ms)}</span>;
 }
 
 function formatMs(ms: number): string {
