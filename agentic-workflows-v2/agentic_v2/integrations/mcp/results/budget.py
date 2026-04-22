@@ -56,7 +56,7 @@ def estimate_token_count(text: str) -> int:
     return len(text) // 4
 
 
-def estimate_content_blocks_tokens(content_blocks: List[Dict[str, Any]]) -> int:
+def estimate_content_blocks_tokens(content_blocks: list[dict[str, Any]]) -> int:
     """
     Estimate total tokens across multiple content blocks.
 
@@ -126,7 +126,7 @@ class ContextBudgetGuard:
         text: str,
         server_name: str,
         tool_name: str,
-    ) -> Tuple[str, bool]:
+    ) -> tuple[str, bool]:
         """
         Check text content and truncate if needed.
 
@@ -165,10 +165,10 @@ class ContextBudgetGuard:
 
     def check_and_truncate_content_blocks(
         self,
-        content_blocks: List[Dict[str, Any]],
+        content_blocks: list[dict[str, Any]],
         server_name: str,
         tool_name: str,
-    ) -> Tuple[List[Dict[str, Any]], bool]:
+    ) -> tuple[list[dict[str, Any]], bool]:
         """
         Check content blocks and truncate if needed.
 
@@ -260,7 +260,7 @@ class ContextBudgetGuard:
         """
         return estimate_token_count(text) > self.max_tokens
 
-    def get_budget_summary(self, text: str) -> Dict[str, Any]:
+    def get_budget_summary(self, text: str) -> dict[str, Any]:
         """
         Get budget usage summary for text.
 

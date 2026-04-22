@@ -58,7 +58,7 @@ class McpOutputStorage:
         server_name: str,
         tool_name: str,
         extension: str = "txt",
-    ) -> Tuple[str, str]:
+    ) -> tuple[str, str]:
         """
         Save text output to disk.
 
@@ -73,7 +73,7 @@ class McpOutputStorage:
         """
         # Generate safe filename
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        content_hash = hashlib.md5(content.encode()).hexdigest()[:8]
+        content_hash = hashlib.md5(content.encode(), usedforsecurity=False).hexdigest()[:8]
         filename = f"{server_name}_{tool_name}_{timestamp}_{content_hash}.{extension}"
 
         # Sanitize filename (remove path separators)
@@ -103,7 +103,7 @@ class McpOutputStorage:
         server_name: str,
         tool_name: str,
         mime_type: Optional[str] = None,
-    ) -> Tuple[str, str]:
+    ) -> tuple[str, str]:
         """
         Save binary output to disk.
 
@@ -121,7 +121,7 @@ class McpOutputStorage:
 
         # Generate safe filename
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        data_hash = hashlib.md5(data).hexdigest()[:8]
+        data_hash = hashlib.md5(data, usedforsecurity=False).hexdigest()[:8]
         filename = f"{server_name}_{tool_name}_{timestamp}_{data_hash}.{extension}"
 
         # Sanitize filename
@@ -151,7 +151,7 @@ class McpOutputStorage:
         server_name: str,
         tool_name: str,
         mime_type: Optional[str] = None,
-    ) -> Tuple[str, str]:
+    ) -> tuple[str, str]:
         """
         Save base64-encoded output to disk.
 
