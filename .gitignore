@@ -322,6 +322,7 @@ agentic-workflows-v2/runs/*.json
 
 # Local agentic memory store (runtime artifact)
 agentic-workflows-v2/.agentic_memory.json
+.agentic_memory.json
 
 # Model discovery snapshots (machine/user-specific)
 discovery_results.json
