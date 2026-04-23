@@ -53,6 +53,8 @@ pip install -e ".[tracing]"
 pip install -e ".[claude]"
 ```
 
+> **No provider keys?** Set `AGENTIC_NO_LLM=1` to run the native and LangChain engines with a deterministic placeholder. See [`docs/NO_LLM_MODE.md`](../docs/NO_LLM_MODE.md) for scope and limitations.
+
 ### 2) Explore CLI
 
 ```bash
