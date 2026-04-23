@@ -370,6 +370,41 @@ def _extract_sample(data: Any, sample_index: int) -> tuple[dict[str, Any], str |
     raise ValueError("Unsupported dataset format; expected JSON object or array")
 
 
+def _extract_all_samples(data: Any) -> list[dict[str, Any]]:
+    """Return the full list of samples from parsed local dataset JSON.
+
+    Supports top-level lists, or dicts with ``tasks``/``samples``/``items``
+    keys containing lists. Falls back to a single-item list when the
+    payload is a standalone dict.
+
+    Args:
+        data: Parsed JSON payload (list or dict).
+
+    Returns:
+        List of sample-shaped dicts; non-dict items are wrapped as
+        ``{"value": item}`` for schema consistency.
+
+    Raises:
+        ValueError: If the data format is unsupported.
+    """
+    if isinstance(data, list):
+        return [
+            item if isinstance(item, dict) else {"value": item} for item in data
+        ]
+
+    if isinstance(data, dict):
+        for key in ("tasks", "samples", "items"):
+            entries = data.get(key)
+            if isinstance(entries, list):
+                return [
+                    entry if isinstance(entry, dict) else {"value": entry}
+                    for entry in entries
+                ]
+        return [data]
+
+    raise ValueError("Unsupported dataset format; expected JSON object or array")
+
+
 def load_local_dataset_sample(
     dataset_ref: str, sample_index: int = 0
 ) -> tuple[dict[str, Any], dict[str, Any]]:
@@ -388,14 +423,64 @@ def load_local_dataset_sample(
     path = _resolve_local_dataset(dataset_ref)
     payload = json.loads(path.read_text(encoding="utf-8"))
     sample, task_id = _extract_sample(payload, sample_index)
+    sample_count = _estimate_sample_count(path)
     meta = {
         "source": "local",
         "dataset_id": dataset_ref,
         "dataset_path": _safe_relative_id(path),
         "sample_index": sample_index,
         "task_id": task_id,
+        "sample_count": sample_count,
     }
     return sample, meta
+
+
+def load_local_dataset_samples(
+    dataset_ref: str, offset: int = 0, limit: int = 20
+) -> list[tuple[dict[str, Any], dict[str, Any]]]:
+    """Load a paginated batch of samples from a local JSON dataset in one call.
+
+    Reads the JSON file once and slices the in-memory list, avoiding the
+    O(n^2) re-read pattern that per-index callers would otherwise incur.
+
+    Args:
+        dataset_ref: Dataset ID matching a known local dataset.
+        offset: Zero-based start index of the page.
+        limit: Maximum number of samples to return.
+
+    Returns:
+        List of ``(sample_dict, metadata_dict)`` tuples whose
+        ``sample_index`` values are absolute (not page-local).
+
+    Raises:
+        ValueError: If the dataset is not found or the format is unsupported.
+    """
+    path = _resolve_local_dataset(dataset_ref)
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    all_samples = _extract_all_samples(payload)
+    sample_count = len(all_samples)
+
+    start = max(offset, 0)
+    end = min(start + max(limit, 0), sample_count)
+    page = all_samples[start:end]
+
+    results: list[tuple[dict[str, Any], dict[str, Any]]] = []
+    relative_path = _safe_relative_id(path)
+    for local_idx, sample in enumerate(page):
+        absolute_index = start + local_idx
+        task_id = str(
+            sample.get("task_id") or sample.get("id") or absolute_index
+        )
+        meta = {
+            "source": "local",
+            "dataset_id": dataset_ref,
+            "dataset_path": relative_path,
+            "sample_index": absolute_index,
+            "task_id": task_id,
+            "sample_count": sample_count,
+        }
+        results.append((sample, meta))
+    return results
 
 
 def load_repository_dataset_sample(
@@ -419,7 +504,9 @@ def load_repository_dataset_sample(
     try:
         from tools.agents.benchmarks.loader import load_benchmark
 
-        tasks = load_benchmark(dataset_id=dataset_id, limit=max(sample_index + 1, 1))
+        tasks = load_benchmark(
+            benchmark_id=dataset_id, limit=max(sample_index + 1, 1)
+        )
         if not tasks:
             raise ValueError(
                 f"No samples returned for repository dataset '{dataset_id}'"
@@ -433,8 +520,91 @@ def load_repository_dataset_sample(
             "sample_index": index,
             "task_id": sample.get("task_id"),
             "benchmark_id": sample.get("benchmark_id", dataset_id),
+            "sample_count": _repository_sample_count(dataset_id, fallback=len(tasks)),
         }
         return sample, meta
+    except (ImportError, ValueError, KeyError, OSError, TypeError) as exc:
+        raise ValueError(
+            f"Unable to load repository dataset '{dataset_id}'. "
+            "Choose a local JSON dataset or ensure benchmark dependencies are available."
+        ) from exc
+
+
+def _repository_sample_count(dataset_id: str, fallback: int) -> int:
+    """Return the canonical size of a repository dataset.
+
+    Looks up ``BENCHMARK_DEFINITIONS[dataset_id].size`` as the authoritative
+    count. Falls back to the caller-supplied value when the registry is
+    unavailable (e.g. optional benchmark extras not installed) or the
+    dataset id is unknown.
+
+    Args:
+        dataset_id: Benchmark registry identifier.
+        fallback: Size to use when the registry lookup fails.
+
+    Returns:
+        Integer sample count. Never raises.
+    """
+    try:
+        from tools.agents.benchmarks.datasets import BENCHMARK_DEFINITIONS
+
+        definition = BENCHMARK_DEFINITIONS.get(dataset_id)
+        if definition is not None:
+            size = getattr(definition, "size", None)
+            if isinstance(size, int) and size > 0:
+                return size
+    except (ImportError, AttributeError, TypeError) as exc:
+        logger.debug(
+            "Benchmark registry unavailable for %s: %s", dataset_id, exc
+        )
+    return fallback
+
+
+def load_repository_dataset_samples(
+    dataset_id: str, offset: int = 0, limit: int = 20
+) -> list[tuple[dict[str, Any], dict[str, Any]]]:
+    """Load a paginated batch of samples from a repository dataset in one call.
+
+    Replaces the O(n^2) loop pattern where the route called
+    :func:`load_repository_dataset_sample` per ``sample_index``. The
+    underlying ``load_benchmark`` helper supports ``offset`` and ``limit``
+    natively, so the batch fetches exactly ``limit`` rows.
+
+    Args:
+        dataset_id: Benchmark registry identifier.
+        offset: Zero-based start index of the page.
+        limit: Maximum number of samples to return.
+
+    Returns:
+        List of ``(sample_dict, metadata_dict)`` tuples whose
+        ``sample_index`` values are absolute (not page-local).
+
+    Raises:
+        ValueError: If the benchmark cannot be loaded or the dataset is
+            unknown to the registry.
+    """
+    try:
+        from tools.agents.benchmarks.loader import load_benchmark
+
+        tasks = load_benchmark(
+            benchmark_id=dataset_id, offset=max(offset, 0), limit=max(limit, 0)
+        )
+        sample_count = _repository_sample_count(dataset_id, fallback=len(tasks))
+
+        results: list[tuple[dict[str, Any], dict[str, Any]]] = []
+        for local_idx, task in enumerate(tasks):
+            sample = task.to_dict() if hasattr(task, "to_dict") else asdict(task)
+            absolute_index = max(offset, 0) + local_idx
+            meta = {
+                "source": "repository",
+                "dataset_id": dataset_id,
+                "sample_index": absolute_index,
+                "task_id": sample.get("task_id"),
+                "benchmark_id": sample.get("benchmark_id", dataset_id),
+                "sample_count": sample_count,
+            }
+            results.append((sample, meta))
+        return results
     except (ImportError, ValueError, KeyError, OSError, TypeError) as exc:
         raise ValueError(
             f"Unable to load repository dataset '{dataset_id}'. "

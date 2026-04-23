@@ -22,7 +22,9 @@ from ..evaluation import (
     list_local_datasets,
     list_repository_datasets,
     load_local_dataset_sample,
+    load_local_dataset_samples,
     load_repository_dataset_sample,
+    load_repository_dataset_samples,
     match_workflow_dataset,
 )
 from ..models import (
@@ -216,9 +218,13 @@ async def list_dataset_samples(
 
     try:
         if dataset_source == "repository":
-            _, meta = load_repository_dataset_sample(dataset_id, sample_index=0)
+            batch = load_repository_dataset_samples(
+                dataset_id, offset=offset, limit=limit
+            )
         else:
-            _, meta = load_local_dataset_sample(dataset_id, sample_index=0)
+            batch = load_local_dataset_samples(
+                dataset_id, offset=offset, limit=limit
+            )
     except ValueError as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
     except Exception as exc:
@@ -226,23 +232,18 @@ async def list_dataset_samples(
             status_code=500, detail=f"Failed to load dataset: {exc}"
         ) from exc
 
-    sample_count = meta.get("sample_count")
-    if not isinstance(sample_count, int):
-        sample_count = 1
+    sample_count = 0
+    if batch:
+        meta_count = batch[0][1].get("sample_count")
+        if isinstance(meta_count, int) and meta_count > 0:
+            sample_count = meta_count
+        else:
+            sample_count = len(batch)
 
-    summaries: list[DatasetSampleSummary] = []
-    for i in range(offset, min(offset + limit, sample_count)):
-        try:
-            if dataset_source == "repository":
-                sample, s_meta = load_repository_dataset_sample(dataset_id, sample_index=i)
-            else:
-                sample, s_meta = load_local_dataset_sample(dataset_id, sample_index=i)
-            summaries.append(_make_sample_summary(sample, i, s_meta))
-        except Exception as exc:
-            logger.warning(
-                "Failed to load sample %d of %s/%s: %s", i, dataset_source, dataset_id, exc
-            )
-            break
+    summaries: list[DatasetSampleSummary] = [
+        _make_sample_summary(sample, s_meta["sample_index"], s_meta)
+        for sample, s_meta in batch
+    ]
 
     return DatasetSampleListResponse(
         dataset_source=dataset_source,

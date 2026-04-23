@@ -1,7 +1,7 @@
 # ADR Index — agentic-workflows-v2
 
 > **Last updated:** 2026-04-22
-> **Total ADRs:** 13 (8 Accepted, 4 Proposed, 1 Superseded)
+> **Total ADRs:** 14 (9 Accepted, 4 Proposed, 1 Superseded)
 
 ---
 
@@ -22,6 +22,7 @@
 | **014** | Pydantic Discriminated Union as Execution Event Wire Format | Accepted | [ADR-014](ADR-014-pydantic-wire-format.md) |
 | **015** | SLO Rolling Window Stored in Git | Accepted | [ADR-015](ADR-015-slo-in-git-rolling-window.md) |
 | **016** | GitHub Models via `GITHUB_TOKEN` as Default E2E LLM Provider | Accepted | [ADR-016](ADR-016-github-token-as-default-e2e-llm.md) |
+| **017** | Dataset Identifiers as Query Parameters, Not Path Segments | Accepted | [ADR-017](ADR-017-dataset-id-query-params.md) |
 
 **Note:** ADRs 004-006 were never created. The numbering gap is intentional and should not be reclaimed.
 
@@ -51,6 +52,9 @@ Evaluation Domain:
 Observability Domain:
   ADR-014 (Event Wire Format) ─── standalone
   ADR-015 (SLO Rolling Window) ─── standalone
+
+Evaluation Surface Domain:
+  ADR-017 (Dataset ID Query Params) ─── standalone (ratification)
 ```
 
 ---
@@ -72,6 +76,7 @@ Observability Domain:
 | 014 | Yes | 100% (contracts + schema-drift gate) | test_schemas.py, golden output | 2026-04-22 |
 | 015 | Yes | 100% (rolling windows, nightly gate) | slo measurement tests | 2026-04-22 |
 | 016 | Yes | 100% (GITHUB_TOKEN wiring, fork-skip guards) | CI workflow invariants | 2026-04-22 |
+| 017 | Yes | 100% (shape already live; ADR ratifies) | Sample-list route tests in `tests/server/` | 2026-04-22 |
 
 ---
 
