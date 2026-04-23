@@ -505,6 +505,10 @@ _client: LLMClientWrapper | None = None
 def get_client(auto_configure: bool = False) -> LLMClientWrapper:
     """Get the global LLM client.
 
+    If ``AGENTIC_NO_LLM=1``, installs a ``MockBackend`` with an
+    identifiable placeholder response and skips provider probing
+    entirely.  See ``docs/NO_LLM_MODE.md``.
+
     Args:
         auto_configure: If True and no client exists, probe environment
             variables and set up a MultiBackend automatically.  Default
@@ -514,7 +518,24 @@ def get_client(auto_configure: bool = False) -> LLMClientWrapper:
     global _client
     if _client is None:
         _client = LLMClientWrapper()
-        if auto_configure:
+        from ..settings import get_settings
+
+        if get_settings().agentic_no_llm:
+            from .backends import MockBackend
+
+            _client.set_backend(
+                MockBackend(
+                    default_response=(
+                        "[AGENTIC_NO_LLM placeholder] Set AGENTIC_NO_LLM=0 "
+                        "and a provider key to get real output."
+                    )
+                )
+            )
+            logger.warning(
+                "AGENTIC_NO_LLM=1: all LLM calls return a placeholder. "
+                "Disable for production workloads."
+            )
+        elif auto_configure:
             from .backends import auto_configure_backend
 
             try:

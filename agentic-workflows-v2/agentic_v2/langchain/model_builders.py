@@ -32,6 +32,10 @@ logger = logging.getLogger(__name__)
 # GitHub Models base URL — used by build_github_model
 _GH_BASE_URL = "https://models.inference.ai.azure.com"
 
+# Module-level flag so ``build_placeholder_model`` warns once per process
+# rather than once per agent step (MED-1 from Sprint B #5 review).
+_PLACEHOLDER_WARNED = False
+
 
 # ---------------------------------------------------------------------------
 # Internal helpers
@@ -503,3 +507,57 @@ def build_local_onnx_model(model_name: str, temperature: float) -> Any:
         key,
     )
     return LocalOnnxChatModel()
+
+
+def build_placeholder_model(temperature: float = 0.0) -> Any:
+    """Build a LangChain chat model that returns a fixed placeholder.
+
+    Used when ``AGENTIC_NO_LLM=1``.  No API calls, no provider package
+    beyond ``langchain-core`` (which is already a hard dep of the
+    LangChain engine).  Supports ``bind_tools`` as a no-op so workflows
+    that bind tools don't crash.
+    """
+    try:
+        from langchain_core.language_models.chat_models import BaseChatModel
+        from langchain_core.messages import AIMessage, BaseMessage
+        from langchain_core.outputs import ChatGeneration, ChatResult
+    except ImportError as exc:
+        raise ImportError(
+            "langchain-core is required for the placeholder chat model. "
+            "Install with: pip install langchain-core"
+        ) from exc
+
+    _PLACEHOLDER_TEXT = (
+        "[AGENTIC_NO_LLM placeholder] Set AGENTIC_NO_LLM=0 and a "
+        "provider key to get real output."
+    )
+
+    class PlaceholderChatModel(BaseChatModel):
+        @property
+        def _llm_type(self) -> str:
+            return "placeholder"
+
+        def bind_tools(self, tools: Any, **kwargs: Any) -> Any:
+            return self
+
+        def _generate(
+            self,
+            messages: list[BaseMessage],
+            stop: list[str] | None = None,
+            run_manager: Any | None = None,
+            **kwargs: Any,
+        ) -> Any:
+            return ChatResult(
+                generations=[
+                    ChatGeneration(message=AIMessage(content=_PLACEHOLDER_TEXT))
+                ]
+            )
+
+    global _PLACEHOLDER_WARNED
+    if not _PLACEHOLDER_WARNED:
+        logger.warning(
+            "AGENTIC_NO_LLM=1: LangChain engine using PlaceholderChatModel. "
+            "Disable for production workloads."
+        )
+        _PLACEHOLDER_WARNED = True
+    return PlaceholderChatModel()

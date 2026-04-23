@@ -63,6 +63,20 @@ class Settings(BaseSettings):
     # --- Runtime ---
     shell: str = Field(default="/bin/bash", description="Shell for subprocess execution")
 
+    # --- LLM placeholder mode ---
+    agentic_no_llm: bool = Field(
+        default=False,
+        description=(
+            "When true, get_client() and get_chat_model() both install a "
+            "deterministic placeholder so demos and CI can run without API "
+            "keys. The native-engine path (get_client()) has no extra "
+            "dependencies. The LangChain-adapter path (get_chat_model()) "
+            "still requires the [langchain] install extra — without it, "
+            "get_chat_model() raises ImportError even under the flag. See "
+            "docs/NO_LLM_MODE.md."
+        ),
+    )
+
     # --- Tool: file operations ---
     agentic_file_base_dir: str | None = Field(
         default=None, description="Base directory for file operations (sandbox root)"

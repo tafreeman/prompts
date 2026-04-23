@@ -56,6 +56,7 @@ from .model_builders import (
     build_notebooklm_model,
     build_ollama_model,
     build_openai_model,
+    build_placeholder_model,
 )
 from .model_utils import (
     GH_BACKUP_MODELS,
@@ -280,6 +281,11 @@ def get_chat_model(model_id: str, temperature: float = 0.0) -> Any:
     model_id = (model_id or "").strip()
     if not model_id:
         raise ValueError("Model ID must be a non-empty string.")
+
+    from ..settings import get_settings
+
+    if get_settings().agentic_no_llm:
+        return build_placeholder_model(temperature)
 
     if model_id.startswith("gh:"):
         return build_github_model(model_id[3:], temperature)
