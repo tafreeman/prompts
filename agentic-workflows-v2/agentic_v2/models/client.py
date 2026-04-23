@@ -521,15 +521,10 @@ def get_client(auto_configure: bool = False) -> LLMClientWrapper:
         from ..settings import get_settings
 
         if get_settings().agentic_no_llm:
-            from .backends import MockBackend
+            from .backends import PLACEHOLDER_RESPONSE_TEXT, MockBackend
 
             _client.set_backend(
-                MockBackend(
-                    default_response=(
-                        "[AGENTIC_NO_LLM placeholder] Set AGENTIC_NO_LLM=0 "
-                        "and a provider key to get real output."
-                    )
-                )
+                MockBackend(default_response=PLACEHOLDER_RESPONSE_TEXT)
             )
             logger.warning(
                 "AGENTIC_NO_LLM=1: all LLM calls return a placeholder. "

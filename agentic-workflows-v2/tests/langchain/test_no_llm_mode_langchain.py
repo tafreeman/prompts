@@ -1,10 +1,12 @@
-"""RED-phase tests for AGENTIC_NO_LLM=1 short-circuit in langchain/models.py.
+"""Unit tests for the ``AGENTIC_NO_LLM=1`` short-circuit in ``langchain/models.py``.
 
-These tests MUST FAIL until Stage 2 (Amelia) wires the production code.
-Production code they target does NOT yet exist:
-  - build_placeholder_model() in agentic_v2.langchain.model_builders
-  - get_chat_model() short-circuit when agentic_no_llm is true
-  - PlaceholderChatModel with _llm_type == "placeholder" and bind_tools no-op
+Covers:
+  - ``get_chat_model()`` short-circuiting to ``build_placeholder_model``
+    before any provider builder runs (proves zero ``GITHUB_TOKEN`` /
+    provider-key imports under the flag)
+  - ``PlaceholderChatModel`` contract: ``_llm_type == "placeholder"``,
+    ``bind_tools`` returns a new instance, ``_astream`` yields a single
+    chunk, negative-control ``ValueError`` regression
 """
 
 from __future__ import annotations
@@ -122,3 +124,72 @@ def test_flag_unset_still_raises_on_missing_credentials(monkeypatch):
 
     with pytest.raises(ValueError, match="GITHUB_TOKEN"):
         get_chat_model("gh:openai/gpt-4o")
+
+
+@pytest.mark.unit
+async def test_flag_astream_yields_single_placeholder_chunk(monkeypatch):
+    """Under the flag, ``PlaceholderChatModel._astream`` must yield exactly
+    one chunk containing the placeholder prefix (P1 from Sprint B #5
+    follow-up review).
+
+    Without an explicit ``_astream``, LangChain falls back to running
+    ``_generate`` in a thread executor, whose signature has broken across
+    minor langchain-core bumps.  Defining ``_astream`` explicitly
+    future-proofs no-LLM streaming.
+    """
+    from langchain_core.messages import HumanMessage
+
+    monkeypatch.setenv("AGENTIC_NO_LLM", "1")
+    monkeypatch.delenv("GITHUB_TOKEN", raising=False)
+    get_settings.cache_clear()
+
+    model = get_chat_model("gh:openai/gpt-4o")
+    chunks = [
+        chunk
+        async for chunk in model.astream([HumanMessage(content="hi")])
+    ]
+
+    assert len(chunks) == 1, (
+        f"Expected exactly one stream chunk, got {len(chunks)}: {chunks!r}"
+    )
+    assert chunks[0].content.startswith(_PLACEHOLDER_PREFIX), (
+        f"Stream chunk content {chunks[0].content!r} does not start with "
+        f"{_PLACEHOLDER_PREFIX!r}"
+    )
+
+
+@pytest.mark.unit
+def test_flag_bind_tools_returns_new_instance_not_self(monkeypatch):
+    """``bind_tools`` must return a *new* ``PlaceholderChatModel`` instance,
+    not ``self`` (P3 from Sprint B #5 follow-up review).
+
+    Sharing a single instance across bind_tools calls could become a
+    concurrency footgun if future maintainers add mutable state to the
+    placeholder.  The contract also matches LangChain's "bind_tools
+    returns a new thing" convention.
+    """
+    monkeypatch.setenv("AGENTIC_NO_LLM", "1")
+    monkeypatch.delenv("GITHUB_TOKEN", raising=False)
+    get_settings.cache_clear()
+
+    model = get_chat_model("gh:openai/gpt-4o")
+    bound = model.bind_tools(
+        [
+            {
+                "type": "function",
+                "function": {
+                    "name": "noop",
+                    "description": "x",
+                    "parameters": {"type": "object", "properties": {}},
+                },
+            }
+        ]
+    )
+    assert bound is not model, (
+        "bind_tools should return a NEW PlaceholderChatModel instance, not self"
+    )
+    # But both should be instances of the SAME cached class (P4 — class
+    # identity must be stable across calls so ``isinstance`` checks work).
+    assert type(bound) is type(model), (
+        "bound and original should share the same PlaceholderChatModel class"
+    )

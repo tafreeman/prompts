@@ -1,9 +1,12 @@
-"""RED-phase tests for AGENTIC_NO_LLM=1 short-circuit in models/client.py.
+"""Unit tests for the ``AGENTIC_NO_LLM=1`` short-circuit in ``models/client.py``.
 
-These tests MUST FAIL until Stage 2 (Amelia) wires the production code.
-Production code they target does NOT yet exist:
-  - Settings.agentic_no_llm field
-  - get_client(auto_configure=True) MockBackend installation path
+Covers:
+  - ``Settings.agentic_no_llm`` field driving ``get_client()``
+  - ``MockBackend`` installation under the flag (with the shared
+    ``PLACEHOLDER_RESPONSE_TEXT`` from ``models/backends.py``)
+  - No-regression sentinels for the flag-unset path, including a probe-
+    was-called assertion that closes the keyless-box trivial-pass gap
+    (MED-3 from the Sprint B #5 review)
 """
 
 from __future__ import annotations
@@ -153,4 +156,49 @@ def test_reset_client_plus_cache_clear_reflects_env_change(monkeypatch):
     client_after = get_client(auto_configure=True)
     assert isinstance(client_after.backend, MockBackend), (
         "Phase B: MockBackend must be installed after AGENTIC_NO_LLM=1 + cache_clear() + reset_client()"
+    )
+
+
+# ---------------------------------------------------------------------------
+# P2 (Sprint B #5 follow-up): AGENTIC_NO_LLM truthiness
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.unit
+@pytest.mark.parametrize(
+    "raw, expected",
+    [
+        # True literals (case-insensitive)
+        ("1", True),
+        ("true", True),
+        ("True", True),
+        ("TRUE", True),
+        ("yes", True),
+        ("on", True),
+        # False literals
+        ("0", False),
+        ("false", False),
+        ("False", False),
+        ("no", False),
+        ("off", False),
+        ("", False),
+        # Surrounding whitespace (common in shell env exports)
+        ("  1  ", True),
+        (" false ", False),
+        # Unknown values: coerce to False with a logged warning
+        ("2", False),
+        ("yess", False),
+        ("gibberish", False),
+    ],
+)
+def test_agentic_no_llm_truthiness(monkeypatch, raw, expected):
+    """The ``agentic_no_llm`` field validator must normalise common bool-ish
+    strings and coerce unknowns to False rather than raise ``ValidationError``
+    (P2 from Sprint B #5 follow-up review).
+    """
+    monkeypatch.setenv("AGENTIC_NO_LLM", raw)
+    get_settings.cache_clear()
+
+    assert get_settings().agentic_no_llm is expected, (
+        f"AGENTIC_NO_LLM={raw!r} should coerce to {expected}"
     )

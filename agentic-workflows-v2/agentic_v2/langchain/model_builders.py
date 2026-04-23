@@ -36,6 +36,14 @@ _GH_BASE_URL = "https://models.inference.ai.azure.com"
 # rather than once per agent step (MED-1 from Sprint B #5 review).
 _PLACEHOLDER_WARNED = False
 
+# Cached ``PlaceholderChatModel`` class so every call to
+# ``build_placeholder_model`` returns an instance of the *same* class (P4
+# from Sprint B #5 follow-up review).  Defining the class at import time
+# is not possible because ``BaseChatModel`` lives in the optional
+# ``[langchain]`` extra, so the class is built lazily on first call and
+# reused thereafter.
+_PLACEHOLDER_CHAT_MODEL_CLS: Any | None = None
+
 
 # ---------------------------------------------------------------------------
 # Internal helpers
@@ -509,36 +517,57 @@ def build_local_onnx_model(model_name: str, temperature: float) -> Any:
     return LocalOnnxChatModel()
 
 
-def build_placeholder_model(temperature: float = 0.0) -> Any:
-    """Build a LangChain chat model that returns a fixed placeholder.
+def _get_placeholder_chat_model_cls() -> Any:
+    """Return the module-level ``PlaceholderChatModel`` class, building it lazily.
 
-    Used when ``AGENTIC_NO_LLM=1``.  No API calls, no provider package
-    beyond ``langchain-core`` (which is already a hard dep of the
-    LangChain engine).  Supports ``bind_tools`` as a no-op so workflows
-    that bind tools don't crash.
+    Deferred so that users who never take the no-LLM LangChain path
+    aren't forced to install ``langchain-core``.  Cached so all callers
+    see the same class object (``isinstance`` checks and pickling both
+    rely on class identity).
     """
+    global _PLACEHOLDER_CHAT_MODEL_CLS
+    if _PLACEHOLDER_CHAT_MODEL_CLS is not None:
+        return _PLACEHOLDER_CHAT_MODEL_CLS
+
     try:
         from langchain_core.language_models.chat_models import BaseChatModel
-        from langchain_core.messages import AIMessage, BaseMessage
-        from langchain_core.outputs import ChatGeneration, ChatResult
+        from langchain_core.messages import AIMessage, AIMessageChunk, BaseMessage
+        from langchain_core.outputs import (
+            ChatGeneration,
+            ChatGenerationChunk,
+            ChatResult,
+        )
     except ImportError as exc:
         raise ImportError(
             "langchain-core is required for the placeholder chat model. "
             "Install with: pip install langchain-core"
         ) from exc
 
-    _PLACEHOLDER_TEXT = (
-        "[AGENTIC_NO_LLM placeholder] Set AGENTIC_NO_LLM=0 and a "
-        "provider key to get real output."
-    )
+    # Late import to keep the module import graph acyclic and cheap when
+    # the no-LLM path isn't exercised.
+    from ..models.backends import PLACEHOLDER_RESPONSE_TEXT
 
     class PlaceholderChatModel(BaseChatModel):
+        """Deterministic LangChain chat model used under ``AGENTIC_NO_LLM=1``.
+
+        Returns :data:`PLACEHOLDER_RESPONSE_TEXT` for every prompt, on
+        every engine path (sync ``_generate`` and async ``_astream``).
+        ``bind_tools`` returns a *new* instance rather than ``self`` so
+        concurrent callers cannot accidentally share mutable state (P3
+        from Sprint B #5 follow-up review).
+        """
+
         @property
         def _llm_type(self) -> str:
             return "placeholder"
 
         def bind_tools(self, tools: Any, **kwargs: Any) -> Any:
-            return self
+            # Intentionally returns a fresh instance, not ``self``: matches
+            # LangChain's "bind_tools returns a new thing" contract well
+            # enough for the placeholder use case without implementing
+            # the full ``RunnableBinding`` protocol.  Tools are ignored —
+            # the placeholder response never produces tool calls.
+            return PlaceholderChatModel()
 
         def _generate(
             self,
@@ -549,10 +578,46 @@ def build_placeholder_model(temperature: float = 0.0) -> Any:
         ) -> Any:
             return ChatResult(
                 generations=[
-                    ChatGeneration(message=AIMessage(content=_PLACEHOLDER_TEXT))
+                    ChatGeneration(
+                        message=AIMessage(content=PLACEHOLDER_RESPONSE_TEXT)
+                    )
                 ]
             )
 
+        async def _astream(
+            self,
+            messages: list[BaseMessage],
+            stop: list[str] | None = None,
+            run_manager: Any | None = None,
+            **kwargs: Any,
+        ) -> Any:
+            # One-shot chunk — matches the documented "streaming yields
+            # the entire placeholder as one chunk" contract.  Defining
+            # this explicitly (rather than inheriting the ABC fallback
+            # that re-runs ``_generate`` in a thread pool) future-proofs
+            # against upstream signature churn (P1).
+            yield ChatGenerationChunk(
+                message=AIMessageChunk(content=PLACEHOLDER_RESPONSE_TEXT)
+            )
+
+    _PLACEHOLDER_CHAT_MODEL_CLS = PlaceholderChatModel
+    return _PLACEHOLDER_CHAT_MODEL_CLS
+
+
+def build_placeholder_model(temperature: float = 0.0) -> Any:
+    """Build a LangChain chat model that returns a fixed placeholder.
+
+    Used when ``AGENTIC_NO_LLM=1``.  No API calls, no provider package
+    beyond ``langchain-core`` (the only hard dep of the LangChain engine
+    — declared in the ``[langchain]`` install extra).  ``bind_tools`` is
+    accepted and ignored so workflows that bind tools don't crash; the
+    returned model never emits tool calls.
+
+    The placeholder class is cached module-wide so every call returns an
+    instance of the *same* class; ``isinstance`` checks across calls are
+    stable.
+    """
+    cls = _get_placeholder_chat_model_cls()
     global _PLACEHOLDER_WARNED
     if not _PLACEHOLDER_WARNED:
         logger.warning(
@@ -560,4 +625,16 @@ def build_placeholder_model(temperature: float = 0.0) -> Any:
             "Disable for production workloads."
         )
         _PLACEHOLDER_WARNED = True
-    return PlaceholderChatModel()
+    return cls()
+
+
+def _reset_placeholder_state_for_tests() -> None:
+    """Reset module-level placeholder caches.  For test fixtures only.
+
+    Clears both the warning flag (so caplog assertions work across
+    tests) and the cached class (so test runs that toggle the flag
+    mid-session don't see a stale class object).
+    """
+    global _PLACEHOLDER_WARNED, _PLACEHOLDER_CHAT_MODEL_CLS
+    _PLACEHOLDER_WARNED = False
+    _PLACEHOLDER_CHAT_MODEL_CLS = None

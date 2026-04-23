@@ -22,6 +22,8 @@ agentic run test_deterministic
 
 Expected output: the workflow runs to completion, all steps emit placeholder text, and the process exits with status 0. No provider credentials required.
 
+> **LangChain engine requires an extra.** The native DAG executor works with just the base `pip install -e .` — that's the common case. If you want to exercise the LangChain adapter under this flag (`--engine langchain`), install with the extra: `pip install -e .[langchain]`. Without it, `get_chat_model()` raises `ImportError: langchain-core is required...` even when the flag is set. Accepted values for the env var (case-insensitive): `1`/`true`/`yes`/`on` are true; empty/`0`/`false`/`no`/`off` are false; anything else is coerced to false with a logged warning.
+
 The UI also works: run `agentic serve` + `npm run dev` under this flag. DAG streaming shows placeholder content at each node.
 
 ## What works
@@ -30,7 +32,7 @@ The UI also works: run `agentic serve` + `npm run dev` under this flag. DAG stre
 - **LangChain adapter** (`--engine langchain` in CLI or config)
 - **DAG streaming over WebSocket/SSE** (one chunk per message; the entire placeholder is a single chunk)
 - **UI demos end-to-end**
-- **CLI validation commands** (`agentic list`, `agentic validate`, `agentic compare`)
+- **CLI validation commands** (`agentic list` and `agentic validate` don't invoke an LLM regardless of this flag; `agentic compare` exercises workflows and honors the flag)
 - **RAG pipeline** (embeddings already deterministic via SHA-256 hashing)
 
 ## Scope limits — read this before you report a bug

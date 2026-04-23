@@ -21,10 +21,17 @@ Usage::
 
 from __future__ import annotations
 
+import logging
 from functools import lru_cache
+from typing import Any
 
-from pydantic import Field
+from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+logger = logging.getLogger(__name__)
+
+_TRUE_LITERALS = frozenset({"1", "true", "yes", "on"})
+_FALSE_LITERALS = frozenset({"", "0", "false", "no", "off"})
 
 
 class Settings(BaseSettings):
@@ -72,10 +79,44 @@ class Settings(BaseSettings):
             "keys. The native-engine path (get_client()) has no extra "
             "dependencies. The LangChain-adapter path (get_chat_model()) "
             "still requires the [langchain] install extra — without it, "
-            "get_chat_model() raises ImportError even under the flag. See "
+            "get_chat_model() raises ImportError even under the flag. "
+            "Accepted string values (case-insensitive): '1'/'true'/'yes'/"
+            "'on' are True; ''/'0'/'false'/'no'/'off' are False; unknown "
+            "values are coerced to False with a logged warning. See "
             "docs/NO_LLM_MODE.md."
         ),
     )
+
+    @field_validator("agentic_no_llm", mode="before")
+    @classmethod
+    def _coerce_no_llm_flag(cls, v: Any) -> bool:
+        """Normalise ``AGENTIC_NO_LLM`` env values.
+
+        Pydantic's default bool parser raises ``ValidationError`` on
+        unusual strings (``"2"``, stray whitespace, ``"yes"`` in some
+        versions), which would surface as an opaque traceback at the
+        first LLM call.  We accept the conservative set of literals
+        documented in the field description and coerce everything else
+        to ``False`` with a warning so operators find out via the log,
+        not via a crash (Sprint B #5 follow-up review P2).
+        """
+        if isinstance(v, bool):
+            return v
+        if v is None:
+            return False
+        s = str(v).strip().lower()
+        if s in _TRUE_LITERALS:
+            return True
+        if s in _FALSE_LITERALS:
+            return False
+        logger.warning(
+            "AGENTIC_NO_LLM=%r not recognised; treating as False. "
+            "Accepted: %s (True) or %s (False).",
+            v,
+            sorted(_TRUE_LITERALS),
+            sorted(_FALSE_LITERALS),
+        )
+        return False
 
     # --- Tool: file operations ---
     agentic_file_base_dir: str | None = Field(

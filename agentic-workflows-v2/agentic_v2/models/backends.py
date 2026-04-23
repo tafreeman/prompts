@@ -24,6 +24,16 @@ import logging
 from dataclasses import dataclass, field
 from typing import Any, AsyncIterator
 
+# Shared placeholder string used by both the native MockBackend path
+# (agentic_v2.models.client.get_client) and the LangChain path
+# (agentic_v2.langchain.model_builders.build_placeholder_model).  Kept
+# here so the two engines cannot drift out of sync (Sprint B #5 review
+# finding P6).
+PLACEHOLDER_RESPONSE_TEXT = (
+    "[AGENTIC_NO_LLM placeholder] Set AGENTIC_NO_LLM=0 and a provider key "
+    "to get real output."
+)
+
 from .backends_base import LLMBackend
 from .backends_cloud import (
     AnthropicBackend,
