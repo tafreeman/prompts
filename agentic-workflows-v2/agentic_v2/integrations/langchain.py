@@ -13,6 +13,8 @@ import json
 import logging
 from typing import Any, List
 
+from pydantic import ConfigDict
+
 logger = logging.getLogger(__name__)
 
 try:
@@ -65,8 +67,7 @@ if LANGCHAIN_AVAILABLE:
         tier: int = ModelTier.TIER_2
         _client: LLMClientWrapper | None = None
 
-        class Config:
-            arbitrary_types_allowed = True
+        model_config = ConfigDict(arbitrary_types_allowed=True)
 
         @property
         def _llm_type(self) -> str:
@@ -167,8 +168,7 @@ if LANGCHAIN_AVAILABLE:
         description: str = ""
         _v2_tool: V2BaseTool | None = None
 
-        class Config:
-            arbitrary_types_allowed = True
+        model_config = ConfigDict(arbitrary_types_allowed=True)
 
         @classmethod
         def from_v2_tool(cls, tool: V2BaseTool) -> "AgenticLangChainTool":

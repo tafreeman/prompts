@@ -68,7 +68,7 @@ A bare `pip install -e ".[dev,server]"` will succeed, but any `--adapter langcha
 
 - **Surface:** `agentic_v2/langchain/` imports are guarded with `try/except ImportError`, but the adapter registration path surfaces the error late.
 - **Risk:** Confusing first-run failure if a contributor installed minimal extras.
-- **Workaround:** Install with `langchain` extras, or stick to `--adapter native` (the default for the CLI).
+- **Workaround:** Install with `langchain` extras (included in `just setup`), or pass `--adapter native` explicitly.
 - **Status:** Accepted — the optional extras design is correct for dependency weight.
 - **Upstream fix:** Better error message when the adapter is requested but not installed. Not yet scheduled.
 
@@ -76,16 +76,16 @@ A bare `pip install -e ".[dev,server]"` will succeed, but any `--adapter langcha
 
 ## 3. CI and environment dependencies
 
-### 3.1 CI depends on `GITHUB_TOKEN` and GitHub Models
+### 3.1 Placeholder mode exists but CI still validates provider integration
 
-There is no true placeholder / no-LLM mode. Every CI run that executes the platform end-to-end uses `GITHUB_TOKEN` against GitHub Models as the LLM provider. The decision is ratified in [ADR-016](adr/ADR-016-github-token-as-default-e2e-llm.md).
+The runtime supports `AGENTIC_NO_LLM=1` for deterministic placeholder execution across both native and LangChain engines (committed in `c2aff71`, documented in [`docs/NO_LLM_MODE.md`](NO_LLM_MODE.md)). However, some end-to-end CI gates intentionally exercise GitHub Models through `GITHUB_TOKEN` to validate provider integration itself. The trade-off is ratified in [ADR-016](adr/ADR-016-github-token-as-default-e2e-llm.md).
 
-- **Surface:** `ci.yml`, `nightly.yml`, `performance-benchmark.yml`.
-- **Risk:** A GitHub Models outage or rate-limit event fails CI for reasons unrelated to the code change. Has happened.
-- **Risk:** External contributors without a `GITHUB_TOKEN` in their fork cannot run the full CI matrix.
-- **Workaround:** `agentic run test_deterministic` runs entirely without LLM calls — use tier-0 workflows to validate changes that don't depend on an LLM.
-- **Status:** Accepted for v0.3.0. The trade-off — free LLM access in CI vs. provider dependency — is explicit in ADR-016.
-- **Upstream fix:** Sprint B candidate — a true placeholder mode or a hermetic mock provider.
+- **Surface:** `ci.yml`, `nightly.yml`, `performance-benchmark.yml` (which require live provider credentials).
+- **Zero-config alternative:** Set `AGENTIC_NO_LLM=1` to run workflows without any LLM provider. See [`docs/NO_LLM_MODE.md`](NO_LLM_MODE.md) for scope and limitations.
+- **Risk:** A GitHub Models outage or rate-limit event fails the provider-integration CI jobs, but `AGENTIC_NO_LLM=1` jobs remain unaffected.
+- **Workaround:** `agentic run test_deterministic` or `AGENTIC_NO_LLM=1 agentic run <workflow>` runs entirely without LLM calls — use for shape and flow testing.
+- **Status:** Accepted for v0.3.0. Free LLM access in CI vs. provider dependency trade-off is explicit in ADR-016.
+- **Upstream fix:** None — placeholder mode is live. Future work: extend mode to evaluation/rubric scoring.
 
 ### 3.2 Windows is a first-class target but has specific gotchas
 

@@ -292,9 +292,9 @@ class ModelRouter:
             return {m: True for m in models}
 
         async def check_one(model: str) -> tuple[str, bool]:
-            # Run sync checker in thread pool
-            loop = asyncio.get_event_loop()
-            available = await loop.run_in_executor(None, self._health_checker, model)
+            # Run sync checker in a worker thread (idiomatic 3.9+ replacement for
+            # get_event_loop().run_in_executor(None, ...)).
+            available = await asyncio.to_thread(self._health_checker, model)
             return model, available
 
         results = await asyncio.gather(*[check_one(m) for m in models])

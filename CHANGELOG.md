@@ -153,3 +153,10 @@ For changes prior to March 2026, see the git log:
 ```
 git log --oneline --before="2026-03-01"
 ```
+
+---
+
+## Version Links
+
+[Unreleased]: https://github.com/tafreeman/prompts/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/tafreeman/prompts/releases/tag/v0.3.0

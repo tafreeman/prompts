@@ -15,7 +15,7 @@ npm run test:coverage
 ```
 
 Backend proxy:
-- Defaults to http://localhost:8000. Override with `VITE_API_PROXY_TARGET=http://<host>:<port>` when running the backend elsewhere.
+- Defaults to http://localhost:8010. Override with `VITE_API_PROXY_TARGET=http://<host>:<port>` when running the backend elsewhere.
 
 ## Architecture Notes
 

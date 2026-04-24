@@ -7,9 +7,7 @@ Repo-level map of agent surfaces and how they relate to the machine-loaded confi
 - **`.claude/`** — Canonical, machine-loaded config. See `.claude/README.md` for layout (rules, commands, skills, agents) and loading precedence. Keep behavioral standards here.
 - **`CLAUDE.md`** — Environment expectations (PowerShell-first), repo overview, and developer workflows for humans and agents.
 - **`.github/copilot-instructions.md`** — Copilot-facing summary; keep aligned with `.claude/rules/` when content overlaps.
-- **Subproject notes** — Some folders ship their own Claude guidance:
-  - `decks-generated/CLAUDE.md` for the deck generator
-  - Presentation system was extracted to `c:\Users\tandf\source\present` (April 2026)
+- **Subproject notes** — The presentation system was extracted to `c:\Users\tandf\source\present` (April 2026).
 - **Optional GitHub agents** — `.github/agents/` exists for Copilot agent surfaces; when updating, mirror canonical rules from `.claude/` instead of inventing new ones.
 
 ## Usage

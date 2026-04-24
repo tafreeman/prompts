@@ -31,8 +31,10 @@ export function connectExecutionStream(
       try {
         const event = JSON.parse(evt.data) as ExecutionEvent;
         onEvent(event);
-      } catch {
-        // ignore parse errors
+      } catch (e) {
+        // Malformed event frame — log & drop rather than crash the stream.
+        const preview = typeof evt.data === "string" ? evt.data.slice(0, 200) : "<non-string>";
+        console.warn("[ws] parse error:", e, "payload preview:", preview);
       }
     };
 

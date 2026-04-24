@@ -450,6 +450,8 @@ class TestNullSafeAndCoalesce:
         from agentic_v2.engine.expressions import _NullSafe
 
         ns = _NullSafe()
+        # intentional: verifies _NullSafe.__eq__(None); E711 is globally
+        # ignored in pyproject.toml for exactly this test.
         assert ns == None
         assert ns != "APPROVED"
         assert not ns  # bool is False

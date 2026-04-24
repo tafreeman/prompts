@@ -14,7 +14,7 @@ If you just want to run the platform, start at [`docs/ONBOARDING.md`](docs/ONBOA
 |------|-----------|---------------|-------|
 | `agentic-workflows-v2/` | Runtime (CLI, DAG executor, LangGraph adapter, FastAPI server, WebSocket streaming) | hatchling | Python 3.11+ |
 | `agentic-workflows-v2/ui/` | React 19 dashboard (Vite 6, Tailwind, @xyflow/react) | Vite | Node 20+ |
-| `agentic-v2-eval/` | Rubric-based evaluation framework | setuptools | Python 3.10+ |
+| `agentic-v2-eval/` | Rubric-based evaluation framework | hatchling | Python 3.11+ |
 | `tools/` | Shared LLM client, benchmarks, caching utilities (package name: `prompts-tools`) | setuptools | Python 3.10+ |
 
 Each Python package installs independently. There are **zero cross-package imports** — `tools` is the only optional shared surface, imported with `from tools.llm import LLMClient`.
@@ -93,7 +93,7 @@ If you only touched one package, you can narrow the run:
 | Gate | What it enforces | Source |
 |------|------------------|--------|
 | Ruff lint | `E,F,W,I,N,UP,S,B,A,C4,SIM,TCH,RUF` — no warnings in changed files | `.github/workflows/ci.yml` |
-| Mypy | `mypy --strict` on `agentic-workflows-v2/agentic_v2/`. `agentic-v2-eval` runs with 35 known findings (Sprint B) — see [`KNOWN_LIMITATIONS.md`](docs/KNOWN_LIMITATIONS.md) | `ci.yml`, `eval-package-ci.yml` |
+| Mypy | `mypy --strict` on `agentic-workflows-v2/agentic_v2/`. `agentic-v2-eval` runs with 35 known findings (Sprint B) — see [`KNOWN_LIMITATIONS.md`](docs/KNOWN_LIMITATIONS.md). Note: mypy config is relaxed while type debt is being paid down (see `pyproject.toml` `[tool.mypy]`). | `ci.yml`, `eval-package-ci.yml` |
 | Coverage floor | 80% on `agentic-workflows-v2/`, 60% on `ui/` | `ci.yml` |
 | Schema drift | Snapshot test on `contracts/` Pydantic models — any wire-format change must be explicitly accepted by regenerating the snapshot | `scripts/generate_schemas.py`, see [ADR-014](docs/adr/ADR-014-pydantic-wire-format.md) |
 | Playwright streaming (5×) | End-to-end streaming flow runs 5× per PR. One failure blocks merge | `ci.yml` |
@@ -181,7 +181,7 @@ Docs must be runnable or falsifiable. Command blocks must actually work. Diagram
 
 - Never commit secrets, API keys, or production tokens. `.env` is gitignored; `.env.example` is the only committed template.
 - Resolve runtime secrets through `agentic_v2.models.secrets.get_secret()` / `get_first_secret()` — not `os.environ` directly.
-- Follow the disclosure process in [`SECURITY.md`](SECURITY.md) for any vulnerability report.
+- Follow the disclosure process in [`SECURITY.md`](agentic-workflows-v2/SECURITY.md) for any vulnerability report.
 - AI-generated code is untrusted input — run full lint + type check + tests before accepting.
 
 ---

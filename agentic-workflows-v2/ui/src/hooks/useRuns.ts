@@ -11,6 +11,7 @@ export function useRuns(workflow?: string) {
     queryKey: ["runs", workflow],
     queryFn: () => listRuns(workflow),
     refetchInterval: 5000,
+    refetchIntervalInBackground: false,
   });
 }
 

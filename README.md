@@ -230,7 +230,7 @@ agentic-workflows/
 │   │   ├── tools/                 # Built-in agent tools
 │   │   └── cli/                   # `agentic` CLI entry point
 │   ├── ui/                        # React dashboard (Vite + TypeScript)
-│   ├── tests/                     # 78+ test files
+│   ├── tests/                     # 100+ test files
 │   └── pyproject.toml             # hatchling build, optional dep groups
 │
 ├── agentic-v2-eval/               # Evaluation framework package
@@ -300,7 +300,8 @@ The evaluation system supports multiple scoring profiles:
 ### Prerequisites
 
 - Python 3.11+
-- At least one LLM provider configured (see `.env.example` for supported providers)
+- **Option 1:** At least one LLM provider configured (see `.env.example` for supported providers)
+- **Option 2:** Or run with `AGENTIC_NO_LLM=1` (placeholder mode — no provider key needed) to explore the platform without setting up credentials. See [`docs/NO_LLM_MODE.md`](docs/NO_LLM_MODE.md) for details and scope limitations.
 
 ### Installation
 
@@ -352,7 +353,7 @@ npm install && npm run dev
 ### Running Tests
 
 ```bash
-# Runtime tests (78+ test files)
+# Runtime tests (100+ test files)
 cd agentic-workflows-v2
 pytest tests/ -v --cov=agentic_v2
 
