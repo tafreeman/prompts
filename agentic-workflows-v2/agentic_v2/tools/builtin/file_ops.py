@@ -13,23 +13,30 @@ from ...utils.path_safety import ensure_within_base
 from ..base import BaseTool, ToolResult
 
 # Base directory for path validation.  When ``AGENTIC_FILE_BASE_DIR`` is set
-# tools will reject any path that escapes it.  When unset, validation is
-# skipped (backwards-compatible with the pre-hardening behaviour).
+# tools will reject any path that escapes it.  When unset, all file operations
+# fail closed with a clear error directing the operator to configure the
+# sandbox root.
 _FILE_BASE_DIR: str | None = _get_settings().agentic_file_base_dir
 
 
 def _validate_path(path: str) -> Path:
     """Resolve and validate that *path* is within the configured base directory.
 
-    When ``AGENTIC_FILE_BASE_DIR`` is not set, this is a no-op and simply
-    resolves the path.
+    When ``AGENTIC_FILE_BASE_DIR`` is not set or empty, this function raises a
+    ``ValueError`` so that every file tool fails closed. Operators must set the
+    environment variable to a directory that agents are permitted to read and
+    write.
 
     Raises:
-        ValueError: If the path escapes the base directory.
+        ValueError: If ``AGENTIC_FILE_BASE_DIR`` is unset/empty, or the path
+            escapes the configured base directory.
     """
-    if _FILE_BASE_DIR:
-        return ensure_within_base(path, _FILE_BASE_DIR)
-    return Path(path).resolve()
+    if not _FILE_BASE_DIR:
+        raise ValueError(
+            "AGENTIC_FILE_BASE_DIR must be set to use file tools. "
+            "Set it to the directory agents are allowed to read and write."
+        )
+    return ensure_within_base(path, _FILE_BASE_DIR)
 
 
 class FileCopyTool(BaseTool):

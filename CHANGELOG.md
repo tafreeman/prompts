@@ -6,6 +6,15 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+### Security (Sprint 1 — Tool Safety & Silent Failures)
+
+- **S1-01 — Sanitization middleware fail-closed** — `server/middleware/__init__.py` now returns HTTP 400 on sanitization errors instead of silently passing unvalidated input downstream. Any unhandled exception in the sanitization pipeline is treated as a block, not a pass-through.
+- **S1-02 — File tools fail-closed without `AGENTIC_FILE_BASE_DIR`** — All six file tools (`FileReadTool`, `FileWriteTool`, `FileCopyTool`, `FileMoveTool`, `FileDeleteTool`, `DirectoryCreateTool`) reject operations with a clear error when `AGENTIC_FILE_BASE_DIR` is unset, preventing unintentional host filesystem access. `.env.example` updated with required operator guidance.
+- **S1-03 — `run_id` traversal test corpus** — Added parametrized tests covering path traversal, null-byte injection, and unicode normalization bypass attempts against the existing `run_id` validator.
+- **S1-04 — `_validate_ast` attribute-escape closed** — The expression evaluator's AST sandbox now rejects attribute access (`ast.Attribute` nodes) that could escape to `__class__.__mro__` chains or dunder traversal. Existing safe-expression corpus extended with adversarial fixtures.
+- **S1-05 — `ShellTool` allowlist replaces substring blocklist** — `AGENTIC_SHELL_ALLOWED_COMMANDS` env var (comma-separated command names) controls which executables `ShellTool` may run. When unset, all shell commands are disabled (fail-closed). Defeats double-space, absolute-path, uppercase, and fullwidth-unicode blocklist bypasses. `.env.example` entry added. `_SHELL_METACHARS` + `_split_command` preserved as a second safety layer.
+- **S1-06 — `CodeExecutionTool` sandbox hardened** — `__import__` replaced in the wrapper's `_safe_builtins` with a constrained importer that enforces the same `_DANGEROUS_IMPORTS` blocklist at runtime, closing `__import__('os')` bypass while preserving `import math` etc. `resource.setrlimit(RLIMIT_AS=512 MB, RLIMIT_NPROC=32)` added via `preexec_fn` on POSIX to prevent memory-bomb and fork-bomb DoS. Sandbox escape test corpus added.
+
 ### Documentation
 
 - **Architecture umbrella + roadmap + honesty docs** (commit `41bd0d8`) — new `docs/ARCHITECTURE.md` index linking the four existing `architecture-*.md` deep-dives (closes the broken `docs/README.md` reference); new `docs/ROADMAP.md` surfacing Epic 1/2/3/5/6 status, explicit Epic 4 tombstone, and proposed Epic 7 scope (closes the in-repo backlog gap flagged by the final review); new `docs/KNOWN_LIMITATIONS.md` documenting the 35 unresolved `agentic-v2-eval` mypy findings, the empty-window SLO trivial-pass, the schema-drift root-only blind spot, and the Python→TypeScript manual mirror; new `docs/MIGRATIONS.md` with first entries for the `presentation/` extraction, the `AgentProtocol.run` signature tightening, and the `langchain` adapter deprecation.

@@ -8,6 +8,8 @@ Covers:
 - Safe eval restrictions
 """
 
+from typing import Any
+
 import pytest
 from agentic_v2.contracts import StepResult, StepStatus
 from agentic_v2.engine.context import ExecutionContext
@@ -396,6 +398,118 @@ class TestExpressionEvaluatorSafety:
         evaluator = ExpressionEvaluator(ctx)
         assert evaluator.evaluate("${'a' in ctx.items}") is True
         assert evaluator.evaluate("${'z' in ctx.items}") is False
+
+
+# ---------------------------------------------------------------------------
+# Security corpus (Sprint 1 Ticket 04 — S1-04, Sec H4)
+#
+# Dunder traversal escape vectors: even with ``{"__builtins__": {}}`` an
+# attacker who can influence a ``${...}`` expression can potentially reach
+# ``object.__subclasses__()`` via ``x.__class__.__mro__[-1].__subclasses__()``
+# and instantiate already-loaded classes (e.g. ``subprocess.Popen``).  The
+# ``_validate_ast`` guard rejects any attribute or name starting with ``__``.
+# ---------------------------------------------------------------------------
+
+
+_DUNDER_TRAVERSAL_VECTORS = [
+    "${steps.x.__class__.__mro__[1].__subclasses__()}",
+    "${{}.__class__.__mro__[-1].__subclasses__()}",
+    "${().__class__.__base__}",
+    "${steps.x.__builtins__}",
+    "${steps.x.__globals__}",
+    "${x.__dict__}",
+    "${x.__init__.__globals__}",
+    "${ctx.__class__}",
+    "${ctx.__class__.__mro__}",
+    "${ctx.__class__.__mro__[-1].__subclasses__()}",
+    "${steps.x.__class__}",
+    "${ctx.__module__}",
+    "${coalesce.__globals__}",
+    "${type(x).__mro__}",
+    "${__import__('os')}",
+    "${__builtins__}",
+]
+
+
+@pytest.mark.security
+@pytest.mark.parametrize("expr", _DUNDER_TRAVERSAL_VECTORS)
+def test_dunder_traversal_rejected(expr: str) -> None:
+    """Dunder attribute / name access must raise ``ValueError``.
+
+    The check fires at AST validation, before ``eval()`` is reached —
+    so the rejection is independent of whether the target attribute
+    actually exists on any object in the evaluation environment.
+    """
+    ctx = ExecutionContext()
+    evaluator = ExpressionEvaluator(ctx)
+    # Extract the inner expression.  ``str.strip(chars)`` strips *any*
+    # combination of those chars from both ends — too aggressive when the
+    # payload itself starts with ``{`` (e.g. ``${{}.__class__...}``).  Use
+    # prefix/suffix removal instead to preserve internal braces.
+    inner = expr
+    if inner.startswith("${") and inner.endswith("}"):
+        inner = inner[2:-1]
+    with pytest.raises(
+        (ValueError, NameError),
+        match=r"[Dd]under|not allowed|Unsupported|not defined",
+    ):
+        evaluator._safe_eval(inner)
+
+
+@pytest.mark.security
+def test_open_not_in_namespace() -> None:
+    """Sanity check: ``open(...)`` is not available in the sandbox."""
+    ctx = ExecutionContext()
+    evaluator = ExpressionEvaluator(ctx)
+    with pytest.raises((NameError, ValueError)):
+        evaluator._safe_eval("open('/etc/passwd')")
+
+
+# Positive corpus — legitimate expressions that must continue to work.
+#
+# (expression, ctx_setup, expected_bool_or_sentinel)
+#
+# ``None`` for expected means "must not raise ValueError from AST validation"
+# — the result value is not asserted.
+_LEGITIMATE_EXPRESSIONS: list[tuple[str, dict[str, Any], Any]] = [
+    # dot-path resolution through steps namespace (missing → None)
+    ("${steps.parse.outputs.result}", {}, None),
+    # direct inputs access
+    ("${inputs.query}", {"inputs": {"query": "hello"}}, None),
+    # coalesce(...) call with dot-paths and a string literal fallback
+    (
+        "${coalesce(steps.missing.outputs.x, 'default')}",
+        {},
+        None,
+    ),
+    # arithmetic on attribute access
+    ("${ctx.x + 1}", {"x": 41}, None),
+    # boolean / not on step attribute
+    ("${not steps.x.failed}", {}, None),
+]
+
+
+@pytest.mark.security
+@pytest.mark.parametrize("expr,ctx_vars,_expected", _LEGITIMATE_EXPRESSIONS)
+def test_legitimate_expressions_not_broken(
+    expr: str, ctx_vars: dict, _expected: Any
+) -> None:
+    """Legitimate expressions (dot-path, coalesce, arithmetic) still work.
+
+    These expressions must pass AST validation.  Missing context keys
+    may produce ``None`` or ``_NullSafe`` sentinels but must never
+    trigger a ``ValueError`` from the safety whitelist.
+    """
+    ctx = ExecutionContext()
+    for key, value in ctx_vars.items():
+        ctx.set_sync(key, value)
+    evaluator = ExpressionEvaluator(ctx)
+    # Must not raise ValueError.  We call evaluate() (not _safe_eval
+    # directly) so that hybrid ``${...}`` substitution is also exercised.
+    try:
+        evaluator.evaluate(expr)
+    except ValueError:  # pragma: no cover — would indicate regression
+        pytest.fail(f"Legitimate expression rejected by AST guard: {expr!r}")
 
 
 class TestStepResultView:

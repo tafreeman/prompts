@@ -121,9 +121,14 @@ def build_github_model(model_name: str, temperature: float) -> Any:
             "Set it to a GitHub personal access token with 'models:read' scope."
         )
 
-    logger.debug("Using GitHub Models: %s", model_name)
+    # GitHub Models API accepts only the bare model name (e.g. "gpt-4o-mini").
+    # Strip the optional org/publisher prefix that callers may include,
+    # e.g. "openai/gpt-4o-mini" -> "gpt-4o-mini",
+    #      "meta/llama-4-scout"  -> "llama-4-scout".
+    api_model_name = model_name.split("/", 1)[-1] if "/" in model_name else model_name
+    logger.debug("Using GitHub Models: %s (requested: %s)", api_model_name, model_name)
     return ChatOpenAI(
-        model=model_name,
+        model=api_model_name,
         base_url=_GH_BASE_URL,
         api_key=token,
         temperature=temperature,

@@ -118,6 +118,20 @@ class CodeExecutionTool(BaseTool):
         "importlib",
     ]
 
+    _SAFE_ENV_KEYS = frozenset(
+        {
+            "PATH",
+            "PATHEXT",
+            "SYSTEMROOT",
+            "WINDIR",
+            "TEMP",
+            "TMP",
+            "TMPDIR",
+            "HOME",
+            "USERPROFILE",
+        }
+    )
+
     def _check_code_safety(self, code: str) -> str | None:
         """Return an error message if code is unsafe, else None."""
         if not self._sandbox:
@@ -152,9 +166,31 @@ class CodeExecutionTool(BaseTool):
 
         return None
 
+    @classmethod
+    def _subprocess_env(cls) -> dict[str, str]:
+        """Build a minimal environment for the sandbox child process."""
+        env = {
+            key: value
+            for key, value in os.environ.items()
+            if key.upper() in cls._SAFE_ENV_KEYS
+        }
+        env["PYTHONDONTWRITEBYTECODE"] = "1"
+        return env
+
     # ------------------------------------------------------------------
     # Execution
     # ------------------------------------------------------------------
+
+    @staticmethod
+    def _sandbox_preexec() -> None:
+        """Set resource limits in the sandbox child process (POSIX only)."""
+        import resource
+
+        # 512 MB virtual address space limit
+        _512MB = 512 * 1024 * 1024
+        resource.setrlimit(resource.RLIMIT_AS, (_512MB, _512MB))
+        # Max 32 child processes (blocks fork bombs)
+        resource.setrlimit(resource.RLIMIT_NPROC, (32, 32))
 
     async def execute(self, code: str, timeout: float = 30.0, **kwargs) -> ToolResult:
         """Execute Python code in a sandboxed subprocess."""
@@ -176,8 +212,8 @@ class CodeExecutionTool(BaseTool):
             _error = None
             try:
                 # Restrict __builtins__ — remove dangerous functions.
-                # NOTE: __import__ is kept because the AST-based safety check
-                # in _check_code_safety already blocks dangerous modules.
+                # __import__ is removed to defend against loader-traversal and
+                # bytecode-based escapes that bypass the AST-based pre-flight check.
                 import builtins as _builtins_mod
                 _safe_builtins = {{
                     k: v for k, v in vars(_builtins_mod).items()
@@ -185,9 +221,23 @@ class CodeExecutionTool(BaseTool):
                         "exec", "eval", "compile",
                         "breakpoint", "exit", "quit", "open",
                         "globals", "locals", "getattr", "setattr",
-                        "delattr",
+                        "delattr", "__import__",
                     }}
                 }}
+                # Add a constrained __import__ that enforces the same dangerous-module
+                # blocklist used by the AST pre-flight check. This allows `import math`
+                # while blocking `__import__("os")` and loader-traversal escapes.
+                _dangerous_mods = {self._DANGEROUS_IMPORTS!r}
+                _real_import = _builtins_mod.__import__
+
+                def _constrained_import(name, _g=None, _l=None, fromlist=(), level=0):
+                    if name.split(".")[0] in _dangerous_mods:
+                        raise ImportError(
+                            f"Import of '{{name}}' is not permitted in sandbox mode"
+                        )
+                    return _real_import(name, _g, _l, fromlist, level)
+
+                _safe_builtins["__import__"] = _constrained_import
                 _globals = {{"__builtins__": _safe_builtins}}
                 _code = {code!r}
                 exec(_code, _globals)
@@ -220,7 +270,10 @@ class CodeExecutionTool(BaseTool):
                     tmp_path,
                     stdout=asyncio.subprocess.PIPE,
                     stderr=asyncio.subprocess.PIPE,
-                    env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"},  # env-pass: subprocess env
+                    env=self._subprocess_env(),
+                    **(
+                        {"preexec_fn": self._sandbox_preexec} if os.name != "nt" else {}
+                    ),
                 )
                 stdout_bytes, stderr_bytes = await asyncio.wait_for(
                     proc.communicate(), timeout=timeout

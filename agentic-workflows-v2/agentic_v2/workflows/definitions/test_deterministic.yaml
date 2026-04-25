@@ -19,7 +19,7 @@ steps:
     agent: tier0_process
     description: Process input text (tier-0, no LLM)
     inputs:
-      text: ${workflow_inputs.input_text}
+      text: ${inputs.input_text}
     outputs:
       result: processed_text
 

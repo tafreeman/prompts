@@ -1,18 +1,57 @@
-# Agent Guidance
+# Repository Guidelines
 
-Repo-level map of agent surfaces and how they relate to the machine-loaded configuration under `.claude/`. Use this as the human-readable entrypoint before touching any agent files.
+## Project Structure & Module Organization
 
-## Surfaces
+This repository is a Python `uv` workspace with a React UI and shared tooling.
+Core runtime code lives in `agentic-workflows-v2/agentic_v2/`; its FastAPI,
+workflow, examples, scripts, and tests are under the same package directory.
+The dashboard is in `agentic-workflows-v2/ui/`. Evaluation tooling lives in
+`agentic-v2-eval/src/agentic_v2_eval/` with tests in `agentic-v2-eval/tests/`.
+Root-level shared utilities are in `tools/`, cross-package tests in `tests/`,
+and contributor documentation in `docs/`. Agent and automation surfaces are
+tracked in `.claude/` and `.github/agents/`.
 
-- **`.claude/`** — Canonical, machine-loaded config. See `.claude/README.md` for layout (rules, commands, skills, agents) and loading precedence. Keep behavioral standards here.
-- **`CLAUDE.md`** — Environment expectations (PowerShell-first), repo overview, and developer workflows for humans and agents.
-- **`.github/copilot-instructions.md`** — Copilot-facing summary; keep aligned with `.claude/rules/` when content overlaps.
-- **Subproject notes** — The presentation system was extracted to `c:\Users\tandf\source\present` (April 2026).
-- **Optional GitHub agents** — `.github/agents/` exists for Copilot agent surfaces; when updating, mirror canonical rules from `.claude/` instead of inventing new ones.
+## Build, Test, and Development Commands
 
-## Usage
+Run commands from the repository root unless noted.
 
-1. Start with `.claude/rules/` for behavioral constraints, then consult `.claude/commands/` and `.claude/skills/` for orchestrated flows.
-2. Use this `AGENTS.md` and `CLAUDE.md` to understand repo-wide expectations (platforms, tooling, coding standards).
-3. Keep subproject-specific guidance close to the code (e.g., `decks-generated/CLAUDE.md`) and link back to `.claude/rules/` rather than duplicating content.
-4. When adding a new agent surface, document it here and inside its directory with a short README describing how it is loaded and what rules it honors.
+- `just setup` creates `.venv`, installs editable Python packages, and installs UI dependencies.
+- `just test` runs runtime, eval, E2E, and UI test suites.
+- `just docs` validates documentation references.
+- `just dev` starts the backend and Vite UI; `just dev-stop` stops them.
+- `pre-commit run --all-files` runs formatting, linting, docs formatting, and secret checks.
+- `npm --prefix agentic-workflows-v2/ui run build` type-checks and builds the UI.
+
+## Coding Style & Naming Conventions
+
+Python targets 3.11, uses 88-column formatting, and is formatted by Black,
+isort, Ruff, and docformatter. Add type hints to new public functions and keep
+imports explicit. Python modules and functions use `snake_case`; classes use
+`PascalCase`. UI code uses TypeScript, React 19, Vite, and Tailwind; prefer
+component names in `PascalCase` and hooks/utilities in `camelCase`.
+
+## Testing Guidelines
+
+Use `pytest` for Python tests and Vitest/Playwright for UI tests. Name Python
+tests `test_*.py` and keep tests near their package (`agentic-workflows-v2/tests/`,
+`agentic-v2-eval/tests/`, or root `tests/e2e/`). Coverage floors are 80% for
+Python packages and 60% for the UI. For UI-only changes, run
+`npm --prefix agentic-workflows-v2/ui test` and, when relevant,
+`npm --prefix agentic-workflows-v2/ui run test:e2e`.
+
+## Commit & Pull Request Guidelines
+
+Use Conventional Commits: `<type>(<scope>): <subject>`, for example
+`fix(server): paginate dataset sample endpoints`. Common types are `feat`,
+`fix`, `docs`, `test`, `refactor`, `chore`, `ci`, and `perf`. Branch from
+`main` with names like `feature/...`, `fix/...`, `docs/...`, or `chore/...`.
+PRs should cover one concern, include summary/changes/testing sections, link
+issues when applicable, update docs and `CHANGELOG.md` for user-visible changes,
+and include screenshots for UI changes.
+
+## Security & Configuration Tips
+
+Never commit `.env`, tokens, or provider keys; use `.env.example` as the
+template. Runtime secrets should flow through the project secret helpers rather
+than direct environment access. Run `pre-commit run --all-files` before pushing
+so `detect-secrets` can catch accidental credentials.

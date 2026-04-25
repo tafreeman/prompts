@@ -355,6 +355,10 @@ runs/
 
 # Run logs (PIDs, etc.)
 agentic-workflows-v2/.run-logs/
+agentic-workflows-v2/ui/coverage/
+.coverage
+coverage.xml
+htmlcov/
 
 # Deep research reports (generated output)
 reports/deep-research/

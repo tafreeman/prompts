@@ -38,7 +38,7 @@ def _step_label(step) -> str:
     if step.agent:
         label += f" [dim]({step.agent})[/dim]"
     if step.depends_on:
-        label += f" \u2190 {step.depends_on}"
+        label += f" <- {step.depends_on}"
     return label
 
 

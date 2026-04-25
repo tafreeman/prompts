@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import os
+
 import pytest
 from agentic_v2.tools.builtin.code_execution import CodeExecutionTool
 
@@ -165,3 +167,27 @@ class TestCodeExecution:
         assert "Python" in tool.description
         assert tool.tier == 0
         assert len(tool.examples) > 0
+
+
+class TestSandboxEscapeCorpus:
+    """Regression tests for sandbox escape vectors (S1-06)."""
+
+    async def test_import_via_import_builtin_blocked(self) -> None:
+        """__import__('os') must not succeed in sandbox."""
+        tool = CodeExecutionTool(sandbox=True)
+        result = await tool.execute(
+            "result = __import__('os').getcwd()",
+            timeout=10.0,
+        )
+        # Either blocked at safety check or fails at runtime — must not succeed
+        assert not result.success or result.data.get("result") is None
+
+    @pytest.mark.skipif(os.name == "nt", reason="RLIMIT_AS not available on Windows")
+    async def test_memory_bomb_timeout(self) -> None:
+        """Memory allocation exceeding RLIMIT_AS must fail (POSIX only)."""
+        tool = CodeExecutionTool(sandbox=True)
+        result = await tool.execute(
+            "x = 'A' * (600 * 1024 * 1024)",  # 600 MB string — exceeds 512 MB limit
+            timeout=5.0,
+        )
+        assert not result.success

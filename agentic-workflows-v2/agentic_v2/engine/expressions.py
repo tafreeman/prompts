@@ -418,11 +418,20 @@ class ExpressionEvaluator:
         """Reject any AST node not in the safety whitelist.
 
         Permits: comparisons, boolean/arithmetic ops, constants, names,
-        attribute access, subscripts, containers (list/tuple/dict), and
-        function calls (restricted to ``coalesce`` at eval time).
+        attribute access (non-dunder), subscripts, containers
+        (list/tuple/dict), and function calls (restricted to ``coalesce``
+        at eval time).
 
         Raises:
-            ValueError: If any node type is outside the whitelist.
+            ValueError: If any node type is outside the whitelist, or if
+                any attribute / name access uses a dunder identifier
+                (``__...``) — blocks escape vectors like
+                ``x.__class__.__mro__[-1].__subclasses__()`` even when
+                ``__builtins__`` is empty.
+
+        See:
+            ``.full-review`` Sprint 1 Ticket 04 (S1-04), Sec H4 of the
+            final review — dunder traversal escape closure.
         """
         allowed_nodes = (
             ast.Expression,
@@ -464,6 +473,26 @@ class ExpressionEvaluator:
             if not isinstance(child, allowed_nodes):
                 raise ValueError(
                     f"Unsupported expression element: {type(child).__name__}"
+                )
+            # Block dunder attribute access: prevents the
+            # ``__class__.__mro__[-1].__subclasses__()`` traversal that
+            # can reach ``subprocess.Popen`` and other loaded classes
+            # even when ``__builtins__`` is empty.  ``__class__`` is
+            # resolved via the type's C-level slot, bypassing
+            # ``_SafeNamespace.__getattr__``, so a name-based guard
+            # is required in addition to the empty-builtins sandbox.
+            if isinstance(child, ast.Attribute) and child.attr.startswith("__"):
+                raise ValueError(
+                    "Dunder attribute access is not allowed in expressions: "
+                    f"{child.attr!r}"
+                )
+            # Block dunder name references (e.g. bare ``__builtins__``,
+            # ``__import__``) — these would also not resolve with an
+            # empty builtins dict, but rejecting them at AST validation
+            # produces a clearer error and closes future leak channels.
+            if isinstance(child, ast.Name) and child.id.startswith("__"):
+                raise ValueError(
+                    f"Dunder name reference is not allowed in expressions: {child.id!r}"
                 )
 
     def _to_namespace(self, obj: Any) -> Any:

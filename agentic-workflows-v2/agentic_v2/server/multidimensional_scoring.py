@@ -45,9 +45,15 @@ logger = logging.getLogger(__name__)
 # Public constants
 # ---------------------------------------------------------------------------
 
-#: Dimension names — single source of truth in ci_calculator; re-exported here
-#: for backward compatibility with existing imports from this module.
-from ..workflows.lib.ci_calculator import RESEARCH_DIMENSIONS
+#: Dimension names used by the multidimensional scoring engine.
+#: Previously imported from workflows.lib.ci_calculator (now removed).
+RESEARCH_DIMENSIONS: tuple[str, ...] = (
+    "coverage",
+    "source_quality",
+    "agreement",
+    "verification",
+    "recency",
+)
 
 #: CI tiebreaker weights — used ONLY inside ``coalesce()`` best-of-N ranking.
 #: Per ADR-007 §4.3 these are provisional; equal weights may be substituted.

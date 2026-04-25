@@ -509,12 +509,22 @@ class WorkflowLoader:
 
             when_func = _make_condition(raw_expr)
 
-        # Parse loop_max — must be a positive integer
+        # Parse loop_max — must resolve to a positive integer.
+        # Values may be a literal int/str OR a ${...} expression that will be
+        # evaluated at run-time.  Expressions are stored as-is and resolved by
+        # the executor; literals are coerced immediately.
         loop_max_raw = data.get("loop_max", 3)
-        try:
-            loop_max = max(1, int(loop_max_raw))
-        except (TypeError, ValueError):
-            loop_max = 3
+        loop_max_expr: str | None = None
+        if isinstance(loop_max_raw, str) and loop_max_raw.strip().startswith("${"):
+            # Runtime expression — defer resolution; store sentinel 0 as a
+            # signal for the executor to evaluate and clamp to >= 1.
+            loop_max = 0
+            loop_max_expr = loop_max_raw.strip()
+        else:
+            try:
+                loop_max = max(1, int(loop_max_raw))
+            except (TypeError, ValueError):
+                loop_max = 3
 
         return StepDefinition(
             name=name,
@@ -528,6 +538,9 @@ class WorkflowLoader:
             metadata={
                 "agent": data.get("agent"),
                 "when_expr": when_expr,
+                # When loop_max was a ${...} expression, store it so the
+                # executor can resolve it at runtime (loop_max==0 is the signal).
+                "loop_max_expr": loop_max_expr,
                 # Optional: override the agent persona prompt file, e.g.
                 #   prompt_file: coder.md
                 # Must be a filename relative to prompts/ directory.

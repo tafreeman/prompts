@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+import importlib
+
 import pytest
+from agentic_v2.tools.builtin import file_ops as _file_ops
 from agentic_v2.tools.builtin.file_ops import (
     DirectoryCreateTool,
     FileCopyTool,
@@ -20,6 +23,29 @@ from agentic_v2.tools.builtin.transform import (
     YamlDumpTool,
     YamlLoadTool,
 )
+
+
+@pytest.fixture(autouse=True)
+def _scoped_file_base_dir(request, tmp_path, monkeypatch):
+    """File tools now fail-closed when AGENTIC_FILE_BASE_DIR is unset (S1-02).
+
+    Scoped to file-tool test classes only — transform/yaml/json tests
+    don't need the env var. Uses monkeypatch.setattr on the module-level
+    _FILE_BASE_DIR because that global is read at runtime by
+    _validate_path; module reload would leave already-imported tool
+    classes bound to the stale global.
+    """
+    file_tool_classes = {
+        "TestFileCopyTool",
+        "TestFileWriteReadTools",
+        "TestDirectoryCreateTool",
+        "TestFileMoveTool",
+        "TestFileDeleteTool",
+    }
+    owner = request.cls.__name__ if request.cls else ""
+    if owner not in file_tool_classes:
+        return
+    monkeypatch.setattr(_file_ops, "_FILE_BASE_DIR", str(tmp_path))
 
 
 class TestFileCopyTool:

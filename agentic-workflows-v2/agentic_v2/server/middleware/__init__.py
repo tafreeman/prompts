@@ -2,13 +2,26 @@
 
 from __future__ import annotations
 
+import json
 import logging
+import os
 
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 
 logger = logging.getLogger(__name__)
+
+_FAIL_OPEN_ENV_VAR = "AGENTIC_SANITIZER_FAIL_OPEN"
+
+
+def _fail_open_enabled() -> bool:
+    """Return True when the operator has explicitly opted into fail-open behavior."""
+    return os.environ.get(_FAIL_OPEN_ENV_VAR, "").strip().lower() in {
+        "1",
+        "true",
+        "yes",
+    }
 
 
 class SanitizationASGIMiddleware(BaseHTTPMiddleware):
@@ -23,6 +36,14 @@ class SanitizationASGIMiddleware(BaseHTTPMiddleware):
         * ``clean`` / ``requires_approval`` — pass through unmodified.
         * ``redacted`` — replace the request body with the sanitized text.
         * ``blocked`` — return HTTP 422 immediately.
+
+    Fail-closed behavior:
+        On any unexpected detector exception, the middleware returns HTTP 500
+        with ``{"detail": "Internal sanitization error"}`` rather than passing
+        the request through unsanitized. Recoverable body-decode errors
+        (``UnicodeDecodeError`` / ``json.JSONDecodeError``) are logged and
+        similarly fail-closed. Set ``AGENTIC_SANITIZER_FAIL_OPEN=1`` to
+        temporarily restore legacy fail-open behavior (not recommended).
     """
 
     async def dispatch(self, request: Request, call_next):  # type: ignore[override]
@@ -36,6 +57,24 @@ class SanitizationASGIMiddleware(BaseHTTPMiddleware):
 
         try:
             body_bytes = await request.body()
+        except (UnicodeDecodeError, json.JSONDecodeError):
+            logger.exception("Sanitization middleware: body decode error")
+            if _fail_open_enabled():
+                return await call_next(request)
+            return JSONResponse(
+                status_code=400,
+                content={"detail": "Malformed request body"},
+            )
+        except Exception:
+            logger.exception("Sanitization middleware error — request rejected")
+            if _fail_open_enabled():
+                return await call_next(request)
+            return JSONResponse(
+                status_code=500,
+                content={"detail": "Internal sanitization error"},
+            )
+
+        try:
             body_text = body_bytes.decode("utf-8", errors="replace")
             result = await sanitizer.process(body_text, {"source": "api_request"})
 
@@ -58,6 +97,12 @@ class SanitizationASGIMiddleware(BaseHTTPMiddleware):
 
                 request = Request(request.scope, receive)
         except Exception:
-            logger.exception("Sanitization middleware error — passing request through")
+            logger.exception("Sanitization middleware error — request rejected")
+            if _fail_open_enabled():
+                return await call_next(request)
+            return JSONResponse(
+                status_code=500,
+                content={"detail": "Internal sanitization error"},
+            )
 
         return await call_next(request)

@@ -3,10 +3,32 @@
 from __future__ import annotations
 
 import asyncio
+import os
+import shlex
 from pathlib import Path
 from typing import Any
 
 from ..base import BaseTool, ToolResult
+
+_SHELL_METACHARS = frozenset({"|", "&", ";", "<", ">", "`", "$(", "${", "\n", "\r"})
+
+
+def _split_command(command: str) -> list[str]:
+    """Return argv for a simple command while refusing shell syntax."""
+    if any(token in command for token in _SHELL_METACHARS):
+        raise ValueError(
+            "Shell metacharacters are not supported; use shell_exec args instead"
+        )
+    return shlex.split(command, posix=os.name != "nt")
+
+
+def _load_shell_allowlist() -> frozenset[str] | None:
+    """Return the set of allowed command basenames, or None if env var is
+    unset/empty."""
+    raw = os.environ.get("AGENTIC_SHELL_ALLOWED_COMMANDS", "").strip()
+    if not raw:
+        return None
+    return frozenset(name.strip().lower() for name in raw.split(",") if name.strip())
 
 
 class ShellTool(BaseTool):
@@ -69,36 +91,16 @@ class ShellTool(BaseTool):
     ) -> ToolResult:
         """Execute shell command."""
         try:
-            # Expanded security checks — block dangerous patterns
-            dangerous_patterns = [
-                "rm -rf /",
-                "rm -r -f /",
-                "rm -rf /*",
-                ":(){ :|:& };:",
-                "mkfs",
-                "dd if=",
-                "> /dev/sd",
-                "chmod -r 777 /",
-                "chmod -R 777 /",
-                "curl ",
-                "wget ",
-                "nc -l",
-                "ncat ",
-                "/dev/tcp/",
-                "python -c",
-                "python3 -c",
-                "perl -e",
-                "ruby -e",
-                "base64 -d",
-                "eval ",
-                "bash -i",
-                "sh -i",
-            ]
-            cmd_lower = command.lower()
-            if any(pattern in cmd_lower for pattern in dangerous_patterns):
+            # Load allowlist — fail-closed when env var is unset
+            allowed = _load_shell_allowlist()
+            if allowed is None:
                 return ToolResult(
                     success=False,
-                    error="Command contains potentially dangerous operations and was blocked",
+                    error=(
+                        "Shell commands are disabled. "
+                        "Set AGENTIC_SHELL_ALLOWED_COMMANDS to a comma-separated list "
+                        "of permitted command names (e.g. 'ls,cat,python')."
+                    ),
                 )
 
             # Verify working directory
@@ -108,10 +110,29 @@ class ShellTool(BaseTool):
                     success=False, error=f"Working directory does not exist: {cwd}"
                 )
 
-            # Execute command
+            try:
+                cmd_list = _split_command(command)
+            except ValueError as exc:
+                return ToolResult(success=False, error=str(exc))
+
+            if not cmd_list:
+                return ToolResult(success=False, error="Command must not be empty")
+
+            # Allowlist check: compare the resolved executable basename
+            exe = Path(cmd_list[0]).stem.lower()  # .stem strips .exe on Windows
+            if exe not in allowed:
+                return ToolResult(
+                    success=False,
+                    error=(
+                        f"Command '{exe}' is not in the shell allowlist. "
+                        f"Add it to AGENTIC_SHELL_ALLOWED_COMMANDS to permit it."
+                    ),
+                )
+
+            # Execute command without a shell so user input cannot be reinterpreted.
             if capture_output:
-                process = await asyncio.create_subprocess_shell(
-                    command,
+                process = await asyncio.create_subprocess_exec(
+                    *cmd_list,
                     stdout=asyncio.subprocess.PIPE,
                     stderr=asyncio.subprocess.PIPE,
                     cwd=str(cwd_path),
@@ -150,8 +171,8 @@ class ShellTool(BaseTool):
 
             else:
                 # Fire and forget mode
-                process = await asyncio.create_subprocess_shell(
-                    command, cwd=str(cwd_path)
+                process = await asyncio.create_subprocess_exec(
+                    *cmd_list, cwd=str(cwd_path)
                 )
 
                 return ToolResult(

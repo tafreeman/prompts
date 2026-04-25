@@ -21,6 +21,8 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import os
+import shlex
 import time
 from typing import TYPE_CHECKING
 
@@ -39,6 +41,17 @@ from ..models.client import TokenBudget
 from .context import ExecutionContext
 
 logger = logging.getLogger(__name__)
+
+_SHELL_METACHARS = frozenset({"|", "&", ";", "<", ">", "`", "$(", "${", "\n", "\r"})
+
+
+def _split_verification_command(cmd: str) -> list[str]:
+    """Split a verification command without invoking a shell."""
+    if any(token in cmd for token in _SHELL_METACHARS):
+        raise ValueError(
+            f"Shell metacharacters are not supported in verification command: {cmd!r}"
+        )
+    return shlex.split(cmd, posix=os.name != "nt")
 
 
 class VerificationGate:
@@ -89,8 +102,18 @@ class VerificationGate:
 
         Returns ``-1`` on timeout.
         """
-        proc = await asyncio.create_subprocess_shell(
-            cmd,
+        try:
+            argv = _split_verification_command(cmd)
+        except ValueError as exc:
+            logger.warning("%s", exc)
+            return -1
+
+        if not argv:
+            logger.warning("Empty verification command")
+            return -1
+
+        proc = await asyncio.create_subprocess_exec(
+            *argv,
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.PIPE,
         )
