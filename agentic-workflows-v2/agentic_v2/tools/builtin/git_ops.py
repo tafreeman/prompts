@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from ..base import BaseTool, ToolResult
+from ..subprocess_utils import minimal_subprocess_env
 
 
 class GitTool(BaseTool):
@@ -92,6 +93,7 @@ class GitTool(BaseTool):
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.PIPE,
                 cwd=str(cwd_path),
+                env=minimal_subprocess_env(),
             )
 
             stdout, stderr = await process.communicate()

@@ -46,6 +46,20 @@ class TestCodeSafetyChecker:
         assert result is not None
         assert "pathlib.Path(" in result
 
+    def test_sys_modules_access_blocked(self) -> None:
+        """sys.modules access is blocked in sandbox mode."""
+        tool = CodeExecutionTool(sandbox=True)
+        result = tool._check_code_safety("x = sys.modules['os']")
+        assert result is not None
+        assert "sys.modules" in result
+
+    def test_loader_access_blocked(self) -> None:
+        """__loader__ access is blocked in sandbox mode."""
+        tool = CodeExecutionTool(sandbox=True)
+        result = tool._check_code_safety("x = builtins.__loader__")
+        assert result is not None
+        assert "__loader__" in result
+
     def test_safe_code_passes(self) -> None:
         """Regular math code passes safety check."""
         tool = CodeExecutionTool(sandbox=True)
@@ -181,6 +195,17 @@ class TestSandboxEscapeCorpus:
         )
         # Either blocked at safety check or fails at runtime — must not succeed
         assert not result.success or result.data.get("result") is None
+
+    async def test_loader_traversal_escape_blocked(self) -> None:
+        """sys.modules loader traversal must be blocked by pattern scan."""
+        tool = CodeExecutionTool(sandbox=True)
+        result = await tool.execute(
+            "import sys\n"
+            "result = sys.modules['builtins'].__loader__.load_module('os').getcwd()",
+            timeout=10.0,
+        )
+        assert not result.success
+        assert "sys.modules" in result.error or "Blocked" in result.error
 
     @pytest.mark.skipif(os.name == "nt", reason="RLIMIT_AS not available on Windows")
     async def test_memory_bomb_timeout(self) -> None:

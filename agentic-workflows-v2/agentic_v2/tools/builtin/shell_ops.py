@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any
 
 from ..base import BaseTool, ToolResult
+from ..subprocess_utils import minimal_subprocess_env
 
 _SHELL_METACHARS = frozenset({"|", "&", ";", "<", ">", "`", "$(", "${", "\n", "\r"})
 
@@ -136,6 +137,7 @@ class ShellTool(BaseTool):
                     stdout=asyncio.subprocess.PIPE,
                     stderr=asyncio.subprocess.PIPE,
                     cwd=str(cwd_path),
+                    env=minimal_subprocess_env(),
                 )
 
                 try:
@@ -172,7 +174,9 @@ class ShellTool(BaseTool):
             else:
                 # Fire and forget mode
                 process = await asyncio.create_subprocess_exec(
-                    *cmd_list, cwd=str(cwd_path)
+                    *cmd_list,
+                    cwd=str(cwd_path),
+                    env=minimal_subprocess_env(),
                 )
 
                 return ToolResult(
@@ -254,6 +258,7 @@ class ShellExecTool(BaseTool):
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.PIPE,
                 cwd=str(cwd_path),
+                env=minimal_subprocess_env(),
             )
 
             try:

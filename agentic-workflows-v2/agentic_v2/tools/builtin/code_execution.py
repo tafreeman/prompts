@@ -116,6 +116,8 @@ class CodeExecutionTool(BaseTool):
         "pathlib.Path(",  # file I/O via pathlib
         "__import__",
         "importlib",
+        "sys.modules",
+        "__loader__",
     ]
 
     _SAFE_ENV_KEYS = frozenset(
