@@ -41,14 +41,12 @@ class DAGExecutor:
 
     Attributes:
         _step_executor: Delegate that handles single-step execution
-            (input mapping, retry, timeout, hooks).
-        _state_manager: Tracks ``PENDING → READY → RUNNING → SUCCESS``
-            (or FAILED/SKIPPED) transitions per step.
+            (input mapping, retry, timeout, hooks).  Shared across calls;
+            must itself be concurrency-safe (stateless between executions).
     """
 
     def __init__(self, step_executor: StepExecutor | None = None):
         self._step_executor = step_executor or StepExecutor()
-        self._state_manager = StepStateManager()
 
     async def execute(
         self,
@@ -109,8 +107,9 @@ class DAGExecutor:
         max_concurrency: int,
     ) -> WorkflowResult:
         """Internal DAG scheduling loop (separated for OTEL span instrumentation)."""
-        # Fresh state manager per execution to avoid cross-run pollution
-        self._state_manager = StepStateManager()
+        # Local per-execution state manager — safe for concurrent calls on the
+        # same DAGExecutor instance (e.g. NativeEngine reuses one executor).
+        state_manager = StepStateManager()
 
         result = WorkflowResult(
             workflow_id=ctx.workflow_id,
@@ -139,7 +138,7 @@ class DAGExecutor:
 
         async def run_step(step_name: str) -> tuple[str, StepResult]:
             """Execute a single step and return its name + result tuple."""
-            self._state_manager.transition(step_name, StepState.RUNNING)
+            state_manager.transition(step_name, StepState.RUNNING)
             if on_update:
                 await on_update(
                     {
@@ -164,7 +163,7 @@ class DAGExecutor:
             result.add_step(step_result)
             completed.add(step_name)
             skipped.add(step_name)
-            self._state_manager.set_state(step_name, StepState.SKIPPED)
+            state_manager.set_state(step_name, StepState.SKIPPED)
             # Mark as complete in ctx so downstream should_run() dependency
             # checks pass.  Skipped steps are logically "done" — they just
             # didn't produce output.
@@ -197,7 +196,7 @@ class DAGExecutor:
 
                 running.add(step_name)
                 # Move state to READY before spawning task
-                self._state_manager.transition(step_name, StepState.READY)
+                state_manager.transition(step_name, StepState.READY)
                 tasks.add(asyncio.create_task(run_step(step_name), name=step_name))
 
             # 2. Deadlock detection
@@ -264,16 +263,16 @@ class DAGExecutor:
 
                 # 4. Handle step outcome
                 if step_result.status == StepStatus.SUCCESS:
-                    self._state_manager.transition(step_name, StepState.SUCCESS)
+                    state_manager.transition(step_name, StepState.SUCCESS)
                 elif step_result.status == StepStatus.SKIPPED:
-                    self._state_manager.transition(step_name, StepState.SKIPPED)
+                    state_manager.transition(step_name, StepState.SKIPPED)
                     # Skipped via should_run() (condition not met).  Mark
                     # complete in ctx so downstream dependencies can proceed.
                     if step_name not in ctx.completed_steps:
                         ctx.completed_steps.append(step_name)
                     skipped.add(step_name)
                 else:
-                    self._state_manager.transition(step_name, StepState.FAILED)
+                    state_manager.transition(step_name, StepState.FAILED)
 
                 # 5. Failure propagation
                 # If a step fails, we must skip all steps that depend on it.

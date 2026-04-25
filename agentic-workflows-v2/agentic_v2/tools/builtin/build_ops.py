@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import Any
 
 from ..base import BaseTool, ToolResult
+from ..subprocess_utils import minimal_subprocess_env
 
 
 def _truncate(text: str, limit: int = 8000) -> str:
@@ -161,6 +162,7 @@ class BuildAppTool(BaseTool):
                 cwd=str(cwd),
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.PIPE,
+                env=minimal_subprocess_env(),
             )
         else:
             args = shlex.split(command)
@@ -169,6 +171,7 @@ class BuildAppTool(BaseTool):
                 cwd=str(cwd),
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.PIPE,
+                env=minimal_subprocess_env(),
             )
         try:
             stdout, stderr = await asyncio.wait_for(proc.communicate(), timeout=timeout)
