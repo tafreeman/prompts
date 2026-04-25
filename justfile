@@ -16,7 +16,7 @@ venv:
 setup: venv
     & "{{venv_python}}" -m pip install --upgrade pip
     & "{{venv_python}}" -m pip install -e .
-    & "{{venv_python}}" -m pip install -e "./agentic-workflows-v2[dev,server,tracing]"
+    & "{{venv_python}}" -m pip install -e "./agentic-workflows-v2[dev,server,langchain,tracing]"
     & "{{venv_python}}" -m pip install -e "./agentic-v2-eval[dev]"
     npm --prefix agentic-workflows-v2/ui install
 

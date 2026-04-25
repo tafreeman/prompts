@@ -45,7 +45,7 @@ Planned additions:
   CI uses `GITHUB_TOKEN` + `models: read` to reach GitHub Models. Locally,
   set `GITHUB_TOKEN`, `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, or any other
   supported provider key before running `npm run test:e2e`. True
-  placeholder / no-LLM mode is not yet implemented (tracked separately).
+  placeholder / no-LLM mode is available through `AGENTIC_NO_LLM=1`; provider-backed E2E still validates real model integration separately.
 
 ## CI
 

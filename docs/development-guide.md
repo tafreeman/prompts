@@ -166,9 +166,38 @@ GEMINI_API_KEY=your_gemini_key          # Free tier available
 
 ## Running Development Servers
 
-Two terminal sessions are required to run the full stack locally.
+### ⚡ One-Click Start (Windows — recommended)
 
-### Terminal 1 — Backend
+From the **repo root**, run one command that starts both the backend and frontend:
+
+```powershell
+.\agentic-workflows-v2\scripts\start-dev.ps1 -BackendPort 8010 -FrontendPort 5173 -ApiProxyTarget "http://127.0.0.1:8010"
+```
+
+Wait for the output:
+
+```
+Backend:  http://127.0.0.1:8010
+Frontend: http://127.0.0.1:5173
+```
+
+Then open **http://localhost:5173** in a browser.
+
+To stop all dev servers:
+
+```powershell
+.\agentic-workflows-v2\scripts\stop-dev.ps1
+```
+
+Logs are written to `agentic-workflows-v2/.run-logs/` (`backend.out.log`, `backend.err.log`, `frontend.out.log`).
+
+---
+
+### Manual Start (two terminals)
+
+If you prefer separate terminals for easier log visibility:
+
+#### Terminal 1 — Backend
 
 ```bash
 cd agentic-workflows-v2
@@ -183,7 +212,7 @@ Verify the backend is running:
 curl http://localhost:8010/api/health
 ```
 
-### Terminal 2 — Frontend
+#### Terminal 2 — Frontend
 
 ```bash
 cd agentic-workflows-v2/ui

@@ -80,7 +80,7 @@ Collect tests without running them -- this confirms imports work and pytest can 
 python -m pytest agentic-workflows-v2/tests/ -q --co
 ```
 
-You should see output like `N tests collected` (on the order of 1500 as of 2026-04-22). For the full local gate, run `just test` from the repo root.
+You should see output like `N tests collected` (on the order of 2000+ as of 2026-04-22). For the full local gate, run `just test` from the repo root.
 
 ### 5. List available workflows
 
@@ -405,7 +405,7 @@ npm run dev
 
 Open [http://localhost:5173](http://localhost:5173) in your browser. You should see:
 
-- **Workflow list** -- all 10 YAML-defined workflows
+- **Workflow list** -- 6 YAML-defined workflows
 - **Workflow graph** -- React Flow DAG visualization of steps and dependencies
 - **Execution panel** -- run workflows and see real-time streaming results
 - **Evaluations page** -- view evaluation results and scoring

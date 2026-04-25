@@ -5,6 +5,7 @@ import WorkflowsPage from "./pages/WorkflowsPage";
 import WorkflowDetailPage from "./pages/WorkflowDetailPage";
 import WorkflowEditorPage from "./pages/WorkflowEditorPage";
 import RunDetailPage from "./pages/RunDetailPage";
+import RunsPage from "./pages/RunsPage";
 import LivePage from "./pages/LivePage";
 import { isWorkflowBuilderEnabled } from "./config/featureFlags";
 import DatasetsPage from "./pages/DatasetsPage";
@@ -34,6 +35,7 @@ export default function App() {
           <Route path="/workflows/:name" element={<WorkflowDetailPage />} />
           <Route path="/datasets" element={<DatasetsPage />} />
           <Route path="/evaluations" element={<EvaluationsPage />} />
+          <Route path="/runs" element={<RunsPage />} />
           <Route path="/runs/:filename" element={<RunDetailPage />} />
           <Route path="/live/:runId" element={<LivePage />} />
           <Route path="*" element={<NotFoundPage />} />

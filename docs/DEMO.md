@@ -57,14 +57,14 @@ agentic run code_review \
   --input agentic-workflows-v2/tests/fixtures/code_review_input.json \
   --verbose
 
-# option B: review a real file
-mkdir -p examples
-cat > examples/hello.json <<'EOF'
+# option B: review a real file (PowerShell)
+New-Item -ItemType Directory -Force examples | Out-Null
+@'
 {
   "code_file": "agentic-workflows-v2/agentic_v2/cli/main.py",
   "review_depth": "quick"
 }
-EOF
+'@ | Set-Content examples/hello.json
 agentic run code_review --input examples/hello.json --verbose
 ```
 

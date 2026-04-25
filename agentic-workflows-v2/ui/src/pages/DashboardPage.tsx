@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Plus } from "lucide-react";
 import { useRuns, useRunsSummary } from "../hooks/useRuns";
 import { useWorkflows } from "../hooks/useWorkflows";
@@ -105,6 +105,7 @@ function StatCard({
 }
 
 export default function DashboardPage() {
+  const navigate = useNavigate();
   const { data: summary } = useRunsSummary();
   const { data: runs } = useRuns();
   const { data: workflows } = useWorkflows();
@@ -200,7 +201,11 @@ export default function DashboardPage() {
           aria-label="Filter runs"
           className="h-5 w-36 bg-transparent font-mono text-[11px] text-b-text placeholder:text-b-text-dim focus:outline-none focus:placeholder:text-b-text-faint focus:ring-0"
         />
-        <button className="btn-primary">
+        <button
+          type="button"
+          onClick={() => navigate("/workflows")}
+          className="btn-primary"
+        >
           <Plus className="h-3 w-3" />
           <span>[n] new run</span>
         </button>
