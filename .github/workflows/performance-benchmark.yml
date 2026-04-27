@@ -148,7 +148,7 @@ jobs:
           echo "No prior benchmark-baseline artifact found. Skipping regression check for this run." >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload benchmark results artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: benchmark-results-${{ github.run_id }}
           path: benchmark_results.json
@@ -156,7 +156,7 @@ jobs:
 
       - name: Refresh baseline artifact on main
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: benchmark-baseline
           path: benchmark_results.json
