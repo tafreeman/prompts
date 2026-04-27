@@ -21,7 +21,7 @@ jobs:
       REGRESSION_THRESHOLD_PCT: ${{ inputs.max_regression_percent || 20 }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up Python
         uses: actions/setup-python@v5
