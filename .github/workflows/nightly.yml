@@ -25,7 +25,7 @@ jobs:
 
       # Pinned to 22.12 because `--experimental-strip-types` requires >=22.6
       # and a bare "22" can resolve to 22.0-22.5 on a cold runner cache.
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: "22.12"
           cache: "npm"
