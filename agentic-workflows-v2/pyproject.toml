@@ -45,7 +45,7 @@ server = [
     "python-multipart>=0.0.6,<1",
 ]
 langchain = [
-    "langchain-core>=0.3,<0.4",
+    "langchain-core>=0.3,<1.4",
     "langgraph>=0.2,<0.3",
     "langchain>=0.3,<0.4",
     "langchain-openai>=0.2,<0.3",
