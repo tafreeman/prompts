@@ -499,3 +499,15 @@ docs/screenshots/b-redesign/15-dashboard-paper-populated.png
 docs/screenshots/b-redesign/16-evaluations-dark-populated.png
 docs/screenshots/b-redesign/17-dashboard-bolt-populated.png
 .claude/worktrees/
+
+# Generated deck system — output of the presentation pipeline, not source
+decks-generated/
+
+# AI-assisted sprint review artifacts — internal tooling, not user-facing docs
+.full-review/
+
+# Presentation theme scripts — extracted to tafreeman/present repo (April 2026)
+presentation/
+
+# Planning artifacts — internal sprint docs, not part of the public API surface
+planning-artifacts/

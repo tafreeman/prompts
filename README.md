@@ -1,8 +1,8 @@
 <div align="center">
 
-# Agentic Workflows
+# Agentic Runtimes — Labs & Examples
 
-**A production-grade multi-agent AI workflow engine with DAG-based execution, tiered model routing, YAML-defined workflows, and rubric-based LLM evaluation.**
+**Development sandbox, runnable examples, and research companion to [agentic-runtimes](https://github.com/tafreeman/agentic-runtimes).**
 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
@@ -12,19 +12,68 @@
 
 </div>
 
+> **Note:** The production runtime lives at [tafreeman/agentic-runtimes](https://github.com/tafreeman/agentic-runtimes).
+> This repo is where new features are prototyped, security sprints are run, and example code is maintained before promotion upstream.
+
+---
+
+## What this repo is for
+
+Three things that don't belong in the main repo but need a home:
+
+**1. Runnable examples** — Six self-contained scripts covering every major API surface: pipeline building, RAG, custom agents, model routing, evaluation, and adapter switching. Each runs without API keys in no-LLM mode and is commented for onboarding use.
+
+**2. Security and tooling sprints** — Hardening work (tool safety, sanitization, sandbox escapes, subprocess env isolation) is prototyped and fully tested here before being upstreamed. Sprint 1 (S1-01 through S1-07) was completed in this repo.
+
+**3. Research library** — Curated source registry, approved domains, and reference material used to gate evaluation outputs (`coverage_score >= 0.80`, `source_quality_score >= 0.80`).
+
+---
+
+## Quick start — examples
+
+```bash
+# Install the runtime in dev mode (from agentic-workflows-v2/)
+pip install -e ".[dev,server]"
+
+# Install the eval package (from agentic-v2-eval/)
+pip install -e ".[dev]"
+
+# Run any example — no API keys needed
+python examples/01_hello_workflow.py
+python examples/02_rag_pipeline.py
+python examples/03_custom_agent.py
+python examples/04_model_routing.py
+python examples/05_evaluation.py
+python examples/06_adapter_switching.py
+```
+
+| Example | What it covers |
+|---------|---------------|
+| `01_hello_workflow.py` | `StepDefinition`, `PipelineBuilder`, `PipelineExecutor`, `ExecutionContext` |
+| `02_rag_pipeline.py` | Full RAG: chunk, embed, store, hybrid retrieve (dense + BM25 + RRF), assemble |
+| `03_custom_agent.py` | Subclass `BaseAgent`, typed I/O, event handlers, agent lifecycle |
+| `04_model_routing.py` | `ModelRouter`, `FallbackChain` DSL, `SmartModelRouter` with circuit breakers |
+| `05_evaluation.py` | `Scorer`, built-in rubrics, multi-run comparison |
+| `06_adapter_switching.py` | `AdapterRegistry`, DAG vs pipeline execution semantics |
+
+---
+
+## Relationship to agentic-runtimes
+
+```
+agentic-runtimes (production)     prompts / labs (this repo)
+--------------------------------  --------------------------------
+Reviewed, tagged releases         Active sprint work
+Clean docs/ARCHITECTURE.md        Planning artifacts, retros
+No generated output               Research library, run outputs
+Pinned deps, CI green             Experimental dependency bumps
+```
+
+Changes flow one direction: prototype here, upstream when stable.
+
 ---
 
 ## Overview
-
-Agentic Workflows is a framework for orchestrating multi-agent AI pipelines where each agent occupies a specific role (planner, researcher, coder, reviewer) and operates at a defined capability tier. Workflows are authored as declarative YAML files and compiled into executable DAGs with automatic parallel scheduling, conditional branching, iterative loops, and failure cascade propagation.
-
-The system solves three core problems in production AI orchestration:
-
-1. **Scheduling complexity** — Real-world agent pipelines have diamond dependencies, conditional execution, and iterative refinement loops. A linear pipeline can't express "run two analysts in parallel, then merge results only if a confidence threshold is met." A DAG with Kahn's algorithm can.
-
-2. **Model reliability** — Any single LLM endpoint can rate-limit, timeout, or fail. The tiered routing system maps each workflow step to a capability tier (not a specific model), then resolves to the best available model at runtime with health-weighted selection, adaptive cooldowns, and circuit breaker patterns.
-
-3. **Evaluation rigor** — "Does the output look good?" isn't a scoring methodology. The evaluation framework uses YAML-defined rubrics with weighted criteria, multidimensional scoring across coverage/quality/agreement/verification/recency dimensions, and LLM-as-judge integration for subjective quality assessment.
 
 ---
 
