@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BMAD Method Explorer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/lucide-react@latest/dist/umd/lucide-react.js"></script>
+  <style>
+    @keyframes fade-in-up {
+      from { opacity: 0; transform: translateY(1rem); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .animate-in { animation: fade-in-up 0.4s ease-out both; }
+    .fade-in, .slide-in-from-bottom-4, .slide-in-from-top-2 { /* consumed by animate-in above */ }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #1e293b; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #475569; border-radius: 3px; }
+  </style>
+</head>
+<body class="bg-slate-50">
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState } = React;
+    const {
+      BrainCircuit, FileText, Code2, CheckSquare, Users,
+      ArrowRight, ShieldCheck, Layers, GitMerge, FileOutput,
+      MessageSquareCode, Settings, RefreshCcw, Sparkles, Wand2, Loader2, PlayCircle, Activity
+    } = lucideReact;
+
+// --- Data Models ---
+
+const phases = [
+  {
+    id: 1,
+    name: "Analysis",
+    status: "Optional",
+    icon: <BrainCircuit className="w-6 h-6" />,
+    description: "Explore the problem space and validate ideas before committing to planning.",
+    agents: ["Analyst (Mary)"],
+    artifacts: ["project-brief.md", "brainstorming-report.md", "Research findings"],
+    activities: ["Brainstorming", "Market/Domain Research", "PRFAQ Challenge"]
+  },
+  {
+    id: 2,
+    name: "Planning",
+    status: "Required",
+    icon: <FileText className="w-6 h-6" />,
+    description: "Define exactly what to build and for whom using detailed requirements.",
+    agents: ["Product Manager (John)", "UX Designer (Sally)"],
+    artifacts: ["PRD.md", "ux-spec.md"],
+    activities: ["Define Functional & Non-Functional Requirements", "Design User Experience"]
+  },
+  {
+    id: 3,
+    name: "Solutioning",
+    status: "Required (Complex)",
+    icon: <Layers className="w-6 h-6" />,
+    description: "Decide how to build it technically and break work into consumable stories.",
+    agents: ["Architect (Winston)", "Product Owner"],
+    artifacts: ["architecture.md", "Sharded Epic Files"],
+    activities: ["System Design", "Technical ADRs", "Implementation Readiness Check", "Epic Sharding"]
+  },
+  {
+    id: 4,
+    name: "Implementation",
+    status: "Required",
+    icon: <Code2 className="w-6 h-6" />,
+    description: "Context-engineered execution. Build it, one story at a time with strict guardrails.",
+    agents: ["Scrum Master (Bob)", "Developer (Amelia)", "QA Engineer (Quinn)"],
+    artifacts: ["story-[slug].md", "Working Source Code", "QA Sign-off Reports"],
+    activities: ["Story Drafting", "Code Generation", "Code Review", "QA Validation"]
+  }
+];
+
+const agents = [
+  {
+    role: "The Analyst",
+    name: "Mary",
+    icon: <BrainCircuit className="w-8 h-8 text-purple-500" />,
+    focus: "Market research, ideation, and project briefs.",
+    outputs: "Project Briefs, Research Docs",
+    color: "border-purple-200 bg-purple-50"
+  },
+  {
+    role: "The Product Manager",
+    name: "John",
+    icon: <FileText className="w-8 h-8 text-blue-500" />,
+    focus: "Requirements gathering (FRs/NFRs) and product specs.",
+    outputs: "PRD.md",
+    color: "border-blue-200 bg-blue-50"
+  },
+  {
+    role: "The Architect",
+    name: "Winston",
+    icon: <Settings className="w-8 h-8 text-slate-600" />,
+    focus: "System design, technical stack, and data flow.",
+    outputs: "architecture.md",
+    color: "border-slate-200 bg-slate-50"
+  },
+  {
+    role: "The Scrum Master",
+    name: "Bob",
+    icon: <CheckSquare className="w-8 h-8 text-amber-500" />,
+    focus: "Breaks epics into hyper-detailed implementation stories.",
+    outputs: "story-[slug].md",
+    color: "border-amber-200 bg-amber-50"
+  },
+  {
+    role: "The Developer",
+    name: "Amelia",
+    icon: <MessageSquareCode className="w-8 h-8 text-emerald-500" />,
+    focus: "Writes code strictly within constraints of the story and architecture.",
+    outputs: "Source Code, Unit Tests",
+    color: "border-emerald-200 bg-emerald-50"
+  },
+  {
+    role: "The QA Engineer",
+    name: "Quinn",
+    icon: <ShieldCheck className="w-8 h-8 text-red-500" />,
+    focus: "Comprehensive quality validation and edge-case hunting.",
+    outputs: "Traceability Matrix, Test Scripts",
+    color: "border-red-200 bg-red-50"
+  }
+];
+
+// --- Components ---
+
+const TabButton = ({ active, onClick, children, icon }) => (
+  <button
+    onClick={onClick}
+    className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
+      active 
+        ? 'bg-blue-600 text-white shadow-md' 
+        : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200'
+    }`}
+  >
+    {icon}
+    <span>{children}</span>
+  </button>
+);
+
+const WorkflowAnimation = () => {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      if (!isHovered) {
+        setCurrentStep((prev) => (prev + 1) % 6);
+      }
+    }, 4000); // Increased to 4 seconds to allow reading
+    return () => clearInterval(timer);
+  }, [isHovered]);
+
+  const flowSteps = [
+    { 
+      id: 0, role: "Business / User", action: "Has a vague Idea", 
+      inputs: "Random thoughts, Slack message",
+      questions: "What do we want to build?",
+      outputs: '"Hey, we need a Slack bot that replies to mentions with AI-generated images of chonky gray cats."',
+      color: "text-slate-500", bg: "bg-slate-100", border: "border-slate-300",
+      lightBg: "bg-white"
+    },
+    { 
+      id: 1, role: "Analyst (Mary)", action: "Explores Constraints & Validates", 
+      inputs: "User Request: 'Gray Cat Slack Bot'",
+      questions: "Is this technically feasible? What is the business value? (Team morale, exploring new AI SDKs).",
+      outputs: "project-brief.md (Defines target audience: Internal workspace, Core value: Morale)",
+      color: "text-purple-600", bg: "bg-purple-50", border: "border-purple-400",
+      lightBg: "bg-purple-100/50"
+    },
+    { 
+      id: 2, role: "Product Manager (John)", action: "Defines FRs & NFRs", 
+      inputs: "project-brief.md",
+      questions: "What exactly must it do? (Reply to @mentions). What is OUT of scope? (No dogs, no audio). NFRs? (Response latency < 3s).",
+      outputs: "PRD.md (Strict requirements & boundary definitions)",
+      color: "text-blue-600", bg: "bg-blue-50", border: "border-blue-400",
+      lightBg: "bg-blue-100/50"
+    },
+    { 
+      id: 3, role: "Architect (Winston)", action: "System & Data Design", 
+      inputs: "PRD.md",
+      questions: "What is the tech stack? How do we integrate the Vercel AI SDK with the Slack Events API securely?",
+      outputs: "architecture.md (Golang, Vercel AI SDK, Serverless Cloud Function)",
+      color: "text-slate-700", bg: "bg-slate-100", border: "border-slate-400",
+      lightBg: "bg-slate-200/50"
+    },
+    { 
+      id: 4, role: "Scrum Master (Bob)", action: "Shards Epics into Stories", 
+      inputs: "PRD.md + architecture.md",
+      questions: "How do I break this monolithic design into 1-day tasks? Task 1: Slack Auth. Task 2: Image Gen logic.",
+      outputs: "story-slack-auth.md, story-image-gen.md",
+      color: "text-amber-600", bg: "bg-amber-50", border: "border-amber-400",
+      lightBg: "bg-amber-100/50"
+    },
+    { 
+      id: 5, role: "Developer (Amelia)", action: "Context-Engineered Execution", 
+      inputs: "story-image-gen.md + architecture.md",
+      questions: "What is the exact image prompt required? Are there strict interfaces I must follow to satisfy the Architect's design?",
+      outputs: "image_gen.go + image_gen_test.go (Working, testable code)",
+      color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-400",
+      lightBg: "bg-emerald-100/50"
+    }
+  ];
+
+  return (
+    <div 
+      className="max-w-2xl mx-auto py-4"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className="text-center mb-8 h-12">
+        <p className="text-slate-500 text-sm mt-2 transition-opacity duration-300">
+          {isHovered ? (
+            <span className="text-amber-600 font-semibold flex items-center justify-center gap-2">
+              ⏸ Animation Paused (Hovering)
+            </span>
+          ) : (
+            "BMAD works like a relay race. Watch how the context (the baton) is passed from agent to agent. (Hover to pause)"
+          )}
+        </p>
+      </div>
+      <div className="relative border-l-4 border-slate-200 ml-6 space-y-6 pb-4">
+        {flowSteps.map((step, index) => {
+          const isActive = currentStep === index;
+          const isPast = currentStep > index;
+          return (
+            <div key={index} className={`relative pl-8 transition-all duration-700 ${isActive ? 'opacity-100 scale-105' : isPast ? 'opacity-60' : 'opacity-30'}`}>
+              {/* Node on the timeline */}
+              <div className={`absolute -left-3.5 top-3 w-6 h-6 rounded-full border-4 border-white shadow-sm transition-colors duration-500 ${isActive ? 'bg-blue-500 animate-pulse' : isPast ? 'bg-slate-400' : 'bg-slate-200'}`}></div>
+              
+              {/* Content Card */}
+              <div className={`p-5 rounded-xl border-2 transition-all duration-500 ${isActive ? `${step.border} shadow-xl ${step.bg} z-10 relative` : 'border-transparent bg-white shadow-sm'}`}>
+                <div className="flex justify-between items-center mb-1">
+                  <span className={`font-bold text-lg ${isActive ? step.color : 'text-slate-600'}`}>{step.role}</span>
+                  {isActive && <Activity className={`w-5 h-5 ${step.color} animate-bounce`} />}
+                </div>
+                <p className="text-sm font-medium text-slate-600 mb-2">{step.action}</p>
+                
+                {/* Expanded details shown only when active */}
+                <div className={`overflow-hidden transition-all duration-500 ${isActive ? 'max-h-96 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}>
+                  <div className="space-y-3">
+                    
+                    {/* Input */}
+                    <div className={`p-3 rounded-lg border border-white/50 shadow-sm ${step.lightBg}`}>
+                      <span className="text-[10px] uppercase tracking-wider font-bold text-slate-500 block mb-1 flex items-center gap-1">
+                        📥 Receives Input
+                      </span>
+                      <code className="text-xs font-mono text-slate-700 bg-white/60 px-2 py-1 rounded shadow-inner block w-fit">
+                        {step.inputs}
+                      </code>
+                    </div>
+
+                    {/* Questions/Reasoning */}
+                    <div className={`p-3 rounded-lg border border-white/50 shadow-sm ${step.lightBg}`}>
+                      <span className="text-[10px] uppercase tracking-wider font-bold text-slate-500 block mb-1 flex items-center gap-1">
+                        🤔 Questions Evaluated
+                      </span>
+                      <p className="text-sm text-slate-800 italic border-l-2 border-slate-300 pl-2">
+                        "{step.questions}"
+                      </p>
+                    </div>
+
+                    {/* Output */}
+                    <div className={`p-3 rounded-lg border border-white/50 shadow-sm ${step.lightBg}`}>
+                      <span className="text-[10px] uppercase tracking-wider font-bold text-slate-500 block mb-1 flex items-center gap-1">
+                        📤 Generates Output
+                      </span>
+                      <code className={`text-sm font-mono font-bold px-2 py-1 rounded shadow-sm border bg-white block w-fit ${step.color} border-current/20`}>
+                        {step.outputs}
+                      </code>
+                    </div>
+
+                  </div>
+                </div>
+
+                {/* Minimized view for inactive past steps */}
+                {!isActive && isPast && (
+                  <div className="inline-block mt-2 px-3 py-1 text-xs font-mono rounded bg-slate-100 text-slate-500">
+                    ↳ Generated: {step.outputs}
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+function App() {
+  const [activeTab, setActiveTab] = useState('overview');
+  const [workbenchInput, setWorkbenchInput] = useState('');
+  const [workbenchOutput, setWorkbenchOutput] = useState('');
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [apiError, setApiError] = useState(null);
+  const [activeAgentId, setActiveAgentId] = useState('mary'); // Start from the beginning
+  const [sessionHistory, setSessionHistory] = useState([]); // Track conversation context
+  const [showSettings, setShowSettings] = useState(false);
+  const [apiSettings, setApiSettings] = useState({
+    provider: 'openai',
+    endpoint: 'http://localhost:11434/v1/chat/completions',
+    apiKey: '',
+    model: 'llama3.2'
+  });
+
+  const workbenchAgents = {
+    mary: {
+      id: 'mary',
+      name: 'Mary (Analyst)',
+      icon: <BrainCircuit className="w-5 h-5" />,
+      bg: 'bg-purple-500', hover: 'hover:bg-purple-600', text: 'text-purple-600', border: 'border-purple-500', lightBg: 'bg-purple-50',
+      placeholder: "Describe a vague problem, market need, or app idea...",
+      buttonText: "Analyze & Draft Brief", artifactName: "project-brief.md",
+      systemPrompt: "You are Mary, the strict BMAD Analyst. Do not hallucinate missing business details. Output your response in two parts:\n\n### ❓ Clarifying Questions\nAsk 3 critical questions to uncover the target audience, constraints, and true business value. Format each question as a multiple-choice question where the final option is a fill-in-the-blank (e.g., 'd) Other: _________').\n\n### 📝 Draft project-brief.md\nCreate a draft containing: 1. Executive Summary 2. Target Audience 3. Business Value & Goals 4. High-level Constraints. Use placeholders if details are missing. Respond ONLY with markdown.",
+      nextAgents: ['john']
+    },
+    john: {
+      id: 'john',
+      name: 'John (PM)',
+      icon: <FileText className="w-5 h-5" />,
+      bg: 'bg-blue-500', hover: 'hover:bg-blue-600', text: 'text-blue-600', border: 'border-blue-500', lightBg: 'bg-blue-50',
+      placeholder: "Paste a Project Brief here to generate a PRD...",
+      buttonText: "Evaluate & Write PRD", artifactName: "PRD.md",
+      systemPrompt: "You are John, the strict BMAD Product Manager. Do not hallucinate requirements. Output your response in two parts:\n\n### ❓ Clarifying Questions\nAsk specific questions about missing Functional (FRs), Non-Functional Requirements (NFRs), or Out-of-Scope boundaries. Format each question as a multiple-choice question where the final option is a fill-in-the-blank (e.g., 'd) Other: _________').\n\n### 📝 Draft PRD.md\nDraft a PRD based ONLY on known facts. Include: 1. Core User Flows 2. FRs 3. NFRs 4. Strict Out-of-Scope boundaries. Respond ONLY with markdown.",
+      nextAgents: ['winston', 'quinn']
+    },
+    winston: {
+      id: 'winston',
+      name: 'Winston (Architect)',
+      icon: <Settings className="w-5 h-5" />,
+      bg: 'bg-slate-700', hover: 'hover:bg-slate-800', text: 'text-slate-700', border: 'border-slate-700', lightBg: 'bg-slate-100',
+      placeholder: "Paste a PRD or feature idea here to generate an architecture spec...",
+      buttonText: "Review & Design Arch", artifactName: "architecture.md",
+      systemPrompt: "You are Winston, the strict BMAD Architect. Do not hallucinate technical decisions. Output your response in two parts:\n\n### ❓ Clarifying Questions\nAsk about expected scale, security constraints, integration limits, or existing infrastructure. Format each question as a multiple-choice question where the final option is a fill-in-the-blank (e.g., 'd) Other: _________').\n\n### 📝 Draft architecture.md\nInclude: 1. Recommended Tech Stack 2. Data Models / Schema 3. System Data Flow 4. Key Technical Constraints and ADRs. Respond ONLY with markdown.",
+      nextAgents: ['bob', 'quinn']
+    },
+    bob: {
+      id: 'bob',
+      name: 'Bob (Scrum Master)',
+      icon: <CheckSquare className="w-5 h-5" />,
+      bg: 'bg-amber-500', hover: 'hover:bg-amber-600', text: 'text-amber-600', border: 'border-amber-500', lightBg: 'bg-amber-50',
+      placeholder: "Paste an Architecture doc or PRD to shard into stories...",
+      buttonText: "Interrogate & Refine Story", artifactName: "story-[slug].md",
+      systemPrompt: "You are Bob, the strict BMAD Scrum Master. Do not hallucinate acceptance criteria. Output your response in two parts:\n\n### ❓ Clarifying Questions\nAsk about edge cases, error states, or unclear logic in the input that would block a developer. Format each question as a multiple-choice question where the final option is a fill-in-the-blank (e.g., 'd) Other: _________').\n\n### 📝 Draft story-[slug].md\nInclude: 1. Title and slug 2. Context 3. Strict Boundaries (What is OUT of scope) 4. Step-by-step Acceptance Criteria. Respond ONLY with markdown.",
+      nextAgents: ['amelia', 'quinn']
+    },
+    amelia: {
+      id: 'amelia',
+      name: 'Amelia (Developer)',
+      icon: <MessageSquareCode className="w-5 h-5" />,
+      bg: 'bg-emerald-500', hover: 'hover:bg-emerald-600', text: 'text-emerald-600', border: 'border-emerald-500', lightBg: 'bg-emerald-50',
+      placeholder: "Paste a story-[slug].md here to execute context-engineered coding...",
+      buttonText: "Ask & Generate Code", artifactName: "implementation.js",
+      systemPrompt: "You are Amelia, the strict BMAD Developer. Do not hallucinate features not explicitly in the story. Output your response in two parts:\n\n### ❓ Clarifying Questions\nAsk about missing technical details, API formats, or unclear acceptance criteria. Format each question as a multiple-choice question where the final option is a fill-in-the-blank (e.g., 'd) Other: _________').\n\n### 📝 Draft Implementation\nProvide the code inside markdown code blocks. Add inline comments explicitly mapping code lines to the acceptance criteria.",
+      nextAgents: ['quinn']
+    },
+    quinn: {
+      id: 'quinn',
+      name: 'Quinn (QA)',
+      icon: <ShieldCheck className="w-5 h-5" />,
+      bg: 'bg-rose-500', hover: 'hover:bg-rose-600', text: 'text-rose-600', border: 'border-rose-500', lightBg: 'bg-rose-50',
+      placeholder: "Paste any artifact (PRD, Arch, Story, or Code) here for an Adversarial Review...",
+      buttonText: "Hunt Edge Cases", artifactName: "test-plan.md",
+      systemPrompt: "You are Quinn, the meticulous BMAD QA Engineer. Output your response in two parts:\n\n### ❓ Adversarial Questions\nInterrogate the PM or Developer about potential loopholes, unhandled errors, or vague requirements you found in their artifact. Format each question as a multiple-choice question where the final option is a fill-in-the-blank (e.g., 'd) Other: _________').\n\n### 📝 Draft test-plan.md\nInclude: 1. 5 Critical Edge Cases to test 2. Security and Performance vulnerabilities. Respond ONLY with markdown.",
+      nextAgents: ['bob', 'amelia']
+    }
+  };
+
+  const handleGenerateArtifact = async () => {
+    if (!workbenchInput.trim()) return;
+    
+    setIsGenerating(true);
+    setApiError(null);
+    
+    const activeAgent = workbenchAgents[activeAgentId];
+    
+    // Append the new user message to the ongoing conversation history
+    const newUserMessage = { role: "user", parts: [{ text: workbenchInput }] };
+    const currentHistory = [...sessionHistory, newUserMessage];
+
+    const fetchWithRetry = async (retries = 5, delay = 1000) => {
+      try {
+        let url = apiSettings.endpoint;
+        let headers = { 'Content-Type': 'application/json' };
+        let body;
+
+        // Build Payload based on Selected Provider Format
+        if (apiSettings.provider === 'gemini') {
+          url = url || `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent`;
+          // Append API key query param if provided
+          if (apiSettings.apiKey) {
+             url = url.includes('?') ? `${url}&key=${apiSettings.apiKey}` : `${url}?key=${apiSettings.apiKey}`;
+          }
+          
+          body = JSON.stringify({
+            contents: currentHistory,
+            systemInstruction: { parts: [{ text: activeAgent.systemPrompt }] }
+          });
+          
+        } else {
+          // Universal OpenAI Compatible Format (works for OpenAI, Groq, LMStudio, Ollama, etc.)
+          url = url || 'https://api.openai.com/v1/chat/completions';
+          if (apiSettings.apiKey) {
+            headers['Authorization'] = `Bearer ${apiSettings.apiKey}`;
+          }
+          
+          // Map Gemini history format to OpenAI messages format
+          const messages = [
+            { role: 'system', content: activeAgent.systemPrompt },
+            ...currentHistory.map(msg => ({
+              role: msg.role === 'model' ? 'assistant' : 'user',
+              content: msg.parts[0].text
+            }))
+          ];
+          
+          body = JSON.stringify({
+            model: apiSettings.model || 'gpt-4o',
+            messages: messages
+          });
+        }
+
+        const res = await fetch(url, { method: 'POST', headers, body });
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        const data = await res.json();
+        
+        // Extract text based on Provider Format
+        if (apiSettings.provider === 'gemini') {
+          return data.candidates?.[0]?.content?.parts?.[0]?.text || "No response generated.";
+        } else {
+          return data.choices?.[0]?.message?.content || "No response generated.";
+        }
+        
+      } catch (e) {
+        if (retries > 0) {
+          await new Promise(r => setTimeout(r, delay));
+          return fetchWithRetry(retries - 1, delay * 2);
+        }
+        throw e;
+      }
+    };
+
+    try {
+      const result = await fetchWithRetry();
+      setWorkbenchOutput(result);
+      // Save the model's response to the history so it remembers its own questions
+      setSessionHistory([...currentHistory, { role: "model", parts: [{ text: result }] }]);
+      setWorkbenchInput(''); // Clear the input box so the user can easily reply
+    } catch (err) {
+      console.error(err);
+      setApiError(`Oops! ${activeAgent.name} is currently unavailable. Check your Custom LLM Settings or network.`);
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const switchAgent = (agentId) => {
+    setActiveAgentId(agentId);
+    setSessionHistory([]); // Reset conversation history for the new agent
+    setWorkbenchOutput('');
+  };
+
+  const passBaton = (nextAgentId) => {
+    // Extract JUST the markdown artifact, stripping out the clarifying questions
+    let artifactOnly = workbenchOutput;
+    if (workbenchOutput.includes('### 📝 Draft')) {
+      const parts = workbenchOutput.split('### 📝 Draft');
+      artifactOnly = parts[1].replace(/.*?\n/, '').trim(); // Strip the title line and get the core content
+    }
+    
+    setWorkbenchInput(artifactOnly);
+    setWorkbenchOutput('');
+    setSessionHistory([]); // Reset history because we are starting fresh with a new agent
+    setActiveAgentId(nextAgentId);
+  };
+
+  const activeAgent = workbenchAgents[activeAgentId];
+
+  return (
+    <div className="min-h-screen bg-slate-50 text-slate-800 p-4 md:p-8 font-sans">
+      
+      {/* Header */}
+      <header className="max-w-5xl mx-auto mb-8 text-center">
+        <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-4">
+          BMAD Method <span className="text-blue-600">Explorer</span>
+        </h1>
+        <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto">
+          An interactive guide to the Breakthrough Method for Agile AI Driven Development. 
+          Move beyond "vibe coding" with spec-driven, agentic AI engineering.
+        </p>
+      </header>
+
+      {/* Navigation Tabs */}
+      <nav className="max-w-5xl mx-auto flex flex-wrap justify-center gap-3 mb-8">
+        <TabButton active={activeTab === 'overview'} onClick={() => setActiveTab('overview')} icon={<BrainCircuit className="w-5 h-5"/>}>
+          Overview
+        </TabButton>
+        <TabButton active={activeTab === 'phases'} onClick={() => setActiveTab('phases')} icon={<RefreshCcw className="w-5 h-5"/>}>
+          The 4 Phases
+        </TabButton>
+        <TabButton active={activeTab === 'agents'} onClick={() => setActiveTab('agents')} icon={<Users className="w-5 h-5"/>}>
+          AI Personas
+        </TabButton>
+        <TabButton active={activeTab === 'artifacts'} onClick={() => setActiveTab('artifacts')} icon={<FileOutput className="w-5 h-5"/>}>
+          Artifact Flow
+        </TabButton>
+        <TabButton active={activeTab === 'workflow'} onClick={() => setActiveTab('workflow')} icon={<PlayCircle className="w-5 h-5 text-blue-500"/>}>
+          Animated Flow
+        </TabButton>
+        <TabButton active={activeTab === 'workbench'} onClick={() => setActiveTab('workbench')} icon={<Sparkles className="w-5 h-5 text-purple-500"/>}>
+          ✨ AI Workbench
+        </TabButton>
+      </nav>
+
+      {/* Main Content Area */}
+      <main className="max-w-5xl mx-auto bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-10 min-h-[500px]">
+        
+        {/* --- TAB: OVERVIEW --- */}
+        {activeTab === 'overview' && (
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-8">
+            <div className="grid md:grid-cols-2 gap-8 items-center">
+              <div>
+                <h2 className="text-2xl font-bold mb-4 text-slate-800">What is BMAD?</h2>
+                <p className="text-slate-600 mb-4 leading-relaxed">
+                  BMAD is a structured, open-source framework that replaces chaotic AI prompting (often called "vibe coding") 
+                  with a disciplined, multi-agent agile workflow. It treats AI as a team of specialized personas rather than a single chatbot.
+                </p>
+                <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
+                  <p className="text-sm text-blue-800 font-medium">
+                    "BMAD reframes delivery as an agent-orchestrated flow that always produces explicit artifacts... all under version control."
+                  </p>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 gap-4">
+                <div className="p-4 border border-slate-100 bg-slate-50 rounded-xl flex items-start space-x-4">
+                  <div className="bg-emerald-100 p-2 rounded-lg text-emerald-600"><CheckSquare className="w-6 h-6" /></div>
+                  <div>
+                    <h3 className="font-semibold text-slate-800">Agentic Planning</h3>
+                    <p className="text-sm text-slate-600">Specialized AI agents create detailed specs (PRDs, Architecture) before any code is written.</p>
+                  </div>
+                </div>
+                <div className="p-4 border border-slate-100 bg-slate-50 rounded-xl flex items-start space-x-4">
+                  <div className="bg-purple-100 p-2 rounded-lg text-purple-600"><Layers className="w-6 h-6" /></div>
+                  <div>
+                    <h3 className="font-semibold text-slate-800">Context-Engineered Dev</h3>
+                    <p className="text-sm text-slate-600">AI developers only write code based on hyper-detailed stories, eliminating hallucinations and "black box" code.</p>
+                  </div>
+                </div>
+                <div className="p-4 border border-slate-100 bg-slate-50 rounded-xl flex items-start space-x-4">
+                  <div className="bg-rose-100 p-2 rounded-lg text-rose-600"><ShieldCheck className="w-6 h-6" /></div>
+                  <div>
+                    <h3 className="font-semibold text-slate-800">Governance & Traceability</h3>
+                    <p className="text-sm text-slate-600">Every decision, requirement, and artifact is version-controlled, providing an auditable trail for enterprises.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* --- TAB: PHASES --- */}
+        {activeTab === 'phases' && (
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <h2 className="text-2xl font-bold mb-8 text-center text-slate-800">The Agile Lifecycle</h2>
+            <div className="relative">
+              {/* Vertical connecting line for desktop */}
+              <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-1 bg-blue-100 transform -translate-x-1/2"></div>
+              
+              <div className="space-y-8">
+                {phases.map((phase, index) => (
+                  <div key={phase.id} className={`relative flex flex-col md:flex-row items-center ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
+                    {/* Circle Node */}
+                    <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-12 h-12 bg-blue-600 text-white rounded-full items-center justify-center font-bold shadow-lg z-10 border-4 border-white">
+                      {phase.id}
+                    </div>
+                    
+                    {/* Card */}
+                    <div className={`w-full md:w-5/12 p-6 rounded-2xl border ${phase.id === 4 ? 'border-emerald-200 bg-emerald-50/30' : 'border-slate-200 bg-white'} shadow-sm hover:shadow-md transition-shadow`}>
+                      <div className="flex justify-between items-start mb-3">
+                        <div className="flex items-center space-x-3">
+                          <div className={`p-2 rounded-lg ${phase.id === 4 ? 'bg-emerald-100 text-emerald-700' : 'bg-blue-100 text-blue-700'}`}>
+                            {phase.icon}
+                          </div>
+                          <h3 className="text-xl font-bold text-slate-800">Phase {phase.id}: {phase.name}</h3>
+                        </div>
+                        <span className="text-xs font-semibold px-2 py-1 bg-slate-100 text-slate-500 rounded-full">{phase.status}</span>
+                      </div>
+                      <p className="text-slate-600 mb-4">{phase.description}</p>
+                      
+                      <div className="space-y-3">
+                        <div>
+                          <h4 className="text-xs uppercase tracking-wider text-slate-400 font-bold mb-1">Agents Active</h4>
+                          <div className="flex flex-wrap gap-2">
+                            {phase.agents.map(a => <span key={a} className="text-xs bg-slate-100 px-2 py-1 rounded text-slate-700 font-medium">{a}</span>)}
+                          </div>
+                        </div>
+                        <div>
+                          <h4 className="text-xs uppercase tracking-wider text-slate-400 font-bold mb-1">Key Artifacts</h4>
+                          <div className="flex flex-wrap gap-2">
+                            {phase.artifacts.map(a => <span key={a} className="text-xs bg-blue-50 text-blue-700 border border-blue-100 px-2 py-1 rounded">{a}</span>)}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* --- TAB: AGENTS --- */}
+        {activeTab === 'agents' && (
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <h2 className="text-2xl font-bold mb-2 text-center text-slate-800">The Virtual AI Team</h2>
+            <p className="text-center text-slate-500 mb-8 max-w-2xl mx-auto">
+              BMAD uses specialized Agent-as-Code personas. Rather than one generic assistant, you pass work from one expert to another, resetting context each time.
+            </p>
+            
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {agents.map((agent, idx) => (
+                <div key={idx} className={`p-6 rounded-2xl border ${agent.color} shadow-sm hover:-translate-y-1 transition-transform duration-300`}>
+                  <div className="flex items-center space-x-4 mb-4">
+                    <div className="p-3 bg-white rounded-xl shadow-sm">
+                      {agent.icon}
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-slate-800 leading-tight">{agent.role}</h3>
+                      <p className="text-sm font-medium text-slate-500">{agent.name}</p>
+                    </div>
+                  </div>
+                  <p className="text-sm text-slate-700 mb-4 h-10">{agent.focus}</p>
+                  <div className="pt-4 border-t border-black/5">
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Produces</p>
+                    <p className="text-sm font-medium text-slate-800">{agent.outputs}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* --- TAB: ARTIFACT FLOW --- */}
+        {activeTab === 'artifacts' && (
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <h2 className="text-2xl font-bold mb-2 text-center text-slate-800">The Artifact Pipeline</h2>
+            <p className="text-center text-slate-500 mb-10 max-w-2xl mx-auto">
+              How a vague idea transforms into production code without losing control. Each step generates a markdown file that becomes the context for the next agent.
+            </p>
+
+            <div className="flex flex-col items-center max-w-3xl mx-auto">
+              
+              {/* Step 1 */}
+              <div className="w-full flex items-center justify-between p-4 bg-white border-2 border-purple-200 rounded-xl shadow-sm relative">
+                <div className="w-1/3 text-right pr-6">
+                  <p className="font-bold text-purple-700">Analyst</p>
+                  <p className="text-xs text-slate-500">Explores constraints</p>
+                </div>
+                <div className="w-1/3 flex justify-center">
+                  <div className="bg-purple-100 text-purple-800 font-mono text-sm px-4 py-2 rounded shadow-inner">
+                    project-brief.md
+                  </div>
+                </div>
+                <div className="w-1/3 pl-6 text-left">
+                  <p className="text-xs text-slate-500">Raw Idea → Structured Vision</p>
+                </div>
+              </div>
+
+              <ArrowRight className="w-6 h-6 text-slate-300 my-2 transform rotate-90" />
+
+              {/* Step 2 */}
+              <div className="w-full flex items-center justify-between p-4 bg-white border-2 border-blue-200 rounded-xl shadow-sm">
+                <div className="w-1/3 text-right pr-6">
+                  <p className="font-bold text-blue-700">Product Manager</p>
+                  <p className="text-xs text-slate-500">Defines requirements</p>
+                </div>
+                <div className="w-1/3 flex justify-center">
+                  <div className="bg-blue-100 text-blue-800 font-mono text-sm px-4 py-2 rounded shadow-inner text-center">
+                    PRD.md<br/><span className="text-[10px] opacity-70">(FRs & NFRs)</span>
+                  </div>
+                </div>
+                <div className="w-1/3 pl-6 text-left">
+                  <p className="text-xs text-slate-500">Brief → Executable Spec</p>
+                </div>
+              </div>
+
+              <ArrowRight className="w-6 h-6 text-slate-300 my-2 transform rotate-90" />
+
+              {/* Step 3 */}
+              <div className="w-full flex items-center justify-between p-4 bg-white border-2 border-slate-300 rounded-xl shadow-sm">
+                <div className="w-1/3 text-right pr-6">
+                  <p className="font-bold text-slate-700">Architect</p>
+                  <p className="text-xs text-slate-500">System design</p>
+                </div>
+                <div className="w-1/3 flex justify-center">
+                  <div className="bg-slate-100 text-slate-800 font-mono text-sm px-4 py-2 rounded shadow-inner">
+                    architecture.md
+                  </div>
+                </div>
+                <div className="w-1/3 pl-6 text-left">
+                  <p className="text-xs text-slate-500">Tech Stack & Data Flow</p>
+                </div>
+              </div>
+
+              <ArrowRight className="w-6 h-6 text-slate-300 my-2 transform rotate-90" />
+
+              {/* Step 4: Split */}
+              <div className="w-full flex items-center justify-between p-4 bg-white border-2 border-amber-200 rounded-xl shadow-sm">
+                <div className="w-1/3 text-right pr-6">
+                  <p className="font-bold text-amber-700">Scrum Master / PO</p>
+                  <p className="text-xs text-slate-500">Shards the documents</p>
+                </div>
+                <div className="w-1/3 flex justify-center gap-2 flex-wrap">
+                  <div className="bg-amber-100 text-amber-800 font-mono text-xs px-2 py-1 rounded shadow-inner">epic-1.md</div>
+                  <div className="bg-amber-100 text-amber-800 font-mono text-xs px-2 py-1 rounded shadow-inner">epic-2.md</div>
+                </div>
+                <div className="w-1/3 pl-6 text-left">
+                  <p className="text-xs text-slate-500">Monolith Doc → Manageable Chunks</p>
+                </div>
+              </div>
+
+              <ArrowRight className="w-6 h-6 text-slate-300 my-2 transform rotate-90" />
+
+              {/* Step 5: Code */}
+              <div className="w-full flex items-center justify-between p-4 bg-emerald-50 border-2 border-emerald-400 rounded-xl shadow-md">
+                <div className="w-1/3 text-right pr-6">
+                  <p className="font-bold text-emerald-700">Developer & QA</p>
+                  <p className="text-xs text-emerald-600">Context-engineered execution</p>
+                </div>
+                <div className="w-1/3 flex flex-col justify-center gap-2">
+                  <div className="bg-emerald-200 text-emerald-900 font-mono text-xs px-2 py-1 rounded shadow-inner text-center">story-1.1.md</div>
+                  <div className="bg-emerald-600 text-white font-mono text-sm px-4 py-2 rounded shadow-lg text-center flex items-center justify-center gap-2">
+                    <GitMerge className="w-4 h-4"/> code.ts
+                  </div>
+                </div>
+                <div className="w-1/3 pl-6 text-left">
+                  <p className="text-xs text-emerald-700 font-semibold">Predictable, testable, auditable code.</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        )}
+
+        {/* --- TAB: ANIMATED WORKFLOW --- */}
+        {activeTab === 'workflow' && (
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="mb-4 text-center">
+              <h2 className="text-2xl font-bold text-slate-800 flex items-center justify-center gap-2">
+                <PlayCircle className="w-6 h-6 text-blue-500" />
+                The BMAD AI Relay Race
+              </h2>
+            </div>
+            <WorkflowAnimation />
+          </div>
+        )}
+
+        {/* --- TAB: AI WORKBENCH --- */}
+        {activeTab === 'workbench' && (
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="mb-6 text-center relative">
+              <h2 className="text-2xl font-bold text-slate-800 flex items-center justify-center gap-2">
+                <Sparkles className="w-6 h-6 text-purple-500" />
+                BMAD Agent Workbench
+              </h2>
+              <p className="text-slate-500 max-w-2xl mx-auto mt-2">
+                Experience the BMAD relay race. Each agent will first <strong>ask clarifying questions</strong> to avoid hallucinations, then generate a draft artifact. You can answer their questions in the input box to refine it, or pass the baton to the next agent!
+              </p>
+              
+              {/* Settings Toggle Button */}
+              <button 
+                onClick={() => setShowSettings(!showSettings)}
+                className="absolute top-0 right-0 p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
+                title="Configure Custom LLM"
+              >
+                <Settings className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Configurable API Settings Panel */}
+            {showSettings && (
+              <div className="mb-8 p-5 bg-slate-50 border border-slate-200 rounded-xl shadow-inner max-w-3xl mx-auto animate-in fade-in slide-in-from-top-2">
+                <div className="flex items-center gap-2 mb-4">
+                  <Settings className="w-5 h-5 text-slate-600" />
+                  <h3 className="font-bold text-slate-700">Custom LLM Configuration</h3>
+                </div>
+                <div className="flex flex-wrap gap-2 mb-4 pb-4 border-b border-slate-200">
+                  <span className="text-xs font-bold text-slate-400 uppercase tracking-wider self-center">Quick Presets:</span>
+                  <button onClick={() => setApiSettings({provider: 'openai', endpoint: 'http://localhost:11434/v1/chat/completions', apiKey: '', model: 'llama3.2'})}
+                    className="text-xs px-3 py-1.5 bg-emerald-100 text-emerald-700 border border-emerald-300 rounded-lg font-semibold hover:bg-emerald-200 transition-colors">
+                    🦙 Ollama (Local — no key needed)
+                  </button>
+                  <button onClick={() => setApiSettings({provider: 'openai', endpoint: 'http://localhost:11434/v1/chat/completions', apiKey: '', model: 'mistral'})}
+                    className="text-xs px-3 py-1.5 bg-teal-100 text-teal-700 border border-teal-300 rounded-lg font-semibold hover:bg-teal-200 transition-colors">
+                    🌊 Ollama Mistral
+                  </button>
+                  <button onClick={() => setApiSettings({provider: 'gemini', endpoint: '', apiKey: apiSettings.apiKey, model: ''})}
+                    className="text-xs px-3 py-1.5 bg-blue-100 text-blue-700 border border-blue-300 rounded-lg font-semibold hover:bg-blue-200 transition-colors">
+                    ✨ Gemini Flash
+                  </button>
+                  <button onClick={() => setApiSettings({provider: 'openai', endpoint: '', apiKey: apiSettings.apiKey, model: 'gpt-4o'})}
+                    className="text-xs px-3 py-1.5 bg-slate-100 text-slate-700 border border-slate-300 rounded-lg font-semibold hover:bg-slate-200 transition-colors">
+                    🔲 OpenAI GPT-4o
+                  </button>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Provider Format</label>
+                    <select 
+                      value={apiSettings.provider}
+                      onChange={(e) => setApiSettings({...apiSettings, provider: e.target.value})}
+                      className="w-full p-2 border border-slate-300 rounded-lg bg-white text-sm"
+                    >
+                      <option value="gemini">Google Gemini API</option>
+                      <option value="openai">OpenAI Compatible (OpenAI, Groq, Ollama, etc.)</option>
+                    </select>
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">API Key (Optional if local)</label>
+                    <input 
+                      type="password" 
+                      placeholder="sk-..."
+                      value={apiSettings.apiKey}
+                      onChange={(e) => setApiSettings({...apiSettings, apiKey: e.target.value})}
+                      className="w-full p-2 border border-slate-300 rounded-lg bg-white text-sm"
+                    />
+                  </div>
+                  <div className="space-y-1 md:col-span-2">
+                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Custom Endpoint URL (Optional)</label>
+                    <input 
+                      type="text" 
+                      placeholder={apiSettings.provider === 'gemini' ? 'https://generativelanguage.googleapis.com/...:generateContent' : 'https://api.openai.com/v1/chat/completions'}
+                      value={apiSettings.endpoint}
+                      onChange={(e) => setApiSettings({...apiSettings, endpoint: e.target.value})}
+                      className="w-full p-2 border border-slate-300 rounded-lg bg-white text-sm font-mono"
+                    />
+                  </div>
+                  {apiSettings.provider === 'openai' && (
+                    <div className="space-y-1 md:col-span-2">
+                      <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Model Name</label>
+                      <input 
+                        type="text" 
+                        placeholder="e.g. gpt-4o, llama3-8b-8192, gemma-7b-it"
+                        value={apiSettings.model}
+                        onChange={(e) => setApiSettings({...apiSettings, model: e.target.value})}
+                        className="w-full p-2 border border-slate-300 rounded-lg bg-white text-sm font-mono"
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Agent Selector */}
+            <div className="flex flex-wrap justify-center gap-2 mb-8 bg-slate-100 p-2 rounded-xl max-w-fit mx-auto">
+              {Object.values(workbenchAgents).map((agent) => (
+                <button
+                  key={agent.id}
+                  onClick={() => switchAgent(agent.id)}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all duration-200 ${
+                    activeAgentId === agent.id 
+                      ? `bg-white ${agent.text} shadow-sm border border-slate-200` 
+                      : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50'
+                  }`}
+                >
+                  {agent.icon}
+                  {agent.name}
+                </button>
+              ))}
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6 h-full min-h-[450px]">
+              {/* Input Area */}
+              <div className={`flex flex-col h-full space-y-3 p-5 rounded-2xl border-2 ${activeAgent.lightBg} border-transparent transition-colors`}>
+                <label className={`font-bold text-sm uppercase tracking-wide flex items-center gap-2 ${activeAgent.text}`}>
+                  {activeAgent.icon}
+                  {sessionHistory.length > 0 ? `Reply to ${activeAgent.name.split(' ')[0]}` : `Input Context for ${activeAgent.name.split(' ')[0]}`}
+                </label>
+
+                {sessionHistory.length > 0 && (
+                  <div className="text-xs text-slate-500 bg-white/60 p-2 rounded border border-slate-200">
+                    <span className="font-semibold text-slate-700">Conversation Active:</span> You are currently refining the artifact. Type your answers below.
+                  </div>
+                )}
+
+                <textarea
+                  className="flex-grow p-4 bg-white border border-slate-200 shadow-inner rounded-xl resize-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none transition-all text-slate-700"
+                  placeholder={sessionHistory.length > 0 ? "Type your answers to the clarifying questions here..." : activeAgent.placeholder}
+                  value={workbenchInput}
+                  onChange={(e) => setWorkbenchInput(e.target.value)}
+                />
+                <button
+                  onClick={handleGenerateArtifact}
+                  disabled={isGenerating || !workbenchInput.trim()}
+                  className={`w-full text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-md ${activeAgent.bg} ${activeAgent.hover}`}
+                >
+                  {isGenerating ? (
+                    <><Loader2 className="w-5 h-5 animate-spin" /> Working...</>
+                  ) : (
+                    <><Wand2 className="w-5 h-5" /> ✨ {sessionHistory.length > 0 ? "Submit Answers" : activeAgent.buttonText}</>
+                  )}
+                </button>
+                {apiError && <p className="text-red-500 text-sm mt-2 text-center font-medium">{apiError}</p>}
+              </div>
+
+              {/* Output Area */}
+              <div className="flex flex-col h-full space-y-3">
+                <label className={`font-bold text-sm uppercase tracking-wide flex justify-between items-center ${activeAgent.text}`}>
+                  <span>Generated Artifact ({activeAgent.artifactName})</span>
+                  {workbenchOutput && <span className={`text-xs px-2 py-1 rounded-full text-white ${activeAgent.bg}`}>Ready</span>}
+                </label>
+                <div className={`flex-grow flex flex-col bg-slate-900 border-2 rounded-xl overflow-hidden relative shadow-lg transition-colors duration-500 ${workbenchOutput && !isGenerating ? activeAgent.border : 'border-slate-800'}`}>
+                  
+                  <div className="flex-grow relative p-4">
+                    {!workbenchOutput && !isGenerating && (
+                      <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-500 p-6 text-center">
+                        <FileOutput className="w-12 h-12 mb-3 opacity-20" />
+                        <p>Awaiting context...</p>
+                        <p className="text-xs mt-2">Clarifying questions and the drafted artifact will appear here.</p>
+                      </div>
+                    )}
+                    {isGenerating && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-slate-900/80 z-10">
+                        <div className={`flex flex-col items-center space-y-3 ${activeAgent.text}`}>
+                           <div className={`w-12 h-12 border-4 border-t-transparent rounded-full animate-spin ${activeAgent.border}`}></div>
+                           <p className="text-sm font-mono animate-pulse">Engineering Spec...</p>
+                        </div>
+                      </div>
+                    )}
+                    {workbenchOutput && !isGenerating && (
+                      <div className="absolute inset-0 overflow-y-auto custom-scrollbar p-4">
+                        <pre className="text-emerald-400 font-mono text-sm whitespace-pre-wrap break-words">
+                          {workbenchOutput}
+                        </pre>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Pass the Baton Feature */}
+                  {workbenchOutput && !isGenerating && activeAgent.nextAgents && activeAgent.nextAgents.length > 0 && (
+                    <div className="bg-slate-800 p-3 border-t border-slate-700 flex justify-between items-center z-20">
+                      <span className="text-xs text-slate-400 font-medium">Pass this context to the next agent:</span>
+                      <div className="flex gap-2 flex-wrap">
+                        {activeAgent.nextAgents.map(nextId => {
+                          const nextAgent = workbenchAgents[nextId];
+                          return (
+                            <button 
+                              key={nextId} 
+                              onClick={() => passBaton(nextId)} 
+                              className={`text-xs text-white px-3 py-1.5 rounded flex items-center gap-1 transition-colors ${nextAgent.bg} ${nextAgent.hover}`}
+                            >
+                              <ArrowRight className="w-3 h-3" /> {nextAgent.name.split(' ')[0]}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+      </main>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
